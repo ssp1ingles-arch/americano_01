@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 33 — SO · BECAUSE | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#818cf8;
+  --cs:#34D399;--cb:#FBBF24;--cst:#A78BFA;--cbo:#f87171;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,12vw,8rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vs{color:var(--cs)}
+.hero-title .dot{color:var(--muted);font-size:.55em}
+.hero-title .vb{color:var(--cb)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-s{color:var(--cs);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.hp-b{color:var(--cb);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-st{color:var(--cst);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* INSIGHT BLOCK — same situation two ways */
+.insight-wrap{background:var(--surface);border:1px solid rgba(129,140,248,.2);border-radius:1.25rem;padding:2rem;margin-bottom:1.75rem}
+.insight-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);text-align:center;margin-bottom:1.25rem}
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.insight-card{border-radius:.85rem;padding:1.1rem 1.25rem}
+.ic-so{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2)}
+.ic-bc{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2)}
+.ic-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.ic-so .ic-label{color:var(--cs)}
+.ic-bc .ic-label{color:var(--cb)}
+.ic-en{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;line-height:1.4}
+.ic-so .ic-en .kw{color:var(--cs)}
+.ic-bc .ic-en .kw{color:var(--cb)}
+.ic-pt{font-size:.8rem;color:var(--muted);margin-top:.35rem}
+.insight-eq{text-align:center;padding:.5rem 0;font-size:.85rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:700}
+
+/* USO BLOCKS */
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-s{background:rgba(52,211,153,.15);color:var(--cs)}
+.un-b{background:rgba(251,191,36,.15);color:var(--cb)}
+.un-st{background:rgba(167,139,250,.15);color:var(--cst)}
+.un-bo{background:rgba(248,113,113,.15);color:var(--cbo)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.uts{color:var(--cs)}
+.utb{color:var(--cb)}
+.utst{color:var(--cst)}
+.utbo{color:var(--cbo)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbs{color:var(--cs);font-weight:700}
+.vbb{color:var(--cb);font-weight:700}
+.vbst{color:var(--cst);font-weight:700}
+.vbbo{color:var(--cbo);font-weight:700}
+
+/* SO AM I */
+.soi-grid{display:grid;gap:.5rem;margin:.85rem 0}
+.soi-row{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.75rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.soi-q{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;color:var(--muted)}
+.soi-a{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--cs)}
+
+/* BECAUSE OF box */
+.bof-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:1rem 0}
+.bof-card{border-radius:.75rem;padding:.9rem 1rem}
+.bof-bc{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2)}
+.bof-bco{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2)}
+.bof-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.bof-bc .bof-label{color:var(--cb)}
+.bof-bco .bof-label{color:var(--cbo)}
+.bof-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem}
+.bof-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.bof-rule{font-size:.75rem;color:var(--muted);margin-top:.5rem;font-style:italic}
+
+/* BECAUSE vs SINCE vs AS */
+.reg-table{width:100%;border-collapse:collapse;margin:.85rem 0}
+.reg-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.reg-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.85rem;vertical-align:top}
+.reg-table tr:last-child td{border-bottom:none}
+.rw-bc strong{color:var(--cb)}
+.rw-si strong{color:var(--accent)}
+.rw-as strong{color:var(--muted)}
+
+/* SO intensifier */
+.so-int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem;margin:.85rem 0}
+.si-item{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.75rem}
+.si-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:var(--cs);margin-bottom:.2rem}
+.si-ex{font-size:.8rem;color:var(--muted)}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cs);background:rgba(52,211,153,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cs),var(--cb));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(129,140,248,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--accent)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .insight-grid{grid-template-columns:1fr}
+  .bof-grid{grid-template-columns:1fr}
+  .so-int-grid{grid-template-columns:1fr 1fr}
+  .sum-grid{grid-template-columns:1fr}
+  .soi-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 06 · Conectivos Essenciais</span>
+  <span class="nav-badge">A1–A2 · Lição 33 · SO · BECAUSE</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 06 · Lição 33</div>
+    <div class="hero-title">
+      <span class="vs">SO</span>
+      <span class="dot"> · </span>
+      <span class="vb">BECAUSE</span>
+    </div>
+    <div class="hero-sub">Dois lados da mesma história — consequência e causa</div>
+    <div class="hero-pills">
+      <span class="hp hp-s">SO = então / tão</span>
+      <span class="hp hp-b">BECAUSE = porque</span>
+      <span class="hp hp-st">SO THAT = para que</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- INSIGHT CENTRAL -->
+<section class="section">
+  <div class="section-label">Conceito central</div>
+  <div class="section-title">A mesma situação — duas perspectivas</div>
+
+  <div class="insight-wrap">
+    <div class="insight-title">Situação: choveu → fiquei em casa</div>
+    <div class="insight-grid">
+      <div class="insight-card ic-so">
+        <div class="ic-label">SO — você narra o EFEITO</div>
+        <div class="ic-en">It was raining, <span class="kw">so</span> I stayed home.</div>
+        <div class="ic-pt">Estava chovendo, então fiquei em casa.</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:.5rem">chuva → resultado: fiquei</div>
+      </div>
+      <div class="insight-card ic-bc">
+        <div class="ic-label">BECAUSE — você narra a CAUSA</div>
+        <div class="ic-en">I stayed home <span class="kw">because</span> it was raining.</div>
+        <div class="ic-pt">Fiquei em casa porque estava chovendo.</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:.5rem">fiquei ← razão: chuva</div>
+      </div>
+    </div>
+    <div class="insight-eq">mesma situação · perspectiva diferente · ambas corretas</div>
+  </div>
+</section>
+
+<!-- SO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Conectivo 1</div>
+  <div class="section-title" style="color:var(--cs)">SO — Então / Tão / Para que</div>
+
+  <!-- USO 1: consequência -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-s">1</div>
+      <div>
+        <div class="uso-title uts">SO = então / portanto — resultado/consequência</div>
+        <div class="uso-sub">A segunda parte é o que acontece por causa da primeira</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">resultado</td><td class="en">It was raining, <span class="vbs">so</span> I stayed home.</td><td class="pt">Estava chovendo, então fiquei em casa.</td></tr>
+        <tr><td class="tipo">resultado</td><td class="en">I was hungry, <span class="vbs">so</span> I ate.</td><td class="pt">Eu estava com fome, então comi.</td></tr>
+        <tr><td class="tipo">resultado</td><td class="en">She studied hard, <span class="vbs">so</span> she passed.</td><td class="pt">Ela estudou muito, então passou.</td></tr>
+        <tr><td class="tipo">resultado</td><td class="en">He forgot his wallet, <span class="vbs">so</span> I paid.</td><td class="pt">Ele esqueceu a carteira, então eu paguei.</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en">I'll be busy tomorrow, <span class="vbs">so</span> call today.</td><td class="pt">Vou estar ocupado amanhã, então ligue hoje.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>Use vírgula antes de SO</strong> quando une duas orações completas: "It rained, so I stayed." A vírgula marca a pausa natural antes da consequência.</p>
+    </div>
+  </div>
+
+  <!-- USO 2: SO + adj = tão -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-s">2</div>
+      <div>
+        <div class="uso-title uts">SO + adjetivo/advérbio = tão / muito (intensidade)</div>
+        <div class="uso-sub">SO é mais emocional que VERY — expressa sentimento</div>
+      </div>
+    </div>
+    <div class="so-int-grid">
+      <div class="si-item"><div class="si-form">so + adj</div><div class="si-ex">She is so beautiful!</div></div>
+      <div class="si-item"><div class="si-form">so + adj</div><div class="si-ex">This is so difficult.</div></div>
+      <div class="si-item"><div class="si-form">so + adv</div><div class="si-ex">He runs so fast.</div></div>
+      <div class="si-item"><div class="si-form">so much</div><div class="si-ex">I love you so much.</div></div>
+      <div class="si-item"><div class="si-form">so many</div><div class="si-ex">So many people here!</div></div>
+      <div class="si-item"><div class="si-form">so… that</div><div class="si-ex">So tired that she slept.</div></div>
+    </div>
+    <div class="tip-box">
+      <p><strong>SO vs VERY:</strong> ambos = muito. Mas SO é mais emocional e espontâneo na fala: "It's SO good!" — ênfase real. VERY é mais neutro e escrito.</p>
+    </div>
+  </div>
+
+  <!-- USO 3: SO THAT -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-st">3</div>
+      <div>
+        <div class="uso-title utst">SO THAT = para que / a fim de que (propósito)</div>
+        <div class="uso-sub">Indica intenção — diferente de SO (consequência)</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">propósito</td><td class="en">I study <span class="vbst">so that</span> I can get a good job.</td><td class="pt">Estudo para que possa ter um bom emprego.</td></tr>
+        <tr><td class="tipo">propósito</td><td class="en">Speak slowly <span class="vbst">so that</span> I understand.</td><td class="pt">Fale devagar para que eu entenda.</td></tr>
+        <tr><td class="tipo">propósito</td><td class="en">I left early <span class="vbst">so that</span> I wouldn't be late.</td><td class="pt">Saí cedo para não me atrasar.</td></tr>
+      </tbody>
+    </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.85rem">
+      <div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15);border-radius:.65rem;padding:.85rem">
+        <div style="font-size:.7rem;font-weight:700;color:var(--cs);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem">SO = resultado</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600">It rained, so I stayed.</div>
+        <div style="font-size:.78rem;color:var(--muted)">consequência — não planejado</div>
+      </div>
+      <div style="background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.15);border-radius:.65rem;padding:.85rem">
+        <div style="font-size:.7rem;font-weight:700;color:var(--cst);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem">SO THAT = propósito</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600">I study so that I improve.</div>
+        <div style="font-size:.78rem;color:var(--muted)">intenção — planejado</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USO 4: SO AM I -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-s">4</div>
+      <div>
+        <div class="uso-title uts">SO AM I — concordância positiva (eu também)</div>
+        <div class="uso-sub">SO no início de resposta + SO como marcador de discurso</div>
+      </div>
+    </div>
+    <div class="soi-grid">
+      <div class="soi-row">
+        <div class="soi-q">— I'm tired.</div>
+        <div class="soi-a">— So am I. (Eu também.)</div>
+      </div>
+      <div class="soi-row">
+        <div class="soi-q">— She can swim.</div>
+        <div class="soi-a">— So can he. (Ele também.)</div>
+      </div>
+      <div class="soi-row">
+        <div class="soi-q">— I love pizza.</div>
+        <div class="soi-a">— So do I. (Eu também.)</div>
+      </div>
+    </div>
+    <div style="margin-top:.85rem;background:var(--surface2);border:1px solid var(--border);border-radius:.75rem;padding:1rem">
+      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--cs);margin-bottom:.5rem">SO como marcador de discurso</div>
+      <div style="display:grid;gap:.35rem;font-size:.88rem">
+        <div><span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text)">So, what do you think?</span> <span style="color:var(--muted)">— Então, o que você acha?</span></div>
+        <div><span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text)">So, let's get started.</span> <span style="color:var(--muted)">— Então, vamos começar.</span></div>
+        <div><span style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text)">So… I don't know how to say this.</span> <span style="color:var(--muted)">— Hesitação / início de assunto difícil.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BECAUSE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Conectivo 2</div>
+  <div class="section-title" style="color:var(--cb)">BECAUSE — Porque / Por Causa De</div>
+
+  <!-- USO 1-3: BECAUSE básico -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-b">1</div>
+      <div>
+        <div class="uso-title utb">BECAUSE = porque — explica a causa em qualquer tempo</div>
+        <div class="uso-sub">Responde à pergunta WHY (por que) — sempre</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">presente</td><td class="en">I study English <span class="vbb">because</span> I want a better job.</td><td class="pt">Estudo inglês porque quero um emprego melhor.</td></tr>
+        <tr><td class="tipo">presente</td><td class="en">He doesn't eat meat <span class="vbb">because</span> he is vegetarian.</td><td class="pt">Não come carne porque é vegetariano.</td></tr>
+        <tr><td class="tipo">passado</td><td class="en">I stayed home <span class="vbb">because</span> it was raining.</td><td class="pt">Fiquei em casa porque estava chovendo.</td></tr>
+        <tr><td class="tipo">passado</td><td class="en">She cried <span class="vbb">because</span> she was sad.</td><td class="pt">Ela chorou porque estava triste.</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en">I will study more <span class="vbb">because</span> I want to improve.</td><td class="pt">Vou estudar mais porque quero melhorar.</td></tr>
+        <tr><td class="tipo">negativa</td><td class="en">I don't go out <span class="vbb">because</span> I'm tired.</td><td class="pt">Não saio porque estou cansado.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- USO: BECAUSE no início -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-b">2</div>
+      <div>
+        <div class="uso-title utb">BECAUSE no início da frase — ênfase na razão</div>
+        <div class="uso-sub">Quando no início, use vírgula após a primeira oração</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Posição</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">início</td><td class="en"><span class="vbb">Because</span> it was raining, I stayed home.</td><td class="pt">Porque estava chovendo, fiquei em casa.</td></tr>
+        <tr><td class="tipo">início</td><td class="en"><span class="vbb">Because</span> she studied hard, she passed.</td><td class="pt">Porque ela estudou muito, ela passou.</td></tr>
+        <tr><td class="tipo">meio</td><td class="en">I missed the bus <span class="vbb">because</span> I was late.</td><td class="pt">Perdi o ônibus porque me atrasei.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- USO: BECAUSE OF -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-bo">3</div>
+      <div>
+        <div class="uso-title utbo">BECAUSE OF = por causa de (antes de substantivo)</div>
+        <div class="uso-sub">BECAUSE + oração · BECAUSE OF + substantivo/pronome</div>
+      </div>
+    </div>
+    <div class="bof-grid">
+      <div class="bof-card bof-bc">
+        <div class="bof-label">BECAUSE + oração</div>
+        <div class="bof-en">I stayed home <span style="color:var(--cb)">because</span> it was raining.</div>
+        <div class="bof-pt">porque + sujeito + verbo</div>
+        <div style="margin-top:.4rem" class="bof-en">She was late <span style="color:var(--cb)">because</span> the traffic was bad.</div>
+        <div class="bof-pt">porque + sujeito + verbo</div>
+      </div>
+      <div class="bof-card bof-bco">
+        <div class="bof-label">BECAUSE OF + substantivo</div>
+        <div class="bof-en">I stayed home <span style="color:var(--cbo)">because of</span> the rain.</div>
+        <div class="bof-pt">por causa de + substantivo</div>
+        <div style="margin-top:.4rem" class="bof-en">She was late <span style="color:var(--cbo)">because of</span> the traffic.</div>
+        <div class="bof-pt">por causa de + substantivo</div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>BECAUSE + oração completa</strong> (sujeito + verbo) · <strong>BECAUSE OF + substantivo</strong>. Nunca: "because of it rained" — use "because it rained".</p>
+    </div>
+  </div>
+
+  <!-- USO: BECAUSE vs SINCE vs AS -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-b">4</div>
+      <div>
+        <div class="uso-title utb">BECAUSE vs SINCE vs AS — todos = porque</div>
+        <div class="uso-sub">Mesma ideia, registros diferentes — BECAUSE é sempre seguro</div>
+      </div>
+    </div>
+    <table class="reg-table">
+      <thead><tr><th>Palavra</th><th>Registro</th><th>Uso</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr class="rw-bc"><td><strong>BECAUSE</strong></td><td style="color:var(--tip);font-size:.8rem">neutro</td><td style="font-size:.82rem;color:var(--muted)">razão principal</td><td style="font-family:'Space Grotesk',sans-serif;font-size:.85rem">I left because I was tired.</td></tr>
+        <tr class="rw-si"><td><strong>SINCE</strong></td><td style="color:var(--accent);font-size:.8rem">formal</td><td style="font-size:.82rem;color:var(--muted)">razão já conhecida</td><td style="font-family:'Space Grotesk',sans-serif;font-size:.85rem">Since you're here, let's start.</td></tr>
+        <tr class="rw-as"><td><strong>AS</strong></td><td style="color:var(--muted);font-size:.8rem">formal</td><td style="font-size:.82rem;color:var(--muted)">razão simultânea</td><td style="font-family:'Space Grotesk',sans-serif;font-size:.85rem">As it was raining, we stayed.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>Na prática: use sempre BECAUSE</strong> — é neutro e funciona em qualquer contexto. SINCE e AS são mais formais e implicam que a razão já é conhecida pelo ouvinte.</p>
+    </div>
+    <div class="warn-box">
+      <p><strong>"The reason is because..." — ERRADO.</strong> É redundante. Use: "The reason is that I was tired." ou simplesmente "I left because I was tired."</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — SO · BECAUSE</div>
+  <div class="quiz-sub">12 questões sobre causa, consequência, intensidade e propósito.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com SO e BECAUSE</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>SO = consequência · BECAUSE = causa · mesma situação, perspectiva diferente</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(52,211,153,.25)">
+      <h4 style="color:var(--cs)">SO</h4>
+      <div class="sum-item"><span class="en">It rained, so I stayed.</span></div>
+      <div class="sum-item">consequência / resultado</div>
+      <div class="sum-item"><span class="en">She is so beautiful!</span></div>
+      <div class="sum-item">tão (intensidade)</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cst)">SO THAT</h4>
+      <div class="sum-item"><span class="en">I study so that I improve.</span></div>
+      <div class="sum-item">propósito / intenção</div>
+      <div class="sum-item"><span class="en">So am I = eu também</span></div>
+      <div class="sum-item">concordância positiva</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.25)">
+      <h4 style="color:var(--cb)">BECAUSE</h4>
+      <div class="sum-item"><span class="en">I stayed because it rained.</span></div>
+      <div class="sum-item">causa — responde WHY</div>
+      <div class="sum-item">início ou meio da frase</div>
+      <div class="sum-item">todos os tempos verbais</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(248,113,113,.2)">
+      <h4 style="color:var(--cbo)">BECAUSE OF</h4>
+      <div class="sum-item"><span class="en">because of the rain</span></div>
+      <div class="sum-item">+ substantivo (não oração)</div>
+      <div class="sum-item"><span class="en">It's all because of you.</span></div>
+      <div class="sum-item">por causa de + noun</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../32_and_but_or/index.html">← Lição 32</a>
+  <div class="fnav-center">Lição 33 de 89 · Módulo 06</div>
+  <a class="fnav-btn" href="../34_if/index.html">Lição 34 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x34D399,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x34D399,emissive:0x34D399,emissiveIntensity:.3,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),new THREE.MeshBasicMaterial({color:0x34D399,wireframe:true,opacity:.07,transparent:true})));
+
+  var bGrp=new THREE.Group();bGrp.rotation.x=.3;scene.add(bGrp);
+  var bMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),bMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);bGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  bGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var sGrp=new THREE.Group();sGrp.rotation.x=-.25;sGrp.rotation.z=.35;scene.add(sGrp);
+  var sMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.25,12,12),sMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);sGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  sGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var stPos=new Float32Array(1500);for(var i=0;i<1500;i++)stPos[i]=(Math.random()-.5)*80;
+  var stGeo=new THREE.BufferGeometry();stGeo.setAttribute('position',new THREE.BufferAttribute(stPos,3));
+  scene.add(new THREE.Points(stGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    bGrp.rotation.y+=.02;sGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'It was raining, ___ I stayed home.',opts:['so','because','but','and'],ans:'so',why:"SO = então/portanto (consequência). 'It was raining, so I stayed home' — o resultado da chuva foi ficar em casa."},
+  {s:'I stayed home ___ it was raining.',opts:['because','so','but','and'],ans:'because',why:"BECAUSE = porque (causa). 'I stayed home because it was raining' — a razão de ficar em casa foi a chuva."},
+  {s:'She studied hard, ___ she passed the exam.',opts:['so','because','but','or'],ans:'so',why:"SO = resultado/consequência. Ela estudou muito → resultado: passou. A vírgula antes de SO é recomendada."},
+  {s:'She passed the exam ___ she studied hard.',opts:['because','so','but','or'],ans:'because',why:"BECAUSE = causa. Ela passou ← razão: estudou muito. BECAUSE e SO expressam a mesma situação de ângulos opostos."},
+  {s:'"She is ___ beautiful!" (intensidade emocional)',opts:['so','very so','such','too'],ans:'so',why:"SO + adjetivo = tão/muito (emocional). 'She is so beautiful!' — SO é mais expressivo que VERY na fala."},
+  {s:'I study English ___ that I can get a better job.',opts:['so','because','in order','for'],ans:'so',why:"SO THAT = para que / a fim de que (propósito). 'I study so that I can get a job' = estudo com a intenção de conseguir um emprego."},
+  {s:'She was late ___ the traffic.',opts:['because of','because','so','since of'],ans:'because of',why:"BECAUSE OF + substantivo = por causa de. 'Because of the traffic' — não usa oração completa aqui. BECAUSE (sem OF) pede oração: 'because the traffic was bad'."},
+  {s:'"— I\'m tired." "— ___ am I." (eu também)',opts:['So','Neither','Because','Too'],ans:'So',why:"'So am I' = eu também (concordância positiva). A estrutura é SO + auxiliar + sujeito — inversão obrigatória."},
+  {s:'"___, what do you think?" (início de conversa)',opts:['So','Because','But','And'],ans:'So',why:"SO no início = marcador de discurso. 'So, what do you think?' — muito comum em inglês falado para introduzir um assunto."},
+  {s:'"The reason is ___ I was tired." — complete corretamente.',opts:['that','because','why','since'],ans:'that',why:"'The reason is THAT...' — nunca 'the reason is because'. 'Because' já implica razão, então 'the reason is because' é redundante."},
+  {s:'I stayed home ___ of the bad weather.',opts:['because','so','due','since'],ans:'because',why:"BECAUSE OF = por causa de + substantivo. 'Because of the bad weather' = por causa do mau tempo. Aqui 'because of' está correto."},
+  {s:'SO (consequência) vs SO (intensidade) — qual está como intensidade?',opts:['"It was so cold!"','"I was tired, so I slept."','"So, what\'s your plan?"','"So am I."'],ans:'"It was so cold!"',why:"'It was SO cold!' = SO intensificador (tão frio). Os outros usam SO como conjunção (consequência), marcador de discurso e concordância."}
+];
+
+var ERRORS=[
+  {wrong:'I stayed home because of it was raining.',right:'I stayed home because it was raining.',why:"BECAUSE + oração completa (sujeito + verbo). BECAUSE OF + substantivo. 'Because of it rained' mistura as duas estruturas — errado."},
+  {wrong:'Because of the traffic was bad, we were late.',right:'Because the traffic was bad, we were late.',why:"'The traffic was bad' é uma oração completa → use BECAUSE (sem OF). BECAUSE OF pede substantivo: 'Because of the traffic, we were late.'"},
+  {wrong:'The reason is because I was tired.',right:'The reason is that I was tired.',why:"'The reason is because' é redundante — 'because' já significa razão. Corrija para 'The reason is that' ou simplesmente 'I left because I was tired.'"},
+  {wrong:'"— I\'m tired." "— So I am."',right:'"— I\'m tired." "— So am I."',why:"'So am I' usa inversão: SO + auxiliar + sujeito. A ordem correta é 'So AM I', não 'So I am'. Compare: 'So does she', 'So can he'."},
+  {wrong:'She was so tired that she can\'t sleep.',right:'She was so tired that she couldn\'t sleep.',why:"Consistência de tempo verbal: 'was' (passado) → 'couldn't' (passado). 'Was so tired that she can't' mistura passado com presente."},
+  {wrong:'I don\'t go out so I am tired.',right:"I don't go out because I'm tired.",why:"SO = consequência (resultado). BECAUSE = causa (razão). 'I don't go out' é o resultado ou a causa? É o resultado — mas a cansaço é a CAUSA. Use BECAUSE."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque em SO vs BECAUSE!':pct<.75?'Bom progresso! Revise BECAUSE OF vs BECAUSE.':pct<1?'Muito bem! Quase perfeito.':'Perfeito! SO e BECAUSE dominados!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

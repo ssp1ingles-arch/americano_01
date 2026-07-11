@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L86 · MEET · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* MEET vs KNOW vs SEE — trio crítico */
+.trio-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:.85rem;}
+.tp-item{border-radius:.75rem;padding:.95rem 1rem;}
+.tp-blue{background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.4);}
+.tp-grn{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);}
+.tp-yl{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);}
+.tp-w{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.18rem;}
+.tp-pt{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--td);margin-bottom:.35rem;}
+.tp-ex{font-size:.78rem;color:var(--tm);font-style:italic;line-height:1.5;}
+
+/* NICE TO MEET YOU box — erro clássico especial */
+.alert-box{background:rgba(248,113,113,.07);border:2px solid var(--rd);border-radius:.85rem;padding:1.1rem 1.4rem;margin-bottom:.85rem;}
+.ab-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.65rem;}
+.ab-two{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.ab-item{background:var(--s2);border-radius:.65rem;padding:.8rem .95rem;border:1px solid var(--s3);}
+.ab-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem;}
+.ab-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.18rem;}
+.ab-pt{font-size:.77rem;color:var(--tm);}
+
+/* 4 significados de MEET */
+.meanings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;margin-bottom:.85rem;}
+.mg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.85rem .95rem;border-left:3px solid var(--ca);}
+.mg-n{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.2rem;}
+.mg-pt{font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;color:var(--ca);margin-bottom:.22rem;}
+.mg-ex{font-size:.77rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .trio-panel{grid-template-columns:1fr;}
+  .ab-two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">MEET</h1>
+  <p class="hero-pt">conhecer (pela 1ª vez) · encontrar · se reunir · cumprir (prazo/requisito)</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">MEET</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">MET</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">MET</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Nice to meet you!"</div>
+    <div class="cl-pt">Prazer em conhecê-lo! (primeira vez)</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + MEET vs KNOW vs SEE -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">MEET — mnemônico e MEET vs KNOW vs SEE</div>
+    <div class="sd">MEET → MET · dois E's se encontram, um vai embora · 4 significados diferentes</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — dois E's se encontram, um vai embora</div>
+    <div class="mn-body">MEET tem dois E's — quando dois E's se encontram (MEET), um vai embora: MEET → MET.<br>"Two E's MEET. One leaves. Result: MET." — EE→E. Passado = particípio: MET = MET.</div>
+  </div>
+
+  <!-- 4 significados de MEET -->
+  <div class="meanings-grid">
+    <div class="mg-item">
+      <div class="mg-n">Significado 1</div>
+      <div class="mg-pt">conhecer (1ª vez)</div>
+      <div class="mg-ex">"Nice to meet you!" / "I met her at a party."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 2</div>
+      <div class="mg-pt">encontrar / se reunir</div>
+      <div class="mg-ex">"Let's meet at 3pm." / "We meet every Monday."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 3</div>
+      <div class="mg-pt">cumprir (prazo/requisito)</div>
+      <div class="mg-ex">"We need to meet the deadline." / "It meets our needs."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 4</div>
+      <div class="mg-pt">enfrentar / lidar com</div>
+      <div class="mg-ex">"She met the challenge." / "Meet the demand."</div>
+    </div>
+  </div>
+
+  <!-- MEET / KNOW / SEE -->
+  <div class="trio-panel">
+    <div class="tp-item tp-blue">
+      <div class="tp-w" style="color:var(--ca)">MEET</div>
+      <div class="tp-pt">1ª vez OU encontro marcado</div>
+      <div class="tp-ex">"Nice to meet you!" (1ª vez)<br>"Let's meet for lunch." (marcado)<br>"I met her in 2018." (quando se conheceram)</div>
+    </div>
+    <div class="tp-item tp-grn">
+      <div class="tp-w" style="color:var(--gn)">KNOW</div>
+      <div class="tp-pt">conhecer (relação estabelecida)</div>
+      <div class="tp-ex">"Do you know her?" (já se conhecem)<br>"I've known him for years."<br>"I know this city well."</div>
+    </div>
+    <div class="tp-item tp-yl">
+      <div class="tp-w" style="color:var(--yl)">SEE</div>
+      <div class="tp-pt">ver / reencontro casual</div>
+      <div class="tp-ex">"Nice to see you again!" (reencontro)<br>"I'll see you later."<br>"I saw her at the mall."</div>
+    </div>
+  </div>
+
+  <!-- NICE TO MEET YOU vs NICE TO SEE YOU -->
+  <div class="alert-box">
+    <div class="ab-t">⚠ O erro mais comum: NICE TO MEET YOU vs NICE TO SEE YOU</div>
+    <div class="ab-two">
+      <div class="ab-item">
+        <div class="ab-label" style="color:var(--ca)">✓ PRIMEIRA VEZ</div>
+        <div class="ab-ex" style="color:var(--ca)">"Nice to MEET you!"</div>
+        <div class="ab-pt">Prazer em conhecê-lo! — quando é a primeira vez que você vê a pessoa.</div>
+      </div>
+      <div class="ab-item">
+        <div class="ab-label" style="color:var(--gn)">✓ REENCONTRO</div>
+        <div class="ab-ex" style="color:var(--gn)">"Nice to SEE you again!"</div>
+        <div class="ab-pt">Que bom te ver de novo! — quando já se conhecem e se reencontram.</div>
+      </div>
+    </div>
+    <div class="nt nt-err" style="margin-top:.75rem">"Nice to meet you again!" ✗ — MEET só para primeira vez. Reencontros: "Nice to SEE you again!" ✓ / "Good to see you!" ✓ / "It's great to see you again!" ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — meet / meets</div>
+    <div class="sd">HE / SHE / IT → MEETS · MEET AT · MEET FOR · MEET WITH</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>meet</strong> my team every Monday morning.</td><td class="cpt">Me reúno com minha equipe toda segunda de manhã.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you want to <strong>meet</strong> for coffee later?</td><td class="cpt">Quer se encontrar para um café mais tarde?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>meets</strong> clients at the office every day.</td><td class="cpt">Ele atende clientes no escritório todo dia.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She always <strong>meets</strong> her deadlines.</td><td class="cpt">Ela sempre cumpre seus prazos.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The product <strong>meets</strong> all safety requirements.</td><td class="cpt">O produto atende a todos os requisitos de segurança.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>meet</strong> every Friday for our team lunch.</td><td class="cpt">Nos reunimos toda sexta para o almoço da equipe.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>meet</strong> the criteria for the program.</td><td class="cpt">Eles atendem aos critérios do programa.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → MEETS (com -S). "She meet her deadlines." ✗ → "She MEETS her deadlines." ✓ · "It meet the requirements." ✗ → "It MEETS the requirements." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — met (irregular)</div>
+    <div class="sd">MEET → MET · "Where did you meet?" — muito usado em histórias pessoais</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>met</strong> my best friend at university.</td><td class="cpt">Conheci minha melhor amiga na universidade.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Where did you <strong>meet</strong> your partner?</td><td class="cpt">Onde você conheceu seu/sua parceiro(a)?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>met</strong> the president at the summit.</td><td class="cpt">Ele se encontrou com o presidente na cúpula.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>met</strong> all the deadlines this month.</td><td class="cpt">Ela cumpriu todos os prazos este mês.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The project <strong>met</strong> the budget requirements.</td><td class="cpt">O projeto atendeu aos requisitos de orçamento.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We first <strong>met</strong> in 2015 at a conference.</td><td class="cpt">Nos conhecemos pela primeira vez em 2015 em uma conferência.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>met</strong> with strong resistance.</td><td class="cpt">Eles encontraram forte resistência.</td></tr>
+    </table>
+    <div class="nt nt-tip">MEET WITH = encontrar resistência/aprovação (reação de algo). "The plan MET WITH approval." ✓ = O plano foi aprovado. / "She MET WITH the CEO." ✓ = Ela se reuniu com o CEO. MEET WITH tem sabor mais formal que MEET sozinho.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: MEET + PRAZO/REQUISITO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">MEET + prazo, requisito e desafio</div>
+    <div class="sd">MEET THE DEADLINE · MEET THE REQUIREMENTS · MEET A CHALLENGE · MEET A NEED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">MEET = cumprir / atender / enfrentar</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th class="cpt">Tradução + Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET THE DEADLINE</td><td class="cpt">Cumprir o prazo. "We need to meet the deadline by Friday."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET THE REQUIREMENTS</td><td class="cpt">Atender aos requisitos. "Does the product meet the requirements?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET THE DEMAND</td><td class="cpt">Atender à demanda. "We can't meet the demand for this product."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET A CHALLENGE</td><td class="cpt">Enfrentar um desafio. "She met the challenge head-on."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET EXPECTATIONS</td><td class="cpt">Corresponder às expectativas. "The film didn't meet expectations."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET YOUR NEEDS</td><td class="cpt">Atender às suas necessidades. "Does this plan meet your needs?"</td></tr>
+    </table>
+    <div class="nt nt-tip">MEET com prazos/requisitos é muito frequente em e-mails e reuniões de trabalho. "Can we meet the deadline?" / "The proposal meets all our criteria." — use com confiança!</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: PHRASAL VERBS + EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Phrasal verbs e expressões com MEET</div>
+    <div class="sd">MEET UP · MEET WITH · MEET HALFWAY · MAKE ENDS MEET · MEET YOUR MATCH</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Phrasal verbs com MEET</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET UP</td><td style="font-size:.83rem">se encontrar (informal)</td><td class="cpt">"Let's meet up later!" / "We met up for drinks."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET UP WITH</td><td style="font-size:.83rem">encontrar alguém específico</td><td class="cpt">"I met up with some old friends."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET WITH</td><td style="font-size:.83rem">se reunir (formal) / receber reação</td><td class="cpt">"She met with the board." / "The plan met with approval."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET SOMEONE HALFWAY</td><td style="font-size:.83rem">ceder / fazer concessões / negociar</td><td class="cpt">"Can you meet me halfway on this?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE ENDS MEET</td><td style="font-size:.83rem">fazer as contas fecharem / se virar financeiramente</td><td class="cpt">"It's hard to make ends meet on this salary."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MEET YOUR MATCH</td><td style="font-size:.83rem">encontrar alguém à sua altura</td><td class="cpt">"He finally met his match in the tournament."</td></tr>
+    </table>
+    <div class="nt nt-tip">MAKE ENDS MEET = fazer as pontas se encontrarem = equilibrar o orçamento. "With rent so high, it's hard to MAKE ENDS MEET." = Com o aluguel tão alto, é difícil equilibrar as contas.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com MEET</div>
+    <div class="sd">Apresentações · reuniões · prazos · expressões sociais</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Nice to <strong>meet</strong> you!</div><div class="ph-pt">Prazer em conhecê-lo! (1ª vez)</div></div>
+    <div class="ph"><div class="ph-en">Let's <strong>meet</strong> for coffee!</div><div class="ph-pt">Vamos tomar um café juntos!</div></div>
+    <div class="ph"><div class="ph-en">I <strong>met</strong> her at a conference.</div><div class="ph-pt">Conheci ela em uma conferência.</div></div>
+    <div class="ph"><div class="ph-en">We need to <strong>meet</strong> the deadline.</div><div class="ph-pt">Precisamos cumprir o prazo.</div></div>
+    <div class="ph"><div class="ph-en">Can you <strong>meet</strong> me halfway?</div><div class="ph-pt">Pode ceder um pouco / fazer concessão?</div></div>
+    <div class="ph"><div class="ph-en">It's hard to make ends <strong>meet</strong>.</div><div class="ph-pt">É difícil equilibrar as contas.</div></div>
+    <div class="ph"><div class="ph-en">The product <strong>meets</strong> all requirements.</div><div class="ph-pt">O produto atende a todos os requisitos.</div></div>
+    <div class="ph"><div class="ph-en">He finally <strong>met</strong> his match!</div><div class="ph-pt">Ele finalmente encontrou alguém à sua altura!</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "Nice to meet you again!"</div>
+      <div class="ecr">✓ "Nice to see you again!"</div>
+      <div class="ecd">MEET = conhecer pela PRIMEIRA VEZ. Em reencontros, use SEE. "Nice to MEET you!" ✓ (1ª vez). "Nice to SEE you again!" ✓ (reencontro). "Nice to meet you again" é um erro típico de brasileiros que traduzem "prazer em te ver" com MEET.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I meeted her at the party."</div>
+      <div class="ecr">✓ "I met her at the party."</div>
+      <div class="ecd">MEET é irregular: MEET → MET → MET. "I MET her at the party." ✓ — "meeted" não existe. Mnemônico: EE→E (dois E's se encontram, um vai embora). Passado = particípio = MET.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Do you know her?" (quando acabou de ser apresentado)</div>
+      <div class="ecr">✓ "Have you met her?" / "Did you meet her?"</div>
+      <div class="ecd">KNOW = relação estabelecida há algum tempo. MEET = contato inicial. "Have you MET my sister?" ✓ = você já a conhece (foi apresentado a ela)? "Do you KNOW my sister?" ✓ = você a conhece (têm alguma relação)?</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't met the deadline."</div>
+      <div class="ecr">✓ "I didn't meet the deadline."</div>
+      <div class="ecd">DIDN'T + base. "I didn't MEET the deadline." ✓ — depois de DIDN'T, base MEET (nunca MET). "I didn't met" ✗ — dois passados na mesma negação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Let's meet us at the café." (pronome desnecessário)</div>
+      <div class="ecr">✓ "Let's meet at the café." / "Meet me at the café."</div>
+      <div class="ecd">"Let's meet" já implica "nós dois nos encontramos" — "us" é redundante. "Let's MEET at the café." ✓ / "MEET ME at the café." ✓ (você me encontra lá). "Let's meet us" ✗ — estrutura errada.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has meet all the requirements."</div>
+      <div class="ecr">✓ "She has met all the requirements."</div>
+      <div class="ecd">HAVE + particípio MET. "She has MET all the requirements." ✓ — "has meet" ✗. MEET → MET → MET (passado = particípio). "The product HAS MET our standards." ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — MEET</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de MEET?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">meeted</button>
+      <button class="qo" onclick="ans(this,'q1',true)">met</button>
+      <button class="qo" onclick="ans(this,'q1',false)">meetted</button>
+    </div>
+    <div class="qfb" id="q1fb">MEET → MET (irregular). Mnemônico: EE→E — dois E's se encontram, um vai embora. "I MET her at the party." ✓ — "meeted" e "meetted" não existem. Passado = particípio = MET.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Você está reencontrando um amigo após semanas. O que diz?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">Nice to meet you again!</button>
+      <button class="qo" onclick="ans(this,'q2',true)">Nice to see you again!</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Ambas são corretas.</button>
+    </div>
+    <div class="qfb" id="q2fb">"Nice to SEE you again!" ✓ — reencontro usa SEE. "Nice to MEET you!" = apenas para a primeira vez. "Nice to meet you again" ✗ — erro clássico de brasileiros. Regra: MEET = 1ª vez. SEE = reencontro.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela sempre cumpre seus prazos." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She always meet her deadlines.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She always meets her deadlines.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She always met her deadlines.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → MEETS (com -S). "She always MEETS her deadlines." ✓ — hábito com -S. "She always meet" ✗ — falta -S. "She always met" = passado, não hábito presente.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Nos conhecemos pela primeira vez em 2015." → Passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">We knew each other in 2015.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">We first met in 2015.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">We have met in 2015.</button>
+    </div>
+    <div class="qfb" id="q4fb">"We first MET in 2015." ✓ — MEET para o momento em que se conheceram. "We knew each other" = já se conheciam (contínuo). "We have met in 2015" ✗ — present perfect não se usa com referência temporal específica do passado.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"O produto atende a todos os requisitos de segurança." → MEET.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">The product knows all safety requirements.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">The product meets all safety requirements.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">The product sees all safety requirements.</button>
+    </div>
+    <div class="qfb" id="q5fb">"The product MEETS all safety requirements." ✓ — MEET = atender/cumprir requisitos. "The product MEETS our standards." ✓ "Does it meet the criteria?" ✓ — MEET é o verbo padrão para cumprir/satisfazer requisitos em inglês.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"I didn't ___ the deadline." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't met the deadline.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">I didn't meet the deadline.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't meets the deadline.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I didn't MEET the deadline." ✓ — DIDN'T + base MEET. "didn't met" ✗ — dois passados na mesma negação. "didn't meets" ✗ — MEETS é terceira pessoa do presente.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">O que significa "Can you meet me halfway?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Pode me encontrar na metade do caminho (fisicamente)?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Pode ceder um pouco / fazer concessões?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Pode me pagar metade do valor?</button>
+    </div>
+    <div class="qfb" id="q7fb">"Can you MEET ME HALFWAY?" = pode ceder um pouco / fazer concessões em uma negociação? Expressão idiomática para compromisso mútuo. "I'll lower my price if you meet me halfway on the delivery terms." — ambos fazem concessões.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"She has ___ all the requirements." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">She has meet all the requirements.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">She has met all the requirements.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">She has meeted all the requirements.</button>
+    </div>
+    <div class="qfb" id="q8fb">"She has MET all the requirements." ✓ — HAVE + particípio MET. "has meet" ✗ — depois de HAS, particípio. "has meeted" ✗ — não existe. MEET → MET → MET.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">O que significa "It's hard to make ends meet"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">É difícil marcar encontros (make + meet).</button>
+      <button class="qo" onclick="ans(this,'q9',true)">É difícil equilibrar as contas / se virar financeiramente.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">É difícil terminar os encontros a tempo.</button>
+    </div>
+    <div class="qfb" id="q9fb">"It's hard to MAKE ENDS MEET." = é difícil equilibrar as contas / fazer o dinheiro durar. Expressão idiomática: "ends" = as duas pontas do orçamento (receita e despesa). "With the high cost of living, many families struggle to make ends meet."</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Vamos nos encontrar mais tarde!" → Phrasal verb informal.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">Let's meet with later!</button>
+      <button class="qo" onclick="ans(this,'q10',true)">Let's meet up later!</button>
+      <button class="qo" onclick="ans(this,'q10',false)">Let's meet us later!</button>
+    </div>
+    <div class="qfb" id="q10fb">"Let's MEET UP later!" ✓ — MEET UP = encontrar (informal/social). MEET WITH = reunião formal OU receber reação. "Let's meet with later" ✗ — MEET WITH precisa de objeto. "Let's meet us" ✗ — "us" é redundante em "let's".</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">Qual a diferença entre MEET e KNOW em "Do you know her?" vs "Have you met her?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">São sinônimos neste contexto — ambos perguntam a mesma coisa.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">KNOW = relação estabelecida; MET = se foram apresentados / tiveram contato inicial.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">KNOW é mais formal; MET é mais informal.</button>
+    </div>
+    <div class="qfb" id="q11fb">"Do you KNOW her?" = você a conhece (têm alguma relação/contato)? "Have you MET her?" = você foi apresentado a ela / já tiveram contato? KNOW implica familiaridade. MEET implica o momento inicial de conhecer. Ambas são naturais mas têm nuance diferente.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"He finally met his match!" significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Ele finalmente compareceu à partida.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Ele finalmente encontrou alguém à sua altura / igualmente capaz.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Ele finalmente conseguiu um par romântico.</button>
+    </div>
+    <div class="qfb" id="q12fb">"He finally MET HIS MATCH!" = ele finalmente encontrou alguém à sua altura — alguém tão bom ou melhor que ele. "She thought she was the best until she met her match." Usado em competições, debates, ou qualquer situação de rivalidade.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../85_sell/index.html">← L85 SELL</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

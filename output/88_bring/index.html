@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L88 · BRING · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.fam-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.fc{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:.3rem;}
+
+/* BRING vs TAKE — o painel principal desta lição */
+.dir-panel{border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;background:rgba(56,189,248,.05);border:2px solid var(--ca);}
+.dp-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.75rem;}
+.dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.dp-item{background:var(--s2);border-radius:.65rem;padding:.9rem 1.05rem;border:1px solid var(--s3);}
+.dp-w{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.18rem;}
+.dp-arrow{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;}
+.dp-ex{font-size:.8rem;color:var(--tm);font-style:italic;line-height:1.6;}
+.dp-rule{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:.45rem;padding:.55rem .8rem;margin-top:.65rem;font-size:.8rem;color:var(--ca);font-weight:600;text-align:center;}
+
+/* double object */
+.dobj{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.do-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.7rem;}
+.do-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.do-item{background:var(--s2);border-radius:.65rem;padding:.85rem 1rem;border:1px solid var(--s3);}
+.do-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.do-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.do-pt{font-size:.78rem;color:var(--tm);}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .dp-grid{grid-template-columns:1fr;}
+  .do-grid{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">BRING</h1>
+  <p class="hero-pt">trazer · levar (para cá) · causar · provocar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">BRING</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">BROUGHT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">BROUGHT</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Can you bring me a glass of water?"</div>
+    <div class="cl-pt">Pode me trazer um copo d'água?</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + BRING vs TAKE -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">BRING — mnemônico e BRING vs TAKE</div>
+    <div class="sd">BRING → BROUGHT · família -OUGHT · trazer (em direção) vs levar (para longe)</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família -OUGHT (vista em THINK e BUY)</div>
+    <div class="mn-body">BRING → BROUGHT — vogal muda ING→OUGHT. Mesma família de THINK→THOUGHT e BUY→BOUGHT.<br>"You BRING things, you BROUGHT things — same way you THOUGHT and BOUGHT!"</div>
+    <div class="fam-chips">
+      <span class="fc">BRING→BROUGHT</span>
+      <span class="fc">THINK→THOUGHT</span>
+      <span class="fc">BUY→BOUGHT</span>
+      <span class="fc">FIGHT→FOUGHT</span>
+      <span class="fc">CATCH→CAUGHT</span>
+      <span class="fc">TEACH→TAUGHT</span>
+      <span class="fc">SEEK→SOUGHT</span>
+    </div>
+  </div>
+
+  <!-- BRING vs TAKE — painel de direção -->
+  <div class="dir-panel">
+    <div class="dp-t">BRING vs TAKE — direção é tudo (revisão de L79)</div>
+    <div class="dp-grid">
+      <div class="dp-item">
+        <div class="dp-w" style="color:var(--ca)">BRING</div>
+        <div class="dp-arrow" style="color:var(--ca)">→ em direção a você / aqui</div>
+        <div class="dp-ex">"Bring your lunch to school." (você fala da escola — traga para cá)<br>"Bring me the menu." (traga até mim)<br>"What brought you here?"</div>
+      </div>
+      <div class="dp-item">
+        <div class="dp-w" style="color:var(--yl)">TAKE</div>
+        <div class="dp-arrow" style="color:var(--yl)">→ para longe de você / lá</div>
+        <div class="dp-ex">"Take your lunch to school." (você fala de casa — leve para lá)<br>"Take this to the manager." (leve até ele)<br>"What took you so long?"</div>
+      </div>
+    </div>
+    <div class="dp-rule">BRING = COME (ambos em direção ao ouvinte) · TAKE = GO (ambos para longe do ouvinte)</div>
+  </div>
+
+  <!-- Double object -->
+  <div class="dobj">
+    <div class="do-t">BRING + duplo objeto — duas estruturas válidas</div>
+    <div class="do-grid">
+      <div class="do-item">
+        <div class="do-label">Estrutura 1 — BRING + pessoa + coisa</div>
+        <div class="do-ex">"Can you bring me the bill?"</div>
+        <div class="do-pt">Pode me trazer a conta?</div>
+      </div>
+      <div class="do-item">
+        <div class="do-label">Estrutura 2 — BRING + coisa + TO + pessoa</div>
+        <div class="do-ex">"Can you bring the bill to me?"</div>
+        <div class="do-pt">Pode trazer a conta para mim?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — bring / brings</div>
+    <div class="sd">HE / SHE / IT → BRINGS · BRING + TO + lugar / pessoa</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>bring</strong> snacks to the office.</td><td class="cpt">Sempre trago lanches para o escritório.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Can you <strong>bring</strong> your charger?</td><td class="cpt">Você pode trazer seu carregador?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>brings</strong> his dog everywhere.</td><td class="cpt">Ele leva o cachorro para todo lugar.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>brings</strong> a lot of value to the team.</td><td class="cpt">Ela traz muito valor para a equipe.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">Spring <strong>brings</strong> warmer weather.</td><td class="cpt">A primavera traz um clima mais quente.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>bring</strong> different skills to the table.</td><td class="cpt">Nós trazemos habilidades diferentes para a mesa.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>bring</strong> homemade food to every party.</td><td class="cpt">Eles trazem comida caseira para toda festa.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → BRINGS (com -S). "She bring value." ✗ → "She BRINGS value." ✓ · "Spring bring warmer weather." ✗ → "Spring BRINGS warmer weather." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — brought (irregular)</div>
+    <div class="sd">BRING → BROUGHT · "What brought you here?" — pergunta clássica</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>brought</strong> wine to the dinner.</td><td class="cpt">Trouxe vinho para o jantar.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">What <strong>brought</strong> you to Brazil?</td><td class="cpt">O que te trouxe ao Brasil?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>brought</strong> up an interesting point.</td><td class="cpt">Ele trouxe um ponto interessante à tona.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>brought</strong> her kids to the meeting.</td><td class="cpt">Ela trouxe os filhos para a reunião.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The rain <strong>brought</strong> some relief from the heat.</td><td class="cpt">A chuva trouxe algum alívio do calor.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>brought</strong> the project in on budget.</td><td class="cpt">Entregamos o projeto dentro do orçamento.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>brought</strong> about major changes.</td><td class="cpt">Eles provocaram grandes mudanças.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't BRING anything." ✓ / "I didn't BROUGHT anything." ✗ — DIDN'T + base BRING. Particípio: "She has BROUGHT good news." ✓ — BROUGHT com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PHRASAL VERBS -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Phrasal verbs com BRING</div>
+    <div class="sd">BRING UP · BRING BACK · BRING ABOUT · BRING DOWN · BRING OUT · BRING TOGETHER</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">BRING UP</div>
+      <div class="pv-pt">(1) criar filho (2) mencionar / trazer à tona</div>
+      <div class="pv-ex">"She was brought up in Rio." / "Don't bring that up!"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BRING BACK</div>
+      <div class="pv-pt">(1) trazer de volta (2) fazer lembrar</div>
+      <div class="pv-ex">"Bring back the book." / "That song brings back memories."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BRING ABOUT</div>
+      <div class="pv-pt">causar / provocar / gerar (mudança)</div>
+      <div class="pv-ex">"The law brought about change." / "What brought this about?"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BRING DOWN</div>
+      <div class="pv-pt">(1) derrubar / abater (2) reduzir</div>
+      <div class="pv-ex">"They brought down the government." / "Bring down the price."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BRING OUT</div>
+      <div class="pv-pt">lançar / revelar / trazer à tona</div>
+      <div class="pv-ex">"They're bringing out a new album." / "Stress brings out the worst in me."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BRING TOGETHER</div>
+      <div class="pv-pt">reunir / aproximar / unir</div>
+      <div class="pv-ex">"Music brings people together." / "The crisis brought them together."</div>
+    </div>
+  </div>
+  <div class="nt nt-tip">BRING UP tem dois significados muito diferentes: (1) criar uma criança "She was BROUGHT UP by her grandparents." = Ela foi criada pelos avós. (2) mencionar um assunto "He BROUGHT UP the salary issue." = Ele trouxe à tona a questão do salário.</div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões com BRING</div>
+    <div class="sd">BRING TO THE TABLE · BRING HOME THE BACON · BRING TO LIGHT · BRING THE HOUSE DOWN</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões essenciais</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING STH TO THE TABLE</td><td style="font-size:.83rem">contribuir com algo valioso</td><td class="cpt">"What skills do you bring to the table?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING HOME THE BACON</td><td style="font-size:.83rem">ser o provedor / ganhar o sustento</td><td class="cpt">"She's the one who brings home the bacon."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING TO LIGHT</td><td style="font-size:.83rem">trazer à luz / revelar / expor</td><td class="cpt">"The investigation brought new facts to light."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING THE HOUSE DOWN</td><td style="font-size:.83rem">arrancar aplausos / fazer enorme sucesso</td><td class="cpt">"Her performance brought the house down!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING TO MIND</td><td style="font-size:.83rem">fazer lembrar / evocar</td><td class="cpt">"This song brings to mind my childhood."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BRING TO LIFE</td><td style="font-size:.83rem">dar vida a / animar / tornar real</td><td class="cpt">"The actor really brought the character to life."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com BRING</div>
+    <div class="sd">Trazer objetos · causar mudanças · idioms cotidianos</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Can you <strong>bring</strong> me the menu?</div><div class="ph-pt">Pode me trazer o cardápio?</div></div>
+    <div class="ph"><div class="ph-en">She <strong>brought</strong> good news!</div><div class="ph-pt">Ela trouxe boas notícias!</div></div>
+    <div class="ph"><div class="ph-en">That song <strong>brings</strong> back memories.</div><div class="ph-pt">Essa música traz memórias de volta.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>bring</strong> that up again!</div><div class="ph-pt">Não traga esse assunto à tona de novo!</div></div>
+    <div class="ph"><div class="ph-en">What <strong>brought</strong> you to Brazil?</div><div class="ph-pt">O que te trouxe ao Brasil?</div></div>
+    <div class="ph"><div class="ph-en">Music <strong>brings</strong> people together.</div><div class="ph-pt">A música une as pessoas.</div></div>
+    <div class="ph"><div class="ph-en">She was <strong>brought</strong> up in São Paulo.</div><div class="ph-pt">Ela foi criada em São Paulo.</div></div>
+    <div class="ph"><div class="ph-en">The actor <strong>brought</strong> the character to life.</div><div class="ph-pt">O ator deu vida ao personagem.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I bringed wine to the party."</div>
+      <div class="ecr">✓ "I brought wine to the party."</div>
+      <div class="ecd">BRING é irregular: BRING → BROUGHT → BROUGHT. "I BROUGHT wine to the party." ✓ — "bringed" não existe. Família -OUGHT: BRING·THINK·BUY·FIGHT·CATCH·TEACH. Passado = particípio = BROUGHT.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Take your coat — it's cold outside." (quando quer dizer "traga")</div>
+      <div class="ecr">✓ "Bring your coat — it's cold outside." (vindo de lá para cá)</div>
+      <div class="ecd">BRING = trazer (em direção ao falante). TAKE = levar (para longe do falante). "BRING your coat!" = traga seu casaco (para onde estou/estaremos). "TAKE your coat!" = leve seu casaco (você vai para longe). A direção do movimento determina o verbo.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't brought my umbrella."</div>
+      <div class="ecr">✓ "I didn't bring my umbrella."</div>
+      <div class="ecd">DIDN'T + base. "I didn't BRING my umbrella." ✓ — depois de DIDN'T, base BRING (nunca BROUGHT). "I didn't brought" ✗ — dois passados na mesma negação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She was bring up in Rio." (presente simples no passivo)</div>
+      <div class="ecr">✓ "She was brought up in Rio."</div>
+      <div class="ecd">WAS/WERE + particípio passado para passiva. "She was BROUGHT up in Rio." ✓ — BROUGHT = particípio de BRING. "Was bring" ✗ — depois de WAS, particípio BROUGHT (não base). BRING UP = criar (filhos).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "This brings to mind my childhood." (sem objeto)</div>
+      <div class="ecr">✓ "This brings my childhood to mind." / "This brings to mind my childhood." ✓ (ambas ok)</div>
+      <div class="ecd">BRING TO MIND aceita duas ordens: "This BRINGS TO MIND my childhood." ✓ ou "This BRINGS my childhood TO MIND." ✓ — ambas são corretas. O objeto pode vir antes ou depois de TO MIND.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has bring great ideas to every meeting."</div>
+      <div class="ecr">✓ "She has brought great ideas to every meeting."</div>
+      <div class="ecd">HAVE + particípio BROUGHT. "She has BROUGHT great ideas." ✓ — "has bring" ✗. BRING → BROUGHT → BROUGHT (passado = particípio). "She BRINGS great ideas." ✓ (presente habitual).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — BRING</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de BRING?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">bringed</button>
+      <button class="qo" onclick="ans(this,'q1',true)">brought</button>
+      <button class="qo" onclick="ans(this,'q1',false)">brung</button>
+    </div>
+    <div class="qfb" id="q1fb">BRING → BROUGHT (irregular). Família -OUGHT: BRING·THINK·BUY·FIGHT·CATCH·TEACH. "I BROUGHT wine." ✓ — "bringed" e "brung" não existem no inglês padrão. Passado = particípio = BROUGHT.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Você está em casa ligando para um amigo no trabalho. Diz: "_____ your laptop home tonight!"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',true)">Bring your laptop home tonight!</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Take your laptop home tonight!</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Ambas são corretas neste contexto.</button>
+    </div>
+    <div class="qfb" id="q2fb">"BRING your laptop home tonight!" ✓ — você fala de casa, quer que o laptop venha em direção à sua localização (casa). BRING = movimento em direção ao falante. "Take" seria usado se você estivesse no trabalho dizendo para levar o laptop para longe (para casa), mas a perspectiva aqui é de casa.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela traz muito valor para a equipe." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She bring a lot of value to the team.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She brings a lot of value to the team.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She brought a lot of value to the team.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → BRINGS (com -S). "She BRINGS a lot of value to the team." ✓ — hábito/característica = presente simples com -S. "She bring" ✗ — falta -S. "She brought" = passado específico, não hábito presente.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela foi criada em São Paulo." → BRING UP no passado passivo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She was bring up in São Paulo.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She was brought up in São Paulo.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She was bringing up in São Paulo.</button>
+    </div>
+    <div class="qfb" id="q4fb">"She was BROUGHT UP in São Paulo." ✓ — WAS + particípio BROUGHT (passiva). "was bring" ✗ — depois de WAS, particípio. "was bringing up" = estava criando (ativa, passado contínuo) — sentido diferente. BRING UP = criar (filhos).</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"A nova lei provocou grandes mudanças." → BRING ABOUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">The new law brought up major changes.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">The new law brought about major changes.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">The new law brought out major changes.</button>
+    </div>
+    <div class="qfb" id="q5fb">"The new law BROUGHT ABOUT major changes." ✓ — BRING ABOUT = causar / provocar / gerar (mudança). BRING UP = criar ou mencionar. BRING OUT = lançar / revelar. Cada phrasal verb tem seu significado específico!</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"I didn't ___ my umbrella." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't brought my umbrella.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">I didn't bring my umbrella.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't brings my umbrella.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I didn't BRING my umbrella." ✓ — DIDN'T + base BRING. "didn't brought" ✗ — dois passados na mesma negação. "didn't brings" ✗ — BRINGS é terceira pessoa do presente.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">O que significa "What skills do you bring to the table?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Que habilidades você traz literalmente até a mesa?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Que habilidades você contribui / oferece ao grupo?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Que móveis você traz para a sala de reunião?</button>
+    </div>
+    <div class="qfb" id="q7fb">"What skills do you BRING TO THE TABLE?" = que habilidades/contribuições você oferece ao grupo / ao projeto? Expressão idiomática de negócios. "She brings creativity and leadership to the table." = Ela contribui com criatividade e liderança.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"She has ___ great ideas to every meeting." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">She has bring great ideas to every meeting.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">She has brought great ideas to every meeting.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">She has bringed great ideas to every meeting.</button>
+    </div>
+    <div class="qfb" id="q8fb">"She has BROUGHT great ideas to every meeting." ✓ — HAVE + particípio BROUGHT. "has bring" ✗ — depois de HAS, particípio. "has bringed" ✗ — não existe. BRING → BROUGHT → BROUGHT.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">BRING UP pode significar DUAS coisas. Quais são?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Subir e aumentar o volume.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Criar (filhos) e mencionar (um assunto).</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Lançar e revelar (apenas).</button>
+    </div>
+    <div class="qfb" id="q9fb">BRING UP = (1) criar filhos: "She was BROUGHT UP by her grandparents." = Foi criada pelos avós. (2) mencionar/trazer à tona: "Don't BRING UP that topic!" = Não mencione esse assunto! Contexto determina o significado.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Essa música faz lembrar minha infância." → BRING BACK.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">This song brings forward my childhood.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">This song brings back memories of my childhood.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">This song brings about my childhood.</button>
+    </div>
+    <div class="qfb" id="q10fb">"This song BRINGS BACK memories of my childhood." ✓ — BRING BACK = fazer lembrar / evocar memórias. BRING FORWARD = adiantar / antecipar (datas/reuniões). BRING ABOUT = causar mudança. "That smell brings back memories." ✓ — muito natural em inglês.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">Qual a relação entre BRING/COME e TAKE/GO?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">São pares de sinônimos sem distinção de direção.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">BRING/COME = em direção ao ouvinte. TAKE/GO = para longe do ouvinte.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">BRING/COME = ações lentas. TAKE/GO = ações rápidas.</button>
+    </div>
+    <div class="qfb" id="q11fb">BRING/COME = direção ao ouvinte/localização. TAKE/GO = direção contrária/longe. "Come here, bring the book." vs "Go there, take the book." A perspectiva do falante determina qual par usar — é sobre direção relativa ao locutor.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">O que significa "Her performance brought the house down"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">A apresentação dela danificou o prédio.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">A apresentação dela foi um sucesso enorme / arrancou aplausos.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">A apresentação dela fez todos saírem do teatro.</button>
+    </div>
+    <div class="qfb" id="q12fb">"Her performance BROUGHT THE HOUSE DOWN!" = a apresentação foi um sucesso estrondoso / arrancou aplausos calorosos. Expressão idiomática de teatro: tanto aplauso que metaforicamente "derruba a casa". "The comedian brought the house down with his last joke." ✓</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../87_send/index.html">← L87 SEND</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

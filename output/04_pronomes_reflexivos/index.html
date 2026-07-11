@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronomes Reflexivos | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F5C518;
+  --MS:#9C8FFF;--YS:#FF8EC4;--HS:#81D4FA;--HR:#FFE082;--IT:#A5D6A7;--OS:#FFAB91;--TS:#D1A8E8;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,197,24,.1);color:var(--accent);border:1px solid rgba(245,197,24,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,3.2vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:520px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#0f1a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 8px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+.pnav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:7px 14px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:18px;color:var(--accent);font-weight:600;margin-bottom:14px;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(245,197,24,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+.tabs{display:flex;gap:6px;margin-bottom:14px;}
+.tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:18px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:2px 8px;border-radius:5px;display:inline-block;white-space:nowrap;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+
+.ecols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.ebox{border-radius:12px;padding:18px;text-align:center;}
+.ewrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.3);}
+.eright{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.3);}
+.elabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.esen{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;}
+.enote{font-size:11px;color:var(--muted);margin-top:6px;}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sen2{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;display:block;margin-bottom:4px;}
+.spt2{font-size:11px;color:var(--muted);}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.ecols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1–A2 · Lição 04</div>
+  <h1>
+    <span style="color:var(--MS)">MYSELF</span> ·
+    <span style="color:var(--YS)">YOURSELF</span> ·
+    <span style="color:var(--HS)">HIMSELF</span> ·
+    <span style="color:var(--HR)">HERSELF</span> ·
+    <span style="color:var(--IT)">ITSELF</span> ·
+    <span style="color:var(--OS)">OURSELVES</span> ·
+    <span style="color:var(--TS)">THEMSELVES</span>
+  </h1>
+  <p class="subtitle">Pronomes Reflexivos — a ação volta para o próprio sujeito, ou para dar ênfase. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="future">Futuro</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Frases similares para praticar</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- USO 1 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 1</span><h2 class="utitle">Reflexivo — <em>a ação volta para o sujeito</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t1"></tbody>
+  </table>
+  <div class="tip">💡 Use o reflexivo quando sujeito e objeto são a MESMA pessoa: "I hurt myself" = fui eu quem me machuquei.</div>
+</section>
+
+<!-- USO 2 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 2</span><h2 class="utitle">BY + reflexivo = <em>sozinho / sem ajuda</em></h2></div>
+  <table>
+    <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t2"></tbody>
+  </table>
+  <div class="tip">💡 BY + reflexivo = "sozinho / por conta própria / sem ajuda". Uma das expressões mais usadas no inglês cotidiano!</div>
+</section>
+
+<!-- USO 3 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 3</span><h2 class="utitle">Reflexivo para <em>ênfase</em> — eu mesmo, você mesmo...</h2></div>
+  <table>
+    <thead><tr><th>Uso</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">ênfase</span></td><td class="ten">I <strong>myself</strong> don't believe it.</td><td class="tpt">Eu mesmo não acredito.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">ênfase</span></td><td class="ten">She <strong>herself</strong> admitted the mistake.</td><td class="tpt">Ela mesma admitiu o erro.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">ênfase</span></td><td class="ten">The president <strong>himself</strong> attended.</td><td class="tpt">O próprio presidente compareceu.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">ênfase</span></td><td class="ten">Do it <strong>yourself</strong>!</td><td class="tpt">Faça você mesmo!</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ Para ênfase, o reflexivo pode vir logo após o sujeito ou no final da frase. Reforça que FOI aquela pessoa específica — ninguém mais!</div>
+</section>
+
+<!-- USO 4 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 4</span><h2 class="utitle">Expressões com <em>reflexivos</em></h2></div>
+  <table>
+    <thead><tr><th>Expressão</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t4"></tbody>
+  </table>
+  <div class="tip">💡 "Help yourself" = "sirva-se" (muito educado). "Enjoy yourself" = "divirta-se". "Be yourself" = "seja você mesmo". Expressões fixas essenciais — aprenda como blocos!</div>
+</section>
+
+<!-- ERRO CLÁSSICO -->
+<section class="uso">
+  <div class="uhead">
+    <span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">ATENÇÃO</span>
+    <h2 class="utitle">Formas incorretas — não existem em inglês!</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px">Duas formas inexistentes que brasileiros (e até nativos informais) usam por erro. Evite-as sempre!</p>
+  <div class="ecols">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ NÃO EXISTE</div>
+      <div class="esen" style="color:var(--warn)">hisself</div>
+      <p class="enote">Forma incorreta de HIMSELF</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ CORRETO</div>
+      <div class="esen" style="color:var(--HS)">himself</div>
+      <p class="enote">He + self = himself. Sempre assim!</p>
+    </div>
+  </div>
+  <div class="ecols" style="margin-top:14px">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ NÃO EXISTE</div>
+      <div class="esen" style="color:var(--warn)">theirselves</div>
+      <p class="enote">Forma incorreta de THEMSELVES</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ CORRETO</div>
+      <div class="esen" style="color:var(--TS)">themselves</div>
+      <p class="enote">They + selves = themselves. Nunca "theirselves"!</p>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:14px">⚠️ Regra de formação: my+self · your+self · him+self · her+self · it+self · our+selves · them+selves. Singular: -self · Plural: -selves.</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todos os pronomes reflexivos</h2></div>
+  <div class="sgrid">
+    <div class="scard"><span class="sen2" style="color:var(--MS)">MYSELF</span><div class="spt2">EU MESMO</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--YS)">YOURSELF</span><div class="spt2">VOCÊ MESMO</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--HS)">HIMSELF</span><div class="spt2">ELE MESMO</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--HR)">HERSELF</span><div class="spt2">ELA MESMA</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--IT)">ITSELF</span><div class="spt2">ELE/ELA MESMO (coisa)</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--OS)">OURSELVES</span><div class="spt2">NÓS MESMOS</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--TS)">THEMSELVES</span><div class="spt2">ELES MESMOS</div></div>
+  </div>
+  <div class="tip" style="margin-top:20px">🔑 Três usos: (1) Ação reflexiva — sujeito faz e recebe. (2) BY + reflexivo = sozinho. (3) Ênfase = eu mesmo / você mesmo. E as expressões: enjoy yourself · help yourself · be yourself!</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1–A2 · Lição 04: Pronomes Reflexivos</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const PD = {
+  MYSELF:{pt:'EU MESMO / EU MESMA',hex:'#9C8FFF',col:0x9C8FFF,
+    desc:"Reflexivo de 'I'. A ação que você faz retorna para você mesmo. Também usado em BY MYSELF = sozinho, sem ajuda de ninguém.",
+    rule:"⚡ Use MYSELF quando o sujeito e o objeto são você: 'I hurt myself.' Ou: 'I did it by myself' = sozinho!",
+    s:{present:{en:'I see myself in the mirror.',pt:'Eu me vejo no espelho.',ctx:'💬 MYSELF como objeto. Sujeito (I) e objeto (myself) são a mesma pessoa.'},
+       past:{en:'I hurt myself at the gym.',pt:'Eu me machuquei na academia.',ctx:'💬 MYSELF após o verbo "hurt". Ação reflexiva no passado — você foi o agente e a vítima.'},
+       future:{en:'I will do it by myself.',pt:'Eu vou fazer sozinho.',ctx:'💬 BY MYSELF = sem ajuda. Declaração de independência e autoconfiança!'}},
+    sim:[{en:'I talk to myself sometimes.',pt:'Às vezes falo comigo mesmo.'},{en:'Let me do it myself.',pt:'Deixa eu fazer sozinho.'},{en:'I made it myself.',pt:'Eu mesmo fiz.'}]},
+
+  YOURSELF:{pt:'VOCÊ MESMO / VOCÊ MESMA',hex:'#FF8EC4',col:0xFF8EC4,
+    desc:"Reflexivo de 'YOU'. A ação retorna para você. BY YOURSELF = sozinho. 'Do it yourself!' é famoso até como movimento (DIY)!",
+    rule:"⚡ YOURSELF para uma pessoa, YOURSELVES para um grupo: 'Be yourself!' (1 pessoa) / 'Enjoy yourselves!' (grupo).",
+    s:{present:{en:"Be careful — don't cut yourself.",pt:'Cuidado — não se corte.',ctx:'💬 YOURSELF após o verbo "cut". Aviso sobre uma ação reflexiva perigosa.'},
+       past:{en:'Did you enjoy yourself?',pt:'Você se divertiu?',ctx:'💬 YOURSELF após "enjoy". Perguntando sobre a diversão de alguém.'},
+       future:{en:'You will enjoy yourself at the party!',pt:'Você vai se divertir na festa!',ctx:'💬 YOURSELF após "enjoy". Antecipando uma experiência positiva.'}},
+    sim:[{en:'Just be yourself.',pt:'Seja você mesmo.'},{en:'Help yourself.',pt:'Sirva-se.'},{en:'Do it by yourself.',pt:'Faça sozinho.'}]},
+
+  HIMSELF:{pt:'ELE MESMO',hex:'#81D4FA',col:0x81D4FA,
+    desc:"Reflexivo de 'HE'. A ação que ele faz retorna para ele. BY HIMSELF = ele sozinho, sem ajuda. Não existe 'hisself'!",
+    rule:"⚡ 'He did it hisself' = ERRADO. 'He did it HIMSELF' = CORRETO. A forma é HIM + SELF, não HIS + SELF.",
+    s:{present:{en:'He taught himself English.',pt:'Ele aprendeu inglês sozinho.',ctx:'💬 HIMSELF após "taught". Aprendizado autodidata sem professor — BY HIMSELF!'},
+       past:{en:'He hurt himself playing football.',pt:'Ele se machucou jogando futebol.',ctx:'💬 HIMSELF após "hurt". Acidente esportivo — ele foi agente e vítima.'},
+       future:{en:'He will introduce himself first.',pt:'Ele vai se apresentar primeiro.',ctx:'💬 HIMSELF após "introduce". Ação social reflexiva em situação futura.'}},
+    sim:[{en:'He lives by himself.',pt:'Ele mora sozinho.'},{en:'He blamed himself.',pt:'Ele se culpou.'},{en:'He enjoys himself.',pt:'Ele se diverte.'}]},
+
+  HERSELF:{pt:'ELA MESMA',hex:'#FFE082',col:0xFFE082,
+    desc:"Reflexivo de 'SHE'. A ação que ela faz retorna para ela. BY HERSELF = ela sozinha. Forma: HER + SELF.",
+    rule:"⚡ 'She solved it HERSELF' (ênfase) e 'She looked at HERSELF' (reflexiva) — o mesmo pronome em dois usos diferentes!",
+    s:{present:{en:'She looked at herself in the mirror.',pt:'Ela se olhou no espelho.',ctx:'💬 HERSELF após "looked at". Ação cotidiana reflexiva — ela viu a si mesma.'},
+       past:{en:'She solved it by herself.',pt:'Ela resolveu sozinha.',ctx:'💬 BY HERSELF = sem ajuda de ninguém. Demonstração de competência e independência.'},
+       future:{en:'She will prepare herself for the interview.',pt:'Ela vai se preparar para a entrevista.',ctx:'💬 HERSELF após "prepare". Preparação futura — sujeito cuida de si mesmo.'}},
+    sim:[{en:'She enjoyed herself.',pt:'Ela se divertiu.'},{en:'She introduced herself.',pt:'Ela se apresentou.'},{en:'She takes care of herself.',pt:'Ela cuida de si mesma.'}]},
+
+  ITSELF:{pt:'ELE MESMO / ELA MESMA (coisa)',hex:'#A5D6A7',col:0xA5D6A7,
+    desc:"Reflexivo de 'IT'. Para coisas, animais e situações. Muito usado em tecnologia: 'the app updated ITSELF' — atualizou automaticamente!",
+    rule:"⚡ ITSELF indica automação ou independência do objeto: 'by itself' = sozinho, automaticamente, sem intervenção humana.",
+    s:{present:{en:'The door opens by itself.',pt:'A porta se abre sozinha.',ctx:'💬 BY ITSELF = automaticamente, sem ninguém empurrar. Porta automática!'},
+       past:{en:'The machine turned itself off.',pt:'A máquina se desligou sozinha.',ctx:'💬 ITSELF após "turned off". Automação que funcionou sem ajuda humana.'},
+       future:{en:'The app will update itself tonight.',pt:'O aplicativo vai se atualizar esta noite.',ctx:'💬 ITSELF após "update". Muito comum em tecnologia — atualização automática!'}},
+    sim:[{en:'It works by itself.',pt:'Funciona sozinho.'},{en:'The cat cleaned itself.',pt:'O gato se limpou.'},{en:'The problem resolved itself.',pt:'O problema se resolveu.'}]},
+
+  OURSELVES:{pt:'NÓS MESMOS / NÓS MESMAS',hex:'#FFAB91',col:0xFFAB91,
+    desc:"Reflexivo de 'WE'. A ação do grupo retorna para o próprio grupo. BY OURSELVES = nós sozinhos, sem ajuda externa.",
+    rule:"⚡ OURSELVES aplica-se ao grupo que inclui você: 'We did it by OURSELVES' = sem ajuda de ninguém de fora do grupo.",
+    s:{present:{en:'We enjoyed ourselves a lot.',pt:'Nós nos divertimos muito.',ctx:'💬 OURSELVES após "enjoyed". Expressando diversão coletiva — o grupo todo se divertiu!'},
+       past:{en:'We did it by ourselves.',pt:'Nós fizemos sozinhos.',ctx:'💬 BY OURSELVES = sem ajuda externa. Orgulho pela conquista coletiva independente.'},
+       future:{en:'We will introduce ourselves at the meeting.',pt:'Nós vamos nos apresentar na reunião.',ctx:'💬 OURSELVES após "introduce". Ação social reflexiva coletiva em situação futura.'}},
+    sim:[{en:'We made it by ourselves.',pt:'Conseguimos sozinhos.'},{en:'We need to take care of ourselves.',pt:'Precisamos cuidar de nós mesmos.'},{en:'Enjoy yourselves!',pt:'Divirtam-se!'}]},
+
+  THEMSELVES:{pt:'ELES MESMOS / ELAS MESMAS',hex:'#D1A8E8',col:0xD1A8E8,
+    desc:"Reflexivo de 'THEY'. A ação do grupo externo retorna para eles mesmos. BY THEMSELVES = eles sozinhos. Não existe 'theirselves'!",
+    rule:"⚡ 'They did it theirselves' = ERRADO. 'They did it THEMSELVES' = CORRETO. A forma é THEM + SELVES.",
+    s:{present:{en:'They introduced themselves.',pt:'Eles se apresentaram.',ctx:'💬 THEMSELVES após "introduced". Cada membro do grupo se apresentou — ação reflexiva coletiva.'},
+       past:{en:'They cooked by themselves.',pt:'Eles cozinharam sozinhos.',ctx:'💬 BY THEMSELVES = sem ajuda de mais ninguém. Independência do grupo.'},
+       future:{en:'They will take care of themselves.',pt:'Eles vão cuidar de si mesmos.',ctx:'💬 THEMSELVES após "take care of". Promessa ou plano coletivo de autocuidado.'}},
+    sim:[{en:'They enjoyed themselves.',pt:'Eles se divertiram.'},{en:'They did it by themselves.',pt:'Eles fizeram sozinhos.'},{en:'They blamed themselves.',pt:'Eles se culparam.'}]}
+};
+
+// ── TABLES ───────────────────────────────────────────────────────────────────
+var keys = Object.keys(PD);
+var lc = {MYSELF:'myself',YOURSELF:'yourself',HIMSELF:'himself',HERSELF:'herself',ITSELF:'itself',OURSELVES:'ourselves',THEMSELVES:'themselves'};
+
+var rows = {
+  t1:[['MYSELF','I hurt myself.','Eu me machuquei.'],
+      ['YOURSELF',"Be careful — don't cut yourself.",'Cuidado — não se corte.'],
+      ['HIMSELF','He taught himself English.','Ele aprendeu inglês sozinho.'],
+      ['HERSELF','She looked at herself in the mirror.','Ela se olhou no espelho.'],
+      ['ITSELF','The door opened by itself.','A porta se abriu sozinha.'],
+      ['OURSELVES','We enjoyed ourselves a lot.','Nós nos divertimos muito.'],
+      ['THEMSELVES','They introduced themselves.','Eles se apresentaram.']],
+  t2:[['by myself','I did it by myself.','Eu fiz sozinho (sem ajuda).'],
+      ['by yourself','Did you go by yourself?','Você foi sozinho?'],
+      ['by himself','He lives by himself.','Ele mora sozinho.'],
+      ['by herself','She solved it by herself.','Ela resolveu sozinha.'],
+      ['by ourselves','We built it by ourselves.','Nós construímos sozinhos.'],
+      ['by themselves','They cooked by themselves.','Eles cozinharam sozinhos.']],
+  t4:[['enjoy yourself','Enjoy yourself!','Se divirta! / Curta!'],
+      ['help yourself','Help yourself.','Sirva-se.'],
+      ['make yourself at home','Make yourself at home.','Sinta-se em casa.'],
+      ['talk to myself','I talk to myself sometimes.','Às vezes falo comigo mesmo.'],
+      ['by itself','It works by itself.','Funciona sozinho / automaticamente.'],
+      ['be yourself','Just be yourself.','Seja você mesmo.']]
+};
+
+function fillTable(id, data) {
+  var tbody = document.getElementById(id);
+  data.forEach(function(row){
+    var key=row[0], en=row[1], pt=row[2];
+    var d=PD[key];
+    var color, bg;
+    if(d){ color=d.hex; bg=d.hex+'1a'; }
+    else { color='var(--accent)'; bg='rgba(245,197,24,.1)'; }
+    var hl=en;
+    if(d){
+      var word=lc[key];
+      hl=en.replace(new RegExp('\\b'+word+'\\b','gi'), function(m){ return '<strong>'+m+'</strong>'; });
+    }
+    tbody.innerHTML+='<tr><td><span class="ptag" style="color:'+color+';background:'+bg+'">'+key+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pt+'</td></tr>';
+  });
+}
+fillTable('t1',rows.t1);
+fillTable('t2',rows.t2);
+fillTable('t4',rows.t4);
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(58,1,0.1,100);
+hCam.position.set(0,3.2,12); hCam.lookAt(0,0.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+
+function resizeHero(){ var w=hCanvas.parentElement.clientWidth,h=440; hRend.setSize(w,h); hCam.aspect=w/h; hCam.updateProjectionMatrix(); }
+resizeHero(); window.addEventListener('resize',resizeHero);
+
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.35;
+hCtrl.minDistance=8; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+
+hScene.add(new THREE.AmbientLight(0xffffff,0.5));
+var hDir=new THREE.DirectionalLight(0xffffff,0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x182030,0x182030));
+
+function mkChar(color,scale){
+  scale=scale||1;
+  var g=new THREE.Group();
+  var m=function(c){return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.22});};
+  var head=new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16),m(color)); head.position.y=1.48*scale; g.add(head);
+  var body=new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8),m(color)); body.position.y=.82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(p){var a=new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8),m(color));a.rotation.z=p[1];a.position.set(p[0]*scale,.93*scale,0);g.add(a);});
+  [-.16,.16].forEach(function(x){var l=new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8),m(color));l.position.set(x*scale,.06*scale,0);g.add(l);});
+  var pl=new THREE.PointLight(color,.5,3*scale); pl.position.y=.5*scale; g.add(pl);
+  return g;
+}
+
+var hChars=[],labelData=[],reflexArcs=[];
+
+keys.forEach(function(k,i){
+  var a=(i/keys.length)*Math.PI*2-Math.PI/2, r=4.2;
+  var x=Math.cos(a)*r, z=Math.sin(a)*r;
+  var c=mkChar(PD[k].col); c.position.set(x,0,z); c.lookAt(0,c.position.y,0);
+  // ring under feet
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),new THREE.MeshPhongMaterial({color:PD[k].col,emissive:PD[k].col,emissiveIntensity:.4}));
+  ring.rotation.x=Math.PI/2; ring.position.y=-.4; c.add(ring);
+  // reflexive arc — small torus tilted above head, symbolising "action loops back"
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.32,.04,8,32),new THREE.MeshPhongMaterial({color:PD[k].col,emissive:PD[k].col,emissiveIntensity:.55}));
+  arc.position.y=2.0; arc.rotation.x=Math.PI/3; c.add(arc);
+  reflexArcs.push({m:arc,off:i*.7});
+  hScene.add(c);
+  hChars.push({mesh:c,key:k});
+  var el=document.createElement('div');
+  el.className='hlabel'; el.style.color=PD[k].hex; el.style.borderColor=PD[k].hex;
+  el.textContent=k;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el:el,mesh:c});
+});
+
+var nav=document.getElementById('pnav');
+keys.forEach(function(k){
+  var d=PD[k],b=document.createElement('button');
+  b.className='pbtn'; b.dataset.p=k;
+  b.style.color=d.hex; b.style.borderColor=d.hex;
+  b.textContent=k;
+  b.addEventListener('click',function(){openPronoun(k);});
+  nav.appendChild(b);
+});
+
+function updateLabels(){
+  var w=hCanvas.clientWidth,h=440;
+  labelData.forEach(function(ld){
+    var pos=new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y+=2.4; pos.project(hCam);
+    var x=(pos.x*.5+.5)*w,y=(-pos.y*.5+.5)*h;
+    ld.el.style.left=x+'px'; ld.el.style.top=y+'px';
+    ld.el.style.opacity=pos.z<1?'1':'0';
+  });
+}
+
+var ray=new THREE.Raycaster(),mPos=new THREE.Vector2();
+hCanvas.addEventListener('click',function(e){
+  var r=hCanvas.getBoundingClientRect();
+  mPos.x=((e.clientX-r.left)/r.width)*2-1;
+  mPos.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos,hCam);
+  hChars.forEach(function(c){
+    var ch=[]; c.mesh.traverse(function(m){if(m.isMesh)ch.push(m);});
+    if(ray.intersectObjects(ch).length>0) openPronoun(c.key);
+  });
+});
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.01; hCtrl.update();
+  hChars.forEach(function(c,i){c.mesh.position.y=Math.sin(hT+i*.9)*.12;});
+  reflexArcs.forEach(function(a){a.m.rotation.y+=.025;});
+  updateLabels(); hRend.render(hScene,hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+var dCanvas=document.getElementById('dCanvas');
+var dScene=new THREE.Scene();
+var dCam=new THREE.PerspectiveCamera(52,360/300,0.1,100);
+dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+var dRend=new THREE.WebGLRenderer({canvas:dCanvas,antialias:true,alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+dRend.setSize(360,300); dRend.setClearColor(0x080c14,1);
+
+var dCtrl=new THREE.OrbitControls(dCam,dRend.domElement);
+dCtrl.enableDamping=true; dCtrl.dampingFactor=.05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+
+var dAmb=new THREE.AmbientLight(0xffffff,.45);
+var dDir2=new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+var dPL=new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb,dDir2,dPL);
+
+var dObjs=[],dParts=null,curP=null,dT=0;
+
+function clearD(){while(dScene.children.length)dScene.remove(dScene.children[0]);dScene.add(dAmb,dDir2,dPL);dObjs=[];dParts=null;}
+function floor(col){col=col||0x080c14;var f=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshPhongMaterial({color:col}));f.rotation.x=-Math.PI/2;f.position.y=-.5;dScene.add(f);}
+function particles(col,count,spread,yMin,yMax){
+  count=count||60;spread=spread||4;yMin=yMin||.5;yMax=yMax||3.5;
+  var geo=new THREE.BufferGeometry(),pos=[],cols=[];var c=new THREE.Color(col);
+  for(var i=0;i<count;i++){pos.push((Math.random()-.5)*spread,yMin+Math.random()*(yMax-yMin),(Math.random()-.5)*spread);cols.push(c.r,c.g,c.b);}
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+  dParts=new THREE.Points(geo,new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+
+// MYSELF: mirror scene
+function buildMYSELF(){
+  dPL.color.set(0x9C8FFF); floor();
+  var ch=mkChar(0x9C8FFF); ch.position.set(-1.2,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // mirror frame
+  var frame=new THREE.Mesh(new THREE.BoxGeometry(.08,1.8,.95),new THREE.MeshPhongMaterial({color:0x3a2a6a}));
+  frame.position.set(.4,.5,0); dScene.add(frame);
+  // mirror glass (reflective box)
+  var glass=new THREE.Mesh(new THREE.BoxGeometry(.04,1.6,.8),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.15,transparent:true,opacity:.55}));
+  glass.position.set(.44,.5,0); dScene.add(glass); dObjs.push({m:glass,type:'glow'});
+  // reflection character (dimmed)
+  var refl=mkChar(0x6a5fbb,.9); refl.position.set(1.1,-.5,0); refl.rotation.y=Math.PI; dScene.add(refl); dObjs.push({m:refl,type:'sway',off:.3});
+  // loop arc symbolising "back to self"
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.5,.04,8,32),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.5}));
+  arc.position.set(0,2.5,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  particles(0x9C8FFF,40,4,.3,3);
+}
+
+// YOURSELF: character alone with sparkles
+function buildYOURSELF(){
+  dPL.color.set(0xFF8EC4); floor();
+  var ch=mkChar(0xFF8EC4); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // "alone" — no other characters, just stars
+  [0,1.2,2.4,3.6,4.8].forEach(function(a,i){
+    var star=new THREE.Mesh(new THREE.SphereGeometry(.09,8,8),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.7}));
+    star.position.set(Math.cos(a)*1.8,1.4+Math.sin(a)*0.3,Math.sin(a)*1.8); dScene.add(star);
+    dObjs.push({m:star,type:'float',baseY:1.4+Math.sin(a)*.3,off:i*.4});
+  });
+  // arc above
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.45,.04,8,32),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.55}));
+  arc.position.set(0,2.4,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  particles(0xFF8EC4,45,3.5,.3,3);
+}
+
+// HIMSELF: desk + book, teaching himself
+function buildHIMSELF(){
+  dPL.color.set(0x81D4FA); floor();
+  var desk=new THREE.Mesh(new THREE.BoxGeometry(2.2,.1,1.0),new THREE.MeshPhongMaterial({color:0x3d2b1f}));
+  desk.position.set(.2,.2,.4); dScene.add(desk);
+  var book=new THREE.Mesh(new THREE.BoxGeometry(.7,.06,.5),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.35}));
+  book.position.set(.3,.28,.3); dScene.add(book); dObjs.push({m:book,type:'float',baseY:.28,off:0});
+  var ch=mkChar(0x81D4FA); ch.position.set(-.5,-.5,0); ch.rotation.y=.3; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.42,.04,8,32),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.55}));
+  arc.position.set(-.5,2.4,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  particles(0x81D4FA,40,4,.3,3);
+}
+
+// HERSELF: mirror + character
+function buildHERSELF(){
+  dPL.color.set(0xFFE082); floor();
+  var ch=mkChar(0xFFE082); ch.position.set(-.8,-.5,.2); ch.rotation.y=.3; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var frame=new THREE.Mesh(new THREE.BoxGeometry(.08,1.7,.85),new THREE.MeshPhongMaterial({color:0x5c3a00}));
+  frame.position.set(.55,.45,0); dScene.add(frame);
+  var glass=new THREE.Mesh(new THREE.BoxGeometry(.04,1.5,.72),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.12,transparent:true,opacity:.5}));
+  glass.position.set(.59,.45,0); dScene.add(glass); dObjs.push({m:glass,type:'glow'});
+  var refl=mkChar(0xc8a840,.88); refl.position.set(1.3,-.5,0); refl.rotation.y=Math.PI; dScene.add(refl); dObjs.push({m:refl,type:'sway',off:.3});
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.42,.04,8,32),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.55}));
+  arc.position.set(-.8,2.4,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  particles(0xFFE082,45,3.5,.3,2.8);
+}
+
+// ITSELF: automatic door opening
+function buildITSELF(){
+  dPL.color.set(0xA5D6A7); floor(0x050a07);
+  // door frame
+  var frame=new THREE.Mesh(new THREE.BoxGeometry(.12,2.2,1.8),new THREE.MeshPhongMaterial({color:0x1a3020}));
+  frame.position.set(0,.8,0); dScene.add(frame);
+  // door panels (animating open)
+  var d1=new THREE.Mesh(new THREE.BoxGeometry(.08,2.0,.85),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.2}));
+  d1.position.set(.1,.8,.45); dScene.add(d1); dObjs.push({m:d1,type:'doorL',base:.45});
+  var d2=new THREE.Mesh(new THREE.BoxGeometry(.08,2.0,.85),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.2}));
+  d2.position.set(.1,.8,-.45); dScene.add(d2); dObjs.push({m:d2,type:'doorR',base:-.45});
+  // glow around opening
+  var glow=new THREE.Mesh(new THREE.PlaneGeometry(.06,2.0),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.7,transparent:true,opacity:.5}));
+  glow.position.set(.06,.8,0); dScene.add(glow); dObjs.push({m:glow,type:'glow'});
+  // spinning arc = "by itself"
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.35,.04,8,32),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.7}));
+  arc.position.set(0,2.5,0); dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  particles(0xA5D6A7,40,4,.3,3);
+}
+
+// OURSELVES: group enjoying
+function buildOURSELVES(){
+  dPL.color.set(0xFFAB91); floor();
+  var cc=[0xFFAB91,0xFF8A65,0xFFCCBC];
+  [[-.9,-.5,.5],[.1,-.5,-.5],[.9,-.5,.4]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.9); ch.position.set(p[0],p[1],p[2]); ch.rotation.y=(Math.random()-.5)*.6; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.5});
+    // small star above each
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.1,8,8),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.7}));
+    s.position.set(p[0],2.0,p[2]); dScene.add(s); dObjs.push({m:s,type:'float',baseY:2.0,off:i*.5});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(1.5,.04,8,48),new THREE.MeshPhongMaterial({color:0xFFAB91,emissive:0xFFAB91,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:0});
+  particles(0xFFAB91,50,4,.3,3);
+}
+
+// THEMSELVES: group introducing
+function buildTHEMSELVES(){
+  dPL.color.set(0xD1A8E8); floor();
+  var cc=[0xD1A8E8,0xAB47BC,0xCE93D8,0xB39DDB];
+  [[-1.4,-.5,.5],[-.4,-.5,-.5],[.5,-.5,.6],[1.3,-.5,-.3]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.88); ch.position.set(p[0],p[1],p[2]); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.45});
+    var bub=new THREE.Mesh(new THREE.SphereGeometry(.13,10,10),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.45,transparent:true,opacity:.75}));
+    bub.position.set(p[0]+.2,2.0,p[2]); dScene.add(bub); dObjs.push({m:bub,type:'float',baseY:2.0,off:i*.4});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(2.0,.04,8,56),new THREE.MeshPhongMaterial({color:0xD1A8E8,emissive:0xD1A8E8,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:.2});
+  particles(0xD1A8E8,55,5,.3,3);
+}
+
+var builders={MYSELF:buildMYSELF,YOURSELF:buildYOURSELF,HIMSELF:buildHIMSELF,HERSELF:buildHERSELF,ITSELF:buildITSELF,OURSELVES:buildOURSELVES,THEMSELVES:buildTHEMSELVES};
+
+function animDetail(){
+  requestAnimationFrame(animDetail); dT+=.016; dCtrl.update();
+  dObjs.forEach(function(o){
+    var off=o.off||0,by=o.baseY||0;
+    switch(o.type){
+      case 'sway':  o.m.rotation.y=off+Math.sin(dT*.8+off)*.15; break;
+      case 'float': o.m.position.y=by+Math.sin(dT*1.2+off)*.11; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2+off)*.1); o.m.position.y=by+Math.sin(dT*1.5)*.07; break;
+      case 'spinY': o.m.rotation.y+=.012; break;
+      case 'glow':  o.m.material.emissiveIntensity=.3+Math.sin(dT*2)*.25; break;
+      case 'doorL': o.m.position.z=o.base+Math.abs(Math.sin(dT*.5))*.55; break;
+      case 'doorR': o.m.position.z=o.base-Math.abs(Math.sin(dT*.5))*.55; break;
+    }
+  });
+  if(dParts) dParts.rotation.y+=.003;
+  dRend.render(dScene,dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense='present';
+
+function openPronoun(k){
+  curP=k;
+  var d=PD[k];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent=k;
+  document.getElementById('dPron').style.color=d.hex;
+  document.getElementById('dPt').textContent=d.pt;
+  document.getElementById('dDesc').textContent=d.desc;
+  document.getElementById('dRule').textContent=d.rule;
+  updateSent(k,selTense);
+  var sl=document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>';});
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis=b.dataset.p===k;
+    b.classList.toggle('active',isThis);
+    b.style.backgroundColor=isThis?PD[b.dataset.p].hex:'transparent';
+    b.style.color=isThis?'#080c14':PD[b.dataset.p].hex;
+  });
+  clearD(); builders[k]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateSent(k,tense){
+  var d=PD[k],s=d.s[tense],word=lc[k];
+  var hl=s.en.replace(new RegExp('\\b'+word+'\\b','gi'),function(m){return '<span style="color:'+d.hex+';font-weight:800">'+m+'</span>';});
+  document.getElementById('sEn').innerHTML=hl;
+  document.getElementById('sPt').textContent=s.pt;
+  document.getElementById('sCtx').textContent=s.ctx;
+}
+
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); selTense=t.dataset.t;
+    if(curP) updateSent(curP,selTense);
+  });
+});
+
+setTimeout(function(){openPronoun('MYSELF');},600);
+</script>
+</body>
+</html>

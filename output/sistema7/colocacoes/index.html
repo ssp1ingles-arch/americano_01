@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colocações Naturais · Sistema 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--mk:#3b82f6;--dv:#5FD87A;--hv:#F5C518;--gt:#FF6B6B;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s7.active{border-color:var(--s7);background:rgba(217,70,239,.16);box-shadow:0 0 10px rgba(217,70,239,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s7);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:960px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.35rem .65rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s7);color:#080c14;}
+
+.progress-row{display:flex;align-items:center;gap:.7rem;}
+.progress-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--s7),#f0abfc);border-radius:3px;transition:width .4s ease;}
+.progress-text{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;color:var(--s7);white-space:nowrap;}
+
+/* CATEGORY TABS */
+.cat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;max-width:960px;margin:.75rem auto 0;padding:0 1.1rem;}
+.cat-tab{background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.65rem .6rem;cursor:pointer;transition:all .18s;text-align:center;}
+.cat-tab:hover{border-color:var(--bdh);}
+.cat-tab.on{border-color:var(--catc);background:color-mix(in srgb, var(--catc) 12%, transparent);box-shadow:0 0 12px color-mix(in srgb, var(--catc) 25%, transparent);}
+.cat-top{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;color:var(--catc);margin-bottom:.25rem;}
+.cat-n{font-size:.6rem;color:var(--td);margin-bottom:.25rem;}
+.cat-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.cat-fill{height:100%;background:var(--catc);border-radius:2px;}
+
+.wrap{padding-top:280px;max-width:960px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:3rem;display:flex;gap:1.5rem;align-items:flex-start;}
+.main-col{flex:1;min-width:0;}
+.hidden{display:none!important;}
+
+/* HERO */
+.hero{max-width:960px;margin:0 auto;padding:2rem 1.1rem 0;text-align:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s7);background:rgba(217,70,239,.1);border:1px solid rgba(217,70,239,.25);padding:.35rem 1rem;border-radius:2rem;margin-bottom:1rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;line-height:1.3;margin-bottom:.85rem;}
+.hero-title .em{color:var(--s7);}
+.hero-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+.hero-tag{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;padding:.3rem .8rem;border-radius:2rem;border:1px solid;}
+.hero-examples{display:flex;flex-direction:column;gap:.4rem;max-width:420px;margin:0 auto;font-size:.85rem;}
+.hero-ex-row{background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.5rem .8rem;}
+.hero-ex-row .wr{color:var(--rd);}
+.hero-ex-row .ar{color:var(--td);margin:0 .4rem;}
+.hero-ex-row .ok{color:var(--gn);font-weight:700;}
+
+/* CARD — MODO 1 COMPLETO */
+.study-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+.study-head{padding:1.1rem 1.4rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
+.study-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--catc);}
+.study-pos{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--td);}
+.study-body{padding:1.3rem 1.4rem;}
+.phrase-box{background:var(--catc);color:#080c14;border-radius:.9rem;padding:1.4rem 1.2rem;text-align:center;margin-bottom:1.1rem;}
+.phrase-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:.01em;margin-bottom:.35rem;}
+.phrase-pt{font-size:.9rem;opacity:.85;font-weight:600;}
+.sec{margin-bottom:1.1rem;}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;}
+.errs-row{display:flex;flex-wrap:wrap;gap:.5rem;}
+.err-chip{font-size:.78rem;color:var(--rd);background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:.4rem;padding:.3rem .6rem;}
+.note-box{background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.2);border-radius:.6rem;padding:.6rem .85rem;font-size:.8rem;color:var(--tm);line-height:1.55;}
+.ex-box{background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1rem;}
+.ex-en{font-size:.92rem;line-height:1.6;color:var(--tx);margin-bottom:.5rem;}
+.ex-en b{color:var(--catc);}
+.ex-pt{font-size:.85rem;line-height:1.6;color:var(--td);}
+.pr-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.pr-list li{font-size:.85rem;color:var(--tm);padding-left:1.1rem;position:relative;}
+.pr-list li::before{content:'•';position:absolute;left:0;color:var(--catc);}
+
+.card-actions{display:flex;gap:.6rem;padding:1rem 1.4rem 1.3rem;border-top:1px solid var(--bd);flex-wrap:wrap;}
+.act-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;min-width:100px;}
+.act-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.act-btn:disabled{opacity:.35;cursor:default;}
+.act-btn.learned{border-color:rgba(95,216,122,.5);color:var(--gn);background:rgba(95,216,122,.1);}
+.act-btn.next{background:var(--catc);color:#080c14;border:none;}
+.act-btn.next:hover{filter:brightness(1.1);}
+
+/* MODO 2 / 3 — VERB PICKER */
+.pk-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.pk-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--catc);text-align:center;margin-bottom:.3rem;}
+.pk-sub{text-align:center;font-size:.72rem;color:var(--td);margin-bottom:1.2rem;}
+.pk-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.4rem 1.2rem;text-align:center;margin-bottom:1.3rem;}
+.pk-prompt{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:800;color:var(--tx);}
+.pk-prompt .bk{color:var(--catc);}
+.pk-instr{text-align:center;font-size:.82rem;color:var(--tm);margin-bottom:1rem;}
+.pk-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-bottom:1rem;}
+.pk-opt{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;text-transform:uppercase;padding:.75rem .3rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .15s;}
+.pk-opt:hover{border-color:var(--bdh);}
+.pk-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.12);color:var(--gn);}
+.pk-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.12);color:var(--rd);}
+.pk-opt:disabled{cursor:default;}
+.pk-feedback{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:1rem;min-height:1.3rem;}
+.pk-feedback.ok{color:var(--gn);}
+.pk-feedback.bad{color:var(--rd);}
+.pk-next-row{text-align:center;}
+.pk-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--catc);color:#080c14;cursor:pointer;}
+.pk-next-btn:hover{filter:brightness(1.1);}
+.pk-next-btn:disabled{opacity:.4;cursor:default;}
+.wrong-sentence{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--rd);text-decoration:line-through;text-decoration-color:rgba(248,113,113,.6);margin-bottom:.4rem;}
+.right-sentence{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--gn);opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.right-sentence.show{opacity:1;max-height:100px;margin-top:.6rem;}
+
+/* MODO 4 — FLASHCARD */
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1rem;}
+.flash-front{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--catc);margin-bottom:.5rem;}
+.flash-hint{font-size:.72rem;color:var(--td);}
+.flash-back{display:none;margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--bd);width:100%;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-pt{font-size:1.05rem;color:var(--tx);font-weight:600;margin-bottom:.6rem;}
+.flash-errs{font-size:.78rem;color:var(--rd);}
+.flash-nav{display:flex;gap:.6rem;margin-top:1rem;}
+
+/* SIDEBAR */
+.sidebar{width:230px;flex-shrink:0;position:sticky;top:280px;}
+.sb-card{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;padding:1rem 1rem 1.2rem;}
+.sb-title{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--am);margin-bottom:.15rem;}
+.sb-sub{font-size:.68rem;color:var(--td);margin-bottom:.8rem;}
+.sb-item{border-radius:.5rem;padding:.5rem .55rem;margin-bottom:.35rem;cursor:pointer;transition:background .15s;}
+.sb-item:hover{background:rgba(255,255,255,.04);}
+.sb-item.inert{cursor:default;opacity:.6;}
+.sb-item.inert:hover{background:none;}
+.sb-wrong{font-size:.72rem;color:var(--rd);}
+.sb-arrow{color:var(--td);font-size:.65rem;margin:0 .25rem;}
+.sb-right{font-size:.72rem;color:var(--gn);font-weight:700;}
+.sb-dica{font-size:.62rem;color:var(--td);margin-top:.15rem;}
+
+/* QUIZ */
+.quiz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s7);}
+.timer-toggle{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;}
+.timer-toggle.on{border-color:var(--am);color:var(--am);background:rgba(245,197,24,.08);}
+.timer-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:1rem;display:none;}
+.timer-track.show{display:block;}
+.timer-fill{height:100%;background:var(--am);border-radius:2px;width:100%;}
+.quiz-qn{text-align:center;font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;}
+.quiz-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;text-align:center;line-height:1.5;color:var(--tx);}
+.quiz-prompt-box .bk{color:var(--s7);}
+.quiz-options{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.1rem;justify-content:center;}
+.quiz-opt{font-family:'Space Grotesk',sans-serif;text-transform:uppercase;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem 1.3rem;font-size:.85rem;font-weight:700;color:var(--tx);cursor:pointer;transition:all .15s;}
+.quiz-opt:hover{border-color:var(--bdh);}
+.quiz-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.quiz-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-explain{text-align:center;font-size:.8rem;color:var(--tm);background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .9rem;margin-bottom:1rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.quiz-explain.show{opacity:1;max-height:200px;}
+.quiz-next-row{text-align:center;}
+.quiz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s7);color:#080c14;cursor:pointer;}
+.quiz-next-btn:hover{filter:brightness(1.1);}
+.quiz-next-btn:disabled{opacity:.4;cursor:default;}
+.quiz-result{text-align:center;padding:2rem 1rem;}
+.quiz-result-score{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--s7);margin-bottom:.5rem;}
+.quiz-result-label{font-size:.85rem;color:var(--tm);margin-bottom:1.5rem;}
+.quiz-review{text-align:left;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem;}
+.qrev-item{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.6rem .8rem;font-size:.78rem;}
+.qrev-item.miss{border-color:rgba(248,113,113,.3);}
+.qrev-q{color:var(--tm);margin-bottom:.25rem;}
+.qrev-a{color:var(--gn);font-weight:700;}
+.quiz-restart-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.quiz-restart-btn:hover{border-color:var(--bdh);}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .wrap{padding-top:300px;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:340px;}
+  .topbar{top:96px;}
+  .cat-strip{grid-template-columns:repeat(2,1fr);}
+  .pk-opts{grid-template-columns:repeat(2,1fr);}
+  .quiz-options{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../index.html" class="gnav-btn gnav-s7 active">🔗 S7</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 7</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🔗 Colocações Naturais</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">🔗 Colocações Naturais</div>
+  <h1 class="hero-title">Gramática diz se você está <span class="em">CORRETO</span>.<br>Colocações dizem se você soa <span class="em">NATURAL</span>.</h1>
+  <div class="hero-tags">
+    <span class="hero-tag" style="color:var(--mk);border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.08)">make</span>
+    <span class="hero-tag" style="color:var(--dv);border-color:rgba(95,216,122,.4);background:rgba(95,216,122,.08)">do</span>
+    <span class="hero-tag" style="color:var(--hv);border-color:rgba(245,197,24,.4);background:rgba(245,197,24,.08)">have</span>
+    <span class="hero-tag" style="color:var(--gt);border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.08)">get</span>
+    <span class="hero-tag" style="color:var(--gt);border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.08)">take</span>
+  </div>
+  <div class="hero-examples">
+    <div class="hero-ex-row">❌ <span class="wr">do a decision</span><span class="ar">→</span>✅ <span class="ok">make a decision</span></div>
+    <div class="hero-ex-row">❌ <span class="wr">make research</span><span class="ar">→</span>✅ <span class="ok">do research</span></div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-strip" id="catStrip"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row">
+      <div class="ctrl-group" id="modeGroup">
+        <button class="ctrl-btn on" data-mode="completo" onclick="setMode('completo')">Estudo Completo</button>
+        <button class="ctrl-btn" data-mode="qualverbo" onclick="setMode('qualverbo')">Qual Verbo?</button>
+        <button class="ctrl-btn" data-mode="errado" onclick="setMode('errado')">Errado vs Certo</button>
+        <button class="ctrl-btn" data-mode="flash" onclick="setMode('flash')">Flash Cards</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">🎯 Quiz Final</button>
+      </div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0/100 aprendidas</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="main-col">
+
+    <!-- MODO 1 — ESTUDO COMPLETO -->
+    <div class="panel" id="panelCompleto"></div>
+
+    <!-- MODO 2 — QUAL VERBO? -->
+    <div class="panel hidden" id="panelQualVerbo"></div>
+
+    <!-- MODO 3 — ERRADO VS CERTO -->
+    <div class="panel hidden" id="panelErrado"></div>
+
+    <!-- MODO 4 — FLASH CARDS -->
+    <div class="panel hidden" id="panelFlash"></div>
+
+    <!-- QUIZ FINAL -->
+    <div class="panel hidden" id="panelQuiz"></div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-card">
+      <div class="sb-title">⚠ Top 10 Erros</div>
+      <div class="sb-sub">Clique para estudar</div>
+      <div id="sbList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA: 100 COLOCAÇÕES ──────────────────────────────────────────────────────
+const DATA = [
+{id:1,v:'make',cat:'make',phrase:'MAKE A DECISION',rest:'a decision',pt:'tomar uma decisão',w:['do a decision','take a decision'],ex:"I have been thinking about it for a week now and I really need to make a decision before the opportunity disappears.",expt:'Já faz uma semana que penso nisso e realmente preciso tomar uma decisão antes que a oportunidade desapareça.',pr:['I need to make a decision by Friday.',"Let's make a decision together.",'She finally made a decision after months of hesitation.']},
+{id:2,v:'make',cat:'make',phrase:'MAKE A MISTAKE',rest:'a mistake',pt:'cometer um erro',w:['do a mistake','have a mistake'],ex:"Everyone makes mistakes at some point. What really matters is what you learn from them and what you do next.",expt:'Todo mundo comete erros em algum momento. O que realmente importa é o que você aprende com eles e o que faz em seguida.',pr:['I made a terrible mistake.',"Don't be afraid to make mistakes.",'We all make mistakes when learning something new.']},
+{id:3,v:'make',cat:'make',phrase:'MAKE PROGRESS',rest:'progress',pt:'fazer progresso / avançar',w:['do progress','have progress'],ex:"We are making real and significant progress on the project and I am confident we will finish well ahead of schedule.",expt:'Estamos fazendo progresso real e significativo no projeto e estou confiante de que terminaremos bem antes do prazo.',pr:["You're making great progress!",'We need to make faster progress.',"She's been making steady progress in English."]},
+{id:4,v:'make',cat:'make',phrase:'MAKE AN EFFORT',rest:'an effort',pt:'fazer um esforço',w:['do an effort','give an effort'],ex:"She made a genuine effort to make every single guest feel welcome and comfortable at the event.",expt:'Ela fez um esforço genuíno para que cada convidado se sentisse bem-vindo e confortável no evento.',pr:['Please make an effort to arrive on time.','He made no effort to help.','You need to make more of an effort.']},
+{id:5,v:'make',cat:'make',phrase:'MAKE A SUGGESTION',rest:'a suggestion',pt:'fazer uma sugestão',w:['give a suggestion','do a suggestion'],ex:"Can I make a suggestion before we finalize the plan? I think we should approach this from a completely different angle.",expt:'Posso fazer uma sugestão antes de finalizarmos o plano? Acho que deveríamos abordar isso de um ângulo completamente diferente.',pr:['May I make a suggestion?','He made a helpful suggestion.','She made several suggestions for improvement.']},
+{id:6,v:'make',cat:'make',phrase:'MAKE A DIFFERENCE',rest:'a difference',pt:'fazer diferença',w:['do a difference','create a difference'],ex:"Even the smallest acts of kindness can make a real and lasting difference to someone's day.",expt:'Até os menores atos de gentileza podem fazer uma diferença real e duradoura no dia de alguém.',pr:['You really made a difference.','Small things can make a big difference.','Does it make any difference to you?']},
+{id:7,v:'make',cat:'make',phrase:'MAKE AN APPOINTMENT',rest:'an appointment',pt:'marcar uma consulta / agendar',w:['do an appointment','take an appointment'],ex:"I really need to make an appointment with my doctor before the end of the month. I have been putting it off too long.",expt:'Realmente preciso marcar uma consulta com meu médico antes do fim do mês. Já faz tempo que estou adiando.',pr:['I made an appointment for Tuesday.','Can I make an appointment for next week?','She forgot to make the appointment.']},
+{id:8,v:'make',cat:'make',phrase:'MAKE A COMPLAINT',rest:'a complaint',pt:'fazer uma reclamação',w:['do a complaint','give a complaint'],ex:"After waiting 3 weeks with no response, he finally decided to make an official complaint to the company.",expt:'Depois de esperar 3 semanas sem resposta, ele finalmente decidiu fazer uma reclamação oficial à empresa.',pr:['I need to make a complaint.','He made a formal complaint.','You have every right to make a complaint.']},
+{id:9,v:'make',cat:'make',phrase:'MAKE A PHONE CALL',rest:'a phone call',pt:'fazer uma ligação',w:['do a phone call','have a phone call'],ex:"I just need to make one quick phone call and then I am completely free for the rest of the afternoon.",expt:'Só preciso fazer uma ligação rápida e depois estou completamente livre pelo resto da tarde.',pr:['I need to make an important call.','She made several phone calls this morning.','Can I make a quick call?']},
+{id:10,v:'make',cat:'make',phrase:'MAKE A PLAN',rest:'a plan',pt:'fazer um plano',w:['do a plan','create a plan'],ex:"Before we start spending any money, we need to sit down and make a proper detailed plan together.",expt:'Antes de começarmos a gastar dinheiro, precisamos sentar e fazer um plano detalhado juntos.',pr:['Let\'s make a plan for the weekend.','We need to make a plan B.','Have you made any plans yet?']},
+{id:11,v:'make',cat:'make',phrase:'MAKE AN EXCEPTION',rest:'an exception',pt:'fazer uma exceção',w:['do an exception','give an exception'],ex:"The rules are there for a reason, but I am willing to make an exception in your particular case.",expt:'As regras existem por um motivo, mas estou disposto a fazer uma exceção no seu caso específico.',pr:['Could you make an exception this time?',"We don't usually do this, but we'll make an exception.",'She made an exception for him.']},
+{id:12,v:'make',cat:'make',phrase:'MAKE A PROMISE',rest:'a promise',pt:'fazer uma promessa',w:['do a promise','give a promise'],ex:"I made a promise to her a long time ago and I fully intend to keep it no matter what happens.",expt:'Fiz uma promessa a ela há muito tempo e tenho total intenção de cumpri-la não importa o que aconteça.',pr:["I made a promise and I'll keep it.","Don't make promises you can't keep.",'She made a promise to call every week.']},
+{id:13,v:'make',cat:'make',phrase:'MAKE AN IMPRESSION',rest:'an impression',pt:'causar uma impressão',w:['do an impression','give an impression'],ex:"She made an absolutely outstanding impression at the interview and was offered the job the very same day.",expt:'Ela causou uma impressão absolutamente excepcional na entrevista e recebeu a oferta de emprego no mesmo dia.',pr:['He made a great first impression.','I want to make a good impression.','She made a lasting impression on everyone.']},
+{id:14,v:'make',cat:'make',phrase:'MAKE A NOISE',rest:'a noise',pt:'fazer barulho',w:['do noise','produce noise'],ex:"Could you please try not to make too much noise this evening? The baby has just gone to sleep.",expt:'Você poderia tentar não fazer muito barulho esta noite? O bebê acabou de dormir.',pr:["Please don't make noise.",'The machine is making a strange noise.','They were making too much noise.']},
+{id:15,v:'make',cat:'make',phrase:'MAKE A PROFIT',rest:'a profit',pt:'ter lucro / dar lucro',w:['do a profit','win a profit'],ex:"After two difficult years, the company finally started to make a consistent profit last quarter.",expt:'Após dois anos difíceis, a empresa finalmente começou a ter lucro consistente no último trimestre.',pr:['The business is finally making a profit.','We need to make a profit by year end.','She made a small profit on the sale.']},
+{id:16,v:'make',cat:'make',phrase:'MAKE A LOSS',rest:'a loss',pt:'ter prejuízo',w:['do a loss','have a loss'],ex:"The restaurant made a significant loss for the first 18 months before things finally started to improve.",expt:'O restaurante teve um prejuízo significativo nos primeiros 18 meses antes de as coisas finalmente começarem a melhorar.',pr:[]},
+{id:17,v:'make',cat:'make',phrase:'MAKE A SPEECH',rest:'a speech',pt:'fazer um discurso',w:['do a speech'],note:'Tanto "make" quanto "give a speech" são usados — ambos corretos.',ex:"He made an incredibly moving and heartfelt speech at his daughter's wedding that brought everyone to tears.",expt:'Ele fez um discurso incrivelmente emocionante e sincero no casamento da filha que fez todos chorarem.',pr:[]},
+{id:18,v:'make',cat:'make',phrase:'MAKE A MESS',rest:'a mess',pt:'fazer bagunça',w:['do a mess','create a mess'],ex:"The children made an absolute mess of the entire kitchen while trying to make their mother's birthday cake.",expt:'As crianças fizeram uma bagunça absoluta em toda a cozinha enquanto tentavam fazer o bolo de aniversário da mãe.',pr:["Don't make a mess!",'He made a mess of the whole project.','Sorry, I made a mess.']},
+{id:19,v:'make',cat:'make',phrase:'MAKE A CHOICE',rest:'a choice',pt:'fazer uma escolha',w:['do a choice','take a choice'],ex:"You have all the information you need in front of you now. It is finally time to make a choice.",expt:'Você tem todas as informações de que precisa agora. Finalmente é hora de fazer uma escolha.',pr:[]},
+{id:20,v:'make',cat:'make',phrase:'MAKE FRIENDS',rest:'friends',pt:'fazer amigos',w:['do friends','create friends'],ex:"She has always found it remarkably easy to make friends wherever she goes because of her warm and open personality.",expt:'Ela sempre achou notavelmente fácil fazer amigos onde quer que vá por causa de sua personalidade calorosa e aberta.',pr:["It's easy to make friends here.","He made friends quickly at his new school.",'Have you made any friends yet?']},
+{id:21,v:'make',cat:'make',phrase:'MAKE MONEY',rest:'money',pt:'ganhar dinheiro',w:['win money'],note:'make money = ganhar trabalhando · win money = ganhar em prêmio/sorte · earn money = ganhar salário.',ex:"He started the business primarily to make money, but it quickly became something far more meaningful to him.",expt:'Ele começou o negócio principalmente para ganhar dinheiro, mas rapidamente se tornou algo muito mais significativo.',pr:[]},
+{id:22,v:'make',cat:'make',phrase:'MAKE SENSE',rest:'sense',pt:'fazer sentido',w:['do sense','have sense'],ex:"Your explanation makes complete and perfect sense to me now. I understand the whole situation much better.",expt:'Sua explicação faz todo sentido para mim agora. Entendo muito melhor toda a situação.',pr:['That makes sense.','Does this make sense?',"It doesn't make sense to me."]},
+{id:23,v:'make',cat:'make',phrase:'MAKE SURE',rest:'sure',pt:'certificar-se de / garantir que',w:['do sure','be sure'],ex:"Please make absolutely sure that all the doors and windows are securely locked before you leave for the night.",expt:'Por favor, certifique-se de que todas as portas e janelas estão bem fechadas antes de sair à noite.',pr:['Make sure you call me.',"I'll make sure it's done.",'Make sure to bring your ID.']},
+{id:24,v:'make',cat:'make',phrase:'MAKE AN ANNOUNCEMENT',rest:'an announcement',pt:'fazer um anúncio',w:['do an announcement','give an announcement'],ex:"The company made a formal announcement about the planned merger at 9:00 this morning.",expt:'A empresa fez um anúncio formal sobre a fusão planejada às 9h desta manhã.',pr:[]},
+{id:25,v:'make',cat:'make',phrase:'MAKE AN ATTEMPT',rest:'an attempt',pt:'fazer uma tentativa',w:['do an attempt','have an attempt'],ex:"She made a genuine and determined attempt to resolve the situation peacefully before it escalated any further.",expt:'Ela fez uma tentativa genuína e determinada de resolver a situação pacificamente antes que escalasse ainda mais.',pr:[]},
+
+{id:26,v:'do',cat:'do',phrase:'DO YOUR BEST',rest:'your best',pt:'fazer o seu melhor',w:['make your best','give your best'],ex:"All I ever ask of you is that you do your absolute best. The result will take care of itself if you do.",expt:'Tudo que peço é que você faça o seu melhor absoluto. O resultado cuidará de si mesmo se você fizer.',pr:['Just do your best.','She always does her best.',"I did my best but it wasn't enough."]},
+{id:27,v:'do',cat:'do',phrase:'DO SOMEONE A FAVOR',rest:'someone a favor',pt:'fazer um favor para alguém',w:['make someone a favor','give someone a favor'],ex:"Could you possibly do me a huge favor and keep an eye on my bag while I go to get some water?",expt:'Você poderia me fazer um enorme favor e cuidar da minha bolsa enquanto vou pegar água?',pr:['Can you do me a favor?',"I'll do you a favor.",'Could you do me a small favor?']},
+{id:28,v:'do',cat:'do',phrase:'DO RESEARCH',rest:'research',pt:'fazer pesquisa',w:['make research','have research'],ex:"She spent nearly 3 months doing extensive research before she wrote a single word of the report.",expt:'Ela passou quase 3 meses fazendo pesquisa extensiva antes de escrever uma única palavra do relatório.',pr:['I need to do more research.','He spent years doing research.','Have you done any research on this?']},
+{id:29,v:'do',cat:'do',phrase:'DO AN EXERCISE',rest:'an exercise',pt:'fazer um exercício',w:['make an exercise','practice an exercise'],ex:"The physiotherapist told me to do this specific exercise three times every day to help with the pain in my back.",expt:'O fisioterapeuta me disse para fazer este exercício específico três vezes por dia para ajudar com a dor nas costas.',pr:['Do the exercises on page 10.','I do exercises every morning.','Did you do all the exercises?']},
+{id:30,v:'do',cat:'do',phrase:'DO BUSINESS',rest:'business',pt:'fazer negócios',w:['make business','have business'],ex:"It has been an absolute pleasure doing business with your company over the past 5 years.",expt:'Foi um prazer absoluto fazer negócios com sua empresa nos últimos 5 anos.',pr:['We do business in 30 countries.',"It's a pleasure doing business with you.",'They do a lot of business online.']},
+{id:31,v:'do',cat:'do',phrase:'DO DAMAGE',rest:'damage',pt:'causar dano / estragar',w:['make damage','create damage'],ex:"The storm did enormous damage to several buildings along the coastline during the night.",expt:'A tempestade causou enorme dano a vários edifícios ao longo da costa durante a noite.',pr:['The accident did a lot of damage.',"Don't do any damage.",'The fire did serious damage.']},
+{id:32,v:'do',cat:'do',phrase:'DO YOUR HOMEWORK',rest:'your homework',pt:'fazer o dever de casa / se preparar bem',w:['make your homework','prepare your homework'],ex:"He had clearly done his homework thoroughly before the meeting. He knew every single detail and statistic.",expt:'Ele claramente tinha feito sua lição de casa antes da reunião. Sabia cada detalhe e estatística.',pr:['Did you do your homework?','I always do my homework before investing.','She did her homework before the interview.']},
+{id:33,v:'do',cat:'do',phrase:'DO A COURSE',rest:'a course',pt:'fazer um curso',w:['make a course'],note:'Tanto "do" quanto "take a course" são usados — ambos corretos.',ex:"She decided to do a course in project management to significantly improve her career prospects.",expt:'Ela decidiu fazer um curso de gerenciamento de projetos para melhorar significativamente suas perspectivas de carreira.',pr:[]},
+{id:34,v:'do',cat:'do',phrase:'DO HARM',rest:'harm',pt:'causar dano / fazer mal',w:['make harm','create harm'],note:'Expressão completa: "do more harm than good" = fazer mais mal do que bem.',ex:"If the new policy is not implemented very carefully, it will do far more harm than good.",expt:'Se a nova política não for implementada com muito cuidado, causará muito mais mal do que bem.',pr:[]},
+{id:35,v:'do',cat:'do',phrase:'DO GOOD',rest:'good',pt:'fazer bem / ajudar',w:['make good','create good'],ex:"Volunteering regularly can do a great deal of good both for the people you help and for your own well-being.",expt:'Voluntariar-se regularmente pode fazer muito bem tanto para as pessoas que você ajuda quanto para seu próprio bem-estar.',pr:[]},
+{id:36,v:'do',cat:'do',phrase:'DO THE SHOPPING',rest:'the shopping',pt:'fazer compras (supermercado)',w:['make the shopping'],note:'do the shopping = fazer as compras (tarefa) · go shopping = ir às compras (lazer).',ex:"I always try to do the shopping on Saturday morning before the supermarket becomes too crowded to navigate.",expt:'Sempre tento fazer as compras sábado de manhã antes de o supermercado ficar lotado demais.',pr:[]},
+{id:37,v:'do',cat:'do',phrase:'DO THE COOKING',rest:'the cooking',pt:'fazer a comida / cozinhar',w:['make the cooking','prepare the cooking'],ex:"In their house, he does all the cooking during the week and she takes complete charge at the weekends.",expt:'Na casa deles, ele faz toda a comida durante a semana e ela assume total responsabilidade nos fins de semana.',pr:[]},
+{id:38,v:'do',cat:'do',phrase:'DO THE WASHING UP',rest:'the washing up',pt:'lavar a louça',w:['make the washing up'],ex:"I will do the washing up this evening if you promise to clear the table and put everything away.",expt:'Vou lavar a louça esta noite se você prometer arrumar a mesa e guardar tudo.',pr:[]},
+{id:39,v:'do',cat:'do',phrase:'DO YOUR HAIR',rest:'your hair',pt:'arrumar o cabelo / fazer o cabelo',w:['make your hair'],ex:"She spent nearly 20 minutes carefully doing her hair before the interview to make sure she looked her best.",expt:'Ela passou quase 20 minutos arrumando cuidadosamente o cabelo antes da entrevista para garantir que estava ótima.',pr:['I need to do my hair.',"She's doing her hair.",'Have you done your hair yet?']},
+{id:40,v:'do',cat:'do',phrase:'DO A TEST',rest:'a test',pt:'fazer um teste / realizar uma prova',w:['make a test'],ex:"All new employees are required to do a comprehensive skills test during their first week of training.",expt:'Todos os novos funcionários devem fazer um teste abrangente de habilidades na primeira semana de treinamento.',pr:[]},
+{id:41,v:'do',cat:'do',phrase:'DO WELL',rest:'well',pt:'ir bem / se sair bem',w:['make well'],ex:"She did exceptionally well in the exam given how little time she had to prepare for it.",expt:'Ela foi excepcionalmente bem na prova dado o pouco tempo que teve para se preparar.',pr:['You did well!','How did you do?','She always does well under pressure.']},
+{id:42,v:'do',cat:'do',phrase:'DO BADLY',rest:'badly',pt:'ir mal / se sair mal',w:['make badly'],ex:"He did quite badly in his first few presentations but improved dramatically and consistently with practice.",expt:'Ele foi bastante mal em suas primeiras apresentações, mas melhorou dramática e consistentemente com a prática.',pr:[]},
+{id:43,v:'do',cat:'do',phrase:'DO JUSTICE TO',rest:'justice to',pt:'fazer jus a / representar adequadamente',w:['make justice to','give justice to'],ex:"No photograph or description could ever truly do justice to just how beautiful that landscape actually was in person.",expt:'Nenhuma fotografia ou descrição poderia jamais fazer jus à beleza daquela paisagem pessoalmente.',pr:[]},
+{id:44,v:'do',cat:'do',phrase:'DO WITHOUT',rest:'without',pt:'se virar sem / dispensar',w:['make without','be without'],ex:"We are going to have to do without the extra budget this quarter. It simply is not available to us.",expt:'Vamos ter que nos virar sem o orçamento extra neste trimestre. Simplesmente não está disponível.',pr:[]},
+{id:45,v:'do',cat:'do',phrase:'DO WONDERS',rest:'wonders',pt:'fazer maravilhas / funcionar muito bem',w:['make wonders','create wonders'],ex:"A good full night of proper sleep really does wonders for your mood and your ability to think clearly.",expt:'Uma boa noite completa de sono realmente faz maravilhas para seu humor e sua capacidade de pensar claramente.',pr:[]},
+{id:46,v:'do',cat:'do',phrase:'DO A DEAL',rest:'a deal',pt:'fechar um acordo / fazer um negócio',w:[],note:'Tanto "do a deal" quanto "make a deal" são usados.',ex:"After three long weeks of careful negotiation, they finally managed to do a deal that satisfied both sides.",expt:'Após três longas semanas de negociação cuidadosa, eles finalmente conseguiram fechar um acordo que satisfez ambos os lados.',pr:[]},
+{id:47,v:'do',cat:'do',phrase:'DO TIME',rest:'time',pt:'cumprir pena / ficar preso',w:[],note:'Uso informal: passar tempo na prisão como punição.',ex:"He did time for a crime he committed when he was very young, but his life looks completely different now.",expt:'Ele cumpriu pena por um crime que cometeu quando era muito jovem, mas sua vida parece completamente diferente agora.',pr:[]},
+{id:48,v:'do',cat:'do',phrase:'DO THE RIGHT THING',rest:'the right thing',pt:'fazer a coisa certa',w:['make the right thing','give the right thing'],ex:"He knew it would not be easy, but he did the right thing and told everyone the full truth.",expt:'Ele sabia que não seria fácil, mas fez a coisa certa e disse a todos a verdade completa.',pr:[]},
+{id:49,v:'do',cat:'do',phrase:'DO YOUR DUTY',rest:'your duty',pt:'cumprir seu dever',w:['make your duty','have your duty'],ex:"She felt very strongly that it was important to do her civic duty and vote in every single election.",expt:'Ela sentia fortemente que era importante cumprir seu dever cívico e votar em todas as eleições.',pr:[]},
+{id:50,v:'do',cat:'do',phrase:'DO A GOOD JOB',rest:'a good job',pt:'fazer um bom trabalho',w:['make a good job','have a good job'],ex:"The entire team did a truly fantastic job under some extremely difficult and challenging circumstances.",expt:'Toda a equipe fez um trabalho verdadeiramente fantástico em circunstâncias extremamente difíceis e desafiadoras.',pr:['You did a great job!','She did an excellent job.','Well done — you did a good job.']},
+
+{id:51,v:'have',cat:'have',phrase:'HAVE A CONVERSATION',rest:'a conversation',pt:'ter uma conversa',w:['make a conversation','do a conversation'],ex:"We really do need to have a proper and honest conversation about all of this before things get any more complicated.",expt:'Realmente precisamos ter uma conversa adequada e honesta sobre tudo isso antes que as coisas fiquem mais complicadas.',pr:["Let's have a conversation about this.",'We had a long conversation.','I need to have a conversation with my boss.']},
+{id:52,v:'have',cat:'have',phrase:'HAVE A BATH',rest:'a bath',pt:'tomar banho (de banheira)',w:['make a bath'],note:'🇬🇧 Britânico: "have a bath" · 🇺🇸 Americano: "take a bath".',ex:"After such an exhausting and stressful day, all I want in the world is to have a long hot bath and go straight to bed.",expt:'Depois de um dia tão exaustivo e estressante, tudo que quero é tomar um banho de banheira longo e quente e ir direto para a cama.',pr:[]},
+{id:53,v:'have',cat:'have',phrase:'HAVE A SHOWER',rest:'a shower',pt:'tomar banho (de chuveiro)',w:['make a shower'],note:'🇬🇧 Britânico: "have a shower" · 🇺🇸 Americano: "take a shower".',ex:"I always have a cold shower first thing in the morning. It wakes me up far better than any cup of coffee.",expt:'Sempre tomo um banho frio logo de manhã. Me acorda muito melhor do que qualquer xícara de café.',pr:[]},
+{id:54,v:'have',cat:'have',phrase:'HAVE A MEAL',rest:'a meal',pt:'fazer uma refeição / comer',w:['make a meal'],note:'have a meal = comer uma refeição · make a meal = cozinhar uma refeição.',ex:"We really should have a proper meal together soon. It has been far too long since we last caught up in person.",expt:'Realmente deveríamos fazer uma refeição adequada juntos em breve. Já faz tempo demais desde que nos vimos pessoalmente.',pr:[]},
+{id:55,v:'have',cat:'have',phrase:'HAVE A BREAK',rest:'a break',pt:'fazer uma pausa / descansar',w:['make a break','do a break'],ex:"You have been working solidly for over 3 hours now. You really should have a proper break.",expt:'Você trabalha solidamente há mais de 3 horas. Realmente deveria fazer uma pausa adequada.',pr:[]},
+{id:56,v:'have',cat:'have',phrase:'HAVE A REST',rest:'a rest',pt:'descansar',w:['make a rest','do a rest'],ex:"The doctor strongly advised her to have a proper rest for at least two full days before returning to work.",expt:'O médico aconselhou fortemente que ela descansasse adequadamente por pelo menos dois dias completos antes de voltar ao trabalho.',pr:[]},
+{id:57,v:'have',cat:'have',phrase:'HAVE A LOOK',rest:'a look',pt:'dar uma olhada',w:['make a look','do a look'],ex:"Could you please have a look at this document before I send it? I really value your opinion on it.",expt:'Você poderia dar uma olhada neste documento antes de eu enviá-lo? Realmente valorizo sua opinião sobre ele.',pr:['Have a look at this.','Let me have a look.','Can you have a look at my work?']},
+{id:58,v:'have',cat:'have',phrase:'HAVE A THINK',rest:'a think',pt:'pensar / refletir',w:['make a think','do a think'],ex:"I need to have a proper think about it before I am in a position to give you a final answer.",expt:'Preciso pensar adequadamente sobre isso antes de estar em posição de dar uma resposta final.',pr:[]},
+{id:59,v:'have',cat:'have',phrase:'HAVE A GO',rest:'a go',pt:'tentar / dar uma chance',w:['make a go','do a go'],ex:"I have never tried anything like this before, but I am absolutely willing to have a go and see what happens.",expt:'Nunca tentei nada assim antes, mas estou absolutamente disposto a tentar e ver o que acontece.',pr:["Why don't you have a go?",'Let me have a go.','She had a go at painting.']},
+{id:60,v:'have',cat:'have',phrase:'HAVE A PARTY',rest:'a party',pt:'dar uma festa / fazer uma festa',w:[],ex:"They are having a wonderful party next Saturday evening to celebrate their 10th wedding anniversary.",expt:'Eles vão dar uma festa maravilhosa no próximo sábado à noite para celebrar seu 10º aniversário de casamento.',pr:[]},
+{id:61,v:'have',cat:'have',phrase:'HAVE A MEETING',rest:'a meeting',pt:'ter uma reunião',w:[],ex:"We are having an important team meeting on Thursday morning to review the overall progress of the project.",expt:'Teremos uma importante reunião de equipe quinta de manhã para revisar o progresso geral do projeto.',pr:['I have a meeting at 3pm.',"We're having a meeting tomorrow.","She's in a meeting right now."]},
+{id:62,v:'have',cat:'have',phrase:'HAVE A DREAM',rest:'a dream',pt:'ter um sonho / sonhar',w:[],ex:"She has had a dream of opening her very own restaurant ever since she was a teenager.",expt:'Ela tem o sonho de abrir seu próprio restaurante desde que era adolescente.',pr:[]},
+{id:63,v:'have',cat:'have',phrase:'HAVE A FEELING',rest:'a feeling',pt:'ter uma sensação / intuir',w:['make a feeling','sense a feeling'],ex:"I have a very strong feeling that tomorrow is going to turn out to be an extremely important day.",expt:'Tenho uma sensação muito forte de que amanhã vai ser um dia extremamente importante.',pr:["I have a feeling something's wrong.","I have a feeling we'll be late.",'She had a funny feeling about it.']},
+{id:64,v:'have',cat:'have',phrase:'HAVE A WORD',rest:'a word',pt:'ter uma palavra / conversar brevemente',w:[],ex:"Could I possibly have a quick word with you after the meeting? There is something important I need to discuss.",expt:'Poderia ter uma palavra rápida com você após a reunião? Há algo importante que preciso discutir.',pr:['Can I have a word?','The boss wants to have a word with you.','Could we have a word privately?']},
+{id:65,v:'have',cat:'have',phrase:'HAVE AN ARGUMENT',rest:'an argument',pt:'ter uma discussão / brigar',w:['make an argument','do an argument'],ex:"They had a terrible argument last night over something that seems quite trivial looking back at it now.",expt:'Eles tiveram uma discussão terrível ontem à noite por algo que parece bastante trivial agora.',pr:['We had an argument.','They had a big argument.',"I don't want to have another argument."]},
+{id:66,v:'have',cat:'have',phrase:'HAVE AN OPINION',rest:'an opinion',pt:'ter uma opinião',w:[],ex:"Absolutely everyone in the room had a very strong opinion about the best way to move the project forward.",expt:'Absolutamente todos na sala tinham uma opinião muito forte sobre a melhor forma de avançar o projeto.',pr:[]},
+{id:67,v:'have',cat:'have',phrase:'HAVE AN IDEA',rest:'an idea',pt:'ter uma ideia',w:[],ex:"I have an idea that I think might actually solve the problem we have been stuck on. Can I share it?",expt:'Tenho uma ideia que acho que pode realmente resolver o problema em que estamos travados. Posso compartilhar?',pr:['I have an idea!','She had a brilliant idea.','Do you have any ideas?']},
+{id:68,v:'have',cat:'have',phrase:'HAVE AN EFFECT',rest:'an effect',pt:'ter um efeito / causar impacto',w:['make an effect','do an effect'],ex:"The unexpected changes had a significant and lasting effect on staff morale throughout the entire organization.",expt:'As mudanças inesperadas tiveram um efeito significativo e duradouro no moral da equipe em toda a organização.',pr:[]},
+{id:69,v:'have',cat:'have',phrase:'HAVE AN OPERATION',rest:'an operation',pt:'fazer uma operação / ser operado',w:['do an operation','make an operation'],ex:"He had to have a serious operation on his knee after the injury he sustained during training.",expt:'Ele teve que fazer uma operação séria no joelho após a lesão que sofreu durante o treinamento.',pr:[]},
+{id:70,v:'have',cat:'have',phrase:'HAVE EXPERIENCE',rest:'experience',pt:'ter experiência',w:[],ex:"She has extensive and varied experience working in high pressure international environments.",expt:'Ela tem experiência extensa e variada trabalhando em ambientes internacionais de alta pressão.',pr:[]},
+{id:71,v:'have',cat:'have',phrase:'HAVE FUN',rest:'fun',pt:'se divertir',w:[],note:'have fun = se divertir ✅ · make fun of someone = zombar de alguém ❌ (cuidado, sentidos diferentes!).',ex:"The most important thing today is that the children have lots of fun and feel completely safe and happy.",expt:'O mais importante hoje é que as crianças se divirtam muito e se sintam completamente seguras e felizes.',pr:[]},
+{id:72,v:'have',cat:'have',phrase:'HAVE TROUBLE',rest:'trouble',pt:'ter dificuldade',w:['do trouble'],note:'have trouble = ter dificuldade · make trouble = causar problemas (sentido diferente).',ex:"I am having real trouble understanding exactly what went wrong at the very beginning of the whole process.",expt:'Estou tendo dificuldade real em entender exatamente o que deu errado no começo de todo o processo.',pr:["I'm having trouble sleeping.","She's having trouble with the homework.",'Are you having any trouble?']},
+{id:73,v:'have',cat:'have',phrase:'HAVE A CHANCE',rest:'a chance',pt:'ter uma chance / oportunidade',w:[],ex:"I finally had a chance to read the book you recommended last month and you were absolutely right about it.",expt:'Finalmente tive a chance de ler o livro que você recomendou no mês passado e você estava absolutamente certo sobre ele.',pr:['Did you have a chance to review it?','I finally had a chance to visit.','Have you had a chance to think about it?']},
+{id:74,v:'have',cat:'have',phrase:'HAVE A GOOD TIME',rest:'a good time',pt:'se divertir / aproveitar bem',w:[],ex:"I genuinely hope you all have a really wonderful and enjoyable time at the conference this week.",expt:'Genuinamente espero que todos vocês tenham um tempo realmente maravilhoso e agradável na conferência esta semana.',pr:['Did you have a good time?','Have a great time!','We had a wonderful time.']},
+{id:75,v:'have',cat:'have',phrase:'HAVE SECOND THOUGHTS',rest:'second thoughts',pt:'ter segundas intenções / reconsiderar',w:[],ex:"I signed the contract last week, but I have been having serious second thoughts about whether it was truly the right decision.",expt:'Assinei o contrato na semana passada, mas tenho tido sérias segundas intenções sobre se foi realmente a decisão certa.',pr:[]},
+
+{id:76,v:'get',cat:'gettake',phrase:'GET PERMISSION',rest:'permission',pt:'conseguir permissão',w:[],ex:"You will need to get formal permission from the manager before making any significant changes to the system.",expt:'Você precisará conseguir permissão formal do gerente antes de fazer mudanças significativas no sistema.',pr:[]},
+{id:77,v:'get',cat:'gettake',phrase:'GET A JOB',rest:'a job',pt:'conseguir um emprego',w:['find a job'],note:'find a job = procurar um emprego · get a job = conseguir o emprego.',ex:"She worked incredibly hard for months and finally got the job she had been aiming for throughout her career.",expt:'Ela trabalhou incrivelmente duro por meses e finalmente conseguiu o emprego que almejava em toda sua carreira.',pr:[]},
+{id:78,v:'get',cat:'gettake',phrase:'GET THE IMPRESSION',rest:'the impression',pt:'ter a impressão / sentir que',w:[],ex:"I got the distinct impression from the way he spoke that he was not entirely happy with the final decision.",expt:'Tive a nítida impressão pela forma como ele falava que não estava totalmente feliz com a decisão final.',pr:[]},
+{id:79,v:'get',cat:'gettake',phrase:'GET RID OF',rest:'rid of',pt:'se livrar de / descartar',w:[],ex:"It is long past time to get rid of the old system and replace it with something that actually works properly.",expt:'Já passou da hora de se livrar do sistema antigo e substituí-lo por algo que realmente funcione.',pr:['I need to get rid of this.','How can I get rid of this habit?','She got rid of all her old clothes.']},
+{id:80,v:'get',cat:'gettake',phrase:'GET IN TOUCH',rest:'in touch',pt:'entrar em contato',w:['make contact'],ex:"Please do not hesitate to get in touch if you have any questions or concerns about the proposal.",expt:'Por favor, não hesite em entrar em contato se tiver dúvidas ou preocupações sobre a proposta.',pr:["Let's get in touch soon.",'How can I get in touch with you?',"I'll get in touch next week."]},
+{id:81,v:'get',cat:'gettake',phrase:'GET BETTER',rest:'better',pt:'melhorar / se recuperar',w:[],ex:"I sincerely hope you get better very soon. The whole team genuinely misses having you around the office.",expt:'Sinceramente espero que você melhore muito em breve. Toda a equipe genuinamente sente sua falta no escritório.',pr:['Get better soon!',"She's getting better every day.",'Things will get better.']},
+{id:82,v:'get',cat:'gettake',phrase:'GET WORSE',rest:'worse',pt:'piorar',w:[],ex:"The situation is getting significantly worse by the day and we need to act decisively before it becomes a full crisis.",expt:'A situação está piorando significativamente dia a dia e precisamos agir decisivamente antes que se torne uma crise total.',pr:[]},
+{id:83,v:'get',cat:'gettake',phrase:'GET READY',rest:'ready',pt:'se preparar / se arrumar',w:[],ex:"We all need to get completely ready for the presentation at least 30 minutes before it is scheduled to begin.",expt:'Todos precisamos nos preparar completamente para a apresentação pelo menos 30 minutos antes do horário previsto.',pr:['Are you ready? Let\'s go!',"Get ready, we're leaving.",'I need 10 minutes to get ready.']},
+{id:84,v:'get',cat:'gettake',phrase:'GET DRESSED',rest:'dressed',pt:'se vestir / se arrumar',w:[],ex:"The children were incredibly slow getting dressed this morning and we very nearly missed the school bus.",expt:'As crianças foram incrivelmente lentas se vestindo esta manhã e quase perdemos o ônibus escolar.',pr:[]},
+{id:85,v:'get',cat:'gettake',phrase:'GET LOST',rest:'lost',pt:'se perder',w:[],ex:"We got completely and utterly lost in the old part of the city, but it turned out to be a beautiful and memorable experience.",expt:'Nos perdemos completamente na parte antiga da cidade, mas acabou sendo uma experiência bela e memorável.',pr:['I got lost on the way.',"Don't get lost!",'We kept getting lost.']},
+{id:86,v:'take',cat:'gettake',phrase:'TAKE RESPONSIBILITY',rest:'responsibility',pt:'assumir responsabilidade',w:['make responsibility','have responsibility'],ex:"A truly good leader takes full responsibility for both the successes and the failures of the entire team.",expt:'Um verdadeiro bom líder assume total responsabilidade tanto pelos sucessos quanto pelos fracassos de toda a equipe.',pr:[]},
+{id:87,v:'take',cat:'gettake',phrase:'TAKE A BREAK',rest:'a break',pt:'fazer uma pausa / descansar',w:[],note:'🇬🇧 Britânico: "have a break" · 🇺🇸 Americano: "take a break". Ambos usados e entendidos!',ex:"Let us all take a short break for 15 minutes and come back to the discussion with fresh eyes and energy.",expt:'Vamos todos fazer uma pequena pausa de 15 minutos e voltar à discussão com olhos frescos e energia.',pr:[]},
+{id:88,v:'take',cat:'gettake',phrase:'TAKE A CHANCE',rest:'a chance',pt:'arriscar / se arriscar',w:[],ex:"She decided to take a chance on the new business idea and it paid off more successfully than she had ever imagined.",expt:'Ela decidiu se arriscar na nova ideia de negócio e deu certo mais do que ela jamais imaginou.',pr:['Take a chance on it!','I decided to take a chance.','Sometimes you have to take a chance.']},
+{id:89,v:'take',cat:'gettake',phrase:'TAKE AN EXAM',rest:'an exam',pt:'fazer uma prova / exame',w:[],note:'🇬🇧 Britânico: "take an exam" / "sit an exam" · 🇺🇸 Americano: "take a test".',ex:"He took the professional exam three separate times before finally passing it with an excellent and well-deserved score.",expt:'Ele fez o exame profissional três vezes separadas antes de finalmente passá-lo com uma pontuação excelente e merecida.',pr:[]},
+{id:90,v:'take',cat:'gettake',phrase:'TAKE A DECISION',rest:'a decision',pt:'tomar uma decisão',w:[],note:'Mais formal, especialmente em inglês britânico. "Make a decision" é mais comum.',ex:"The full board will meet and take a final decision on this important matter at next week's scheduled meeting.",expt:'O conselho pleno se reunirá e tomará uma decisão final sobre este assunto importante na reunião programada da próxima semana.',pr:[]},
+{id:91,v:'take',cat:'gettake',phrase:'TAKE ACTION',rest:'action',pt:'tomar uma atitude / agir',w:['make action','do action'],ex:"We have identified the problem clearly. We have analyzed it thoroughly and now it is absolutely time to take action.",expt:'Identificamos o problema claramente. Analisamos completamente e agora é absolutamente hora de tomar uma atitude.',pr:['We need to take action now.',"It's time to take action.",'They finally took action.']},
+{id:92,v:'take',cat:'gettake',phrase:'TAKE CARE OF',rest:'care of',pt:'cuidar de / se responsabilizar por',w:[],ex:"I will personally take care of all the travel arrangements so that you can focus entirely on the presentation.",expt:'Cuidarei pessoalmente de todos os arranjos de viagem para que você possa se concentrar inteiramente na apresentação.',pr:["I'll take care of it.",'Take care of yourself.','She takes care of her parents.']},
+{id:93,v:'take',cat:'gettake',phrase:'TAKE PART IN',rest:'part in',pt:'participar de',w:['make part in','do part in'],ex:"Everyone present was warmly encouraged to take part in the open discussion regardless of their level or experience.",expt:'Todos os presentes foram calorosamente encorajados a participar da discussão aberta independentemente do nível ou experiência.',pr:["I'd like to take part in the competition.",'Will you take part?','She took part in the project.']},
+{id:94,v:'take',cat:'gettake',phrase:'TAKE PLACE',rest:'place',pt:'acontecer / ocorrer',w:['make place','do place','have place'],ex:"The beautiful outdoor ceremony took place in a stunning historic building right in the center of the old city.",expt:'A bela cerimônia ao ar livre aconteceu em um impressionante edifício histórico bem no centro da cidade antiga.',pr:['When does the meeting take place?','The event took place last Saturday.','Where will it take place?']},
+{id:95,v:'take',cat:'gettake',phrase:'TAKE TURNS',rest:'turns',pt:'se revezar',w:[],ex:"The children were asked to take turns speaking so that absolutely everyone had a fair chance to contribute.",expt:'As crianças foram solicitadas a se revezar na fala para que absolutamente todos tivessem uma chance justa de contribuir.',pr:["Let's take turns.",'They take turns cooking.','We took turns driving.']},
+{id:96,v:'take',cat:'gettake',phrase:'TAKE NOTICE',rest:'notice',pt:'prestar atenção / dar importância',w:[],ex:"Nobody took any notice of the early warning signs until it was far too late to prevent the problem from occurring.",expt:'Ninguém prestou atenção nos primeiros sinais de alerta até que fosse tarde demais para evitar o problema.',pr:[]},
+{id:97,v:'take',cat:'gettake',phrase:'TAKE ADVANTAGE OF',rest:'advantage of',pt:'aproveitar / tirar vantagem de',w:[],ex:"You should take full advantage of every single opportunity to practice your English in real life situations.",expt:'Você deve aproveitar ao máximo cada oportunidade de praticar seu inglês em situações da vida real.',pr:['Take advantage of the offer.',"Don't let them take advantage of you.",'She took advantage of the situation.']},
+{id:98,v:'take',cat:'gettake',phrase:'TAKE PRIDE IN',rest:'pride in',pt:'ter orgulho de',w:[],ex:"She takes enormous and well-deserved pride in her work and it shows clearly in absolutely everything she produces.",expt:'Ela tem enorme e merecido orgulho em seu trabalho e isso aparece claramente em absolutamente tudo que ela produz.',pr:['I take pride in my work.','He takes great pride in his appearance.','They take pride in their community.']},
+{id:99,v:'take',cat:'gettake',phrase:'TAKE IT EASY',rest:'it easy',pt:'relaxar / não se exigir demais',w:[],ex:"The doctor specifically told him to take it easy for at least a full week before even thinking about returning to the office.",expt:'O médico especificamente disse a ele para relaxar por pelo menos uma semana inteira antes mesmo de pensar em voltar ao escritório.',pr:['Take it easy!','Just take it easy today.','She needs to take it easy.']},
+{id:100,v:'take',cat:'gettake',phrase:'TAKE YOUR TIME',rest:'your time',pt:'não ter pressa / levar o tempo que precisar',w:[],ex:"There is absolutely no deadline on this at all. Please take your time and make sure you are completely happy with the result.",expt:'Não há absolutamente nenhum prazo para isso. Por favor, leve o tempo que precisar e certifique-se de estar completamente feliz com o resultado.',pr:['Take your time.',"There's no rush, take your time.",'He always takes his time.']},
+];
+
+const CATS = [
+  {id:'make',label:'MAKE',icon:'🔵',color:'var(--mk)'},
+  {id:'do',label:'DO',icon:'🟢',color:'var(--dv)'},
+  {id:'have',label:'HAVE',icon:'🟡',color:'var(--hv)'},
+  {id:'gettake',label:'GET+TAKE',icon:'🔴',color:'var(--gt)'},
+];
+const VERBS = ['make','do','have','get','take'];
+const PAST = {make:'made',do:'did',have:'had',get:'got',take:'took'};
+const SUBJECTS = ['She','He','I','They','We'];
+
+const ERROS_COMUNS = [
+  {wrong:'do a decision',right:'make a decision',dica:'Decisão = MAKE',id:1},
+  {wrong:'make research',right:'do research',dica:'Pesquisa = DO',id:28},
+  {wrong:'do a mistake',right:'make a mistake',dica:'Erro = MAKE',id:2},
+  {wrong:'make homework',right:'do homework',dica:'Tarefa = DO',id:32},
+  {wrong:'give attention',right:'pay attention',dica:'Atenção = PAY',id:null},
+  {wrong:'lose opportunity',right:'miss opportunity',dica:'Perder chance = MISS',id:null},
+  {wrong:'do a crime',right:'commit a crime',dica:'Crime = COMMIT',id:null},
+  {wrong:'make a bath',right:'have a bath (UK)',dica:'Banho = HAVE/TAKE',id:52},
+  {wrong:'take a shower',right:'have a shower (UK)',dica:'Ducha = HAVE/TAKE',id:53},
+  {wrong:'win money',right:'make/earn money',dica:'Ganhar (trabalho) = MAKE',id:21},
+];
+
+// ── QUIZ FINAL (20 QUESTÕES CURADAS) ───────────────────────────────────────────
+const QUIZ = [
+  {q:"She _____ an appointment with the doctor.",a:'make',refId:7,expl:'make an appointment = marcar uma consulta.'},
+  {q:"I really need to _____ a decision soon.",a:'make',refId:1,expl:'make a decision = tomar uma decisão.'},
+  {q:"Please don't _____ so much noise.",a:'make',refId:14,expl:'make a noise = fazer barulho.'},
+  {q:"It's easy to _____ friends in this city.",a:'make',refId:20,expl:'make friends = fazer amigos.'},
+  {q:"He _____ a huge effort to help us.",a:'make',refId:4,expl:'make an effort = fazer um esforço.'},
+  {q:"Can you _____ me a favor?",a:'do',refId:27,expl:'do someone a favor = fazer um favor a alguém.'},
+  {q:"I need to _____ more research before deciding.",a:'do',refId:28,expl:'do research = fazer pesquisa (❌ make research).'},
+  {q:"Did you _____ your homework yet?",a:'do',refId:32,expl:'do your homework = fazer o dever de casa.'},
+  {q:"They always _____ business online.",a:'do',refId:30,expl:'do business = fazer negócios.'},
+  {q:"You _____ a great job on this project!",a:'do',refId:50,expl:'do a good job = fazer um bom trabalho.'},
+  {q:"Let's _____ a conversation about this.",a:'have',refId:51,expl:'have a conversation = ter uma conversa.'},
+  {q:"I _____ a strong feeling about this.",a:'have',refId:63,expl:'have a feeling = ter uma sensação.'},
+  {q:"Did you _____ a good time at the party?",a:'have',refId:74,expl:'have a good time = se divertir.'},
+  {q:"We're _____ a meeting at 3pm.",a:'have',refId:61,expl:'have a meeting = ter uma reunião.'},
+  {q:"I need to _____ a word with you privately.",a:'have',refId:64,expl:'have a word = conversar brevemente.'},
+  {q:"You should _____ a chance and go for it.",a:'take',refId:88,expl:'take a chance = se arriscar.'},
+  {q:"It's time to _____ action now.",a:'take',refId:91,expl:'take action = tomar uma atitude (❌ make action).'},
+  {q:"I hope you _____ better soon.",a:'get',refId:81,expl:'get better = melhorar / se recuperar.'},
+  {q:"Don't forget to _____ care of yourself.",a:'take',refId:92,expl:'take care of = cuidar de.'},
+  {q:"We need to _____ rid of these old files.",a:'get',refId:79,expl:'get rid of = se livrar de.'},
+];
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function loadProgress() {
+  let p;
+  try { p = JSON.parse(localStorage.getItem('sistema7_progresso')); } catch(e) { p = null; }
+  if (!p || !Array.isArray(p.learned)) p = { learned: new Array(100).fill(false) };
+  return p;
+}
+function saveProgress() { localStorage.setItem('sistema7_progresso', JSON.stringify(progress)); }
+let progress = loadProgress();
+
+function toggleLearned(id) {
+  progress.learned[id-1] = !progress.learned[id-1];
+  saveProgress();
+  renderCatStrip();
+  updateTopProgress();
+}
+function updateTopProgress() {
+  const n = progress.learned.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (n/100*100) + '%';
+  document.getElementById('progressText').textContent = `${n}/100 aprendidas`;
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let category = 'make';
+let idx = 0;
+let mode = 'completo';
+let pkAnswered = false;
+let flashFlipped = false;
+let quizIdx = 0, quizScore = 0, quizAnswers = [], quizAnswered = false, quizTimerEnabled = false, quizTimerInterval = null, quizTimeLeft = 15;
+
+function catItems(c) { return DATA.filter(d => d.cat === c); }
+function currentList() { return catItems(category); }
+function currentItem() { return currentList()[idx]; }
+
+// ── CATEGORY STRIP ────────────────────────────────────────────────────────────
+function renderCatStrip() {
+  const strip = document.getElementById('catStrip');
+  strip.innerHTML = CATS.map(c => {
+    const items = catItems(c.id);
+    const done = items.filter(d => progress.learned[d.id-1]).length;
+    return `<div class="cat-tab ${category===c.id?'on':''}" style="--catc:${c.color}" onclick="selectCategory('${c.id}')">
+      <div class="cat-top">${c.icon} ${c.label} · ${items.length}</div>
+      <div class="cat-n">${done}/${items.length} aprendidas</div>
+      <div class="cat-track"><div class="cat-fill" style="width:${(done/items.length)*100}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function selectCategory(c) {
+  category = c;
+  idx = 0;
+  pkAnswered = false;
+  flashFlipped = false;
+  renderCatStrip();
+  renderAll();
+}
+
+function catColor() {
+  const c = CATS.find(x => x.id === category);
+  return c ? c.color : 'var(--s7)';
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  pkAnswered = false;
+  stopQuizTimer();
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  const panelMap = {completo:'panelCompleto',qualverbo:'panelQualVerbo',errado:'panelErrado',flash:'panelFlash',quiz:'panelQuiz'};
+  Object.values(panelMap).forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(panelMap[m]).classList.remove('hidden');
+  document.getElementById('catStrip').style.opacity = (m === 'quiz') ? '.35' : '1';
+  document.getElementById('catStrip').style.pointerEvents = (m === 'quiz') ? 'none' : 'auto';
+  renderAll();
+}
+
+function renderAll() {
+  if (mode === 'completo') renderCompleto();
+  else if (mode === 'qualverbo') renderQualVerbo();
+  else if (mode === 'errado') renderErrado();
+  else if (mode === 'flash') renderFlash();
+  else if (mode === 'quiz') renderQuiz();
+}
+
+// ── MODO 1: ESTUDO COMPLETO ───────────────────────────────────────────────────
+function renderCompleto() {
+  const list = currentList();
+  const item = list[idx];
+  const learned = progress.learned[item.id-1];
+  const errsHTML = item.w.length ? `<div class="sec"><div class="sec-label">❌ Erros Comuns</div><div class="errs-row">${item.w.map(e => `<span class="err-chip">${e}</span>`).join('')}</div></div>` : '';
+  const noteHTML = item.note ? `<div class="sec"><div class="note-box">💡 ${item.note}</div></div>` : '';
+  const prHTML = item.pr.length ? `<div class="sec"><div class="sec-label">💡 Pratique</div><ul class="pr-list">${item.pr.map(p => `<li>"${p}"</li>`).join('')}</ul></div>` : '';
+
+  document.getElementById('panelCompleto').innerHTML = `
+    <div class="study-card" style="--catc:${catColor()}">
+      <div class="study-head">
+        <span class="study-tag">🔗 Colocação ${String(item.id).padStart(2,'0')} · ${item.v.toUpperCase()}</span>
+        <span class="study-pos">${idx+1}/${list.length}</span>
+      </div>
+      <div class="study-body">
+        <div class="phrase-box">
+          <div class="phrase-en">${item.phrase}</div>
+          <div class="phrase-pt">${item.pt}</div>
+        </div>
+        ${errsHTML}
+        ${noteHTML}
+        <div class="sec">
+          <div class="sec-label">📖 Exemplo</div>
+          <div class="ex-box">
+            <div class="ex-en">"${highlightVerb(item.ex, item.v)}"</div>
+            <div class="ex-pt">🇧🇷 ${item.expt}</div>
+          </div>
+        </div>
+        ${prHTML}
+      </div>
+      <div class="card-actions">
+        <button class="act-btn" onclick="prevItem()" ${idx===0?'disabled':''}>← Anterior</button>
+        <button class="act-btn ${learned?'learned':''}" onclick="toggleLearned(${item.id});renderCompleto();">${learned?'✓ Aprendida':'Marcar Aprendida'}</button>
+        <button class="act-btn next" onclick="nextItem()" ${idx===list.length-1?'disabled':''}>Próxima →</button>
+      </div>
+    </div>`;
+}
+function highlightVerb(text, verb) {
+  const re = new RegExp('\\b(' + verb + 's?|' + (PAST[verb]) + ')\\b', 'i');
+  return text.replace(re, m => `<b>${m}</b>`);
+}
+function prevItem() { if (idx > 0) { idx--; pkAnswered = false; flashFlipped = false; renderAll(); } }
+function nextItem() { const list = currentList(); if (idx < list.length-1) { idx++; pkAnswered = false; flashFlipped = false; renderAll(); } }
+
+// ── MODO 2: QUAL VERBO? ───────────────────────────────────────────────────────
+function renderQualVerbo() {
+  const list = currentList();
+  const item = list[idx];
+  document.getElementById('panelQualVerbo').innerHTML = `
+    <div class="pk-card" style="--catc:${catColor()}">
+      <div class="pk-tag">Qual Verbo?</div>
+      <div class="pk-sub">${item.v.toUpperCase()} · ${idx+1}/${list.length}</div>
+      <div class="pk-prompt-box"><div class="pk-prompt"><span class="bk">___</span> ${item.rest}</div></div>
+      <div class="pk-instr">Qual verbo completa naturalmente esta colocação?</div>
+      <div class="pk-opts" id="pkOpts">${VERBS.map(v => `<button class="pk-opt" onclick="pkAnswer('${v}')">${v}</button>`).join('')}</div>
+      <div class="pk-feedback" id="pkFeedback"></div>
+      <div class="pk-next-row"><button class="pk-next-btn" id="pkNextBtn" onclick="nextItem()" disabled>→ Próxima</button></div>
+    </div>`;
+}
+function pkAnswer(v) {
+  if (pkAnswered) return;
+  pkAnswered = true;
+  const item = currentList()[idx];
+  const correct = item.v;
+  document.querySelectorAll('#pkOpts .pk-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+    else if (b.textContent === v && v !== correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('pkFeedback');
+  if (v === correct) { fb.textContent = '✓ Correto! ' + item.phrase; fb.className = 'pk-feedback ok'; }
+  else { fb.textContent = '✗ Errado. O certo é: ' + item.phrase; fb.className = 'pk-feedback bad'; }
+  document.getElementById('pkNextBtn').disabled = false;
+}
+
+// ── MODO 3: ERRADO VS CERTO ───────────────────────────────────────────────────
+function wrongVerbFor(item) {
+  if (item.w.length) {
+    const first = item.w[0].trim().split(' ')[0].toLowerCase();
+    if (VERBS.includes(first)) return first;
+  }
+  const others = VERBS.filter(v => v !== item.v);
+  return others[item.id % others.length];
+}
+function renderErrado() {
+  const list = currentList();
+  const item = list[idx];
+  const subj = SUBJECTS[item.id % SUBJECTS.length];
+  const wrongV = wrongVerbFor(item);
+  document.getElementById('panelErrado').innerHTML = `
+    <div class="pk-card" style="--catc:${catColor()}">
+      <div class="pk-tag">Errado vs Certo</div>
+      <div class="pk-sub">${item.v.toUpperCase()} · ${idx+1}/${list.length}</div>
+      <div class="pk-prompt-box">
+        <div class="wrong-sentence">❌ ${subj} ${PAST[wrongV]} ${item.rest}.</div>
+        <div class="pk-instr" style="margin-bottom:0;">Qual é o verbo correto?</div>
+        <div class="right-sentence" id="rightSentence">✅ ${subj} ${PAST[item.v]} ${item.rest}.</div>
+      </div>
+      <div class="pk-opts" id="erOpts">${VERBS.map(v => `<button class="pk-opt" onclick="erAnswer('${v}')">${v}</button>`).join('')}</div>
+      <div class="pk-feedback" id="erFeedback"></div>
+      <div class="pk-next-row"><button class="pk-next-btn" id="erNextBtn" onclick="nextItem()" disabled>→ Próxima</button></div>
+    </div>`;
+}
+function erAnswer(v) {
+  if (pkAnswered) return;
+  pkAnswered = true;
+  const item = currentList()[idx];
+  const correct = item.v;
+  document.querySelectorAll('#erOpts .pk-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+    else if (b.textContent === v && v !== correct) b.classList.add('wrong');
+  });
+  document.getElementById('rightSentence').classList.add('show');
+  const fb = document.getElementById('erFeedback');
+  if (v === correct) { fb.textContent = '✓ Correto!'; fb.className = 'pk-feedback ok'; }
+  else { fb.textContent = '✗ Quase! A forma natural usa "' + correct + '".'; fb.className = 'pk-feedback bad'; }
+  document.getElementById('erNextBtn').disabled = false;
+}
+
+// ── MODO 4: FLASH CARDS ───────────────────────────────────────────────────────
+function renderFlash() {
+  const list = currentList();
+  const item = list[idx];
+  document.getElementById('panelFlash').innerHTML = `
+    <div class="flash-card ${flashFlipped?'flip':''}" id="flashCardEl" onclick="flipFlash()" style="--catc:${catColor()}">
+      <div class="flash-tag">${item.v.toUpperCase()} · ${idx+1}/${list.length}</div>
+      <div class="flash-front" style="color:${catColor()}">${item.phrase}</div>
+      <div class="flash-hint">👆 Clique para revelar</div>
+      <div class="flash-back">
+        <div class="flash-pt">🇧🇷 ${item.pt}</div>
+        ${item.w.length ? `<div class="flash-errs">❌ ${item.w.join(' · ')}</div>` : ''}
+      </div>
+    </div>
+    <div class="flash-nav">
+      <button class="act-btn" onclick="event.stopPropagation();prevItem()" ${idx===0?'disabled':''}>← Anterior</button>
+      <button class="act-btn next" onclick="event.stopPropagation();nextItem()" ${idx===list.length-1?'disabled':''} style="background:${catColor()}">Próxima →</button>
+    </div>`;
+}
+function flipFlash() { flashFlipped = !flashFlipped; document.getElementById('flashCardEl').classList.toggle('flip', flashFlipped); }
+
+// ── SIDEBAR: TOP 10 ERROS ─────────────────────────────────────────────────────
+function renderSidebar() {
+  document.getElementById('sbList').innerHTML = ERROS_COMUNS.map(e => `
+    <div class="sb-item ${e.id?'':'inert'}" ${e.id ? `onclick="jumpToError(${e.id})"` : ''}>
+      <div class="sb-wrong">❌ ${e.wrong}</div>
+      <div><span class="sb-arrow">→</span><span class="sb-right">✅ ${e.right}</span></div>
+      <div class="sb-dica">${e.dica}</div>
+    </div>`).join('');
+}
+function jumpToError(id) {
+  const item = DATA.find(d => d.id === id);
+  if (!item) return;
+  category = item.cat;
+  idx = catItems(category).findIndex(d => d.id === id);
+  mode = 'completo';
+  setMode('completo');
+  renderCatStrip();
+  window.scrollTo({top: 0, behavior:'smooth'});
+}
+
+// ── QUIZ FINAL ────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  if (quizIdx >= QUIZ.length) { renderQuizResult(); return; }
+  quizAnswered = false;
+  const q = QUIZ[quizIdx];
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <span class="quiz-score">Pontuação: ${quizScore}/${QUIZ.length}</span>
+        <button class="timer-toggle ${quizTimerEnabled?'on':''}" onclick="toggleQuizTimer()">⏱ Timer 15s</button>
+      </div>
+      <div class="timer-track ${quizTimerEnabled?'show':''}" id="timerTrack"><div class="timer-fill" id="timerFill"></div></div>
+      <div class="quiz-qn">Questão ${quizIdx+1} de ${QUIZ.length}</div>
+      <div class="quiz-prompt-box">${q.q.replace('_____', '<span class="bk">_____</span>')}</div>
+      <div class="quiz-options" id="quizOptions">${VERBS.map(v => `<button class="quiz-opt" onclick="quizAnswer('${v}')">${v}</button>`).join('')}</div>
+      <div class="quiz-explain" id="quizExplain"></div>
+      <div class="quiz-next-row"><button class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+    </div>`;
+  if (quizTimerEnabled) startQuizTimer();
+}
+function quizAnswer(v) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  stopQuizTimer();
+  const q = QUIZ[quizIdx];
+  const correct = (v === q.a);
+  if (correct) quizScore++;
+  quizAnswers.push({q: q.q, correct, given: v, right: q.a, expl: q.expl});
+  document.querySelectorAll('#quizOptions .quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.a) b.classList.add('correct');
+    else if (b.textContent === v && !correct) b.classList.add('wrong');
+  });
+  const ex = document.getElementById('quizExplain');
+  ex.textContent = (correct ? '✓ Correto! ' : '✗ Errado. ') + q.expl;
+  ex.classList.add('show');
+  document.getElementById('quizNextBtn').disabled = false;
+  document.querySelector('.quiz-score').textContent = `Pontuação: ${quizScore}/${QUIZ.length}`;
+}
+function quizNext() { quizIdx++; renderQuiz(); }
+function startQuizTimer() {
+  quizTimeLeft = 15;
+  const fill = document.getElementById('timerFill');
+  if (fill) fill.style.width = '100%';
+  quizTimerInterval = setInterval(() => {
+    quizTimeLeft -= 0.1;
+    const pct = Math.max(0, (quizTimeLeft/15)*100);
+    if (fill) fill.style.width = pct + '%';
+    if (quizTimeLeft <= 0) { stopQuizTimer(); if (!quizAnswered) quizAnswer('__timeout__'); }
+  }, 100);
+}
+function stopQuizTimer() { if (quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; } }
+function toggleQuizTimer() { quizTimerEnabled = !quizTimerEnabled; renderQuiz(); }
+function renderQuizResult() {
+  const pct = Math.round((quizScore/QUIZ.length)*100);
+  const misses = quizAnswers.filter(a => !a.correct);
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-result">
+        <div class="quiz-result-score">${quizScore}/${QUIZ.length}</div>
+        <div class="quiz-result-label">${pct}% de acerto ${pct>=80?'— Excelente! 🎉':pct>=50?'— Bom trabalho, continue praticando.':'— Revise as colocações e tente de novo.'}</div>
+        ${misses.length ? `<div class="quiz-review">${misses.map(m => `<div class="qrev-item miss"><div class="qrev-q">${m.q.replace('_____', '<b>'+m.right+'</b>')}</div><div class="qrev-a">Sua resposta: ${m.given === '__timeout__' ? '(tempo esgotado)' : m.given} · Certo: ${m.right}</div></div>`).join('')}</div>` : ''}
+        <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Refazer Quiz</button>
+      </div>
+    </div>`;
+}
+function restartQuiz() { quizIdx = 0; quizScore = 0; quizAnswers = []; renderQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init() {
+  const params = new URLSearchParams(window.location.search);
+  const catParam = params.get('categoria');
+  if (catParam && CATS.some(c => c.id === catParam)) category = catParam;
+  renderCatStrip();
+  renderSidebar();
+  updateTopProgress();
+  const modoParam = params.get('modo');
+  if (modoParam && ['completo','qualverbo','errado','flash','quiz'].includes(modoParam)) setMode(modoParam);
+  else renderAll();
+})();
+</script>
+</body>
+</html>

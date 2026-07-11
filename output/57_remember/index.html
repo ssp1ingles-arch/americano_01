@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L57 · REMEMBER · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#fb923c;--cg:rgba(251,146,60,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,9vw,6.5rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+.rem-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.rp{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1rem 1.1rem;border-left:3px solid var(--ca);}
+.rp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.35rem;}
+.rp-pt{font-size:.75rem;color:var(--td);margin-bottom:.55rem;}
+.rp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Contraste REMEMBER -ING vs TO */
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.ct-box{border-radius:.85rem;padding:1.3rem;border:1px solid var(--s3);background:var(--s2);}
+.ctb-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.ctb-form{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--ca);margin-bottom:.3rem;}
+.ctb-pt{font-size:.78rem;color:var(--tm);margin-bottom:.6rem;}
+.ctb-timeline{font-size:.72rem;color:var(--td);margin-bottom:.5rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
+.ctb-ex{font-size:.83rem;color:var(--tx);font-style:italic;}
+
+.struct{background:var(--s2);border:1px solid var(--ca);border-radius:.75rem;padding:1rem 1.3rem;margin-bottom:.85rem;}
+.struct-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.5rem;}
+.struct-f{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;}
+.struct-f span{color:var(--ca);}
+.struct-e{font-size:.83rem;color:var(--tm);}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.qf{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1.05rem;margin-bottom:.7rem;}
+.qft{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ca);margin-bottom:.45rem;}
+.qff{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx);margin-bottom:.35rem;}
+.qff span{color:var(--ca);}
+.qfe{font-size:.82rem;color:var(--tm);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(251,146,60,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .contrast{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 12 · Verbos de Comunicação</div>
+  <h1 class="hero-title">REMEMBER</h1>
+  <p class="hero-pt">lembrar · se lembrar · recordar</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">REMEMBER</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">REMEMBERED</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">REMEMBERED</div></div>
+    <span class="reg-badge">✓ REGULAR · só + ED</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Do you remember me?"</div>
+    <div class="cl-pt">Você se lembra de mim?</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">REMEMBER — a diferença que muda tudo</div>
+    <div class="sd">REMEMBER + ING (passado) vs REMEMBER + TO (futuro) — dois significados opostos!</div></div>
+  </div>
+
+  <div class="rem-patt">
+    <div class="rp">
+      <div class="rp-key">REMEMBER + algo</div>
+      <div class="rp-pt">se lembrar de algo</div>
+      <div class="rp-ex">"I remember that day."</div>
+    </div>
+    <div class="rp">
+      <div class="rp-key">REMEMBER + ING</div>
+      <div class="rp-pt">lembrar de ter feito (passado)</div>
+      <div class="rp-ex">"I remember meeting her."</div>
+    </div>
+    <div class="rp">
+      <div class="rp-key">REMEMBER + TO + BASE</div>
+      <div class="rp-pt">lembrar de fazer (futuro/obrigação)</div>
+      <div class="rp-ex">"Remember to lock the door."</div>
+    </div>
+    <div class="rp">
+      <div class="rp-key">REMEMBER + alguém</div>
+      <div class="rp-pt">se lembrar de / lembrar de uma pessoa</div>
+      <div class="rp-ex">"Do you remember him?"</div>
+    </div>
+  </div>
+
+  <!-- Contraste REMEMBER ING vs TO -->
+  <div class="contrast">
+    <div class="ct-box" style="border-color:rgba(74,222,128,.35)">
+      <div class="ctb-label" style="color:var(--gn)">REMEMBER + ING</div>
+      <div class="ctb-form">I remember DOING</div>
+      <div class="ctb-pt">= tenho memória de ter feito algo no passado</div>
+      <div class="ctb-timeline">← PASSADO (memória)</div>
+      <div class="ctb-ex">"I remember <strong style="color:var(--ca)">meeting</strong> her at the party." <br><span style="color:var(--td);font-size:.75rem">Lembro de ter a conhecido na festa.</span></div>
+    </div>
+    <div class="ct-box" style="border-color:rgba(34,211,238,.35)">
+      <div class="ctb-label" style="color:var(--cy)">REMEMBER + TO + BASE</div>
+      <div class="ctb-form">Remember TO DO</div>
+      <div class="ctb-pt">= não esquecer de fazer algo (ainda vai acontecer)</div>
+      <div class="ctb-timeline">→ FUTURO (lembrete)</div>
+      <div class="ctb-ex">"Remember <strong style="color:var(--ca)">to lock</strong> the door." <br><span style="color:var(--td);font-size:.75rem">Lembra de trancar a porta.</span></div>
+    </div>
+  </div>
+
+  <div class="struct">
+    <div class="struct-t">Resumo rápido — regra da direção no tempo</div>
+    <div class="struct-f">REMEMBER + <span>-ING</span> = olhar para trás (memória do passado)</div>
+    <div class="struct-f">REMEMBER + <span>TO</span> = olhar para frente (tarefa futura)</div>
+    <div class="struct-e">"I remember locking the door." (tenho a memória de ter trancado) vs "Remember to lock the door." (não esqueça de trancar — ainda vai fazer)</div>
+  </div>
+
+  <div class="nt nt-tip">REMEMBER é regular: REMEMBER → REMEMBERED. A grande dificuldade não é o passado — é saber quando usar -ING ou TO. Pense no tempo: passado = -ING · futuro = TO.</div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — remember / remembers</div>
+    <div class="sd">HE / SHE / IT → REMEMBERS (com -S)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>remember</strong> everything she told me.</td><td class="cpt">Eu me lembro de tudo que ela me disse.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>remember</strong> my birthday every year.</td><td class="cpt">Você se lembra do meu aniversário todo ano.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>remembers</strong> faces, not names.</td><td class="cpt">Ele lembra rostos, não nomes.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>remembers</strong> to take her keys.</td><td class="cpt">Ela lembra de pegar as chaves.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">It <strong>remembers</strong> your preferences.</td><td class="cpt">Ele salva / lembra das suas preferências.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>remember</strong> that day very well.</td><td class="cpt">Nós nos lembramos bem daquele dia.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>remember</strong> the good old days.</td><td class="cpt">Eles se lembram dos bons velhos tempos.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → REMEMBERS (com -S). "She remember to take her keys." ✗ → "She REMEMBERS to take her keys." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — remembered (regular)</div>
+    <div class="sd">REMEMBERED para todos os pronomes — base + ED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>remembered</strong> her name at the last minute.</td><td class="cpt">Me lembrei do nome dela no último minuto.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>remembered</strong> to call me — thank you!</td><td class="cpt">Você se lembrou de me ligar — obrigado!</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>remembered</strong> meeting her before.</td><td class="cpt">Ele se lembrou de tê-la conhecido antes.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>remembered</strong> to lock the door.</td><td class="cpt">Ela se lembrou de trancar a porta.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">It <strong>remembered</strong> all my settings.</td><td class="cpt">Salvou todas as minhas configurações.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>remembered</strong> the good times.</td><td class="cpt">Nós nos lembramos dos bons momentos.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>remembered</strong> to bring the documents.</td><td class="cpt">Eles se lembraram de trazer os documentos.</td></tr>
+    </table>
+    <div class="nt nt-err">Na negação: "I didn't REMEMBER" ✓ | "I didn't REMEMBERED" ✗ — DIDN'T + BASE (remember). Verbo volta à base sempre após DIDN'T.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">DO / DOES / DID + base REMEMBER</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Como fazer perguntas com REMEMBER</div>
+    <div class="qf">
+      <div class="qft">Presente</div>
+      <div class="qff"><span>DO</span> you / we / they + <span>remember</span>? &nbsp;|&nbsp; <span>DOES</span> he / she / it + <span>remember</span>?</div>
+      <div class="qfe">"Do you remember me?" / "Does she remember to take her medicine?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Passado</div>
+      <div class="qff"><span>DID</span> + sujeito + <span>remember</span>?</div>
+      <div class="qfe">"Did you remember to call?" / "Did he remember her name?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Futuro</div>
+      <div class="qff"><span>WILL</span> + sujeito + <span>remember</span>?</div>
+      <div class="qfe">"Will you remember to bring it?" / "Will they remember the address?"</div>
+    </div>
+  </div>
+
+  <div class="uso" style="margin-top:1rem">
+    <div class="ul">Negação</div>
+    <div class="two">
+      <div>
+        <div class="tl">Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't remember</strong></td><td class="cpt">não me lembro</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't remember</strong></td><td class="cpt">não se lembra</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't remember</strong></td><td class="cpt">não se lembrou</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't remember</strong></td><td class="cpt">não vai se lembrar</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro — will remember / going to remember</div>
+    <div class="sd">WILL + remember | GOING TO + remember — sem -S, sem -ED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">WILL + remember</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will remember</strong> this moment forever.</td><td class="cpt">Eu vou me lembrar deste momento para sempre.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>will remember</strong> to call you.</td><td class="cpt">Ela vai se lembrar de te ligar.</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>will remember</strong> the password.</td><td class="cpt">Eles vão se lembrar da senha.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">GOING TO + remember</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>am going to remember</strong> that.</td><td class="cpt">Eu vou me lembrar disso.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>is going to remember</strong> to bring it.</td><td class="cpt">Ele vai se lembrar de trazer.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>are going to remember</strong> this trip.</td><td class="cpt">Vamos nos lembrar dessa viagem.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com REMEMBER</div>
+    <div class="sd">Expressões que o nativo usa todo dia</div></div>
+  </div>
+  <div class="pg">
+    <div class="ph"><div class="ph-en">Do you <strong>remember</strong> me?</div><div class="ph-pt">Você se lembra de mim?</div></div>
+    <div class="ph"><div class="ph-en">I don't <strong>remember</strong>.</div><div class="ph-pt">Eu não me lembro.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Remember</strong> to call me later.</div><div class="ph-pt">Lembra de me ligar mais tarde.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>remember</strong> that day very well.</div><div class="ph-pt">Eu me lembro muito bem daquele dia.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>remember</strong> meeting him before.</div><div class="ph-pt">Lembro de ter o conhecido antes.</div></div>
+    <div class="ph"><div class="ph-en">Did you <strong>remember</strong> to bring it?</div><div class="ph-pt">Você se lembrou de trazer?</div></div>
+    <div class="ph"><div class="ph-en">I'll never <strong>forget</strong> this. (oposto)</div><div class="ph-pt">Eu nunca vou esquecer isso.</div></div>
+    <div class="ph"><div class="ph-en">I can't <strong>remember</strong> his name.</div><div class="ph-pt">Não consigo me lembrar do nome dele.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I didn't remembered to call."</div>
+      <div class="ecr">✓ "I didn't remember to call."</div>
+      <div class="ecd">DIDN'T + BASE (remember). "didn't remembered" ✗ — DIDN'T já marca o passado; o verbo volta à base.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Remember to locking the door."</div>
+      <div class="ecr">✓ "Remember to lock the door."</div>
+      <div class="ecd">REMEMBER TO + BASE (não -ING). "Remember to LOCK the door." ✓ — aqui o TO é do infinitivo, não gerúndio.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I remember to meet her at the party."</div>
+      <div class="ecr">✓ "I remember meeting her at the party."</div>
+      <div class="ecd">Memória de algo que já aconteceu = REMEMBER + ING. "I remember MEETING her." ✓ — não TO MEET (isso significaria lembrete futuro).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She remember to take her medicine."</div>
+      <div class="ecr">✓ "She remembers to take her medicine."</div>
+      <div class="ecd">HE / SHE / IT → REMEMBERS (com -S). "She REMEMBERS to take her medicine." ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Did you remembered to bring it?"</div>
+      <div class="ecr">✓ "Did you remember to bring it?"</div>
+      <div class="ecd">DID + BASE. "Did you REMEMBER to bring it?" ✓ — depois de DID, verbo na base REMEMBER.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I will remembered this forever."</div>
+      <div class="ecr">✓ "I will remember this forever."</div>
+      <div class="ecd">WILL + BASE. "I will REMEMBER this forever." ✓ — nunca REMEMBERED depois de WILL.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — REMEMBER</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado correto de REMEMBER?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">rememberred</button>
+      <button class="qo" onclick="ans(this,'q1',true)">remembered</button>
+      <button class="qo" onclick="ans(this,'q1',false)">rememberd</button>
+    </div>
+    <div class="qfb" id="q1fb">REMEMBER é REGULAR → REMEMBERED (base + ED). "rememberred" (dobra o R) ✗ — a regra de dobrar consoante só se aplica a sílabas tônicas curtas, não aqui.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Lembra de trancar a porta." → Qual estrutura usar?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">Remember locking the door.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">Remember to lock the door.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Remember locked the door.</button>
+    </div>
+    <div class="qfb" id="q2fb">Lembrete para ação futura = REMEMBER + TO + BASE. "Remember TO LOCK the door." ✓ — a ação ainda vai acontecer.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Lembro de ter a conhecido na festa." → Memória do passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">I remember to meet her at the party.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">I remember meeting her at the party.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">I remembered to meet her at the party.</button>
+    </div>
+    <div class="qfb" id="q3fb">Memória de algo que aconteceu = REMEMBER + ING. "I remember MEETING her at the party." ✓ — tenho a memória daquele momento.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela se lembra de tomar o remédio." → Presente com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She remember to take her medicine.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She remembers to take her medicine.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She is remembering to take her medicine.</button>
+    </div>
+    <div class="qfb" id="q4fb">HE / SHE / IT → REMEMBERS (com -S). "She REMEMBERS to take her medicine." ✓</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Eu não me lembrei de te ligar." → Passado, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I didn't remembered to call you.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I didn't remember to call you.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I not remembered to call you.</button>
+    </div>
+    <div class="qfb" id="q5fb">DIDN'T + BASE. "I didn't REMEMBER to call you." ✓ — DIDN'T já carrega o passado; verbo vai à base REMEMBER.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">Diferença entre REMEMBER + ING e REMEMBER + TO:</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">São a mesma coisa — sempre intercambiáveis.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">+ING = memória de algo passado. +TO = lembrete de algo a fazer.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">+TO é mais formal; +ING é informal.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I remember LOCKING the door." (tenho memória de ter trancado) vs "Remember TO LOCK the door." (não esqueça de trancar — ainda vai fazer). Significados completamente diferentes!</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Você se lembrou de trazer os documentos?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Did you remembered to bring the documents?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Did you remember to bring the documents?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Do you remember to bring the documents?</button>
+    </div>
+    <div class="qfb" id="q7fb">DID + BASE. "Did you REMEMBER to bring the documents?" ✓ — depois de DID, base REMEMBER (nunca REMEMBERED).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Ele não se lembra do meu nome." → Presente com HE, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">He don't remember my name.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">He doesn't remembers my name.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">He doesn't remember my name.</button>
+    </div>
+    <div class="qfb" id="q8fb">HE → DOESN'T (não DON'T). Depois de DOESN'T: BASE sem -S. "He DOESN'T REMEMBER my name." ✓</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Eu vou me lembrar deste momento para sempre." → WILL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I will remembered this moment forever.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I will remember this moment forever.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I will remembers this moment forever.</button>
+    </div>
+    <div class="qfb" id="q9fb">WILL + BASE. "I will REMEMBER this moment forever." ✓ — base sempre depois de modais.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Eu não me lembro." → Como dizer de forma natural?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I am not remembering.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I don't remember.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I not remember.</button>
+    </div>
+    <div class="qfb" id="q10fb">"I don't REMEMBER." ✓ — negativa presente com DON'T + BASE. "I am not remembering" é raro e não é o uso padrão de REMEMBER.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Nós nos lembramos bem daquele dia." → Presente.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">We remembers that day very well.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">We remember that day very well.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">We are remembering that day very well.</button>
+    </div>
+    <div class="qfb" id="q11fb">WE → REMEMBER (sem -S). "We REMEMBER that day very well." ✓</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Eles vão se lembrar de trazer os documentos." → GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">They are going to remembered to bring the documents.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">They are going to remember to bring the documents.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">They is going to remember to bring the documents.</button>
+    </div>
+    <div class="qfb" id="q12fb">THEY → ARE going to + BASE. "They ARE going to REMEMBER to bring the documents." ✓ — base REMEMBER (não REMEMBERED) depois de GOING TO.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../56_understand/index.html">← L56 UNDERSTAND</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0xfb923c;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

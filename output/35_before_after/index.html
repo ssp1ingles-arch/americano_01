@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 35 — BEFORE · AFTER | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#818cf8;
+  --cb:#60A5FA;--ca:#34D399;--ce:#FBBF24;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,9vw,6.5rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vb{color:var(--cb)}
+.hero-title .dot{color:var(--muted);font-size:.55em}
+.hero-title .va{color:var(--ca)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-b{color:var(--cb);background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.hp-a{color:var(--ca);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* TIMELINE */
+.timeline-wrap{background:var(--surface);border:1px solid rgba(129,140,248,.15);border-radius:1.25rem;padding:2rem;margin-bottom:1.75rem}
+.timeline-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);text-align:center;margin-bottom:1.5rem}
+.timeline{display:flex;align-items:center;gap:0;margin-bottom:1.25rem;position:relative}
+.tl-node{display:flex;flex-direction:column;align-items:center;z-index:1}
+.tl-circle{width:3.2rem;height:3.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.75rem;flex-shrink:0;text-align:center;line-height:1.1}
+.tl-before{background:rgba(96,165,250,.15);border:2px solid var(--cb);color:var(--cb)}
+.tl-event{background:rgba(129,140,248,.12);border:2px solid var(--accent);color:var(--accent);width:3.8rem;height:3.8rem}
+.tl-after{background:rgba(52,211,153,.15);border:2px solid var(--ca);color:var(--ca)}
+.tl-label{font-size:.72rem;font-weight:700;margin-top:.5rem;text-align:center}
+.tl-before .tl-label{color:var(--cb)}
+.tl-event-label{color:var(--accent)}
+.tl-after .tl-label{color:var(--ca)}
+.tl-line{flex:1;height:2px;background:linear-gradient(to right,var(--cb),var(--accent))}
+.tl-line-r{flex:1;height:2px;background:linear-gradient(to right,var(--accent),var(--ca))}
+.tl-arrow{font-size:.9rem;color:var(--muted)}
+
+.tl-examples{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.75rem}
+.tl-ex{border-radius:.75rem;padding:.9rem;text-align:center}
+.tl-ex-b{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18)}
+.tl-ex-a{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18)}
+.tl-ex-word{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.3rem}
+.tl-ex-b .tl-ex-word{color:var(--cb)}
+.tl-ex-a .tl-ex-word{color:var(--ca)}
+.tl-ex-en{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600}
+.tl-ex-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+
+/* USO BLOCKS */
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-b{background:rgba(96,165,250,.15);color:var(--cb)}
+.un-a{background:rgba(52,211,153,.15);color:var(--ca)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utb{color:var(--cb)}
+.uta{color:var(--ca)}
+.ute{color:var(--ce)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbb{color:var(--cb);font-weight:700}
+.vba{color:var(--ca);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+
+/* STRUCTURES */
+.struct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.85rem 0}
+.struct-item{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.75rem;text-align:center}
+.struct-item .kw{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700}
+.struct-item .plus{color:var(--muted);font-size:.9rem;display:block;margin:.15rem 0}
+.struct-item .what{font-size:.82rem;color:var(--muted)}
+
+/* PREP vs CONJ */
+.pvc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:.85rem 0}
+.pvc-card{border-radius:.75rem;padding:.9rem}
+.pvc-prep{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.18)}
+.pvc-conj{background:rgba(129,140,248,.06);border:1px solid rgba(129,140,248,.18)}
+.pvc-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.pvc-prep .pvc-label{color:var(--ce)}
+.pvc-conj .pvc-label{color:var(--accent)}
+.pvc-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.88rem}
+.pvc-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.pvc-rule{font-size:.75rem;font-style:italic;color:var(--muted);margin-top:.4rem}
+
+/* EXPRESSIONS */
+.expr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:.55rem;margin:.85rem 0}
+.expr-item{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.8rem}
+.expr-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:var(--ce);margin-bottom:.2rem}
+.expr-en{font-size:.82rem;font-style:italic;color:var(--muted)}
+.expr-pt{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+
+/* NO WILL box */
+.no-will{background:rgba(255,112,67,.06);border:2px solid rgba(255,112,67,.35);border-radius:1rem;padding:1.25rem 1.5rem;margin-top:1.25rem}
+.no-will h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+.nw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.nw-wrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);border-radius:.65rem;padding:.8rem}
+.nw-right{background:rgba(95,216,122,.06);border:1px solid rgba(95,216,122,.2);border-radius:.65rem;padding:.8rem}
+.nw-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem}
+.nw-wrong .nw-label{color:var(--warn)}
+.nw-right .nw-label{color:var(--tip)}
+.nw-text{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem}
+.nw-wrong .nw-text{color:var(--warn)}
+.nw-right .nw-text{color:var(--tip)}
+.nw-rule{font-size:.85rem;color:var(--muted);margin-top:.65rem;line-height:1.5}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cb);color:var(--cb);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cb);background:rgba(96,165,250,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cb),var(--ca));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(96,165,250,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--cb)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .tl-examples{grid-template-columns:1fr}
+  .struct-grid{grid-template-columns:1fr}
+  .pvc-grid{grid-template-columns:1fr}
+  .nw-grid{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 06 · Conectivos Essenciais</span>
+  <span class="nav-badge">A1–A2 · Lição 35 · BEFORE · AFTER</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 06 · Lição 35</div>
+    <div class="hero-title">
+      <span class="vb">BEFORE</span>
+      <span class="dot"> · </span>
+      <span class="va">AFTER</span>
+    </div>
+    <div class="hero-sub">Sequência temporal — o que vem antes e o que vem depois</div>
+    <div class="hero-pills">
+      <span class="hp hp-b">BEFORE = antes de</span>
+      <span class="hp hp-a">AFTER = depois de</span>
+      <span class="hp hp-e">right after · just before</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section">
+  <div class="section-label">Conceito central</div>
+  <div class="section-title">Sequência no tempo — linha do tempo</div>
+
+  <div class="timeline-wrap">
+    <div class="timeline-title">Antes → Evento → Depois</div>
+    <div class="timeline">
+      <div class="tl-node tl-before">
+        <div class="tl-circle tl-before">BEFORE</div>
+        <div class="tl-label">antes</div>
+      </div>
+      <div class="tl-line"></div>
+      <div class="tl-node">
+        <div class="tl-circle tl-event">EVENTO</div>
+        <div class="tl-label tl-event-label">acontecimento</div>
+      </div>
+      <div class="tl-line-r"></div>
+      <div class="tl-node tl-after">
+        <div class="tl-circle tl-after">AFTER</div>
+        <div class="tl-label">depois</div>
+      </div>
+    </div>
+    <div class="tl-examples">
+      <div class="tl-ex tl-ex-b">
+        <div class="tl-ex-word">BEFORE</div>
+        <div class="tl-ex-en">Brush your teeth <strong>before</strong> you go to bed.</div>
+        <div class="tl-ex-pt">Escove os dentes antes de ir dormir.</div>
+      </div>
+      <div class="tl-ex tl-ex-a">
+        <div class="tl-ex-word">AFTER</div>
+        <div class="tl-ex-en"><strong>After</strong> dinner, we watched a movie.</div>
+        <div class="tl-ex-pt">Depois do jantar, assistimos um filme.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 1: BEFORE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--cb)">BEFORE = Antes de / Antes que</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-b">1</div>
+      <div>
+        <div class="uso-title utb">BEFORE — três estruturas possíveis</div>
+        <div class="uso-sub">BEFORE + oração · BEFORE + substantivo · BEFORE + gerúndio (-ing)</div>
+      </div>
+    </div>
+
+    <div class="struct-grid">
+      <div class="struct-item">
+        <div class="kw" style="color:var(--cb)">BEFORE</div>
+        <span class="plus">+</span>
+        <div class="what">oração<br>(sujeito + verbo)</div>
+      </div>
+      <div class="struct-item">
+        <div class="kw" style="color:var(--cb)">BEFORE</div>
+        <span class="plus">+</span>
+        <div class="what">substantivo<br>(noun)</div>
+      </div>
+      <div class="struct-item">
+        <div class="kw" style="color:var(--cb)">BEFORE</div>
+        <span class="plus">+</span>
+        <div class="what">gerúndio<br>(-ing)</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">oração</td><td class="en">Brush your teeth <span class="vbb">before</span> you go to bed.</td><td class="pt">Escove os dentes antes de ir para a cama.</td></tr>
+        <tr><td class="tipo">oração</td><td class="en"><span class="vbb">Before</span> I left, I turned off the lights.</td><td class="pt">Antes de sair, apaguei as luzes.</td></tr>
+        <tr><td class="tipo">oração</td><td class="en">Think <span class="vbb">before</span> you speak.</td><td class="pt">Pense antes de falar.</td></tr>
+        <tr><td class="tipo">substantivo</td><td class="en">I need to finish <span class="vbb">before</span> dinner.</td><td class="pt">Preciso terminar antes do jantar.</td></tr>
+        <tr><td class="tipo">substantivo</td><td class="en">I'll be there <span class="vbb">before</span> noon.</td><td class="pt">Estarei lá antes do meio-dia.</td></tr>
+        <tr><td class="tipo">gerúndio</td><td class="en"><span class="vbb">Before</span> leaving, check the door.</td><td class="pt">Antes de sair, verifique a porta.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>Ordem flexível:</strong> BEFORE pode ficar no meio ou no início da frase. "Before I left, I turned off the lights." = "I turned off the lights before I left." Quando BEFORE inicia, use vírgula depois da primeira parte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: AFTER -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--ca)">AFTER = Depois de / Após</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-a">2</div>
+      <div>
+        <div class="uso-title uta">AFTER — mesmas três estruturas do BEFORE</div>
+        <div class="uso-sub">AFTER + oração · AFTER + substantivo · AFTER + gerúndio (-ing)</div>
+      </div>
+    </div>
+
+    <div class="struct-grid">
+      <div class="struct-item">
+        <div class="kw" style="color:var(--ca)">AFTER</div>
+        <span class="plus">+</span>
+        <div class="what">oração<br>(sujeito + verbo)</div>
+      </div>
+      <div class="struct-item">
+        <div class="kw" style="color:var(--ca)">AFTER</div>
+        <span class="plus">+</span>
+        <div class="what">substantivo<br>(noun)</div>
+      </div>
+      <div class="struct-item">
+        <div class="kw" style="color:var(--ca)">AFTER</div>
+        <span class="plus">+</span>
+        <div class="what">gerúndio<br>(-ing)</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">oração</td><td class="en"><span class="vba">After</span> she finished work, she went to the gym.</td><td class="pt">Depois que ela terminou, foi à academia.</td></tr>
+        <tr><td class="tipo">oração</td><td class="en">I felt better <span class="vba">after</span> I slept.</td><td class="pt">Me senti melhor depois que dormi.</td></tr>
+        <tr><td class="tipo">oração</td><td class="en">Call me <span class="vba">after</span> you arrive.</td><td class="pt">Me ligue depois que você chegar.</td></tr>
+        <tr><td class="tipo">substantivo</td><td class="en"><span class="vba">After</span> dinner, we watched a movie.</td><td class="pt">Depois do jantar, assistimos um filme.</td></tr>
+        <tr><td class="tipo">substantivo</td><td class="en">She left <span class="vba">after</span> the show.</td><td class="pt">Ela foi embora depois do show.</td></tr>
+        <tr><td class="tipo">gerúndio</td><td class="en"><span class="vba">After</span> eating, she went for a walk.</td><td class="pt">Depois de comer, ela foi caminhar.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- No WILL box -->
+    <div class="no-will">
+      <h4>⚠ WILL nunca vai depois de BEFORE / AFTER no futuro</h4>
+      <div class="nw-grid">
+        <div class="nw-wrong">
+          <div class="nw-label">✗ errado</div>
+          <div class="nw-text">After I will eat, I will sleep.</div>
+        </div>
+        <div class="nw-right">
+          <div class="nw-label">✓ correto</div>
+          <div class="nw-text">After I eat, I will sleep.</div>
+        </div>
+        <div class="nw-wrong">
+          <div class="nw-label">✗ errado</div>
+          <div class="nw-text">Call me after you will arrive.</div>
+        </div>
+        <div class="nw-right">
+          <div class="nw-label">✓ correto</div>
+          <div class="nw-text">Call me after you arrive.</div>
+        </div>
+      </div>
+      <div class="nw-rule">
+        <strong>Mesma regra do IF:</strong> depois de BEFORE e AFTER no futuro, use PRESENTE SIMPLES — nunca WILL. O WILL fica na outra parte da frase.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: Preposição vs Conjunção -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--ce)">BEFORE / AFTER — Preposição ou Conjunção?</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">3</div>
+      <div>
+        <div class="uso-title ute">Mesma palavra — dois papéis diferentes</div>
+        <div class="uso-sub">BEFORE/AFTER + substantivo = preposição · BEFORE/AFTER + oração = conjunção</div>
+      </div>
+    </div>
+
+    <div class="pvc-grid">
+      <div class="pvc-card pvc-prep">
+        <div class="pvc-label">Preposição → + substantivo</div>
+        <div class="pvc-en">Before <strong>the meeting</strong>, read the report.</div>
+        <div class="pvc-pt">Antes da reunião, leia o relatório.</div>
+        <div style="margin-top:.5rem" class="pvc-en">After <strong>dinner</strong>, we had coffee.</div>
+        <div class="pvc-pt">Depois do jantar, tomamos café.</div>
+        <div class="pvc-rule">before/after + substantivo</div>
+      </div>
+      <div class="pvc-card pvc-conj">
+        <div class="pvc-label">Conjunção → + oração completa</div>
+        <div class="pvc-en">Before <strong>I leave</strong>, I'll say goodbye.</div>
+        <div class="pvc-pt">Antes de sair, vou me despedir.</div>
+        <div style="margin-top:.5rem" class="pvc-en">After <strong>she finished</strong>, she relaxed.</div>
+        <div class="pvc-pt">Depois que ela terminou, relaxou.</div>
+        <div class="pvc-rule">before/after + sujeito + verbo</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>Dica prática:</strong> se vier um substantivo logo depois (dinner, work, class, the show), é preposição. Se vier um sujeito + verbo (I, she, you + verbo), é conjunção. Na prática, não precisa nomear — use naturalmente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 4: Expressões do dia a dia -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4</div>
+  <div class="section-title" style="color:var(--ce)">Expressões com BEFORE e AFTER</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">4</div>
+      <div>
+        <div class="uso-title ute">right after · just before · long before · the day after</div>
+        <div class="uso-sub">Expressões fixas muito usadas no inglês falado e escrito</div>
+      </div>
+    </div>
+
+    <div class="expr-grid">
+      <div class="expr-item">
+        <div class="expr-form">right after</div>
+        <div class="expr-en">Right after dinner, he called.</div>
+        <div class="expr-pt">Logo depois do jantar, ele ligou.</div>
+      </div>
+      <div class="expr-item">
+        <div class="expr-form">just before</div>
+        <div class="expr-en">Just before leaving, she smiled.</div>
+        <div class="expr-pt">Logo antes de sair, ela sorriu.</div>
+      </div>
+      <div class="expr-item">
+        <div class="expr-form">long before</div>
+        <div class="expr-en">I knew it long before you told me.</div>
+        <div class="expr-pt">Sabia muito antes de você me dizer.</div>
+      </div>
+      <div class="expr-item">
+        <div class="expr-form">the day before</div>
+        <div class="expr-en">The day before the trip, we packed.</div>
+        <div class="expr-pt">No dia anterior à viagem, arrumamos.</div>
+      </div>
+      <div class="expr-item">
+        <div class="expr-form">the day after</div>
+        <div class="expr-en">The day after, everything changed.</div>
+        <div class="expr-pt">No dia seguinte, tudo mudou.</div>
+      </div>
+      <div class="expr-item">
+        <div class="expr-form">soon after</div>
+        <div class="expr-en">She left soon after the meeting.</div>
+        <div class="expr-pt">Ela saiu logo após a reunião.</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>right / just / long</strong> intensificam BEFORE e AFTER: "right after" (imediatamente), "just before" (pouquíssimo antes), "long before" (muito antes). São muito frequentes em inglês falado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — BEFORE · AFTER</div>
+  <div class="quiz-sub">12 questões sobre sequência temporal, estruturas e o erro clássico com WILL.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com BEFORE e AFTER</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>BEFORE/AFTER + presente simples no futuro — nunca WILL</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(96,165,250,.25)">
+      <h4 style="color:var(--cb)">BEFORE</h4>
+      <div class="sum-item"><span class="en">Before you go, say goodbye.</span></div>
+      <div class="sum-item"><span class="en">Before dinner, wash your hands.</span></div>
+      <div class="sum-item"><span class="en">Before leaving, check the door.</span></div>
+      <div class="sum-item">+ oração / noun / gerund</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.25)">
+      <h4 style="color:var(--ca)">AFTER</h4>
+      <div class="sum-item"><span class="en">After she left, I cleaned up.</span></div>
+      <div class="sum-item"><span class="en">After dinner, we watched TV.</span></div>
+      <div class="sum-item"><span class="en">After eating, she rested.</span></div>
+      <div class="sum-item">+ oração / noun / gerund</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">Expressões</h4>
+      <div class="sum-item"><span class="en">right after</span> = logo depois</div>
+      <div class="sum-item"><span class="en">just before</span> = logo antes</div>
+      <div class="sum-item"><span class="en">long before</span> = muito antes</div>
+      <div class="sum-item"><span class="en">the day after</span> = no dia seguinte</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(255,112,67,.2)">
+      <h4 style="color:var(--warn)">Regra WILL</h4>
+      <div class="sum-item">WILL nunca após BEFORE/AFTER</div>
+      <div class="sum-item"><span class="en">After I eat</span> ✓</div>
+      <div class="sum-item" style="color:var(--warn)"><span style="color:var(--warn)">After I will eat</span> ✗</div>
+      <div class="sum-item">mesma regra do IF (L34)</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../34_if/index.html">← Lição 34</a>
+  <div class="fnav-center">Lição 35 de 89 · Módulo 06</div>
+  <a class="fnav-btn" href="../36_however_although/index.html">Lição 36 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x60A5FA,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0x34D399,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xFBBF24,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(1.9,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x60A5FA,emissive:0x60A5FA,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.95,3),new THREE.MeshBasicMaterial({color:0x60A5FA,wireframe:true,opacity:.07,transparent:true})));
+
+  var aGrp=new THREE.Group();aGrp.rotation.x=.3;scene.add(aGrp);
+  var aMat=new THREE.MeshStandardMaterial({color:0x34D399,emissive:0x34D399,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),aMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);aGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  aGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0x34D399,opacity:.12,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=-.25;eGrp.rotation.z=.35;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),eMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);eGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    aGrp.rotation.y+=.02;eGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"Brush your teeth ___ you go to bed." — complete.',opts:['before','after','because','so'],ans:'before',why:"BEFORE = antes de. 'Brush your teeth before you go to bed' = escove os dentes antes de ir para a cama. Sequência: escove → depois durma."},
+  {s:'"___ dinner, we watched a movie." — complete.',opts:['After','Before','Because','So'],ans:'After',why:"AFTER = depois de. 'After dinner, we watched a movie' = depois do jantar, assistimos um filme. Sequência: jantar → depois assisti."},
+  {s:'"Before ___, check the door." — qual forma?',opts:['leaving','to leave','leave','left'],ans:'leaving',why:"BEFORE + gerúndio (-ing). 'Before leaving' = antes de sair. Gerúndio (-ing) é a forma correta após BEFORE sem sujeito."},
+  {s:'"After ___, she went for a walk." — qual forma?',opts:['eating','to eat','eat','eaten'],ans:'eating',why:"AFTER + gerúndio (-ing). 'After eating' = depois de comer. Mesma estrutura: AFTER/BEFORE + -ing quando não tem sujeito."},
+  {s:'"Call me after you ___." — futuro — qual forma do verbo?',opts:['arrive','will arrive','are arriving','arrived'],ans:'arrive',why:"Depois de AFTER no futuro use PRESENTE SIMPLES. 'After you arrive' ✓ — nunca 'after you will arrive' ✗. Mesma regra do IF e BEFORE."},
+  {s:'"After I ___ eat, I will sleep." — complete.',opts:['— (nada)','will','going to','do'],ans:'— (nada)',why:"AFTER + presente simples no futuro — sem WILL. 'After I eat' ✓. O WILL fica só na consequência: 'I will sleep'."},
+  {s:'"___ before leaving, she smiled." — que palavra intensifica "before"?',opts:['Just','Very','So','Only'],ans:'Just',why:"'Just before' = logo antes (há pouquíssimo tempo/instante). 'Just before leaving, she smiled' = logo antes de sair, ela sorriu."},
+  {s:'"Right ___ dinner, he called." — complete.',opts:['after','before','since','when'],ans:'after',why:"'Right after' = logo depois. 'Right after dinner' = logo depois do jantar. RIGHT intensifica AFTER: imediatamente depois."},
+  {s:'"The day ___, everything changed." — no dia seguinte.',opts:['after','before','later','next'],ans:'after',why:"'The day after' = no dia seguinte. É uma expressão fixa: 'The day after, everything changed' = no dia seguinte, tudo mudou."},
+  {s:'"___ the meeting, read the report." — BEFORE ou AFTER?',opts:['Before','After','Because','Since'],ans:'Before',why:"'Before the meeting' = antes da reunião. Aqui BEFORE é preposição (+ substantivo 'meeting'). Leia antes de entrar na reunião."},
+  {s:'BEFORE/AFTER + substantivo = ___ · BEFORE/AFTER + oração = ___',opts:['preposição · conjunção','conjunção · preposição','adjetivo · advérbio','verbo · substantivo'],ans:'preposição · conjunção',why:"BEFORE/AFTER funcionam como preposição (+ substantivo: 'before dinner') e como conjunção (+ oração: 'before she left'). Mesma palavra, dois papéis."},
+  {s:'"I knew it ___ before you told me." — muito antes.',opts:['long','right','just','so'],ans:'long',why:"'Long before' = muito antes. 'I knew it long before you told me' = eu sabia muito antes de você me dizer. LONG intensifica BEFORE no tempo."}
+];
+
+var ERRORS=[
+  {wrong:'After I will eat, I will sleep.',right:'After I eat, I will sleep.',why:"WILL nunca vai depois de AFTER (ou BEFORE) no futuro. Use presente simples: 'After I eat'. O WILL fica só na consequência: 'I will sleep'."},
+  {wrong:'Before I will leave, I\'ll say goodbye.',right:"Before I leave, I'll say goodbye.",why:"Mesma regra: depois de BEFORE no futuro, use presente simples (leave). WILL fica na consequência (I'll say)."},
+  {wrong:'After to eat, she went for a walk.',right:'After eating, she went for a walk.',why:"AFTER + gerúndio (-ing), não infinitivo (to eat). 'After eating' ✓ — nunca 'after to eat'. O mesmo vale para BEFORE: 'before eating', 'before leaving'."},
+  {wrong:'Before to leave, check the door.',right:'Before leaving, check the door.',why:"BEFORE + gerúndio (-ing), não infinitivo (to leave). 'Before leaving' ✓ — mesmo padrão de AFTER + gerúndio."},
+  {wrong:"I'll be there before of noon.",right:"I'll be there before noon.",why:"BEFORE + substantivo direto — sem 'of'. 'Before noon' = antes do meio-dia. 'Before of noon' é errado. Compare: 'because of' (com of) vs 'before' (sem of)."},
+  {wrong:"She arrived after than me.",right:'She arrived after me.',why:"AFTER não usa THAN. THAN aparece em comparações (later THAN, sooner THAN). 'She arrived after me' = ela chegou depois de mim — simples, sem 'than'."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque na regra do WILL!':pct<.75?'Bom progresso! Revise BEFORE/AFTER + gerúndio.':pct<1?'Muito bem! Quase perfeito.':'Perfeito! BEFORE e AFTER dominados!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

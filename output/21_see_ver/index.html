@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lição 21 · SEE – VER | Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --tip:#5FD87A;--warn:#FF7043;
+  --c1:#60A5FA;--c2:#A78BFA;--c3:#34D399;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+.backnav{padding:1rem 2rem;display:flex;align-items:center;gap:.5rem;opacity:.7;font-size:.85rem}
+.backnav a{color:var(--accent);text-decoration:none}
+.backnav a:hover{text-decoration:underline}
+
+header{text-align:center;padding:2rem 1rem 1rem}
+.badge{display:inline-block;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif}
+header h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:.5rem}
+header h1 span{color:var(--accent)}
+header p.sub{color:var(--muted);font-size:1.05rem;max-width:540px;margin:0 auto}
+
+#heroWrap{width:100%;height:420px;position:relative;margin:1.5rem 0}
+#heroWrap canvas{display:block;width:100%!important;height:100%!important}
+.hero-hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.05em;pointer-events:none}
+
+.rule-wrap{max-width:900px;margin:0 auto 2rem;padding:0 1.5rem}
+.rule-box{background:var(--surface);border:1px solid rgba(34,211,238,.3);border-radius:16px;padding:1.8rem 2rem;position:relative;overflow:hidden}
+.rule-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--accent),var(--c2))}
+.rule-box h3{font-size:1rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.2rem}
+.conj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.conj-card{background:var(--surface2);border-radius:10px;padding:1rem;text-align:center}
+.conj-card .label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.conj-card .verb{font-size:1.6rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.conj-card .detail{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+.conj-card.present .verb{color:var(--c1)}
+.conj-card.present2 .verb{color:var(--c2)}
+.conj-card.past .verb{color:var(--accent)}
+.warn-box{margin-top:1.2rem;background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.25);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:flex-start;gap:.7rem}
+.warn-box .icon{font-size:1.1rem;margin-top:.05rem;flex-shrink:0}
+.warn-box p{font-size:.88rem;color:var(--text)}
+.warn-box code{font-family:'Space Grotesk',monospace;background:rgba(0,0,0,.25);padding:.1rem .35rem;border-radius:4px}
+.warn-box .bad{color:var(--warn);font-weight:700}
+.warn-box .good{color:var(--tip);font-weight:700}
+
+.sec{max-width:900px;margin:0 auto 3rem;padding:0 1.5rem}
+.sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.sec-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;flex-shrink:0}
+.sec-title{font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.sec-pt{font-size:.85rem;color:var(--muted);font-weight:400}
+
+.meaning-card{background:var(--surface);border-radius:14px;padding:1.5rem;margin-bottom:1.2rem;border-left:4px solid}
+.meaning-card h4{font-size:1rem;font-weight:700;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif}
+.examples-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.examples-list li{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;align-items:center;background:var(--surface2);border-radius:8px;padding:.65rem .9rem;font-size:.9rem}
+.examples-list li .en{font-weight:600}
+.examples-list li .pt{color:var(--muted)}
+
+.tip-box{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);border-radius:10px;padding:.9rem 1.2rem;margin-top:1rem;font-size:.88rem}
+.tip-box strong{color:var(--tip)}
+
+/* SEE vs LOOK vs WATCH — triple comparison */
+.triple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem}
+.triple-card{background:var(--surface);border-radius:14px;padding:1.4rem;text-align:center;border-top:3px solid}
+.triple-card .verb-big{font-size:1.6rem;font-weight:800;font-family:'Space Grotesk',sans-serif;margin-bottom:.3rem}
+.triple-card .pt-word{font-size:.78rem;color:var(--muted);margin-bottom:.7rem}
+.triple-card .desc{font-size:.82rem;line-height:1.5;margin-bottom:.9rem}
+.triple-card .example{font-size:.8rem;font-weight:600;background:var(--surface2);border-radius:8px;padding:.5rem .7rem}
+.triple-card .example-pt{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+.comparison-grid{display:flex;flex-direction:column;gap:.7rem;margin-top:.8rem}
+.comp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.comp-item{background:var(--surface2);border-radius:8px;padding:.6rem .8rem;font-size:.83rem}
+.comp-item .cv{font-weight:700;margin-bottom:.2rem}
+.comp-item .cp{font-size:.75rem;color:var(--muted)}
+
+/* common SEE expressions */
+.expr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-top:.9rem}
+.expr-card{background:var(--surface2);border-radius:10px;padding:.8rem 1rem}
+.expr-card .phrase{font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--c1)}
+.expr-card .pt{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+
+.quiz-wrap{display:flex;flex-direction:column;gap:1.2rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color .3s}
+.q-card.correct{border-color:var(--tip)}
+.q-card.wrong{border-color:var(--warn)}
+.q-num{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.q-sent{font-size:1.05rem;font-weight:600;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.q-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--accent);text-align:center;color:var(--accent)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;cursor:pointer;font-size:.9rem;font-weight:500;text-align:center;transition:all .2s}
+.opt:hover{border-color:var(--accent);background:rgba(34,211,238,.07)}
+.opt.selected-correct{background:rgba(95,216,122,.12);border-color:var(--tip);color:var(--tip);font-weight:700}
+.opt.selected-wrong{background:rgba(255,112,67,.12);border-color:var(--warn);color:var(--warn)}
+.opt.reveal-correct{background:rgba(95,216,122,.08);border-color:rgba(95,216,122,.4);color:var(--tip)}
+.opt[disabled]{cursor:not-allowed;opacity:.7}
+.q-feedback{margin-top:.8rem;padding:.65rem .9rem;border-radius:8px;font-size:.85rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:rgba(95,216,122,.08);color:var(--tip)}
+.q-feedback.nope{background:rgba(255,112,67,.08);color:var(--warn)}
+.score-bar{text-align:center;margin-top:1.5rem;padding:1.2rem;background:var(--surface);border-radius:14px;border:1px solid var(--border)}
+.score-bar .score-num{font-size:2rem;font-weight:800;color:var(--accent);font-family:'Space Grotesk',sans-serif}
+.score-bar p{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:999px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.btn-reset{background:rgba(34,211,238,.1);color:var(--accent);border:1px solid rgba(34,211,238,.3);margin-top:.9rem}
+.btn-reset:hover{background:rgba(34,211,238,.18)}
+
+.errors-grid{display:flex;flex-direction:column;gap:.9rem}
+.err-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;background:var(--surface);border-radius:12px;padding:1.1rem 1.3rem}
+.err-wrong{color:var(--warn);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem;text-decoration:line-through;text-decoration-color:rgba(255,112,67,.5)}
+.err-arrow{color:var(--muted);font-size:1.2rem}
+.err-right{color:var(--tip);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem}
+.err-why{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+
+.mega{max-width:900px;margin:0 auto 4rem;padding:0 1.5rem}
+.mega-box{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:2.2rem;position:relative;overflow:hidden}
+.mega-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--accent),var(--c2))}
+.mega-box h2{font-size:1.4rem;color:var(--accent);margin-bottom:1.6rem}
+.mega-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.mega-col{background:var(--surface);border-radius:12px;padding:1.2rem}
+.mega-col h4{font-size:.85rem;font-weight:700;margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.06em;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.mega-col ul li{font-size:.83rem;padding-left:.9rem;position:relative;color:var(--muted)}
+.mega-col ul li::before{content:'→';position:absolute;left:0;color:inherit;opacity:.7}
+.mega-col ul li span{color:var(--text);font-weight:600}
+
+footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
+footer a{color:var(--accent);text-decoration:none}
+.progress-bar{max-width:300px;margin:.8rem auto 0;height:4px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px}
+
+@media(max-width:600px){
+  .conj-grid{grid-template-columns:1fr}
+  .examples-list li{grid-template-columns:1fr}
+  .examples-list li .pt{padding-top:.2rem;border-top:1px solid var(--border)}
+  .opts{grid-template-columns:1fr}
+  .err-card{grid-template-columns:1fr}
+  .err-arrow{display:none}
+  .mega-cols{grid-template-columns:1fr}
+  .triple-grid{grid-template-columns:1fr}
+  .comp-row{grid-template-columns:1fr}
+  .expr-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="backnav">
+  <a href="../index.html">← Início</a>
+  <span style="color:var(--muted)">/</span>
+  <span>Lição 21 · SEE</span>
+</nav>
+
+<header>
+  <div class="badge">A1 · Lição 21 · Módulo 04 · Verbo SEE</div>
+  <h1>Verbo <span>SEE</span></h1>
+  <p class="sub">VER — perceber algo com os olhos. Passado irregular: SAW (parece outra palavra, mas é a mesma!)</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="c"></canvas>
+  <div class="hero-hint">arraste para girar</div>
+</div>
+
+<!-- RULE BOX -->
+<div class="rule-wrap">
+  <div class="rule-box">
+    <h3>Conjugação · SEE</h3>
+    <div class="conj-grid">
+      <div class="conj-card present">
+        <div class="label">Presente · Eu/Você/Nós/Eles</div>
+        <div class="verb">SEE</div>
+        <div class="detail">I see / You see / We see / They see</div>
+      </div>
+      <div class="conj-card present2">
+        <div class="label">Presente · Ele/Ela/Isso</div>
+        <div class="verb">SEES</div>
+        <div class="detail">He sees / She sees / It sees</div>
+      </div>
+      <div class="conj-card past">
+        <div class="label">Passado · TODOS os pronomes</div>
+        <div class="verb">SAW</div>
+        <div class="detail">I saw / He saw / She saw / They saw</div>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:1.2rem">
+      <div class="icon">⚠️</div>
+      <p>
+        Passado irregular: <code>SEE → SAW</code> — parece outra palavra, mas é a mesma!<br>
+        Negação: <span class="good">"I didn't see"</span> &nbsp;|&nbsp;
+        NUNCA <span class="bad">"I didn't saw" ✗</span> &nbsp;&nbsp;
+        NUNCA <span class="bad">"She seed" ✗</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SEE = VER ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(96,165,250,.15);color:var(--c1)">1</div>
+    <div>
+      <div class="sec-title" style="color:var(--c1)">SEE = VER</div>
+      <div class="sec-pt">perceber algo com os olhos — acontece naturalmente, sem esforço</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c1)">
+    <h4 style="color:var(--c1)">Exemplos — presente</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--c1)">see</strong> a bird outside my window.</span><span class="pt">Eu vejo um pássaro pela janela.</span></li>
+      <li><span class="en">You <strong style="color:var(--c1)">see</strong> everything from up there.</span><span class="pt">Você vê tudo lá de cima.</span></li>
+      <li><span class="en">He <strong style="color:var(--c2)">sees</strong> well without glasses.</span><span class="pt">Ele enxerga bem sem óculos.</span></li>
+      <li><span class="en">She <strong style="color:var(--c2)">sees</strong> colors differently.</span><span class="pt">Ela vê as cores de forma diferente.</span></li>
+      <li><span class="en">We <strong style="color:var(--c1)">see</strong> the mountains from our house.</span><span class="pt">Nós vemos as montanhas da nossa casa.</span></li>
+      <li><span class="en">They <strong style="color:var(--c1)">see</strong> the ocean every day.</span><span class="pt">Eles veem o oceano todo dia.</span></li>
+      <li><span class="en">I don't <strong style="color:var(--c1)">see</strong> anything.</span><span class="pt">Eu não vejo nada.</span></li>
+    </ul>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(96,165,250,.4)">
+    <h4>No passado — SAW</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--accent)">saw</strong> a beautiful sunset yesterday.</span><span class="pt">Eu vi um pôr do sol lindo ontem.</span></li>
+      <li><span class="en">He <strong style="color:var(--accent)">saw</strong> the accident.</span><span class="pt">Ele viu o acidente.</span></li>
+      <li><span class="en">She <strong style="color:var(--accent)">saw</strong> the meteor.</span><span class="pt">Ela viu o meteoro.</span></li>
+      <li><span class="en">We <strong style="color:var(--accent)">saw</strong> the mountains yesterday.</span><span class="pt">Nós vimos as montanhas ontem.</span></li>
+      <li><span class="en">They <strong style="color:var(--accent)">saw</strong> the ocean for the first time.</span><span class="pt">Eles viram o oceano pela primeira vez.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--c1)">see</strong> anything.</span><span class="pt">Eu não vi nada.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>Lembrete:</strong> "SAW" é só passado afirmativo. Para negação e pergunta no passado, volta para SEE: "I didn't <strong>see</strong>", "Did you <strong>see</strong> it?"
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(167,139,250,.4)">
+    <h4>Expressões comuns com SEE</h4>
+    <div class="expr-grid">
+      <div class="expr-card"><div class="phrase">I see!</div><div class="pt">Entendo! / Ah, é assim!</div></div>
+      <div class="expr-card"><div class="phrase">See you later!</div><div class="pt">Até mais! / Até logo!</div></div>
+      <div class="expr-card"><div class="phrase">see each other</div><div class="pt">se ver / se encontrar</div></div>
+      <div class="expr-card"><div class="phrase">see the difference</div><div class="pt">ver / notar a diferença</div></div>
+      <div class="expr-card"><div class="phrase">see the results</div><div class="pt">ver os resultados</div></div>
+      <div class="expr-card"><div class="phrase">will see you tomorrow</div><div class="pt">vou te ver amanhã</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SEE vs LOOK vs WATCH ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(52,211,153,.12);color:var(--c3)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--c3)">SEE vs LOOK vs WATCH</div>
+      <div class="sec-pt">três verbos — todos traduzem como "ver/olhar" — mas são diferentes!</div>
+    </div>
+  </div>
+
+  <div class="triple-grid">
+    <div class="triple-card" style="border-color:var(--c1)">
+      <div class="verb-big" style="color:var(--c1)">SEE</div>
+      <div class="pt-word">VER / ENXERGAR</div>
+      <div class="desc">Passivo — você <em>percebe</em> com os olhos sem esforço. Acontece sozinho.</div>
+      <div class="example">"I see a bird."</div>
+      <div class="example-pt">Eu vejo um pássaro.</div>
+    </div>
+    <div class="triple-card" style="border-color:var(--c3)">
+      <div class="verb-big" style="color:var(--c3)">LOOK</div>
+      <div class="pt-word">OLHAR / OBSERVAR</div>
+      <div class="desc">Ativo — você <em>dirige</em> o olhar para algo com intenção. Voluntário.</div>
+      <div class="example">"Look at that bird!"</div>
+      <div class="example-pt">Olha aquele pássaro!</div>
+    </div>
+    <div class="triple-card" style="border-color:var(--c2)">
+      <div class="verb-big" style="color:var(--c2)">WATCH</div>
+      <div class="pt-word">ASSISTIR / OBSERVAR</div>
+      <div class="desc">Ativo + tempo — você <em>assiste</em> a algo que se move ou dura. Com atenção e duração.</div>
+      <div class="example">"Watch the movie!"</div>
+      <div class="example-pt">Assista o filme!</div>
+    </div>
+  </div>
+
+  <div class="comparison-grid">
+    <div class="comp-row">
+      <div class="comp-item"><div class="cv" style="color:var(--c1)">I see stars.</div><div class="cp">Eu vejo estrelas. (Percebo.)</div></div>
+      <div class="comp-item"><div class="cv" style="color:var(--c3)">Look at the stars!</div><div class="cp">Olha as estrelas! (Direcione o olhar.)</div></div>
+      <div class="comp-item"><div class="cv" style="color:var(--c2)">Watch the game!</div><div class="cp">Assiste o jogo! (Com atenção, duração.)</div></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-item"><div class="cv" style="color:var(--c1)">Did you see that?</div><div class="cp">Você viu isso? (Percebeu?)</div></div>
+      <div class="comp-item"><div class="cv" style="color:var(--c3)">Look at this photo.</div><div class="cp">Olha essa foto. (Preste atenção.)</div></div>
+      <div class="comp-item"><div class="cv" style="color:var(--c2)">I watched TV all night.</div><div class="cp">Fiquei assistindo TV a noite toda.</div></div>
+    </div>
+  </div>
+  <div class="tip-box" style="margin-top:1rem">
+    <strong>Regra rápida:</strong> SEE = enxergar (passivo) · LOOK = olhar (voluntário, use "look at") · WATCH = assistir (duração, movimento)
+  </div>
+</section>
+
+<!-- ═══ QUIZ ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(34,211,238,.12);color:var(--accent)">✎</div>
+    <div>
+      <div class="sec-title" style="color:var(--accent)">Quiz · Pratique SEE</div>
+      <div class="sec-pt">escolha a forma correta</div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz"></div>
+  <div class="score-bar" id="scorebar" style="display:none">
+    <div class="score-num" id="scorenum"></div>
+    <p id="scoremsg"></p>
+    <button class="btn btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</section>
+
+<!-- ═══ ERROS CLÁSSICOS ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(255,112,67,.12);color:var(--warn)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--warn)">Erros Clássicos</div>
+      <div class="sec-pt">o que brasileiros erram mais com SEE</div>
+    </div>
+  </div>
+  <div class="errors-grid">
+    <div class="err-card">
+      <div><div class="err-wrong">I didn't saw the accident.</div><div class="err-why">Negação usa SEE base — o "didn't" já indica passado</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I didn't see the accident.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She seed the movie.</div><div class="err-why">SEE é irregular — passado = SAW (nunca seed ou seed)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She saw the movie.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">He see well without glasses.</div><div class="err-why">He/She/It → SEES no presente</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">He sees well without glasses.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">Did they saw the game?</div><div class="err-why">DID + verbo base → DID THEY SEE (não DID THEY SAW)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">Did they see the game?</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She doesn't sees well.</div><div class="err-why">"doesn't" + verbo base sem -s: doesn't SEE</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She doesn't see well.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">I see the movie last night.</div><div class="err-why">"last night" é passado → use SAW</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I saw the movie last night.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEGA SUMMARY ═══ -->
+<div class="mega">
+  <div class="mega-box">
+    <h2>Resumão · Verbo SEE</h2>
+    <div class="mega-cols">
+      <div class="mega-col">
+        <h4 style="color:var(--c1)">Formas de SEE</h4>
+        <ul>
+          <li><span>SEE</span> = presente (I/You/We/They)</li>
+          <li><span>SEES</span> = presente He/She/It</li>
+          <li><span>SAW</span> = passado irregular (todos)</li>
+          <li><span>didn't see</span> = negação no passado (NUNCA "didn't saw")</li>
+          <li><span>Does she see?</span> = pergunta (base)</li>
+          <li><span>Did they see?</span> = pergunta passado (base)</li>
+          <li><span>I see!</span> = "Entendo!" — expressão muito usada</li>
+        </ul>
+      </div>
+      <div class="mega-col">
+        <h4 style="color:var(--c3)">SEE vs LOOK vs WATCH</h4>
+        <ul>
+          <li><span>SEE</span> = ver passivo, sem esforço</li>
+          <li><span>LOOK (at)</span> = olhar com intenção</li>
+          <li><span>WATCH</span> = assistir com atenção e duração</li>
+          <li><span>"I see a bird"</span> → percebo naturalmente</li>
+          <li><span>"Look at this!"</span> → direcione o olhar</li>
+          <li><span>"Watch the game"</span> → assista/observe</li>
+          <li>SAW = passado, parece outra palavra — é a mesma!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="../index.html">← Voltar ao início</a></p>
+  <p style="margin-top:.4rem">Lição 21 de 25 · Módulo 04 · Inglês Visual para Brasileiros</p>
+  <div class="progress-bar"><div class="progress-fill" style="width:84%"></div></div>
+</footer>
+
+<!-- THREE.JS HERO -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  var W=document.getElementById('heroWrap'),canvas=document.getElementById('c');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W.clientWidth/W.clientHeight,.1,100);
+  camera.position.set(0,1.5,9);
+  var controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.enableZoom=false;controls.autoRotate=true;controls.autoRotateSpeed=.5;
+
+  function resize(){
+    var w=W.clientWidth,h=W.clientHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();window.addEventListener('resize',resize);
+
+  var cyan=0x22D3EE,c1=0x60A5FA,c2=0xA78BFA,c3=0x34D399;
+
+  function sphere(r,col,rough){
+    var geo=new THREE.SphereGeometry(r,32,32);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:rough||.45,metalness:.3,emissive:col,emissiveIntensity:.12});
+    return new THREE.Mesh(geo,mat);
+  }
+  function ring(r,col,tube){
+    var geo=new THREE.TorusGeometry(r,tube||.012,12,80);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:.6,metalness:.1,transparent:true,opacity:.28});
+    return new THREE.Mesh(geo,mat);
+  }
+
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var d1=new THREE.DirectionalLight(0xffffff,.8);d1.position.set(5,8,5);scene.add(d1);
+  var p1=new THREE.PointLight(cyan,1.2,15);p1.position.set(-3,2,3);scene.add(p1);
+  var p2=new THREE.PointLight(c3,.8,12);p2.position.set(4,-1,2);scene.add(p2);
+
+  // Core SEE sphere — eye-like cyan
+  var core=sphere(1.1,cyan,.25);scene.add(core);
+
+  // Pupil-like inner sphere (dark)
+  var pupil=new THREE.Mesh(
+    new THREE.SphereGeometry(.45,20,20),
+    new THREE.MeshStandardMaterial({color:0x030808,roughness:.8,metalness:.1})
+  );
+  pupil.position.z=.75;
+  core.add(pupil);
+
+  // Inner ring glow
+  var gR=ring(1.5,cyan,.025);scene.add(gR);
+
+  // Inner orbit: SEE / SEES / SAW
+  var conjOrbit=new THREE.Object3D();scene.add(conjOrbit);
+  [{col:c1,angle:0},{col:c2,angle:Math.PI*2/3},{col:cyan,angle:Math.PI*4/3}].forEach(function(d){
+    var m=sphere(.38,d.col,.4);
+    m.position.set(Math.cos(d.angle)*2.7,Math.sin(d.angle)*.3,Math.sin(d.angle)*2.7);
+    conjOrbit.add(m);
+  });
+
+  // Outer orbit: VER node
+  var outerOrbit=new THREE.Object3D();scene.add(outerOrbit);
+  var verNode=sphere(.7,c1,.5);
+  verNode.position.set(5,0,0);
+  outerOrbit.add(verNode);
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(5,0,0)]),
+    new THREE.LineBasicMaterial({color:c1,transparent:true,opacity:.12})
+  ));
+
+  // SEE vs LOOK vs WATCH triangle nodes
+  var triOrbit=new THREE.Object3D();scene.add(triOrbit);
+  [{col:c1,a:0},{col:c3,a:Math.PI*2/3},{col:c2,a:Math.PI*4/3}].forEach(function(d){
+    var m=sphere(.5,d.col,.5);
+    m.position.set(Math.cos(d.a)*4.8,Math.sin(d.a)*.4,Math.sin(d.a)*4.8);
+    triOrbit.add(m);
+  });
+
+  // Orbit rings
+  [c1,c3,c2,cyan].forEach(function(col,i){
+    var orb=ring(5.2+i*.35,col,.01);
+    orb.rotation.x=Math.PI/2-.1+i*.25;
+    orb.rotation.z=i*1.0;
+    scene.add(orb);
+  });
+
+  // Vision ray particles — beams from core
+  for(var i=0;i<8;i++){
+    var ang=i*Math.PI*2/8;
+    var m=sphere(.1,cyan,.5);
+    m.position.set(Math.cos(ang)*3.3,Math.sin(ang*.6)*.4,Math.sin(ang)*3.3);
+    scene.add(m);
+  }
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.005;
+    controls.update();
+    core.rotation.y+=.002;
+    conjOrbit.rotation.y=t*.45;
+    outerOrbit.rotation.y=-t*.18;
+    triOrbit.rotation.y=t*.22;
+    gR.rotation.z+=.006;
+    // Pulse pupil
+    pupil.scale.setScalar(.85+Math.sin(t*2)*.15);
+    renderer.render(scene,camera);
+  }
+  animate();
+})();
+</script>
+
+<!-- QUIZ JS -->
+<script>
+var QS=[
+  {s:'She ___ colors differently.',opts:['see','seed','saw','sees'],ans:'sees',why:'She → SEES no presente'},
+  {s:'I ___ the accident yesterday.',opts:['see','seed','sees','saw'],ans:'saw',why:'Passado de SEE = SAW (irregular) — "yesterday" indica passado'},
+  {s:'They ___ the ocean every day.',opts:['sees','seed','saw','see'],ans:'see',why:'They → SEE no presente'},
+  {s:'He ___ well without glasses.',opts:['see','seed','saw','sees'],ans:'sees',why:'He → SEES no presente'},
+  {s:'I didn\'t ___ anything.',opts:['saw','seed','sees','see'],ans:'see',why:'"didn\'t" + verbo base → didn\'t SEE (nunca didn\'t saw)'},
+  {s:'Did you ___ the meteor?',opts:['saw','seed','sees','see'],ans:'see',why:'DID + verbo base → DID YOU SEE'},
+  {s:'We ___ the mountains from our house.',opts:['sees','seed','saw','see'],ans:'see',why:'We → SEE no presente'},
+  {s:'She ___ a beautiful sunset last night.',opts:['see','seed','sees','saw'],ans:'saw',why:'"last night" é passado → SAW'},
+  {s:'I will ___ you tomorrow.',opts:['saw','seed','sees','see'],ans:'see',why:'WILL + verbo base → WILL SEE'},
+  {s:'Does he ___ the difference?',opts:['saw','seed','sees','see'],ans:'see',why:'DOES + verbo base → DOES HE SEE'},
+  {s:'They ___ each other for the first time.',opts:['see','seed','sees','saw'],ans:'saw',why:'"for the first time" → aconteceu no passado → SAW'},
+  {s:'I ___ a bird this morning.',opts:['see','seed','sees','saw'],ans:'saw',why:'"this morning" → passado → SAW'}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');
+  qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';card.id='qc'+i;
+    var opts=q.opts.slice().sort(function(){return Math.random()-.5});
+    card.innerHTML='<div class="q-num">Pergunta '+(i+1)+' de '+QS.length+'</div>'+
+      '<div class="q-sent">'+q.s.replace('___','<span class="q-blank">___</span>')+'</div>'+
+      '<div class="opts" id="opts'+i+'">'+
+        opts.map(function(o){return '<button class="opt" data-v="'+o+'" onclick="pick('+i+',this,\''+q.ans+'\')">'+o+'</button>';}).join('')+
+      '</div>'+
+      '<div class="q-feedback" id="fb'+i+'"></div>';
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,ans){
+  var fb=document.getElementById('fb'+i);
+  var card=document.getElementById('qc'+i);
+  var opts=document.querySelectorAll('#opts'+i+' .opt');
+  opts.forEach(function(o){o.disabled=true;});
+  if(btn.dataset.v===ans){
+    btn.className='opt selected-correct';card.className='q-card correct';
+    fb.className='q-feedback ok show';fb.textContent='✓ '+QS[i].why;score++;
+  } else {
+    btn.className='opt selected-wrong';card.className='q-card wrong';
+    fb.className='q-feedback nope show';fb.textContent='✗ Correto: '+ans+' — '+QS[i].why;
+    opts.forEach(function(o){if(o.dataset.v===ans)o.className='opt reveal-correct';});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');
+    sb.style.display='block';
+    document.getElementById('scorenum').textContent=score+'/'+QS.length;
+    var msgs=['Continue praticando!','Bom trabalho!','Muito bem!','Excelente!','Perfeito!'];
+    document.getElementById('scoremsg').textContent=msgs[Math.min(4,Math.floor(score/QS.length*4))];
+  }
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+</script>
+</body>
+</html>

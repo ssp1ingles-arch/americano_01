@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L82 · WIN · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* WIN vs BEAT vs EARN — painel central */
+.trio-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.85rem;}
+.tp-item{border-radius:.75rem;padding:1rem;text-align:center;}
+.tp-blue{background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.4);}
+.tp-red{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.tp-grn{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);}
+.tp-w{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;margin-bottom:.2rem;}
+.tp-pt{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;}
+.tp-ex{font-size:.78rem;color:var(--tm);font-style:italic;line-height:1.5;}
+
+/* spelling box */
+.spell-box{background:rgba(251,191,36,.07);border:2px solid rgba(251,191,36,.3);border-radius:.85rem;padding:1.1rem 1.4rem;margin-bottom:.85rem;}
+.sb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yl);margin-bottom:.65rem;}
+.spell-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.55rem;}
+.sg-item{background:var(--s2);border-radius:.55rem;padding:.65rem .85rem;text-align:center;border:1px solid var(--s3);}
+.sg-w{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--yl);margin-bottom:.18rem;}
+.sg-note{font-size:.7rem;color:var(--tm);}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .trio-panel{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">WIN</h1>
+  <p class="hero-pt">ganhar · vencer · conquistar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">WIN</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">WON</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">WON</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Brazil won the World Cup."</div>
+    <div class="cl-pt">O Brasil ganhou a Copa do Mundo.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + WIN vs BEAT vs EARN -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">WIN — mnemônico e WIN vs BEAT vs EARN</div>
+    <div class="sd">WIN → WON soa como ONE · você WIN e se torna número ONE!</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — WON soa igual a ONE /wʌn/</div>
+    <div class="mn-body">WIN → WON /wʌn/ — a pronúncia de WON é idêntica a ONE (número 1).<br>"When you WIN, you become number ONE!" (quando você ganha, você se torna número 1!)<br>Passado = particípio: WON = WON. Atenção: WIN dobra o N em WINNER e WINNING!</div>
+  </div>
+
+  <!-- Painel WIN / BEAT / EARN -->
+  <div class="trio-panel">
+    <div class="tp-item tp-blue">
+      <div class="tp-w" style="color:var(--ca)">WIN</div>
+      <div class="tp-pt">ganhar (resultado)</div>
+      <div class="tp-ex">"We won the match."<br>"She won the Oscar."<br>"Brazil won!"<br>→ WIN + jogo / prêmio</div>
+    </div>
+    <div class="tp-item tp-red">
+      <div class="tp-w" style="color:var(--rd)">BEAT</div>
+      <div class="tp-pt">vencer (o adversário)</div>
+      <div class="tp-ex">"We beat Brazil 2–0."<br>"She beat her rival."<br>"He beat me at chess."<br>→ BEAT + pessoa / time</div>
+    </div>
+    <div class="tp-item tp-grn">
+      <div class="tp-w" style="color:var(--gn)">EARN</div>
+      <div class="tp-pt">ganhar (dinheiro/salário)</div>
+      <div class="tp-ex">"I earn R$5,000/month."<br>"She earns a good salary."<br>"You earn respect."<br>→ EARN + dinheiro / mérito</div>
+    </div>
+  </div>
+  <div class="nt nt-err">Erro clássico: "I won him at chess." ✗ → "I BEAT him at chess." ✓ — BEAT o adversário (pessoa). "We won Brazil." ✗ → "We BEAT Brazil." ✓ — WIN é para o jogo/prêmio, BEAT é para o adversário.</div>
+
+  <!-- Spelling box -->
+  <div class="spell-box">
+    <div class="sb-t">⚠ Ortografia — WIN dobra o N</div>
+    <div class="spell-grid">
+      <div class="sg-item"><div class="sg-w">WINNER</div><div class="sg-note">WIN + N + ER (vencedor)</div></div>
+      <div class="sg-item"><div class="sg-w">WINNING</div><div class="sg-note">WIN + N + ING (ganhando)</div></div>
+      <div class="sg-item"><div class="sg-w">WON</div><div class="sg-note">passado/particípio</div></div>
+      <div class="sg-item"><div class="sg-w">WIN-WIN</div><div class="sg-note">situação ideal (todos ganham)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — win / wins</div>
+    <div class="sd">HE / SHE / IT → WINS · WIN AT / WIN BY / WIN WITH</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>win</strong> at cards.</td><td class="cpt">Sempre ganho nas cartas.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>win</strong> some, you lose some.</td><td class="cpt">Na vida se ganha e se perde.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He always <strong>wins</strong> the argument.</td><td class="cpt">Ele sempre ganha a discussão.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>wins</strong> every competition she enters.</td><td class="cpt">Ela ganha toda competição que participa.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">Hard work always <strong>wins</strong> in the end.</td><td class="cpt">O trabalho duro sempre vence no final.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>win</strong> as a team, we lose as a team.</td><td class="cpt">Ganhamos juntos, perdemos juntos.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>win</strong> every championship.</td><td class="cpt">Eles ganham todo campeonato.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → WINS (com -S). "She win every game." ✗ → "She WINS every game." ✓ · "Hard work always win." ✗ → "Hard work always WINS." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — won (irregular)</div>
+    <div class="sd">WIN → WON · pronúncia = ONE /wʌn/ · passado = particípio</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>won</strong> first place in the competition.</td><td class="cpt">Ganhei o primeiro lugar na competição.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>win</strong> the match?</td><td class="cpt">Você ganhou a partida?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>won</strong> the lottery last year.</td><td class="cpt">Ele ganhou na loteria ano passado.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>won</strong> three gold medals.</td><td class="cpt">Ela ganhou três medalhas de ouro.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">That film <strong>won</strong> the Oscar for Best Picture.</td><td class="cpt">Aquele filme ganhou o Oscar de Melhor Filme.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>won</strong> by a single goal.</td><td class="cpt">Ganhamos por um único gol.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>won</strong> the championship for the third time.</td><td class="cpt">Eles ganharam o campeonato pela terceira vez.</td></tr>
+    </table>
+    <div class="nt nt-tip">WON = /wʌn/, mesma pronúncia de ONE. "She won FIRST place." ✓ / "She won BY a single point." ✓ (ganhar por uma diferença) / "She won WITH a stunning performance." ✓ (ganhar com)</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: WIN + preposições e estruturas -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">WIN + preposições e estruturas</div>
+    <div class="sd">WIN AT · WIN BY · WIN AGAINST · WIN OVER · WIN BACK</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">WIN com preposições</div>
+    <table class="ct">
+      <tr><th>Estrutura</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN AT + jogo</td><td style="font-size:.83rem">ganhar em / vencer no jogo de</td><td class="cpt">"I always win at chess." / "She wins at everything."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN BY + diferença</td><td style="font-size:.83rem">ganhar por (margem)</td><td class="cpt">"We won by 3 goals." / "She won by a nose."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN AGAINST</td><td style="font-size:.83rem">vencer contra</td><td class="cpt">"We won against the top team." ✓ (menos comum que BEAT)</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN OVER</td><td style="font-size:.83rem">convencer / conquistar (alguém)</td><td class="cpt">"He won her over with his charm." / "The speech won them over."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN BACK</td><td style="font-size:.83rem">reconquistar</td><td class="cpt">"She wants to win back her title." / "He won her back."</td></tr>
+    </table>
+    <div class="nt nt-tip">WIN OVER = convencer alguém que resistia. "The new policy won over many critics." = A nova política conquistou muitos críticos. WIN BACK = reconquistar algo/alguém que se perdeu.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES COM WIN -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões e idioms com WIN</div>
+    <div class="sd">WIN-WIN · WINNER TAKES ALL · YOU CAN'T WIN THEM ALL · WIN HANDS DOWN</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões com WIN / WINNER</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN-WIN (SITUATION)</td><td style="font-size:.83rem">situação em que todos ganham</td><td class="cpt">"This deal is a win-win for both sides."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN HANDS DOWN</td><td style="font-size:.83rem">ganhar facilmente / de longe</td><td class="cpt">"She won hands down — no one came close."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WIN BY A NOSE</td><td style="font-size:.83rem">ganhar por muito pouco / por um fio</td><td class="cpt">"He won by a nose in a thrilling finish."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">YOU CAN'T WIN THEM ALL</td><td style="font-size:.83rem">ninguém ganha sempre / é a vida</td><td class="cpt">"You can't win them all — try again next time."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">WINNER TAKES ALL</td><td style="font-size:.83rem">o vencedor leva tudo</td><td class="cpt">"In politics, winner takes all."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">TO THE WINNER GO THE SPOILS</td><td style="font-size:.83rem">quem vence fica com tudo</td><td class="cpt">Provérbio: the winner gets all the rewards.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com WIN</div>
+    <div class="sd">Competições · prêmios · convencer · expressões do dia a dia</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Brazil <strong>won</strong> the World Cup!</div><div class="ph-pt">O Brasil ganhou a Copa do Mundo!</div></div>
+    <div class="ph"><div class="ph-en">She <strong>won</strong> three gold medals.</div><div class="ph-pt">Ela ganhou três medalhas de ouro.</div></div>
+    <div class="ph"><div class="ph-en">He <strong>won</strong> her over with a smile.</div><div class="ph-pt">Ele a conquistou com um sorriso.</div></div>
+    <div class="ph"><div class="ph-en">We <strong>won</strong> hands down!</div><div class="ph-pt">Ganhamos facilmente / de longe!</div></div>
+    <div class="ph"><div class="ph-en">You <strong>win</strong> some, you lose some.</div><div class="ph-pt">Na vida se ganha e se perde.</div></div>
+    <div class="ph"><div class="ph-en">This is a <strong>win-win</strong> situation.</div><div class="ph-pt">Isso é uma situação onde todos ganham.</div></div>
+    <div class="ph"><div class="ph-en">He <strong>won</strong> the lottery!</div><div class="ph-pt">Ele ganhou na loteria!</div></div>
+    <div class="ph"><div class="ph-en">You can't <strong>win</strong> them all.</div><div class="ph-pt">Ninguém ganha sempre.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "We won Brazil 2–0."</div>
+      <div class="ecr">✓ "We beat Brazil 2–0."</div>
+      <div class="ecd">WIN é para jogo/prêmio; BEAT é para o adversário. "We BEAT Brazil 2–0." ✓ — BEAT + pessoa/time. "We WON the match 2–0." ✓ — WIN + jogo. "We won Brazil" soa como se o Brasil fosse um prêmio, não um time adversário.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I won him at chess."</div>
+      <div class="ecr">✓ "I beat him at chess." / "I won at chess."</div>
+      <div class="ecd">WIN não tem pessoa como objeto direto. "I BEAT him at chess." ✓ — BEAT + adversário. "I WON at chess." ✓ — WIN + AT + jogo (sem adversário). "I won the chess tournament." ✓ — WIN + torneio.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She wined the competition."</div>
+      <div class="ecr">✓ "She won the competition."</div>
+      <div class="ecd">WIN → WON (irregular). "She WON the competition." ✓ — "wined" não existe. Mnemônico: WON /wʌn/ = ONE. "She won = she became number ONE."</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I earn $1,000 in the lottery."</div>
+      <div class="ecr">✓ "I won $1,000 in the lottery."</div>
+      <div class="ecd">EARN = ganhar pelo trabalho/mérito. WIN = ganhar por sorte ou competição. "I WON $1,000 in the lottery." ✓ / "I EARNED $1,000 this week." ✓ (pelo trabalho).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She is a winier." / "He is a winer."</div>
+      <div class="ecr">✓ "She is a winner." / "He is a winner."</div>
+      <div class="ecd">WIN + N + ER = WINNER (dobra o N). "She is a WINNER." ✓ — "winer" ou "winier" são incorretos. Regra: palavras curtas com consoante após vogal curta: WIN → WINNER (NN).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He didn't won the match."</div>
+      <div class="ecr">✓ "He didn't win the match."</div>
+      <div class="ecd">DIDN'T + base. "He didn't WIN the match." ✓ — depois de DIDN'T, base WIN (nunca WON). "He didn't won" ✗ — dois passados na mesma frase negativa.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — WIN</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de WIN?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">wined</button>
+      <button class="qo" onclick="ans(this,'q1',true)">won</button>
+      <button class="qo" onclick="ans(this,'q1',false)">winned</button>
+    </div>
+    <div class="qfb" id="q1fb">WIN → WON (irregular). Pronúncia: WON /wʌn/ = mesma pronúncia de ONE. "We WON the game." ✓ — "wined" e "winned" não existem. Passado = particípio = WON.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ganhamos de/para o Brasil por 2 a 0." — Qual verbo usar?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">We won Brazil 2–0.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">We beat Brazil 2–0.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">We earned against Brazil 2–0.</button>
+    </div>
+    <div class="qfb" id="q2fb">"We BEAT Brazil 2–0." ✓ — BEAT + adversário (pessoa/time). "We won Brazil" ✗ — WIN não aceita adversário como objeto direto. "We WON the match 2–0." ✓ — WIN + o jogo (não o time).</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela vence toda competição que participa." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She win every competition.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She wins every competition she enters.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She won every competition she enters.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → WINS (com -S). "She WINS every competition she enters." ✓ — presente habitual. "She win" ✗ — falta -S. "She won" ✗ — passado, não hábito presente.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Vencemos facilmente!" → WIN HANDS DOWN.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">We won by a nose!</button>
+      <button class="qo" onclick="ans(this,'q4',true)">We won hands down!</button>
+      <button class="qo" onclick="ans(this,'q4',false)">We won by a mile! (apenas para corridas)</button>
+    </div>
+    <div class="qfb" id="q4fb">"We WON HANDS DOWN!" ✓ — WIN HANDS DOWN = ganhar facilmente / de longe. WIN BY A NOSE = ganhar por muito pouco / por um fio. "Won by a mile" também funciona informalmente para "ganhou de muito", mas HANDS DOWN é o idiom padrão para "facilmente".</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ganho R$5.000 por mês." → WIN ou EARN?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I win R$5,000 a month.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I earn R$5,000 a month.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">São intercambiáveis neste contexto.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I EARN R$5,000 a month." ✓ — EARN = ganhar pelo trabalho (salário, esforço). WIN = ganhar em competição ou por sorte. "I WON R$5,000 in the lottery." ✓ vs "I EARNED R$5,000 this month." ✓</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Ele a conquistou com o charme." → WIN OVER.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">He won her with his charm.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">He won her over with his charm.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">He beat her over with his charm.</button>
+    </div>
+    <div class="qfb" id="q6fb">"He WON HER OVER with his charm." ✓ — WIN OVER = conquistar / convencer alguém que resistia. "Won her with his charm" é menos idiomático — OVER é essencial. "Beat her over" ✗ — BEAT OVER não existe nesse sentido.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"She has ___ three gold medals." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">wined</button>
+      <button class="qo" onclick="ans(this,'q7',true)">won</button>
+      <button class="qo" onclick="ans(this,'q7',false)">win</button>
+    </div>
+    <div class="qfb" id="q7fb">"She has WON three gold medals." ✓ — HAVE + particípio WON. "has wined" ✗ — não existe. "has win" ✗ — depois de HAS, particípio (não base). WIN → WON → WON.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">Como se escreve "vencedor" em inglês?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">winer</button>
+      <button class="qo" onclick="ans(this,'q8',true)">winner</button>
+      <button class="qo" onclick="ans(this,'q8',false)">winier</button>
+    </div>
+    <div class="qfb" id="q8fb">WINNER (com NN duplo). WIN + N + ER = WINNER. Regra: palavras curtas terminando em consoante após vogal curta dobram a consoante antes de sufixos: WIN → WINNER, WINNING. "winer" e "winier" ✗.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">O que significa "You win some, you lose some"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Você ganha algumas coisas e perde outras ao mesmo tempo.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Na vida se ganha e se perde — é a vida / faz parte.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Você escolhe quando ganhar e quando perder.</button>
+    </div>
+    <div class="qfb" id="q9fb">"You WIN some, you LOSE some." = na vida se ganha e se perde — expressão de resignação / aceitação filosófica após uma derrota ou resultado misto. Similar ao português "é a vida" ou "faz parte".</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"He didn't ___ the match." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">He didn't won the match.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">He didn't win the match.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">He didn't wins the match.</button>
+    </div>
+    <div class="qfb" id="q10fb">"He didn't WIN the match." ✓ — DIDN'T + base WIN. "didn't won" ✗ — dois passados na mesma frase negativa. "didn't wins" ✗ — WINS é terceira pessoa do presente, não base.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ganhamos por 3 gols." → WIN BY.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">We won with 3 goals.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">We won by 3 goals.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">We won for 3 goals.</button>
+    </div>
+    <div class="qfb" id="q11fb">"We WON BY 3 goals." ✓ — WIN BY = ganhar por (margem de diferença). "Won with" ✗ — WITH não se usa para margem de placar. "Won for" ✗ — FOR é inválido nesse contexto.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">O que é uma "win-win situation"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Uma situação em que você vence duas vezes seguidas.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Uma situação em que todos os lados ganham / se beneficiam.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Uma situação de empate onde ninguém ganha.</button>
+    </div>
+    <div class="qfb" id="q12fb">WIN-WIN SITUATION = situação em que todos os lados se beneficiam. "This deal is a WIN-WIN for both sides." = Este acordo é bom para os dois lados. O oposto é LOSE-LOSE = situação onde todo mundo perde.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../81_lose/index.html">← L81 LOSE</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

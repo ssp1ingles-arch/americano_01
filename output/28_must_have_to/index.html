@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 28 — MUST · HAVE TO | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#f87171;
+  --cm:#f87171;--ch:#FBBF24;--cn:#60A5FA;--cx:#FF7043;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(248,113,113,.12);color:var(--accent);border:1px solid rgba(248,113,113,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,10vw,7rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vm{color:var(--cm)}
+.hero-title .dot{color:var(--muted);font-size:.55em}
+.hero-title .vh{color:var(--ch)}
+.hero-title .vn{color:var(--cn);font-size:.75em}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700}
+.hp-m{color:var(--cm);background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.2)}
+.hp-h{color:var(--ch);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-n{color:var(--cn);background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS */
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* USO BLOCKS */
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.5rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.uno-m{background:rgba(248,113,113,.15);color:var(--cm)}
+.uno-h{background:rgba(251,191,36,.15);color:var(--ch)}
+.uno-n{background:rgba(96,165,250,.15);color:var(--cn)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800}
+.utm{color:var(--cm)}
+.uth{color:var(--ch)}
+.utn{color:var(--cn)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+/* EX TABLE */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.ex-table th{padding:.55rem .9rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.65rem .9rem;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.83rem}
+.vbm{color:var(--cm)}
+.vbh{color:var(--ch)}
+.vbn{color:var(--cn)}
+
+/* ALERTA DANGER */
+.danger-box{background:rgba(255,112,67,.07);border:2px solid rgba(255,112,67,.35);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.5rem}
+.db-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--warn);margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
+.db-compare{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:1rem}
+.db-card{border-radius:.85rem;padding:1.1rem}
+.db-ok{background:rgba(95,216,122,.06);border:1px solid rgba(95,216,122,.25)}
+.db-bad{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.3)}
+.db-label{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem}
+.db-ok .db-label{color:var(--tip)}
+.db-bad .db-label{color:var(--warn)}
+.db-sentence{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.3rem}
+.db-ok .db-sentence{color:var(--tip)}
+.db-bad .db-sentence{color:var(--warn)}
+.db-meaning{font-size:.82rem;color:var(--muted)}
+.db-alert{font-size:.88rem;color:var(--warn);font-weight:500}
+
+/* QUADRO COMPARATIVO */
+.quad-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.25rem}
+.quad-card{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem}
+.quad-card h4{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:800;margin-bottom:.65rem}
+.qc-m h4{color:var(--cm)}
+.qc-h h4{color:var(--ch)}
+.qc-dh h4{color:var(--tip)}
+.qc-mn h4{color:var(--warn)}
+.qrow{font-size:.82rem;color:var(--muted);padding:.25rem 0;border-bottom:1px solid var(--border)}
+.qrow:last-child{border-bottom:none}
+.qrow .en{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);font-size:.86rem;display:block;margin-bottom:.1rem}
+
+/* TIP */
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.tip-box p{color:var(--tip);font-size:.9rem}
+
+/* NEG BOX */
+.neg-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.neg-box h5{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--warn);margin-bottom:.6rem}
+.neg-pair{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.neg-w{background:rgba(255,112,67,.08);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--warn)}
+.neg-r{background:rgba(95,216,122,.06);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--tip)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(248,113,113,.06)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cm),var(--ch));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(255,112,67,.25);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--warn)}
+
+/* FOOTER NAV */
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .quad-grid{grid-template-columns:1fr}
+  .db-compare{grid-template-columns:1fr}
+  .neg-pair{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 05 · Verbos Modais</span>
+  <span class="nav-badge">A1–A2 · Lição 28 · MUST · HAVE TO</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 05 · Lição 28</div>
+    <div class="hero-title">
+      <span class="vm">MUST</span>
+      <span class="dot"> · </span>
+      <span class="vh">HAVE TO</span>
+      <br>
+      <span class="vn">NEED TO</span>
+    </div>
+    <div class="hero-sub">Obrigação, necessidade e proibição — com uma distinção que muda tudo</div>
+    <div class="hero-pills">
+      <span class="hp hp-m">MUST = devo (pessoal)</span>
+      <span class="hp hp-h">HAVE TO = tenho que (externo)</span>
+      <span class="hp hp-n">NEED TO = preciso</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- USO 1: MUST -->
+<section class="section">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--cm)">MUST — Obrigação Pessoal e Dedução</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uno-m">1</div>
+      <div>
+        <div class="uso-title utm">MUST = devo / tenho que — vem do falante</div>
+        <div class="uso-sub">Obrigação que parte de você mesmo, ou dedução lógica</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">obrigação</td>
+          <td class="en">You <span class="vbm">must</span> study more.</td>
+          <td class="pt">Você deve estudar mais.</td>
+        </tr>
+        <tr>
+          <td class="tipo">obrigação</td>
+          <td class="en">I <span class="vbm">must</span> call her today.</td>
+          <td class="pt">Eu devo ligar para ela hoje.</td>
+        </tr>
+        <tr>
+          <td class="tipo">obrigação</td>
+          <td class="en">We <span class="vbm">must</span> finish this on time.</td>
+          <td class="pt">Nós devemos terminar isso no prazo.</td>
+        </tr>
+        <tr>
+          <td class="tipo">dedução</td>
+          <td class="en">She <span class="vbm">must</span> be tired.</td>
+          <td class="pt">Ela deve estar cansada. (dedução)</td>
+        </tr>
+        <tr>
+          <td class="tipo">proibição</td>
+          <td class="en">You <span class="vbm">must not</span> smoke here.</td>
+          <td class="pt">Você não deve / não pode fumar aqui.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>MUST = obrigação PESSOAL:</strong> a decisão vem de você. <strong>She must be tired</strong> = dedução — estou concluindo isso com base no que vejo. MUST não tem passado — para passado use HAD TO.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: HAVE TO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--ch)">HAVE TO — Obrigação Externa, Regra</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uno-h">2</div>
+      <div>
+        <div class="uso-title uth">HAVE TO = tenho que / precisa — regra de fora</div>
+        <div class="uso-sub">Lei, regra do trabalho, costume — a obrigação não vem de você</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">regra ext.</td>
+          <td class="en">I <span class="vbh">have to</span> work tomorrow.</td>
+          <td class="pt">Tenho que trabalhar amanhã.</td>
+        </tr>
+        <tr>
+          <td class="tipo">regra ext.</td>
+          <td class="en">She <span class="vbh">has to</span> wear a uniform.</td>
+          <td class="pt">Ela tem que usar uniforme. (regra da empresa)</td>
+        </tr>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">He <span class="vbh">had to</span> leave early.</td>
+          <td class="pt">Ele teve que sair cedo.</td>
+        </tr>
+        <tr>
+          <td class="tipo">futuro</td>
+          <td class="en">We <span class="vbh">will have to</span> wait.</td>
+          <td class="pt">Vamos ter que esperar.</td>
+        </tr>
+        <tr>
+          <td class="tipo">negativa</td>
+          <td class="en">You <span class="vbh">don't have to</span> come.</td>
+          <td class="pt">Você não precisa vir. (não é obrigatório)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>HAVE TO tem todos os tempos:</strong> I have to · She has to · He had to · We will have to. Diferente de MUST, que é somente presente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: NEED TO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--cn)">NEED TO — Necessidade Prática</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uno-n">3</div>
+      <div>
+        <div class="uso-title utn">NEED TO = preciso — mais suave que MUST / HAVE TO</div>
+        <div class="uso-sub">Indica necessidade prática, sem imposição forte</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">necessidade</td>
+          <td class="en">I <span class="vbn">need to</span> sleep.</td>
+          <td class="pt">Eu preciso dormir.</td>
+        </tr>
+        <tr>
+          <td class="tipo">necessidade</td>
+          <td class="en">She <span class="vbn">needs to</span> see a doctor.</td>
+          <td class="pt">Ela precisa ver um médico.</td>
+        </tr>
+        <tr>
+          <td class="tipo">negativa</td>
+          <td class="en">You <span class="vbn">don't need to</span> worry.</td>
+          <td class="pt">Você não precisa se preocupar.</td>
+        </tr>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">I <span class="vbn">needed to</span> talk to someone.</td>
+          <td class="pt">Eu precisava falar com alguém.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ALERTA: DON'T HAVE TO vs MUSTN'T -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Atenção — Confusão perigosa</div>
+  <div class="section-title">DON'T HAVE TO ≠ MUSTN'T</div>
+
+  <div class="danger-box">
+    <div class="db-title">⚠️ Significados opostos — esta é a confusão mais perigosa do Módulo 05</div>
+
+    <div class="db-compare">
+      <div class="db-card db-ok">
+        <div class="db-label">✓ DON'T HAVE TO = não é obrigatório</div>
+        <div class="db-sentence">You don't have to come.</div>
+        <div class="db-meaning">Você não precisa vir — mas pode vir se quiser. É uma escolha livre.</div>
+      </div>
+      <div class="db-card db-bad">
+        <div class="db-label">✗ confundido com MUSTN'T = proibido</div>
+        <div class="db-sentence">You mustn't come.</div>
+        <div class="db-meaning">Você não pode vir — é proibido. Não tem escolha.</div>
+      </div>
+    </div>
+
+    <div class="db-compare">
+      <div class="db-card db-ok">
+        <div class="db-label">DON'T HAVE TO = livre escolha</div>
+        <div class="db-sentence">You don't have to smoke here.</div>
+        <div class="db-meaning">Pode fumar se quiser — não é obrigatório não fumar.</div>
+      </div>
+      <div class="db-card db-bad">
+        <div class="db-label">MUSTN'T = proibição</div>
+        <div class="db-sentence">You mustn't smoke here.</div>
+        <div class="db-meaning">É proibido fumar aqui. Regra absoluta.</div>
+      </div>
+    </div>
+
+    <div class="db-alert">Trocar DON'T HAVE TO por MUSTN'T pode mudar o significado completamente — da liberdade à proibição!</div>
+  </div>
+
+  <!-- Quadro comparativo geral -->
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num" style="background:rgba(255,255,255,.08);color:var(--muted)">4</div>
+      <div>
+        <div class="uso-title" style="color:var(--text)">Quadro completo — 4 formas, 4 significados</div>
+        <div class="uso-sub">Use o contexto para escolher a forma certa</div>
+      </div>
+    </div>
+
+    <div class="quad-grid">
+      <div class="quad-card qc-m">
+        <h4>MUST</h4>
+        <div class="qrow"><span class="en">I must study.</span>obrigação pessoal</div>
+        <div class="qrow"><span class="en">She must be tired.</span>dedução lógica</div>
+        <div class="qrow" style="font-size:.78rem;color:var(--muted)">vem do falante · só presente</div>
+      </div>
+      <div class="quad-card qc-h">
+        <h4>HAVE TO</h4>
+        <div class="qrow"><span class="en">I have to work.</span>regra externa</div>
+        <div class="qrow"><span class="en">She has to wear uniform.</span>obrigação de fora</div>
+        <div class="qrow" style="font-size:.78rem;color:var(--muted)">tem passado (had to) e futuro</div>
+      </div>
+      <div class="quad-card qc-dh">
+        <h4>DON'T HAVE TO</h4>
+        <div class="qrow"><span class="en">You don't have to come.</span>não é obrigatório</div>
+        <div class="qrow"><span class="en">She doesn't have to pay.</span>livre escolha</div>
+        <div class="qrow" style="font-size:.78rem;color:var(--muted)">= opcional, sem obrigação</div>
+      </div>
+      <div class="quad-card qc-mn">
+        <h4>MUSTN'T</h4>
+        <div class="qrow"><span class="en">You mustn't smoke.</span>proibição forte</div>
+        <div class="qrow"><span class="en">You must not enter.</span>é proibido</div>
+        <div class="qrow" style="font-size:.78rem;color:var(--muted)">= proibição, não tem escolha</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — MUST · HAVE TO · NEED TO</div>
+  <div class="quiz-sub">12 questões sobre obrigação, necessidade, proibição e a distinção crucial.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com MUST · HAVE TO</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>DON'T HAVE TO = não é obrigatório &nbsp;≠&nbsp; MUSTN'T = é proibido</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(248,113,113,.25)">
+      <h4 style="color:var(--cm)">MUST</h4>
+      <div class="sum-item"><span class="en">I must study</span> — obrigação pessoal</div>
+      <div class="sum-item"><span class="en">She must be tired</span> — dedução</div>
+      <div class="sum-item">sem passado → use HAD TO</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ch)">HAVE TO</h4>
+      <div class="sum-item"><span class="en">I have to work</span> — regra externa</div>
+      <div class="sum-item"><span class="en">He had to leave</span> — passado</div>
+      <div class="sum-item"><span class="en">will have to</span> — futuro</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(96,165,250,.2)">
+      <h4 style="color:var(--cn)">NEED TO</h4>
+      <div class="sum-item"><span class="en">I need to sleep</span> — necessidade</div>
+      <div class="sum-item"><span class="en">don't need to worry</span> — não precisa</div>
+      <div class="sum-item">mais suave que MUST</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(255,112,67,.25)">
+      <h4 style="color:var(--warn)">MUSTN'T</h4>
+      <div class="sum-item"><span class="en">You mustn't smoke</span> — proibição</div>
+      <div class="sum-item">≠ don't have to</div>
+      <div class="sum-item">sem escolha — é proibido</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <a class="fnav-btn" href="../27_can_could/index.html">← Lição 27</a>
+  <div class="fnav-center">Lição 28 de 89 · Módulo 05</div>
+  <a class="fnav-btn" href="../29_should/index.html">Lição 29 →</a>
+</div>
+
+<script>
+// THREE.JS HERO
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0xf87171,3);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0x60A5FA,1.5);dl3.position.set(0,0,-6);scene.add(dl3);
+
+  // MUST — red central
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0xf87171,emissive:0xf87171,emissiveIntensity:.3,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),new THREE.MeshBasicMaterial({color:0xf87171,wireframe:true,opacity:.07,transparent:true})));
+
+  // HAVE TO — gold inner orbit
+  var hGrp=new THREE.Group();hGrp.rotation.x=.3;scene.add(hGrp);
+  var hMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),hMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);hGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  hGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.13,transparent:true})));
+
+  // NEED TO — blue outer orbit
+  var nGrp=new THREE.Group();nGrp.rotation.x=-.25;nGrp.rotation.z=.35;scene.add(nGrp);
+  var nMat=new THREE.MeshStandardMaterial({color:0x60A5FA,emissive:0x60A5FA,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.23,12,12),nMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);nGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  nGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0x60A5FA,opacity:.1,transparent:true})));
+
+  // Stars
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    hGrp.rotation.y+=.02;
+    nGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+// QUIZ
+var QS=[
+  {s:'You ___ study more. (obrigação pessoal — minha opinião)',opts:['must','have to','need to','should'],ans:'must',why:"MUST = obrigação que vem do falante — opinião pessoal. 'You must study more' = minha recomendação forte."},
+  {s:'She ___ wear a uniform at work. (regra da empresa)',opts:['has to','must','needs','musts'],ans:'has to',why:"HAVE TO = regra externa (empresa, lei). 'She has to wear a uniform' — obrigação que vem de fora."},
+  {s:'He ___ leave early yesterday.',opts:['had to','must','has to','needed'],ans:'had to',why:"HAD TO = passado de HAVE TO. MUST não tem passado — use HAD TO para obrigação no passado."},
+  {s:'You ___ smoke here. (proibição — é proibido)',opts:["mustn't","don't have to","needn't","shouldn't"],ans:"mustn't",why:"MUSTN'T = proibição absoluta. 'You mustn't smoke here' = é proibido — sem escolha."},
+  {s:'You ___ come to the party. (não é obrigatório)',opts:["don't have to","mustn't","must not","can't"],ans:"don't have to",why:"DON'T HAVE TO = não é obrigatório. Você pode vir se quiser — livre escolha. ≠ MUSTN'T (proibição)."},
+  {s:'I ___ sleep. I\'m exhausted. (necessidade prática)',opts:['need to','must to','have need','must have'],ans:'need to',why:"NEED TO = necessidade prática. 'I need to sleep' — mais suave que MUST, indica necessidade real."},
+  {s:'We will ___ wait for the results.',opts:['have to','must','need','had to'],ans:'have to',why:"Futuro de HAVE TO = will have to. MUST não tem forma futura direta — use 'will have to'."},
+  {s:'"You don\'t have to pay" significa:',opts:['é opcional pagar','é proibido pagar','você deve pagar','você precisa pagar'],ans:'é opcional pagar',why:"DON'T HAVE TO = não é obrigatório — opcional. Não confunda com MUSTN'T (proibição)."},
+  {s:'She ___ be the manager — she knows everything!',opts:['must','has to','needs to','should'],ans:'must',why:"MUST = dedução lógica. 'She must be the manager' = estou concluindo isso com base em evidências."},
+  {s:'You ___ enter without permission. (é proibido)',opts:["mustn't","don't have to","can't must","haven't to"],ans:"mustn't",why:"MUSTN'T = proibição. 'You mustn't enter without permission' = é uma regra que não pode ser violada."},
+  {s:'She ___ to the meeting — it\'s optional.',opts:["doesn't have to go","mustn't go","must not go","can't go"],ans:"doesn't have to go",why:"DOESN'T HAVE TO = não é obrigatório. A reunião é opcional para ela."},
+  {s:'I ___ talk to someone last night. I was very upset.',opts:['needed to','must','have to','need'],ans:'needed to',why:"NEEDED TO = passado de NEED TO. 'I needed to talk' = eu precisava falar (necessidade no passado)."}
+];
+
+var ERRORS=[
+  {wrong:'She musts go now.',right:'She must go now.',why:"MUST nunca muda de forma — igual para todos os pronomes. Nunca 'musts'."},
+  {wrong:'I must to call her.',right:'I must call her.',why:"MUST + verbo base, sem TO. Os modais nunca usam TO antes do verbo principal."},
+  {wrong:"You don't must do it.",right:"You don't have to do it. / You mustn't do it.",why:"A negação de MUST é MUSTN'T (proibição) ou DON'T HAVE TO (não obrigatório). 'Don't must' não existe."},
+  {wrong:'He had must go early.',right:'He had to go early.',why:"Para obrigação no passado, use HAD TO — não 'had must'. 'He had to go' = ele teve que ir."},
+  {wrong:"I didn't must go yesterday.",right:'I didn\'t have to go yesterday.',why:"MUST não tem passado. Para passado negativo, use DIDN'T HAVE TO = não era obrigatório."},
+  {wrong:"You don't have to smoke here. (querendo dizer: é proibido)",right:"You mustn't smoke here.",why:"DON'T HAVE TO = livre escolha. Para proibição, use MUSTN'T. Significados opostos!"}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    var txt=q.s.replace('___','<span class="blank">___</span>');
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+txt+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — releia a seção de comparação!':pct<.75?'Bom progresso! Revise DON\'T HAVE TO vs MUSTN\'T.':pct<1?'Muito bem! Você domina obrigação e proibição.':'Perfeito! Lição 28 concluída!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

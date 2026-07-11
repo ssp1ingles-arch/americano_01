@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L71 · KEEP · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* KEEP + -ING highlight */
+.ing-box{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;text-align:center;}
+.ib-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.55rem;}
+.ib-rule{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--ca);margin-bottom:.4rem;}
+.ib-sub{font-size:.82rem;color:var(--tm);}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">KEEP</h1>
+  <p class="hero-pt">manter · guardar · continuar (fazendo) · ficar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">KEEP</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">KEPT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">KEPT</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Keep going — don't give up!"</div>
+    <div class="cl-pt">Continue — não desista!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">KEEP + -ING — a estrutura mais importante</div>
+    <div class="sd">KEEP + -ING = continuar fazendo algo · nunca KEEP + TO</div></div>
+  </div>
+
+  <!-- Destaque KEEP + -ING -->
+  <div class="ing-box">
+    <div class="ib-t">Regra principal</div>
+    <div class="ib-rule">KEEP + -ING = continuar fazendo</div>
+    <div class="ib-sub">"Keep <strong>going</strong>!" ✓ &nbsp;|&nbsp; "She kept <strong>talking</strong>." ✓ &nbsp;|&nbsp; "They kept <strong>trying</strong>." ✓</div>
+  </div>
+
+  <div class="nt nt-err" style="margin-top:0;margin-bottom:.85rem">KEEP + TO é inválido para expressar continuidade. "Keep to go." ✗ → "Keep going." ✓ · "She kept to talk." ✗ → "She kept talking." ✓</div>
+
+  <!-- Mnemônico KEEP → KEPT -->
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — SLEEP → SLEPT / KEEP → KEPT</div>
+    <div class="mn-body">Ambos encurtam a vogal dupla: <strong style="color:var(--rd)">EE → E</strong> + T. SLEEP → SLEPT (L63) · KEEP → KEPT · FEEL → FELT · SWEEP → SWEPT. Padrão -EEP / -EEL → -EPT / -ELT.</div>
+  </div>
+
+  <!-- Quatro padrões -->
+  <div class="patt-grid">
+    <div class="pg-item">
+      <div class="pg-key">KEEP + -ING</div>
+      <div class="pg-pt">continuar fazendo algo</div>
+      <div class="pg-ex">"Keep going!" / "She kept talking."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">KEEP + substantivo</div>
+      <div class="pg-pt">guardar / manter algo</div>
+      <div class="pg-ex">"Keep the change." / "Keep a diary."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">KEEP + adjetivo</div>
+      <div class="pg-pt">manter-se em um estado</div>
+      <div class="pg-ex">"Keep quiet!" / "Keep warm." / "Keep calm."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">KEEP + alguém + adjetivo</div>
+      <div class="pg-pt">manter alguém em um estado</div>
+      <div class="pg-ex">"Keep me updated." / "Keep it secret."</div>
+    </div>
+  </div>
+
+  <!-- Expressões -->
+  <div class="uso">
+    <div class="ul">Expressões essenciais com KEEP</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP GOING</td><td style="font-size:.83rem">continuar / não desistir</td><td class="cpt">"Keep going — you're almost there!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP IN TOUCH</td><td style="font-size:.83rem">manter contato</td><td class="cpt">"Let's keep in touch!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP UP WITH</td><td style="font-size:.83rem">acompanhar / manter o ritmo</td><td class="cpt">"It's hard to keep up with the news."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP AN EYE ON</td><td style="font-size:.83rem">ficar de olho em / vigiar</td><td class="cpt">"Can you keep an eye on my bag?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP A SECRET</td><td style="font-size:.83rem">guardar segredo</td><td class="cpt">"Can you keep a secret?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP IT UP!</td><td style="font-size:.83rem">continue assim! / vai lá!</td><td class="cpt">"Great work — keep it up!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP YOUR WORD</td><td style="font-size:.83rem">cumprir a palavra / a promessa</td><td class="cpt">"He always keeps his word."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">KEEP OUT</td><td style="font-size:.83rem">entrada proibida / não entre / afastar</td><td class="cpt">"Keep out — danger zone!"</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — keep / keeps</div>
+    <div class="sd">HE / SHE / IT → KEEPS · I KEEP + -ING — hábito contínuo</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>keep</strong> forgetting her name.</td><td class="cpt">Fico esquecendo o nome dela.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>keep</strong> making the same mistake.</td><td class="cpt">Você fica cometendo o mesmo erro.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>keeps</strong> his promises.</td><td class="cpt">Ele cumpre as promessas.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>keeps</strong> calling me.</td><td class="cpt">Ela fica me ligando.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The door <strong>keeps</strong> opening by itself.</td><td class="cpt">A porta fica abrindo sozinha.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>keep</strong> in touch every week.</td><td class="cpt">Mantemos contato toda semana.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>keep</strong> the building very clean.</td><td class="cpt">Eles mantêm o prédio muito limpo.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → KEEPS (com -S). "She keep calling me." ✗ → "She KEEPS calling me." ✓</div>
+    <div class="nt nt-tip">KEEP + -ING no presente = ação que se repete irritantemente ou de forma contínua. "She keeps calling me." = ela fica me ligando (repetidamente, implicando certa insistência).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — kept (irregular)</div>
+    <div class="sd">KEEP → KEPT — passado e particípio são iguais</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>kept</strong> my old letters.</td><td class="cpt">Guardei minhas cartas antigas.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>kept</strong> me waiting for an hour.</td><td class="cpt">Você me fez esperar uma hora.</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>kept</strong> talking even after I left.</td><td class="cpt">Ele ficou falando mesmo depois que eu saí.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>kept</strong> her word — she came back.</td><td class="cpt">Ela cumpriu a palavra — voltou.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The secret <strong>kept</strong> everyone quiet.</td><td class="cpt">O segredo manteve todo mundo em silêncio.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>kept</strong> going despite the storm.</td><td class="cpt">Continuamos apesar da tempestade.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>kept</strong> trying until they succeeded.</td><td class="cpt">Continuaram tentando até conseguir.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't KEEP." ✓ / "I didn't KEPT." ✗ — DIDN'T + base KEEP. "I have KEPT this for years." ✓ — particípio KEPT com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">WHY DO YOU KEEP + -ING? — pergunta clássica sobre comportamento repetido</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas comuns com KEEP</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Hábito</td><td class="ce">Why do you <strong>keep</strong> doing that?</td><td class="cpt">Por que você fica fazendo isso?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Pedido</td><td class="ce">Can you <strong>keep</strong> a secret?</td><td class="cpt">Você consegue guardar um segredo?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">How long did you <strong>keep</strong> it?</td><td class="cpt">Por quanto tempo você guardou?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Estado</td><td class="ce">How do you <strong>keep</strong> so calm?</td><td class="cpt">Como você se mantém tão calmo?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Contato</td><td class="ce">Will you <strong>keep</strong> in touch?</td><td class="cpt">Você vai manter contato?</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't keep</strong></td><td class="cpt">não guardo/am</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't keep</strong></td><td class="cpt">não mantém / guarda</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't keep</strong></td><td class="cpt">não guardou</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't keep</strong></td><td class="cpt">não vai manter</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">HAVE KEPT · HAVE BEEN + -ING — "I've kept this for years" = desde sempre</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will keep</strong> trying.</td><td class="cpt">Vou continuar tentando.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to keep</strong> her job.</td><td class="cpt">Ela vai manter o emprego.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>won't keep</strong> you waiting.</td><td class="cpt">Não vamos te deixar esperando.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>have kept</strong> this photo for 20 years.</td><td class="cpt">Guardo esta foto há 20 anos.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has kept</strong> in touch with all of us.</td><td class="cpt">Ela manteve contato com todos nós.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>have always kept</strong> our word.</td><td class="cpt">Sempre cumprimos nossa palavra.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">"I've kept this for years." = present perfect com duração — guardo até agora. "I've been keeping a diary." = contínuo — venho escrevendo um diário (ação em progresso).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com KEEP</div>
+    <div class="sd">Motivação · contato · rotinas · idiomas do dia a dia</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Keep <strong>going</strong> — don't give up!</div><div class="ph-pt">Continue — não desista!</div></div>
+    <div class="ph"><div class="ph-en">Let's <strong>keep</strong> in touch!</div><div class="ph-pt">Vamos manter contato!</div></div>
+    <div class="ph"><div class="ph-en">Can you <strong>keep</strong> a secret?</div><div class="ph-pt">Você consegue guardar um segredo?</div></div>
+    <div class="ph"><div class="ph-en">Great work — <strong>keep</strong> it up!</div><div class="ph-pt">Ótimo trabalho — continue assim!</div></div>
+    <div class="ph"><div class="ph-en">She <strong>kept</strong> talking even after I left.</div><div class="ph-pt">Ela ficou falando mesmo depois que eu saí.</div></div>
+    <div class="ph"><div class="ph-en">He always <strong>keeps</strong> his word.</div><div class="ph-pt">Ele sempre cumpre a palavra.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Keep</strong> calm and carry on.</div><div class="ph-pt">Mantenha a calma e siga em frente.</div></div>
+    <div class="ph"><div class="ph-en">Why do you <strong>keep</strong> doing that?</div><div class="ph-pt">Por que você fica fazendo isso?</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "She keeped talking."</div>
+      <div class="ecr">✓ "She kept talking."</div>
+      <div class="ecd">KEEP é irregular: KEEP → KEPT (passado). "She KEPT talking." ✓ — "keeped" não existe em inglês.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Keep to go!"</div>
+      <div class="ecr">✓ "Keep going!"</div>
+      <div class="ecd">KEEP + -ING (nunca KEEP + TO). "KEEP GOING!" ✓ — para continuidade, KEEP pede gerúndio (-ING), não infinitivo (TO + base).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She keep calling me."</div>
+      <div class="ecr">✓ "She keeps calling me."</div>
+      <div class="ecd">SHE → KEEPS (com -S). "She KEEPS calling me." ✓ — terceira pessoa singular com -S no presente simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't kept my promise."</div>
+      <div class="ecr">✓ "I didn't keep my promise."</div>
+      <div class="ecd">DIDN'T + BASE. "I didn't KEEP my promise." ✓ — depois de DIDN'T, base KEEP (nunca KEPT). "I haven't KEPT my promise." ✓ (present perfect com KEPT).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He kept to study."</div>
+      <div class="ecr">✓ "He kept studying."</div>
+      <div class="ecd">KEEP + -ING para continuidade. "He kept STUDYING." ✓ — KEEP + TO + base é inválido nesse sentido. Lembre: KEEP + -ING = continuar fazendo.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have kept this photo since 20 years."</div>
+      <div class="ecr">✓ "I have kept this photo for 20 years."</div>
+      <div class="ecd">Duração → FOR (não SINCE). "I have kept this FOR 20 years." ✓ · SINCE = desde um ponto no tempo: "I have kept this SINCE 2003." ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — KEEP</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de KEEP?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">keeped</button>
+      <button class="qo" onclick="ans(this,'q1',true)">kept</button>
+      <button class="qo" onclick="ans(this,'q1',false)">keept</button>
+    </div>
+    <div class="qfb" id="q1fb">KEEP → KEPT (irregular). EE → E + T. "She KEPT talking." ✓ — "keeped" não existe. Mesmo padrão: SLEEP → SLEPT.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Continue — não desista!" → KEEP + ação.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">Keep to go — don't give up!</button>
+      <button class="qo" onclick="ans(this,'q2',true)">Keep going — don't give up!</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Keep go — don't give up!</button>
+    </div>
+    <div class="qfb" id="q2fb">"KEEP GOING — don't give up!" ✓ — KEEP + -ING para continuar fazendo. "Keep to go" ✗ — KEEP não usa TO para continuidade.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela fica me ligando." → Ação repetida com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She keep calling me.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She keeps calling me.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She kept calling me.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → KEEPS (com -S). Hábito atual → presente simples. "She KEEPS calling me." ✓ — ação repetida com KEEP + -ING no presente. "She kept calling me." = passado (ela ficava me ligando).</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ele ficou falando mesmo depois que eu saí." → Passado com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">He keeped talking even after I left.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">He kept talking even after I left.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">He keep talking even after I left.</button>
+    </div>
+    <div class="qfb" id="q4fb">"He KEPT talking even after I left." ✓ — KEPT = passado de KEEP. "Keeped" não existe. KEPT + -ING = continuou fazendo no passado.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">O que significa "Let's keep in touch"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Vamos nos tocar / fazer contato físico.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">Vamos manter contato.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Vamos guardar o toque / o estilo.</button>
+    </div>
+    <div class="qfb" id="q5fb">"Let's keep in touch!" = vamos manter contato. Expressão clássica para despedidas. "Stay in touch" tem o mesmo significado.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Você me fez esperar uma hora." → KEEP + pessoa + -ING.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">You kept me to wait for an hour.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">You kept me waiting for an hour.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">You kept me to waiting for an hour.</button>
+    </div>
+    <div class="qfb" id="q6fb">"You KEPT ME WAITING for an hour." ✓ — KEEP + pessoa + -ING = deixar alguém fazendo algo. "Kept me to wait" ✗ — KEEP + objeto + -ING (nunca TO + base).</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">Qual mnemônico ajuda a lembrar KEEP → KEPT?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">TAKE → TAKEN (mesma família de irregular)</button>
+      <button class="qo" onclick="ans(this,'q7',true)">SLEEP → SLEPT (mesma mudança EE → E + T)</button>
+      <button class="qo" onclick="ans(this,'q7',false)">DRIVE → DROVE (mesma vogal modificada)</button>
+    </div>
+    <div class="qfb" id="q7fb">SLEEP → SLEPT / KEEP → KEPT — ambos encurtam EE → E + T. FEEL → FELT segue o mesmo padrão. TAKE → TAKEN e DRIVE → DROVE são famílias de irregulares diferentes.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Por quanto tempo você guardou?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">How long did you kept it?</button>
+      <button class="qo" onclick="ans(this,'q8',true)">How long did you keep it?</button>
+      <button class="qo" onclick="ans(this,'q8',false)">How long you kept it?</button>
+    </div>
+    <div class="qfb" id="q8fb">DID + BASE. "How long did you KEEP it?" ✓ — depois de DID, base KEEP (nunca KEPT). Sem DID no início, não forma pergunta correta.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Guardo esta foto há 20 anos." → Present perfect com FOR.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I have kept this photo since 20 years.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I have kept this photo for 20 years.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I keep this photo for 20 years.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I have KEPT this photo FOR 20 years." ✓ — duração → FOR (período). SINCE → ponto de início: "since 2003". "I keep this photo for 20 years." ✗ — presente simples não indica duração passada.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Por que você fica fazendo isso?" → WHY DO YOU KEEP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">Why do you keep to do that?</button>
+      <button class="qo" onclick="ans(this,'q10',true)">Why do you keep doing that?</button>
+      <button class="qo" onclick="ans(this,'q10',false)">Why do you keep do that?</button>
+    </div>
+    <div class="qfb" id="q10fb">"Why do you KEEP DOING that?" ✓ — KEEP + -ING para ação repetida. "Keep to do" ✗ e "keep do" ✗ são inválidos — KEEP sempre pede -ING para expressar continuidade.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Não vamos te deixar esperando." → Futuro com KEEP + -ING.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">We won't keep you to wait.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">We won't keep you waiting.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">We won't keep you wait.</button>
+    </div>
+    <div class="qfb" id="q11fb">"We won't KEEP YOU WAITING." ✓ — KEEP + objeto + -ING. "Won't keep you to wait" ✗ — KEEP + objeto pede -ING, não TO + base.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Ótimo trabalho — continue assim!" → KEEP IT UP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Great work — keep it going!</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Great work — keep it up!</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Great work — keep going it!</button>
+    </div>
+    <div class="qfb" id="q12fb">"Great work — KEEP IT UP!" ✓ — expressão fixa: KEEP IT UP = continue assim / vai lá. "Keep it going" ✓ também existe mas com sentido de manter algo em andamento. KEEP IT UP é mais usado para elogiar.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../70_decide/index.html">← L70 DECIDE</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 46 — IN (Tempo) | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22d3ee;
+  --ca:#22d3ee;--co:#FBBF24;--ci:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ci);opacity:.9;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(6rem,20vw,14rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--ci)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-i{color:var(--ci);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.25)}
+.hp-w{color:#FF7043;background:rgba(255,112,67,.07);border-color:rgba(255,112,67,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ci);margin-bottom:.5rem;opacity:.9}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* Scale of time visual */
+.scale-wrap{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.5rem 2rem;margin:1.5rem 0}
+.scale-row{display:flex;align-items:center;gap:.85rem;padding:.65rem 0;border-bottom:1px solid var(--border)}
+.scale-row:last-child{border-bottom:none}
+.scale-prep{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;width:2.5rem;flex-shrink:0}
+.s-at{color:var(--ca)}
+.s-on{color:var(--co)}
+.s-in{color:var(--ci)}
+.scale-shape{font-size:1rem;width:2rem;text-align:center;flex-shrink:0}
+.scale-bar{flex:1;height:6px;border-radius:999px;min-width:20px}
+.bar-at{background:var(--ca);width:8px;flex:none}
+.bar-on{background:var(--co);width:28px;flex:none}
+.bar-in{background:var(--ci)}
+.scale-desc{font-size:.82rem;color:var(--muted)}
+.scale-desc strong{font-weight:600}
+
+/* IN + duração visual (daqui a) */
+.future-visual{background:var(--surface);border:1px solid rgba(167,139,250,.2);border-radius:1.25rem;padding:1.5rem 2rem;margin:1.25rem 0}
+.fv-title{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--ci);margin-bottom:1rem}
+.fv-row{display:flex;align-items:center;gap:.65rem;margin:.5rem 0;flex-wrap:wrap}
+.fv-now{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--muted);padding:.25rem .5rem;background:var(--surface2);border-radius:.4rem;flex-shrink:0}
+.fv-arrow{flex:1;height:2px;background:linear-gradient(90deg,var(--ci),rgba(167,139,250,.3));min-width:40px;position:relative}
+.fv-arrow::after{content:'';position:absolute;right:-1px;top:-4px;width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid var(--ci)}
+.fv-label{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--ci);text-align:center;position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.fv-arrow-wrap{flex:1;position:relative;min-width:60px}
+.fv-then{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--ci);flex-shrink:0}
+.fv-en{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;color:var(--ci);flex-shrink:0}
+.fv-pt{font-size:.75rem;color:var(--muted);flex-shrink:0}
+
+/* IN vs FOR comparison */
+.in-for{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.85rem 0}
+.if-in{background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.25);border-radius:.85rem;padding:1rem}
+.if-for{background:rgba(52,211,153,.07);border:1.5px solid rgba(52,211,153,.2);border-radius:.85rem;padding:1rem}
+.if-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.if-in .if-label{color:var(--ci)}
+.if-for .if-label{color:var(--ck)}
+.if-ex{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;margin:.25rem 0}
+.if-in .if-ex{color:var(--ci)}
+.if-for .if-ex{color:var(--ck)}
+.if-pt{font-size:.75rem;color:var(--muted)}
+
+/* AT night exception */
+.exception-box{background:rgba(255,112,67,.06);border:2px solid rgba(255,112,67,.25);border-radius:1rem;padding:1.1rem 1.35rem;margin:.85rem 0}
+.exc-header{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.exc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.exc-right{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.15);border-radius:.55rem;padding:.55rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600}
+.exc-wrong{background:rgba(255,112,67,.06);border:1px solid rgba(255,112,67,.15);border-radius:.55rem;padding:.55rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600}
+.exc-right{color:var(--tip)}
+.exc-wrong{color:var(--warn);text-decoration:line-through;opacity:.8}
+
+/* seasons grid */
+.seasons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.85rem 0}
+.season-card{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.6rem .5rem;text-align:center}
+.season-icon{font-size:1.3rem;display:block;margin-bottom:.25rem}
+.season-en{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ci)}
+.season-pt{font-size:.7rem;color:var(--muted)}
+
+/* Módulo 08 COMPLETE */
+.mod-complete{max-width:860px;margin:0 auto;padding:0 1.5rem 2rem}
+.mod-complete-card{background:linear-gradient(135deg,rgba(34,211,238,.06),rgba(167,139,250,.08));border:2px solid rgba(34,211,238,.25);border-radius:1.5rem;padding:2.5rem;text-align:center}
+.mc-badge{display:inline-block;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.35rem 1rem;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.mc-title{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:800;color:var(--ca);margin-bottom:.5rem}
+.mc-sub{color:var(--muted);font-size:.95rem;margin-bottom:1.75rem}
+.mc-lessons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.mc-lesson{display:flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:.65rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700}
+.mc-at{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);color:var(--ca)}
+.mc-on{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);color:var(--co)}
+.mc-in{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--ci)}
+.mc-shape{font-size:.8rem}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0;background:rgba(167,139,250,.15);color:var(--ci)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ci)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vba{color:var(--ca);font-weight:700}
+.vbo{color:var(--co);font-weight:700}
+.vbi{color:var(--ci);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+.vbw{color:var(--warn);font-weight:700}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ci);margin-bottom:.5rem;opacity:.9}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:2.5rem;border-bottom:2px solid var(--ci);color:var(--ci);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--ci);background:rgba(167,139,250,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--ci),var(--ca));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--ci);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .in-for{grid-template-columns:1fr}
+  .exc-grid{grid-template-columns:1fr}
+  .seasons-grid{grid-template-columns:repeat(2,1fr)}
+  .sum-grid{grid-template-columns:1fr}
+  .mc-lessons{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 08 · Preposições de Tempo</span>
+  <span class="nav-badge">A1 · Lição 46 · IN · Conclusão</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 08 · Lição 46 · Conclusão</div>
+    <div class="hero-title">IN</div>
+    <div class="hero-sub">Meses, anos, estações, partes do dia — IN = período mais longo</div>
+    <div class="hero-pills">
+      <span class="hp hp-i">IN + meses</span>
+      <span class="hp hp-i">IN + anos</span>
+      <span class="hp hp-i">IN the morning</span>
+      <span class="hp hp-i">in 5 minutes</span>
+      <span class="hp hp-w">AT night ≠ IN night</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- IN = período -->
+<section class="section">
+  <div class="section-label">A essência do IN</div>
+  <div class="section-title" style="color:var(--ci)">IN = Período — Do Mês ao Século</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">!</div>
+      <div>
+        <div class="uso-title">IN é o maior dos três — cobre o tempo mais amplo</div>
+        <div class="uso-sub">AT ponto ● → ON dia □ → IN período ▬▬▬</div>
+      </div>
+    </div>
+    <div class="scale-wrap">
+      <div class="scale-row">
+        <span class="scale-prep s-at">AT</span>
+        <span class="scale-shape">●</span>
+        <div class="scale-bar bar-at"></div>
+        <span class="scale-desc"><strong>at 3pm · at night · at Christmas</strong> — instante</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-prep s-on">ON</span>
+        <span class="scale-shape">□</span>
+        <div class="scale-bar bar-on"></div>
+        <span class="scale-desc"><strong>on Monday · on June 5th</strong> — um dia</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-prep s-in">IN</span>
+        <span class="scale-shape">▬</span>
+        <div class="scale-bar bar-in"></div>
+        <span class="scale-desc"><strong>in January · in 2020 · in the morning</strong> — período</span>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>Do menor ao maior: AT ● → ON □ → IN ▬.</strong> Quanto maior o período de tempo, mais provável que seja IN. Horas e momentos pontuais → AT. Dias e datas → ON. Meses, anos, estações, partes do dia → IN.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 1: IN + meses, anos, décadas, séculos, estações -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--ci)">IN + Meses · Anos · Décadas · Séculos · Estações</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">1</div>
+      <div>
+        <div class="uso-title">Todo período maior que um dia usa IN</div>
+        <div class="uso-sub">Mês, ano, décadas, século, estação do ano</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">mês</td><td class="en">I was born <span class="vbi">in</span> January.</td><td class="pt">Eu nasci em janeiro.</td></tr>
+        <tr><td class="tipo">mês</td><td class="en">The course starts <span class="vbi">in</span> March.</td><td class="pt">O curso começa em março.</td></tr>
+        <tr><td class="tipo">ano</td><td class="en">She graduated <span class="vbi">in</span> 2019.</td><td class="pt">Ela se formou em 2019.</td></tr>
+        <tr><td class="tipo">ano</td><td class="en">They moved here <span class="vbi">in</span> 2015.</td><td class="pt">Eles se mudaram aqui em 2015.</td></tr>
+        <tr><td class="tipo">décadas</td><td class="en"><span class="vbi">In</span> the 1990s, things were different.</td><td class="pt">Nos anos 90, as coisas eram diferentes.</td></tr>
+        <tr><td class="tipo">século</td><td class="en">We live <span class="vbi">in</span> the 21st century.</td><td class="pt">Vivemos no século XXI.</td></tr>
+      </tbody>
+    </table>
+    <div class="seasons-grid">
+      <div class="season-card">
+        <span class="season-icon">🌸</span>
+        <div class="season-en">in spring</div>
+        <div class="season-pt">na primavera</div>
+      </div>
+      <div class="season-card">
+        <span class="season-icon">☀️</span>
+        <div class="season-en">in summer</div>
+        <div class="season-pt">no verão</div>
+      </div>
+      <div class="season-card">
+        <span class="season-icon">🍂</span>
+        <div class="season-en">in autumn</div>
+        <div class="season-pt">no outono</div>
+      </div>
+      <div class="season-card">
+        <span class="season-icon">❄️</span>
+        <div class="season-en">in winter</div>
+        <div class="season-pt">no inverno</div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>Estações do ano sempre com IN.</strong> "in spring, in summer, in autumn, in winter." — Também: "in the summer" (com artigo) é igualmente correto, especialmente no inglês britânico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: IN + partes do dia + AT night exceção -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--ci)">IN + Partes do Dia — Exceção: AT night</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">2</div>
+      <div>
+        <div class="uso-title">IN the morning / afternoon / evening — e a exceção crítica</div>
+        <div class="uso-sub">Três partes do dia com IN · night é a única exceção com AT</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Parte do dia</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">manhã</td><td class="en">I study <span class="vbi">in</span> the morning.</td><td class="pt">Eu estudo de manhã.</td></tr>
+        <tr><td class="tipo">tarde</td><td class="en">She works <span class="vbi">in</span> the afternoon.</td><td class="pt">Ela trabalha de tarde.</td></tr>
+        <tr><td class="tipo">noitinha</td><td class="en">We eat <span class="vbi">in</span> the evening.</td><td class="pt">A gente come à noitinha.</td></tr>
+        <tr style="background:rgba(255,112,67,.04)"><td class="tipo" style="color:var(--warn)">EXCEÇÃO</td><td class="en">I can't sleep <span class="vbw">at</span> night.</td><td class="pt" style="color:var(--warn)">Não consigo dormir à noite. (AT!)</td></tr>
+      </tbody>
+    </table>
+    <div class="exception-box">
+      <div class="exc-header">⚠ Exceção obrigatória: AT night</div>
+      <div class="exc-grid">
+        <div class="exc-right">in the morning ✓</div>
+        <div class="exc-wrong">in night ✗</div>
+        <div class="exc-right">in the afternoon ✓</div>
+        <div class="exc-wrong">in the night ✗</div>
+        <div class="exc-right">in the evening ✓</div>
+        <div class="exc-right">at night ✓ (exceção!)</div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.75rem"><strong style="color:var(--warn)">AT night</strong> é a única parte do dia que usa AT. Sem artigo "the". "In night" e "in the night" não existem. As outras três partes usam IN the: in the morning, in the afternoon, in the evening.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: IN + duração futura -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--ci)">IN + Duração Futura — "Daqui a..."</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">3</div>
+      <div>
+        <div class="uso-title">IN + número = daqui a (contagem regressiva para o futuro)</div>
+        <div class="uso-sub">in 5 minutes = daqui a 5 minutos · in an hour = daqui a uma hora</div>
+      </div>
+    </div>
+
+    <div class="future-visual">
+      <div class="fv-title">IN = direção ao futuro a partir de agora</div>
+      <div class="fv-row">
+        <span class="fv-now">agora</span>
+        <div class="fv-arrow-wrap">
+          <div class="fv-arrow"></div>
+          <span class="fv-label">in 5 minutes</span>
+        </div>
+        <span class="fv-then">→ chegada</span>
+      </div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.5rem">"I'll be there in 5 minutes." = Estarei lá daqui a 5 minutos.</div>
+    </div>
+
+    <table class="ex-table" style="margin-top:.85rem">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">minutos</td><td class="en">I'll be there <span class="vbi">in</span> 5 minutes.</td><td class="pt">Estarei lá daqui a 5 minutos.</td></tr>
+        <tr><td class="tipo">horas</td><td class="en">She will arrive <span class="vbi">in</span> an hour.</td><td class="pt">Ela chegará daqui a uma hora.</td></tr>
+        <tr><td class="tipo">dias</td><td class="en">The project ends <span class="vbi">in</span> 3 days.</td><td class="pt">O projeto termina em 3 dias.</td></tr>
+        <tr><td class="tipo">semanas</td><td class="en">We leave <span class="vbi">in</span> two weeks.</td><td class="pt">Partimos daqui a duas semanas.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="in-for">
+      <div class="if-in">
+        <div class="if-label">IN = daqui a (futuro)</div>
+        <div class="if-ex">I'll be back in an hour.</div>
+        <div class="if-pt">Estarei de volta daqui a uma hora.</div>
+        <div class="if-ex" style="margin-top:.4rem">She arrives in 5 minutes.</div>
+        <div class="if-pt">Ela chega daqui a 5 minutos.</div>
+      </div>
+      <div class="if-for">
+        <div class="if-label">FOR = por / durante (duração)</div>
+        <div class="if-ex">I studied for an hour.</div>
+        <div class="if-pt">Estudei por uma hora.</div>
+        <div class="if-ex" style="margin-top:.4rem">She waited for 5 minutes.</div>
+        <div class="if-pt">Ela esperou por 5 minutos.</div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>IN ≠ FOR.</strong> IN = "daqui a X tempo" (quando algo acontece no futuro). FOR = "por X tempo" (quanto tempo dura algo). "I'll be there in 5 minutes" = chego daqui a 5 min. "I waited for 5 minutes" = esperei durante 5 min.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 08 COMPLETE -->
+<div class="mod-complete">
+  <div class="mod-complete-card">
+    <div class="mc-badge">✓ Módulo 08 Completo</div>
+    <div class="mc-title">Preposições de Tempo — Concluído!</div>
+    <div class="mc-sub">Você dominou as três preposições de tempo essenciais do inglês</div>
+    <div class="mc-lessons">
+      <div class="mc-lesson mc-at"><span class="mc-shape">●</span> L44 AT — horas e momentos</div>
+      <div class="mc-lesson mc-on"><span class="mc-shape">□</span> L45 ON — dias e datas</div>
+      <div class="mc-lesson mc-in"><span class="mc-shape">▬</span> L46 IN — meses e períodos</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — IN (Tempo)</div>
+  <div class="quiz-sub">12 questões sobre IN — incluindo a exceção AT night e "daqui a".</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com IN</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--ci)">IN + meses/anos</h4>
+      <div class="sum-item"><span class="en">in January</span></div>
+      <div class="sum-item"><span class="en">in 2020</span></div>
+      <div class="sum-item"><span class="en">in the 1990s</span></div>
+      <div class="sum-item"><span class="en">in the 21st century</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--ci)">IN + estações</h4>
+      <div class="sum-item"><span class="en">in spring</span></div>
+      <div class="sum-item"><span class="en">in summer</span></div>
+      <div class="sum-item"><span class="en">in autumn</span></div>
+      <div class="sum-item"><span class="en">in winter</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--ci)">IN + partes do dia</h4>
+      <div class="sum-item"><span class="en">in the morning</span></div>
+      <div class="sum-item"><span class="en">in the afternoon</span></div>
+      <div class="sum-item"><span class="en">in the evening</span></div>
+      <div class="sum-item" style="color:var(--warn)">AT night (exceção!)</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--ci)">IN = daqui a</h4>
+      <div class="sum-item"><span class="en">in 5 minutes</span></div>
+      <div class="sum-item"><span class="en">in an hour</span></div>
+      <div class="sum-item"><span class="en">in 3 days</span></div>
+      <div class="sum-item">FOR = por/durante</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../45_on/index.html">← Lição 45</a>
+  <div class="fnav-center">Lição 46 de 89 · Fim do Módulo 08</div>
+  <a class="fnav-btn" href="../index.html">Índice →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0xA78BFA,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0x22d3ee,2);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xFBBF24,1.5);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0xA78BFA,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0x22d3ee,emissive:0x22d3ee,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0x22d3ee,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'I was born ___ January.',opts:['in','on','at','by'],ans:'in',why:"IN + mês. 'I was born in January.' ✓ — meses usam IN: in January, in March, in December. Com dia + mês: 'I was born on January 15th' → ON. Só o mês → IN."},
+  {s:'She graduated ___ 2019.',opts:['in','on','at','by'],ans:'in',why:"IN + ano. 'She graduated in 2019.' ✓ — anos usam IN: in 2019, in 2020, in 1990. 'on 2019' ✗ / 'at 2019' ✗."},
+  {s:'I study ___ the morning.',opts:['in','on','at','during'],ans:'in',why:"IN the morning — partes do dia (morning, afternoon, evening) usam IN the. 'I study in the morning.' ✓ — 'on the morning' ✗ / 'at the morning' ✗. Exceção: AT night."},
+  {s:'I can\'t sleep ___ night.',opts:['at','in','on','by'],ans:'at',why:"AT night — exceção! 'night' é a única parte do dia que usa AT sem 'the'. 'I can't sleep at night.' ✓ — 'in night' ✗ / 'in the night' ✗. As outras partes: IN the morning/afternoon/evening."},
+  {s:'I\'ll be there ___ 5 minutes.',opts:['in','for','at','on'],ans:'in',why:"IN + duração futura = daqui a. 'I'll be there in 5 minutes.' = Estarei lá daqui a 5 minutos. FOR seria por/durante: 'I waited for 5 minutes.' = esperei por 5 minutos."},
+  {s:'I love walks ___ autumn.',opts:['in','on','at','during'],ans:'in',why:"IN + estação do ano. 'I love walks in autumn.' ✓ — estações usam IN: in spring, in summer, in autumn, in winter. 'on autumn' ✗ / 'at autumn' ✗."},
+  {s:'___ the 1990s — nos anos 90',opts:['in','on','at','by'],ans:'in',why:"IN the 1990s — décadas usam IN the. 'In the 1990s, things were different.' ✓ — 'on the 1990s' ✗. Também: 'in the 21st century' (século = IN)."},
+  {s:'She works ___ the afternoon.',opts:['in','on','at','by'],ans:'in',why:"IN the afternoon — parte do dia → IN the. 'She works in the afternoon.' ✓ — 'on the afternoon' ✗. Lembre: IN the morning / IN the afternoon / IN the evening / AT night (exceção)."},
+  {s:'He arrives ___ an hour.',opts:['in','for','at','on'],ans:'in',why:"IN an hour = daqui a uma hora. 'He arrives in an hour.' ✓ — IN + duração futura indica quando algo acontece. FOR seria: 'He stayed for an hour.' = ficou por uma hora."},
+  {s:'"in 5 minutes" vs "for 5 minutes" — qual é "daqui a 5 minutos"?',opts:['in 5 minutes','for 5 minutes','on 5 minutes','at 5 minutes'],ans:'in 5 minutes',why:"IN 5 minutes = daqui a 5 minutos (futuro, contagem regressiva). FOR 5 minutes = por 5 minutos (duração). 'I'll be there in 5 minutes.' ✓ vs 'I studied for 5 minutes.' ✓ — sentidos completamente diferentes."},
+  {s:'They live ___ the 21st century.',opts:['in','on','at','during'],ans:'in',why:"IN + século. 'They live in the 21st century.' ✓ — séculos seguem a mesma regra de décadas e anos: IN the 21st century, IN the 20th century. Sempre IN."},
+  {s:'EXCEÇÃO: ___ night (não IN night)',opts:['at','on','in','by'],ans:'at',why:"AT night é a única parte do dia com AT (sem 'the'). 'I work at night.' ✓ / 'in night' ✗ / 'in the night' ✗. As outras três partes usam IN the: morning, afternoon, evening. Night = exceção obrigatória."}
+];
+
+var ERRORS=[
+  {wrong:'I exercise on the morning.',right:'I exercise in the morning.',why:"IN the morning — partes do dia sem dia específico usam IN the. 'in the morning, in the afternoon, in the evening.' — 'on the morning' não existe. Com dia: 'on Monday morning' (ON prevalece, sem the)."},
+  {wrong:'I can\'t sleep in night.',right:'I can\'t sleep at night.',why:"AT night é a única parte do dia que usa AT (sem 'the'). 'at night' ✓ — 'in night' ✗ / 'in the night' ✗. Exceção absoluta — não existe 'in night' ou 'in the night' com esse sentido."},
+  {wrong:'She graduated on 2019.',right:'She graduated in 2019.',why:"IN + ano. 'in 2019, in 2020, in 1990.' — ON é para datas específicas (on June 5th, on Monday). Ano sozinho = período longo → IN. 'on 2019' não existe."},
+  {wrong:'I\'ll be back for 5 minutes.',right:'I\'ll be back in 5 minutes.',why:"IN 5 minutes = daqui a 5 minutos (quando algo vai acontecer). FOR = por / durante: 'I was there for 5 minutes' = fiquei lá por 5 minutos. A frase 'I'll be back for 5 minutes' significaria 'estarei de volta por apenas 5 minutos'."},
+  {wrong:'She was born in June 5th.',right:'She was born on June 5th.',why:"ON + data com dia e mês. 'on June 5th, on March 20th.' — IN June seria só o mês (sem dia). Assim que aparece um dia específico junto com o mês, a preposição muda para ON."},
+  {wrong:'I love walks at summer.',right:'I love walks in summer.',why:"IN + estação do ano. 'in summer, in winter, in spring, in autumn.' — AT é para momentos pontuais (at 3pm, at night). Estações são períodos longos → IN. 'at summer' não existe."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque na exceção AT night e no IN vs FOR!':pct<.75?'Bom progresso! Atenção ao AT night e ao IN + duração futura.':pct<1?'Muito bem! Módulo 08 quase dominado.':'Perfeito! Preposições de Tempo — Módulo 08 concluído!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

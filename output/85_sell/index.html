@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L85 · SELL · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.fam-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.fc{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:.3rem;}
+
+/* BUY/SELL pair panel */
+.pair-panel{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem;}
+.pp-item{border-radius:.75rem;padding:1rem 1.2rem;text-align:center;}
+.pp-buy{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);}
+.pp-sell{background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.4);}
+.pp-w{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.2rem;}
+.pp-pt{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--td);margin-bottom:.35rem;}
+.pp-ex{font-size:.8rem;color:var(--tm);font-style:italic;line-height:1.5;}
+
+/* double object */
+.dobj{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.do-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.7rem;}
+.do-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.do-item{background:var(--s2);border-radius:.65rem;padding:.85rem 1rem;border:1px solid var(--s3);}
+.do-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.do-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.do-pt{font-size:.78rem;color:var(--tm);}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .pair-panel{grid-template-columns:1fr;}
+  .do-grid{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">SELL</h1>
+  <p class="hero-pt">vender · convencer · ser vendido</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">SELL</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">SOLD</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">SOLD</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She sold her car and bought a bike."</div>
+    <div class="cl-pt">Ela vendeu o carro e comprou uma bicicleta.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + BUY/SELL PAIR -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">SELL — mnemônico e par com BUY</div>
+    <div class="sd">SELL → SOLD · família: TELL → TOLD · oposto de BUY → BOUGHT</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família ELL → OLD</div>
+    <div class="mn-body">SELL → SOLD: ELL→OLD — o mesmo padrão de TELL→TOLD.<br>"When you SELL something OLD, you get SOLD." (quando você vende algo velho, pronto — SOLD!)<br>Bônus: SOLD! = Vendido! (usado em leilões e como expressão de acordo)</div>
+    <div class="fam-chips">
+      <span class="fc">SELL→SOLD</span>
+      <span class="fc">TELL→TOLD</span>
+    </div>
+  </div>
+
+  <!-- BUY / SELL pair -->
+  <div class="pair-panel">
+    <div class="pp-item pp-buy">
+      <div class="pp-w" style="color:var(--gn)">BUY → BOUGHT</div>
+      <div class="pp-pt">comprar (L84)</div>
+      <div class="pp-ex">"I bought a new phone." / "She buys online." / "Can I buy you a drink?"</div>
+    </div>
+    <div class="pp-item pp-sell">
+      <div class="pp-w" style="color:var(--ca)">SELL → SOLD</div>
+      <div class="pp-pt">vender (L85)</div>
+      <div class="pp-ex">"He sold his car." / "She sells handmade jewelry." / "SOLD!"</div>
+    </div>
+  </div>
+
+  <!-- Double object -->
+  <div class="dobj">
+    <div class="do-t">SELL + duplo objeto — duas estruturas válidas</div>
+    <div class="do-grid">
+      <div class="do-item">
+        <div class="do-label">Estrutura 1 — SELL + pessoa + coisa</div>
+        <div class="do-ex">"She sold him the car."</div>
+        <div class="do-pt">Ela vendeu o carro para ele.</div>
+      </div>
+      <div class="do-item">
+        <div class="do-label">Estrutura 2 — SELL + coisa + TO + pessoa</div>
+        <div class="do-ex">"She sold the car to him."</div>
+        <div class="do-pt">Ela vendeu o carro para ele.</div>
+      </div>
+    </div>
+    <div class="nt nt-err" style="margin-top:.75rem">"She sold to him the car." ✗ — nunca SELL + TO + pessoa + coisa nessa ordem. Paralelo exato a BUY e GIVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — sell / sells</div>
+    <div class="sd">HE / SHE / IT → SELLS · SELL AT / SELL FOR · preço e destino</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>sell</strong> handmade candles online.</td><td class="cpt">Vendo velas artesanais online.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you <strong>sell</strong> second-hand clothes?</td><td class="cpt">Você vende roupas de segunda mão?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>sells</strong> insurance for a living.</td><td class="cpt">Ele vende seguros para ganhar a vida.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>sells</strong> seashells by the seashore.</td><td class="cpt">Ela vende conchas na beira do mar. (trava-língua famoso!)</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">This product <strong>sells</strong> itself.</td><td class="cpt">Este produto se vende sozinho.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>sell</strong> at cost price — no markup.</td><td class="cpt">Vendemos pelo preço de custo — sem margem.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>sell</strong> organic produce at the market.</td><td class="cpt">Eles vendem produtos orgânicos na feira.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → SELLS (com -S). "She sell insurance." ✗ → "She SELLS insurance." ✓ · SELL AT + preço: "It sells AT R$50." ✓ / SELL FOR + preço: "It sells FOR R$50." ✓ — ambos corretos.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO + SELL informal -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO e SELL = convencer (informal)</div>
+    <div class="sd">SELL → SOLD · "You've sold me!" = Me convenceu! · SOLD! = Combinado!</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>sold</strong> my old laptop for R$800.</td><td class="cpt">Vendi meu laptop antigo por R$800.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>sell</strong> your house?</td><td class="cpt">Você vendeu sua casa?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>sold</strong> his share of the company.</td><td class="cpt">Ele vendeu sua parte na empresa.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>sold</strong> everything before moving abroad.</td><td class="cpt">Ela vendeu tudo antes de se mudar para o exterior.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The album <strong>sold</strong> 10 million copies.</td><td class="cpt">O álbum vendeu 10 milhões de cópias.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>sold</strong> out in the first hour.</td><td class="cpt">Esgotamos no primeiro hora.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>sold</strong> the startup to a tech giant.</td><td class="cpt">Eles venderam a startup para uma gigante de tecnologia.</td></tr>
+    </table>
+  </div>
+
+  <div class="uso">
+    <div class="ul">SELL = convencer / persuadir (sentido figurado)</div>
+    <table class="ct">
+      <tr><th>Inglês</th><th class="cpt">Tradução</th></tr>
+      <tr><td class="ce">"You've <strong>sold</strong> me! I'll do it."</td><td class="cpt">Me convenceu! Vou fazer.</td></tr>
+      <tr><td class="ce">"I'm not <strong>sold</strong> on this idea yet."</td><td class="cpt">Ainda não estou convencido com essa ideia.</td></tr>
+      <tr><td class="ce">"They <strong>sold</strong> the idea to the board."</td><td class="cpt">Eles convenceram o conselho da ideia.</td></tr>
+      <tr><td class="ce">"Can you <strong>sell</strong> me on why this is worth it?"</td><td class="cpt">Pode me convencer de por que isso vale a pena?</td></tr>
+    </table>
+    <div class="nt nt-tip">SELL = convencer alguém a aceitar uma ideia. "I'm not SOLD." = não estou convencido. "SOLD!" sozinho = Combinado! / Fechado! (acordo, leilão).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PHRASAL VERBS -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Phrasal verbs com SELL</div>
+    <div class="sd">SELL OUT · SELL OFF · SELL UP · SELL SHORT · SOLD OUT</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">SELL OUT</div>
+      <div class="pv-pt">(1) esgotar estoque (2) trair princípios</div>
+      <div class="pv-ex">"The concert sold out." / "He sold out to the competition."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SOLD OUT</div>
+      <div class="pv-pt">esgotado (adjetivo/estado)</div>
+      <div class="pv-ex">"Sorry, we're sold out." / "The show is sold out."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SELL OFF</div>
+      <div class="pv-pt">vender em liquidação / vender ativos</div>
+      <div class="pv-ex">"They sold off their assets." / "Sell off old stock."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SELL UP</div>
+      <div class="pv-pt">vender tudo e sair / liquidar negócio</div>
+      <div class="pv-ex">"She sold up and moved to Spain." / "Time to sell up."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SELL SHORT</div>
+      <div class="pv-pt">subestimar / não valorizar</div>
+      <div class="pv-ex">"Don't sell yourself short!" / "You're selling him short."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SELL BACK</div>
+      <div class="pv-pt">revender (ao vendedor original)</div>
+      <div class="pv-ex">"Can I sell it back to you?" / "Trade-in: sell back your old phone."</div>
+    </div>
+  </div>
+  <div class="nt nt-tip">SELL OUT tem dois sentidos opostos em tom: (1) neutro — "The concert SOLD OUT." = ingressos esgotaram. (2) negativo — "He SOLD OUT." = traiu seus princípios / capitulou. Um "sell-out" (substantivo) = pessoa que abandonou seus valores.</div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões com SELL</div>
+    <div class="sd">SELL LIKE HOT CAKES · HARD SELL · SOFT SELL · BESTSELLER · DON'T SELL YOURSELF SHORT</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões essenciais</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">SELL LIKE HOT CAKES</td><td style="font-size:.83rem">vender feito água / ser muito procurado</td><td class="cpt">"This new game is selling like hot cakes!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HARD SELL</td><td style="font-size:.83rem">venda agressiva / pressão para comprar</td><td class="cpt">"I hate the hard sell at car dealerships."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">SOFT SELL</td><td style="font-size:.83rem">persuasão sutil / abordagem gentil de vendas</td><td class="cpt">"A soft sell works better with this audience."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BESTSELLER</td><td style="font-size:.83rem">livro/produto mais vendido</td><td class="cpt">"Her novel became a bestseller overnight."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DON'T SELL YOURSELF SHORT</td><td style="font-size:.83rem">não se subestime / valorize-se</td><td class="cpt">"You're talented — don't sell yourself short!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">SOLD!</td><td style="font-size:.83rem">vendido! / combinado! / me convenceu!</td><td class="cpt">"Two weeks in Paris? Sold!" = Duas semanas em Paris? Combinado!</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com SELL</div>
+    <div class="sd">Vendas · negócios · estoque · expressões</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">She <strong>sold</strong> her car last week.</div><div class="ph-pt">Ela vendeu o carro na semana passada.</div></div>
+    <div class="ph"><div class="ph-en">Sorry, we're <strong>sold out</strong>.</div><div class="ph-pt">Desculpe, estamos esgotados.</div></div>
+    <div class="ph"><div class="ph-en">This product <strong>sells</strong> itself.</div><div class="ph-pt">Este produto se vende sozinho.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>sell</strong> yourself short!</div><div class="ph-pt">Não se subestime!</div></div>
+    <div class="ph"><div class="ph-en">You've <strong>sold</strong> me — I'll try it!</div><div class="ph-pt">Me convenceu — vou tentar!</div></div>
+    <div class="ph"><div class="ph-en">It's <strong>selling</strong> like hot cakes!</div><div class="ph-pt">Está vendendo feito água!</div></div>
+    <div class="ph"><div class="ph-en">The startup was <strong>sold</strong> for $1 billion.</div><div class="ph-pt">A startup foi vendida por 1 bilhão de dólares.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Sold!</strong> Two tickets, please.</div><div class="ph-pt">Combinado! Dois ingressos, por favor.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I selled my car."</div>
+      <div class="ecr">✓ "I sold my car."</div>
+      <div class="ecd">SELL é irregular: SELL → SOLD → SOLD. "I SOLD my car." ✓ — "selled" não existe. Família: TELL→TOLD / SELL→SOLD (ELL→OLD). Passado = particípio = SOLD.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She sold to him the car."</div>
+      <div class="ecr">✓ "She sold him the car." / "She sold the car to him."</div>
+      <div class="ecd">SELL + pessoa + coisa OU SELL + coisa + TO + pessoa. "She SOLD HIM the car." ✓ / "She SOLD the car TO HIM." ✓ — a ordem intermédia (SELL + TO + pessoa + coisa) ✗. Paralelo a BUY e GIVE.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "It's sell out." / "The concert is sell out."</div>
+      <div class="ecr">✓ "It's sold out." / "The concert is sold out."</div>
+      <div class="ecd">SOLD OUT = adjetivo (particípio passado). "It's SOLD OUT." ✓ — estado: esgotado. "The concert SOLD OUT." ✓ — ação passada (o verbo). "Sell out" como adjetivo ✗ — usa-se o particípio SOLD OUT.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't sold my house."</div>
+      <div class="ecr">✓ "I didn't sell my house."</div>
+      <div class="ecd">DIDN'T + base. "I didn't SELL my house." ✓ — depois de DIDN'T, base SELL (nunca SOLD). "I didn't sold" ✗ — dois passados na mesma negação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He sells his principles." (quando é traição)</div>
+      <div class="ecr">✓ "He sold out." / "He sold out his principles."</div>
+      <div class="ecd">Para trair princípios/valores, usa-se SELL OUT (phrasal verb), não SELL sozinho. "He SOLD OUT." = ele traiu seus valores / capitulou. "He SOLD OUT his principles." ✓ também é válido com objeto explícito.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has sell the company."</div>
+      <div class="ecr">✓ "She has sold the company."</div>
+      <div class="ecd">HAVE + particípio SOLD. "She has SOLD the company." ✓ — "has sell" ✗. Passado simples = particípio = SOLD (os dois são idênticos).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — SELL</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de SELL?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">selled</button>
+      <button class="qo" onclick="ans(this,'q1',true)">sold</button>
+      <button class="qo" onclick="ans(this,'q1',false)">seld</button>
+    </div>
+    <div class="qfb" id="q1fb">SELL → SOLD (irregular). Família ELL→OLD: SELL→SOLD / TELL→TOLD. "She SOLD her car." ✓ — "selled" e "seld" não existem. Passado = particípio = SOLD.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ela vendeu o carro para ele." → Double object, opção 1.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She sold to him the car.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She sold him the car.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She sold the car to him. (correto, mas não é a opção 1)</button>
+    </div>
+    <div class="qfb" id="q2fb">"She SOLD HIM the car." ✓ — SELL + pessoa + coisa (Estrutura 1). "She SOLD the car TO HIM." ✓ — também correto (Estrutura 2). "Sold to him the car" ✗ — ordem proibida. Ambas as estruturas 1 e 2 são corretas!</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela vende seguros para ganhar a vida." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She sell insurance for a living.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She sells insurance for a living.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She is selling insurance for a living.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → SELLS (com -S). "She SELLS insurance for a living." ✓ — hábito/profissão = presente simples com -S. "She sell" ✗ — falta -S. "She is selling" = ação em andamento agora, não hábito de profissão.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"You've sold me!" significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">Você me vendeu (para outra pessoa).</button>
+      <button class="qo" onclick="ans(this,'q4',true)">Me convenceu! / Estou convencido!</button>
+      <button class="qo" onclick="ans(this,'q4',false)">Você já foi vendido (esgotou).</button>
+    </div>
+    <div class="qfb" id="q4fb">"You've SOLD ME!" = Me convenceu! / Estou convencido! SELL = persuadir/convencer (sentido figurado). "I'm not sold on this idea." = Não estou convencido com essa ideia. "SOLD!" = Combinado! (resposta entusiasmada).</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Os ingressos esgotaram." → SELL OUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">The tickets sold off.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">The tickets sold out.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">The tickets sold up.</button>
+    </div>
+    <div class="qfb" id="q5fb">"The tickets SOLD OUT." ✓ — SELL OUT = esgotar o estoque. "Sold off" = vender em liquidação (ativos). "Sold up" = vender tudo e sair (negócio/casa). Resultado: "The tickets ARE SOLD OUT." ✓ (estado atual = adjetivo).</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Sorry, we're ___ out." → Estado de estoque esgotado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">We're sell out.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">We're sold out.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">We're selling out.</button>
+    </div>
+    <div class="qfb" id="q6fb">"We're SOLD OUT." ✓ — SOLD OUT = adjetivo (particípio passado) = estado de esgotado. "We're sell out" ✗ — SELL não é adjetivo. "We're selling out" ✓ = estamos esgotando agora (processo em andamento) — diferente de já estar esgotado.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"I didn't ___ my house." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't sold my house.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">I didn't sell my house.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't sells my house.</button>
+    </div>
+    <div class="qfb" id="q7fb">"I didn't SELL my house." ✓ — DIDN'T + base SELL. "didn't sold" ✗ — dois passados na mesma negação. "didn't sells" ✗ — SELLS é terceira pessoa do presente.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">O que significa "Don't sell yourself short"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Não se venda por pouco dinheiro.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Não se subestime / valorize seus talentos.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Não venda produtos de baixa qualidade.</button>
+    </div>
+    <div class="qfb" id="q8fb">"Don't SELL YOURSELF SHORT." = não se subestime / valorize seus talentos. Expressão muito usada em entrevistas de emprego e contextos motivacionais. "You're more talented than you think — don't sell yourself short!"</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"O álbum vendeu 10 milhões de cópias." → Passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">The album selled 10 million copies.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">The album sold 10 million copies.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">The album sells 10 million copies.</button>
+    </div>
+    <div class="qfb" id="q9fb">"The album SOLD 10 million copies." ✓ — passado simples com referência temporal implícita (fato consumado). "selled" ✗ — não existe. "sells 10 million" = presente habitual (não é o caso aqui — vendeu no total).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"She has ___ the company." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">She has sell the company.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">She has sold the company.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">She has selled the company.</button>
+    </div>
+    <div class="qfb" id="q10fb">"She has SOLD the company." ✓ — HAVE + particípio SOLD. "has sell" ✗ — depois de HAS, particípio. "has selled" ✗ — não existe. SELL → SOLD → SOLD (passado = particípio).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Este produto está vendendo feito água!" → Expressão.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">This product is selling like water!</button>
+      <button class="qo" onclick="ans(this,'q11',true)">This product is selling like hot cakes!</button>
+      <button class="qo" onclick="ans(this,'q11',false)">This product is selling very much!</button>
+    </div>
+    <div class="qfb" id="q11fb">"This product is SELLING LIKE HOT CAKES!" ✓ — expressão idiomática inglesa = vendendo muito bem / sendo muito procurado. "Selling like water" ✗ — não é a expressão em inglês. "Selling very much" ✗ — não é natural em inglês.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">Qual a diferença entre HARD SELL e SOFT SELL?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">HARD SELL = vender objetos pesados; SOFT SELL = vender objetos leves.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">HARD SELL = venda agressiva/pressão; SOFT SELL = persuasão sutil/gentil.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">São sinônimos — ambos significam venda difícil.</button>
+    </div>
+    <div class="qfb" id="q12fb">HARD SELL = abordagem agressiva de vendas, pressiona o cliente. "I hate the hard sell at car dealerships." SOFT SELL = abordagem sutil, gentil, sem pressão. "A soft sell builds trust over time." Os dois são estratégias de vendas — opostas em estilo.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../84_buy/index.html">← L84 BUY</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

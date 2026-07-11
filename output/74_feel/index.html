@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L74 · FEEL · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* FEEL LIKE highlight */
+.like-box{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.lb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.55rem;}
+.lb-rule{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);margin-bottom:.4rem;}
+.lb-sub{font-size:.82rem;color:var(--tm);}
+
+/* linking verbs grid */
+.link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.lg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.7rem .9rem;text-align:center;}
+.lg-v{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:800;color:var(--ca);margin-bottom:.2rem;}
+.lg-pt{font-size:.73rem;color:var(--td);}
+
+/* patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .link-grid{grid-template-columns:repeat(3,1fr);}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">FEEL</h1>
+  <p class="hero-pt">sentir · sentir-se · parecer ao toque · estar com vontade</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">FEEL</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">FELT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">FELT</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"I feel like eating something sweet."</div>
+    <div class="cl-pt">Estou com vontade de comer algo doce.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES E MNEMÔNICO -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">FEEL — padrões e mnemônico</div>
+    <div class="sd">Verbo de ligação + FEEL LIKE + expressões essenciais</div></div>
+  </div>
+
+  <!-- Mnemônico KEEP/FEEL -->
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — KEEP → KEPT / FEEL → FELT (EE → E + T)</div>
+    <div class="mn-body">FEEL encurta a vogal dupla: <strong style="color:var(--rd)">EE → E</strong> + T.<br>KEEP → KEPT (L71) · FEEL → FELT · KNEEL → KNELT · DEAL → DEALT.<br>Passado e particípio são iguais: FELT = FELT.</div>
+  </div>
+
+  <!-- FEEL LIKE box -->
+  <div class="like-box">
+    <div class="lb-t">Expressão mais usada — FEEL LIKE</div>
+    <div class="lb-rule">FEEL LIKE + -ING = estar com vontade de</div>
+    <div class="lb-sub">"I feel like <strong>eating</strong> pizza." = Estou com vontade de comer pizza. &nbsp;|&nbsp; "I don't feel like <strong>going</strong> out." = Não estou com vontade de sair. &nbsp;|&nbsp; "Do you feel like <strong>watching</strong> a movie?" = Você está com vontade de assistir a um filme?</div>
+  </div>
+
+  <!-- FEEL como verbo de ligação -->
+  <div class="uso">
+    <div class="ul">FEEL — verbo de ligação (linking verb)</div>
+    <p style="font-size:.83rem;color:var(--tm);margin-bottom:.85rem;">FEEL funciona como verbo de ligação: FEEL + adjetivo = estado ou sensação. Não descreve uma ação, mas um estado.</p>
+    <div class="link-grid">
+      <div class="lg-item"><div class="lg-v">FEEL</div><div class="lg-pt">sentir-se</div></div>
+      <div class="lg-item"><div class="lg-v">SEEM</div><div class="lg-pt">parecer</div></div>
+      <div class="lg-item"><div class="lg-v">LOOK</div><div class="lg-pt">parecer (vista)</div></div>
+      <div class="lg-item"><div class="lg-v">SOUND</div><div class="lg-pt">parecer (ouvido)</div></div>
+      <div class="lg-item"><div class="lg-v">SMELL</div><div class="lg-pt">cheirar</div></div>
+      <div class="lg-item"><div class="lg-v">TASTE</div><div class="lg-pt">ter sabor</div></div>
+    </div>
+    <table class="ct">
+      <tr><th>Padrão</th><th>Exemplo</th><th class="cpt">Tradução</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL + adjetivo</td><td class="ce">I <strong>feel</strong> tired.</td><td class="cpt">Estou cansado.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">IT FEELS + adjetivo</td><td class="ce">It <strong>feels</strong> cold outside.</td><td class="cpt">Está frio lá fora. (sensação)</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL + like + subst.</td><td class="ce">I <strong>feel</strong> like a million dollars!</td><td class="cpt">Me sinto ótimo! / Estou me sentindo incrível!</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL + for</td><td class="ce">I <strong>feel</strong> for you.</td><td class="cpt">Sinto por você. / Tenho empatia por você.</td></tr>
+    </table>
+    <div class="nt nt-tip">Como verbo de ligação, FEEL + adjetivo (não advérbio). "I feel good." ✓ (adjetivo) / "I feel well." ✓ (saúde) / "I feel badly." ✗ (advérbio — incorreto no sentido físico/emocional).</div>
+  </div>
+
+  <!-- Expressões com FEEL -->
+  <div class="uso">
+    <div class="ul">Expressões essenciais com FEEL</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL FREE TO</td><td style="font-size:.83rem">fique à vontade para / sinta-se livre para</td><td class="cpt">"Feel free to ask questions."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL SORRY FOR</td><td style="font-size:.83rem">sentir pena de / lamentar por</td><td class="cpt">"I feel sorry for him."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FEEL AT HOME</td><td style="font-size:.83rem">sentir-se em casa / à vontade</td><td class="cpt">"Make yourself feel at home!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GET A FEEL FOR</td><td style="font-size:.83rem">pegar o jeito de / se acostumar com</td><td class="cpt">"I'm getting a feel for it."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HOW DO YOU FEEL?</td><td style="font-size:.83rem">como você está se sentindo?</td><td class="cpt">"How do you feel about the decision?"</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — feel / feels</div>
+    <div class="sd">HE / SHE / IT → FEELS · HOW DO YOU FEEL? — a pergunta clássica sobre saúde/emoção</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>feel</strong> tired after work.</td><td class="cpt">Me sinto cansado depois do trabalho.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">How do you <strong>feel</strong> today?</td><td class="cpt">Como você está se sentindo hoje?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>feels</strong> nervous before exams.</td><td class="cpt">Ele fica nervoso antes das provas.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>feels</strong> like taking a nap.</td><td class="cpt">Ela está com vontade de tirar uma soneca.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The fabric <strong>feels</strong> very soft.</td><td class="cpt">O tecido parece muito macio (ao toque).</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>feel</strong> confident about the project.</td><td class="cpt">Estamos confiantes no projeto.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>feel</strong> the pressure to perform.</td><td class="cpt">Eles sentem a pressão para performar.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → FEELS (com -S). "She feel tired." ✗ → "She FEELS tired." ✓ · "The fabric feel soft." ✗ → "The fabric FEELS soft." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — felt (irregular)</div>
+    <div class="sd">FEEL → FELT — passado e particípio idênticos</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>felt</strong> much better after resting.</td><td class="cpt">Me senti muito melhor depois de descansar.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">How did you <strong>feel</strong> after the news?</td><td class="cpt">Como você se sentiu após a notícia?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>felt</strong> a sharp pain in his back.</td><td class="cpt">Ele sentiu uma dor aguda nas costas.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>felt</strong> like she could conquer the world.</td><td class="cpt">Ela sentia que poderia conquistar o mundo.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The water <strong>felt</strong> freezing cold.</td><td class="cpt">A água parecia gelada (ao toque).</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>felt</strong> proud of what we had built.</td><td class="cpt">Nos sentimos orgulhosos do que construímos.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>felt</strong> relieved when it was over.</td><td class="cpt">Eles sentiram alívio quando acabou.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't FEEL well." ✓ / "I didn't FELT well." ✗ — DIDN'T + base FEEL. Particípio: "I have FELT better." ✓ — FELT com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">I DON'T FEEL LIKE · I DON'T FEEL WELL · HOW DID YOU FEEL?</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas e formas negativas</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Saúde</td><td class="ce">How do you <strong>feel</strong>?</td><td class="cpt">Como você está se sentindo?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Opinião</td><td class="ce">How do you <strong>feel</strong> about it?</td><td class="cpt">O que você acha? / Como você se sente sobre isso?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">How did you <strong>feel</strong> after the race?</td><td class="cpt">Como você se sentiu após a corrida?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Vontade</td><td class="ce">Do you <strong>feel</strong> like going out?</td><td class="cpt">Você está com vontade de sair?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Neg. vontade</td><td class="ce">I don't <strong>feel</strong> like working today.</td><td class="cpt">Não estou com vontade de trabalhar hoje.</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't feel</strong></td><td class="cpt">não me sinto</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't feel</strong></td><td class="cpt">não se sente</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't feel</strong></td><td class="cpt">não sentiu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't feel</strong></td><td class="cpt">não vai sentir</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">HAVE FELT · HAVE BEEN FEELING — "I've been feeling" enfatiza duração recente</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will feel</strong> better tomorrow.</td><td class="cpt">Vou me sentir melhor amanhã.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to feel</strong> proud.</td><td class="cpt">Ela vai se sentir orgulhosa.</td></tr>
+          <tr><td class="cp">YOU</td><td class="ce">You <strong>won't feel</strong> a thing.</td><td class="cpt">Você não vai sentir nada.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>have felt</strong> this way before.</td><td class="cpt">Já me senti assim antes.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has been feeling</strong> unwell.</td><td class="cpt">Ela está se sentindo mal (há algum tempo).</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>have never felt</strong> so alive.</td><td class="cpt">Nunca nos sentimos tão vivos.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">"She HAS BEEN FEELING unwell." = contínuo recente — ela está mal há algum tempo (e ainda continua). "She HAS FELT unwell." = presente perfeito simples — experiência passada com impacto presente.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com FEEL</div>
+    <div class="sd">Saúde · emoções · vontade · tato · empatia</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">How do you <strong>feel</strong> today?</div><div class="ph-pt">Como você está se sentindo hoje?</div></div>
+    <div class="ph"><div class="ph-en">I <strong>feel</strong> like eating pizza!</div><div class="ph-pt">Estou com vontade de comer pizza!</div></div>
+    <div class="ph"><div class="ph-en">I don't <strong>feel</strong> like going out.</div><div class="ph-pt">Não estou com vontade de sair.</div></div>
+    <div class="ph"><div class="ph-en">The fabric <strong>feels</strong> very soft.</div><div class="ph-pt">O tecido parece muito macio (ao toque).</div></div>
+    <div class="ph"><div class="ph-en">I <strong>felt</strong> much better after resting.</div><div class="ph-pt">Me senti muito melhor depois de descansar.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Feel</strong> free to ask questions!</div><div class="ph-pt">Fique à vontade para fazer perguntas!</div></div>
+    <div class="ph"><div class="ph-en">I <strong>feel</strong> sorry for him.</div><div class="ph-pt">Sinto pena dele.</div></div>
+    <div class="ph"><div class="ph-en">You won't <strong>feel</strong> a thing.</div><div class="ph-pt">Você não vai sentir nada.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I feeled tired."</div>
+      <div class="ecr">✓ "I felt tired."</div>
+      <div class="ecd">FEEL é irregular: FEEL → FELT. "I FELT tired." ✓ — "feeled" não existe. Mnemônico: KEEP → KEPT / FEEL → FELT (EE → E + T).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She feel nervous before exams."</div>
+      <div class="ecr">✓ "She feels nervous before exams."</div>
+      <div class="ecd">SHE → FEELS (com -S). "She FEELS nervous before exams." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I feel like to eat pizza."</div>
+      <div class="ecr">✓ "I feel like eating pizza."</div>
+      <div class="ecd">FEEL LIKE + -ING (não TO + base). "I feel like EATING pizza." ✓ — FEEL LIKE é diferente de WANT: "I want TO EAT pizza." ✓ (com TO). FEEL LIKE pede -ING diretamente.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I feel badly." (para estado físico/emocional)</div>
+      <div class="ecr">✓ "I feel bad." / "I don't feel well."</div>
+      <div class="ecd">FEEL como verbo de ligação pede adjetivo (não advérbio). "I feel BAD." ✓ (adjetivo) / "I feel BADLY." = você tem o tato prejudicado (muito específico). Para saúde/emoção: "I feel BAD." ✓ / "I don't feel WELL." ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "How did you felt after the news?"</div>
+      <div class="ecr">✓ "How did you feel after the news?"</div>
+      <div class="ecd">DID + BASE. "How did you FEEL after the news?" ✓ — depois de DID, base FEEL (nunca FELT).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have feeled this way before."</div>
+      <div class="ecr">✓ "I have felt this way before."</div>
+      <div class="ecd">Particípio de FEEL = FELT. "I have FELT this way before." ✓ — "feeled" não existe. HAVE + FELT (particípio irregular).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — FEEL</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de FEEL?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">feeled</button>
+      <button class="qo" onclick="ans(this,'q1',true)">felt</button>
+      <button class="qo" onclick="ans(this,'q1',false)">feelt</button>
+    </div>
+    <div class="qfb" id="q1fb">FEEL → FELT (irregular). EE → E + T. "I FELT better after resting." ✓ — "feeled" não existe. Mnemônico: KEEP → KEPT / FEEL → FELT.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Estou com vontade de comer pizza." → FEEL LIKE + estrutura correta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">I feel like to eat pizza.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">I feel like eating pizza.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">I feel like eat pizza.</button>
+    </div>
+    <div class="qfb" id="q2fb">"I feel like EATING pizza." ✓ — FEEL LIKE + -ING. "Feel like to eat" ✗ — TO é inválido após FEEL LIKE. Compare: "I want TO EAT pizza." ✓ — WANT usa TO, FEEL LIKE usa -ING.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ele fica nervoso antes das provas." → Hábito com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">He feel nervous before exams.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">He feels nervous before exams.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">He felt nervous before exams.</button>
+    </div>
+    <div class="qfb" id="q3fb">HE → FEELS (com -S). "He FEELS nervous before exams." ✓ — hábito presente com HE. "He felt" = passado simples.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"O tecido parece muito macio." → FEEL como verbo de ligação.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">The fabric feels very softly.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">The fabric feels very soft.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">The fabric feels very soften.</button>
+    </div>
+    <div class="qfb" id="q4fb">"The fabric FEELS very SOFT." ✓ — FEEL como verbo de ligação pede adjetivo (SOFT), não advérbio (softly). Regra: verbo de ligação + adjetivo, não advérbio.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Como você se sentiu após a corrida?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">How did you felt after the race?</button>
+      <button class="qo" onclick="ans(this,'q5',true)">How did you feel after the race?</button>
+      <button class="qo" onclick="ans(this,'q5',false)">How you felt after the race?</button>
+    </div>
+    <div class="qfb" id="q5fb">DID + BASE. "How did you FEEL after the race?" ✓ — depois de DID, base FEEL (nunca FELT). Sem DID no início, não forma pergunta correta.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Fique à vontade para fazer perguntas!" → FEEL FREE TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Feel free for asking questions!</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Feel free to ask questions!</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Feel freely to ask questions!</button>
+    </div>
+    <div class="qfb" id="q6fb">"Feel FREE TO ASK questions!" ✓ — FEEL FREE TO + base. Expressão fixa: FEEL FREE TO = fique à vontade para. "Feel free for asking" ✗ — a preposição correta é TO + base.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Me senti muito melhor depois de descansar." → Passado com I.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">I feeled much better after resting.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">I felt much better after resting.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">I feel much better after resting.</button>
+    </div>
+    <div class="qfb" id="q7fb">"I FELT much better after resting." ✓ — FELT = passado de FEEL. "Feeled" ✗ — não existe. "I feel much better" = presente (me sinto muito melhor agora).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">O que é mais natural para dizer "estou me sentindo mal" em inglês?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">I feel badly.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">I feel bad. / I don't feel well.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">I feel badly sick.</button>
+    </div>
+    <div class="qfb" id="q8fb">"I feel BAD." ✓ / "I don't feel WELL." ✓ — FEEL como verbo de ligação pede adjetivo. "I feel BADLY" ✗ = você tem o sentido do tato prejudicado (muito específico). Para saúde/emoção, use BAD (adjetivo).</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Ela está se sentindo mal há algum tempo." → Present perfect contínuo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">She has felt unwell for some time.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">She has been feeling unwell.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">She is feeling unwell for some time.</button>
+    </div>
+    <div class="qfb" id="q9fb">"She HAS BEEN FEELING unwell." ✓ — present perfect contínuo: ação que dura até agora, com ênfase no processo. "She has felt unwell" ✓ também é correto (present perfect simples). "She is feeling" ✗ = está se sentindo mal agora (sem duração passada).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">Qual mnemônico ajuda a lembrar FEEL → FELT?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">COME → CAME → COME (mesmo padrão vogal)</button>
+      <button class="qo" onclick="ans(this,'q10',true)">KEEP → KEPT (mesma mudança EE → E + T)</button>
+      <button class="qo" onclick="ans(this,'q10',false)">LET → LET → LET (invariável)</button>
+    </div>
+    <div class="qfb" id="q10fb">KEEP → KEPT / FEEL → FELT — ambos encurtam EE → E + T. DEAL → DEALT e KNEEL → KNELT seguem o mesmo padrão. COME e LET são famílias diferentes de irregulares.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Não estou com vontade de sair." → DON'T FEEL LIKE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">I don't feel like to go out.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">I don't feel like going out.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">I don't feel like go out.</button>
+    </div>
+    <div class="qfb" id="q11fb">"I don't feel like GOING out." ✓ — FEEL LIKE + -ING. "Don't feel like to go out" ✗ — TO inválido após FEEL LIKE. "Don't feel like go out" ✗ — base sem -ING é inválida aqui.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Já me senti assim antes." → Present perfect com experiência.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">I have feeled this way before.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">I have felt this way before.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">I have been feeling this way before.</button>
+    </div>
+    <div class="qfb" id="q12fb">"I have FELT this way before." ✓ — particípio FELT (não "feeled"). Present perfect = experiência passada sem tempo específico. "I have been feeling" = contínuo recente (ação em progresso).</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../73_become/index.html">← L73 BECOME</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

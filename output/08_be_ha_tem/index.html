@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE — HÁ / TEM / EXISTE | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#66BB6A;
+  --sing:#81D4FA;--plur:#FFB74D;
+  --pres:#66BB6A;--past:#64B5F6;--will:#CE93D8;--go:#80CBC4;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(102,187,106,.1);color:var(--accent);border:1px solid rgba(102,187,106,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,3vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:580px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#091408 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+.hero-state{position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
+.hstate-btn{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 16px;border-radius:100px;border:1.5px solid;background:rgba(8,12,20,.8);cursor:pointer;transition:all .25s;letter-spacing:.04em;}
+.hstate-btn.on{background:rgba(8,12,20,.95);}
+
+/* BUILDER */
+.builder{max-width:860px;margin:0 auto;padding:42px 24px;border-bottom:1px solid var(--border);}
+.builder-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.num-tabs{display:flex;gap:8px;margin-bottom:18px;}
+.ntab{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;padding:10px 22px;border-radius:10px;border:2px solid var(--border);background:transparent;cursor:pointer;transition:all .22s;}
+.ntab[data-n="sing"].on{border-color:var(--sing);color:var(--sing);background:rgba(129,212,250,.08);}
+.ntab[data-n="plur"].on{border-color:var(--plur);color:var(--plur);background:rgba(255,183,77,.08);}
+.ntab:not(.on){color:var(--muted);}
+.tense-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.ttab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.ttab.on{color:#080c14;}
+.mode-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.mtab{font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.mtab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.15);}
+.mtab[data-m="aff"].on{border-color:var(--tip);color:var(--tip);}
+.mtab[data-m="neg"].on{border-color:var(--warn);color:var(--warn);}
+.mtab[data-m="q"].on{border-color:#64DFDF;color:#64DFDF;}
+.bsent{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px 26px;}
+.bnum-badge{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:6px;margin-bottom:14px;display:inline-block;}
+.ben{font-size:22px;font-weight:700;color:var(--en);line-height:1.3;margin-bottom:8px;}
+.ben strong{font-weight:900;}
+.bpt{color:var(--muted);font-size:16px;margin-bottom:10px;}
+.bpt strong{font-weight:700;color:var(--text);}
+.bctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.3);}
+.bkey{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;}
+.bktag{font-size:11px;font-weight:700;padding:4px 11px;border-radius:6px;letter-spacing:.04em;}
+
+/* FORMULA */
+.formula-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.formula-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.slots{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.slot{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 16px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;}
+.slot-there{background:rgba(102,187,106,.12);color:var(--accent);border:1px solid rgba(102,187,106,.3);}
+.slot-verb{background:rgba(129,212,250,.1);color:var(--sing);border:1px solid rgba(129,212,250,.25);}
+.slot-what{background:rgba(100,223,223,.1);color:#64DFDF;border:1px solid rgba(100,223,223,.25);}
+.slot-where{background:rgba(255,171,145,.1);color:#FFAB91;border:1px solid rgba(255,171,145,.25);}
+.slot-opt{opacity:.45;}
+.fex-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fex{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;}
+.fex-badge{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.fex-en{font-size:16px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.fex-pt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.fex-blocks{display:flex;gap:6px;flex-wrap:wrap;}
+.fb{font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.04em;}
+
+/* INSIGHT SECTION */
+.insight{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.ins-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.ins-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(102,187,106,.1);border:1px solid rgba(102,187,106,.25);padding:3px 9px;border-radius:4px;}
+.ins-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.trap-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.trap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.trap-tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:5px;margin-bottom:12px;display:inline-block;}
+.trap-wrong{background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2);border-radius:8px;padding:10px 14px;margin-bottom:10px;}
+.trap-right{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);border-radius:8px;padding:10px 14px;}
+.trap-en{font-size:14px;font-weight:600;margin-bottom:2px;}
+.trap-pt{font-size:12px;color:var(--muted);}
+.trap-icon{font-size:11px;font-weight:700;margin-bottom:5px;}
+
+/* ANY box */
+.any-box{background:var(--surface2);border:1px solid rgba(129,212,250,.2);border-radius:12px;padding:18px 20px;margin-top:20px;}
+.any-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--sing);margin-bottom:12px;}
+.any-row{padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:16px;flex-wrap:wrap;}
+.any-row:last-child{border-bottom:none;}
+.any-en{color:var(--en);font-weight:600;min-width:240px;}
+.any-pt{color:var(--muted);}
+.any-note{font-size:11px;color:rgba(129,212,250,.7);background:rgba(129,212,250,.08);padding:2px 8px;border-radius:5px;margin-top:2px;}
+
+/* TABLES */
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(102,187,106,.1);border:1px solid rgba(102,187,106,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+.stabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.stab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.stab.on{color:#080c14;}
+.tpanel{display:none;}
+.tpanel.on{display:block;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.nbadge{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:4px 11px;border-radius:7px;display:inline-block;white-space:nowrap;}
+.nbadge.s{background:rgba(129,212,250,.1);color:var(--sing);border:1px solid rgba(129,212,250,.2);}
+.nbadge.p{background:rgba(255,183,77,.1);color:var(--plur);border:1px solid rgba(255,183,77,.2);}
+.ten{color:var(--en);font-size:15px;font-weight:600;}
+.ten strong{font-weight:900;}
+.tpt{color:var(--muted);font-size:13px;}
+.tpt strong{font-weight:700;color:var(--text);}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(102,187,106,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+/* VOCAB */
+.vocab{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:18px;}
+.vcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.v-en{font-size:15px;font-weight:600;color:var(--en);margin-bottom:4px;}
+.v-en strong{font-weight:900;}
+.v-pt{color:var(--muted);font-size:13px;}
+.v-ctx{font-size:11px;font-style:italic;color:rgba(255,255,255,.25);margin-top:3px;}
+
+/* CONTRATIONS */
+.contr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px;}
+.contr-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.contr-from{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);margin-bottom:3px;}
+.contr-to{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;}
+
+/* RESUMO */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sc-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.sc-row:last-child{border-bottom:none;}
+.sc-lbl{color:var(--muted);font-size:11px;letter-spacing:.04em;min-width:80px;}
+.sc-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;text-align:right;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){.fex-grid{grid-template-columns:1fr;}.trap-grid{grid-template-columns:1fr;}.sgrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 08</div>
+  <h1>
+    <span style="color:var(--sing)">THERE IS</span> ·
+    <span style="color:var(--plur)">THERE ARE</span> ·
+    <span style="color:var(--past)">THERE WAS / WERE</span> ·
+    <span style="color:var(--will)">THERE WILL BE</span>
+  </h1>
+  <p class="subtitle">Verbo BE — sentido HÁ / TEM / EXISTE. Estrutura de existência. 1 coisa = IS · 2 ou mais = ARE.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-state">
+    <button class="hstate-btn on" id="btnIS" data-s="sing" style="color:var(--sing);border-color:var(--sing)">THERE IS — 1 coisa</button>
+    <button class="hstate-btn" id="btnARE" data-s="plur" style="color:var(--plur);border-color:var(--plur)">THERE ARE — + coisas</button>
+  </div>
+  <div class="hero-hint">↺ Arraste para girar · Clique nos botões para alternar</div>
+</div>
+
+<!-- BUILDER -->
+<section class="builder">
+  <div class="builder-label">Construtor de frases — explore todas as combinações</div>
+  <div class="num-tabs">
+    <button class="ntab on" data-n="sing">1 coisa — <strong>THERE IS</strong></button>
+    <button class="ntab" data-n="plur">2+ coisas — <strong>THERE ARE</strong></button>
+  </div>
+  <div class="tense-tabs">
+    <button class="ttab on" data-t="present">Presente</button>
+    <button class="ttab" data-t="past">Passado</button>
+    <button class="ttab" data-t="will">Futuro WILL</button>
+    <button class="ttab" data-t="goingto">Going to</button>
+  </div>
+  <div class="mode-tabs">
+    <button class="mtab on" data-m="aff">(+) Afirmativa</button>
+    <button class="mtab" data-m="neg">(−) Negação</button>
+    <button class="mtab" data-m="q">(?) Pergunta</button>
+  </div>
+  <div class="bsent">
+    <div class="bnum-badge" id="bnumBadge"></div>
+    <div class="ben" id="bEn"></div>
+    <div class="bpt" id="bPt"></div>
+    <div class="bctx" id="bCtx"></div>
+    <div class="bkey" id="bKey"></div>
+  </div>
+</section>
+
+<!-- FÓRMULA -->
+<div class="formula-wrap">
+  <div class="formula-label">Fórmula de construção</div>
+  <div class="slots">
+    <div class="slot slot-there">THERE</div>
+    <div class="slot slot-verb">IS / ARE</div>
+    <div class="slot slot-what">O QUÊ</div>
+    <span style="color:var(--muted);font-size:18px">·</span>
+    <div class="slot slot-where slot-opt">ONDE</div>
+  </div>
+  <div class="fex-grid">
+    <div class="fex">
+      <div class="fex-badge" style="color:var(--sing);background:rgba(129,212,250,.1);border:1px solid rgba(129,212,250,.2)">SINGULAR — IS</div>
+      <div class="fex-en"><strong style="color:var(--accent)">There is</strong> <span style="color:#64DFDF">a dog</span> <span style="color:#FFAB91">in the park</span>.</div>
+      <div class="fex-pt">Há / Tem <span style="color:#64DFDF">um cachorro</span> <span style="color:#FFAB91">no parque</span>.</div>
+      <div class="fex-blocks">
+        <span class="fb slot-there">THERE IS</span>
+        <span class="fb slot-what">O QUÊ: a dog</span>
+        <span class="fb slot-where">ONDE: in the park</span>
+      </div>
+    </div>
+    <div class="fex">
+      <div class="fex-badge" style="color:var(--plur);background:rgba(255,183,77,.1);border:1px solid rgba(255,183,77,.2)">PLURAL — ARE</div>
+      <div class="fex-en"><strong style="color:var(--accent)">There are</strong> <span style="color:#64DFDF">two dogs</span> <span style="color:#FFAB91">in the park</span>.</div>
+      <div class="fex-pt">Há / Têm <span style="color:#64DFDF">dois cachorros</span> <span style="color:#FFAB91">no parque</span>.</div>
+      <div class="fex-blocks">
+        <span class="fb slot-there">THERE ARE</span>
+        <span class="fb slot-what">O QUÊ: two dogs</span>
+        <span class="fb slot-where">ONDE: in the park</span>
+      </div>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:14px">💡 A regra de ouro: o verbo concorda com O QUÊ vem depois. 1 cachorro = <strong>is</strong> · 2 cachorros = <strong>are</strong>. THERE não muda.</div>
+</div>
+
+<!-- INSIGHT: THERE ≠ LÁ / TEM ≠ HAVE -->
+<div class="insight">
+  <div class="ins-head">
+    <span class="ins-label">ATENÇÃO</span>
+    <h2 class="ins-title">Armadilhas para o brasileiro</h2>
+  </div>
+  <div class="trap-grid">
+    <div class="trap">
+      <div class="trap-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">THERE ≠ LÁ</div>
+      <div class="trap-wrong">
+        <div class="trap-icon" style="color:var(--warn)">✗ Confusão comum</div>
+        <div class="trap-en" style="color:var(--warn)">"There" = lá / ali</div>
+        <div class="trap-pt">(apenas quando é advérbio)</div>
+      </div>
+      <div class="trap-right">
+        <div class="trap-icon" style="color:var(--tip)">✓ Quando é EXISTÊNCIA</div>
+        <div class="trap-en" style="color:var(--tip)"><strong>There is</strong> a problem.</div>
+        <div class="trap-pt">"There" aqui é um sujeito vazio — não significa "lá"!</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">Compare: "<strong style="color:var(--en)">There is</strong> a book." (existe) vs "The book is <strong style="color:var(--en)">there</strong>." (lá)</p>
+    </div>
+    <div class="trap">
+      <div class="trap-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">TEM ≠ HAS</div>
+      <div class="trap-wrong">
+        <div class="trap-icon" style="color:var(--warn)">✗ Erro clássico</div>
+        <div class="trap-en" style="color:var(--warn)">Has a dog here.</div>
+        <div class="trap-pt">Tentando traduzir "Tem um cachorro aqui" literalmente.</div>
+      </div>
+      <div class="trap-right">
+        <div class="trap-icon" style="color:var(--tip)">✓ Correto</div>
+        <div class="trap-en" style="color:var(--tip)"><strong>There is</strong> a dog here.</div>
+        <div class="trap-pt">TEM no sentido de HÁ/EXISTE = THERE IS/ARE</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">HAS/HAVE = posse pessoal ("I have a dog" — meu cachorro). THERE IS = existência ("há um cachorro").</p>
+    </div>
+    <div class="trap">
+      <div class="trap-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">EXISTE ≠ EXISTS</div>
+      <div class="trap-wrong">
+        <div class="trap-icon" style="color:var(--warn)">✗ Evitar</div>
+        <div class="trap-en" style="color:var(--warn)">Exists a problem here.</div>
+        <div class="trap-pt">Direto do português: "existe um problema aqui".</div>
+      </div>
+      <div class="trap-right">
+        <div class="trap-icon" style="color:var(--tip)">✓ Natural em inglês</div>
+        <div class="trap-en" style="color:var(--tip)"><strong>There is</strong> a problem here.</div>
+        <div class="trap-pt">EXISTE (no sentido de haver) = THERE IS em inglês</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">"It exists" é raro. O inglês prefere THERE IS para existência no dia a dia.</p>
+    </div>
+    <div class="trap">
+      <div class="trap-tag" style="color:var(--sing);background:rgba(129,212,250,.1);border:1px solid rgba(129,212,250,.2)">IS vs ARE</div>
+      <div class="trap-wrong">
+        <div class="trap-icon" style="color:var(--warn)">✗ Concordância errada</div>
+        <div class="trap-en" style="color:var(--warn)">There is two people here.</div>
+        <div class="trap-pt">Duas pessoas = plural = ARE</div>
+      </div>
+      <div class="trap-right">
+        <div class="trap-icon" style="color:var(--tip)">✓ Concordância correta</div>
+        <div class="trap-en" style="color:var(--tip)">There <strong>are</strong> two people here.</div>
+        <div class="trap-pt">O verbo concorda com o substantivo que vem depois!</div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">💬 No inglês falado informal, "There's two people" é comum. No escrito e formal: sempre ARE.</p>
+    </div>
+  </div>
+
+  <div class="any-box">
+    <div class="any-title">Quando usar ANY — negativas e perguntas com plural</div>
+    <div class="any-row">
+      <span class="any-en">There <strong style="color:var(--accent)">are</strong> dogs here.</span>
+      <span class="any-pt">Tem cachorros aqui.</span>
+      <span class="any-note">afirmativa: sem ANY</span>
+    </div>
+    <div class="any-row">
+      <span class="any-en">There <strong style="color:var(--accent)">are not any</strong> dogs here.</span>
+      <span class="any-pt">Não tem cachorros aqui.</span>
+      <span class="any-note">negativa: ANY aparece</span>
+    </div>
+    <div class="any-row">
+      <span class="any-en"><strong style="color:var(--accent)">Are</strong> there <strong style="color:var(--accent)">any</strong> dogs here?</span>
+      <span class="any-pt">Tem cachorros aqui?</span>
+      <span class="any-note">pergunta: ANY aparece</span>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px">ANY = "algum/alguma/nenhum" em contextos negativos e interrogativos. Na afirmativa, usa-se A/AN/SOME.</p>
+  </div>
+</div>
+
+<!-- AFIRMATIVA -->
+<section class="uso">
+  <div class="uhead"><span class="unum">AFIRMATIVA</span><h2 class="utitle">HÁ / TEM — <em>there is · there are</em></h2></div>
+  <div class="stabs" id="affTabs">
+    <button class="stab on" data-group="aff" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(102,187,106,.08)">Presente</button>
+    <button class="stab" data-group="aff" data-t="past">Passado</button>
+    <button class="stab" data-group="aff" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="aff" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="aff-present"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-present"></tbody></table><div class="tip" id="tip-aff-present"></div></div>
+  <div class="tpanel" id="aff-past"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-past"></tbody></table><div class="tip" id="tip-aff-past"></div></div>
+  <div class="tpanel" id="aff-will"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-will"></tbody></table><div class="tip" id="tip-aff-will"></div></div>
+  <div class="tpanel" id="aff-goingto"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-goingto"></tbody></table><div class="tip" id="tip-aff-goingto"></div></div>
+</section>
+
+<!-- NEGAÇÃO -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">NEGAÇÃO</span><h2 class="utitle">NÃO HÁ — <em>there is not · there are not</em></h2></div>
+  <div class="stabs" id="negTabs">
+    <button class="stab on" data-group="neg" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(102,187,106,.08)">Presente</button>
+    <button class="stab" data-group="neg" data-t="past">Passado</button>
+    <button class="stab" data-group="neg" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="neg" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="neg-present"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-present"></tbody></table><div class="warn" id="tip-neg-present"></div></div>
+  <div class="tpanel" id="neg-past"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-past"></tbody></table><div class="warn" id="tip-neg-past"></div></div>
+  <div class="tpanel" id="neg-will"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-will"></tbody></table><div class="warn" id="tip-neg-will"></div></div>
+  <div class="tpanel" id="neg-goingto"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-goingto"></tbody></table><div class="warn" id="tip-neg-goingto"></div></div>
+</section>
+
+<!-- PERGUNTA -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:#64DFDF;background:rgba(100,223,223,.08);border-color:rgba(100,223,223,.2)">PERGUNTA</span><h2 class="utitle">TEM? HÁ? — <em>Is there · Are there</em></h2></div>
+  <div class="stabs" id="qTabs">
+    <button class="stab on" data-group="q" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(102,187,106,.08)">Presente</button>
+    <button class="stab" data-group="q" data-t="past">Passado</button>
+    <button class="stab" data-group="q" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="q" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="q-present"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-present"></tbody></table><div class="info" id="tip-q-present"></div></div>
+  <div class="tpanel" id="q-past"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-past"></tbody></table><div class="info" id="tip-q-past"></div></div>
+  <div class="tpanel" id="q-will"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-will"></tbody></table><div class="info" id="tip-q-will"></div></div>
+  <div class="tpanel" id="q-goingto"><table><thead><tr><th>Número</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-goingto"></tbody></table><div class="info" id="tip-q-goingto"></div></div>
+  <div class="warn" style="margin-top:18px">⚠️ Pergunta = inverta BE e THERE. Sem DO/DOES/DID! <em>"Is there...?" / "Are there...?" / "Was there...?" / "Will there be...?"</em></div>
+</section>
+
+<!-- VOCABULÁRIO -->
+<section class="vocab">
+  <div class="uhead"><span class="unum">VOCABULÁRIO</span><h2 class="utitle">Frases <em>do dia a dia</em> com THERE IS / ARE</h2></div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</section>
+
+<!-- CONTRAÇÕES -->
+<section class="uso">
+  <div class="uhead"><span class="unum">CONTRAÇÕES</span><h2 class="utitle">Formas <em>curtas e informais</em></h2></div>
+  <div class="contr-grid" id="contrGrid"></div>
+  <div class="tip" style="margin-top:18px">💡 "There's" é a contração mais usada no inglês falado — equivale a "tem" no português coloquial. "There's a problem" = "Tem um problema."</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todas as formas — <em>THERE IS / THERE ARE</em></h2></div>
+  <div class="sgrid" id="resumoGrid"></div>
+  <div class="tip" style="margin-top:20px">🔑 THERE IS/ARE = HÁ / TEM / EXISTE em português. O verbo concorda com O QUÊ vem depois — não com THERE. 1 coisa = IS · 2+ coisas = ARE · Passado: WAS/WERE · Futuro: WILL BE.</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 08: BE — HÁ / TEM / EXISTE</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+var D={
+  present:{label:'Presente',color:'#66BB6A',
+    sing:{
+      aff:['There is a dog here.','Há / Tem um cachorro aqui.',  'is','Singular = IS'],
+      neg:['There is not a dog here.','Não há / não tem cachorro aqui.','is not','Singular negativa = IS NOT / ISN\'T'],
+      q:  ['Is there a dog here?','Há / tem um cachorro aqui?','Is there','BE vem antes de THERE na pergunta!']
+    },
+    plur:{
+      aff:['There are two dogs here.','Há / Têm dois cachorros aqui.',  'are','Plural = ARE'],
+      neg:['There are not any dogs here.','Não há cachorros aqui.','are not','Plural negativa = ARE NOT / AREN\'T + ANY'],
+      q:  ['Are there any dogs here?','Há cachorros aqui?','Are there','Plural pergunta: ARE + THERE + ANY']
+    },
+    tip:   '⚡ PRESENTE: There IS (1 coisa) · There ARE (2+ coisas). O verbo concorda com O QUÊ vem depois!',
+    negtip:'⚠️ Negativa no presente: IS NOT → ISN\'T · ARE NOT → AREN\'T. Com plural, use ANY: "There aren\'t any..."',
+    qtip:  '🔄 Pergunta: inverta IS/ARE com THERE. "Is there...?" / "Are there any...?"'
+  },
+  past:{label:'Passado',color:'#64B5F6',
+    sing:{
+      aff:['There was a dog here.','Havia / Tinha um cachorro aqui.', 'was','Singular passado = WAS'],
+      neg:['There was not a dog here.','Não havia cachorro aqui.','was not','Singular neg. passado = WAS NOT / WASN\'T'],
+      q:  ['Was there a dog here?','Havia um cachorro aqui?','Was there','WAS antes de THERE na pergunta!']
+    },
+    plur:{
+      aff:['There were two dogs here.','Havia dois cachorros aqui.',    'were','Plural passado = WERE'],
+      neg:['There were not any dogs here.','Não havia cachorros aqui.','were not','Plural neg. passado = WERE NOT / WEREN\'T + ANY'],
+      q:  ['Were there any dogs here?','Havia cachorros aqui?','Were there','WERE + THERE + ANY']
+    },
+    tip:   '⚡ PASSADO: WAS (singular) · WERE (plural). Eram formas separadas — sem exceção!',
+    negtip:'⚠️ Passado negativo: WAS NOT / WASN\'T · WERE NOT / WEREN\'T.',
+    qtip:  '🔄 Pergunta no passado: WAS/WERE antes de THERE. Sem DID!'
+  },
+  will:{label:'Futuro WILL',color:'#CE93D8',
+    sing:{
+      aff:['There will be a party.','Haverá uma festa.','will be','WILL BE é igual para singular e plural!'],
+      neg:["There won't be a party.",'Não haverá festa.','won\'t be','Negativa: WON\'T BE (contração de WILL NOT BE)'],
+      q:  ['Will there be a party?','Haverá uma festa?','Will there be','WILL antes de THERE na pergunta!']
+    },
+    plur:{
+      aff:['There will be many people.','Haverá muitas pessoas.','will be','WILL BE igual para singular e plural!'],
+      neg:["There won't be many people.",'Não haverá muitas pessoas.','won\'t be','WON\'T BE não muda para plural'],
+      q:  ['Will there be many people?','Haverá muitas pessoas?','Will there be','WILL + THERE + BE']
+    },
+    tip:   '⚡ Futuro WILL: WILL BE igual para singular e plural. Não muda! "There will be a party" · "There will be many people."',
+    negtip:"⚠️ Negativa futuro WILL: WON'T BE. 'There won't be a party.'",
+    qtip:  '🔄 Pergunta futuro WILL: WILL + THERE + BE. "Will there be a party?"'
+  },
+  goingto:{label:'Going to',color:'#80CBC4',
+    sing:{
+      aff:['There is going to be a party.','Vai ter uma festa.','is going to be','Singular Going to = IS going to be'],
+      neg:['There is not going to be a party.','Não vai ter festa.','is not going to be','Negativa: IS NOT going to be'],
+      q:  ['Is there going to be a party?','Vai ter uma festa?','Is there going to be','IS + THERE + going to be']
+    },
+    plur:{
+      aff:['There are going to be many people.','Vai ter muitas pessoas.','are going to be','Plural Going to = ARE going to be'],
+      neg:['There are not going to be many people.','Não vai ter muitas pessoas.','are not going to be','ARE NOT going to be'],
+      q:  ['Are there going to be many people?','Vai ter muitas pessoas?','Are there going to be','ARE + THERE + going to be']
+    },
+    tip:   '⚡ Going to: IS (singular) · ARE (plural) + going to be. O mesmo padrão do presente!',
+    negtip:'⚠️ Negativa Going to: IS/ARE + NOT + going to be.',
+    qtip:  '🔄 Pergunta Going to: IS/ARE + THERE + going to be.'
+  }
+};
+var TKEYS=['present','past','will','goingto'];
+var MODES=['aff','neg','q'];
+var TENSE_COLORS={present:'#66BB6A',past:'#64B5F6',will:'#CE93D8',goingto:'#80CBC4'};
+var NUMS=['sing','plur'];
+
+function hlThere(text,form,tc){
+  var escaped=form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp(escaped,'i'),function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+}
+function hlPT(text){
+  return text.replace(/\b(há|tem|têm|tinha|tinham|havia|haviam|haverá|haverão|vai ter|vão ter|não há|não tem|não tinha|não havia|não haverá|não vai|não vão)\b/gi,function(m){return '<strong>'+m+'</strong>';});
+}
+
+// Build all tables
+TKEYS.forEach(function(tk){
+  MODES.forEach(function(mode){
+    var tbody=document.getElementById('tb-'+mode+'-'+tk);
+    if(!tbody) return;
+    NUMS.forEach(function(n){
+      var pair=D[tk][n][mode];
+      var tc=D[tk].color;
+      var hl=hlThere(pair[0],pair[2],tc);
+      var pthl=hlPT(pair[1]);
+      var nbCls=n==='sing'?'s':'p';
+      var nbTxt=n==='sing'?'SINGULAR':'PLURAL';
+      tbody.innerHTML+='<tr><td><span class="nbadge '+nbCls+'">'+nbTxt+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pthl+'</td></tr>';
+    });
+    var tipKey=mode==='neg'?'negtip':mode==='q'?'qtip':'tip';
+    var tipEl=document.getElementById('tip-'+mode+'-'+tk);
+    if(tipEl) tipEl.textContent=D[tk][tipKey];
+  });
+});
+
+// Section tab switching
+function setupSectionTabs(groupId,panelPrefix){
+  var tabs=document.querySelectorAll('.stab[data-group="'+groupId+'"]');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var tKey=tab.dataset.t;
+      tabs.forEach(function(t){t.classList.remove('on');t.style.borderColor='';t.style.color='';t.style.background='';});
+      tab.classList.add('on');
+      var tc=TENSE_COLORS[tKey];
+      tab.style.borderColor=tc; tab.style.color=tc; tab.style.background=tc+'14';
+      TKEYS.forEach(function(k){var p=document.getElementById(panelPrefix+'-'+k);if(p)p.classList.toggle('on',k===tKey);});
+    });
+  });
+}
+setupSectionTabs('aff','aff');
+setupSectionTabs('neg','neg');
+setupSectionTabs('q','q');
+
+// BUILDER
+var selNum='sing',selTense='present',selMode='aff';
+function updateBuilder(){
+  var pair=D[selTense][selNum][selMode];
+  var tc=D[selTense].color;
+  var hl=hlThere(pair[0],pair[2],tc);
+  var pthl=hlPT(pair[1]);
+  var isS=selNum==='sing';
+  var badge=document.getElementById('bnumBadge');
+  badge.textContent=isS?'1 COISA — SINGULAR':'2+ COISAS — PLURAL';
+  badge.style.background=isS?'rgba(129,212,250,.12)':'rgba(255,183,77,.12)';
+  badge.style.color=isS?'#81D4FA':'#FFB74D';
+  badge.style.border='1px solid '+(isS?'rgba(129,212,250,.25)':'rgba(255,183,77,.25)');
+  document.getElementById('bEn').innerHTML=hl;
+  document.getElementById('bPt').innerHTML=pthl;
+  var ctxMap={aff:'✅ Afirmativa · Estrutura: THERE + BE + O QUÊ + ONDE',neg:'❌ Negação · NOT após IS/ARE. Com plural = ANY',q:'❓ Pergunta · Inverta: BE + THERE + ... ? Sem DO!'};
+  document.getElementById('bCtx').textContent=ctxMap[selMode];
+  var keys=document.getElementById('bKey'); keys.innerHTML='';
+  var parts=[{l:'THERE',c:'#66BB6A'},{l:pair[2].toUpperCase(),c:tc},{l:'+ O QUÊ',c:'#64DFDF'}];
+  parts.forEach(function(pt){keys.innerHTML+='<span class="bktag" style="color:'+pt.c+';background:'+pt.c+'1a;border:1px solid '+pt.c+'44">'+pt.l+'</span>';});
+}
+document.querySelectorAll('.ntab').forEach(function(btn){
+  btn.addEventListener('click',function(){document.querySelectorAll('.ntab').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');selNum=btn.dataset.n;updateBuilder();});
+});
+document.querySelectorAll('.ttab').forEach(function(tab){
+  tab.addEventListener('click',function(){document.querySelectorAll('.ttab').forEach(function(x){x.classList.remove('on');});tab.classList.add('on');selTense=tab.dataset.t;updateBuilder();});
+});
+document.querySelectorAll('.mtab').forEach(function(tab){
+  tab.addEventListener('click',function(){document.querySelectorAll('.mtab').forEach(function(x){x.classList.remove('on');});tab.classList.add('on');selMode=tab.dataset.m;updateBuilder();});
+});
+updateBuilder();
+
+// VOCABULARY
+var VOCAB=[
+  {en:'<strong>There is</strong> a problem.',pt:'Há / Tem um problema.',ctx:'situação do dia a dia'},
+  {en:'<strong>There are</strong> many students.',pt:'Há muitos estudantes.',ctx:'lugar, escola, sala'},
+  {en:'<strong>There is</strong> no time.',pt:'Não tem tempo.',ctx:'urgência'},
+  {en:'<strong>Are there</strong> any seats?',pt:'Tem assento?',ctx:'teatro, ônibus, avião'},
+  {en:'<strong>There was</strong> a lot of traffic.',pt:'Tinha muito trânsito.',ctx:'passado recente'},
+  {en:'<strong>There were</strong> no seats.',pt:'Não tinha assento.',ctx:'passado · plural'},
+  {en:'<strong>Is there</strong> a doctor here?',pt:'Tem médico aqui?',ctx:'emergência'},
+  {en:'<strong>There will be</strong> a meeting.',pt:'Haverá uma reunião.',ctx:'futuro formal'},
+  {en:'<strong>There is going to be</strong> a party.',pt:'Vai ter uma festa.',ctx:'futuro próximo'},
+  {en:'<strong>There\'s</strong> a message for you.',pt:'Tem uma mensagem pra você.',ctx:'cotidiano · contração'},
+  {en:'<strong>There aren\'t any</strong> questions?',pt:'Não tem perguntas?',ctx:'aula, reunião'},
+  {en:'<strong>There\'s no</strong> problem.',pt:'Não tem problema.',ctx:'informal coloquial'}
+];
+var vg=document.getElementById('vocabGrid');
+VOCAB.forEach(function(v){
+  vg.innerHTML+='<div class="vcard"><div class="v-en">'+v.en+'</div><div class="v-pt">'+v.pt+'</div><div class="v-ctx">'+v.ctx+'</div></div>';
+});
+
+// CONTRAÇÕES
+var CONTRS=[
+  {from:'There is',to:"There's"},{from:'There is not',to:"There isn't"},{from:'There are not',to:"There aren't"},
+  {from:'There was not',to:"There wasn't"},{from:'There were not',to:"There weren't"},
+  {from:'There will not be',to:"There won't be"},{from:'Is there not',to:"Isn't there?"}
+];
+var cg=document.getElementById('contrGrid');
+CONTRS.forEach(function(c){
+  cg.innerHTML+='<div class="contr-card"><div class="contr-from">'+c.from+'</div><div class="contr-to"><span style="color:var(--muted)">→</span> <span style="color:var(--accent)">'+c.to+'</span></div></div>';
+});
+
+// RESUMO
+var tLabels={present:'Presente',past:'Passado',will:'Futuro WILL',goingto:'Going to'};
+var RESUMO={
+  present:{sing:{aff:'There is',neg:"There isn't",q:'Is there?'},      plur:{aff:'There are',neg:"There aren't",q:'Are there?'}},
+  past:   {sing:{aff:'There was',neg:"There wasn't",q:'Was there?'},    plur:{aff:'There were',neg:"There weren't",q:'Were there?'}},
+  will:   {sing:{aff:'There will be',neg:"There won't be",q:'Will there be?'},plur:{aff:'There will be',neg:"There won't be",q:'Will there be?'}},
+  goingto:{sing:{aff:'There is going to be',neg:"There isn't going to be",q:'Is there going to be?'},plur:{aff:'There are going to be',neg:"There aren't going to be",q:'Are there going to be?'}}
+};
+var rg=document.getElementById('resumoGrid');
+NUMS.forEach(function(n){
+  var isS=n==='sing'; var nc=isS?'#81D4FA':'#FFB74D';
+  var rows='';
+  TKEYS.forEach(function(tk){
+    var r=RESUMO[tk][n];
+    rows+='<div class="sc-row"><span class="sc-lbl" style="color:'+TENSE_COLORS[tk]+'">'+tLabels[tk]+'</span>';
+    rows+='<span class="sc-form" style="color:'+TENSE_COLORS[tk]+'">'+r.aff+'</span></div>';
+  });
+  rg.innerHTML+='<div class="scard" style="border-color:'+nc+'33"><div class="sc-title" style="color:'+nc+'">'+(isS?'SINGULAR — 1 coisa':'PLURAL — 2+ coisas')+'</div>'+rows+'</div>';
+});
+// Also a pergunta/negação summary
+NUMS.forEach(function(n){
+  var isS=n==='sing'; var nc=isS?'#81D4FA':'#FFB74D';
+  var rows='';
+  TKEYS.forEach(function(tk){
+    var r=RESUMO[tk][n];
+    rows+='<div class="sc-row"><span class="sc-lbl" style="color:'+TENSE_COLORS[tk]+'">'+tLabels[tk]+'</span>';
+    rows+='<span class="sc-form" style="color:#FF7043;font-size:11px">'+r.neg+'</span></div>';
+  });
+  rg.innerHTML+='<div class="scard" style="border-color:#FF704333"><div class="sc-title" style="color:#FF7043">'+(isS?'NEGATIVA SING.':'NEGATIVA PLURAL')+'</div>'+rows+'</div>';
+});
+
+// ── HERO THREE.JS ──────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,0.1,100);
+hCam.position.set(0,5,14); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeHero(){var w=hCanvas.parentElement.clientWidth,h=440;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeHero(); window.addEventListener('resize',resizeHero);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.4;
+hCtrl.minDistance=9; hCtrl.maxDistance=20; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,0.4));
+var hDir=new THREE.DirectionalLight(0xffffff,0.8); hDir.position.set(5,12,8); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x0a1a0c,0x0a1a0c));
+
+// Existence core
+var coreGeo=new THREE.SphereGeometry(.55,32,32);
+var coreMat=new THREE.MeshPhongMaterial({color:0x66BB6A,emissive:0x66BB6A,emissiveIntensity:.35,transparent:true,opacity:.85});
+var coreSphere=new THREE.Mesh(coreGeo,coreMat); coreSphere.position.set(0,1.5,0); hScene.add(coreSphere);
+var coreLight=new THREE.PointLight(0x66BB6A,2.5,8); coreLight.position.set(0,1.5,0); hScene.add(coreLight);
+// Rings around core
+[.75,1.0,1.35].forEach(function(r,i){
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(r,.025,8,48),new THREE.MeshPhongMaterial({color:0x66BB6A,emissive:0x66BB6A,emissiveIntensity:.5,transparent:true,opacity:.3-i*.07}));
+  ring.position.y=1.5; ring.rotation.x=Math.PI/2; hScene.add(ring);
+});
+
+// Objects in the scene (representing existences)
+var existObjs=[];
+var IS_TEXT_VISIBLE=true;
+
+function mkBox(col,sx,sy,sz){return new THREE.Mesh(new THREE.BoxGeometry(sx||.5,sy||.5,sz||.5),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.18}));}
+function mkSph(col,r){return new THREE.Mesh(new THREE.SphereGeometry(r||.28,12,12),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.2}));}
+
+// Build existence scene
+function buildScene(mode){
+  existObjs.forEach(function(o){hScene.remove(o.mesh);});
+  existObjs=[];
+
+  if(mode==='sing'){
+    // 1 single prominent object
+    var obj=mkSph(0x81D4FA,.55); obj.position.set(0,.8,0); hScene.add(obj);
+    existObjs.push({mesh:obj,type:'float',baseY:.8,off:0});
+    // glow ring
+    var gr=new THREE.Mesh(new THREE.TorusGeometry(.75,.04,8,32),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.7,transparent:true,opacity:.5}));
+    gr.position.set(0,.8,0); gr.rotation.x=Math.PI/4; hScene.add(gr);
+    existObjs.push({mesh:gr,type:'spin',off:0});
+    // "THERE IS" floating platform
+    var plat=new THREE.Mesh(new THREE.CylinderGeometry(1,.95,.08,20),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.12,transparent:true,opacity:.4}));
+    plat.position.set(0,-.1,0); hScene.add(plat);
+    existObjs.push({mesh:plat,type:'still'});
+    // emanation particles
+    for(var i=0;i<8;i++){
+      var p=mkSph(0x81D4FA,.06); var a=i/8*Math.PI*2; var r2=.9+Math.random()*.3;
+      p.position.set(Math.cos(a)*r2,.8+Math.random()*.4,Math.sin(a)*r2); hScene.add(p);
+      existObjs.push({mesh:p,type:'orbit',r:r2,a:a,baseY:.8+Math.random()*.4,spd:.4+Math.random()*.3});
+    }
+  } else {
+    // Multiple objects scattered
+    var spread=[[−2.5,.5,−1.2],[−1,.6,2],[1.2,.4,−2],[2.5,.5,1.5],[−1.8,.3,1.8],[1.8,.6,−1.5],[0,.5,2.5],[−2.2,.4,−.5]];
+    var cols=[0x66BB6A,0xFF8EC4,0x81D4FA,0xFFE082,0xFFAB91,0xD1A8E8,0xA5D6A7,0xFF8EC4];
+    spread.forEach(function(pos,i){
+      var s=mkSph(cols[i%cols.length],.28+Math.random()*.12);
+      s.position.set(pos[0],pos[1],pos[2]); hScene.add(s);
+      existObjs.push({mesh:s,type:'floatRand',baseY:pos[1],off:Math.random()*Math.PI*2,spd:.4+Math.random()*.4});
+      var gr2=new THREE.PointLight(cols[i%cols.length],.6,2);
+      gr2.position.set(pos[0],pos[1],pos[2]); hScene.add(gr2);
+      existObjs.push({mesh:gr2,type:'still'});
+    });
+    // Connection lines (existence of many)
+    for(var j=0;j<6;j++){
+      var ring2=new THREE.Mesh(new THREE.TorusGeometry(.18+j*.05,.015,6,20),new THREE.MeshPhongMaterial({color:0x66BB6A,emissive:0x66BB6A,emissiveIntensity:.5,transparent:true,opacity:.2}));
+      ring2.position.set(0,1.5,0); ring2.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0); hScene.add(ring2);
+      existObjs.push({mesh:ring2,type:'spinSlow',off:j*.4});
+    }
+  }
+}
+buildScene('sing');
+
+document.getElementById('btnIS').addEventListener('click',function(){
+  document.querySelectorAll('.hstate-btn').forEach(function(b){b.classList.remove('on');});
+  this.classList.add('on'); buildScene('sing');
+});
+document.getElementById('btnARE').addEventListener('click',function(){
+  document.querySelectorAll('.hstate-btn').forEach(function(b){b.classList.remove('on');});
+  this.classList.add('on'); buildScene('plur');
+});
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.014; hCtrl.update();
+  coreSphere.rotation.y+=.005;
+  coreLight.intensity=2+Math.sin(hT*1.5)*.8;
+  existObjs.forEach(function(o,i){
+    var off=o.off||0,by=o.baseY||0;
+    switch(o.type){
+      case 'float':    o.mesh.position.y=by+Math.sin(hT*1.1+off)*.18; break;
+      case 'floatRand':o.mesh.position.y=by+Math.sin(hT*(o.spd||1)+off)*.14; break;
+      case 'orbit':    o.mesh.position.x=Math.cos(hT*(o.spd||.5)+o.a)*o.r; o.mesh.position.z=Math.sin(hT*(o.spd||.5)+o.a)*o.r; o.mesh.position.y=by+Math.sin(hT*1.2+off)*.15; break;
+      case 'spin':     o.mesh.rotation.z+=.015; break;
+      case 'spinSlow': o.mesh.rotation.x+=.008; o.mesh.rotation.y+=.005; break;
+      case 'still':    break;
+    }
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

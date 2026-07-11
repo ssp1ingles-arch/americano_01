@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lição 22 · NEED · LIKE · LOVE · FEEL | Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --tip:#5FD87A;--warn:#FF7043;
+  --cn:#FB923C;--cl:#60A5FA;--clv:#F87171;--cf:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+.backnav{padding:1rem 2rem;display:flex;align-items:center;gap:.5rem;opacity:.7;font-size:.85rem}
+.backnav a{color:var(--accent);text-decoration:none}
+.backnav a:hover{text-decoration:underline}
+
+header{text-align:center;padding:2rem 1rem 1rem}
+.badge{display:inline-block;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif}
+header h1{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:.5rem}
+header p.sub{color:var(--muted);font-size:1rem;max-width:580px;margin:0 auto}
+
+.verb-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:.8rem}
+.verb-pill{padding:.3rem 1rem;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem}
+
+#heroWrap{width:100%;height:380px;position:relative;margin:1.5rem 0}
+#heroWrap canvas{display:block;width:100%!important;height:100%!important}
+.hero-hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.05em;pointer-events:none}
+
+/* 4-verb summary table */
+.rule-wrap{max-width:900px;margin:0 auto 2rem;padding:0 1.5rem}
+.rule-box{background:var(--surface);border:1px solid rgba(34,211,238,.25);border-radius:16px;padding:1.5rem 1.8rem;position:relative;overflow:hidden}
+.rule-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cn),var(--cl),var(--clv),var(--cf))}
+.rule-box h3{font-size:.95rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.1rem}
+.verb-table{width:100%;border-collapse:collapse}
+.verb-table th{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.4rem .7rem;text-align:left;border-bottom:1px solid var(--border)}
+.verb-table td{padding:.5rem .7rem;font-size:.88rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.verb-table tr:last-child td{border-bottom:none}
+.verb-name{font-weight:800;font-family:'Space Grotesk',sans-serif;font-size:1rem}
+.verb-pt{color:var(--muted);font-size:.8rem}
+.tag-regular{font-size:.65rem;font-weight:700;background:rgba(95,216,122,.12);color:var(--tip);border:1px solid rgba(95,216,122,.2);padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+.tag-irregular{font-size:.65rem;font-weight:700;background:rgba(255,112,67,.1);color:var(--warn);border:1px solid rgba(255,112,67,.2);padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+.past-form{font-family:'Space Grotesk',sans-serif;font-weight:700}
+
+/* verb sections */
+.sec{max-width:900px;margin:0 auto 2.5rem;padding:0 1.5rem}
+.sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.sec-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;flex-shrink:0}
+.sec-title{font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.sec-pt{font-size:.85rem;color:var(--muted);font-weight:400}
+
+.verb-card{background:var(--surface);border-radius:14px;padding:1.4rem;border-left:4px solid;margin-bottom:1rem}
+.verb-card h4{font-size:.9rem;font-weight:700;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif;opacity:.85}
+.ex-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.ex-list li{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;align-items:center;background:var(--surface2);border-radius:8px;padding:.55rem .8rem;font-size:.87rem}
+.ex-list li .en{font-weight:600}
+.ex-list li .pt{color:var(--muted)}
+.tip-box{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);border-radius:10px;padding:.75rem 1rem;margin-top:.8rem;font-size:.85rem}
+.tip-box strong{color:var(--tip)}
+.warn-box{background:rgba(255,112,67,.07);border:1px solid rgba(255,112,67,.2);border-radius:10px;padding:.75rem 1rem;margin-top:.8rem;font-size:.85rem;display:flex;gap:.6rem;align-items:flex-start}
+.warn-box .bad{color:var(--warn);font-weight:700}
+.warn-box .good{color:var(--tip);font-weight:700}
+
+/* LIKE vs LOVE scale */
+.scale-box{background:var(--surface);border-radius:14px;padding:1.5rem;margin-bottom:1.2rem;border:1px solid rgba(248,113,113,.25)}
+.scale-track{display:flex;align-items:center;gap:0;margin:1rem 0;position:relative}
+.scale-track::before{content:'';position:absolute;top:50%;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cl),var(--clv));transform:translateY(-50%)}
+.scale-point{display:flex;flex-direction:column;align-items:center;gap:.35rem;position:relative;z-index:1;flex:1}
+.scale-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--bg)}
+.scale-verb{font-size:.85rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.scale-pt{font-size:.72rem;color:var(--muted)}
+.scale-examples{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}
+.scale-ex{background:var(--surface2);border-radius:10px;padding:.8rem 1rem;border-top:2px solid}
+.scale-ex .phrase{font-size:.85rem;font-weight:700}
+.scale-ex .pt{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+/* quiz */
+.quiz-wrap{display:flex;flex-direction:column;gap:1.1rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color .3s}
+.q-card.correct{border-color:var(--tip)}
+.q-card.wrong{border-color:var(--warn)}
+.q-num{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.q-sent{font-size:1rem;font-weight:600;margin-bottom:.8rem;font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.q-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--accent);text-align:center;color:var(--accent)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.55rem .8rem;cursor:pointer;font-size:.88rem;font-weight:500;text-align:center;transition:all .2s}
+.opt:hover{border-color:var(--accent);background:rgba(34,211,238,.07)}
+.opt.selected-correct{background:rgba(95,216,122,.12);border-color:var(--tip);color:var(--tip);font-weight:700}
+.opt.selected-wrong{background:rgba(255,112,67,.12);border-color:var(--warn);color:var(--warn)}
+.opt.reveal-correct{background:rgba(95,216,122,.08);border-color:rgba(95,216,122,.4);color:var(--tip)}
+.opt[disabled]{cursor:not-allowed;opacity:.7}
+.q-feedback{margin-top:.7rem;padding:.6rem .8rem;border-radius:8px;font-size:.83rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:rgba(95,216,122,.08);color:var(--tip)}
+.q-feedback.nope{background:rgba(255,112,67,.08);color:var(--warn)}
+.score-bar{text-align:center;margin-top:1.4rem;padding:1.1rem;background:var(--surface);border-radius:14px;border:1px solid var(--border)}
+.score-bar .score-num{font-size:1.9rem;font-weight:800;color:var(--accent);font-family:'Space Grotesk',sans-serif}
+.score-bar p{color:var(--muted);font-size:.85rem;margin-top:.3rem}
+.btn{display:inline-block;padding:.55rem 1.3rem;border-radius:999px;font-weight:700;font-size:.83rem;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.btn-reset{background:rgba(34,211,238,.1);color:var(--accent);border:1px solid rgba(34,211,238,.3);margin-top:.8rem}
+
+/* errors */
+.errors-grid{display:flex;flex-direction:column;gap:.85rem}
+.err-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;background:var(--surface);border-radius:12px;padding:1rem 1.2rem}
+.err-wrong{color:var(--warn);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.92rem;text-decoration:line-through;text-decoration-color:rgba(255,112,67,.5)}
+.err-arrow{color:var(--muted);font-size:1.2rem}
+.err-right{color:var(--tip);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.92rem}
+.err-why{font-size:.76rem;color:var(--muted);margin-top:.3rem}
+
+/* mega */
+.mega{max-width:900px;margin:0 auto 4rem;padding:0 1.5rem}
+.mega-box{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:2rem;position:relative;overflow:hidden}
+.mega-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cn),var(--cl),var(--clv),var(--cf))}
+.mega-box h2{font-size:1.3rem;color:var(--accent);margin-bottom:1.4rem}
+.mega-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.mega-col{background:var(--surface);border-radius:12px;padding:1.1rem;border-left:3px solid}
+.mega-col h4{font-size:.82rem;font-weight:700;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.06em;padding-bottom:.45rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.mega-col ul li{font-size:.8rem;padding-left:.8rem;position:relative;color:var(--muted)}
+.mega-col ul li::before{content:'→';position:absolute;left:0;opacity:.7}
+.mega-col ul li span{color:var(--text);font-weight:600}
+
+footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
+footer a{color:var(--accent);text-decoration:none}
+.progress-bar{max-width:300px;margin:.8rem auto 0;height:4px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px}
+
+@media(max-width:600px){
+  .ex-list li{grid-template-columns:1fr}
+  .ex-list li .pt{border-top:1px solid var(--border);padding-top:.2rem}
+  .opts{grid-template-columns:1fr}
+  .err-card{grid-template-columns:1fr}
+  .err-arrow{display:none}
+  .mega-grid{grid-template-columns:1fr}
+  .scale-examples{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="backnav">
+  <a href="../index.html">← Início</a>
+  <span style="color:var(--muted)">/</span>
+  <span>Lição 22 · NEED · LIKE · LOVE · FEEL</span>
+</nav>
+
+<header>
+  <div class="badge">A1 · Lição 22 · Módulo 04 · Sentimentos e Necessidades</div>
+  <h1>
+    <span style="color:var(--cn)">NEED</span> ·
+    <span style="color:var(--cl)">LIKE</span> ·
+    <span style="color:var(--clv)">LOVE</span> ·
+    <span style="color:var(--cf)">FEEL</span>
+  </h1>
+  <p class="sub">Quatro verbos de sentimento e necessidade — três regulares e um irregular (FEEL → FELT)</p>
+  <div class="verb-pills">
+    <span class="verb-pill" style="background:rgba(251,146,60,.12);color:var(--cn)">PRECISAR</span>
+    <span class="verb-pill" style="background:rgba(96,165,250,.12);color:var(--cl)">GOSTAR</span>
+    <span class="verb-pill" style="background:rgba(248,113,113,.12);color:var(--clv)">AMAR / ADORAR</span>
+    <span class="verb-pill" style="background:rgba(167,139,250,.12);color:var(--cf)">SENTIR / SE SENTIR</span>
+  </div>
+</header>
+
+<div id="heroWrap">
+  <canvas id="c"></canvas>
+  <div class="hero-hint">arraste para girar</div>
+</div>
+
+<!-- RULE TABLE -->
+<div class="rule-wrap">
+  <div class="rule-box">
+    <h3>Resumo de conjugação — os 4 verbos</h3>
+    <table class="verb-table">
+      <thead>
+        <tr>
+          <th>Verbo</th>
+          <th>Presente (Eu/Você/Nós/Eles)</th>
+          <th>Presente (He/She/It)</th>
+          <th>Passado</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="verb-name" style="color:var(--cn)">NEED</span><br><span class="verb-pt">precisar</span></td>
+          <td>need</td>
+          <td><strong>needs</strong></td>
+          <td><span class="past-form" style="color:var(--cn)">needed</span></td>
+          <td><span class="tag-regular">regular (-ED)</span></td>
+        </tr>
+        <tr>
+          <td><span class="verb-name" style="color:var(--cl)">LIKE</span><br><span class="verb-pt">gostar</span></td>
+          <td>like</td>
+          <td><strong>likes</strong></td>
+          <td><span class="past-form" style="color:var(--cl)">liked</span></td>
+          <td><span class="tag-regular">regular (-D)</span></td>
+        </tr>
+        <tr>
+          <td><span class="verb-name" style="color:var(--clv)">LOVE</span><br><span class="verb-pt">amar / adorar</span></td>
+          <td>love</td>
+          <td><strong>loves</strong></td>
+          <td><span class="past-form" style="color:var(--clv)">loved</span></td>
+          <td><span class="tag-regular">regular (-D)</span></td>
+        </tr>
+        <tr>
+          <td><span class="verb-name" style="color:var(--cf)">FEEL</span><br><span class="verb-pt">sentir / se sentir</span></td>
+          <td>feel</td>
+          <td><strong>feels</strong></td>
+          <td><span class="past-form" style="color:var(--warn)">felt ⚠️</span></td>
+          <td><span class="tag-irregular">irregular!</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ NEED ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(251,146,60,.15);color:var(--cn)">N</div>
+    <div>
+      <div class="sec-title" style="color:var(--cn)">NEED = PRECISAR</div>
+      <div class="sec-pt">ter necessidade de algo ou de fazer algo</div>
+    </div>
+  </div>
+
+  <div class="verb-card" style="border-color:var(--cn)">
+    <h4 style="color:var(--cn)">NEED + substantivo / NEED TO + verbo</h4>
+    <ul class="ex-list">
+      <li><span class="en">I <strong style="color:var(--cn)">need</strong> more time.</span><span class="pt">Eu preciso de mais tempo.</span></li>
+      <li><span class="en">You <strong style="color:var(--cn)">need</strong> to rest.</span><span class="pt">Você precisa descansar.</span></li>
+      <li><span class="en">He <strong style="color:var(--cn)">needs</strong> help.</span><span class="pt">Ele precisa de ajuda.</span></li>
+      <li><span class="en">She <strong style="color:var(--cn)">needs</strong> a break.</span><span class="pt">Ela precisa de uma pausa.</span></li>
+      <li><span class="en">We <strong style="color:var(--cn)">needed</strong> each other.</span><span class="pt">Nós precisávamos um do outro.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--cn)">need</strong> anything.</span><span class="pt">Eu não precisava de nada.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>NEED TO + verbo</strong> = precisar fazer algo: "I need <strong>to go</strong>" / "She needs <strong>to rest</strong>" / "You don't need <strong>to worry</strong>" — muito comum no dia a dia!
+    </div>
+    <div class="warn-box">
+      <span>⚠️</span>
+      <span>Negação passada: <span class="good">"I didn't need"</span> — NUNCA <span class="bad">"I didn't needed" ✗</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIKE ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(96,165,250,.15);color:var(--cl)">L</div>
+    <div>
+      <div class="sec-title" style="color:var(--cl)">LIKE = GOSTAR</div>
+      <div class="sec-pt">ter preferência por algo, achar agradável</div>
+    </div>
+  </div>
+
+  <div class="verb-card" style="border-color:var(--cl)">
+    <h4 style="color:var(--cl)">LIKE + substantivo / LIKE + -ING</h4>
+    <ul class="ex-list">
+      <li><span class="en">I <strong style="color:var(--cl)">like</strong> coffee in the morning.</span><span class="pt">Eu gosto de café de manhã.</span></li>
+      <li><span class="en">You <strong style="color:var(--cl)">like</strong> action movies.</span><span class="pt">Você gosta de filmes de ação.</span></li>
+      <li><span class="en">He <strong style="color:var(--cl)">likes</strong> working out.</span><span class="pt">Ele gosta de se exercitar.</span></li>
+      <li><span class="en">She <strong style="color:var(--cl)">likes</strong> reading at night.</span><span class="pt">Ela gosta de ler à noite.</span></li>
+      <li><span class="en">They <strong style="color:var(--cl)">liked</strong> Brazilian food.</span><span class="pt">Eles gostavam de comida brasileira.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--cl)">like</strong> it.</span><span class="pt">Eu não gostei.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>WOULD LIKE</strong> = gostaria (mais educado e formal): "I <strong>would like</strong> a coffee" = Eu gostaria de um café. Use em restaurantes, lojas e situações formais.
+    </div>
+    <div class="warn-box">
+      <span>⚠️</span>
+      <span>Negação passada: <span class="good">"I didn't like"</span> — NUNCA <span class="bad">"I didn't liked" ✗</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOVE ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(248,113,113,.15);color:var(--clv)">♥</div>
+    <div>
+      <div class="sec-title" style="color:var(--clv)">LOVE = AMAR / ADORAR</div>
+      <div class="sec-pt">amor profundo OU adorar muito algo — tudo em um verbo</div>
+    </div>
+  </div>
+
+  <div class="verb-card" style="border-color:var(--clv)">
+    <h4 style="color:var(--clv)">LOVE cobre amor E paixão por coisas</h4>
+    <ul class="ex-list">
+      <li><span class="en">I <strong style="color:var(--clv)">love</strong> you.</span><span class="pt">Eu te amo.</span></li>
+      <li><span class="en">He <strong style="color:var(--clv)">loves</strong> soccer.</span><span class="pt">Ele ama / adora futebol.</span></li>
+      <li><span class="en">She <strong style="color:var(--clv)">loves</strong> cooking.</span><span class="pt">Ela adora cozinhar.</span></li>
+      <li><span class="en">They <strong style="color:var(--clv)">love</strong> traveling.</span><span class="pt">Eles adoram viajar.</span></li>
+      <li><span class="en">I <strong style="color:var(--clv)">loved</strong> that movie.</span><span class="pt">Eu adorei aquele filme.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--clv)">love</strong> it.</span><span class="pt">Eu não adorei.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>Em inglês</strong>, LOVE serve tanto para "Eu te amo" quanto para "I love pizza!" (Eu adoro pizza!). Use livremente — é muito comum para coisas e atividades.
+    </div>
+    <div class="warn-box">
+      <span>⚠️</span>
+      <span>Negação passada: <span class="good">"I didn't love"</span> — NUNCA <span class="bad">"I didn't loved" ✗</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEEL ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--cf)">F</div>
+    <div>
+      <div class="sec-title" style="color:var(--cf)">FEEL = SENTIR / SE SENTIR <span style="font-size:.8rem;color:var(--warn)">⚠️ IRREGULAR</span></div>
+      <div class="sec-pt">sentir emoção, sensação física ou toque · passado: FELT</div>
+    </div>
+  </div>
+
+  <div class="verb-card" style="border-color:var(--cf)">
+    <h4 style="color:var(--cf)">FEEL + adjetivo · passado = FELT (irregular!)</h4>
+    <ul class="ex-list">
+      <li><span class="en">I <strong style="color:var(--cf)">feel</strong> great today!</span><span class="pt">Eu me sinto ótimo hoje!</span></li>
+      <li><span class="en">He <strong style="color:var(--cf)">feels</strong> happy.</span><span class="pt">Ele se sente feliz.</span></li>
+      <li><span class="en">She <strong style="color:var(--cf)">feels</strong> nervous before tests.</span><span class="pt">Ela se sente nervosa antes das provas.</span></li>
+      <li><span class="en">It <strong style="color:var(--cf)">feels</strong> soft.</span><span class="pt">Parece macio. / É macio ao toque.</span></li>
+      <li><span class="en">I <strong style="color:var(--warn)">felt</strong> great yesterday.</span><span class="pt">Eu me senti ótimo ontem.</span></li>
+      <li><span class="en">They <strong style="color:var(--warn)">felt</strong> ready.</span><span class="pt">Eles se sentiram prontos.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>Expressões essenciais:</strong> "How do you feel?" = Como você se sente? · "I don't feel well" = Não me sinto bem · "It doesn't feel right" = Não parece certo
+    </div>
+    <div class="warn-box">
+      <span>⚠️</span>
+      <span>FEEL é o único irregular dos 4: <span class="good">"I felt / I didn't feel"</span> — NUNCA <span class="bad">"feeled" ✗</span> nem <span class="bad">"didn't felt" ✗</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIKE vs LOVE ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(248,113,113,.12);color:var(--clv)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--clv)">LIKE vs LOVE — a escala de intensidade</div>
+      <div class="sec-pt">gostar vs amar/adorar — quando usar cada um</div>
+    </div>
+  </div>
+  <div class="scale-box">
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem">Nível de sentimento →</p>
+    <div class="scale-track">
+      <div class="scale-point">
+        <div class="scale-verb" style="color:var(--cl)">LIKE</div>
+        <div class="scale-dot" style="background:var(--cl)"></div>
+        <div class="scale-pt">gostar</div>
+      </div>
+      <div class="scale-point" style="flex:2">
+        <div style="height:2px"></div>
+      </div>
+      <div class="scale-point">
+        <div class="scale-verb" style="color:var(--clv)">LOVE</div>
+        <div class="scale-dot" style="background:var(--clv)"></div>
+        <div class="scale-pt">amar / adorar</div>
+      </div>
+    </div>
+    <div class="scale-examples">
+      <div class="scale-ex" style="border-color:var(--cl)">
+        <div class="phrase" style="color:var(--cl)">I like coffee.</div>
+        <div class="pt">Eu gosto de café. (tranquilo, sem drama)</div>
+        <div class="phrase" style="color:var(--cl);margin-top:.6rem">She likes working out.</div>
+        <div class="pt">Ela gosta de se exercitar.</div>
+      </div>
+      <div class="scale-ex" style="border-color:var(--clv)">
+        <div class="phrase" style="color:var(--clv)">I love coffee!</div>
+        <div class="pt">Eu adoro café! (muito mais intenso)</div>
+        <div class="phrase" style="color:var(--clv);margin-top:.6rem">She loves working out!</div>
+        <div class="pt">Ela adora se exercitar! (paixão)</div>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:.8rem">
+      <strong>Regra:</strong> LIKE = gostar · LOVE = adorar (bem mais intenso) · "I love pizza!" é muito natural em inglês — use à vontade!
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUIZ ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(34,211,238,.12);color:var(--accent)">✎</div>
+    <div>
+      <div class="sec-title" style="color:var(--accent)">Quiz · NEED · LIKE · LOVE · FEEL</div>
+      <div class="sec-pt">escolha a forma correta dos 4 verbos</div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz"></div>
+  <div class="score-bar" id="scorebar" style="display:none">
+    <div class="score-num" id="scorenum"></div>
+    <p id="scoremsg"></p>
+    <button class="btn btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</section>
+
+<!-- ═══ ERROS CLÁSSICOS ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(255,112,67,.12);color:var(--warn)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--warn)">Erros Clássicos</div>
+      <div class="sec-pt">os erros mais comuns com esses 4 verbos</div>
+    </div>
+  </div>
+  <div class="errors-grid">
+    <div class="err-card">
+      <div><div class="err-wrong">I didn't liked it.</div><div class="err-why">LIKE regular, mas "didn't" + verbo base → didn't LIKE</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I didn't like it.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She feeled sad.</div><div class="err-why">FEEL é irregular — passado = FELT (nunca feeled)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She felt sad.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">He need help.</div><div class="err-why">He/She/It → NEEDS no presente</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">He needs help.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">I didn't felt well.</div><div class="err-why">"didn't" + verbo base → didn't FEEL (FELT fica só na afirmativa)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I didn't feel well.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She don't like vegetables.</div><div class="err-why">She → DOESN'T (não DON'T) no presente negativo</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She doesn't like vegetables.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">Did he loved soccer?</div><div class="err-why">DID + verbo base → DID HE LOVE (não DID HE LOVED)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">Did he love soccer?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEGA SUMMARY ═══ -->
+<div class="mega">
+  <div class="mega-box">
+    <h2>Resumão · NEED · LIKE · LOVE · FEEL</h2>
+    <div class="mega-grid">
+      <div class="mega-col" style="border-color:var(--cn)">
+        <h4 style="color:var(--cn)">NEED — Precisar</h4>
+        <ul>
+          <li><span>NEEDS</span> = He/She/It no presente</li>
+          <li><span>NEEDED</span> = passado regular</li>
+          <li><span>need to + verbo</span> = precisar fazer</li>
+          <li><span>don't need to</span> = não precisa</li>
+          <li><span>didn't need</span> — NUNCA "didn't needed"</li>
+        </ul>
+      </div>
+      <div class="mega-col" style="border-color:var(--cl)">
+        <h4 style="color:var(--cl)">LIKE — Gostar</h4>
+        <ul>
+          <li><span>LIKES</span> = He/She/It no presente</li>
+          <li><span>LIKED</span> = passado regular</li>
+          <li><span>like + -ing</span> = gostar de + verbo</li>
+          <li><span>would like</span> = gostaria (formal)</li>
+          <li><span>didn't like</span> — NUNCA "didn't liked"</li>
+        </ul>
+      </div>
+      <div class="mega-col" style="border-color:var(--clv)">
+        <h4 style="color:var(--clv)">LOVE — Amar / Adorar</h4>
+        <ul>
+          <li><span>LOVES</span> = He/She/It no presente</li>
+          <li><span>LOVED</span> = passado regular</li>
+          <li><span>I love you</span> = te amo (profundo)</li>
+          <li><span>I love pizza!</span> = adoro pizza! (intenso)</li>
+          <li><span>didn't love</span> — NUNCA "didn't loved"</li>
+        </ul>
+      </div>
+      <div class="mega-col" style="border-color:var(--cf)">
+        <h4 style="color:var(--cf)">FEEL — Sentir ⚠️</h4>
+        <ul>
+          <li><span>FEELS</span> = He/She/It no presente</li>
+          <li><span>FELT</span> = passado IRREGULAR!</li>
+          <li><span>feel + adjetivo</span> = se sentir + adj.</li>
+          <li><span>How do you feel?</span> = Como se sente?</li>
+          <li><span>didn't feel</span> — NUNCA "didn't felt"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="../index.html">← Voltar ao início</a></p>
+  <p style="margin-top:.4rem">Lição 22 de 25 · Módulo 04 · Inglês Visual para Brasileiros</p>
+  <div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div>
+</footer>
+
+<!-- THREE.JS HERO -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  var W=document.getElementById('heroWrap'),canvas=document.getElementById('c');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W.clientWidth/W.clientHeight,.1,100);
+  camera.position.set(0,1.5,9);
+  var controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.enableZoom=false;controls.autoRotate=true;controls.autoRotateSpeed=.45;
+
+  function resize(){var w=W.clientWidth,h=W.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener('resize',resize);
+
+  var cyan=0x22D3EE,cn=0xFB923C,cl=0x60A5FA,clv=0xF87171,cf=0xA78BFA;
+
+  function sphere(r,col,rough){
+    return new THREE.Mesh(
+      new THREE.SphereGeometry(r,28,28),
+      new THREE.MeshStandardMaterial({color:col,roughness:rough||.45,metalness:.25,emissive:col,emissiveIntensity:.12})
+    );
+  }
+  function ring(r,col,tube){
+    return new THREE.Mesh(
+      new THREE.TorusGeometry(r,tube||.012,12,80),
+      new THREE.MeshStandardMaterial({color:col,roughness:.6,transparent:true,opacity:.25})
+    );
+  }
+
+  scene.add(new THREE.AmbientLight(0xffffff,.45));
+  var d1=new THREE.DirectionalLight(0xffffff,.8);d1.position.set(5,8,5);scene.add(d1);
+  scene.add(Object.assign(new THREE.PointLight(cyan,1.1,14),{position:{x:-3,y:2,z:3}}));
+  scene.add(Object.assign(new THREE.PointLight(clv,.7,10),{position:{x:4,y:-1,z:2}}));
+
+  // Central sphere
+  var core=sphere(1,cyan,.3);scene.add(core);
+  scene.add(ring(1.5,cyan,.02));
+
+  // 4 verb nodes orbiting
+  var nodeOrbit=new THREE.Object3D();scene.add(nodeOrbit);
+  var verbs=[
+    {col:cn,angle:0},
+    {col:cl,angle:Math.PI*.5},
+    {col:clv,angle:Math.PI},
+    {col:cf,angle:Math.PI*1.5}
+  ];
+  verbs.forEach(function(v){
+    var m=sphere(.6,v.col,.45);
+    m.position.set(Math.cos(v.angle)*3.8,Math.sin(v.angle)*.4,Math.sin(v.angle)*3.8);
+    nodeOrbit.add(m);
+    scene.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),m.position.clone()]),
+      new THREE.LineBasicMaterial({color:v.col,transparent:true,opacity:.1})
+    ));
+  });
+
+  // Orbit rings
+  [[cyan,4.2,.015],[cn,5,.01],[cl,5.3,.01],[clv,5.6,.01],[cf,5.9,.01]].forEach(function(cfg,i){
+    var orb=ring(cfg[0],cfg[1],cfg[2]);
+    orb.rotation.x=Math.PI/2-.15+i*.18;
+    orb.rotation.z=i*1.1;
+    scene.add(orb);
+  });
+
+  // Accent mini-particles
+  [cn,cl,clv,cf,cyan,0xFBBF24,0x34D399].forEach(function(col,i){
+    var ang=i*Math.PI*2/7;
+    var m=sphere(.12,col,.55);
+    m.position.set(Math.cos(ang)*2.5,Math.sin(ang*.7)*.5,Math.sin(ang)*2.5);
+    scene.add(m);
+  });
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.005;
+    controls.update();
+    core.rotation.y+=.003;
+    nodeOrbit.rotation.y=t*.35;
+    renderer.render(scene,camera);
+  }
+  animate();
+})();
+</script>
+
+<!-- QUIZ JS -->
+<script>
+var QS=[
+  {s:'She ___ working out every morning.',opts:['like','liked','likes','liking'],ans:'likes',why:'She → LIKES no presente'},
+  {s:'I ___ more time to finish the project.',opts:['needs','needed','needing','need'],ans:'needed',why:'"to finish" indica situação passada → NEEDED (regular)'},
+  {s:'He ___ happy after the good news.',opts:['feel','feels','feeling','felt'],ans:'felt',why:'FEEL é irregular — passado = FELT'},
+  {s:'They ___ traveling around the world.',opts:['loves','loved','loving','love'],ans:'love',why:'They → LOVE no presente'},
+  {s:'I didn\'t ___ that horror movie.',opts:['liked','likes','liking','like'],ans:'like',why:'"didn\'t" + verbo base → didn\'t LIKE (nunca "didn\'t liked")'},
+  {s:'She ___ nervous before every test.',opts:['feel','felt','feeling','feels'],ans:'feels',why:'She → FEELS no presente; "feels nervous" = se sente nervosa'},
+  {s:'He ___ to rest after working all day.',opts:['need','needs','needed','needing'],ans:'needs',why:'He → NEEDS no presente; "needs to rest" = precisa descansar'},
+  {s:'We ___ proud when we finished.',opts:['feel','feels','feeling','felt'],ans:'felt',why:'Passado de FEEL = FELT (irregular) — "when we finished" indica passado'},
+  {s:'Does she ___ Brazilian food?',opts:['loved','loves','loving','love'],ans:'love',why:'DOES + verbo base → DOES SHE LOVE'},
+  {s:'I ___ you.',opts:['loves','loved','loving','love'],ans:'love',why:'I → LOVE no presente; a frase mais famosa do inglês!'},
+  {s:'Did they ___ more support?',opts:['needs','needed','needing','need'],ans:'need',why:'DID + verbo base → DID THEY NEED (nunca "did they needed")'},
+  {s:'I ___ great yesterday — best day ever!',opts:['feel','feels','feeling','felt'],ans:'felt',why:'"yesterday" indica passado → FELT (irregular)'}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';card.id='qc'+i;
+    var opts=q.opts.slice().sort(function(){return Math.random()-.5});
+    card.innerHTML='<div class="q-num">Pergunta '+(i+1)+' de '+QS.length+'</div>'+
+      '<div class="q-sent">'+q.s.replace('___','<span class="q-blank">___</span>')+'</div>'+
+      '<div class="opts" id="opts'+i+'">'+
+        opts.map(function(o){return '<button class="opt" data-v="'+o+'" onclick="pick('+i+',this,\''+q.ans+'\')">'+o+'</button>';}).join('')+
+      '</div>'+
+      '<div class="q-feedback" id="fb'+i+'"></div>';
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,ans){
+  var fb=document.getElementById('fb'+i),card=document.getElementById('qc'+i);
+  document.querySelectorAll('#opts'+i+' .opt').forEach(function(o){o.disabled=true;});
+  if(btn.dataset.v===ans){
+    btn.className='opt selected-correct';card.className='q-card correct';
+    fb.className='q-feedback ok show';fb.textContent='✓ '+QS[i].why;score++;
+  } else {
+    btn.className='opt selected-wrong';card.className='q-card wrong';
+    fb.className='q-feedback nope show';fb.textContent='✗ Correto: '+ans+' — '+QS[i].why;
+    document.querySelectorAll('#opts'+i+' .opt').forEach(function(o){if(o.dataset.v===ans)o.className='opt reveal-correct';});
+  }
+  answered++;
+  if(answered===QS.length){
+    document.getElementById('scorebar').style.display='block';
+    document.getElementById('scorenum').textContent=score+'/'+QS.length;
+    document.getElementById('scoremsg').textContent=['Continue praticando!','Bom trabalho!','Muito bem!','Excelente!','Perfeito!'][Math.min(4,Math.floor(score/QS.length*4))];
+  }
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+</script>
+</body>
+</html>

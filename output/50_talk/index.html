@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L50 · TALK · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#fb923c;--cg:rgba(251,146,60,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,14vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+/* Regular verb badge */
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.5rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arrow{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+/* Iconic phrase */
+.iconic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.2rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.ic-en{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.ic-pt{font-size:.9rem;color:var(--tm);}
+
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* TALK patterns */
+.talk-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.tp{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1rem 1.1rem;border-left:3px solid var(--ca);}
+.tp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.35rem;}
+.tp-pt{font-size:.75rem;color:var(--td);margin-bottom:.55rem;}
+.tp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Conj table */
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .cep strong{color:var(--gn);}
+
+/* Two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+/* QF formula */
+.qf{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1.05rem;margin-bottom:.7rem;}
+.qft{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ca);margin-bottom:.45rem;}
+.qff{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx);margin-bottom:.35rem;}
+.qff span{color:var(--ca);}
+.qfe{font-size:.82rem;color:var(--tm);}
+
+/* Notes */
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(251,146,60,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+/* Phrases */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+/* Compare badge */
+.cmp{display:flex;gap:.75rem;margin:.75rem 0;flex-wrap:wrap;}
+.cmp-card{flex:1;min-width:200px;background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1rem;}
+.cmp-title{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.5rem;}
+.cmp-ex{font-size:.82rem;color:var(--tm);margin-bottom:.25rem;}
+.cmp-ex::before{content:'→ ';color:var(--ca);}
+
+/* Errors */
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+/* Quiz */
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+/* Nav */
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .cmp{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 12 · Verbos de Comunicação</div>
+  <h1 class="hero-title">TALK</h1>
+  <p class="hero-pt">conversar · papo informal · ter uma conversa</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">TALK</div></div>
+    <div class="rf-arrow">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">TALKED</div></div>
+    <div class="rf-arrow">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">TALKED</div></div>
+    <span class="reg-badge">✓ REGULAR · só + ED</span>
+  </div>
+
+  <div class="iconic">
+    <div class="ic-en">"We need to talk."</div>
+    <div class="ic-pt">Nós precisamos conversar.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: O QUE É TALK -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">TALK — quatro formas de usar</div>
+    <div class="sd">TALK TO · TALK ABOUT · TALK OVER · TALK someone INTO</div></div>
+  </div>
+
+  <div class="talk-patt">
+    <div class="tp">
+      <div class="tp-key">TALK TO</div>
+      <div class="tp-pt">falar com / conversar com</div>
+      <div class="tp-ex">"I talk to my mom every day."</div>
+    </div>
+    <div class="tp">
+      <div class="tp-key">TALK ABOUT</div>
+      <div class="tp-pt">falar sobre / discutir</div>
+      <div class="tp-ex">"He talks about soccer all the time."</div>
+    </div>
+    <div class="tp">
+      <div class="tp-key">TALK IT OVER</div>
+      <div class="tp-pt">resolver conversando</div>
+      <div class="tp-ex">"Let's talk it over."</div>
+    </div>
+    <div class="tp">
+      <div class="tp-key">TALK someone INTO</div>
+      <div class="tp-pt">convencer alguém a</div>
+      <div class="tp-ex">"She talked me into going."</div>
+    </div>
+  </div>
+
+  <div class="nt nt-tip">TALK = sempre informal e sobre conversação. SPEAK = formal ou idiomas. "We need to TALK." = frase clássica do inglês — nativo usa TALK, não SPEAK.</div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — talk / talks</div>
+    <div class="sd">HE / SHE / IT → TALKS (com -S)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>talk</strong> to my mom every day.</td><td class="cpt">Converso com minha mãe todo dia.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>talk</strong> too much.</td><td class="cpt">Você fala demais.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>talks</strong> about soccer all the time.</td><td class="cpt">Ele fala de futebol o tempo todo.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>talks</strong> to her friends every night.</td><td class="cpt">Ela conversa com as amigas toda noite.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The parrot <strong>talks</strong>!</td><td class="cpt">O papagaio fala!</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>talk</strong> on the phone every night.</td><td class="cpt">Nós conversamos ao telefone toda noite.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>talk</strong> about everything.</td><td class="cpt">Eles conversam sobre tudo.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → TALKS (com -S obrigatório). "She talk too much." ✗ → "She TALKS too much." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — talked (regular!)</div>
+    <div class="sd">Verbo regular — basta adicionar -ED. Igual para todos os pronomes.</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="cep">I <strong>talked</strong> to my mom yesterday.</td><td class="cpt">Conversei com minha mãe ontem.</td></tr>
+      <tr><td class="cp">YOU</td><td class="cep">You <strong>talked</strong> too much.</td><td class="cpt">Você falou demais.</td></tr>
+      <tr><td class="cp">HE</td><td class="cep">He <strong>talked</strong> about soccer all night.</td><td class="cpt">Ele falou de futebol a noite toda.</td></tr>
+      <tr><td class="cp">SHE</td><td class="cep">She <strong>talked</strong> to her friends last night.</td><td class="cpt">Ela conversou com as amigas ontem.</td></tr>
+      <tr><td class="cp">IT</td><td class="cep">The parrot <strong>talked</strong>!</td><td class="cpt">O papagaio falou!</td></tr>
+      <tr><td class="cp">WE</td><td class="cep">We <strong>talked</strong> on the phone last night.</td><td class="cpt">Nós conversamos ao telefone ontem.</td></tr>
+      <tr><td class="cp">THEY</td><td class="cep">They <strong>talked</strong> about everything.</td><td class="cpt">Eles conversaram sobre tudo.</td></tr>
+    </table>
+    <div class="nt nt-tip">TALK é REGULAR → TALKED. Diferente de SPEAK → SPOKE (irregular). Na negação volta à base: "I didn't TALK" ✓ | "I didn't talked" ✗</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">Mesma regra: DO / DOES / DID → verbo volta à BASE</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Como fazer perguntas com TALK</div>
+    <div class="qf">
+      <div class="qft">Presente</div>
+      <div class="qff"><span>DO</span> you / we / they + <span>talk</span>? &nbsp;|&nbsp; <span>DOES</span> he / she / it + <span>talk</span>?</div>
+      <div class="qfe">"Do you talk to her?" / "Does he talk about soccer?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Passado</div>
+      <div class="qff"><span>DID</span> + sujeito + <span>talk</span>?</div>
+      <div class="qfe">"Did you talk to him?" / "Did they talk about everything?"</div>
+    </div>
+    <div class="nt nt-tip">DO/DOES/DID vão para o início → verbo volta à FORMA BASE. "Did he TALK?" ✓ | "Did he TALKED?" ✗</div>
+  </div>
+
+  <div class="uso" style="margin-top:1rem">
+    <div class="ul">Negação com TALK</div>
+    <div class="two">
+      <div>
+        <div class="tl">Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't talk</strong></td><td class="cpt">não converso/a</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't talk</strong></td><td class="cpt">não conversa</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't talk</strong></td><td class="cpt">não conversou</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't talk</strong></td><td class="cpt">não vai conversar</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-err">"I didn't <u>talked</u> to her." ✗ → "I didn't <u>talk</u> to her." ✓ — DIDN'T já marca passado. Verb = base.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro — will talk / going to talk</div>
+    <div class="sd">WILL + base | GOING TO + base — sem -S, sem -ED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">WILL + talk</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will talk</strong> to her tomorrow.</td><td class="cpt">Vou conversar com ela amanhã.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>will talk</strong> about soccer.</td><td class="cpt">Ele vai falar de futebol.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>will talk</strong> tonight.</td><td class="cpt">Vamos conversar hoje.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">GOING TO + talk</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>am going to talk</strong> to her.</td><td class="cpt">Vou conversar com ela.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to talk</strong> to her friends.</td><td class="cpt">Ela vai conversar com as amigas.</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>are going to talk</strong> about it.</td><td class="cpt">Eles vão falar sobre isso.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com TALK</div>
+    <div class="sd">Expressões prontas que os nativos usam o tempo todo</div></div>
+  </div>
+  <div class="pg">
+    <div class="ph"><div class="ph-en">We need to <strong>talk</strong>.</div><div class="ph-pt">Precisamos conversar.</div></div>
+    <div class="ph"><div class="ph-en">Let's <strong>talk</strong> about it.</div><div class="ph-pt">Vamos falar sobre isso.</div></div>
+    <div class="ph"><div class="ph-en">You <strong>talk</strong> too much.</div><div class="ph-pt">Você fala demais.</div></div>
+    <div class="ph"><div class="ph-en">Can we <strong>talk</strong>?</div><div class="ph-pt">Podemos conversar?</div></div>
+    <div class="ph"><div class="ph-en">They <strong>talked</strong> all night.</div><div class="ph-pt">Eles conversaram a noite toda.</div></div>
+    <div class="ph"><div class="ph-en">Let's <strong>talk it over</strong>.</div><div class="ph-pt">Vamos resolver conversando.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>talked</strong> me into it.</div><div class="ph-pt">Ela me convenceu.</div></div>
+    <div class="ph"><div class="ph-en">Stop <strong>talking</strong>!</div><div class="ph-pt">Para de falar! / Cala a boca!</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I didn't talked to her."</div>
+      <div class="ecr">✓ "I didn't talk to her."</div>
+      <div class="ecd">Com DIDN'T o verbo volta à BASE (talk). DIDN'T já marca o passado — nunca adicione -ED depois.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She talk too much."</div>
+      <div class="ecr">✓ "She talks too much."</div>
+      <div class="ecd">HE / SHE / IT no presente = sempre TALKS (com -S). "The parrot TALKS!" ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Do you talk English?"</div>
+      <div class="ecr">✓ "Do you speak English?"</div>
+      <div class="ecd">Idioma = sempre SPEAK. TALK = conversar (sobre assuntos), não falar um idioma.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He doesn't talks about it."</div>
+      <div class="ecr">✓ "He doesn't talk about it."</div>
+      <div class="ecd">DOESN'T já marca 3ª pessoa — o verbo principal vai para a BASE, sem -S.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "We need to speak." (pedir uma conversa informal)</div>
+      <div class="ecr">✓ "We need to talk."</div>
+      <div class="ecd">Para pedir uma conversa casual/emocional o nativo usa TALK. SPEAK soa formal demais.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I will to talk to her tomorrow."</div>
+      <div class="ecr">✓ "I will talk to her tomorrow."</div>
+      <div class="ecd">Depois de WILL nunca use TO. WILL + forma base diretamente.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — TALK</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">"Ela conversa com as amigas toda noite." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">She talk to her friends every night.</button>
+      <button class="qo" onclick="ans(this,'q1',true)">She talks to her friends every night.</button>
+      <button class="qo" onclick="ans(this,'q1',false)">She is talk to her friends every night.</button>
+    </div>
+    <div class="qfb" id="q1fb">HE / SHE / IT → TALKS (com -S no presente). "She TALKS" ✓</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é o passado de TALK?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">toke</button>
+      <button class="qo" onclick="ans(this,'q2',false)">was talking</button>
+      <button class="qo" onclick="ans(this,'q2',true)">talked</button>
+    </div>
+    <div class="qfb" id="q2fb">TALK é REGULAR → TALKED (add -ED). Diferente de SPEAK → SPOKE (irregular).</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Eu não conversei com ela." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">I didn't talked to her.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">I didn't talk to her.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">I not talked to her.</button>
+    </div>
+    <div class="qfb" id="q3fb">DIDN'T + BASE (talk). "I didn't TALK" ✓ | "didn't talked" ✗ — nunca -ED depois de DIDN'T.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Precisamos conversar." → Qual é a frase clássica em inglês?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">We need to speak.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">We need to talk.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">We need talking.</button>
+    </div>
+    <div class="qfb" id="q4fb">"We need to TALK." é a frase clássica em inglês para pedir uma conversa séria ou emocional.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Eles conversaram sobre tudo." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">They talkes about everything.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">They talked about everything.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">They did talked about everything.</button>
+    </div>
+    <div class="qfb" id="q5fb">Passado afirmativo regular: TALKED (sem auxiliar DID). "They TALKED" ✓</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Ele não fala sobre os sentimentos dele." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">He don't talk about his feelings.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">He doesn't talk about his feelings.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">He doesn't talks about his feelings.</button>
+    </div>
+    <div class="qfb" id="q6fb">HE → DOESN'T (não DON'T). Depois de DOESN'T: base sem -S (talk, não talks).</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Você conversou com ela?" → Pergunta no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Do you talked to her?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Did you talk to her?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Did you talked to her?</button>
+    </div>
+    <div class="qfb" id="q7fb">DID + sujeito + BASE. "Did you TALK?" ✓ | "Did you TALKED?" ✗</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Ela me convenceu a ir." → Qual é a estrutura correta?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">She talked about me going.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">She talked to me for going.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">She talked me into going.</button>
+    </div>
+    <div class="qfb" id="q8fb">TALK someone INTO + -ing = convencer alguém a fazer algo. "She talked me INTO going." ✓</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Vamos conversar sobre isso." → Qual é mais natural?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',true)">Let's talk about it.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Let's speak about it.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Let's talk it about.</button>
+    </div>
+    <div class="qfb" id="q9fb">"Let's TALK about it." ✓ | TALK ABOUT (não "talk it about"). SPEAK ABOUT existe mas é mais formal.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Nós vamos conversar hoje à noite." → Com GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">We is going to talk tonight.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">We are going to talk tonight.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">We are going to talked tonight.</button>
+    </div>
+    <div class="qfb" id="q10fb">WE → ARE going to + BASE. "We ARE going to TALK" ✓ | "going to talked" ✗ — base depois de going to.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">TALK ou SPEAK? "_____ English, please!" (em sala de aula)</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',true)">Speak English, please!</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Talk English, please!</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Say English, please!</button>
+    </div>
+    <div class="qfb" id="q11fb">Idioma = sempre SPEAK. "Speak English!" ✓ | "Talk English!" ✗</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Vamos resolver isso conversando." → Qual é o chunk correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Let's talk about it over.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Let's talk it over.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Let's over talk it.</button>
+    </div>
+    <div class="qfb" id="q12fb">TALK IT OVER = resolver conversando. A ordem é: TALK + IT + OVER. ✓</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../49_speak/index.html">← L49 SPEAK</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+  <a class="nl" href="../51_hear/index.html">L51 HEAR →</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0xfb923c;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

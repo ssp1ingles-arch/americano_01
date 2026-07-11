@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 42 — HOW | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#38bdf8;
+  --cw:#38bdf8;--ce:#FBBF24;--cr:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(7rem,28vw,18rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--cw)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-w{color:var(--cw);background:rgba(56,189,248,.07);border-color:rgba(56,189,248,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-r{color:var(--cr);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-k{color:var(--ck);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* COMPOUND GRID */
+.compound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:.6rem;margin-bottom:1.5rem}
+.comp-card{border-radius:.85rem;padding:1rem;display:flex;flex-direction:column;gap:.25rem}
+.cc-blue{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2)}
+.cc-gold{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2)}
+.cc-purple{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2)}
+.cc-green{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2)}
+.comp-word{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800}
+.cc-blue .comp-word{color:var(--cw)}
+.cc-gold .comp-word{color:var(--ce)}
+.cc-purple .comp-word{color:var(--cr)}
+.cc-green .comp-word{color:var(--ck)}
+.comp-pt{font-size:.78rem;font-weight:600;opacity:.75}
+.cc-blue .comp-pt{color:var(--cw)}
+.cc-gold .comp-pt{color:var(--ce)}
+.cc-purple .comp-pt{color:var(--cr)}
+.cc-green .comp-pt{color:var(--ck)}
+.comp-ex{font-size:.8rem;color:var(--muted);font-style:italic}
+
+/* MUCH vs MANY */
+.mm-pair{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1.25rem 0}
+.mm-much{background:rgba(251,191,36,.07);border:2px solid rgba(251,191,36,.25);border-radius:1rem;padding:1.25rem}
+.mm-many{background:rgba(167,139,250,.07);border:2px solid rgba(167,139,250,.25);border-radius:1rem;padding:1.25rem}
+.mm-label{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.35rem}
+.mm-much .mm-label{color:var(--ce)}
+.mm-many .mm-label{color:var(--cr)}
+.mm-rule{font-size:.75rem;margin-bottom:.75rem;font-weight:600;padding:.3rem .6rem;border-radius:.4rem;display:inline-block}
+.mm-much .mm-rule{background:rgba(251,191,36,.12);color:var(--ce)}
+.mm-many .mm-rule{background:rgba(167,139,250,.12);color:var(--cr)}
+.mm-item{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;margin:.2rem 0}
+.mm-much .mm-item{color:var(--cw)}
+.mm-many .mm-item{color:var(--cw)}
+.mm-sub{font-size:.73rem;color:var(--muted);margin-bottom:.4rem}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-w{background:rgba(56,189,248,.15);color:var(--cw)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.un-r{background:rgba(167,139,250,.15);color:var(--cr)}
+.un-k{background:rgba(52,211,153,.15);color:var(--ck)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utw{color:var(--cw)}.ute{color:var(--ce)}.utr{color:var(--cr)}.utk{color:var(--ck)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbw{color:var(--cw);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+.vbr{color:var(--cr);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+
+/* HOW COME special box */
+.hc-box{background:var(--surface2);border:2px solid rgba(52,211,153,.25);border-radius:1rem;padding:1.25rem;margin:.85rem 0}
+.hc-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:800;color:var(--ck);margin-bottom:.85rem}
+.hc-compare{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+.hc-wrong{background:rgba(255,112,67,.06);border:1px solid rgba(255,112,67,.18);border-radius:.6rem;padding:.75rem}
+.hc-right{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18);border-radius:.6rem;padding:.75rem}
+.hc-badge{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
+.hc-wrong .hc-badge{color:var(--warn)}
+.hc-right .hc-badge{color:var(--tip)}
+.hc-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700}
+.hc-wrong .hc-en{color:var(--warn)}
+.hc-right .hc-en{color:var(--tip)}
+.hc-note{font-size:.78rem;color:var(--muted);margin-top:.25rem}
+.hc-rule{font-size:.82rem;color:var(--ck);margin-top:.5rem}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QA pairs for HOW OFTEN */
+.qa-pair{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden;margin-bottom:.75rem}
+.qa-q{background:rgba(167,139,250,.06);padding:.75rem 1.1rem;border-bottom:1px solid var(--border)}
+.qa-q .label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cr);margin-bottom:.2rem}
+.qa-q .txt{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.qa-r{background:rgba(52,211,153,.04);padding:.75rem 1.1rem}
+.qa-r .label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ck);margin-bottom:.2rem}
+.qa-r .txt{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600}
+.qa-r .pt{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cw);color:var(--cw);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cw);background:rgba(56,189,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--ce));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.82rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .mm-pair{grid-template-columns:1fr}
+  .hc-compare{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 07 · Question Words</span>
+  <span class="nav-badge">A1–A2 · Lição 42 · HOW</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 07 · Lição 42</div>
+    <div class="hero-title">HOW</div>
+    <div class="hero-sub">Como / Quanto / Quão — a question word que mais se combina com outras palavras</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">HOW = como</span>
+      <span class="hp hp-e">HOW MUCH = quanto</span>
+      <span class="hp hp-r">HOW MANY = quantos</span>
+      <span class="hp hp-k">HOW COME = como assim</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- COMPOUND FORMS GRID -->
+<section class="section">
+  <div class="section-label">Visão geral</div>
+  <div class="section-title" style="color:var(--cw)">HOW — Todas as Combinações</div>
+
+  <div class="compound-grid">
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW</div>
+      <div class="comp-pt">como / de que maneira</div>
+      <div class="comp-ex">How are you?</div>
+    </div>
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW OLD</div>
+      <div class="comp-pt">quantos anos</div>
+      <div class="comp-ex">How old are you?</div>
+    </div>
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW TALL</div>
+      <div class="comp-pt">qual a altura</div>
+      <div class="comp-ex">How tall is he?</div>
+    </div>
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW FAR</div>
+      <div class="comp-pt">qual a distância</div>
+      <div class="comp-ex">How far is the beach?</div>
+    </div>
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW BIG</div>
+      <div class="comp-pt">qual o tamanho</div>
+      <div class="comp-ex">How big is the room?</div>
+    </div>
+    <div class="comp-card cc-blue">
+      <div class="comp-word">HOW FAST</div>
+      <div class="comp-pt">quão rápido</div>
+      <div class="comp-ex">How fast can you run?</div>
+    </div>
+    <div class="comp-card cc-gold">
+      <div class="comp-word">HOW MUCH</div>
+      <div class="comp-pt">quanto (incontável/preço)</div>
+      <div class="comp-ex">How much does it cost?</div>
+    </div>
+    <div class="comp-card cc-purple">
+      <div class="comp-word">HOW MANY</div>
+      <div class="comp-pt">quantos (contável)</div>
+      <div class="comp-ex">How many brothers?</div>
+    </div>
+    <div class="comp-card cc-purple">
+      <div class="comp-word">HOW OFTEN</div>
+      <div class="comp-pt">com que frequência</div>
+      <div class="comp-ex">How often do you exercise?</div>
+    </div>
+    <div class="comp-card cc-purple">
+      <div class="comp-word">HOW LONG</div>
+      <div class="comp-pt">por quanto tempo</div>
+      <div class="comp-ex">How long did you wait?</div>
+    </div>
+    <div class="comp-card cc-green">
+      <div class="comp-word">HOW COME</div>
+      <div class="comp-pt">como assim (informal)</div>
+      <div class="comp-ex">How come you didn't call?</div>
+    </div>
+    <div class="comp-card cc-green">
+      <div class="comp-word">HOWEVER</div>
+      <div class="comp-pt">no entanto / porém</div>
+      <div class="comp-ex">However, I'll try.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW modo + HOW + adj -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Usos 1 · 2</div>
+  <div class="section-title" style="color:var(--cw)">HOW = Como · HOW + Adjetivo = Medida</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">1</div>
+      <div>
+        <div class="uso-title utw">HOW = como, de que maneira — nos três tempos</div>
+        <div class="uso-sub">TO BE inverte direto · outros verbos usam DO/DOES/DID</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">How</span> are you?</td><td class="pt">Como você está?</td></tr>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">How</span> do you do this?</td><td class="pt">Como você faz isso?</td></tr>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">How</span> does she feel?</td><td class="pt">Como ela se sente?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">How</span> did you get here?</td><td class="pt">Como você chegou aqui?</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en"><span class="vbw">How</span> will you travel?</td><td class="pt">Como você vai viajar?</td></tr>
+        <tr><td class="tipo">going to</td><td class="en"><span class="vbw">How</span> is she going to fix it?</td><td class="pt">Como ela vai resolver isso?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">2</div>
+      <div>
+        <div class="uso-title utw">HOW + adjetivo = grau ou medida específica</div>
+        <div class="uso-sub">Cada combinação HOW + adj tem uma tradução própria em português</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Combo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">HOW OLD</td><td class="en"><span class="vbw">How old</span> are you?</td><td class="pt">Quantos anos você tem?</td></tr>
+        <tr><td class="tipo">HOW TALL</td><td class="en"><span class="vbw">How tall</span> is he?</td><td class="pt">Qual é a altura dele?</td></tr>
+        <tr><td class="tipo">HOW FAR</td><td class="en"><span class="vbw">How far</span> is the beach?</td><td class="pt">Qual é a distância até a praia?</td></tr>
+        <tr><td class="tipo">HOW BIG</td><td class="en"><span class="vbw">How big</span> is the room?</td><td class="pt">Qual é o tamanho do quarto?</td></tr>
+        <tr><td class="tipo">HOW FAST</td><td class="en"><span class="vbw">How fast</span> can you run?</td><td class="pt">Quão rápido você consegue correr?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- HOW MUCH vs HOW MANY -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--ce)">HOW MUCH vs HOW MANY — O Mais Confuso</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">3</div>
+      <div>
+        <div class="uso-title ute">HOW MUCH + incontável · HOW MANY + contável</div>
+        <div class="uso-sub">Regra: se tem plural (maçãs, irmãos) → MANY. Se não tem plural (água, dinheiro) → MUCH</div>
+      </div>
+    </div>
+    <div class="mm-pair">
+      <div class="mm-much">
+        <div class="mm-label">HOW MUCH</div>
+        <div class="mm-rule">incontável ou preço</div>
+        <div class="mm-item"><span class="vbe">How much</span> water do you drink?</div>
+        <div class="mm-sub">Quanta água você bebe?</div>
+        <div class="mm-item"><span class="vbe">How much</span> money do you have?</div>
+        <div class="mm-sub">Quanto dinheiro você tem?</div>
+        <div class="mm-item"><span class="vbe">How much</span> time do we have?</div>
+        <div class="mm-sub">Quanto tempo temos?</div>
+        <div class="mm-item"><span class="vbe">How much</span> does it cost?</div>
+        <div class="mm-sub">Quanto custa? (sozinho = preço)</div>
+      </div>
+      <div class="mm-many">
+        <div class="mm-label">HOW MANY</div>
+        <div class="mm-rule">contável (tem plural)</div>
+        <div class="mm-item"><span class="vbr">How many</span> apples do you want?</div>
+        <div class="mm-sub">Quantas maçãs você quer?</div>
+        <div class="mm-item"><span class="vbr">How many</span> brothers do you have?</div>
+        <div class="mm-sub">Quantos irmãos você tem?</div>
+        <div class="mm-item"><span class="vbr">How many</span> hours did you sleep?</div>
+        <div class="mm-sub">Quantas horas você dormiu?</div>
+        <div class="mm-item"><span class="vbr">How many</span> people are coming?</div>
+        <div class="mm-sub">Quantas pessoas vão vir?</div>
+      </div>
+    </div>
+    <div class="warn-box">
+      <p><strong>"How much brothers?" — ERRADO.</strong> Irmãos têm plural (brother/brothers) = contável → HOW MANY. "How much money?" ✓ (dinheiro não tem plural = incontável). Dica: pergunta "dá para contar?" → MANY. "Não dá?" → MUCH.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW OFTEN + HOW LONG -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Usos 4 · 5</div>
+  <div class="section-title" style="color:var(--cr)">HOW OFTEN · HOW LONG</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-r">4</div>
+      <div>
+        <div class="uso-title utr">HOW OFTEN = com que frequência</div>
+        <div class="uso-sub">Responde com advérbios: always · usually · often · sometimes · rarely · never</div>
+      </div>
+    </div>
+    <div class="qa-pair">
+      <div class="qa-q"><div class="label">Pergunta</div><div class="txt"><span class="vbr">How often</span> do you exercise?</div><div style="font-size:.75rem;color:var(--muted);margin-top:.1rem">Com que frequência você se exercita?</div></div>
+      <div class="qa-r"><div class="label">Resposta</div><div class="txt">Every day. / Twice a week. / Rarely.</div><div class="pt">Todo dia. / Duas vezes por semana. / Raramente.</div></div>
+    </div>
+    <div class="qa-pair">
+      <div class="qa-q"><div class="label">Pergunta</div><div class="txt"><span class="vbr">How often</span> did you go to the gym?</div><div style="font-size:.75rem;color:var(--muted);margin-top:.1rem">Com que frequência você ia à academia?</div></div>
+      <div class="qa-r"><div class="label">Resposta</div><div class="txt">Three times a week. / Almost never.</div><div class="pt">Três vezes por semana. / Quase nunca.</div></div>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-r">5</div>
+      <div>
+        <div class="uso-title utr">HOW LONG = por quanto tempo / comprimento</div>
+        <div class="uso-sub">Duração de tempo E tamanho físico — contexto define o sentido</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Sentido</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">duração</td><td class="en"><span class="vbr">How long</span> does the movie last?</td><td class="pt">Quanto tempo dura o filme?</td></tr>
+        <tr><td class="tipo">duração passada</td><td class="en"><span class="vbr">How long</span> did you wait?</td><td class="pt">Por quanto tempo você esperou?</td></tr>
+        <tr><td class="tipo">desde quando</td><td class="en"><span class="vbr">How long</span> have you lived here?</td><td class="pt">Há quanto tempo você mora aqui?</td></tr>
+        <tr><td class="tipo">duração futura</td><td class="en"><span class="vbr">How long</span> will the trip take?</td><td class="pt">Quanto tempo vai durar a viagem?</td></tr>
+        <tr><td class="tipo">tamanho físico</td><td class="en"><span class="vbr">How long</span> is the road?</td><td class="pt">Qual é o comprimento da estrada?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- HOW COME -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 6</div>
+  <div class="section-title" style="color:var(--ck)">HOW COME = Como assim? (informal)</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-k">6</div>
+      <div>
+        <div class="uso-title utk">HOW COME — sem inversão de sujeito!</div>
+        <div class="uso-sub">Informal para "como assim?" ou "por que?" — ordem: sujeito + verbo (diferente das outras QW)</div>
+      </div>
+    </div>
+    <div class="hc-box">
+      <div class="hc-title">HOW COME ≠ ordem de pergunta normal</div>
+      <div class="hc-compare">
+        <div class="hc-wrong">
+          <div class="hc-badge">✗ errado</div>
+          <div class="hc-en">How come didn't you call?</div>
+          <div class="hc-note">inversão após HOW COME — errado!</div>
+        </div>
+        <div class="hc-right">
+          <div class="hc-badge">✓ certo</div>
+          <div class="hc-en">How come you didn't call?</div>
+          <div class="hc-note">sujeito antes do verbo — certo!</div>
+        </div>
+      </div>
+      <div class="hc-rule">HOW COME + sujeito + verbo (sem inversão) — única question word que funciona assim</div>
+    </div>
+    <table class="ex-table" style="margin-top:.85rem">
+      <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">surpresa</td><td class="en"><span class="vbk">How come</span> you didn't call?</td><td class="pt">Como assim você não ligou?</td></tr>
+        <tr><td class="tipo">surpresa</td><td class="en"><span class="vbk">How come</span> she knows?</td><td class="pt">Como assim ela sabe?</td></tr>
+        <tr><td class="tipo">curiosidade</td><td class="en"><span class="vbk">How come</span> it's so cheap?</td><td class="pt">Como assim está tão barato?</td></tr>
+        <tr><td class="tipo">questionamento</td><td class="en"><span class="vbk">How come</span> they left early?</td><td class="pt">Por que eles foram embora cedo?</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>HOW COME vs WHY:</strong> WHY é mais formal e aceita em qualquer contexto. HOW COME é informal, expressa mais surpresa ou incredulidade. "How come you didn't call?" tem mais emoção que "Why didn't you call?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOWEVER (revisão L36) -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 7</div>
+  <div class="section-title" style="color:var(--ck)">HOWEVER = No Entanto / Porém</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-k">7</div>
+      <div>
+        <div class="uso-title utk">HOWEVER — conjunção adversativa (revisão da L36)</div>
+        <div class="uso-sub">Não é pergunta — conecta ideias contrastantes</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Uso</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">contraste</td><td class="en">I'm tired. <span class="vbk">However</span>, I'll finish it.</td><td class="pt">Estou cansado. No entanto, vou terminar.</td></tr>
+        <tr><td class="tipo">contraste</td><td class="en">She studied hard. <span class="vbk">However</span>, she failed.</td><td class="pt">Ela estudou muito. Porém, ela reprovou.</td></tr>
+        <tr><td class="tipo">de qualquer forma</td><td class="en"><span class="vbk">However</span> you do it, just do it.</td><td class="pt">De qualquer forma que você faça, só faça.</td></tr>
+        <tr><td class="tipo">não importa como</td><td class="en"><span class="vbk">However</span> hard it is, don't give up.</td><td class="pt">Por mais difícil que seja, não desista.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>HOWEVER revisado em L36</strong> com mais detalhes sobre posição e pontuação. HOW = pergunta (como?). HOWEVER = afirmação contrastiva (no entanto). São usos completamente diferentes da mesma raiz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — HOW</div>
+  <div class="quiz-sub">12 questões sobre todos os usos de HOW e suas combinações.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com HOW</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(56,189,248,.25)">
+      <h4 style="color:var(--cw)">HOW modo</h4>
+      <div class="sum-item"><span class="en">How are you?</span></div>
+      <div class="sum-item"><span class="en">How did you get here?</span></div>
+      <div class="sum-item">HOW OLD · TALL · FAR</div>
+      <div class="sum-item">BIG · FAST</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">HOW MUCH</h4>
+      <div class="sum-item">incontável: water</div>
+      <div class="sum-item">dinheiro: money</div>
+      <div class="sum-item">preço: How much?</div>
+      <div class="sum-item">tempo: time</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cr)">HOW MANY</h4>
+      <div class="sum-item">contável: brothers</div>
+      <div class="sum-item">HOW OFTEN = frequência</div>
+      <div class="sum-item">HOW LONG = duração</div>
+      <div class="sum-item">ou comprimento</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.2)">
+      <h4 style="color:var(--ck)">HOW COME</h4>
+      <div class="sum-item">= como assim</div>
+      <div class="sum-item">sem inversão!</div>
+      <div class="sum-item">How come YOU...?</div>
+      <div class="sum-item">HOWEVER = no entanto</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../41_why/index.html">← Lição 41</a>
+  <div class="fnav-center">Lição 42 de 89 · Módulo 07</div>
+  <a class="fnav-btn" href="../43_which/index.html">Lição 43 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x38bdf8,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x38bdf8,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"How ___ are you?" — idade',opts:['old','much','many','long'],ans:'old',why:"HOW OLD = quantos anos. 'How old are you?' = Quantos anos você tem? TO BE inverte direto (sem DO). Cada HOW + adj tem uma tradução específica."},
+  {s:'"How ___ does it cost?" — preço',opts:['much','many','often','long'],ans:'much',why:"HOW MUCH = quanto (incontável/preço). 'How much does it cost?' = Quanto custa? HOW MUCH sozinho = pergunta de preço. DOES porque é 3ª pessoa (it)."},
+  {s:'"How ___ brothers do you have?" — irmãos',opts:['many','much','long','often'],ans:'many',why:"HOW MANY = contável (tem plural). 'Brothers' tem plural (brother/brothers) = contável → HOW MANY. 'How much brothers?' ✗ — MUCH é para incontáveis."},
+  {s:'"How ___ do you exercise?" — frequência',opts:['often','long','much','many'],ans:'often',why:"HOW OFTEN = com que frequência. 'How often do you exercise?' Resposta com advérbios: every day, twice a week, rarely, never, etc."},
+  {s:'"How ___ did you wait?" — duração',opts:['long','much','often','far'],ans:'long',why:"HOW LONG = por quanto tempo (duração). 'How long did you wait?' = Por quanto tempo você esperou? Também pode perguntar distância/tamanho físico."},
+  {s:'"How come ___ didn\'t call?" — ordem correta',opts:['you','did you','you did','didn\'t you'],ans:'you',why:"HOW COME usa ORDEM DIRETA: sujeito + verbo (sem inversão). 'How come YOU didn't call?' ✓ — nunca 'How come didn't you call?' ✗. Única question word sem inversão."},
+  {s:'"How ___ is the beach?" — distância',opts:['far','long','big','much'],ans:'far',why:"HOW FAR = qual é a distância. 'How far is the beach?' = Qual é a distância até a praia? TO BE inverte direto (is). FAR = longe/distante."},
+  {s:'"How much ___ do you drink?" — o que combina?',opts:['water (incontável)','apples (contável)','brothers (contável)','hours (contável)'],ans:'water (incontável)',why:"HOW MUCH + incontável. WATER = água = incontável (não dá para contar unidades). HOW MUCH water. 'How much apples?' ✗ — apples é contável → HOW MANY."},
+  {s:'"How ___ have you lived here?" — desde quando',opts:['long','often','far','old'],ans:'long',why:"HOW LONG com present perfect = desde quando/há quanto tempo. 'How long have you lived here?' = Há quanto tempo você mora aqui? HOW LONG + HAVE/HAS = duração até agora."},
+  {s:'"How ___ are you?" — altura',opts:['tall','big','long','old'],ans:'tall',why:"HOW TALL = qual é a altura. 'How tall are you?' = Qual é a sua altura? TO BE inverte (are). TALL = alto."},
+  {s:'"How come she ___?" — verbo na ordem correta',opts:['knows','does she know','did she know','doesn\'t know'],ans:'knows',why:"'How come she knows?' — ordem direta, sem inversão. KNOWS (3ª pessoa, presente) fica depois do sujeito she. Nunca 'How come does she know?' ✗."},
+  {s:'"How ___ water do we have?" — contável ou não?',opts:['much','many','often','long'],ans:'much',why:"WATER = incontável (não conta unidades de água) → HOW MUCH. 'How much water do we have?' ✓ Compare: 'How many bottles of water?' (contável) ✓."}
+];
+
+var ERRORS=[
+  {wrong:'How much brothers do you have?',right:'How many brothers do you have?',why:"Irmãos são CONTÁVEIS (brother/brothers) → HOW MANY. HOW MUCH é para incontáveis: water, money, time. Dica: tem plural? → MANY. Não tem plural? → MUCH."},
+  {wrong:'How many money do you have?',right:'How much money do you have?',why:"Money = dinheiro = INCONTÁVEL (não conta 'dinheiros') → HOW MUCH. 'How many money?' ✗ — MANY é para contáveis. 'How much money?' ✓ / 'How many coins?' ✓"},
+  {wrong:'How come didn\'t you call?',right:"How come you didn't call?",why:"HOW COME usa ORDEM DIRETA (sem inversão): sujeito + verbo. 'How come YOU didn't call?' ✓ — a única question word onde o sujeito vem antes do auxiliar."},
+  {wrong:'How old do you have?',right:'How old are you?',why:"HOW OLD usa TO BE, não DO. 'How old ARE you?' ✓ — em inglês, idade usa TO BE (I am 25 years old). 'How old do you have?' é tradução literal do português — errado."},
+  {wrong:'How often you exercise?',right:'How often do you exercise?',why:"HOW OFTEN (com verbo comum) precisa de DO/DOES. 'How often DO you exercise?' ✓ — a inversão (auxiliar antes do sujeito) é obrigatória em todas as perguntas diretas."},
+  {wrong:'How long is the trip take?',right:'How long does the trip take?',why:"HOW LONG com verbo TAKE (não TO BE) precisa de DOES. 'How long DOES the trip take?' ✓ — the trip (3ª pessoa singular) → DOES. Não combina IS com TAKE: usa DOES."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — revise HOW MUCH vs HOW MANY!':pct<.75?'Bom progresso! Atenção ao HOW COME sem inversão.':pct<1?'Muito bem! HOW quase dominado.':'Perfeito! HOW completamente dominado!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

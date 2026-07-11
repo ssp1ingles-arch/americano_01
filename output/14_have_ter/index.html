@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAVE — 8 Sentidos | Inglês Visual para Brasileiros</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F59E0B;
+  --c1:#60A5FA;--c2:#818CF8;--c3:#34D399;--c4:#F87171;
+  --c5:#FB923C;--c6:#A78BFA;--c7:#38BDF8;--c8:#FBBF24;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:600px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#1a0f00 0%,var(--bg) 65%);}
+#heroCanvas{width:100%;height:420px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(7,13,13,.85);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* HAVE/HAS RULE */
+.rule-wrap{max-width:860px;margin:0 auto;padding:40px 24px;border-bottom:1px solid var(--border);}
+.rule-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.has-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.has-col{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px 18px;}
+.has-head{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px;}
+.has-sub{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.has-list{display:flex;flex-direction:column;gap:5px;}
+.has-item{font-size:13px;padding:5px 10px;border-radius:6px;}
+.rule-box{background:var(--surface2);border:1px solid rgba(245,158,11,.22);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--accent);}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;}
+.sec-num{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;line-height:1.2;}
+.sec-sub{color:var(--muted);font-size:12px;margin-top:3px;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.ten{font-size:14px;font-weight:500;}
+.tpt{color:var(--muted);font-size:13px;}
+.ttag{font-size:11px;color:var(--muted);white-space:nowrap;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(245,158,11,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+/* QUIZ */
+.quiz-intro{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.quiz-list{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+.qitem{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s;}
+.qitem.correct{border-color:var(--tip);}
+.qitem.wrong{border-color:var(--warn);}
+.qi-sent{font-size:16px;font-weight:600;margin-bottom:12px;}
+.qi-blank{display:inline-block;min-width:72px;border-bottom:2px solid var(--border);text-align:center;font-weight:700;padding:0 6px;}
+.qi-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.qi-opt{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:6px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .18s;letter-spacing:.04em;}
+.qi-opt:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.qi-opt.selected-right{border-color:var(--tip);background:rgba(95,216,122,.1);color:var(--tip);}
+.qi-opt.selected-wrong{border-color:var(--warn);background:rgba(255,112,67,.1);color:var(--warn);}
+.qi-opt.show-right{border-color:var(--tip);color:var(--tip);}
+.qi-opt.disabled{cursor:default;pointer-events:none;}
+.qi-feedback{margin-top:10px;font-size:13px;display:none;}
+.qi-feedback.on{display:block;}
+.qi-feedback.right{color:var(--tip);}
+.qi-feedback.wrong-fb{color:var(--warn);}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;padding:14px 20px;border-radius:10px;border:1.5px solid var(--border);display:none;text-align:center;}
+.quiz-score.on{display:block;}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.qbtn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.qbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* ERRORS */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:3px;font-weight:400;font-style:italic;}
+
+/* MEGA SUMMARY */
+.mega{max-width:860px;margin:0 auto;padding:36px 24px;}
+.mega-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+.mega-rows{display:flex;flex-direction:column;gap:10px;}
+.mega-row{display:grid;grid-template-columns:100px 1fr 1fr;gap:12px;align-items:start;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;}
+.mega-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;text-align:center;padding-top:2px;}
+.mega-label{font-size:20px;font-weight:700;line-height:1;}
+.mega-pt{font-size:13px;color:var(--muted);}
+.mega-pt strong{color:var(--text);}
+.mega-exs{display:flex;flex-direction:column;gap:4px;}
+.mega-ex{font-size:12px;font-style:italic;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+
+@media(max-width:640px){
+  .has-grid{grid-template-columns:1fr;}
+  .err-grid{grid-template-columns:1fr;}
+  .mega-row{grid-template-columns:80px 1fr;}
+  .mega-exs{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 14 · Módulo 03 · Verbo HAVE</div>
+  <h1>HAVE — <span style="color:var(--accent)">8 Sentidos</span></h1>
+  <p class="subtitle">Um único verbo que em português vira TER, POSSUIR, COMER, BEBER, TOMAR, SENTIR, PRECISAR e TER QUE — o mais versátil do inglês.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Os 8 sentidos do HAVE em órbita</div>
+</div>
+
+<!-- HAVE vs HAS RULE -->
+<div class="rule-wrap">
+  <div class="rule-title">A regra mais importante do HAVE — presente simples</div>
+  <div class="has-grid">
+    <div class="has-col" style="border-color:rgba(245,158,11,.35)">
+      <div class="has-head" style="color:var(--accent)">HAVE</div>
+      <div class="has-sub">I · You · We · They</div>
+      <div class="has-list">
+        <div class="has-item" style="color:var(--accent);background:rgba(245,158,11,.09)">I <strong>have</strong> a car.</div>
+        <div class="has-item" style="color:var(--muted)">You <strong>have</strong> a car.</div>
+        <div class="has-item" style="color:var(--muted)">We <strong>have</strong> a house.</div>
+        <div class="has-item" style="color:var(--muted)">They <strong>have</strong> a dog.</div>
+      </div>
+    </div>
+    <div class="has-col" style="border-color:rgba(248,113,113,.35)">
+      <div class="has-head" style="color:#F87171">HAS</div>
+      <div class="has-sub">He · She · It — só eles!</div>
+      <div class="has-list">
+        <div class="has-item" style="color:#F87171;background:rgba(248,113,113,.09)">He <strong>has</strong> a car.</div>
+        <div class="has-item" style="color:var(--muted)">She <strong>has</strong> a car.</div>
+        <div class="has-item" style="color:var(--muted)">It <strong>has</strong> a name.</div>
+        <div class="has-item" style="color:var(--muted);font-size:12px;font-style:italic">← os únicos que mudam!</div>
+      </div>
+    </div>
+  </div>
+  <div class="rule-box">⚡ No <strong>passado</strong>, TODOS usam <strong>HAD</strong> — sem exceção: I had · He had · She had · They had. No <strong>futuro</strong>: <strong>will have</strong> para todos.</div>
+</div>
+
+<!-- SENTIDO 1: TER -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c1);background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2)">SENTIDO 1</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c1)">TER</span> — algo que é seu</h2>
+      <div class="sec-sub">objeto, pessoa na vida, característica física</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c1)">have</strong> a brother in São Paulo.</td><td class="tpt">Eu <em>tenho</em> um irmão em São Paulo.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">has</strong> long hair.</td><td class="tpt">Ela <em>tem</em> cabelo comprido.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">They <strong style="color:var(--c1)">had</strong> a big family.</td><td class="tpt">Eles <em>tinham</em> uma família grande.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c1)">will have</strong> a baby soon.</td><td class="tpt">Nós <em>vamos ter</em> um bebê em breve.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">Do you <strong style="color:var(--c1)">have</strong> a dog?</td><td class="tpt">Você <em>tem</em> um cachorro?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c1)">doesn't have</strong> time.</td><td class="tpt">Ele <em>não tem</em> tempo.</td><td class="ttag">negação</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SENTIDO 2: POSSUIR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c2);background:rgba(129,140,248,.1);border:1px solid rgba(129,140,248,.2)">SENTIDO 2</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c2)">POSSUIR</span> — bens materiais</h2>
+      <div class="sec-sub">imóvel, empresa, dinheiro, investimento</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c2)">have</strong> a big house in Rio.</td><td class="tpt">Eu <em>possuo</em> uma casa grande no Rio.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c2)">has</strong> three apartments.</td><td class="tpt">Ela <em>possui</em> três apartamentos.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c2)">had</strong> a lot of money last year.</td><td class="tpt">Ele <em>possuía</em> muito dinheiro ano passado.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">They <strong style="color:var(--c2)">will have</strong> a new office.</td><td class="tpt">Eles <em>terão</em> um escritório novo.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">Does he <strong style="color:var(--c2)">have</strong> a company?</td><td class="tpt">Ele <em>possui</em> uma empresa?</td><td class="ttag">pergunta</td></tr>
+    </tbody>
+  </table>
+  <div class="info">💡 TER e POSSUIR usam o mesmo HAVE em inglês. O contexto (objeto pessoal vs bem material) deixa claro o sentido.</div>
+</section>
+
+<!-- SENTIDO 3: TOMAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c3);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)">SENTIDO 3</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c3)">TOMAR</span> — bebida não alcoólica / remédio</h2>
+      <div class="sec-sub">café, suco, água, chá, remédio</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c3)">have</strong> coffee every morning.</td><td class="tpt">Eu <em>tomo</em> café toda manhã.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c3)">has</strong> medicine every day.</td><td class="tpt">Ele <em>toma</em> remédio todo dia.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c3)">had</strong> juice this morning.</td><td class="tpt">Ela <em>tomou</em> suco hoje de manhã.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c3)">will have</strong> tea tonight.</td><td class="tpt">Eu <em>vou tomar</em> chá hoje à noite.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">Do you <strong style="color:var(--c3)">have</strong> coffee in the morning?</td><td class="tpt">Você <em>toma</em> café de manhã?</td><td class="ttag">pergunta</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ "Take coffee" não existe em inglês para bebida. Use sempre HAVE — "I have coffee / I have tea / I have juice."</div>
+</section>
+
+<!-- SENTIDO 4: BEBER -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c4);background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2)">SENTIDO 4</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c4)">BEBER</span> — bebida alcoólica ou com ênfase</h2>
+      <div class="sec-sub">beer, wine, a drink — situações casuais</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c4)">have</strong> a beer on Fridays.</td><td class="tpt">Eu <em>bebo</em> uma cerveja nas sextas.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c4)">has</strong> a beer on Fridays.</td><td class="tpt">Ele <em>bebe</em> uma cerveja nas sextas.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c4)">had</strong> a beer last night.</td><td class="tpt">Nós <em>bebemos</em> cerveja ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">Let's <strong style="color:var(--c4)">have</strong> a drink after work!</td><td class="tpt">Vamos <em>beber</em> algo depois do trabalho!</td><td class="ttag">sugestão</td></tr>
+      <tr><td class="ten">Did you <strong style="color:var(--c4)">have</strong> a beer last night?</td><td class="tpt">Você <em>bebeu</em> uma cerveja ontem?</td><td class="ttag">pergunta</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 "Have a drink" é a expressão mais natural para convidar alguém a beber algo — "Let's have a drink!" = "Vamos tomar algo!"</div>
+</section>
+
+<!-- SENTIDO 5: COMER -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c5);background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2)">SENTIDO 5</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c5)">COMER</span> — qualquer alimento</h2>
+      <div class="sec-sub">pizza, lunch, breakfast, sandwich, salad...</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c5)">have</strong> pizza on Sundays.</td><td class="tpt">Eu <em>como</em> pizza nos domingos.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c5)">has</strong> breakfast at 7 am.</td><td class="tpt">Ela <em>toma</em> café da manhã às 7h.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c5)">had</strong> pizza yesterday.</td><td class="tpt">Nós <em>comemos</em> pizza ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c5)">will have</strong> lunch with the team.</td><td class="tpt">Ele vai <em>almoçar</em> com a equipe.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">What do you usually <strong style="color:var(--c5)">have</strong> for dinner?</td><td class="tpt">O que você <em>costuma comer</em> no jantar?</td><td class="ttag">pergunta</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 "Have lunch / have dinner / have breakfast" são as expressões fixas para refeições em inglês — mais naturais que "eat lunch".</div>
+</section>
+
+<!-- SENTIDO 6: SENTIR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c6);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)">SENTIDO 6</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c6)">SENTIR</span> — sensação física</h2>
+      <div class="sec-sub">dor, febre, enjoo, fome, cansaço</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c6)">have</strong> a headache.</td><td class="tpt">Eu estou com <em>dor de cabeça</em>.</td><td class="ttag">dor</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c6)">has</strong> a stomachache.</td><td class="tpt">Ela <em>sente</em> dor de barriga.</td><td class="ttag">dor</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c6)">has</strong> back pain every day.</td><td class="tpt">Ele <em>sente</em> dor nas costas todo dia.</td><td class="ttag">dor</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c6)">had</strong> back pain yesterday.</td><td class="tpt">Eu <em>senti</em> dor nas costas ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">Do you <strong style="color:var(--c6)">have</strong> a fever?</td><td class="tpt">Você está com <em>febre</em>?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c6)">don't have</strong> a stomachache anymore.</td><td class="tpt">Eu <em>não sinto</em> mais dor de barriga.</td><td class="ttag">negação</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ Português: "Eu <em>sinto</em> dor" ou "Estou <em>com</em> dor". Inglês: "I <strong>have</strong> pain / I <strong>have</strong> a headache." Parece estranho no início, mas é o padrão do inglês.</div>
+</section>
+
+<!-- SENTIDO 7: PRECISAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c7);background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2)">SENTIDO 7</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c7)">PRECISAR</span> — necessidade pessoal</h2>
+      <div class="sec-sub">have to + verbo — necessidade de fazer algo</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c7)">have to</strong> call her.</td><td class="tpt">Eu <em>preciso</em> ligar para ela.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c7)">has to</strong> work.</td><td class="tpt">Ela <em>precisa</em> trabalhar.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c7)">had to</strong> leave early.</td><td class="tpt">Eu <em>precisei</em> sair cedo.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c7)">will have to</strong> call her tomorrow.</td><td class="tpt">Eu <em>vou precisar</em> ligar amanhã.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">Do you <strong style="color:var(--c7)">have to</strong> go now?</td><td class="tpt">Você <em>precisa</em> ir agora?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c7)">doesn't have to</strong> come.</td><td class="tpt">Ela <em>não precisa</em> vir.</td><td class="ttag">negação</td></tr>
+    </tbody>
+  </table>
+  <div class="info">💡 He/She/It usam <strong>HAS TO</strong> (não "have to") no presente: "She <strong>has to</strong> work." — "Ela precisa trabalhar."</div>
+</section>
+
+<!-- SENTIDO 8: TER QUE -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c8);background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2)">SENTIDO 8</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c8)">TER QUE</span> — obrigação</h2>
+      <div class="sec-sub">have to + verbo — obrigação de fazer algo</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c8)">have to</strong> wake up early.</td><td class="tpt">Eu <em>tenho que</em> acordar cedo.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c8)">has to</strong> finish the report.</td><td class="tpt">Ela <em>tem que</em> terminar o relatório.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c8)">had to</strong> wake up early yesterday.</td><td class="tpt">Ele <em>teve que</em> acordar cedo ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c8)">will have to</strong> work on Saturday.</td><td class="tpt">Nós <em>vamos ter que</em> trabalhar no sábado.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">Do you <strong style="color:var(--c8)">have to</strong> go to work today?</td><td class="tpt">Você <em>tem que</em> trabalhar hoje?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c8)">don't have to</strong> wake up early tomorrow.</td><td class="tpt">Eu <em>não tenho que</em> acordar cedo amanhã.</td><td class="ttag">negação</td></tr>
+    </tbody>
+  </table>
+  <div class="info">💡 PRECISAR e TER QUE usam exatamente a mesma forma em inglês: <strong>have to</strong>. A nuance é pequena — "precisar" é mais subjetivo; "ter que" é mais de obrigação externa.</div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:#CE93D8;background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">QUIZ</span>
+    <h2 class="sec-title">HAVE ou HAS — complete a forma correta</h2>
+  </div>
+  <p class="quiz-intro">Atenção ao sujeito — esse é o erro mais comum!</p>
+  <div class="quiz-list" id="quizList"></div>
+  <div class="quiz-score" id="quizScore"></div>
+  <div class="quiz-controls">
+    <button class="qbtn" onclick="resetQuiz()">Recomeçar</button>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Os 6 erros mais comuns com HAVE</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong">She <em>have</em> a car.<span class="err-note">She/He/It → sempre HAS no presente</span></div>
+      <div class="err-item err-wrong">I <em>didn't had</em> time.<span class="err-note">Após didn't → forma base: "didn't have"</span></div>
+      <div class="err-item err-wrong">I <em>take</em> coffee every day.<span class="err-note">Bebida = HAVE, não "take coffee"</span></div>
+      <div class="err-item err-wrong">I <em>feel</em> headache.<span class="err-note">Dor física = HAVE: "I have a headache"</span></div>
+      <div class="err-item err-wrong">She <em>have to</em> work.<span class="err-note">She → "She has to work"</span></div>
+      <div class="err-item err-wrong">He <em>have</em> a company.<span class="err-note">He → "He has a company"</span></div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">She <strong>has</strong> a car.<span class="err-note">She/He/It → HAS</span></div>
+      <div class="err-item err-right">I <strong>didn't have</strong> time.<span class="err-note">didn't + forma base (have)</span></div>
+      <div class="err-item err-right">I <strong>have</strong> coffee every day.<span class="err-note">HAVE para tomar/beber qualquer bebida</span></div>
+      <div class="err-item err-right">I <strong>have</strong> a headache.<span class="err-note">HAVE para dor e sensação física</span></div>
+      <div class="err-item err-right">She <strong>has to</strong> work.<span class="err-note">She → has to</span></div>
+      <div class="err-item err-right">He <strong>has</strong> a company.<span class="err-note">He → has</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEGA RESUMO -->
+<div class="mega">
+  <div class="mega-title">Resumo — Os 8 sentidos do HAVE</div>
+  <div class="mega-rows">
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c1)"><div class="mega-label">1</div>TER</div>
+      <div class="mega-pt"><strong>Algo que é seu</strong><br><span style="font-size:12px">objeto, pessoa, característica física</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c1)">I have a car. / She has blue eyes.</div>
+        <div class="mega-ex" style="color:var(--muted)">They had a big family. (passado)</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c2)"><div class="mega-label">2</div>POSSUIR</div>
+      <div class="mega-pt"><strong>Bens materiais</strong><br><span style="font-size:12px">imóvel, empresa, dinheiro</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c2)">I have a house in Rio.</div>
+        <div class="mega-ex" style="color:var(--muted)">He has a company. / She had money.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c3)"><div class="mega-label">3</div>TOMAR</div>
+      <div class="mega-pt"><strong>Bebida / remédio</strong><br><span style="font-size:12px">café, suco, água, chá, medicine</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c3)">I have coffee every morning.</div>
+        <div class="mega-ex" style="color:var(--muted)">He has medicine every day.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c4)"><div class="mega-label">4</div>BEBER</div>
+      <div class="mega-pt"><strong>Bebida alcoólica / com ênfase</strong><br><span style="font-size:12px">beer, wine, a drink</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c4)">I have a beer on Fridays.</div>
+        <div class="mega-ex" style="color:var(--muted)">Let's have a drink!</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c5)"><div class="mega-label">5</div>COMER</div>
+      <div class="mega-pt"><strong>Qualquer alimento</strong><br><span style="font-size:12px">pizza, lunch, breakfast, dinner</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c5)">I have pizza on Sundays.</div>
+        <div class="mega-ex" style="color:var(--muted)">She has breakfast at 7 am.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c6)"><div class="mega-label">6</div>SENTIR</div>
+      <div class="mega-pt"><strong>Sensação física</strong><br><span style="font-size:12px">dor, febre, enjoo, cansaço</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c6)">I have a headache. / She has a fever.</div>
+        <div class="mega-ex" style="color:var(--muted)">He had back pain yesterday.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c7)"><div class="mega-label">7</div>PRECISAR</div>
+      <div class="mega-pt"><strong>Necessidade — have to</strong><br><span style="font-size:12px">necessidade pessoal de fazer algo</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c7)">I have to call her. / She has to study.</div>
+        <div class="mega-ex" style="color:var(--muted)">I had to leave early. (passado)</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c8)"><div class="mega-label">8</div>TER QUE</div>
+      <div class="mega-pt"><strong>Obrigação — have to</strong><br><span style="font-size:12px">obrigação externa de fazer algo</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c8)">I have to wake up early.</div>
+        <div class="mega-ex" style="color:var(--muted)">He had to leave yesterday. (passado)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Inglês para Brasileiros · A1 · Lição 14: HAVE — 8 Sentidos · Módulo 03</footer>
+
+<script>
+// ── QUIZ ────────────────────────────────────────────────────────────────────
+var QS=[
+  {s:'She ___ a car.',opts:['have','has','had','will have'],ans:'has',why:'She/He/It → sempre HAS no presente simples.'},
+  {s:'I ___ coffee this morning.',opts:['have','has','had','will have'],ans:'had',why:'Passado de have = HAD — igual para todos os pronomes.'},
+  {s:'They ___ a beer last night.',opts:['have','has','had','will have'],ans:'had',why:'Passado → HAD. "They had a beer last night" = Eles beberam cerveja ontem.'},
+  {s:'She ___ to work tomorrow.',opts:['have','has','will have','had'],ans:'will have',why:'"Ter que" no futuro: will have to. "She will have to work tomorrow."'},
+  {s:'Do you ___ a stomachache?',opts:['have','has','had','will have'],ans:'have',why:'Pergunta no presente com You → HAVE. Sensação física = have.'},
+  {s:'He ___ pizza on Sundays.',opts:['have','has','had','will have'],ans:'has',why:'He → HAS no presente. "He has pizza on Sundays" = Ele come pizza nos domingos.'},
+  {s:'I didn\'t ___ time yesterday.',opts:['have','has','had','will have'],ans:'have',why:'Após did/didn\'t → forma base HAVE. Nunca "didn\'t had"!'},
+  {s:'She ___ a headache every morning.',opts:['have','has','had','will have'],ans:'has',why:'She → HAS. Sensação física = have. "She has a headache."'},
+  {s:'We ___ to leave now.',opts:['have','has','had','will have'],ans:'have',why:'We → HAVE to. "We have to leave now" = Nós temos que sair agora.'},
+  {s:'He ___ a big house in Rio.',opts:['have','has','had','will have'],ans:'has',why:'He → HAS. Possuir bens: "He has a big house in Rio."'},
+  {s:'I ___ a brother and a sister.',opts:['have','has','had','will have'],ans:'have',why:'I → HAVE. TER pessoas na vida.'},
+  {s:'She ___ medicine every day.',opts:['have','has','had','will have'],ans:'has',why:'She → HAS. TOMAR remédio = have. "She has medicine every day."'},
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  var ql=document.getElementById('quizList'); ql.innerHTML='';
+  score=0; answered=0;
+  document.getElementById('quizScore').classList.remove('on');
+  QS.forEach(function(q,i){
+    var div=document.createElement('div'); div.className='qitem'; div.id='qi'+i;
+    var sent=q.s.replace('___','<span class="qi-blank" id="blank'+i+'">___</span>');
+    div.innerHTML='<div class="qi-sent">'+sent+'</div>'+
+      '<div class="qi-opts">'+q.opts.map(function(o){return '<button class="qi-opt" data-i="'+i+'" data-o="'+o+'">'+o+'</button>';}).join('')+'</div>'+
+      '<div class="qi-feedback" id="fb'+i+'"></div>';
+    ql.appendChild(div);
+  });
+  document.querySelectorAll('.qi-opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=+btn.dataset.i, o=btn.dataset.o, q=QS[i];
+      if(document.getElementById('qi'+i).classList.contains('correct')||document.getElementById('qi'+i).classList.contains('wrong'))return;
+      var isRight=o===q.ans;
+      document.querySelectorAll('.qi-opt[data-i="'+i+'"]').forEach(function(b){
+        b.classList.add('disabled');
+        if(b.dataset.o===q.ans) b.classList.add('show-right');
+      });
+      btn.classList.add(isRight?'selected-right':'selected-wrong');
+      var fb=document.getElementById('fb'+i);
+      fb.className='qi-feedback on '+(isRight?'right':'wrong-fb');
+      fb.textContent=(isRight?'✓ Correto! — ':'✗ Era "'+q.ans+'". — ')+q.why;
+      document.getElementById('blank'+i).textContent=q.ans;
+      document.getElementById('blank'+i).style.color=isRight?'var(--tip)':'var(--warn)';
+      document.getElementById('qi'+i).classList.add(isRight?'correct':'wrong');
+      if(isRight) score++;
+      answered++;
+      if(answered===QS.length){
+        var sc=document.getElementById('quizScore');
+        var pct=Math.round(score/QS.length*100);
+        sc.classList.add('on');
+        sc.style.borderColor=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.style.color=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.textContent='Resultado: '+score+' / '+QS.length+' ('+pct+'%) — '+(pct>=80?'Excelente! Você domina o HAVE!':pct>=60?'Bom trabalho! Revise o HAS.':'Revise HAVE / HAS e tente novamente.');
+      }
+    });
+  });
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+// ── HERO THREE.JS ────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,3,13); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=420;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.4;
+hCtrl.minDistance=7; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.4));
+var dl=new THREE.DirectionalLight(0xffa040,1.2); dl.position.set(5,10,7); hScene.add(dl);
+hScene.add(new THREE.GridHelper(24,24,0x070d0d,0x070d0d));
+
+function mkSph(col,r,emit){return new THREE.Mesh(new THREE.SphereGeometry(r||.2,14,14),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));}
+
+// Central HAVE sphere
+var cSph=mkSph(0xF59E0B,1.1,.55); cSph.position.y=.8; hScene.add(cSph);
+var cLight=new THREE.PointLight(0xF59E0B,2.5,9); cLight.position.y=.8; hScene.add(cLight);
+
+// 8 meanings orbiting
+var MEANINGS=[
+  {t:'TER',      col:0x60A5FA, r:3.7, a:0,     spd:.35,  y:.6},
+  {t:'POSSUIR',  col:0x818CF8, r:4.2, a:.78,   spd:-.28, y:.4},
+  {t:'TOMAR',    col:0x34D399, r:3.9, a:1.57,  spd:.32,  y:.5},
+  {t:'BEBER',    col:0xF87171, r:4.4, a:2.36,  spd:-.30, y:.7},
+  {t:'COMER',    col:0xFB923C, r:4.0, a:3.14,  spd:.25,  y:.3},
+  {t:'SENTIR',   col:0xA78BFA, r:4.3, a:3.93,  spd:-.22, y:.6},
+  {t:'PRECISAR', col:0x38BDF8, r:3.8, a:4.71,  spd:.28,  y:.5},
+  {t:'TER QUE',  col:0xFBBF24, r:4.5, a:5.50,  spd:-.26, y:.4},
+];
+
+var orbs=[];
+MEANINGS.forEach(function(m){
+  var orb=mkSph(m.col,.13,.42); orb.position.set(Math.cos(m.a)*m.r,m.y,Math.sin(m.a)*m.r); hScene.add(orb);
+  var lbl=document.createElement('div'); lbl.className='hlabel';
+  var rr=(m.col>>16)&255,gg=(m.col>>8)&255,bb=m.col&255;
+  lbl.style.color='#'+m.col.toString(16).padStart(6,'0');
+  lbl.style.borderColor='rgba('+rr+','+gg+','+bb+',.3)';
+  lbl.textContent=m.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbs.push({m:orb,lbl:lbl,r:m.r,a:m.a,spd:m.spd,y:m.y});
+});
+
+// Background particles
+for(var i=0;i<50;i++){var p=mkSph(0xF59E0B,.03,.12);p.position.set((Math.random()-.5)*18,Math.random()*4,(Math.random()-.5)*18);hScene.add(p);}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  cLight.intensity=2+Math.sin(hT*2.2)*.6;
+  cSph.rotation.y+=.006;
+  orbs.forEach(function(o){
+    o.a+=o.spd*.01;
+    o.m.position.x=Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.7;
+    o.m.position.y=o.y+Math.sin(o.a*.7)*.15;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*420)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

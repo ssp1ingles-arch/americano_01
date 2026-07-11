@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 32 — AND · BUT · OR | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#818cf8;
+  --ca:#34D399;--cb:#f87171;--co:#FBBF24;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,9vw,6.5rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .va{color:var(--ca)}
+.hero-title .dot{color:var(--muted);font-size:.7em}
+.hero-title .vb{color:var(--cb)}
+.hero-title .vo{color:var(--co)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-a{color:var(--ca);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.hp-b{color:var(--cb);background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.2)}
+.hp-o{color:var(--co);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* MODULE INTRO */
+.mod-intro{max-width:860px;margin:0 auto;padding:5rem 1.5rem 0}
+.mod-card{background:var(--surface);border:1px solid rgba(129,140,248,.2);border-radius:1.25rem;padding:1.75rem}
+.mod-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:.4rem}
+.mod-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--accent);margin-bottom:.65rem}
+.mod-pills{display:flex;flex-wrap:wrap;gap:.4rem}
+.mod-pill{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.25rem .65rem;border-radius:.4rem;background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.15);color:var(--accent)}
+.mod-pill.cur{background:rgba(129,140,248,.18);border-color:rgba(129,140,248,.4)}
+
+.section{max-width:860px;margin:0 auto;padding:4rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* CONNECTOR BLOCKS */
+.conn-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.conn-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.conn-badge{width:3rem;height:3rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem;flex-shrink:0}
+.cb-a{background:rgba(52,211,153,.15);color:var(--ca)}
+.cb-b{background:rgba(248,113,113,.15);color:var(--cb)}
+.cb-o{background:rgba(251,191,36,.15);color:var(--co)}
+.conn-head-info h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800}
+.h3-a{color:var(--ca)}
+.h3-b{color:var(--cb)}
+.h3-o{color:var(--co)}
+.conn-head-info .sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.uso-tag{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.2rem .6rem;border-radius:.35rem;margin-bottom:.6rem}
+.ut-a{background:rgba(52,211,153,.1);color:var(--ca)}
+.ut-b{background:rgba(248,113,113,.1);color:var(--cb)}
+.ut-o{background:rgba(251,191,36,.1);color:var(--co)}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vba{color:var(--ca);font-weight:700}
+.vbb{color:var(--cb);font-weight:700}
+.vbo{color:var(--co);font-weight:700}
+
+.sub-block{margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* EITHER/NOR special */
+.either-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:1rem 0}
+.ei-card{background:var(--surface2);border:1px solid var(--border);border-radius:.75rem;padding:.9rem}
+.ei-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem}
+.ei-card.ei-a .ei-label{color:var(--co)}
+.ei-card.ei-b .ei-label{color:var(--muted)}
+.ei-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem}
+.ei-card.ei-a .ei-en span{color:var(--co)}
+.ei-card.ei-b .ei-en span{color:var(--muted)}
+.ei-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+
+/* EXPRESSIONS ROW */
+.expr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;margin-top:.85rem}
+.expr-item{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.7rem .85rem}
+.expr-en{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem}
+.expr-pt{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+
+/* CONTRAST TABLE — AND vs BUT vs OR */
+.contrast-wrap{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.5rem}
+.contrast-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--accent);margin-bottom:1.2rem}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.ct-card{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem;text-align:center}
+.ct-card h4{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+.ct-card .ct-mean{font-size:.78rem;color:var(--muted);margin-bottom:.6rem}
+.ct-card .ct-ex{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;color:var(--text);background:rgba(0,0,0,.2);border-radius:.4rem;padding:.4rem .6rem;margin-top:.3rem}
+.ct-a h4{color:var(--ca)}
+.ct-b h4{color:var(--cb)}
+.ct-o h4{color:var(--co)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(129,140,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--ca),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(129,140,248,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--accent)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .ct-grid{grid-template-columns:1fr}
+  .either-grid{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 06 · Conectivos Essenciais</span>
+  <span class="nav-badge">A1–A2 · Lição 32 · AND · BUT · OR</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 06 · Lição 32</div>
+    <div class="hero-title">
+      <span class="va">AND</span>
+      <span class="dot"> · </span>
+      <span class="vb">BUT</span>
+      <span class="dot"> · </span>
+      <span class="vo">OR</span>
+    </div>
+    <div class="hero-sub">Os três conectivos fundamentais — adição, contraste e alternativa</div>
+    <div class="hero-pills">
+      <span class="hp hp-a">AND = e / adição</span>
+      <span class="hp hp-b">BUT = mas / exceto</span>
+      <span class="hp hp-o">OR = ou / senão</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- MODULE INTRO -->
+<div class="mod-intro">
+  <div class="mod-card">
+    <div class="mod-label">Módulo 06 — Conectivos Essenciais</div>
+    <div class="mod-title">5 lições · Conectando frases e ideias</div>
+    <div class="mod-pills">
+      <span class="mod-pill cur">L32 AND · BUT · OR</span>
+      <span class="mod-pill">L33 SO · BECAUSE</span>
+      <span class="mod-pill">L34 IF</span>
+      <span class="mod-pill">L35 BEFORE · AFTER</span>
+      <span class="mod-pill">L36 HOWEVER · ALTHOUGH · ALSO · TOO</span>
+    </div>
+  </div>
+</div>
+
+<!-- AND -->
+<section class="section">
+  <div class="section-label">Conectivo 1</div>
+  <div class="section-title" style="color:var(--ca)">AND — Adição</div>
+
+  <div class="conn-block">
+    <div class="conn-header">
+      <div class="conn-badge cb-a">+</div>
+      <div class="conn-head-info">
+        <h3 class="h3-a">AND = E — une palavras, frases e orações</h3>
+        <div class="sub">adição simples — não indica contraste</div>
+      </div>
+    </div>
+
+    <div class="uso-tag ut-a">Uso 1 — une substantivos, adjetivos e verbos</div>
+    <table class="ex-table">
+      <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">noun + noun</td><td class="en">I have a dog <span class="vba">and</span> a cat.</td><td class="pt">Eu tenho um cachorro e um gato.</td></tr>
+        <tr><td class="tipo">adj + adj</td><td class="en">The house is big <span class="vba">and</span> beautiful.</td><td class="pt">A casa é grande e bonita.</td></tr>
+        <tr><td class="tipo">verb + verb</td><td class="en">I cook <span class="vba">and</span> clean every day.</td><td class="pt">Eu cozinho e limpo todo dia.</td></tr>
+        <tr><td class="tipo">em lista</td><td class="en">I need eggs, milk, <span class="vba">and</span> bread.</td><td class="pt">Preciso de ovos, leite e pão.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-a">Uso 2 — une orações completas</div>
+      <table class="ex-table">
+        <thead><tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td class="tipo">presente</td><td class="en">I study English <span class="vba">and</span> she studies Spanish.</td><td class="pt">Eu estudo inglês e ela estuda espanhol.</td></tr>
+          <tr><td class="tipo">passado</td><td class="en">He woke up early <span class="vba">and</span> went to the gym.</td><td class="pt">Ele acordou cedo e foi à academia.</td></tr>
+          <tr><td class="tipo">futuro</td><td class="en">We will eat dinner <span class="vba">and</span> watch a movie.</td><td class="pt">Vamos jantar e assistir a um filme.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-a">Uso 3 — expressões fixas</div>
+      <div class="expr-grid">
+        <div class="expr-item"><div class="expr-en" style="color:var(--ca)">come and go</div><div class="expr-pt">vir e ir — People come and go.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--ca)">again and again</div><div class="expr-pt">repetidamente — She tried again and again.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--ca)">more and more</div><div class="expr-pt">cada vez mais — More and more expensive.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--ca)">try and do</div><div class="expr-pt">informal = try to — Try and relax.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--ca)">now and then</div><div class="expr-pt">de vez em quando — I see her now and then.</div></div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <p><strong>Evite AND demais:</strong> "I am tired and hungry and I want to sleep and eat." — usar AND demais soa infantil. Varie com BUT, SO, ALSO.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUT -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Conectivo 2</div>
+  <div class="section-title" style="color:var(--cb)">BUT — Contraste e Exclusão</div>
+
+  <div class="conn-block">
+    <div class="conn-header">
+      <div class="conn-badge cb-b">≠</div>
+      <div class="conn-head-info">
+        <h3 class="h3-b">BUT = MAS — a segunda parte surpreende ou contradiz</h3>
+        <div class="sub">contraste, exclusão e correção</div>
+      </div>
+    </div>
+
+    <div class="uso-tag ut-b">Uso 1 — MAS (contraste direto)</div>
+    <table class="ex-table">
+      <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">adj × adj</td><td class="en">The food is cheap <span class="vbb">but</span> delicious.</td><td class="pt">A comida é barata mas deliciosa.</td></tr>
+        <tr><td class="tipo">ação × ação</td><td class="en">I want to go <span class="vbb">but</span> I'm tired.</td><td class="pt">Quero ir mas estou cansado.</td></tr>
+        <tr><td class="tipo">ação × ação</td><td class="en">She studies hard <span class="vbb">but</span> she doesn't pass.</td><td class="pt">Ela estuda muito mas não passa.</td></tr>
+        <tr><td class="tipo">fato × fato</td><td class="en">It's raining <span class="vbb">but</span> it's warm.</td><td class="pt">Está chovendo mas está quente.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-b">Uso 2 — EXCETO / MENOS (exclusão)</div>
+      <table class="ex-table">
+        <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td class="tipo">exclusão</td><td class="en">Everyone came <span class="vbb">but</span> Maria.</td><td class="pt">Todo mundo veio menos a Maria.</td></tr>
+          <tr><td class="tipo">exclusão</td><td class="en">I eat everything <span class="vbb">but</span> seafood.</td><td class="pt">Eu como tudo menos frutos do mar.</td></tr>
+          <tr><td class="tipo">exclusão</td><td class="en">Nothing <span class="vbb">but</span> the truth.</td><td class="pt">Nada além da verdade.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-b">Uso 3 — NOT… BUT (não X, mas sim Y)</div>
+      <table class="ex-table">
+        <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td class="tipo">correção</td><td class="en">It's not cold <span class="vbb">but</span> warm.</td><td class="pt">Não está frio, mas sim quente.</td></tr>
+          <tr><td class="tipo">correção</td><td class="en">I didn't call her <span class="vbb">but</span> texted her.</td><td class="pt">Não liguei mas mandei mensagem.</td></tr>
+          <tr><td class="tipo">correção</td><td class="en">Not him <span class="vbb">but</span> her brother came.</td><td class="pt">Não ele, mas sim o irmão dela.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-b">Uso 4 — expressões com BUT</div>
+      <div class="expr-grid">
+        <div class="expr-item"><div class="expr-en" style="color:var(--cb)">but still</div><div class="expr-pt">mas mesmo assim — She's rude, but still I like her.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--cb)">but anyway</div><div class="expr-pt">mas de qualquer forma — It was hard, but anyway, I did it.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--cb)">but then again</div><div class="expr-pt">mas pensando bem — I'm tired, but then again, I'll go.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--cb)">all but one</div><div class="expr-pt">todos menos um — All but one agreed.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OR -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Conectivo 3</div>
+  <div class="section-title" style="color:var(--co)">OR — Alternativa e Consequência</div>
+
+  <div class="conn-block">
+    <div class="conn-header">
+      <div class="conn-badge cb-o">/</div>
+      <div class="conn-head-info">
+        <h3 class="h3-o">OR = OU — apresenta escolha ou consequência negativa</h3>
+        <div class="sub">alternativa, senão e EITHER...OR / NEITHER...NOR</div>
+      </div>
+    </div>
+
+    <div class="uso-tag ut-o">Uso 1 — OU (alternativa / escolha)</div>
+    <table class="ex-table">
+      <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">opção</td><td class="en">Do you want tea <span class="vbo">or</span> coffee?</td><td class="pt">Você quer chá ou café?</td></tr>
+        <tr><td class="tipo">opção</td><td class="en">Is she American <span class="vbo">or</span> British?</td><td class="pt">Ela é americana ou britânica?</td></tr>
+        <tr><td class="tipo">lista</td><td class="en">Red, blue, <span class="vbo">or</span> green — choose one.</td><td class="pt">Vermelho, azul ou verde — escolha um.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-o">Uso 2 — SENÃO / CASO CONTRÁRIO (consequência)</div>
+      <table class="ex-table">
+        <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td class="tipo">consequência</td><td class="en">Hurry up <span class="vbo">or</span> we'll be late.</td><td class="pt">Apresse-se ou vamos nos atrasar.</td></tr>
+          <tr><td class="tipo">aviso</td><td class="en">Be careful <span class="vbo">or</span> you'll fall.</td><td class="pt">Tome cuidado ou você vai cair.</td></tr>
+          <tr><td class="tipo">aviso</td><td class="en">Call her <span class="vbo">or</span> she'll be worried.</td><td class="pt">Ligue para ela ou ela vai se preocupar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-o">Uso 3 — EITHER…OR e NEITHER…NOR</div>
+      <div class="either-grid">
+        <div class="ei-card ei-a">
+          <div class="ei-label">EITHER…OR = ou… ou (escolha)</div>
+          <div class="ei-en">You can <span>either</span> stay <span>or</span> go.</div>
+          <div class="ei-pt">Você pode ficar ou ir — escolha.</div>
+          <div style="margin-top:.4rem" class="ei-en"><span>Either</span> she calls <span>or</span> I will.</div>
+          <div class="ei-pt">Ou ela liga ou eu ligo.</div>
+        </div>
+        <div class="ei-card ei-b">
+          <div class="ei-label" style="color:var(--muted)">NEITHER…NOR = nem… nem (negação)</div>
+          <div class="ei-en" style="color:var(--text)"><span style="color:var(--cb)">Neither</span> he <span style="color:var(--cb)">nor</span> she came.</div>
+          <div class="ei-pt">Nem ele nem ela vieram.</div>
+          <div style="margin-top:.4rem" class="ei-en" style="color:var(--text)">I have <span style="color:var(--cb)">neither</span> time <span style="color:var(--cb)">nor</span> money.</div>
+          <div class="ei-pt">Não tenho nem tempo nem dinheiro.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-block">
+      <div class="uso-tag ut-o">Uso 4 — OR em reformulações e aproximações</div>
+      <div class="expr-grid">
+        <div class="expr-item"><div class="expr-en" style="color:var(--co)">or so</div><div class="expr-pt">mais ou menos — an hour or so</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--co)">or at least</div><div class="expr-pt">ou pelo menos — Call the police, or at least security.</div></div>
+        <div class="expr-item"><div class="expr-en" style="color:var(--co)">or sort of</div><div class="expr-pt">ou algo assim — She's my cousin, or sort of.</div></div>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:.85rem">
+      <p><strong>OR em negativas:</strong> "I don't like coffee or tea." — OR é correto em frases negativas. Em afirmativas que listam: "I like coffee and tea." (AND = adição, OR = alternativa real).</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRAST TABLE -->
+<section class="section" style="padding-top:0">
+  <div class="contrast-wrap">
+    <div class="contrast-title">AND vs BUT vs OR — resumo visual</div>
+    <div class="ct-grid">
+      <div class="ct-card ct-a">
+        <h4>AND</h4>
+        <div class="ct-mean">e · adição</div>
+        <div class="ct-ex">I'm tired and hungry.</div>
+        <div class="ct-ex">She sings and dances.</div>
+      </div>
+      <div class="ct-card ct-b">
+        <h4>BUT</h4>
+        <div class="ct-mean">mas · contraste</div>
+        <div class="ct-ex">I'm tired but happy.</div>
+        <div class="ct-ex">Everyone but Tom came.</div>
+      </div>
+      <div class="ct-card ct-o">
+        <h4>OR</h4>
+        <div class="ct-mean">ou · alternativa</div>
+        <div class="ct-ex">Tea or coffee?</div>
+        <div class="ct-ex">Hurry or we'll be late.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — AND · BUT · OR</div>
+  <div class="quiz-sub">12 questões para dominar os três conectivos fundamentais.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com AND, BUT e OR</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>AND = adição · BUT = contraste / exceto · OR = alternativa / senão</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(52,211,153,.25)">
+      <h4 style="color:var(--ca)">AND</h4>
+      <div class="sum-item"><span class="en">coffee and tea</span></div>
+      <div class="sum-item"><span class="en">big and beautiful</span></div>
+      <div class="sum-item"><span class="en">more and more</span></div>
+      <div class="sum-item">adição, listas, expressões</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(248,113,113,.25)">
+      <h4 style="color:var(--cb)">BUT</h4>
+      <div class="sum-item"><span class="en">cheap but delicious</span></div>
+      <div class="sum-item"><span class="en">everyone but Tom</span></div>
+      <div class="sum-item"><span class="en">not cold but warm</span></div>
+      <div class="sum-item">contraste, exclusão, correção</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--co)">OR</h4>
+      <div class="sum-item"><span class="en">tea or coffee?</span></div>
+      <div class="sum-item"><span class="en">hurry or we'll be late</span></div>
+      <div class="sum-item"><span class="en">either... or · neither... nor</span></div>
+      <div class="sum-item">alternativa, senão, duplas</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../31_would/index.html">← Lição 31</a>
+  <div class="fnav-center">Lição 32 de 89 · Módulo 06</div>
+  <a class="fnav-btn" href="../33_so_because/index.html">Lição 33 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x34D399,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xf87171,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xFBBF24,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  // AND — green central icosahedron
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x34D399,emissive:0x34D399,emissiveIntensity:.3,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),new THREE.MeshBasicMaterial({color:0x34D399,wireframe:true,opacity:.07,transparent:true})));
+
+  // BUT — red inner orbit
+  var bGrp=new THREE.Group();bGrp.rotation.x=.3;scene.add(bGrp);
+  var bMat=new THREE.MeshStandardMaterial({color:0xf87171,emissive:0xf87171,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),bMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);bGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  bGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xf87171,opacity:.12,transparent:true})));
+
+  // OR — gold outer orbit
+  var oGrp=new THREE.Group();oGrp.rotation.x=-.25;oGrp.rotation.z=.35;scene.add(oGrp);
+  var oMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.25,12,12),oMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);oGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  oGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    bGrp.rotation.y+=.02;oGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'I like coffee ___ tea. (gosto dos dois)',opts:['and','but','or','nor'],ans:'and',why:"AND = adição. 'I like coffee and tea' = gosto dos dois. OR seria alternativa — um ou outro, não os dois."},
+  {s:'She studies hard ___ she doesn\'t pass the exams.',opts:['but','and','or','so'],ans:'but',why:"BUT = mas (contraste/surpresa). 'She studies hard but doesn't pass' — a segunda parte surpreende, contradiz a primeira."},
+  {s:'Do you want tea ___ coffee?',opts:['or','and','but','nor'],ans:'or',why:"OR = ou (alternativa/escolha). Em perguntas de escolha, sempre OR: 'tea or coffee?' = chá ou café?"},
+  {s:'Hurry up ___ we\'ll miss the bus!',opts:['or','but','and','nor'],ans:'or',why:"OR = senão / caso contrário. 'Hurry up or we'll miss the bus' = Apresse-se senão perderemos o ônibus."},
+  {s:'The food is cheap ___ delicious.',opts:['but','and','or','so'],ans:'but',why:"BUT = mas (contraste positivo). 'Cheap but delicious' — surpreendente: barato E gostoso."},
+  {s:'Everyone came ___ Tom.',opts:['but','except for','and','or'],ans:'but',why:"BUT = exceto / menos (exclusão). 'Everyone but Tom' = todo mundo menos o Tom. BUT = EXCEPT nesse contexto."},
+  {s:'"___ she calls ___ I will." (um dos dois com certeza)',opts:['Either / or','Neither / nor','Both / and','Not / but'],ans:'Either / or',why:"EITHER...OR = ou... ou (escolha entre dois). 'Either she calls or I will' = ou ela liga ou eu ligo."},
+  {s:'It\'s not cold ___ warm.',opts:['but','and','or','however'],ans:'but',why:"NOT...BUT = não X, mas sim Y (correção). 'It's not cold but warm' = não está frio, mas sim quente."},
+  {s:'I have ___ time ___ money for this.',opts:['neither / nor','either / or','not / but','both / and'],ans:'neither / nor',why:"NEITHER...NOR = nem... nem (negação dupla). 'I have neither time nor money' = não tenho nem tempo nem dinheiro."},
+  {s:'"It takes an hour ___ so." O que significa "or so"?',opts:['mais ou menos','ou menos','senão','pelo menos'],ans:'mais ou menos',why:"'Or so' = 'mais ou menos'. 'An hour or so' = uma hora mais ou menos. Expressão muito usada na fala para aproximar."},
+  {s:'AND indica: ___ · BUT indica: ___ · OR indica: ___',opts:['adição / contraste / alternativa','contraste / adição / alternativa','alternativa / contraste / adição','adição / alternativa / contraste'],ans:'adição / contraste / alternativa',why:"AND = adição (e). BUT = contraste (mas). OR = alternativa (ou). Os três pilares para conectar frases em inglês."},
+  {s:'"I don\'t like coffee ___ tea." (negativa — não gosto de nenhum dos dois)',opts:['or','and','but','nor'],ans:'or',why:"Em frases negativas, usa-se OR (não AND): 'I don't like coffee or tea' = não gosto de café nem de chá. AND em negativas causaria ambiguidade."}
+];
+
+var ERRORS=[
+  {wrong:'I like coffee or tea. (querendo dizer que gosta dos dois)',right:'I like coffee and tea.',why:"OR em afirmativas = alternativa real (um ou outro). Para adição (gosta dos dois), use AND: 'I like coffee and tea.'"},
+  {wrong:'Everyone came but for Maria.',right:'Everyone came but Maria.',why:"BUT = exceto, sem FOR. 'Everyone but Maria' — não use 'but for' nesse sentido de exclusão simples."},
+  {wrong:'Either she calls nor I will.',right:'Either she calls or I will.',why:"EITHER...OR — sempre OR com EITHER, nunca NOR. NEITHER usa NOR: 'Neither she nor I called.'"},
+  {wrong:'Neither he or she came.',right:'Neither he nor she came.',why:"NEITHER...NOR — sempre NOR com NEITHER, nunca OR. 'Neither... nor' = nem... nem."},
+  {wrong:'I am tired and I am hungry and I want to eat and sleep.',right:'I am tired and hungry, but all I want is to eat and sleep.',why:"Usar AND demais soa infantil. Varie os conectivos — BUT, SO, ALSO — para soar natural."},
+  {wrong:'She is smart. But she is lazy.',right:'She is smart but she is lazy.',why:"BUT geralmente une duas orações na MESMA frase. Na escrita formal, evite iniciar parágrafo com BUT. Na fala e escrita informal é aceito."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque na diferença AND/OR em negativas!':pct<.75?'Bom progresso! Revise EITHER...OR e NEITHER...NOR.':pct<1?'Muito bem! Quase perfeito.':'Perfeito! AND, BUT e OR dominados!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

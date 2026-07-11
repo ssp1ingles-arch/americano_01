@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronomes Possessivos | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F5C518;
+  --MY:#7C6FFF;--YOUR:#FF6B9D;--HIS:#4FC3F7;--HER:#FFD54F;--ITS:#5FD87A;--OUR:#FF8A65;--THEIR:#C07DDA;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,197,24,.1);color:var(--accent);border:1px solid rgba(245,197,24,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3.8vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:520px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#0f1a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+.pnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:22px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 18px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.05em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:62px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:20px;color:var(--accent);font-weight:600;margin-bottom:8px;}
+.dpron2{font-size:13px;color:var(--muted);margin-bottom:12px;font-family:'Space Grotesk',sans-serif;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(245,197,24,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+.tabs{display:flex;gap:6px;margin-bottom:14px;}
+.tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:19px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:2px 9px;border-radius:5px;display:inline-block;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+
+/* ERROR — special grid for 4 boxes */
+.e4{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;}
+.ebox{border-radius:12px;padding:18px;text-align:center;}
+.ewrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.3);}
+.eright{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.3);}
+.eneutral{background:rgba(100,181,246,.07);border:1px solid rgba(100,181,246,.25);}
+.elabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.esen{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;}
+.enote{font-size:11px;color:var(--muted);margin-top:6px;}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sen2{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;display:block;margin-bottom:2px;}
+.sen2b{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;display:block;margin-bottom:2px;opacity:.6;}
+.spt2{font-size:11px;color:var(--muted);}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.e4{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1–A2 · Lição 03</div>
+  <h1>
+    <span style="color:var(--MY)">MY</span>&nbsp;
+    <span style="color:var(--YOUR)">YOUR</span>&nbsp;
+    <span style="color:var(--HIS)">HIS</span>&nbsp;
+    <span style="color:var(--HER)">HER</span>&nbsp;
+    <span style="color:var(--ITS)">ITS</span>&nbsp;
+    <span style="color:var(--OUR)">OUR</span>&nbsp;
+    <span style="color:var(--THEIR)">THEIR</span>
+  </h1>
+  <p class="subtitle">Pronomes Possessivos — adjetivos (antes do noun) e pronomes (sozinhos). Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <div class="dpron2" id="dPron2"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="future">Futuro</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Frases similares para praticar</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- USO 1 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 1</span><h2 class="utitle">Adjetivos possessivos — <em>antes do substantivo</em></h2></div>
+  <table>
+    <thead><tr><th>Possessivo</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t1"></tbody>
+  </table>
+  <div class="warn">⚠️ Adjetivos possessivos NUNCA acompanham artigo: "my the book" ❌ &nbsp;/&nbsp; "my book" ✅ — o possessivo já substitui o artigo.</div>
+</section>
+
+<!-- USO 2 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 2</span><h2 class="utitle">Pronomes possessivos — <em>sem substantivo</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t2"></tbody>
+  </table>
+  <div class="tip">💡 Pronome possessivo substitui "my/your/his... + substantivo". "It's mine" = "É meu" — sem precisar repetir o objeto!</div>
+</section>
+
+<!-- USO 3 — Comparação -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 3</span><h2 class="utitle">Adjetivo vs <em>Pronome</em> possessivo — comparação direta</h2></div>
+  <table>
+    <thead><tr><th>Adjetivo</th><th>Pronome</th><th>Como adjetivo</th><th>Como pronome</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="ptag" style="color:var(--MY);background:#7C6FFF1a">my</span></td>
+        <td><span class="ptag" style="color:var(--MY);background:#7C6FFF1a">mine</span></td>
+        <td class="ten">This is <strong>my</strong> car.</td>
+        <td class="ten">This car is <strong>mine</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--YOUR);background:#FF6B9D1a">your</span></td>
+        <td><span class="ptag" style="color:var(--YOUR);background:#FF6B9D1a">yours</span></td>
+        <td class="ten"><strong>Your</strong> bag is nice.</td>
+        <td class="ten">This nice bag is <strong>yours</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--HIS);background:#4FC3F71a">his</span></td>
+        <td><span class="ptag" style="color:var(--HIS);background:#4FC3F71a">his</span></td>
+        <td class="ten"><strong>His</strong> job is hard.</td>
+        <td class="ten">The hard job is <strong>his</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--HER);background:#FFD54F1a">her</span></td>
+        <td><span class="ptag" style="color:var(--HER);background:#FFD54F1a">hers</span></td>
+        <td class="ten"><strong>Her</strong> dress is red.</td>
+        <td class="ten">The red dress is <strong>hers</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--OUR);background:#FF8A651a">our</span></td>
+        <td><span class="ptag" style="color:var(--OUR);background:#FF8A651a">ours</span></td>
+        <td class="ten"><strong>Our</strong> team won.</td>
+        <td class="ten">The winning team is <strong>ours</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--THEIR);background:#C07DDA1a">their</span></td>
+        <td><span class="ptag" style="color:var(--THEIR);background:#C07DDA1a">theirs</span></td>
+        <td class="ten"><strong>Their</strong> house is big.</td>
+        <td class="ten">The big house is <strong>theirs</strong>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 HIS não muda entre adjetivo e pronome. ITS raramente aparece como pronome possessivo — quase sempre funciona só como adjetivo.</div>
+</section>
+
+<!-- USO 4 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 4</span><h2 class="utitle">Possessivos no <em>dia a dia</em></h2></div>
+  <table>
+    <thead><tr><th>Expressão</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t4"></tbody>
+  </table>
+  <div class="tip">💡 "A friend of mine / yours / his..." = "um amigo meu / seu / dele..." — estrutura muito usada no inglês natural. Não traduza palavra por palavra!</div>
+</section>
+
+<!-- ERRO CLÁSSICO -->
+<section class="uso">
+  <div class="uhead">
+    <span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">ATENÇÃO</span>
+    <h2 class="utitle">ITS vs IT'S — a confusão mais comum</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px">Sons idênticos, significados completamente diferentes. Uma das confusões mais comuns até em falantes nativos de inglês!</p>
+  <div class="e4">
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ ITS = possessivo</div>
+      <div class="esen" style="color:var(--ITS)">Its tail is long.</div>
+      <p class="enote">Sem apóstrofo. Pertence a ele/ela (coisa/animal).</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:#64B5F6">✓ IT'S = it is</div>
+      <div class="esen" style="color:#64B5F6">It's a good dog.</div>
+      <p class="enote">Com apóstrofo. Contração de "it is" ou "it has".</p>
+    </div>
+  </div>
+  <div class="e4" style="margin-top:14px">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ ERRADO</div>
+      <div class="esen" style="color:var(--warn)">It's tail is long.</div>
+      <p class="enote">Errado! Estaria dizendo "It is tail is long."</p>
+    </div>
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ ERRADO</div>
+      <div class="esen" style="color:var(--warn)">my the book</div>
+      <p class="enote">Possessivo + artigo = erro. Use só um dos dois!</p>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:14px">⚠️ Bônus: THEIR (deles) ≠ THEY'RE (they are) ≠ THERE (lugar). Sons parecidos, significados completamente diferentes!</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Adjetivos e pronomes possessivos</h2></div>
+  <div class="sgrid">
+    <div class="scard">
+      <span class="sen2" style="color:var(--MY)">MY</span>
+      <span class="sen2b" style="color:var(--MY)">MINE</span>
+      <div class="spt2">MEU / MINHA</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--YOUR)">YOUR</span>
+      <span class="sen2b" style="color:var(--YOUR)">YOURS</span>
+      <div class="spt2">SEU / SUA</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--HIS)">HIS</span>
+      <span class="sen2b" style="color:var(--HIS)">HIS</span>
+      <div class="spt2">DELE (não muda!)</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--HER)">HER</span>
+      <span class="sen2b" style="color:var(--HER)">HERS</span>
+      <div class="spt2">DELA</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--ITS)">ITS</span>
+      <span class="sen2b" style="color:var(--ITS)" style="opacity:.4">—</span>
+      <div class="spt2">DELE / DELA (coisa)</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--OUR)">OUR</span>
+      <span class="sen2b" style="color:var(--OUR)">OURS</span>
+      <div class="spt2">NOSSO / NOSSA</div>
+    </div>
+    <div class="scard">
+      <span class="sen2" style="color:var(--THEIR)">THEIR</span>
+      <span class="sen2b" style="color:var(--THEIR)">THEIRS</span>
+      <div class="spt2">DELES / DELAS</div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:20px">🔑 Adjetivo possessivo (my, your...) + NOUN · Pronome possessivo (mine, yours...) sozinho, SEM noun · ITS sem apóstrofo = possessivo!</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1–A2 · Lição 03: Pronomes Possessivos</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const PD = {
+  MY:{pt:'MEU / MINHA',pronoun:'MINE',hex:'#7C6FFF',col:0x7C6FFF,
+    desc:'Adjetivo possessivo de "I". Vem sempre ANTES do substantivo e substitui o artigo. A forma pronome é MINE (sozinha, sem noun).',
+    rule:"⚡ 'My the book' = ERRADO. 'My book' = CORRETO. Possessivo já substitui o artigo — nunca use os dois juntos!",
+    s:{present:{en:'This is my book.',pt:'Este é meu livro.',ctx:"💬 MY antes de 'book'. Apresentando um objeto seu. MY substitui 'a' ou 'the'."},
+       past:{en:"It was my fault.",pt:'Foi minha culpa.',ctx:"💬 MY antes de 'fault'. Assumindo responsabilidade por algo passado."},
+       future:{en:"I'll bring my phone.",pt:'Vou trazer meu celular.',ctx:"💬 MY antes de 'phone'. Falando de um plano futuro envolvendo algo seu."}},
+    sim:[{en:"It's mine.",pt:'É meu/minha.'},{en:'A friend of mine.',pt:'Um amigo meu.'},{en:"That's my idea.",pt:'Essa é minha ideia.'}]},
+
+  YOUR:{pt:'SEU / SUA / SEUS / SUAS',pronoun:'YOURS',hex:'#FF6B9D',col:0xFF6B9D,
+    desc:'Adjetivo possessivo de "YOU". Serve para singular E plural — uma forma só para uma pessoa ou um grupo!',
+    rule:"⚡ 'Your phone is ringing.' (1 pessoa) e 'Your phones are great.' (grupo) — YOUR não muda nunca!",
+    s:{present:{en:'Your phone is ringing.',pt:'Seu celular está tocando.',ctx:"💬 YOUR antes de 'phone'. Alertando alguém que seu telefone está chamando."},
+       past:{en:'Your idea was perfect.',pt:'Sua ideia foi perfeita.',ctx:"💬 YOUR antes de 'idea'. Elogiando algo que a outra pessoa sugeriu."},
+       future:{en:'Your turn will come.',pt:'Sua vez vai chegar.',ctx:"💬 YOUR antes de 'turn'. Encorajando alguém que está esperando."}},
+    sim:[{en:"That's yours.",pt:'Isso é seu/sua.'},{en:'Is this your bag?',pt:'Essa bolsa é sua?'},{en:'Your choice.',pt:'É sua escolha.'}]},
+
+  HIS:{pt:'DELE',pronoun:'HIS',hex:'#4FC3F7',col:0x4FC3F7,
+    desc:'Adjetivo possessivo de "HE". A mesma forma tanto como adjetivo (his car) quanto como pronome (the car is his) — único que não muda!',
+    rule:"⚡ HIS não muda entre adjetivo e pronome: 'His car' (adjetivo) e 'The car is his' (pronome) — única forma para os dois!",
+    s:{present:{en:'His car is new.',pt:'O carro dele é novo.',ctx:"💬 HIS antes de 'car'. Falando de algo que pertence a um homem específico."},
+       past:{en:'His idea changed everything.',pt:'A ideia dele mudou tudo.',ctx:"💬 HIS antes de 'idea'. Dando crédito a alguém por algo do passado."},
+       future:{en:'His turn is next.',pt:'A vez dele é a próxima.',ctx:"💬 HIS antes de 'turn'. Indicando a sequência de alguém."}},
+    sim:[{en:'The car is his.',pt:'O carro é dele.'},{en:"It was his fault.",pt:'Foi culpa dele.'},{en:'His name is Tom.',pt:'O nome dele é Tom.'}]},
+
+  HER:{pt:'DELA',pronoun:'HERS',hex:'#FFD54F',col:0xFFD54F,
+    desc:"Adjetivo possessivo de 'SHE'. Atenção: HER também é pronome objeto (I love her). O contexto deixa claro qual é qual — posição na frase!",
+    rule:"⚡ HER possessivo vem antes do noun: 'her bag'. HER objeto vem após verbo: 'I love her'. Posição na frase determina a função!",
+    s:{present:{en:'Her name is Ana.',pt:'O nome dela é Ana.',ctx:"💬 HER antes de 'name'. Apresentando alguém — uso cotidiano e muito natural."},
+       past:{en:'Her dress was beautiful.',pt:'O vestido dela era lindo.',ctx:"💬 HER antes de 'dress'. Descrevendo algo que pertencia a ela no passado."},
+       future:{en:'Her birthday is next week.',pt:'O aniversário dela é semana que vem.',ctx:"💬 HER antes de 'birthday'. Compartilhando uma data futura de outra pessoa."}},
+    sim:[{en:'That bag is hers.',pt:'Aquela bolsa é dela.'},{en:'It was her idea.',pt:'Foi ideia dela.'},{en:"Her dog is so cute.",pt:'O cachorro dela é tão fofo.'}]},
+
+  ITS:{pt:"DELE / DELA (coisa ou animal)",pronoun:'—',hex:'#5FD87A',col:0x5FD87A,
+    desc:"Adjetivo possessivo de 'IT' — para animais e coisas. Não confunda ITS (possessivo, sem apóstrofo) com IT'S (= it is, com apóstrofo)!",
+    rule:"⚡ ITS (sem apóstrofo) = possessivo. IT'S (com apóstrofo) = it is. 'The dog wagged ITS tail.' / 'IT'S a good dog.' Apóstrofo muda tudo!",
+    s:{present:{en:"Its color is blue.",pt:'A cor dele/dela é azul.',ctx:"💬 ITS antes de 'color'. Falando da cor de um objeto. Sem apóstrofo — é possessivo!"},
+       past:{en:"The dog wagged its tail.",pt:'O cachorro balançou o rabo.',ctx:"💬 ITS antes de 'tail'. Descrevendo o comportamento de um animal."},
+       future:{en:'The company will change its name.',pt:'A empresa vai mudar o nome.',ctx:"💬 ITS antes de 'name'. Empresas e instituições também usam ITS!"}},
+    sim:[{en:"It's good. (= It is good)",pt:'Está bom / É bom.'},{en:'Its price is too high.',pt:'O preço dele/dela é muito alto.'},{en:'The team won its first game.',pt:'O time ganhou seu primeiro jogo.'}]},
+
+  OUR:{pt:'NOSSO / NOSSA / NOSSOS / NOSSAS',pronoun:'OURS',hex:'#FF8A65',col:0xFF8A65,
+    desc:"Adjetivo possessivo de 'WE'. Indica algo que pertence ao grupo que inclui quem está falando. OUR sempre inclui você!",
+    rule:"⚡ OUR aplica-se ao grupo que inclui você. 'Our house' = a casa de mim + outros. Diferente de THEIR, que exclui quem fala.",
+    s:{present:{en:'Our house is small.',pt:'Nossa casa é pequena.',ctx:"💬 OUR antes de 'house'. Falando de algo que pertence ao grupo que inclui você."},
+       past:{en:'Our team won the game.',pt:'Nossa equipe ganhou o jogo.',ctx:"💬 OUR antes de 'team'. Celebrando uma vitória coletiva."},
+       future:{en:'Our flight leaves at 8.',pt:'Nosso voo parte às 8.',ctx:"💬 OUR antes de 'flight'. Planejando uma viagem em grupo."}},
+    sim:[{en:'The house is ours.',pt:'A casa é nossa.'},{en:'This is our problem.',pt:'Esse é nosso problema.'},{en:'Our turn next!',pt:'Nossa vez a seguir!'}]},
+
+  THEIR:{pt:'DELES / DELAS',pronoun:'THEIRS',hex:'#C07DDA',col:0xC07DDA,
+    desc:"Adjetivo possessivo de 'THEY'. Para o grupo que não inclui você. Cuidado com os homofonos: THEIR ≠ THEY'RE ≠ THERE!",
+    rule:"⚡ THEIR (possessivo) ≠ THEY'RE (they are) ≠ THERE (lugar). Sons parecidíssimos, significados completamente diferentes!",
+    s:{present:{en:'Their dog is very friendly.',pt:'O cachorro deles é muito amigável.',ctx:"💬 THEIR antes de 'dog'. Falando de um animal que pertence a outras pessoas."},
+       past:{en:'Their house was huge.',pt:'A casa deles era enorme.',ctx:"💬 THEIR antes de 'house'. Descrevendo algo que pertencia a eles no passado."},
+       future:{en:'Their wedding is in June.',pt:'O casamento deles é em junho.',ctx:"💬 THEIR antes de 'wedding'. Compartilhando um evento futuro de outras pessoas."}},
+    sim:[{en:'The dog is theirs.',pt:'O cachorro é deles.'},{en:'It was their idea.',pt:'Foi ideia deles.'},{en:"Their turn!",pt:'Vez deles!'}]}
+};
+
+// ── TABLE DATA ──
+const rows = {
+  t1:[['MY','This is my book.','Este é meu livro.'],
+      ['YOUR','Your phone is ringing.','Seu celular está tocando.'],
+      ['HIS','His car is new.','O carro dele é novo.'],
+      ['HER','Her name is Ana.','O nome dela é Ana.'],
+      ['ITS','Its color is blue.','A cor dele/dela é azul.'],
+      ['OUR','Our house is small.','Nossa casa é pequena.'],
+      ['THEIR','Their dog is very friendly.','O cachorro deles é muito amigável.']],
+  t2:[['MY','This book is mine.','Este livro é meu.'],
+      ['YOUR','Is this phone yours?','Esse celular é seu?'],
+      ['HIS','The new car is his.','O carro novo é dele.'],
+      ['HER','That bag is hers.','Aquela bolsa é dela.'],
+      ['OUR','The small house is ours.','A casa pequena é nossa.'],
+      ['THEIR','The friendly dog is theirs.','O cachorro amigável é deles.']],
+  t4:[['my fault',"It's my fault.",'É minha culpa.'],
+      ['your turn',"It's your turn.",'É sua vez.'],
+      ['his idea','It was his idea.','Foi ideia dele.'],
+      ['on your own','Do it on your own.','Faça por conta própria.'],
+      ['mine!','That\'s mine!','Isso é meu!'],
+      ['a friend of mine',"He's a friend of mine.",'Ele é um amigo meu.']]
+};
+
+const lc = {MY:'my',YOUR:'your',HIS:'his',HER:'her',ITS:'its',OUR:'our',THEIR:'their'};
+
+function fillTable(id, data) {
+  const tbody = document.getElementById(id);
+  data.forEach(function(row) {
+    var key = row[0], en = row[1], pt = row[2];
+    var d = PD[key];
+    if (!d) {
+      tbody.innerHTML += '<tr><td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">'+key+'</span></td><td class="ten">'+en+'</td><td class="tpt">'+pt+'</td></tr>';
+      return;
+    }
+    var word = lc[key];
+    var hl = en.replace(new RegExp('\\b'+word+'\\b','gi'), function(m){ return '<strong>'+m+'</strong>'; });
+    tbody.innerHTML += '<tr><td><span class="ptag" style="color:'+d.hex+';background:'+d.hex+'1a">'+key+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pt+'</td></tr>';
+  });
+}
+fillTable('t1', rows.t1);
+fillTable('t2', rows.t2);
+fillTable('t4', rows.t4);
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+const hCanvas = document.getElementById('heroCanvas');
+const hScene  = new THREE.Scene();
+const hCam    = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+hCam.position.set(0, 3, 11);
+hCam.lookAt(0, 0.5, 0);
+const hRend = new THREE.WebGLRenderer({canvas:hCanvas, antialias:true, alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+hRend.setClearColor(0x000000, 0);
+
+function resizeHero() {
+  var w = hCanvas.parentElement.clientWidth, h = 440;
+  hRend.setSize(w, h); hCam.aspect = w/h; hCam.updateProjectionMatrix();
+}
+resizeHero();
+window.addEventListener('resize', resizeHero);
+
+const hCtrl = new THREE.OrbitControls(hCam, hRend.domElement);
+hCtrl.enableDamping = true; hCtrl.dampingFactor = .05;
+hCtrl.autoRotate = true; hCtrl.autoRotateSpeed = 0.4;
+hCtrl.minDistance = 7; hCtrl.maxDistance = 17; hCtrl.enablePan = false;
+
+hScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+var hDir = new THREE.DirectionalLight(0xffffff, 0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(22, 22, 0x182030, 0x182030));
+
+function mkChar(color, scale) {
+  scale = scale || 1;
+  var g = new THREE.Group();
+  var m = function(c){ return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.22}); };
+  var head = new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16), m(color));
+  head.position.y = 1.48*scale; g.add(head);
+  var body = new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8), m(color));
+  body.position.y = .82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(p){
+    var a = new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8), m(color));
+    a.rotation.z = p[1]; a.position.set(p[0]*scale,.93*scale,0); g.add(a);
+  });
+  [-.16,.16].forEach(function(x){
+    var l = new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8), m(color));
+    l.position.set(x*scale,.06*scale,0); g.add(l);
+  });
+  var pl = new THREE.PointLight(color, .5, 3*scale); pl.position.y = .5*scale; g.add(pl);
+  return g;
+}
+
+// Possession object builders (floating above each character)
+var possessionBuilders = {
+  MY: function(g,col){ // book
+    var book = new THREE.Mesh(new THREE.BoxGeometry(.42,.55,.08), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.3}));
+    book.position.set(0,2.2,0); g.add(book);
+    return book;
+  },
+  YOUR: function(g,col){ // phone
+    var ph = new THREE.Mesh(new THREE.BoxGeometry(.22,.42,.06), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.35}));
+    ph.position.set(0,2.2,0); g.add(ph); return ph;
+  },
+  HIS: function(g,col){ // car (elongated box)
+    var car = new THREE.Mesh(new THREE.BoxGeometry(.72,.28,.4), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.3}));
+    car.position.set(0,2.2,0); g.add(car); return car;
+  },
+  HER: function(g,col){ // bag (sphere)
+    var bag = new THREE.Mesh(new THREE.SphereGeometry(.26,14,14), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.35}));
+    bag.position.set(0,2.2,0); g.add(bag); return bag;
+  },
+  ITS: function(g,col){ // bone-like (two spheres + cylinder)
+    var grp = new THREE.Group(); grp.position.set(0,2.2,0);
+    var bc = new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.45,8), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.35}));
+    bc.rotation.z = Math.PI/2; grp.add(bc);
+    [-1,1].forEach(function(s){
+      var sp = new THREE.Mesh(new THREE.SphereGeometry(.14,10,10), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.35}));
+      sp.position.x = s*.25; grp.add(sp);
+    });
+    g.add(grp); return grp;
+  },
+  OUR: function(g,col){ // house (box + pyramid roof)
+    var grp = new THREE.Group(); grp.position.set(0,2.1,0);
+    var wall = new THREE.Mesh(new THREE.BoxGeometry(.52,.4,.4), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.25}));
+    grp.add(wall);
+    var roof = new THREE.Mesh(new THREE.ConeGeometry(.38,.25,4), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.4}));
+    roof.position.y = .32; grp.add(roof);
+    g.add(grp); return grp;
+  },
+  THEIR: function(g,col){ // globe
+    var globe = new THREE.Mesh(new THREE.SphereGeometry(.26,20,20), new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.3,wireframe:false}));
+    globe.position.set(0,2.2,0); g.add(globe); return globe;
+  }
+};
+
+var keys = Object.keys(PD);
+var hChars = [], labelData = [], possObjs = [];
+
+keys.forEach(function(k, i) {
+  var a = (i/keys.length)*Math.PI*2 - Math.PI/2, r = 4.0;
+  var x = Math.cos(a)*r, z = Math.sin(a)*r;
+  var c = mkChar(PD[k].col);
+  c.position.set(x, 0, z);
+  c.lookAt(0, c.position.y, 0);
+  var ring = new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),
+    new THREE.MeshPhongMaterial({color:PD[k].col,emissive:PD[k].col,emissiveIntensity:.4}));
+  ring.rotation.x = Math.PI/2; ring.position.y = -.4; c.add(ring);
+  // floating possession object
+  var pObj = possessionBuilders[k](c, PD[k].col);
+  possObjs.push({obj:pObj, baseY:2.2, off:i*.8});
+  hScene.add(c);
+  hChars.push({mesh:c, key:k});
+  // label
+  var el = document.createElement('div');
+  el.className = 'hlabel'; el.style.color = PD[k].hex; el.style.borderColor = PD[k].hex;
+  el.textContent = k + ' = ' + PD[k].pt.split(' / ')[0];
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el:el, mesh:c});
+});
+
+var nav = document.getElementById('pnav');
+keys.forEach(function(k){
+  var d = PD[k], b = document.createElement('button');
+  b.className = 'pbtn'; b.dataset.p = k;
+  b.style.color = d.hex; b.style.borderColor = d.hex;
+  b.textContent = k + '/' + d.pronoun + ' — ' + d.pt.split('/')[0].trim();
+  b.addEventListener('click', function(){ openPronoun(k); });
+  nav.appendChild(b);
+});
+
+function updateLabels() {
+  var w = hCanvas.clientWidth, h = 440;
+  labelData.forEach(function(ld){
+    var pos = new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y += 2.4; pos.project(hCam);
+    var x = (pos.x*.5+.5)*w, y = (-pos.y*.5+.5)*h;
+    ld.el.style.left = x+'px'; ld.el.style.top = y+'px';
+    ld.el.style.opacity = pos.z < 1 ? '1' : '0';
+  });
+}
+
+var ray = new THREE.Raycaster(), mPos = new THREE.Vector2();
+hCanvas.addEventListener('click', function(e){
+  var r = hCanvas.getBoundingClientRect();
+  mPos.x = ((e.clientX-r.left)/r.width)*2-1;
+  mPos.y = -((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos, hCam);
+  hChars.forEach(function(c){
+    var ch=[]; c.mesh.traverse(function(m){if(m.isMesh)ch.push(m);});
+    if(ray.intersectObjects(ch).length>0) openPronoun(c.key);
+  });
+});
+
+var hT = 0;
+function animHero() {
+  requestAnimationFrame(animHero);
+  hT += .01; hCtrl.update();
+  hChars.forEach(function(c,i){ c.mesh.position.y = Math.sin(hT+i*.9)*.12; });
+  possObjs.forEach(function(p){ p.obj.position.y = p.baseY + Math.sin(hT*1.3+p.off)*.15; });
+  updateLabels();
+  hRend.render(hScene, hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+var dCanvas = document.getElementById('dCanvas');
+var dScene  = new THREE.Scene();
+var dCam    = new THREE.PerspectiveCamera(52, 360/300, 0.1, 100);
+dCam.position.set(0, 2, 6.5); dCam.lookAt(0, .5, 0);
+var dRend   = new THREE.WebGLRenderer({canvas:dCanvas, antialias:true, alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+dRend.setSize(360, 300); dRend.setClearColor(0x080c14, 1);
+
+var dCtrl = new THREE.OrbitControls(dCam, dRend.domElement);
+dCtrl.enableDamping = true; dCtrl.dampingFactor = .05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+
+var dAmb  = new THREE.AmbientLight(0xffffff,.45);
+var dDir2 = new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+var dPL   = new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb, dDir2, dPL);
+
+var dObjs = [], dParts = null, curP = null, dT = 0;
+
+function clearD() {
+  while(dScene.children.length) dScene.remove(dScene.children[0]);
+  dScene.add(dAmb, dDir2, dPL); dObjs=[]; dParts=null;
+}
+function floor(col) {
+  col = col||0x080c14;
+  var f = new THREE.Mesh(new THREE.PlaneGeometry(12,12), new THREE.MeshPhongMaterial({color:col}));
+  f.rotation.x = -Math.PI/2; f.position.y = -.5; dScene.add(f);
+}
+function particles(col, count, spread, yMin, yMax) {
+  count=count||60; spread=spread||4; yMin=yMin||.5; yMax=yMax||3.5;
+  var geo=new THREE.BufferGeometry(), pos=[], cols=[];
+  var c=new THREE.Color(col);
+  for(var i=0;i<count;i++){
+    pos.push((Math.random()-.5)*spread,yMin+Math.random()*(yMax-yMin),(Math.random()-.5)*spread);
+    cols.push(c.r,c.g,c.b);
+  }
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+  dParts = new THREE.Points(geo, new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+
+// buildMY: desk + book scene
+function buildMY() {
+  dPL.color.set(0x7C6FFF); floor();
+  var desk = new THREE.Mesh(new THREE.BoxGeometry(2.4,.1,1.2), new THREE.MeshPhongMaterial({color:0x3d2b1f}));
+  desk.position.set(0,.2,.5); dScene.add(desk);
+  [[.9,.9],[.9,-.1],[-.9,.9],[-.9,-.1]].forEach(function(p){
+    var leg = new THREE.Mesh(new THREE.BoxGeometry(.1,.7,.1), new THREE.MeshPhongMaterial({color:0x3d2b1f}));
+    leg.position.set(p[0],-.15,p[1]); dScene.add(leg);
+  });
+  var book = new THREE.Mesh(new THREE.BoxGeometry(.8,.06,.6), new THREE.MeshPhongMaterial({color:0x7C6FFF,emissive:0x7C6FFF,emissiveIntensity:.3}));
+  book.position.set(.1,.28,.4); dScene.add(book); dObjs.push({m:book,type:'float',baseY:.28,off:0});
+  var ch = mkChar(0x7C6FFF); ch.position.set(-.4,-.5,0); ch.rotation.y=.4; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  particles(0x7C6FFF,50,4,.5,3);
+}
+
+// buildYOUR: phone ringing
+function buildYOUR() {
+  dPL.color.set(0xFF6B9D); floor();
+  var ch = mkChar(0xFF6B9D); ch.position.set(0,-.5,0); ch.rotation.y=.15; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var phone = new THREE.Mesh(new THREE.BoxGeometry(.22,.42,.06), new THREE.MeshPhongMaterial({color:0xFF6B9D,emissive:0xFF6B9D,emissiveIntensity:.5}));
+  phone.position.set(.6,1.3,.2); ch.add(phone); dObjs.push({m:phone,type:'pulse',baseY:1.3,off:0});
+  // vibration rings
+  [0.3,0.55,0.8].forEach(function(r,i){
+    var ring = new THREE.Mesh(new THREE.TorusGeometry(r,.025,8,32), new THREE.MeshPhongMaterial({color:0xFF6B9D,emissive:0xFF6B9D,emissiveIntensity:.5,transparent:true,opacity:.6-i*.15}));
+    ring.position.set(1.2,1.2,0); dScene.add(ring); dObjs.push({m:ring,type:'pulse',baseY:1.2,off:i*.4});
+  });
+  particles(0xFF6B9D,45,3,.3,2.5);
+}
+
+// buildHIS: car on display
+function buildHIS() {
+  dPL.color.set(0x4FC3F7); floor();
+  var ch = mkChar(0x4FC3F7,.9); ch.position.set(-1.5,-.5,.3); ch.rotation.y=.6; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var car = new THREE.Group(); car.position.set(.7,.3,0);
+  var body = new THREE.Mesh(new THREE.BoxGeometry(1.4,.35,.7), new THREE.MeshPhongMaterial({color:0x4FC3F7,emissive:0x4FC3F7,emissiveIntensity:.3}));
+  car.add(body);
+  var roof = new THREE.Mesh(new THREE.BoxGeometry(.8,.28,.62), new THREE.MeshPhongMaterial({color:0x4FC3F7,emissive:0x4FC3F7,emissiveIntensity:.25}));
+  roof.position.y = .31; car.add(roof);
+  [[-0.42,-.22],[.42,-.22]].forEach(function(p){
+    var wh = new THREE.Mesh(new THREE.TorusGeometry(.14,.05,8,20), new THREE.MeshPhongMaterial({color:0x222222}));
+    wh.rotation.y = Math.PI/2; wh.position.set(p[0],p[1],.4); car.add(wh);
+    var wh2 = wh.clone(); wh2.position.z = -.4; car.add(wh2);
+  });
+  dScene.add(car); dObjs.push({m:car,type:'float',baseY:.3,off:.3});
+  var ring = new THREE.Mesh(new THREE.TorusGeometry(.85,.04,8,32), new THREE.MeshPhongMaterial({color:0x4FC3F7,emissive:0x4FC3F7,emissiveIntensity:.4}));
+  ring.rotation.x = Math.PI/2; ring.position.set(.7,-.48,0); dScene.add(ring); dObjs.push({m:ring,type:'pulse',baseY:-.48,off:.2});
+  particles(0x4FC3F7,40,3,.3,2.5);
+}
+
+// buildHER: character with floating bag/dress
+function buildHER() {
+  dPL.color.set(0xFFD54F); floor();
+  var ch = mkChar(0xFFD54F); ch.position.set(0,-.5,0); ch.rotation.y=.1; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var bag = new THREE.Mesh(new THREE.SphereGeometry(.28,16,16), new THREE.MeshPhongMaterial({color:0xFFD54F,emissive:0xFFD54F,emissiveIntensity:.4}));
+  bag.position.set(.7,1.1,.2); ch.add(bag); dObjs.push({m:bag,type:'float',baseY:1.1,off:.2});
+  // crown / star above head
+  var crown = new THREE.Mesh(new THREE.ConeGeometry(.2,.3,6), new THREE.MeshPhongMaterial({color:0xFFD54F,emissive:0xFFD54F,emissiveIntensity:.6}));
+  crown.position.set(0,2.1,0); dScene.add(crown); dObjs.push({m:crown,type:'float',baseY:2.1,off:.5});
+  // sparkle particles
+  particles(0xFFD54F,50,3.5,.3,3);
+}
+
+// buildITS: dog scene
+function buildITS() {
+  dPL.color.set(0x5FD87A); floor(0x040a06);
+  var dogGrp = new THREE.Group(); dogGrp.position.set(0,-.2,0); dScene.add(dogGrp);
+  var dm = function(){ return new THREE.MeshPhongMaterial({color:0x5FD87A,emissive:0x5FD87A,emissiveIntensity:.28}); };
+  var body = new THREE.Mesh(new THREE.SphereGeometry(.45,14,14),dm()); body.scale.set(1.4,.9,1); dogGrp.add(body);
+  var head = new THREE.Mesh(new THREE.SphereGeometry(.3,14,14),dm()); head.position.set(.6,.2,0); dogGrp.add(head);
+  var snout = new THREE.Mesh(new THREE.SphereGeometry(.16,10,10),dm()); snout.position.set(.88,.1,0); dogGrp.add(snout);
+  [.1,-.1].forEach(function(z){
+    var ear=new THREE.Mesh(new THREE.SphereGeometry(.12,8,8),dm()); ear.position.set(.48,.48,z); dogGrp.add(ear);
+  });
+  var tail=new THREE.Mesh(new THREE.CylinderGeometry(.07,.04,.5,8),dm());
+  tail.rotation.z=.8; tail.position.set(-.8,.3,0); dogGrp.add(tail); dObjs.push({m:tail,type:'sway',off:0});
+  [-.35,-.55,-.75].forEach(function(x){
+    [-.25,.25].forEach(function(z){
+      var leg=new THREE.Mesh(new THREE.CylinderGeometry(.07,.06,.35,8),dm());
+      leg.position.set(x,-.55,z); dogGrp.add(leg);
+    });
+  });
+  // bone floating above
+  var bGrp = new THREE.Group(); bGrp.position.set(0,1.6,0); dScene.add(bGrp);
+  var bc=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.5,8),new THREE.MeshPhongMaterial({color:0x5FD87A,emissive:0x5FD87A,emissiveIntensity:.5}));
+  bc.rotation.z=Math.PI/2; bGrp.add(bc);
+  [-1,1].forEach(function(s){
+    var sp=new THREE.Mesh(new THREE.SphereGeometry(.12,10,10),new THREE.MeshPhongMaterial({color:0x5FD87A,emissive:0x5FD87A,emissiveIntensity:.5}));
+    sp.position.x=s*.28; bGrp.add(sp);
+  });
+  dObjs.push({m:bGrp,type:'float',baseY:1.6,off:.3}); dObjs.push({m:dogGrp,type:'sway',off:.5});
+  particles(0x5FD87A,45,4,.3,2.5);
+}
+
+// buildOUR: two characters + house
+function buildOUR() {
+  dPL.color.set(0xFF8A65); floor();
+  var c1=mkChar(0xFF8A65,.9); c1.position.set(-1.4,-.5,.3); c1.rotation.y=.5; dScene.add(c1); dObjs.push({m:c1,type:'sway',off:0});
+  var c2=mkChar(0xFF7043,.9); c2.position.set(-1,-.5,-.4); c2.rotation.y=.3; dScene.add(c2); dObjs.push({m:c2,type:'sway',off:.6});
+  // house
+  var hGrp=new THREE.Group(); hGrp.position.set(.8,.0,0); dScene.add(hGrp);
+  var wall=new THREE.Mesh(new THREE.BoxGeometry(.9,.75,.7),new THREE.MeshPhongMaterial({color:0xFF8A65,emissive:0xFF8A65,emissiveIntensity:.2}));
+  wall.position.y=.37; hGrp.add(wall);
+  var roof=new THREE.Mesh(new THREE.ConeGeometry(.65,.4,4),new THREE.MeshPhongMaterial({color:0xFF8A65,emissive:0xFF8A65,emissiveIntensity:.35}));
+  roof.position.y=.95; hGrp.add(roof);
+  var door=new THREE.Mesh(new THREE.BoxGeometry(.22,.35,.06),new THREE.MeshPhongMaterial({color:0x3d2010}));
+  door.position.set(0,.17,.38); hGrp.add(door);
+  dObjs.push({m:hGrp,type:'float',baseY:0,off:.4});
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(.65,.04,8,32),new THREE.MeshPhongMaterial({color:0xFF8A65,emissive:0xFF8A65,emissiveIntensity:.4}));
+  ring.rotation.x=Math.PI/2; ring.position.set(.8,-.48,0); dScene.add(ring); dObjs.push({m:ring,type:'pulse',baseY:-.48,off:.3});
+  particles(0xFF8A65,45,4,.3,2.8);
+}
+
+// buildTHEIR: group + globe
+function buildTHEIR() {
+  dPL.color.set(0xC07DDA); floor();
+  var cols=[0xC07DDA,0xB39DDB,0xCE93D8];
+  [[-1.5,.5],[-.9,-.3],[-.4,.7]].forEach(function(p,i){
+    var ch=mkChar(cols[i],.9); ch.position.set(p[0],-.5,p[1]); ch.rotation.y=(Math.random()-.5)*.5; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.5});
+  });
+  // globe
+  var globe=new THREE.Mesh(new THREE.SphereGeometry(.38,24,24),new THREE.MeshPhongMaterial({color:0xC07DDA,emissive:0xC07DDA,emissiveIntensity:.3,wireframe:false}));
+  globe.position.set(1.2,1.2,0); dScene.add(globe); dObjs.push({m:globe,type:'spinY'});
+  // wire ring around globe
+  var wr=new THREE.Mesh(new THREE.TorusGeometry(.5,.025,8,32),new THREE.MeshPhongMaterial({color:0xC07DDA,emissive:0xC07DDA,emissiveIntensity:.5,transparent:true,opacity:.7}));
+  wr.position.set(1.2,1.2,0); dScene.add(wr); dObjs.push({m:wr,type:'pulse',baseY:1.2,off:.2});
+  particles(0xC07DDA,55,5,.3,3);
+}
+
+var builders = {MY:buildMY,YOUR:buildYOUR,HIS:buildHIS,HER:buildHER,ITS:buildITS,OUR:buildOUR,THEIR:buildTHEIR};
+
+function animDetail() {
+  requestAnimationFrame(animDetail);
+  dT += .016; dCtrl.update();
+  dObjs.forEach(function(o){
+    var off=o.off||0, by=o.baseY||0;
+    switch(o.type){
+      case 'sway':  o.m.rotation.y=off+Math.sin(dT*.8+off)*.15; break;
+      case 'float': o.m.position.y=by+Math.sin(dT*1.2+off)*.1; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2+off)*.1); o.m.position.y=by+Math.sin(dT*1.5)*.07; break;
+      case 'spinY': o.m.rotation.y+=.008; break;
+    }
+  });
+  if(dParts) dParts.rotation.y+=.003;
+  dRend.render(dScene, dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense = 'present';
+
+function openPronoun(k) {
+  curP = k;
+  var d = PD[k];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent = k;
+  document.getElementById('dPron').style.color = d.hex;
+  document.getElementById('dPt').textContent = d.pt;
+  document.getElementById('dPron2').textContent = 'Pronome: ' + d.pronoun;
+  document.getElementById('dDesc').textContent = d.desc;
+  document.getElementById('dRule').textContent = d.rule;
+  updateSent(k, selTense);
+  var sl = document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){ sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>'; });
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis=b.dataset.p===k;
+    b.classList.toggle('active',isThis);
+    b.style.backgroundColor=isThis?PD[b.dataset.p].hex:'transparent';
+    b.style.color=isThis?'#080c14':PD[b.dataset.p].hex;
+  });
+  clearD(); builders[k]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateSent(k, tense) {
+  var d=PD[k], s=d.s[tense], word=lc[k];
+  var hl=s.en.replace(new RegExp("\\b"+word+"\\b",'gi'),
+    function(m){ return '<span style="color:'+d.hex+';font-weight:800">'+m+'</span>'; });
+  document.getElementById('sEn').innerHTML=hl;
+  document.getElementById('sPt').textContent=s.pt;
+  document.getElementById('sCtx').textContent=s.ctx;
+}
+
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    t.classList.add('on'); selTense=t.dataset.t;
+    if(curP) updateSent(curP,selTense);
+  });
+});
+
+setTimeout(function(){ openPronoun('MY'); }, 600);
+</script>
+</body>
+</html>

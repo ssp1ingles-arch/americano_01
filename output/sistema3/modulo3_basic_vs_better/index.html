@@ -1,0 +1,452 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 3 — Basic vs Better · Sistema 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--rd:#f87171;--am:#F5C518;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s3.active{border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--vl);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.8;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;transition:opacity .2s;}.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:.75rem;}
+.quiz-toggle{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.28rem .75rem;border-radius:.4rem;border:1px solid rgba(167,139,250,.35);background:rgba(167,139,250,.08);color:var(--vl);cursor:pointer;transition:all .18s;}
+.quiz-toggle:hover{background:rgba(167,139,250,.18);}
+.quiz-toggle.on{background:rgba(167,139,250,.2);border-color:var(--vl);}
+
+/* LAYOUT */
+.wrap{padding-top:96px;min-height:calc(100vh - 96px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+
+/* PROGRESS */
+.progress-bar{width:100%;max-width:780px;padding:1.25rem 1.25rem .5rem;margin:0 auto;}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.prog-label{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:800;color:var(--vl);}
+.prog-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--vl),#c4b5fd);border-radius:2px;transition:width .4s ease;}
+
+/* SITUATION CARD */
+.card-area{width:100%;max-width:780px;padding:.75rem 1.25rem 2rem;margin:0 auto;}
+
+.situation-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;transition:all .3s;}
+
+/* TRIGGER */
+.trigger-section{padding:1.5rem 1.5rem 1.25rem;border-bottom:1px solid var(--bd);text-align:center;}
+.trigger-tag{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .8rem;border-radius:2rem;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--vl);margin-bottom:.85rem;}
+.trigger-phrase{font-family:'Space Grotesk',sans-serif;font-size:1.55rem;font-weight:800;color:var(--tx);line-height:1.25;}
+
+/* COMPARISON */
+.comparison{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--bd);}
+.col-basic{padding:1.25rem 1.25rem 1.25rem 1.5rem;border-right:1px solid var(--bd);}
+.col-better{padding:1.25rem 1.5rem 1.25rem 1.25rem;position:relative;}
+
+.col-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.85rem;}
+.col-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
+.col-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;}
+
+.col-basic .col-icon{background:rgba(248,113,113,.15);color:var(--rd);}
+.col-basic .col-label{color:var(--rd);}
+.col-better .col-icon{background:rgba(95,216,122,.15);color:var(--gn);}
+.col-better .col-label{color:var(--gn);}
+
+.basic-phrase{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tx);margin-bottom:.5rem;text-decoration:line-through;text-decoration-color:rgba(248,113,113,.5);}
+.basic-note{font-size:.75rem;color:var(--rd);opacity:.8;}
+
+.better-phrases{display:flex;flex-direction:column;gap:.4rem;}
+.better-phrase{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--gn);opacity:0;transform:translateX(8px);transition:all .25s;}
+.better-phrase.show{opacity:1;transform:translateX(0);}
+.better-phrase:first-child{font-size:1.1rem;}
+
+/* LOCKED OVERLAY */
+.lock-overlay{position:absolute;inset:0;background:rgba(8,12,20,.7);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;border-radius:0 0 0 0;transition:opacity .3s;}
+.lock-overlay.hidden{opacity:0;pointer-events:none;}
+.lock-icon{font-size:1.8rem;}
+.lock-text{font-size:.72rem;color:var(--td);text-align:center;}
+
+/* CONTEXT */
+.context-section{padding:1rem 1.5rem;background:rgba(167,139,250,.04);border-bottom:1px solid var(--bd);opacity:0;transform:translateY(4px);transition:all .3s;}
+.context-section.show{opacity:1;transform:translateY(0);}
+.ctx-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--vl);margin-bottom:.35rem;}
+.ctx-text{font-size:.82rem;color:var(--tm);line-height:1.6;}
+.ctx-highlight{display:inline-block;background:rgba(167,139,250,.12);border-radius:.3rem;padding:.05rem .35rem;color:var(--vl);font-weight:600;}
+
+/* QUIZ INPUT */
+.quiz-section{padding:1rem 1.5rem;border-bottom:1px solid var(--bd);display:none;}
+.quiz-section.show{display:block;}
+.quiz-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.quiz-input{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:.55rem;padding:.65rem .9rem;color:var(--tx);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.quiz-input:focus{border-color:rgba(167,139,250,.5);}
+.quiz-input.correct{border-color:rgba(95,216,122,.5);background:rgba(95,216,122,.05);}
+
+/* ACTIONS */
+.actions{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;}
+.reveal-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1.25rem;border-radius:.55rem;border:none;background:var(--vl);color:#080c14;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.reveal-btn:hover{background:#c4b5fd;transform:translateY(-1px);}
+.reveal-btn:disabled{background:var(--sf2);color:var(--td);cursor:default;transform:none;}
+.nav-btn{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;}
+.nav-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+
+/* DOTS NAV */
+.dots-nav{display:flex;gap:.4rem;justify-content:center;padding:.25rem 0 1rem;flex-wrap:wrap;}
+.dot-n{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--bd);background:none;cursor:pointer;transition:all .18s;}
+.dot-n.done{background:rgba(167,139,250,.4);border-color:rgba(167,139,250,.6);}
+.dot-n.current{background:var(--vl);border-color:var(--vl);box-shadow:0 0 8px rgba(167,139,250,.5);}
+
+/* ANIMATE */
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:slideIn .3s ease forwards;}
+
+@media(max-width:560px){
+  .comparison{grid-template-columns:1fr;}
+  .col-basic{border-right:none;border-bottom:1px solid var(--bd);}
+  .trigger-phrase{font-size:1.25rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../index.html" class="gnav-btn gnav-s3 active">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 3</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 3 — Basic vs Better</div>
+    <div class="nav-sub">Do inglês de escola para o inglês de nativo</div>
+  </div>
+  <div class="nav-right">
+    <button class="quiz-toggle" id="quizToggle" onclick="toggleQuiz()">✏️ Modo Quiz</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="prog-top">
+      <span class="prog-label">Situação</span>
+      <span class="prog-num" id="progNum">1 / 10</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:10%"></div></div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-area">
+    <div class="situation-card anim" id="situCard">
+
+      <div class="trigger-section">
+        <div class="trigger-tag" id="sitTag">Situação 01</div>
+        <div class="trigger-phrase" id="sitPhrase"></div>
+      </div>
+
+      <div class="comparison">
+        <div class="col-basic">
+          <div class="col-header">
+            <div class="col-icon">✕</div>
+            <div class="col-label">Básico</div>
+          </div>
+          <div class="basic-phrase" id="basicPhrase"></div>
+          <div class="basic-note" id="basicNote"></div>
+        </div>
+        <div class="col-better" id="colBetter">
+          <div class="col-header">
+            <div class="col-icon">✓</div>
+            <div class="col-label">Melhor</div>
+          </div>
+          <div class="better-phrases" id="betterPhrases"></div>
+          <div class="lock-overlay" id="lockOverlay">
+            <div class="lock-icon">🔒</div>
+            <div class="lock-text">Clique em<br>"Ver resposta"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZ INPUT -->
+      <div class="quiz-section" id="quizSection">
+        <div class="quiz-label">Tente escrever uma resposta mais natural:</div>
+        <input class="quiz-input" id="quizInput" type="text" placeholder="Digite uma alternativa nativa...">
+      </div>
+
+      <!-- CONTEXT -->
+      <div class="context-section" id="ctxSection">
+        <div class="ctx-label">Contexto</div>
+        <div class="ctx-text" id="ctxText"></div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← Anterior</button>
+        <button class="reveal-btn" id="revealBtn" onclick="reveal()">👁 Ver resposta de nativo</button>
+        <button class="nav-btn" id="nextBtn" onclick="go(1)">Próxima →</button>
+      </div>
+
+    </div>
+
+    <!-- DOTS NAV -->
+    <div class="dots-nav" id="dotsNav"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const SITUATIONS = [
+  {
+    phrase:'"How are you?"',
+    basic:'I am fine.',
+    basicNote:'Funciona mas soa robótico — nativos raramente usam.',
+    better:["I'm doing great.", "Pretty good, thanks.", "Can't complain.", "Living the dream!"],
+    context:'<span class="ctx-highlight">I\'m doing great</span> e <span class="ctx-highlight">Can\'t complain</span> são as respostas mais comuns no dia a dia. <span class="ctx-highlight">Not bad!</span> e <span class="ctx-highlight">Hanging in there</span> também soam muito naturais.',
+  },
+  {
+    phrase:'"What are you doing?"',
+    basic:'Nothing.',
+    basicNote:'"Nothing" está correto mas soa vago e até rude.',
+    better:["Just chilling.", "Just relaxing.", "Not much, just watching TV.", "Just hanging out."],
+    context:'<span class="ctx-highlight">Just chilling</span> é a resposta mais natural e amigável entre nativos. Sempre use <span class="ctx-highlight">just</span> para suavizar — soa mais conversacional.',
+  },
+  {
+    phrase:'"What\'s your job?"',
+    basic:'I am a teacher.',
+    basicNote:'"I am a..." está correto, mas existe uma versão mais profissional.',
+    better:["I work as a teacher.", "I teach English.", "I'm in education."],
+    context:'<span class="ctx-highlight">I work as a...</span> soa mais profissional e natural. <span class="ctx-highlight">I\'m in + área</span> (I\'m in finance / I\'m in tech) é muito usado em contextos de networking.',
+  },
+  {
+    phrase:'"Do you understand?"',
+    basic:'Yes, I understand.',
+    basicNote:'"I understand" soa formal demais para conversa casual.',
+    better:["Got it.", "Makes sense.", "Crystal clear.", "I follow you.", "Loud and clear."],
+    context:'<span class="ctx-highlight">Got it</span> é de longe a resposta mais usada no inglês americano. <span class="ctx-highlight">Makes sense</span> é perfeito quando alguém explica algo. <span class="ctx-highlight">Crystal clear</span> = ênfase total.',
+  },
+  {
+    phrase:'"What do you like?"',
+    basic:'I like music.',
+    basicNote:'"I like" está correto mas é a versão mais básica.',
+    better:["I'm really into music.", "I'm a huge fan of music.", "Music is my thing.", "I love everything about music."],
+    context:'<span class="ctx-highlight">I\'m into...</span> = estou muito interessado em. <span class="ctx-highlight">I\'m a fan of...</span> = sou fã de. <span class="ctx-highlight">...is my thing</span> = é o que me define.',
+  },
+  {
+    phrase:'"What\'s your name?"',
+    basic:'My name is Alex.',
+    basicNote:'"My name is" soa formal — como apresentação em reunião.',
+    better:["I'm Alex.", "People call me Alex.", "Just call me Alex.", "You can call me Alex."],
+    context:'<span class="ctx-highlight">I\'m Alex</span> é o padrão absoluto no inglês cotidiano. <span class="ctx-highlight">Just call me...</span> é ótimo para nomes difíceis de pronunciar ou apelidos.',
+  },
+  {
+    phrase:'"Where are you going?"',
+    basic:'I am going to the market.',
+    basicNote:'Correto, mas existe formas muito mais naturais.',
+    better:["I'm heading to the market.", "I'm off to the market.", "I'm on my way to the market."],
+    context:'<span class="ctx-highlight">heading to</span> / <span class="ctx-highlight">off to</span> / <span class="ctx-highlight">on my way to</span> são maneiras nativas de dizer para onde vai. <span class="ctx-highlight">I\'m off!</span> sozinho = "Estou indo!"',
+  },
+  {
+    phrase:'"Can you help me?"',
+    basic:'Yes, I can help.',
+    basicNote:'Correto mas soa mecânico. Nativos são mais expressivos.',
+    better:["Sure, I'd be glad to help.", "Of course! What do you need?", "Absolutely, what's up?", "Happy to help!"],
+    context:'<span class="ctx-highlight">Sure</span> é a palavra mais natural para concordar em inglês americano. <span class="ctx-highlight">Happy to help</span> soa caloroso e educado — ótimo no trabalho.',
+  },
+  {
+    phrase:'"Thank you so much."',
+    basic:'Welcome.',
+    basicNote:'ERRO CLÁSSICO: "Welcome" sozinho está errado! Falta "You\'re".',
+    better:["You're welcome!", "Anytime!", "No problem.", "Don't mention it.", "Happy to help."],
+    context:'<span class="ctx-highlight">No problem</span> e <span class="ctx-highlight">Anytime</span> são os mais usados no dia a dia americano. <span class="ctx-highlight">You\'re welcome</span> é mais formal. O erro clássico do brasileiro: dizer só "Welcome" sem o "You\'re".',
+  },
+  {
+    phrase:'"I\'m sorry."',
+    basic:"I'm sorry. (pode ser expandido)",
+    basicNote:'Funciona, mas há opções mais ricas para cada contexto.',
+    better:["My bad.", "I apologize.", "I'm so sorry about that.", "That was my fault.", "I didn't mean to."],
+    context:'<span class="ctx-highlight">My bad</span> = informal, entre amigos. <span class="ctx-highlight">I apologize</span> = formal, trabalho. <span class="ctx-highlight">I didn\'t mean to</span> = não foi intencional. <span class="ctx-highlight">That was my fault</span> = assumindo responsabilidade total.',
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let current = 0;
+let revealed = new Array(10).fill(false);
+let quizMode = false;
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render(idx, animate) {
+  const s = SITUATIONS[idx];
+  const card = document.getElementById('situCard');
+
+  if (animate) {
+    card.classList.remove('anim');
+    void card.offsetWidth;
+    card.classList.add('anim');
+  }
+
+  document.getElementById('sitTag').textContent = `Situação ${String(idx+1).padStart(2,'0')}`;
+  document.getElementById('sitPhrase').textContent = s.phrase;
+  document.getElementById('basicPhrase').textContent = s.basic;
+  document.getElementById('basicNote').textContent = s.basicNote;
+  document.getElementById('progNum').textContent = `${idx+1} / 10`;
+  document.getElementById('progFill').style.width = `${(idx+1)*10}%`;
+
+  // Better phrases
+  const bp = document.getElementById('betterPhrases');
+  bp.innerHTML = s.better.map((p,i) =>
+    `<div class="better-phrase${revealed[idx] ? ' show' : ''}" style="transition-delay:${i*0.07}s">${p}</div>`
+  ).join('');
+
+  // Lock
+  document.getElementById('lockOverlay').classList.toggle('hidden', revealed[idx]);
+
+  // Context
+  const ctx = document.getElementById('ctxSection');
+  ctx.classList.toggle('show', revealed[idx]);
+  document.getElementById('ctxText').innerHTML = s.context;
+
+  // Reveal btn
+  const revBtn = document.getElementById('revealBtn');
+  revBtn.disabled = revealed[idx];
+  revBtn.textContent = revealed[idx] ? '✓ Revelado' : '👁 Ver resposta de nativo';
+
+  // Nav btns
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === 9;
+
+  // Quiz
+  const qSec = document.getElementById('quizSection');
+  qSec.classList.toggle('show', quizMode && !revealed[idx]);
+  const qi = document.getElementById('quizInput');
+  qi.value = '';
+  qi.classList.remove('correct');
+
+  // Dots
+  renderDots(idx);
+}
+
+function renderDots(active) {
+  const nav = document.getElementById('dotsNav');
+  nav.innerHTML = SITUATIONS.map((_,i) => {
+    let cls = 'dot-n';
+    if (i === active) cls += ' current';
+    else if (revealed[i]) cls += ' done';
+    return `<button class="${cls}" onclick="goTo(${i})" title="Situação ${i+1}"></button>`;
+  }).join('');
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+function reveal() {
+  revealed[current] = true;
+  // Animate better phrases
+  document.querySelectorAll('.better-phrase').forEach((el, i) => {
+    setTimeout(() => el.classList.add('show'), i * 70);
+  });
+  document.getElementById('lockOverlay').classList.add('hidden');
+  setTimeout(() => {
+    const ctx = document.getElementById('ctxSection');
+    ctx.classList.add('show');
+  }, 250);
+  document.getElementById('revealBtn').disabled = true;
+  document.getElementById('revealBtn').textContent = '✓ Revelado';
+  document.getElementById('quizSection').classList.remove('show');
+  renderDots(current);
+}
+
+function go(dir) {
+  const next = current + dir;
+  if (next < 0 || next > 9) return;
+  current = next;
+  render(current, true);
+}
+
+function goTo(idx) {
+  current = idx;
+  render(current, true);
+}
+
+function toggleQuiz() {
+  quizMode = !quizMode;
+  const btn = document.getElementById('quizToggle');
+  btn.classList.toggle('on', quizMode);
+  btn.textContent = quizMode ? '✏️ Quiz Ativo' : '✏️ Modo Quiz';
+  revealed = new Array(10).fill(false);
+  render(current, false);
+}
+
+// Quiz input — pressing Enter reveals
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('quizInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.target.classList.add('correct');
+      setTimeout(reveal, 200);
+    }
+  });
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!revealed[current]) reveal(); }
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+render(0, false);
+</script>
+</body>
+</html>

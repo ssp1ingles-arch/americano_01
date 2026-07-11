@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE — O / A / OS / AS | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#090810;--surface:#100e1a;--surface2:#181428;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#AB47BC;
+  --the:#CE93D8;
+  --with:#66BB6A;--without:#FF7043;
+  --tip:#5FD87A;--warn:#FF7043;--en:#CE93D8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(171,71,188,.1);color:var(--accent);border:1px solid rgba(171,71,188,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,6vw,60px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:580px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#12031a 0%,var(--bg) 65%);}
+#heroCanvas{width:100%;height:420px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.06em;background:rgba(9,8,16,.85);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* THE KEY BOX */
+.key-wrap{max-width:820px;margin:0 auto;padding:40px 24px;border-bottom:1px solid var(--border);}
+.key-box{background:var(--surface2);border:1.5px solid rgba(171,71,188,.3);border-radius:16px;padding:26px 30px;}
+.key-label{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.key-rule{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:18px;}
+.key-rule strong{color:var(--the);}
+.key-flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.kf-step{text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:150px;}
+.kf-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.kf-art{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.kf-ex{font-size:13px;color:var(--muted);}
+.kf-arrow{font-size:24px;color:var(--muted);flex-shrink:0;}
+.key-note{font-size:13px;color:var(--muted);margin-top:14px;}
+.key-note strong{color:var(--the);}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.sec-tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:5px;text-transform:uppercase;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.sec-title em{font-style:italic;color:var(--the);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.sittag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:5px;background:rgba(171,71,188,.1);color:var(--accent);border:1px solid rgba(171,71,188,.2);}
+.ten{font-size:14px;font-weight:500;}
+.ten strong{font-weight:900;color:var(--the);}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:10px;}
+.info{background:rgba(171,71,188,.08);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--the);margin-top:10px;}
+
+/* GEO GRID */
+.geo-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+.geo-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.geo-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:14px;}
+.geo-item{padding:8px 0;border-bottom:1px solid var(--border);}
+.geo-item:last-child{border-bottom:none;}
+.geo-en{font-size:14px;font-weight:600;margin-bottom:2px;}
+.geo-cat{font-size:11px;color:var(--muted);font-style:italic;}
+.geo-en strong{font-weight:900;}
+
+/* SUPER GRID */
+.super-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:6px;}
+.super-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;}
+.super-type{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+.super-en{font-size:15px;font-weight:600;margin-bottom:4px;}
+.super-en strong{color:var(--the);font-weight:900;}
+.super-pt{color:var(--muted);font-size:13px;}
+.super-rule{font-size:11px;color:rgba(206,147,216,.5);margin-top:6px;font-style:italic;}
+
+/* EXPRESSIONS */
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:6px;}
+.exp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:transform .2s;}
+.exp-card:hover{transform:translateY(-2px);}
+.exp-phrase{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--the);margin-bottom:5px;}
+.exp-en{font-size:13px;font-weight:500;margin-bottom:3px;}
+.exp-en strong{color:var(--the);font-weight:900;}
+.exp-pt{font-size:12px;color:var(--muted);}
+
+/* A vs AN vs THE comparison */
+.compare{background:var(--surface2);border:1.5px solid rgba(171,71,188,.2);border-radius:14px;padding:22px;margin-bottom:20px;}
+.compare-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--the);margin-bottom:16px;}
+.compare-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.cc{text-align:center;padding:14px 10px;border-radius:10px;border:1px solid var(--border);}
+.cc-art{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:4px;}
+.cc-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.cc-rows{display:flex;flex-direction:column;gap:4px;}
+.cc-row{font-size:11px;padding:3px 7px;border-radius:5px;}
+
+/* ERROS */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:3px;font-weight:400;font-style:italic;}
+
+/* RESUMO */
+.resumo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.res-card{background:var(--surface);border:1px solid rgba(171,71,188,.25);border-radius:12px;padding:15px;}
+.res-icon{font-size:20px;margin-bottom:8px;}
+.res-title{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--the);margin-bottom:6px;letter-spacing:.04em;}
+.res-items{display:flex;flex-direction:column;gap:3px;}
+.res-item{font-size:12px;color:var(--muted);}
+.res-item strong{color:var(--text);font-weight:600;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:640px){.compare-cols{grid-template-columns:1fr;}.geo-cols{grid-template-columns:1fr;}.err-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 12 · Módulo 02</div>
+  <h1><span style="color:var(--the)">THE</span> = O / A / OS / AS</h1>
+  <p class="subtitle">Artigo Definido — algo específico, já conhecido por ambos. Único no mundo, já mencionado, ou o melhor/primeiro de todos.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · THE = específico, único, já conhecido</div>
+</div>
+
+<!-- KEY RULE BOX -->
+<div class="key-wrap">
+  <div class="key-box">
+    <div class="key-label">A regra fundamental</div>
+    <p class="key-rule"><strong>THE</strong> = "Os dois sabem de qual você está falando." É único, específico, ou foi mencionado antes.</p>
+    <div class="key-flow">
+      <div class="kf-step">
+        <div class="kf-label">1ª menção</div>
+        <div class="kf-art" style="color:#29B6F6">A / AN</div>
+        <div class="kf-ex">I saw <strong style="color:#29B6F6">a</strong> dog.</div>
+      </div>
+      <div class="kf-arrow">→</div>
+      <div class="kf-step">
+        <div class="kf-label">2ª menção (já sabemos)</div>
+        <div class="kf-art" style="color:var(--the)">THE</div>
+        <div class="kf-ex"><strong style="color:var(--the)">The</strong> dog was brown.</div>
+      </div>
+      <div class="kf-arrow">→</div>
+      <div class="kf-step">
+        <div class="kf-label">único no mundo</div>
+        <div class="kf-art" style="color:var(--the)">THE</div>
+        <div class="kf-ex"><strong style="color:var(--the)">The</strong> sun / <strong style="color:var(--the)">the</strong> moon.</div>
+      </div>
+    </div>
+    <p class="key-note">No português dizemos "o/a" em quase tudo. Em inglês, <strong>THE só aparece quando algo é realmente específico</strong>. "I love dogs" (cães em geral, sem artigo) ≠ "I love the dogs" (aqueles cães específicos).</p>
+  </div>
+</div>
+
+<!-- A vs AN vs THE -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">CHAVE</span>
+    <h2 class="sec-title">A / AN / THE — qual usar?</h2>
+  </div>
+  <div class="compare">
+    <div class="compare-title">OS TRÊS ARTIGOS EM INGLÊS</div>
+    <div class="compare-cols">
+      <div class="cc" style="border-color:rgba(41,182,246,.2)">
+        <div class="cc-art" style="color:#29B6F6">A / AN</div>
+        <div class="cc-label">INDEFINIDO</div>
+        <div class="cc-rows">
+          <div class="cc-row" style="color:#29B6F6;background:rgba(41,182,246,.08)">qualquer um</div>
+          <div class="cc-row" style="color:var(--muted)">1ª menção</div>
+          <div class="cc-row" style="color:var(--muted)">singular contável</div>
+          <div class="cc-row" style="color:var(--muted);font-style:italic">a dog · an apple</div>
+        </div>
+      </div>
+      <div class="cc" style="border-color:rgba(171,71,188,.3)">
+        <div class="cc-art" style="color:var(--the)">THE</div>
+        <div class="cc-label">DEFINIDO</div>
+        <div class="cc-rows">
+          <div class="cc-row" style="color:var(--the);background:rgba(171,71,188,.1)">esse específico</div>
+          <div class="cc-row" style="color:var(--muted)">já conhecido</div>
+          <div class="cc-row" style="color:var(--muted)">singular e plural</div>
+          <div class="cc-row" style="color:var(--muted);font-style:italic">the dog · the dogs</div>
+        </div>
+      </div>
+      <div class="cc" style="border-color:rgba(255,255,255,.08)">
+        <div class="cc-art" style="color:var(--muted)">∅</div>
+        <div class="cc-label">SEM ARTIGO</div>
+        <div class="cc-rows">
+          <div class="cc-row" style="color:var(--muted);background:rgba(255,255,255,.04)">geral / categorial</div>
+          <div class="cc-row" style="color:var(--muted)">incontáveis</div>
+          <div class="cc-row" style="color:var(--muted)">plurais gerais</div>
+          <div class="cc-row" style="color:var(--muted);font-style:italic">dogs · water · Brazil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 1: QUANDO USAR THE -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">USO 1</span>
+    <h2 class="sec-title">Quando usar THE — <em>6 situações</em></h2>
+  </div>
+  <table>
+    <thead><tr><th>Situação</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="sittag">2ª menção</span></td>
+        <td class="ten">I saw a dog. <strong>The</strong> dog was brown.</td>
+        <td class="tpt">Vi um cachorro. O cachorro era marrom.</td>
+      </tr>
+      <tr>
+        <td><span class="sittag">Único no mundo</span></td>
+        <td class="ten"><strong>The</strong> sun is hot. <strong>The</strong> moon is bright.</td>
+        <td class="tpt">O sol é quente. A lua é brilhante.</td>
+      </tr>
+      <tr>
+        <td><span class="sittag">Único no contexto</span></td>
+        <td class="ten">Pass me <strong>the</strong> salt, please.</td>
+        <td class="tpt">Me passa o sal, por favor. (ambos sabem qual)</td>
+      </tr>
+      <tr>
+        <td><span class="sittag">Superlativo</span></td>
+        <td class="ten">She is <strong>the</strong> best student.</td>
+        <td class="tpt">Ela é a melhor aluna.</td>
+      </tr>
+      <tr>
+        <td><span class="sittag">Ordinal</span></td>
+        <td class="ten">It's on <strong>the</strong> second floor.</td>
+        <td class="tpt">Fica no segundo andar.</td>
+      </tr>
+      <tr>
+        <td><span class="sittag">Instrumento</span></td>
+        <td class="ten">She plays <strong>the</strong> piano.</td>
+        <td class="tpt">Ela toca piano.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 THE = os dois sabem de qual se fala. Se só você sabe (1ª menção), use A/AN. Se ninguém sabe (generalização), não use artigo.</div>
+</section>
+
+<!-- USO 2: GEOGRÁFICO -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">USO 2</span>
+    <h2 class="sec-title">THE com nomes geográficos</h2>
+  </div>
+  <div class="geo-cols">
+    <div class="geo-col" style="border-color:rgba(102,187,106,.2)">
+      <div class="geo-col-label" style="color:var(--with);background:rgba(102,187,106,.1);border:1px solid rgba(102,187,106,.2)">COM THE</div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> Amazon · <strong style="color:var(--the)">the</strong> Pacific</div>
+        <div class="geo-cat">rios e oceanos — sempre com THE</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> United States · <strong style="color:var(--the)">the</strong> UAE</div>
+        <div class="geo-cat">países com "of" ou siglas de estados</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> Alps · <strong style="color:var(--the)">the</strong> Andes</div>
+        <div class="geo-cat">cadeias de montanhas (plural)</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> Maldives · <strong style="color:var(--the)">the</strong> Canaries</div>
+        <div class="geo-cat">ilhas em grupo (plural)</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> Sahara · <strong style="color:var(--the)">the</strong> Middle East</div>
+        <div class="geo-cat">desertos e regiões nomeadas</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en"><strong style="color:var(--the)">the</strong> Atlantic · <strong style="color:var(--the)">the</strong> Mediterranean</div>
+        <div class="geo-cat">mares e oceanos</div>
+      </div>
+    </div>
+    <div class="geo-col" style="border-color:rgba(255,112,67,.2)">
+      <div class="geo-col-label" style="color:var(--warn);background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2)">SEM THE</div>
+      <div class="geo-item">
+        <div class="geo-en">Brazil · France · Japan</div>
+        <div class="geo-cat">países com nome simples</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en">Mount Everest · Pão de Açúcar</div>
+        <div class="geo-cat">montanhas singulares nomeadas</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en">Madeira · Bermuda</div>
+        <div class="geo-cat">ilhas singulares</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en">South America · Asia · Europe</div>
+        <div class="geo-cat">continentes (em geral)</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en">São Paulo · London · Tokyo</div>
+        <div class="geo-cat">cidades</div>
+      </div>
+      <div class="geo-item">
+        <div class="geo-en">Lake Titicaca · Lake Ontario</div>
+        <div class="geo-cat">lagos com "Lake" antes</div>
+      </div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:14px">💡 Regra geral: coletivos e plurais geográficos → THE. Nomes únicos e próprios simples → sem THE. Rios e oceanos: sempre THE (the Amazon, the Atlantic).</div>
+</section>
+
+<!-- USO 3: SUPERLATIVO + ORDINAL -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">USO 3</span>
+    <h2 class="sec-title">THE com superlativo e ordinais</h2>
+  </div>
+  <div class="super-grid">
+    <div class="super-card">
+      <div class="super-type">Superlativo</div>
+      <div class="super-en">She is <strong>the</strong> most beautiful.</div>
+      <div class="super-pt">Ela é a mais bonita.</div>
+      <div class="super-rule">superlativo SEMPRE com THE</div>
+    </div>
+    <div class="super-card">
+      <div class="super-type">Superlativo</div>
+      <div class="super-en">It's <strong>the</strong> best movie ever.</div>
+      <div class="super-pt">É o melhor filme de todos.</div>
+      <div class="super-rule">the best / the worst / the biggest</div>
+    </div>
+    <div class="super-card">
+      <div class="super-type">Ordinal</div>
+      <div class="super-en"><strong>The</strong> first time is always hard.</div>
+      <div class="super-pt">A primeira vez é sempre difícil.</div>
+      <div class="super-rule">ordinais: the first, the second...</div>
+    </div>
+    <div class="super-card">
+      <div class="super-type">Ordinal</div>
+      <div class="super-en">I live on <strong>the</strong> third floor.</div>
+      <div class="super-pt">Moro no terceiro andar.</div>
+      <div class="super-rule">ordinais com THE — específico por posição</div>
+    </div>
+    <div class="super-card">
+      <div class="super-type">Único</div>
+      <div class="super-en"><strong>The</strong> only problem is money.</div>
+      <div class="super-pt">O único problema é dinheiro.</div>
+      <div class="super-rule">"the only" = o único</div>
+    </div>
+    <div class="super-card">
+      <div class="super-type">Superlativo</div>
+      <div class="super-en">He runs <strong>the</strong> fastest.</div>
+      <div class="super-pt">Ele corre mais rápido de todos.</div>
+      <div class="super-rule">the fastest / the slowest / the tallest</div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:14px">⚠️ Superlativo SEMPRE com THE — sem exceção. "She is the best." · "It's the biggest city." · "The most important thing." Nunca omita THE no superlativo.</div>
+</section>
+
+<!-- USO 4: EXPRESSÕES FIXAS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">USO 4</span>
+    <h2 class="sec-title">THE em expressões fixas</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Aprenda como blocos prontos — não tente analisar cada THE individualmente.</p>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <div class="exp-phrase">the same</div>
+      <div class="exp-en">We have <strong>the same</strong> problem.</div>
+      <div class="exp-pt">Temos o mesmo problema.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">in the end</div>
+      <div class="exp-en"><strong>In the end</strong>, it worked.</div>
+      <div class="exp-pt">No final das contas, funcionou.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">at the time</div>
+      <div class="exp-en"><strong>At the time</strong>, I was a student.</div>
+      <div class="exp-pt">Na época, eu era estudante.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">on the way</div>
+      <div class="exp-en">I'm <strong>on the way</strong>.</div>
+      <div class="exp-pt">Estou a caminho.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">the more...the more</div>
+      <div class="exp-en"><strong>The more</strong> I study, <strong>the more</strong> I learn.</div>
+      <div class="exp-pt">Quanto mais estudo, mais aprendo.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">in the morning</div>
+      <div class="exp-en">I work out <strong>in the morning</strong>.</div>
+      <div class="exp-pt">Eu me exercito de manhã.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">at the moment</div>
+      <div class="exp-en">I'm busy <strong>at the moment</strong>.</div>
+      <div class="exp-pt">Estou ocupado no momento.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-phrase">on the other hand</div>
+      <div class="exp-en"><strong>On the other hand</strong>, it's cheap.</div>
+      <div class="exp-pt">Por outro lado, é barato.</div>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:16px">💡 "in the morning / afternoon / evening" — mas "at night" (sem THE). Aprenda como blocos prontos, não regra por regra.</div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Erros clássicos do brasileiro</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong">I love <em>the</em> Brazil.
+        <span class="err-note">Países simples → sem THE</span>
+      </div>
+      <div class="err-item err-wrong">She is <em>the</em> engineer.
+        <span class="err-note">Profissão → A/AN, não THE</span>
+      </div>
+      <div class="err-item err-wrong">I love <em>the</em> dogs. (em geral)
+        <span class="err-note">Generalização → sem artigo: "I love dogs"</span>
+      </div>
+      <div class="err-item err-wrong">She is <em>the</em> beautiful.
+        <span class="err-note">Adjetivo sozinho → sem THE (só com superlativo)</span>
+      </div>
+      <div class="err-item err-wrong">I go to <em>the</em> work every day.
+        <span class="err-note">"go to work" — sem THE em expressões fixas de destino</span>
+      </div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">I love Brazil.
+        <span class="err-note">País simples → sem THE</span>
+      </div>
+      <div class="err-item err-right">She is an engineer.
+        <span class="err-note">Profissão → A/AN</span>
+      </div>
+      <div class="err-item err-right">I love dogs.
+        <span class="err-note">Generalização → sem artigo</span>
+      </div>
+      <div class="err-item err-right">She is the most beautiful.
+        <span class="err-note">Superlativo → THE + most + adjetivo</span>
+      </div>
+      <div class="err-item err-right">I go to work every day.
+        <span class="err-note">go to work / go to school / go to church → sem THE</span>
+      </div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:14px">⚠️ Atenção: "go to the hospital" (fui como visitante/paciente) vs "go to hospital" (British English). "go to school" = sem THE em inglês americano. As expressões de destino costumam omitir THE.</div>
+</section>
+
+<!-- RESUMO -->
+<section class="sec" style="border-bottom:none;">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--the);background:rgba(171,71,188,.1);border:1px solid rgba(171,71,188,.2)">RESUMO</span>
+    <h2 class="sec-title">THE em uma página</h2>
+  </div>
+  <div class="resumo-grid">
+    <div class="res-card">
+      <div class="res-icon">🔁</div>
+      <div class="res-title">2ª menção</div>
+      <div class="res-items">
+        <div class="res-item"><strong>A</strong> dog → <strong style="color:var(--the)">the</strong> dog</div>
+        <div class="res-item">Mencionado antes → THE</div>
+      </div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">☀️</div>
+      <div class="res-title">Único no mundo</div>
+      <div class="res-items">
+        <div class="res-item"><strong style="color:var(--the)">the</strong> sun · <strong style="color:var(--the)">the</strong> moon</div>
+        <div class="res-item"><strong style="color:var(--the)">the</strong> sky · <strong style="color:var(--the)">the</strong> Earth</div>
+      </div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">🏆</div>
+      <div class="res-title">Superlativo</div>
+      <div class="res-items">
+        <div class="res-item"><strong style="color:var(--the)">the</strong> best · <strong style="color:var(--the)">the</strong> most</div>
+        <div class="res-item">SEMPRE com THE, sem exceção</div>
+      </div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">1️⃣</div>
+      <div class="res-title">Ordinal</div>
+      <div class="res-items">
+        <div class="res-item"><strong style="color:var(--the)">the</strong> first · <strong style="color:var(--the)">the</strong> second</div>
+        <div class="res-item"><strong style="color:var(--the)">the</strong> last · <strong style="color:var(--the)">the</strong> only</div>
+      </div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">🎹</div>
+      <div class="res-title">Instrumentos</div>
+      <div class="res-items">
+        <div class="res-item">play <strong style="color:var(--the)">the</strong> piano</div>
+        <div class="res-item">play <strong style="color:var(--the)">the</strong> guitar</div>
+      </div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">🌍</div>
+      <div class="res-title">Geografia</div>
+      <div class="res-items">
+        <div class="res-item"><strong style="color:var(--the)">the</strong> Amazon · <strong style="color:var(--the)">the</strong> Alps</div>
+        <div class="res-item">Sem THE: Brazil, London</div>
+      </div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:18px">🔑 THE = O/A/OS/AS (específico, único, já conhecido). A/AN = UM/UMA (indefinido, 1ª menção). Sem artigo = generalização, incontável, nomes próprios simples.</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 12: Artigo THE</footer>
+
+<script>
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,3,13); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=420;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.35;
+hCtrl.minDistance=8; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.4));
+var hDir=new THREE.DirectionalLight(0xffffff,.9); hDir.position.set(6,10,7); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x090810,0x090810));
+
+function mkSph(col,r,emit){
+  return new THREE.Mesh(new THREE.SphereGeometry(r||.2,14,14),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));
+}
+
+// Central THE sphere
+var theSph=mkSph(0xAB47BC,1.1,.5); theSph.position.set(0,1,0); hScene.add(theSph);
+var theLight=new THREE.PointLight(0xCE93D8,2.5,8); theLight.position.set(0,1,0); hScene.add(theLight);
+
+// Crown ring
+var crown=new THREE.Mesh(new THREE.TorusGeometry(1.45,.06,8,64),new THREE.MeshPhongMaterial({color:0xCE93D8,emissive:0xCE93D8,emissiveIntensity:.5}));
+crown.position.y=1; crown.rotation.x=Math.PI/2; hScene.add(crown);
+
+// Orbiting word spheres — categories
+var WORDS=[
+  // Unique in world (yellow)
+  {t:'the sun',    col:0xFFD54F, r:4.2, a:0,     spd:.25},
+  {t:'the moon',   col:0xFFD54F, r:4.2, a:1.1,   spd:.25},
+  {t:'the Earth',  col:0x64B5F6, r:4.2, a:2.2,   spd:.25},
+  // Superlatives (green)
+  {t:'the best',   col:0x66BB6A, r:5.8, a:.5,    spd:.18},
+  {t:'the first',  col:0x66BB6A, r:5.8, a:1.8,   spd:.18},
+  {t:'the most',   col:0x66BB6A, r:5.8, a:3.0,   spd:.18},
+  // Geography (teal)
+  {t:'the Amazon', col:0x4DD0E1, r:3.5, a:3.8,   spd:-.30},
+  {t:'the Alps',   col:0x4DD0E1, r:3.5, a:5.0,   spd:-.30},
+  {t:'the Pacific',col:0x4DD0E1, r:3.5, a:2.5,   spd:-.30},
+  // Instruments (pink)
+  {t:'the piano',  col:0xF48FB1, r:5.0, a:4.5,   spd:.22},
+  {t:'the guitar', col:0xF48FB1, r:5.0, a:5.9,   spd:.22},
+  // Context
+  {t:'the salt',   col:0xCE93D8, r:6.5, a:1.2,   spd:.15},
+  {t:'the answer', col:0xCE93D8, r:6.5, a:3.5,   spd:.15},
+  {t:'the end',    col:0xCE93D8, r:6.5, a:5.2,   spd:.15},
+];
+
+var orbs=[];
+WORDS.forEach(function(w){
+  var orb=mkSph(w.col,.1,.35); orb.position.set(Math.cos(w.a)*w.r,.5,Math.sin(w.a)*w.r); hScene.add(orb);
+  var lbl=document.createElement('div'); lbl.className='hlabel'; lbl.style.color='#'+w.col.toString(16).padStart(6,'0'); lbl.style.borderColor='rgba('+((w.col>>16)&255)+','+((w.col>>8)&255)+','+(w.col&255)+',.35)'; lbl.textContent=w.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbs.push({m:orb,lbl:lbl,r:w.r,a:w.a,spd:w.spd});
+});
+
+// Background particles
+for(var i=0;i<60;i++){var p=mkSph(0xAB47BC,.03,.2);p.position.set((Math.random()-.5)*18,Math.random()*5,(Math.random()-.5)*18);hScene.add(p);}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  var pulse=1.8+Math.sin(hT*2)*.7; theLight.intensity=pulse;
+  theSph.rotation.y+=.004; crown.rotation.z+=.005;
+  orbs.forEach(function(o){
+    o.a+=o.spd*.01;
+    o.m.position.x=Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.65;
+    o.m.position.y=.5+Math.sin(o.a*.5)*.2;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth,h=420;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*h)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

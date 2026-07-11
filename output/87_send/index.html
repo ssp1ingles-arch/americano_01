@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L87 · SEND · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.fam-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.fc{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:.3rem;}
+
+/* double object */
+.dobj{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.do-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.7rem;}
+.do-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.do-item{background:var(--s2);border-radius:.65rem;padding:.85rem 1rem;border:1px solid var(--s3);}
+.do-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.do-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.do-pt{font-size:.78rem;color:var(--tm);}
+
+/* SEND vs GIVE panel */
+.two-panel{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem;}
+.tp-blue{background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.4);border-radius:.75rem;padding:.95rem 1.1rem;}
+.tp-grn{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:.75rem;padding:.95rem 1.1rem;}
+.tp-w{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.15rem;}
+.tp-sub{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--td);margin-bottom:.35rem;}
+.tp-ex{font-size:.79rem;color:var(--tm);font-style:italic;line-height:1.5;}
+
+/* collocations */
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.55rem;margin-bottom:.85rem;}
+.coll-item{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;}
+.coll-head{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--ca);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;}
+.coll-list{font-size:.78rem;color:var(--tm);line-height:1.7;}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .do-grid{grid-template-columns:1fr;}
+  .two-panel{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">SEND</h1>
+  <p class="hero-pt">enviar · mandar · expedir</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">SEND</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">SENT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">SENT</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"I sent you an email this morning."</div>
+    <div class="cl-pt">Eu te enviei um e-mail esta manhã.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + DOUBLE OBJECT -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">SEND — mnemônico e double object</div>
+    <div class="sd">SEND → SENT · família -END → -ENT · SEND + pessoa + coisa</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família -END → -ENT (troca D por T)</div>
+    <div class="mn-body">SEND → SENT: troca o D pelo T. Família com o mesmo padrão:<br>"I SEND it, it's SENT — like a letter I LENT, money I SPENT, rules I BENT."</div>
+    <div class="fam-chips">
+      <span class="fc">SEND→SENT</span>
+      <span class="fc">BEND→BENT</span>
+      <span class="fc">LEND→LENT</span>
+      <span class="fc">SPEND→SPENT</span>
+      <span class="fc">REND→RENT (literário)</span>
+    </div>
+  </div>
+
+  <!-- Double object -->
+  <div class="dobj">
+    <div class="do-t">SEND + duplo objeto — duas estruturas válidas</div>
+    <div class="do-grid">
+      <div class="do-item">
+        <div class="do-label">Estrutura 1 — SEND + pessoa + coisa</div>
+        <div class="do-ex">"She sent him a message."</div>
+        <div class="do-pt">Ela enviou uma mensagem para ele.</div>
+      </div>
+      <div class="do-item">
+        <div class="do-label">Estrutura 2 — SEND + coisa + TO + pessoa</div>
+        <div class="do-ex">"She sent a message to him."</div>
+        <div class="do-pt">Ela enviou uma mensagem para ele.</div>
+      </div>
+    </div>
+    <div class="nt nt-err" style="margin-top:.75rem">"She sent to him a message." ✗ — nunca SEND + TO + pessoa + coisa nessa ordem. SEND faz parte do grupo: BUY · SELL · GIVE · SEND · SHOW · BRING — todos com o mesmo padrão double object.</div>
+  </div>
+
+  <!-- SEND vs GIVE -->
+  <div class="two-panel">
+    <div class="tp-blue">
+      <div class="tp-w" style="color:var(--ca)">SEND</div>
+      <div class="tp-sub">à distância — destinatário ausente</div>
+      <div class="tp-ex">"I'll send it to you." (você não está aqui)<br>"Send me the file." (por e-mail/app)<br>"Send a card to grandma."</div>
+    </div>
+    <div class="tp-grn">
+      <div class="tp-w" style="color:var(--gn)">GIVE</div>
+      <div class="tp-sub">em pessoa — destinatário presente</div>
+      <div class="tp-ex">"I'll give it to you." (você está aqui)<br>"Give me the file." (pessoalmente)<br>"Give grandma a hug."</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — send / sends</div>
+    <div class="sd">HE / SHE / IT → SENDS · SEND TO · SEND BY · colocações frequentes</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>send</strong> status updates to the team every Friday.</td><td class="cpt">Envio atualizações de status para a equipe toda sexta.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Can you <strong>send</strong> me the document?</td><td class="cpt">Você pode me enviar o documento?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>sends</strong> his mom flowers every Mother's Day.</td><td class="cpt">Ele envia flores para a mãe todo Dia das Mães.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>sends</strong> a weekly newsletter to her subscribers.</td><td class="cpt">Ela envia um newsletter semanal para seus assinantes.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The app <strong>sends</strong> push notifications automatically.</td><td class="cpt">O app envia notificações automáticas.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>send</strong> invoices at the end of every month.</td><td class="cpt">Enviamos faturas no final de cada mês.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>send</strong> packages worldwide.</td><td class="cpt">Eles enviam pacotes para o mundo todo.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → SENDS (com -S). "She send newsletters." ✗ → "She SENDS newsletters." ✓ · "The app send notifications." ✗ → "The app SENDS notifications." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — sent (irregular)</div>
+    <div class="sd">SEND → SENT · "Did you get my message?" / "I already sent it!"</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>sent</strong> you an email this morning.</td><td class="cpt">Te enviei um e-mail esta manhã.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>send</strong> the report to the client?</td><td class="cpt">Você enviou o relatório para o cliente?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>sent</strong> flowers on her birthday.</td><td class="cpt">Ele enviou flores no aniversário dela.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>sent</strong> her resume to 50 companies.</td><td class="cpt">Ela enviou o currículo para 50 empresas.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The system <strong>sent</strong> an automatic confirmation.</td><td class="cpt">O sistema enviou uma confirmação automática.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>sent</strong> the package by express delivery.</td><td class="cpt">Enviamos o pacote por entrega expressa.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>sent</strong> mixed messages about the project.</td><td class="cpt">Eles mandaram sinais contraditórios sobre o projeto.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't SEND the email." ✓ / "I didn't SENT the email." ✗ — DIDN'T + base SEND. Particípio: "I have SENT it already." ✓ — SENT com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: COLOCAÇÕES -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">O que se envia com SEND</div>
+    <div class="sd">SEND + mensagem · arquivo · dinheiro · pessoa · sinal</div></div>
+  </div>
+
+  <div class="coll-grid">
+    <div class="coll-item">
+      <div class="coll-head">Comunicação</div>
+      <div class="coll-list">send an email<br>send a message<br>send a text<br>send a letter<br>send an invitation</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Arquivos</div>
+      <div class="coll-list">send a file<br>send a photo<br>send a document<br>send a link<br>send a report</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Objetos / Dinheiro</div>
+      <div class="coll-list">send a package<br>send money<br>send flowers<br>send a gift<br>send a card</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Pessoas / Sinais</div>
+      <div class="coll-list">send someone home<br>send regards<br>send a signal<br>send mixed messages<br>send shivers</div>
+    </div>
+  </div>
+  <div class="nt nt-tip">SEND REGARDS = dar lembranças: "Send my regards to your family." ✓ / SEND MIXED MESSAGES = mandar sinais contraditórios: "His behavior sends mixed messages." ✓</div>
+</section>
+
+<!-- SEÇÃO 5: PHRASAL VERBS -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Phrasal verbs com SEND</div>
+    <div class="sd">SEND OUT · SEND OFF · SEND BACK · SEND FOR · SEND IN · SEND OVER</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">SEND OUT</div>
+      <div class="pv-pt">enviar em massa / distribuir</div>
+      <div class="pv-ex">"They sent out invitations." / "The sun sends out heat."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SEND OFF</div>
+      <div class="pv-pt">(1) enviar pelo correio (2) expulsar (jogo)</div>
+      <div class="pv-ex">"I sent the package off." / "The player was sent off."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SEND BACK</div>
+      <div class="pv-pt">devolver / retornar</div>
+      <div class="pv-ex">"I need to send it back." / "Send the form back."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SEND FOR</div>
+      <div class="pv-pt">mandar buscar / chamar</div>
+      <div class="pv-ex">"Send for help!" / "They sent for a doctor."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SEND IN</div>
+      <div class="pv-pt">enviar (candidatura/formulário)</div>
+      <div class="pv-ex">"Send in your application by Friday." / "Readers sent in their questions."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">SEND OVER</div>
+      <div class="pv-pt">enviar para alguém (digital/físico)</div>
+      <div class="pv-ex">"Can you send it over?" / "I'll send someone over."</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com SEND</div>
+    <div class="sd">E-mails · presentes · mensagens · expressões</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Can you <strong>send</strong> me the file?</div><div class="ph-pt">Você pode me enviar o arquivo?</div></div>
+    <div class="ph"><div class="ph-en">I <strong>sent</strong> you an email this morning.</div><div class="ph-pt">Te enviei um e-mail esta manhã.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Send</strong> my regards to your family.</div><div class="ph-pt">Dê lembranças minha à sua família.</div></div>
+    <div class="ph"><div class="ph-en">The system <strong>sends</strong> alerts automatically.</div><div class="ph-pt">O sistema envia alertas automaticamente.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Send</strong> it back if you don't like it.</div><div class="ph-pt">Devolva se não gostar.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>sent</strong> out 200 invitations.</div><div class="ph-pt">Ela enviou 200 convites.</div></div>
+    <div class="ph"><div class="ph-en">Can you <strong>send</strong> it over?</div><div class="ph-pt">Pode me mandar / encaminhar?</div></div>
+    <div class="ph"><div class="ph-en">He has already <strong>sent</strong> the report.</div><div class="ph-pt">Ele já enviou o relatório.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I sended the email."</div>
+      <div class="ecr">✓ "I sent the email."</div>
+      <div class="ecd">SEND é irregular: SEND → SENT → SENT. "I SENT the email." ✓ — "sended" não existe. Família -END→-ENT: SEND·BEND·LEND·SPEND — todos trocam D por T. Passado = particípio = SENT.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She sent to him a message."</div>
+      <div class="ecr">✓ "She sent him a message." / "She sent a message to him."</div>
+      <div class="ecd">SEND + pessoa + coisa OU SEND + coisa + TO + pessoa. "She SENT HIM a message." ✓ / "She SENT a message TO HIM." ✓ — a ordem (SEND + TO + pessoa + coisa) ✗. Mesmo padrão de GIVE e BUY.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't sent the report."</div>
+      <div class="ecr">✓ "I didn't send the report."</div>
+      <div class="ecd">DIDN'T + base. "I didn't SEND the report." ✓ — depois de DIDN'T, base SEND (nunca SENT). "I didn't sent" ✗ — dois passados na mesma negação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Give me the file." (quando a pessoa está em outro lugar)</div>
+      <div class="ecr">✓ "Send me the file."</div>
+      <div class="ecd">GIVE = entrega em pessoa (destinatário presente). SEND = envio à distância (destinatário ausente). "SEND me the file." ✓ = envie por e-mail/app. "GIVE me the file." ✓ = me entregue pessoalmente. Brasileiros confundem porque "me manda o arquivo" usa "manda" para ambos.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has send 50 emails today."</div>
+      <div class="ecr">✓ "She has sent 50 emails today."</div>
+      <div class="ecd">HAVE + particípio SENT. "She has SENT 50 emails today." ✓ — "has send" ✗. SEND → SENT → SENT (passado = particípio). "Today" com present perfect ✓ — o dia ainda não terminou.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Send me back the document." (pronome objeto + back)</div>
+      <div class="ecr">✓ "Send the document back." / "Send it back."</div>
+      <div class="ecd">Com objeto nominal: SEND + objeto + BACK: "Send the document BACK." ✓ Com pronome: SEND + pronome + BACK: "Send IT back." ✓ "Send me back the document" ✗ — a partícula BACK deve ficar junto ao objeto direto, não separada por outro complemento.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — SEND</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de SEND?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">sended</button>
+      <button class="qo" onclick="ans(this,'q1',true)">sent</button>
+      <button class="qo" onclick="ans(this,'q1',false)">selt</button>
+    </div>
+    <div class="qfb" id="q1fb">SEND → SENT (irregular). Família -END→-ENT: SEND·BEND·LEND·SPEND — todos trocam D por T. "I SENT you an email." ✓ — "sended" e "selt" não existem. Passado = particípio = SENT.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ela enviou uma mensagem para ele." → Double object, opção 1.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She sent to him a message.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She sent him a message.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She sent a message to he.</button>
+    </div>
+    <div class="qfb" id="q2fb">"She SENT HIM a message." ✓ — SEND + pessoa + coisa (Estrutura 1). "Sent to him a message" ✗ — ordem proibida. "Sent a message to HE" ✗ — usa-se HIM (objeto), não HE. "She SENT a message TO HIM." ✓ — Estrutura 2 também correta.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"O app envia notificações automáticas." → Hábito com IT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">The app send push notifications automatically.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">The app sends push notifications automatically.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">The app is sending push notifications automatically.</button>
+    </div>
+    <div class="qfb" id="q3fb">IT (the app) → SENDS (com -S). "The app SENDS push notifications automatically." ✓ — hábito com -S. "The app send" ✗ — falta -S. "The app is sending" = ação em andamento agora, não hábito automático.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">Qual a diferença entre SEND e GIVE neste contexto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">SEND é para objetos físicos; GIVE é para digitais.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">SEND = à distância (destinatário ausente); GIVE = em pessoa (destinatário presente).</button>
+      <button class="qo" onclick="ans(this,'q4',false)">São sinônimos — sempre intercambiáveis.</button>
+    </div>
+    <div class="qfb" id="q4fb">SEND = o destinatário não está presente — você envia de longe. "Send me the file." (por e-mail). GIVE = o destinatário está presente — entrega direta. "Give me the file." (pessoalmente). A diferença é física/espacial, não o tipo de objeto.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"I didn't ___ the report." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I didn't sent the report.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I didn't send the report.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I didn't sends the report.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I didn't SEND the report." ✓ — DIDN'T + base SEND. "didn't sent" ✗ — dois passados na mesma negação. "didn't sends" ✗ — SENDS é terceira pessoa do presente.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Eles enviaram 200 convites." → SEND OUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">They sent off 200 invitations.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">They sent out 200 invitations.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">They sent for 200 invitations.</button>
+    </div>
+    <div class="qfb" id="q6fb">"They SENT OUT 200 invitations." ✓ — SEND OUT = enviar em massa / distribuir. SEND OFF = (1) enviar pelo correio ou (2) expulsar (jogo). SEND FOR = mandar buscar / chamar. Cada phrasal tem significado específico.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"She has ___ 50 emails today." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">She has send 50 emails today.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">She has sent 50 emails today.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">She has sended 50 emails today.</button>
+    </div>
+    <div class="qfb" id="q7fb">"She has SENT 50 emails today." ✓ — HAVE + particípio SENT. "has send" ✗ — depois de HAS, particípio. "has sended" ✗ — não existe. SEND → SENT → SENT (passado = particípio).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Send for help!" significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Envie a ajuda (objeto físico).</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Chame ajuda! / Mande buscar ajuda!</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Espere pela ajuda.</button>
+    </div>
+    <div class="qfb" id="q8fb">"SEND FOR help!" = Chame ajuda! / Mande buscar socorro! — SEND FOR = mandar buscar / chamar alguém para vir. "Send for a doctor!" = Chame um médico! (mande alguém buscá-lo). Usado em situações de emergência ou quando se precisa que alguém venha.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Devolva se não gostar." → SEND BACK.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Send back it if you don't like it.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Send it back if you don't like it.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Send back the it if you don't like it.</button>
+    </div>
+    <div class="qfb" id="q9fb">"SEND IT BACK if you don't like it." ✓ — com pronome, a partícula BACK vem depois: SEND + pronome + BACK. "Send back it" ✗ — pronome não pode ficar depois da partícula. "Send the it" ✗ — artigo + pronome ✗. "Send the package BACK." ✓ — com nome, pode ir antes ou depois.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Send my regards to your family" significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">Envie o endereço para sua família.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">Dê lembranças minhas à sua família.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">Olhe para sua família com atenção.</button>
+    </div>
+    <div class="qfb" id="q10fb">"SEND MY REGARDS to your family." = Dê lembranças minhas à sua família. Expressão formal/educada. Variações: "Send my love to your family." (mais afetivo) / "Say hello to your family from me." (informal). REGARDS = cumprimentos / considerações.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">Qual verbo completou a família -END → -ENT junto com SEND?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">FIND → FOUND</button>
+      <button class="qo" onclick="ans(this,'q11',true)">SPEND → SPENT</button>
+      <button class="qo" onclick="ans(this,'q11',false)">BRING → BROUGHT</button>
+    </div>
+    <div class="qfb" id="q11fb">SPEND → SPENT ✓ — família -END→-ENT com SEND→SENT. Também: BEND→BENT / LEND→LENT. FIND→FOUND = família -IND→-OUND. BRING→BROUGHT = família -OUGHT. Cada família tem seu próprio padrão de mudança vocálica.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Envie sua candidatura até sexta." → SEND IN.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Send your application out by Friday.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Send in your application by Friday.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Send for your application by Friday.</button>
+    </div>
+    <div class="qfb" id="q12fb">"SEND IN your application by Friday." ✓ — SEND IN = enviar (candidatura, formulário, artigo, pergunta). "Send out" = enviar em massa para várias pessoas. "Send for" = mandar buscar/chamar. SEND IN tem sentido de submeter algo oficialmente.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../86_meet/index.html">← L86 MEET</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

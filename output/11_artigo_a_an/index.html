@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A / AN — UM / UMA | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080d12;--surface:#0f1820;--surface2:#162230;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#29B6F6;
+  --A:#FFA726;--AN:#66BB6A;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(41,182,246,.1);color:var(--accent);border:1px solid rgba(41,182,246,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at 30% 50%,#120800 0%,var(--bg) 55%);}
+#heroCanvas{width:100%;height:420px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(8,13,18,.82);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+.hero-split{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,.06);pointer-events:none;}
+.hero-tag{position:absolute;top:22px;font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;pointer-events:none;}
+.hero-tag-a{left:22%;color:var(--A);text-shadow:0 0 30px rgba(255,167,38,.4);}
+.hero-tag-an{right:22%;color:var(--AN);text-shadow:0 0 30px rgba(102,187,106,.4);}
+
+/* MAIN RULE */
+.rule-wrap{max-width:820px;margin:0 auto;padding:40px 24px;border-bottom:1px solid var(--border);}
+.rule-box{background:var(--surface2);border:1.5px solid rgba(41,182,246,.3);border-radius:16px;padding:24px 28px;display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;}
+.rb-side{text-align:center;}
+.rb-letter{font-family:'Space Grotesk',sans-serif;font-size:72px;font-weight:700;line-height:1;margin-bottom:8px;}
+.rb-label{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.rb-examples{display:flex;flex-direction:column;gap:4px;}
+.rb-ex{font-size:13px;padding:4px 12px;border-radius:6px;font-weight:500;}
+.rb-divider{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);}
+.rb-plus{font-size:28px;font-weight:300;}
+.rb-rule{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:6px 14px;border-radius:8px;background:rgba(41,182,246,.08);border:1px solid rgba(41,182,246,.2);color:var(--accent);}
+.sound-note{margin-top:18px;text-align:center;font-size:13px;color:var(--muted);}
+.sound-note strong{color:var(--accent);}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.sec-tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:5px;text-transform:uppercase;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.sec-title em{font-style:italic;color:var(--accent);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.atag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;padding:3px 10px;border-radius:6px;display:inline-block;min-width:38px;text-align:center;}
+.atag-a{color:var(--A);background:rgba(255,167,38,.12);border:1px solid rgba(255,167,38,.25);}
+.atag-an{color:var(--AN);background:rgba(102,187,106,.12);border:1px solid rgba(102,187,106,.25);}
+.ten{font-size:14px;font-weight:500;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:10px;}
+.info{background:rgba(41,182,246,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:10px;}
+
+/* SPECIAL CASES GRID */
+.special-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:6px;}
+.spec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:transform .2s;}
+.spec-card:hover{transform:translateY(-2px);}
+.spec-case{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.spec-word{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px;}
+.spec-why{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.spec-ex{font-size:13px;font-weight:500;padding:5px 10px;border-radius:6px;}
+
+/* QUIZ */
+.quiz-intro{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.quiz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;}
+.qcard{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .22s;user-select:none;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.qcard:hover{border-color:rgba(255,255,255,.15);transform:translateY(-2px);}
+.qcard.revealed-a{border-color:var(--A);background:rgba(255,167,38,.06);}
+.qcard.revealed-an{border-color:var(--AN);background:rgba(102,187,106,.06);}
+.qword{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:3px;}
+.qarticle{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;display:none;margin-bottom:3px;}
+.qrule{font-size:11px;color:var(--muted);display:none;}
+.qex{font-size:11px;display:none;margin-top:4px;font-style:italic;}
+.qprompt{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-top:4px;}
+.qcard.revealed .qprompt{display:none;}
+.qcard.revealed .qarticle,.qcard.revealed .qrule,.qcard.revealed .qex{display:block;}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;}
+.qbtn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.qbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* USAGE CARDS */
+.uso-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:6px;}
+.uso-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.uso-situation{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+.uso-en{font-size:14px;font-weight:600;margin-bottom:3px;}
+.uso-en strong{font-weight:900;color:var(--A);}
+.uso-pt{color:var(--muted);font-size:12px;}
+
+/* ERROR GRID */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:9px 12px;border-radius:8px;font-size:14px;margin-bottom:7px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:2px;font-weight:400;}
+
+/* WHEN NOT TO USE */
+.not-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:6px;}
+.not-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;}
+.not-situation{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--warn);margin-bottom:7px;}
+.not-wrong{font-size:13px;color:var(--warn);margin-bottom:4px;text-decoration:line-through;opacity:.7;}
+.not-right{font-size:14px;font-weight:600;color:var(--tip);}
+.not-pt{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* RESUMO */
+.resumo-box{background:var(--surface2);border:1.5px solid rgba(41,182,246,.2);border-radius:14px;padding:22px 26px;}
+.resumo-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.resumo-rows{display:flex;flex-direction:column;gap:10px;}
+.resumo-row{display:flex;align-items:flex-start;gap:14px;padding:9px 0;border-bottom:1px solid var(--border);}
+.resumo-row:last-child{border-bottom:none;}
+.resumo-art{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;min-width:48px;}
+.resumo-rule{font-size:13px;flex:1;color:var(--muted);}
+.resumo-rule strong{color:var(--text);}
+.resumo-exs{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;}
+.resumo-ex{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:500;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:640px){.rule-box{grid-template-columns:1fr;}.rb-divider{display:none;}.err-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 11 · Módulo 02</div>
+  <h1><span style="color:var(--A)">A</span> / <span style="color:var(--AN)">AN</span> = UM / UMA</h1>
+  <p class="subtitle">Artigo Indefinido — algo não específico, mencionado pela primeira vez. A regra depende do <strong style="color:var(--accent)">SOM</strong>, não da letra.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay">
+    <div class="hero-split"></div>
+    <div class="hero-tag hero-tag-a">A</div>
+    <div class="hero-tag hero-tag-an">AN</div>
+  </div>
+  <div class="hero-hint">↺ Arraste para girar · <span style="color:var(--A)">A</span> = som de consoante &nbsp;|&nbsp; <span style="color:var(--AN)">AN</span> = som de vogal</div>
+</div>
+
+<!-- THE SOUND RULE -->
+<div class="rule-wrap">
+  <div class="rule-box">
+    <div class="rb-side">
+      <div class="rb-letter" style="color:var(--A)">A</div>
+      <div class="rb-label" style="color:var(--A)">+ som de consoante</div>
+      <div class="rb-examples">
+        <div class="rb-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a <strong>d</strong>og · a <strong>t</strong>eacher</div>
+        <div class="rb-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a <strong>h</strong>ouse · a <strong>un</strong>iversity</div>
+        <div class="rb-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a <strong>car</strong> · a <strong>b</strong>ook</div>
+      </div>
+    </div>
+    <div class="rb-divider">
+      <div class="rb-plus">vs</div>
+      <div class="rb-rule">REGRA DO SOM</div>
+    </div>
+    <div class="rb-side">
+      <div class="rb-letter" style="color:var(--AN)">AN</div>
+      <div class="rb-label" style="color:var(--AN)">+ som de vogal (a, e, i, o, u)</div>
+      <div class="rb-examples">
+        <div class="rb-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an <strong>a</strong>pple · an <strong>e</strong>ngineer</div>
+        <div class="rb-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an <strong>h</strong>our · an <strong>u</strong>mbrella</div>
+        <div class="rb-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an <strong>i</strong>dea · an <strong>MBA</strong></div>
+      </div>
+    </div>
+  </div>
+  <p class="sound-note"><strong>ATENÇÃO:</strong> A regra é sempre pelo <strong>SOM</strong>, não pela letra. <em>"an hour"</em> — o H é mudo, soa <em>"aur"</em> (vogal). <em>"a university"</em> — o U soa <em>"iu"</em> (consoante).</p>
+</div>
+
+<!-- USO 1: A vs AN básico -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--accent);background:rgba(41,182,246,.1);border:1px solid rgba(41,182,246,.2)">USO 1</span>
+    <h2 class="sec-title">A vs AN — <em>os casos diretos</em></h2>
+  </div>
+  <table>
+    <thead><tr><th>Artigo</th><th>Inglês</th><th>Português</th><th>Som</th></tr></thead>
+    <tbody>
+      <tr><td><span class="atag atag-a">A</span></td><td class="ten">I have <strong>a</strong> dog.</td><td class="tpt">Eu tenho um cachorro.</td><td><span style="color:var(--muted);font-size:12px">d → consoante</span></td></tr>
+      <tr><td><span class="atag atag-a">A</span></td><td class="ten">She is <strong>a</strong> teacher.</td><td class="tpt">Ela é professora.</td><td><span style="color:var(--muted);font-size:12px">t → consoante</span></td></tr>
+      <tr><td><span class="atag atag-a">A</span></td><td class="ten">I need <strong>a</strong> minute.</td><td class="tpt">Preciso de um minuto.</td><td><span style="color:var(--muted);font-size:12px">m → consoante</span></td></tr>
+      <tr><td><span class="atag atag-an">AN</span></td><td class="ten">He is <strong>an</strong> engineer.</td><td class="tpt">Ele é engenheiro.</td><td><span style="color:var(--AN);font-size:12px">e → vogal</span></td></tr>
+      <tr><td><span class="atag atag-an">AN</span></td><td class="ten">I want <strong>an</strong> apple.</td><td class="tpt">Eu quero uma maçã.</td><td><span style="color:var(--AN);font-size:12px">a → vogal</span></td></tr>
+      <tr><td><span class="atag atag-an">AN</span></td><td class="ten">She has <strong>an</strong> idea.</td><td class="tpt">Ela tem uma ideia.</td><td><span style="color:var(--AN);font-size:12px">i → vogal</span></td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 Lembre: A e AN são a mesma palavra — "um/uma". A escolha é só sonora: easier to say "an apple" que "a apple".</div>
+</section>
+
+<!-- USO 2: CASOS ESPECIAIS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ATENÇÃO</span>
+    <h2 class="sec-title">Casos especiais — <em>som ≠ letra</em></h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px">Estas palavras enganam porque a letra e o som são diferentes. Sempre pense no <strong style="color:var(--accent)">som</strong>.</p>
+  <div class="special-grid">
+    <div class="spec-card" style="border-color:rgba(102,187,106,.25)">
+      <div class="spec-case">H mudo</div>
+      <div class="spec-word" style="color:var(--AN)">hour</div>
+      <div class="spec-why">H é mudo — soa "aur" (vogal) → <strong style="color:var(--AN)">AN</strong></div>
+      <div class="spec-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">Wait <strong>an</strong> hour.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(102,187,106,.25)">
+      <div class="spec-case">H mudo</div>
+      <div class="spec-word" style="color:var(--AN)">honest</div>
+      <div class="spec-why">H mudo — soa "onest" (vogal) → <strong style="color:var(--AN)">AN</strong></div>
+      <div class="spec-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">He is <strong>an</strong> honest man.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(255,167,38,.25)">
+      <div class="spec-case">H sonoro</div>
+      <div class="spec-word" style="color:var(--A)">house</div>
+      <div class="spec-why">H sonoro — soa "haus" (consoante) → <strong style="color:var(--A)">A</strong></div>
+      <div class="spec-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">She has <strong>a</strong> house.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(255,167,38,.25)">
+      <div class="spec-case">U = "iu" (consoante)</div>
+      <div class="spec-word" style="color:var(--A)">university</div>
+      <div class="spec-why">Soa "iu-ni-ver..." → começa com "iu" → <strong style="color:var(--A)">A</strong></div>
+      <div class="spec-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">It's <strong>a</strong> university.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(255,167,38,.25)">
+      <div class="spec-case">U = "iu" (consoante)</div>
+      <div class="spec-word" style="color:var(--A)">unique</div>
+      <div class="spec-why">Soa "iu-neek" → começa com "iu" → <strong style="color:var(--A)">A</strong></div>
+      <div class="spec-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">It's <strong>a</strong> unique place.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(102,187,106,.25)">
+      <div class="spec-case">U = "a" (vogal)</div>
+      <div class="spec-word" style="color:var(--AN)">umbrella</div>
+      <div class="spec-why">Soa "am-brela" → vogal → <strong style="color:var(--AN)">AN</strong></div>
+      <div class="spec-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">I need <strong>an</strong> umbrella.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(102,187,106,.25)">
+      <div class="spec-case">Sigla — vogal</div>
+      <div class="spec-word" style="color:var(--AN)">MBA</div>
+      <div class="spec-why">Pronuncia-se "em-bi-ei" → "em" = vogal → <strong style="color:var(--AN)">AN</strong></div>
+      <div class="spec-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">She has <strong>an</strong> MBA.</div>
+    </div>
+    <div class="spec-card" style="border-color:rgba(255,167,38,.25)">
+      <div class="spec-case">Sigla — consoante</div>
+      <div class="spec-word" style="color:var(--A)">PhD</div>
+      <div class="spec-why">Pronuncia-se "pi-eich-di" → "pi" = consoante → <strong style="color:var(--A)">A</strong></div>
+      <div class="spec-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">He has <strong>a</strong> PhD.</div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:16px">⚠️ "an hour" não é exceção — é a regra do som aplicada. O H de "hour" é mudo. O U de "university" soa "iu". Sempre pronuncie a palavra mentalmente antes de escolher A ou AN.</div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:#CE93D8;background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">QUIZ</span>
+    <h2 class="sec-title">A ou AN? — <em>clique para revelar</em></h2>
+  </div>
+  <p class="quiz-intro">Pense no som inicial da palavra, escolha mentalmente, depois clique para conferir.</p>
+  <div class="quiz-grid" id="quizGrid"></div>
+  <div class="quiz-controls">
+    <button class="qbtn" onclick="revealAll()">Revelar todos</button>
+    <button class="qbtn" onclick="resetAll()">Esconder todos</button>
+  </div>
+</section>
+
+<!-- USO 3: QUANDO USAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--accent);background:rgba(41,182,246,.1);border:1px solid rgba(41,182,246,.2)">USO 3</span>
+    <h2 class="sec-title">Quando usar A/AN</h2>
+  </div>
+  <div class="uso-grid">
+    <div class="uso-card">
+      <div class="uso-situation">1ª menção</div>
+      <div class="uso-en">I saw <strong>a</strong> dog. The dog was big.</div>
+      <div class="uso-pt">Vi um cachorro. O cachorro era grande.</div>
+    </div>
+    <div class="uso-card">
+      <div class="uso-situation">Profissão</div>
+      <div class="uso-en">She is <strong>a</strong> doctor.</div>
+      <div class="uso-pt">Ela é médica. (em inglês: "é UM médico")</div>
+    </div>
+    <div class="uso-card">
+      <div class="uso-situation">Um de muitos</div>
+      <div class="uso-en">Give me <strong>a</strong> pen.</div>
+      <div class="uso-pt">Me dê uma caneta (qualquer uma).</div>
+    </div>
+    <div class="uso-card">
+      <div class="uso-situation">Por vez / frequência</div>
+      <div class="uso-en">once <strong>a</strong> week · twice <strong>a</strong> day</div>
+      <div class="uso-pt">uma vez por semana · duas vezes por dia</div>
+    </div>
+    <div class="uso-card">
+      <div class="uso-situation">Exclamação</div>
+      <div class="uso-en">What <strong>a</strong> beautiful day!</div>
+      <div class="uso-pt">Que dia lindo!</div>
+    </div>
+    <div class="uso-card">
+      <div class="uso-situation">Com adjetivo + profissão</div>
+      <div class="uso-en">She is <strong>a</strong> nice doctor.</div>
+      <div class="uso-pt">Ela é uma médica simpática. (A/AN antes do adj)</div>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:18px">💡 A/AN = artigo INDEFINIDO — algo não específico. Após a primeira menção usa-se THE ("a dog → the dog"). A/AN só aparece com substantivos CONTÁVEIS no SINGULAR.</div>
+</section>
+
+<!-- USO 4: QUANDO NÃO USAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">USO 4</span>
+    <h2 class="sec-title">Quando NÃO usar A/AN</h2>
+  </div>
+  <div class="not-grid">
+    <div class="not-card">
+      <div class="not-situation">Plural</div>
+      <div class="not-wrong">I have a dogs.</div>
+      <div class="not-right">I have dogs.</div>
+      <div class="not-pt">Eu tenho cachorros.</div>
+    </div>
+    <div class="not-card">
+      <div class="not-situation">Incontável (água, leite, amor...)</div>
+      <div class="not-wrong">I want a water.</div>
+      <div class="not-right">I want water. / I want a glass of water.</div>
+      <div class="not-pt">Quero água. / Quero um copo d'água.</div>
+    </div>
+    <div class="not-card">
+      <div class="not-situation">Nome próprio</div>
+      <div class="not-wrong">He is a Pedro.</div>
+      <div class="not-right">He is Pedro.</div>
+      <div class="not-pt">Ele é Pedro.</div>
+    </div>
+    <div class="not-card">
+      <div class="not-situation">Incontável — love, music, money...</div>
+      <div class="not-wrong">I need a money.</div>
+      <div class="not-right">I need money.</div>
+      <div class="not-pt">Eu preciso de dinheiro.</div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:6px">⚠️ Para plurais/incontáveis sem artigo → "I have dogs" / "I want water". Para expressar quantidade → "some dogs" / "some water".</div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Erros clássicos do brasileiro</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong">She is <em>a</em> engineer.<span class="err-note">'engineer' começa com 'e' (vogal)</span></div>
+      <div class="err-item err-wrong">I want <em>a</em> umbrella.<span class="err-note">'umbrella' começa com 'u' (vogal)</span></div>
+      <div class="err-item err-wrong">Wait <em>a</em> hour.<span class="err-note">'hour' — H mudo, soa 'aur' (vogal)</span></div>
+      <div class="err-item err-wrong">She has <em>a</em> MBA.<span class="err-note">'MBA' pronuncia-se 'em-bi-ei' (vogal)</span></div>
+      <div class="err-item err-wrong">It's <em>an</em> university.<span class="err-note">'university' soa 'iu' (consoante)</span></div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">She is <strong>an</strong> engineer.<span class="err-note">vogal 'e' → AN</span></div>
+      <div class="err-item err-right">I want <strong>an</strong> umbrella.<span class="err-note">vogal 'u' → AN</span></div>
+      <div class="err-item err-right">Wait <strong>an</strong> hour.<span class="err-note">H mudo, soa 'aur' → AN</span></div>
+      <div class="err-item err-right">She has <strong>an</strong> MBA.<span class="err-note">'em' = vogal → AN</span></div>
+      <div class="err-item err-right">It's <strong>a</strong> university.<span class="err-note">soa 'iu' = consoante → A</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="sec" style="border-bottom:none;">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--accent);background:rgba(41,182,246,.1);border:1px solid rgba(41,182,246,.2)">RESUMO</span>
+    <h2 class="sec-title">A / AN em uma página</h2>
+  </div>
+  <div class="resumo-box">
+    <div class="resumo-title">REGRAS COMPLETAS</div>
+    <div class="resumo-rows">
+      <div class="resumo-row">
+        <div class="resumo-art" style="color:var(--A)">A</div>
+        <div class="resumo-rule"><strong>Som de CONSOANTE</strong> — a maioria das palavras.<br>
+          <div class="resumo-exs">
+            <span class="resumo-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a dog</span>
+            <span class="resumo-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a house</span>
+            <span class="resumo-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a university</span>
+            <span class="resumo-ex" style="color:var(--A);background:rgba(255,167,38,.08);border:1px solid rgba(255,167,38,.15)">a PhD</span>
+          </div>
+        </div>
+      </div>
+      <div class="resumo-row">
+        <div class="resumo-art" style="color:var(--AN)">AN</div>
+        <div class="resumo-rule"><strong>Som de VOGAL</strong> — a, e, i, o, u (e alguns H mudos).<br>
+          <div class="resumo-exs">
+            <span class="resumo-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an apple</span>
+            <span class="resumo-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an hour</span>
+            <span class="resumo-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an umbrella</span>
+            <span class="resumo-ex" style="color:var(--AN);background:rgba(102,187,106,.08);border:1px solid rgba(102,187,106,.15)">an MBA</span>
+          </div>
+        </div>
+      </div>
+      <div class="resumo-row">
+        <div class="resumo-art" style="color:var(--muted);font-size:13px">USE</div>
+        <div class="resumo-rule"><strong>Quando usar:</strong> 1ª menção · profissão · "um de muitos" · por vez (once <em>a</em> week) · exclamação (What <em>a</em>...!)</div>
+      </div>
+      <div class="resumo-row">
+        <div class="resumo-art" style="color:var(--warn);font-size:13px">NÃO</div>
+        <div class="resumo-rule"><strong>Não usar com:</strong> plural (<em>dogs</em>, não <em>a dogs</em>) · incontável (<em>water</em>, não <em>a water</em>) · nomes próprios (<em>Pedro</em>, não <em>a Pedro</em>)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 11: Artigo A / AN</footer>
+
+<script>
+// ── QUIZ DATA ────────────────────────────────────────────────────────────────
+var QUIZ=[
+  {w:'dog',     art:'A',  col:'var(--A)', rule:'d → consoante',     ex:'I have a dog.'},
+  {w:'apple',   art:'AN', col:'var(--AN)',rule:'a → vogal',          ex:'I want an apple.'},
+  {w:'hour',    art:'AN', col:'var(--AN)',rule:'H mudo → som "aur"', ex:'Wait an hour.'},
+  {w:'car',     art:'A',  col:'var(--A)', rule:'c → consoante',     ex:'She has a car.'},
+  {w:'engineer',art:'AN', col:'var(--AN)',rule:'e → vogal',          ex:'He is an engineer.'},
+  {w:'university',art:'A',col:'var(--A)', rule:'U soa "iu" → consoante',ex:'It\'s a university.'},
+  {w:'idea',    art:'AN', col:'var(--AN)',rule:'i → vogal',          ex:'She has an idea.'},
+  {w:'teacher', art:'A',  col:'var(--A)', rule:'t → consoante',     ex:'She is a teacher.'},
+  {w:'umbrella',art:'AN', col:'var(--AN)',rule:'u → vogal',          ex:'I need an umbrella.'},
+  {w:'book',    art:'A',  col:'var(--A)', rule:'b → consoante',     ex:'Give me a book.'},
+  {w:'MBA',     art:'AN', col:'var(--AN)',rule:'"em" → vogal',       ex:'She has an MBA.'},
+  {w:'PhD',     art:'A',  col:'var(--A)', rule:'"pi" → consoante',  ex:'He has a PhD.'},
+  {w:'orange',  art:'AN', col:'var(--AN)',rule:'o → vogal',          ex:'I need an orange.'},
+  {w:'house',   art:'A',  col:'var(--A)', rule:'H sonoro → "haus"', ex:'A house and a car.'},
+  {w:'honest',  art:'AN', col:'var(--AN)',rule:'H mudo → "onest"',  ex:'He is an honest man.'},
+  {w:'unique',  art:'A',  col:'var(--A)', rule:'U soa "iu" → consoante',ex:'It\'s a unique idea.'},
+];
+
+var qg=document.getElementById('quizGrid');
+QUIZ.forEach(function(q,i){
+  var isAN=q.art==='AN';
+  var card=document.createElement('div');
+  card.className='qcard';
+  card.innerHTML=
+    '<div class="qword">'+q.w+'</div>'+
+    '<div class="qarticle" style="color:'+q.col+'">'+q.art+'</div>'+
+    '<div class="qrule" style="color:'+q.col+'">'+q.rule+'</div>'+
+    '<div class="qex" style="color:var(--muted)">'+q.ex+'</div>'+
+    '<div class="qprompt">A ou AN?</div>';
+  card.addEventListener('click',function(){
+    if(card.classList.contains('revealed')) return;
+    card.classList.add('revealed', isAN?'revealed-an':'revealed-a');
+  });
+  qg.appendChild(card);
+});
+
+function revealAll(){
+  document.querySelectorAll('.qcard').forEach(function(c,i){
+    var q=QUIZ[i];var isAN=q.art==='AN';
+    c.classList.add('revealed',isAN?'revealed-an':'revealed-a');
+  });
+}
+function resetAll(){
+  document.querySelectorAll('.qcard').forEach(function(c){
+    c.classList.remove('revealed','revealed-a','revealed-an');
+  });
+}
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,2.5,12); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=420;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.3;
+hCtrl.minDistance=7; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.5));
+var hDir=new THREE.DirectionalLight(0xffffff,.9); hDir.position.set(5,10,7); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x080d12,0x080d12));
+
+function mkSphere(col,r,emit){
+  return new THREE.Mesh(new THREE.SphereGeometry(r||.25,16,16),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));
+}
+
+// A sphere (left, orange)
+var Asph=mkSphere(0xFFA726,.9,.4); Asph.position.set(-3,.8,0); hScene.add(Asph);
+var Alight=new THREE.PointLight(0xFFA726,2,6); Alight.position.set(-3,.8,0); hScene.add(Alight);
+
+// AN sphere (right, green)
+var ANsph=mkSphere(0x66BB6A,.9,.4); ANsph.position.set(3,.8,0); hScene.add(ANsph);
+var ANlight=new THREE.PointLight(0x66BB6A,2,6); ANlight.position.set(3,.8,0); hScene.add(ANlight);
+
+// Divider plane (faint)
+var divMesh=new THREE.Mesh(new THREE.PlaneGeometry(.04,6),new THREE.MeshPhongMaterial({color:0x222222,transparent:true,opacity:.4}));
+divMesh.position.set(0,1.5,0); hScene.add(divMesh);
+
+// A words: consonant starts
+var AWords=['dog','teacher','car','house','university','book','unique','PhD'];
+var ANWords=['apple','engineer','hour','umbrella','idea','orange','honest','MBA'];
+
+var orbObjs=[];
+function mkOrb(col,r){return mkSphere(col,r||.12,.3);}
+
+// Orbit words around A sphere
+AWords.forEach(function(w,i){
+  var a=i/AWords.length*Math.PI*2, r=1.8+Math.random()*.4;
+  var orb=mkOrb(0xFFA726,.1); orb.position.set(-3+Math.cos(a)*r,.4+Math.sin(a*.3)*0.5,Math.sin(a)*r);
+  hScene.add(orb); orbObjs.push({m:orb,cx:-3,r:r,a:a,spd:.35+Math.random()*.15,side:'A'});
+  var lbl=document.createElement('div'); lbl.className='hlabel'; lbl.style.color='#FFA726'; lbl.style.borderColor='rgba(255,167,38,.4)'; lbl.textContent=w;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbObjs[orbObjs.length-1].lbl=lbl;
+});
+
+// Orbit words around AN sphere
+ANWords.forEach(function(w,i){
+  var a=i/ANWords.length*Math.PI*2, r=1.8+Math.random()*.4;
+  var orb=mkOrb(0x66BB6A,.1); orb.position.set(3+Math.cos(a)*r,.4+Math.sin(a*.3)*.5,Math.sin(a)*r);
+  hScene.add(orb); orbObjs.push({m:orb,cx:3,r:r,a:a,spd:.35+Math.random()*.15,side:'AN'});
+  var lbl=document.createElement('div'); lbl.className='hlabel'; lbl.style.color='#66BB6A'; lbl.style.borderColor='rgba(102,187,106,.4)'; lbl.textContent=w;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbObjs[orbObjs.length-1].lbl=lbl;
+});
+
+// Neutral floating particles
+for(var i=0;i<50;i++){
+  var p=mkSphere(0x29B6F6,.03); p.position.set((Math.random()-.5)*16,Math.random()*4,(Math.random()-.5)*8); hScene.add(p);
+}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  // Pulse the A/AN spheres
+  Alight.intensity=1.5+Math.abs(Math.sin(hT*2.2))*.8;
+  ANlight.intensity=1.5+Math.abs(Math.sin(hT*2.2+Math.PI))*.8;
+  Asph.scale.setScalar(1+Math.sin(hT*1.8)*.04);
+  ANsph.scale.setScalar(1+Math.sin(hT*1.8+Math.PI)*.04);
+  // Orbit word spheres
+  orbObjs.forEach(function(o){
+    o.a+=o.spd*.008;
+    o.m.position.x=o.cx+Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.7;
+    o.m.position.y=.5+Math.sin(o.a*.4)*.3;
+    if(o.lbl){
+      var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+      var w=hCanvas.clientWidth,h=420;
+      var sx=(pos.x*.5+.5)*w, sy=(-pos.y*.5+.5)*h;
+      o.lbl.style.left=sx+'px'; o.lbl.style.top=sy+'px';
+      o.lbl.style.opacity=pos.z<1?'1':'0';
+    }
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

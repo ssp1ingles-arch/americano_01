@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L58 · FORGET · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#fb923c;--cg:rgba(251,146,60,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,12vw,7.5rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irreg-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+.forg-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.fp{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1rem 1.1rem;border-left:3px solid var(--ca);}
+.fp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.35rem;}
+.fp-pt{font-size:.75rem;color:var(--td);margin-bottom:.55rem;}
+.fp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Contraste FORGET ING vs TO */
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.ct-box{border-radius:.85rem;padding:1.3rem;border:1px solid var(--s3);background:var(--s2);}
+.ctb-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.ctb-form{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--ca);margin-bottom:.3rem;}
+.ctb-pt{font-size:.78rem;color:var(--tm);margin-bottom:.6rem;}
+.ctb-timeline{font-size:.72rem;color:var(--td);margin-bottom:.5rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
+.ctb-ex{font-size:.83rem;color:var(--tx);font-style:italic;}
+
+/* REMEMBER vs FORGET side-by-side */
+.pair-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.pb{border-radius:.85rem;padding:1.1rem 1.2rem;border:1px solid var(--s3);text-align:center;}
+.pb-word{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.3rem;}
+.pb-pt{font-size:.78rem;color:var(--tm);margin-bottom:.5rem;}
+.pb-ex{font-size:.82rem;color:var(--tx);font-style:italic;}
+
+.struct{background:var(--s2);border:1px solid var(--ca);border-radius:.75rem;padding:1rem 1.3rem;margin-bottom:.85rem;}
+.struct-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.5rem;}
+.struct-f{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;}
+.struct-f span{color:var(--ca);}
+.struct-e{font-size:.83rem;color:var(--tm);}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.qf{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1.05rem;margin-bottom:.7rem;}
+.qft{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ca);margin-bottom:.45rem;}
+.qff{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx);margin-bottom:.35rem;}
+.qff span{color:var(--ca);}
+.qfe{font-size:.82rem;color:var(--tm);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(251,146,60,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .contrast{grid-template-columns:1fr;}
+  .pair-box{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 12 · Verbos de Comunicação</div>
+  <h1 class="hero-title">FORGET</h1>
+  <p class="hero-pt">esquecer · se esquecer de · deixar para trás</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">FORGET</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">FORGOT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">FORGOTTEN</div></div>
+    <span class="irreg-badge">✗ IRREGULAR · FORGOT / FORGOTTEN</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Don't forget to call me!"</div>
+    <div class="cl-pt">Não esqueça de me ligar!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">FORGET — padrões + paralelo com REMEMBER</div>
+    <div class="sd">FORGET + ING (passado) · FORGET + TO (futuro) · FORGET ABOUT — espelho de REMEMBER!</div></div>
+  </div>
+
+  <div class="forg-patt">
+    <div class="fp">
+      <div class="fp-key">FORGET + algo</div>
+      <div class="fp-pt">esquecer algo</div>
+      <div class="fp-ex">"I forgot my keys."</div>
+    </div>
+    <div class="fp">
+      <div class="fp-key">FORGET + ING</div>
+      <div class="fp-pt">esquecer que fez algo (passado raro)</div>
+      <div class="fp-ex">"I'll never forget meeting you."</div>
+    </div>
+    <div class="fp">
+      <div class="fp-key">FORGET + TO + BASE</div>
+      <div class="fp-pt">esquecer de fazer algo (o mais comum!)</div>
+      <div class="fp-ex">"I forgot to call you."</div>
+    </div>
+    <div class="fp">
+      <div class="fp-key">FORGET ABOUT</div>
+      <div class="fp-pt">esquecer sobre / deixar para lá</div>
+      <div class="fp-ex">"Forget about it!"</div>
+    </div>
+  </div>
+
+  <!-- Contraste FORGET ING vs TO -->
+  <div class="contrast">
+    <div class="ct-box" style="border-color:rgba(74,222,128,.35)">
+      <div class="ctb-label" style="color:var(--gn)">FORGET + ING</div>
+      <div class="ctb-form">I'll never forget DOING</div>
+      <div class="ctb-pt">= esquecer que já fez algo (memória marcante)</div>
+      <div class="ctb-timeline">← PASSADO (memória)</div>
+      <div class="ctb-ex">"I'll never forget <strong style="color:var(--ca)">meeting</strong> you." <br><span style="color:var(--td);font-size:.75rem">Nunca vou esquecer de ter te conhecido.</span></div>
+    </div>
+    <div class="ct-box" style="border-color:rgba(248,113,113,.35)">
+      <div class="ctb-label" style="color:var(--rd)">FORGET + TO + BASE</div>
+      <div class="ctb-form">I forgot TO DO</div>
+      <div class="ctb-pt">= esqueceu de fazer algo (não fez — o mais comum!)</div>
+      <div class="ctb-timeline">→ FUTURO/TAREFA (não cumpriu)</div>
+      <div class="ctb-ex">"I forgot <strong style="color:var(--ca)">to call</strong> you." <br><span style="color:var(--td);font-size:.75rem">Esqueci de te ligar (e não liguei).</span></div>
+    </div>
+  </div>
+
+  <!-- REMEMBER vs FORGET espelho -->
+  <div class="pair-box">
+    <div class="pb" style="background:var(--s2);border-color:rgba(74,222,128,.25)">
+      <div class="pb-word" style="color:var(--gn)">REMEMBER</div>
+      <div class="pb-pt">lembrar ↔ ter na memória</div>
+      <div class="pb-ex">"I remembered to lock the door." <br><span style="color:var(--td);font-size:.75rem">Me lembrei de trancar a porta.</span></div>
+    </div>
+    <div class="pb" style="background:var(--s2);border-color:rgba(248,113,113,.25)">
+      <div class="pb-word" style="color:var(--rd)">FORGET</div>
+      <div class="pb-pt">esquecer ↔ não ter na memória</div>
+      <div class="pb-ex">"I forgot to lock the door." <br><span style="color:var(--td);font-size:.75rem">Esqueci de trancar a porta.</span></div>
+    </div>
+  </div>
+
+  <div class="struct">
+    <div class="struct-t">Expressão fixa — FORGET ABOUT IT</div>
+    <div class="struct-f"><span>Forget about it!</span> — dois sentidos opostos conforme o contexto</div>
+    <div class="struct-e">"Thanks for helping!" → "Forget about it!" = De nada, não tem problema! &nbsp;|&nbsp; "Can we talk?" → "Forget about it." = Esquece / Deixa para lá.</div>
+  </div>
+
+  <div class="nt nt-tip">FORGET é irregular: FORGET → FORGOT → FORGOTTEN. Passado (FORGOT) e particípio (FORGOTTEN) são diferentes — diferente de MET/MET ou UNDERSTOOD/UNDERSTOOD. Atenção ao particípio com HAVE: "I have FORGOTTEN" ✓ | "I have FORGOT" ✗.</div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — forget / forgets</div>
+    <div class="sd">HE / SHE / IT → FORGETS (com -S)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>forget</strong> where I put my keys.</td><td class="cpt">Eu sempre esqueço onde coloco as chaves.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>forget</strong> things when you're stressed.</td><td class="cpt">Você esquece as coisas quando está estressado.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>forgets</strong> everything after a week.</td><td class="cpt">Ele esquece tudo depois de uma semana.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>forgets</strong> to take her medicine sometimes.</td><td class="cpt">Às vezes ela esquece de tomar o remédio.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">It <strong>forgets</strong> your settings after reboot.</td><td class="cpt">Ele apaga suas configurações após reiniciar.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>forget</strong> the bad times and keep the good.</td><td class="cpt">Nós esquecemos os momentos ruins e ficamos com os bons.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>forget</strong> to reply to emails.</td><td class="cpt">Eles esquecem de responder os e-mails.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → FORGETS (com -S). "She forget to take her medicine." ✗ → "She FORGETS to take her medicine." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — forgot (irregular)</div>
+    <div class="sd">FORGOT para todos os pronomes — não existe "forgeted"</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>forgot</strong> to call you — I'm sorry!</td><td class="cpt">Esqueci de te ligar — me desculpe!</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>forgot</strong> your phone at home.</td><td class="cpt">Você esqueceu o celular em casa.</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>forgot</strong> her birthday.</td><td class="cpt">Ele esqueceu o aniversário dela.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>forgot</strong> to send the email.</td><td class="cpt">Ela esqueceu de enviar o e-mail.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">It <strong>forgot</strong> all the saved data.</td><td class="cpt">Apagou todos os dados salvos.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>forgot</strong> to book the hotel.</td><td class="cpt">Nós esquecemos de reservar o hotel.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>forgot</strong> about the meeting.</td><td class="cpt">Eles esqueceram da reunião.</td></tr>
+    </table>
+    <div class="nt nt-err">Na negação: "I didn't FORGET" ✓ | "I didn't FORGOT" ✗ — DIDN'T + BASE (forget). Verbo volta à base após DIDN'T. E particípio = FORGOTTEN (não FORGOT).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">DO / DOES / DID + base FORGET · DON'T FORGET — expressão mais usada!</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Como fazer perguntas com FORGET</div>
+    <div class="qf">
+      <div class="qft">Presente</div>
+      <div class="qff"><span>DO</span> you / we / they + <span>forget</span>? &nbsp;|&nbsp; <span>DOES</span> he / she / it + <span>forget</span>?</div>
+      <div class="qfe">"Do you forget things easily?" / "Does he forget names?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Passado</div>
+      <div class="qff"><span>DID</span> + sujeito + <span>forget</span>?</div>
+      <div class="qfe">"Did you forget to bring it?" / "Did she forget the password?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Imperativo negativo (mais usado!)</div>
+      <div class="qff"><span>DON'T FORGET</span> + to + BASE</div>
+      <div class="qfe">"Don't forget to call me!" / "Don't forget your keys!"</div>
+    </div>
+  </div>
+
+  <div class="uso" style="margin-top:1rem">
+    <div class="ul">Negação</div>
+    <div class="two">
+      <div>
+        <div class="tl">Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't forget</strong></td><td class="cpt">não esqueço</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't forget</strong></td><td class="cpt">não esquece</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't forget</strong></td><td class="cpt">não esqueceu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't forget</strong></td><td class="cpt">não vai esquecer</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro — will forget / going to forget</div>
+    <div class="sd">WILL + forget | GOING TO + forget — sem -S, sem FORGOT</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">WILL + forget</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will never forget</strong> this trip.</td><td class="cpt">Nunca vou esquecer essa viagem.</td></tr>
+          <tr><td class="cp">YOU</td><td class="ce">You <strong>will forget</strong> the pain eventually.</td><td class="cpt">Você vai esquecer a dor com o tempo.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>will forget</strong> if you don't remind her.</td><td class="cpt">Ela vai esquecer se você não lembrar.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">GOING TO + forget</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>am going to forget</strong> this password.</td><td class="cpt">Eu vou esquecer essa senha.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>is going to forget</strong> the meeting.</td><td class="cpt">Ele vai esquecer da reunião.</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>are going to forget</strong> everything.</td><td class="cpt">Eles vão esquecer tudo.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com FORGET</div>
+    <div class="sd">Expressões que o nativo usa todo dia</div></div>
+  </div>
+  <div class="pg">
+    <div class="ph"><div class="ph-en">Don't <strong>forget</strong> to call me!</div><div class="ph-pt">Não esqueça de me ligar!</div></div>
+    <div class="ph"><div class="ph-en">I <strong>forgot</strong> my keys.</div><div class="ph-pt">Esqueci as minhas chaves.</div></div>
+    <div class="ph"><div class="ph-en">I'll never <strong>forget</strong> this.</div><div class="ph-pt">Nunca vou esquecer isso.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Forget</strong> about it!</div><div class="ph-pt">De nada! / Deixa para lá!</div></div>
+    <div class="ph"><div class="ph-en">I <strong>forgot</strong> to send the email.</div><div class="ph-pt">Esqueci de enviar o e-mail.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>forget</strong> your umbrella!</div><div class="ph-pt">Não esqueça o guarda-chuva!</div></div>
+    <div class="ph"><div class="ph-en">I have <strong>forgotten</strong> his name.</div><div class="ph-pt">Eu esqueci o nome dele. (present perfect)</div></div>
+    <div class="ph"><div class="ph-en">I <strong>forgot</strong> where I put it.</div><div class="ph-pt">Esqueci onde coloquei.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I forgeted to call you."</div>
+      <div class="ecr">✓ "I forgot to call you."</div>
+      <div class="ecd">FORGET é irregular: passado = FORGOT (não "forgeted"). "I FORGOT to call you." ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't forgot to call."</div>
+      <div class="ecr">✓ "I didn't forget to call."</div>
+      <div class="ecd">DIDN'T + BASE (forget). "I didn't FORGET to call." ✓ — DIDN'T já marca o passado; o verbo volta à base.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She forget her keys again."</div>
+      <div class="ecr">✓ "She forgot her keys again." / "She forgets her keys."</div>
+      <div class="ecd">Passado: FORGOT. Presente com SHE: FORGETS (com -S). "She forgot" (passado) ou "She forgets" (hábito presente). ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have forgot his name."</div>
+      <div class="ecr">✓ "I have forgotten his name."</div>
+      <div class="ecd">Com HAVE (present perfect): particípio FORGOTTEN (não FORGOT). "I have FORGOTTEN his name." ✓ — FORGOT é só o passado simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Don't forget calling me."</div>
+      <div class="ecr">✓ "Don't forget to call me."</div>
+      <div class="ecd">Imperativo de lembrete: DON'T FORGET + TO + BASE. "Don't forget TO CALL me." ✓ — não -ING aqui (esse seria memória do passado).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Does she forgets easily?"</div>
+      <div class="ecr">✓ "Does she forget easily?"</div>
+      <div class="ecd">DOES + BASE (sem -S). "Does she FORGET easily?" ✓ — DOES já carrega a 3ª pessoa; verbo fica na base.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — FORGET</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado correto de FORGET?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">forgeted</button>
+      <button class="qo" onclick="ans(this,'q1',true)">forgot</button>
+      <button class="qo" onclick="ans(this,'q1',false)">forgotten</button>
+    </div>
+    <div class="qfb" id="q1fb">FORGET → FORGOT (passado simples) → FORGOTTEN (particípio). "Forgotten" é o particípio, não o passado simples. "I FORGOT to call." ✓</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é o particípio correto de FORGET? (usado com HAVE)</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">forgot</button>
+      <button class="qo" onclick="ans(this,'q2',true)">forgotten</button>
+      <button class="qo" onclick="ans(this,'q2',false)">forgetting</button>
+    </div>
+    <div class="qfb" id="q2fb">Particípio de FORGET = FORGOTTEN. "I have FORGOTTEN his name." ✓ — passado (FORGOT) e particípio (FORGOTTEN) são diferentes neste verbo.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Não esqueça de me ligar!" → Imperativo negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">Don't forget calling me!</button>
+      <button class="qo" onclick="ans(this,'q3',true)">Don't forget to call me!</button>
+      <button class="qo" onclick="ans(this,'q3',false)">Don't forgot to call me!</button>
+    </div>
+    <div class="qfb" id="q3fb">DON'T FORGET + TO + BASE. "Don't forget TO CALL me!" ✓ — lembrete de tarefa futura usa TO + BASE (não -ING).</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Nunca vou esquecer de ter te conhecido." → FORGET + ING.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">I'll never forget to meet you.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">I'll never forget meeting you.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">I'll never forget met you.</button>
+    </div>
+    <div class="qfb" id="q4fb">Memória marcante do passado = FORGET + ING. "I'll never forget MEETING you." ✓ — tenho essa memória para sempre.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ela esquece de tomar o remédio às vezes." → Presente com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">She forget to take her medicine sometimes.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">She forgets to take her medicine sometimes.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">She forgot to take her medicine sometimes.</button>
+    </div>
+    <div class="qfb" id="q5fb">HE / SHE / IT → FORGETS (com -S). "She FORGETS to take her medicine sometimes." ✓ — hábito presente com SHE.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Você esqueceu de trazer?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Did you forgot to bring it?</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Did you forget to bring it?</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Do you forget to bring it?</button>
+    </div>
+    <div class="qfb" id="q6fb">DID + BASE. "Did you FORGET to bring it?" ✓ — depois de DID, base FORGET (nunca FORGOT).</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"FORGET ABOUT IT!" — qual o sentido no contexto "Obrigado pela ajuda!" → "Forget about it!"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Esquece! Não quero falar sobre isso.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">De nada! Não tem problema!</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Vou esquecer sobre isso.</button>
+    </div>
+    <div class="qfb" id="q7fb">Nesse contexto, "Forget about it!" = "De nada! / Não precisa agradecer!" — é uma resposta casual a um agradecimento. O mesmo "forget about it" pode significar "deixa para lá" em outro contexto.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Eu não esqueci de te ligar." → Passado, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">I didn't forgot to call you.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">I didn't forget to call you.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">I not forgot to call you.</button>
+    </div>
+    <div class="qfb" id="q8fb">DIDN'T + BASE. "I didn't FORGET to call you." ✓ — DIDN'T já carrega o passado; verbo volta à base FORGET.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">Diferença entre FORGOT e FORGOTTEN:</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">São a mesma coisa — intercambiáveis.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">FORGOT = passado simples. FORGOTTEN = particípio (usado com HAVE/HAS/HAD).</button>
+      <button class="qo" onclick="ans(this,'q9',false)">FORGOTTEN é a forma britânica, FORGOT é americano.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I forgot" (passado simples, ação pontual) vs "I have forgotten" (present perfect, estado atual). São formas diferentes do mesmo verbo irregular com usos distintos.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Ele não esquece nada." → Presente com HE, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">He don't forget anything.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">He doesn't forgets anything.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">He doesn't forget anything.</button>
+    </div>
+    <div class="qfb" id="q10fb">HE → DOESN'T (não DON'T). Depois de DOESN'T: BASE sem -S. "He DOESN'T FORGET anything." ✓</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Nunca vou esquecer essa viagem." → WILL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">I will forgot this trip.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">I will never forget this trip.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">I will forgotten this trip.</button>
+    </div>
+    <div class="qfb" id="q11fb">WILL + BASE. "I will never FORGET this trip." ✓ — base FORGET depois de WILL (nunca FORGOT ou FORGOTTEN).</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Eles vão esquecer da reunião." → GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">They are going to forgot about the meeting.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">They are going to forget about the meeting.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">They is going to forget about the meeting.</button>
+    </div>
+    <div class="qfb" id="q12fb">THEY → ARE going to + BASE. "They ARE going to FORGET about the meeting." ✓ — base FORGET depois de GOING TO.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../57_remember/index.html">← L57 REMEMBER</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0xfb923c;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

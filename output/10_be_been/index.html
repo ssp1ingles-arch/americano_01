@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE — JÁ ESTEVE / TEM ESTADO | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#EC407A;
+  --have:#81D4FA;--has:#FFE082;
+  --I:#9C8FFF;--Y:#FF8EC4;--H:#81D4FA;--S:#FFE082;--IT:#A5D6A7;--W:#FFAB91;--T:#D1A8E8;
+  --pres:#EC407A;--past:#64B5F6;--will:#CE93D8;--go:#80CBC4;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(236,64,122,.1);color:var(--accent);border:1px solid rgba(236,64,122,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(14px,2.6vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:600px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#140208 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 8px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+.hero-key{position:absolute;top:16px;right:18px;display:flex;flex-direction:column;gap:6px;}
+.hkey-item{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:.06em;}
+
+.pnav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:7px 14px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:18px;font-weight:600;margin-bottom:4px;}
+.dhave{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:14px;display:inline-block;letter-spacing:.06em;}
+.ddesc{color:var(--muted);margin-bottom:14px;font-size:14px;}
+.drule{border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:18px;background:rgba(236,64,122,.05);}
+.dtabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.tab{font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.mode-tabs{display:flex;gap:5px;margin-bottom:10px;}
+.mtab{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.mtab.on{background:var(--surface2);}
+.mtab[data-m="aff"].on{border-color:var(--tip);color:var(--tip);}
+.mtab[data-m="neg"].on{border-color:var(--warn);color:var(--warn);}
+.mtab[data-m="q"].on{border-color:#64DFDF;color:#64DFDF;}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:18px;font-weight:700;line-height:1.4;margin-bottom:5px;color:var(--en);}
+.sen strong{font-weight:900;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:8px;}
+.spt strong{color:var(--text);}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.3);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+/* BEEN ANATOMY */
+.anatomy{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.anat-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+.anat-tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.anat-tier{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex-wrap:wrap;}
+.at-tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 8px;border-radius:5px;white-space:nowrap;}
+.at-form{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;min-width:180px;}
+.at-equals{color:var(--muted);font-size:16px;}
+.at-meaning{font-size:13px;color:var(--muted);flex:1;}
+.have-has-box{background:var(--surface2);border:1px solid rgba(236,64,122,.2);border-radius:12px;padding:18px 20px;margin-bottom:18px;}
+.hhb-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px;}
+.hhb-row{display:flex;gap:16px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.hhb-row:last-child{border-bottom:none;}
+.hhb-prons{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;gap:5px;flex-wrap:wrap;min-width:140px;}
+.hhb-form{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;min-width:100px;}
+.hhb-ex{font-size:13px;color:var(--muted);}
+
+/* FORMULA */
+.formula-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.formula-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.slots{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.slot{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 16px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;}
+.slot-aux{background:rgba(129,212,250,.1);color:var(--have);border:1px solid rgba(129,212,250,.25);}
+.slot-been{background:rgba(236,64,122,.12);color:var(--accent);border:1px solid rgba(236,64,122,.3);}
+.slot-what{background:rgba(100,223,223,.1);color:#64DFDF;border:1px solid rgba(100,223,223,.25);}
+.slot-when{background:rgba(255,171,145,.1);color:var(--W);border:1px solid rgba(255,171,145,.25);}
+.slot-opt{opacity:.45;}
+.fex{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;}
+.fex-en{font-size:17px;font-weight:600;margin-bottom:6px;color:var(--en);}
+.fex-en strong{font-weight:900;}
+.fex-pt{color:var(--muted);font-size:14px;margin-bottom:10px;}
+.fex-pt strong{color:var(--text);font-weight:700;}
+.fex-blocks{display:flex;gap:7px;flex-wrap:wrap;}
+.fb{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:.04em;}
+
+/* PRES PERF vs SIMPLE PAST — exclusive section */
+.ppvsp{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.pp-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.pp-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25);padding:3px 9px;border-radius:4px;}
+.pp-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.pp-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+.pp-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.pp-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:14px;}
+.pp-row{padding:9px 0;border-bottom:1px solid var(--border);}
+.pp-row:last-child{border-bottom:none;}
+.pp-en{font-size:14px;font-weight:600;margin-bottom:2px;}
+.pp-pt{color:var(--muted);font-size:12px;}
+.pp-note{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;margin-top:2px;}
+.pp-markers{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;}
+.marker{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.04em;}
+/* FOR vs SINCE */
+.forsince{background:var(--surface2);border:1px solid rgba(100,223,223,.2);border-radius:12px;padding:18px 20px;margin-top:0;}
+.fs-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#64DFDF;margin-bottom:14px;}
+.fs-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.fs-col-label{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;padding:4px 10px;border-radius:6px;display:inline-block;}
+.fs-row{padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.fs-row:last-child{border-bottom:none;}
+.fs-en{color:var(--en);}
+.fs-en strong{font-weight:900;}
+.fs-pt{color:var(--muted);font-size:12px;}
+
+/* SECTIONS */
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+.stabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.stab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.stab.on{color:#080c14;}
+.tpanel{display:none;}
+.tpanel.on{display:block;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:2px 8px;border-radius:5px;display:inline-block;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:900;}
+.tpt{color:var(--muted);font-size:13px;}
+.tpt strong{font-weight:700;color:var(--text);}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(236,64,122,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+.contr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px;}
+.contr-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.contr-from{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);margin-bottom:3px;}
+.contr-to{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sc-pron{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;margin-bottom:6px;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid var(--border);font-size:11px;}
+.sc-row:last-child{border-bottom:none;}
+.sc-tense{color:var(--muted);font-size:10px;}
+.sc-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:10px;text-align:right;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.pp-cols{grid-template-columns:1fr;}.fs-cols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 10</div>
+  <h1>
+    <span style="color:var(--have)">HAVE</span> /
+    <span style="color:var(--has)">HAS</span> +
+    <span style="color:var(--accent);font-weight:900">BEEN</span> ·
+    <span style="color:var(--past)">HAD BEEN</span> ·
+    <span style="color:var(--will)">WILL HAVE BEEN</span>
+  </h1>
+  <p class="subtitle">Verbo BE — sentido JÁ ESTEVE / TEM ESTADO. Presente Perfeito: experiência ou estado com relevância presente. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-key">
+    <div class="hkey-item" style="color:var(--have);background:rgba(129,212,250,.1);border:1px solid rgba(129,212,250,.2)">I/YOU/WE/THEY → HAVE BEEN</div>
+    <div class="hkey-item" style="color:var(--has);background:rgba(255,224,130,.1);border:1px solid rgba(255,224,130,.2)">HE/SHE/IT → HAS BEEN</div>
+  </div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <div class="dhave" id="dHave"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="dtabs" id="tenseTabs">
+      <button class="tab on" data-t="present">Pres. Perfeito</button>
+      <button class="tab" data-t="past">Passado Perfeito</button>
+      <button class="tab" data-t="will">Futuro Perf. WILL</button>
+      <button class="tab" data-t="goingto">Going to have been</button>
+    </div>
+    <div class="mode-tabs">
+      <button class="mtab on" data-m="aff">(+) Afirmativa</button>
+      <button class="mtab" data-m="neg">(−) Negação</button>
+      <button class="mtab" data-m="q">(?) Pergunta</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Outras frases com este pronome</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- BEEN ANATOMY -->
+<div class="anatomy">
+  <div class="anat-label">Estrutura BEEN — os três tempos perfeitos</div>
+  <div class="have-has-box">
+    <div class="hhb-title">🔑 HAVE vs HAS — a divisão crucial do Presente Perfeito</div>
+    <div class="hhb-row">
+      <div class="hhb-prons">
+        <span style="color:var(--I)">I</span>
+        <span style="color:var(--Y)">YOU</span>
+        <span style="color:var(--W)">WE</span>
+        <span style="color:var(--T)">THEY</span>
+      </div>
+      <div class="hhb-form" style="color:var(--have)">HAVE BEEN</div>
+      <div class="hhb-ex">I <strong style="color:var(--have)">have been</strong> here before. · We <strong style="color:var(--have)">have been</strong> friends.</div>
+    </div>
+    <div class="hhb-row">
+      <div class="hhb-prons">
+        <span style="color:var(--H)">HE</span>
+        <span style="color:var(--S)">SHE</span>
+        <span style="color:var(--IT)">IT</span>
+      </div>
+      <div class="hhb-form" style="color:var(--has)">HAS BEEN</div>
+      <div class="hhb-ex">He <strong style="color:var(--has)">has been</strong> sick. · It <strong style="color:var(--has)">has been</strong> hot.</div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px">HAS = mesmo padrão do presente simples (HE works → HE HAS been). No passado e futuro: HAD BEEN / WILL HAVE BEEN (igual para todos).</p>
+  </div>
+  <div class="anat-tiers">
+    <div class="anat-tier">
+      <div class="at-tag" style="color:var(--pres);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">PRESENTE PERFEITO</div>
+      <div class="at-form" style="color:var(--have)">HAVE / <span style="color:var(--has)">HAS</span> BEEN</div>
+      <div class="at-equals">=</div>
+      <div class="at-meaning">experiência de vida · estado recente com relevância AGORA</div>
+    </div>
+    <div class="anat-tier">
+      <div class="at-tag" style="color:var(--past);background:rgba(100,181,246,.1);border:1px solid rgba(100,181,246,.25)">PASSADO PERFEITO</div>
+      <div class="at-form" style="color:var(--past)">HAD BEEN</div>
+      <div class="at-equals">=</div>
+      <div class="at-meaning">ação/estado completo ANTES de outro ponto no passado</div>
+    </div>
+    <div class="anat-tier">
+      <div class="at-tag" style="color:var(--will);background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.25)">FUTURO PERFEITO</div>
+      <div class="at-form" style="color:var(--will)">WILL HAVE BEEN</div>
+      <div class="at-equals">=</div>
+      <div class="at-meaning">resultado que estará completo num ponto futuro</div>
+    </div>
+  </div>
+  <div class="tip">💡 BEEN = particípio passado de BE. Sempre vem DEPOIS do auxiliar (have/has/had/will have). Nunca sozinho: "I been here" é ERRADO.</div>
+</div>
+
+<!-- FÓRMULA -->
+<div class="formula-wrap">
+  <div class="formula-label">Fórmula de construção</div>
+  <div class="slots">
+    <div class="slot slot-aux">HAVE / HAS</div>
+    <div class="slot slot-been">BEEN</div>
+    <div class="slot slot-what">O QUÊ</div>
+    <span style="color:var(--muted);font-size:18px">·</span>
+    <div class="slot slot-when slot-opt">QUANDO / HÁ QUANTO TEMPO</div>
+  </div>
+  <div class="fex">
+    <div class="fex-en">I <strong style="color:var(--have)">have</strong> <strong style="color:var(--accent)">been</strong> <span style="color:#64DFDF">here</span> <span style="color:var(--W)">before</span>.</div>
+    <div class="fex-pt">Eu <strong>já estive</strong> <span style="color:#64DFDF">aqui</span> <span style="color:var(--W)">antes</span>.</div>
+    <div class="fex-blocks">
+      <span class="fb" style="color:var(--have);background:rgba(129,212,250,.1);border:1px solid rgba(129,212,250,.2)">HAVE</span>
+      <span class="fb" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.2)">BEEN</span>
+      <span class="fb" style="color:#64DFDF;background:rgba(100,223,223,.1);border:1px solid rgba(100,223,223,.2)">O QUÊ: here</span>
+      <span class="fb" style="color:var(--W);background:rgba(255,171,145,.1);border:1px solid rgba(255,171,145,.2)">QUANDO: before</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRESENTE PERFEITO vs PASSADO SIMPLES — seção exclusiva desta lição -->
+<div class="ppvsp">
+  <div class="pp-head">
+    <span class="pp-label">CHAVE</span>
+    <h2 class="pp-title">Presente Perfeito vs Passado Simples</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px">Esta é a diferença mais importante para o brasileiro. Em português usamos o passado simples pras duas situações — em inglês são tempos diferentes com significados distintos.</p>
+  <div class="pp-cols">
+    <div class="pp-col" style="border-color:rgba(100,181,246,.25)">
+      <div class="pp-col-label" style="color:var(--past);background:rgba(100,181,246,.1);border:1px solid rgba(100,181,246,.2)">PASSADO SIMPLES — WAS / WERE</div>
+      <div class="pp-row">
+        <div class="pp-en" style="color:var(--en)">I <strong>was</strong> in Paris last year.</div>
+        <div class="pp-pt">Eu estava em Paris no ano passado.</div>
+        <div class="pp-note">foco em QUANDO aconteceu</div>
+      </div>
+      <div class="pp-row">
+        <div class="pp-en" style="color:var(--en)">She <strong>was</strong> sick on Monday.</div>
+        <div class="pp-pt">Ela estava doente na segunda.</div>
+        <div class="pp-note">data/tempo específico</div>
+      </div>
+      <div class="pp-row">
+        <div class="pp-en" style="color:var(--en)">He <strong>was</strong> here yesterday.</div>
+        <div class="pp-pt">Ele estava/esteve aqui ontem.</div>
+        <div class="pp-note">tempo definido no passado</div>
+      </div>
+      <div class="pp-markers">
+        <span class="marker" style="color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">yesterday</span>
+        <span class="marker" style="color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">last year</span>
+        <span class="marker" style="color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">in 2019</span>
+        <span class="marker" style="color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">ago</span>
+      </div>
+    </div>
+    <div class="pp-col" style="border-color:rgba(236,64,122,.25)">
+      <div class="pp-col-label" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">PRESENTE PERFEITO — HAVE/HAS BEEN</div>
+      <div class="pp-row">
+        <div class="pp-en"><span style="color:var(--have);font-weight:900">I have been</span> to Paris.</div>
+        <div class="pp-pt">Eu já fui a Paris. / Já estive em Paris.</div>
+        <div class="pp-note">experiência de vida — QUANDO não importa</div>
+      </div>
+      <div class="pp-row">
+        <div class="pp-en"><span style="color:var(--has);font-weight:900">She has been</span> sick.</div>
+        <div class="pp-pt">Ela tem estado doente. (ainda relevante)</div>
+        <div class="pp-note">estado recente com impacto AGORA</div>
+      </div>
+      <div class="pp-row">
+        <div class="pp-en"><span style="color:var(--have);font-weight:900">Have you been</span> here before?</div>
+        <div class="pp-pt">Você já esteve aqui antes?</div>
+        <div class="pp-note">pergunta de experiência de vida</div>
+      </div>
+      <div class="pp-markers">
+        <span class="marker" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">already</span>
+        <span class="marker" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">ever</span>
+        <span class="marker" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">never</span>
+        <span class="marker" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">just</span>
+        <span class="marker" style="color:var(--accent);background:rgba(236,64,122,.1);border:1px solid rgba(236,64,122,.25)">for / since</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="forsince">
+    <div class="fs-title">FOR vs SINCE — com o Presente Perfeito</div>
+    <div class="fs-cols">
+      <div>
+        <div class="fs-col-label" style="color:var(--have);background:rgba(129,212,250,.08);border:1px solid rgba(129,212,250,.2)">FOR — duração total</div>
+        <div class="fs-row">
+          <div class="fs-en">I <strong style="color:var(--accent)">have been</strong> here <strong style="color:var(--have)">for</strong> 2 hours.</div>
+          <div class="fs-pt">Estou aqui há 2 horas.</div>
+        </div>
+        <div class="fs-row">
+          <div class="fs-en">She <strong style="color:var(--accent)">has been</strong> sick <strong style="color:var(--have)">for</strong> a week.</div>
+          <div class="fs-pt">Ela está doente há uma semana.</div>
+        </div>
+        <div class="fs-row">
+          <div class="fs-en">We <strong style="color:var(--accent)">have been</strong> friends <strong style="color:var(--have)">for</strong> years.</div>
+          <div class="fs-pt">Somos amigos há anos.</div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:8px">FOR = HÁ (duração): how long, período de tempo</p>
+      </div>
+      <div>
+        <div class="fs-col-label" style="color:var(--has);background:rgba(255,224,130,.08);border:1px solid rgba(255,224,130,.2)">SINCE — ponto de início</div>
+        <div class="fs-row">
+          <div class="fs-en">I <strong style="color:var(--accent)">have been</strong> here <strong style="color:var(--has)">since</strong> noon.</div>
+          <div class="fs-pt">Estou aqui desde o meio-dia.</div>
+        </div>
+        <div class="fs-row">
+          <div class="fs-en">He <strong style="color:var(--accent)">has been</strong> sick <strong style="color:var(--has)">since</strong> Monday.</div>
+          <div class="fs-pt">Ele está doente desde segunda.</div>
+        </div>
+        <div class="fs-row">
+          <div class="fs-en">They <strong style="color:var(--accent)">have been</strong> friends <strong style="color:var(--has)">since</strong> 2018.</div>
+          <div class="fs-pt">São amigos desde 2018.</div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:8px">SINCE = DESDE: starting point, data ou momento</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn" style="margin-top:16px">⚠️ Em português dizemos "fui" tanto para Simple Past quanto para Present Perfect. Em inglês são formas diferentes: "I went to Paris yesterday" (Simple Past) vs "I have been to Paris" (Present Perfect — experiência, sem data).</div>
+</div>
+
+<!-- AFIRMATIVA -->
+<section class="uso">
+  <div class="uhead"><span class="unum">AFIRMATIVA</span><h2 class="utitle">JÁ ESTEVE / TEM ESTADO — <em>have/has been · had been · will have been</em></h2></div>
+  <div class="stabs" id="affTabs">
+    <button class="stab on" data-group="aff" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(236,64,122,.08)">Pres. Perfeito</button>
+    <button class="stab" data-group="aff" data-t="past">Passado Perf.</button>
+    <button class="stab" data-group="aff" data-t="will">Futuro Perf. WILL</button>
+    <button class="stab" data-group="aff" data-t="goingto">Going to have been</button>
+  </div>
+  <div class="tpanel on" id="aff-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-present"></tbody></table><div class="tip" id="tip-aff-present"></div></div>
+  <div class="tpanel" id="aff-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-past"></tbody></table><div class="tip" id="tip-aff-past"></div></div>
+  <div class="tpanel" id="aff-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-will"></tbody></table><div class="tip" id="tip-aff-will"></div></div>
+  <div class="tpanel" id="aff-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-goingto"></tbody></table><div class="tip" id="tip-aff-goingto"></div></div>
+</section>
+
+<!-- NEGAÇÃO -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">NEGAÇÃO</span><h2 class="utitle">NUNCA ESTEVE — <em>have not been · has not been · had not been</em></h2></div>
+  <div class="stabs" id="negTabs">
+    <button class="stab on" data-group="neg" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(236,64,122,.08)">Pres. Perfeito</button>
+    <button class="stab" data-group="neg" data-t="past">Passado Perf.</button>
+    <button class="stab" data-group="neg" data-t="will">Futuro Perf. WILL</button>
+    <button class="stab" data-group="neg" data-t="goingto">Going to have been</button>
+  </div>
+  <div class="tpanel on" id="neg-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-present"></tbody></table><div class="warn" id="tip-neg-present"></div></div>
+  <div class="tpanel" id="neg-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-past"></tbody></table><div class="warn" id="tip-neg-past"></div></div>
+  <div class="tpanel" id="neg-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-will"></tbody></table><div class="warn" id="tip-neg-will"></div></div>
+  <div class="tpanel" id="neg-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-goingto"></tbody></table><div class="warn" id="tip-neg-goingto"></div></div>
+</section>
+
+<!-- PERGUNTA -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:#64DFDF;background:rgba(100,223,223,.08);border-color:rgba(100,223,223,.2)">PERGUNTA</span><h2 class="utitle">JÁ ESTEVE? — <em>Have/Has/Had + pronome + been?</em></h2></div>
+  <div class="stabs" id="qTabs">
+    <button class="stab on" data-group="q" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(236,64,122,.08)">Pres. Perfeito</button>
+    <button class="stab" data-group="q" data-t="past">Passado Perf.</button>
+    <button class="stab" data-group="q" data-t="will">Futuro Perf. WILL</button>
+    <button class="stab" data-group="q" data-t="goingto">Going to have been</button>
+  </div>
+  <div class="tpanel on" id="q-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-present"></tbody></table><div class="info" id="tip-q-present"></div></div>
+  <div class="tpanel" id="q-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-past"></tbody></table><div class="info" id="tip-q-past"></div></div>
+  <div class="tpanel" id="q-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-will"></tbody></table><div class="info" id="tip-q-will"></div></div>
+  <div class="tpanel" id="q-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-goingto"></tbody></table><div class="info" id="tip-q-goingto"></div></div>
+  <div class="warn" style="margin-top:18px">⚠️ Pergunta: HAVE/HAS/HAD vem antes do pronome. <em>"Have you been here?"</em> — Sem DO/DOES/DID! "Has she been sick?" é a forma correta.</div>
+</section>
+
+<!-- CONTRAÇÕES -->
+<section class="uso">
+  <div class="uhead"><span class="unum">CONTRAÇÕES</span><h2 class="utitle">Formas <em>naturais na fala</em></h2></div>
+  <div class="contr-grid" id="contrGrid"></div>
+  <div class="tip" style="margin-top:18px">💡 "I've been there" / "She's been sick" / "We've been friends for years" — as contrações são o inglês real. "It's been a long time!" é uma expressão muito comum.</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todos os tempos perfeitos com BEEN</h2></div>
+  <div class="sgrid" id="resumoGrid"></div>
+  <div class="tip" style="margin-top:20px">🔑 BEEN = particípio passado de BE. HAVE (I/YOU/WE/THEY) · HAS (HE/SHE/IT) no Presente Perfeito. HAD para todos no Passado Perfeito. WILL HAVE para todos no Futuro Perfeito.</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 10: BE — BEEN (Presente Perfeito)</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+var PRONS=['I','YOU','HE','SHE','IT','WE','THEY'];
+var COLS={I:'#9C8FFF',YOU:'#FF8EC4',HE:'#81D4FA',SHE:'#FFE082',IT:'#A5D6A7',WE:'#FFAB91',THEY:'#D1A8E8'};
+var HEXN={I:0x9C8FFF,YOU:0xFF8EC4,HE:0x81D4FA,SHE:0xFFE082,IT:0xA5D6A7,WE:0xFFAB91,THEY:0xD1A8E8};
+var PT={I:'EU',YOU:'VOCÊ',HE:'ELE',SHE:'ELA',IT:'ISSO / TEMPO',WE:'NÓS',THEY:'ELES / ELAS'};
+var HAVE_HAS={I:'HAVE BEEN',YOU:'HAVE BEEN',HE:'HAS BEEN',SHE:'HAS BEEN',IT:'HAS BEEN',WE:'HAVE BEEN',THEY:'HAVE BEEN'};
+var IS_HAS={I:false,YOU:false,HE:true,SHE:true,IT:true,WE:false,THEY:false};
+
+var PDESC={
+  I:   {desc:'I + HAVE BEEN: experiência pessoal ou estado que ainda tem relevância agora. "I have been here before" — já estive aqui (experiência de vida).',rule:'🔑 HAVE BEEN (não HAS). "I have been sick lately" = tenho estado doente. Sem data definida — não se usa "yesterday" com HAVE BEEN.',sim:[{en:"I've been to Paris twice.",pt:'Já fui a Paris duas vezes.'},{en:'I had been sick before the meeting.',pt:'Eu tinha estado doente antes da reunião.'},{en:'I will have been here for a year in June.',pt:'Terei estado aqui por um ano em junho.'}]},
+  YOU: {desc:'YOU + HAVE BEEN: experiência ou estado do interlocutor. "Have you been here before?" — a pergunta de experiência mais comum em inglês.',rule:'🔑 HAVE BEEN para YOU sempre. "Have you ever been to Brazil?" — "ever" pede experiência de vida com HAVE BEEN.',sim:[{en:"Have you ever been to Japan?",pt:'Você já foi ao Japão?'},{en:"You've been working hard.",pt:'Você tem trabalhado muito.'},{en:"You had been here before.",pt:'Você tinha estado aqui antes.'}]},
+  HE:  {desc:'HE + HAS BEEN: HE/SHE/IT usa HAS (não HAVE). "He has been sick" — ele tem estado doente, ainda relevante agora.',rule:'🔑 HAS para HE/SHE/IT — o mesmo padrão de HE WORKS → HE HAS. "He has been" / "He has" — verbo auxiliar HAVE conjugado.',sim:[{en:"He's been sick all week.",pt:'Ele tem estado doente a semana toda.'},{en:"Has he been here before?",pt:'Ele já esteve aqui antes?'},{en:"He had been sick before we met.",pt:'Ele tinha estado doente antes de nos conhecermos.'}]},
+  SHE: {desc:'SHE + HAS BEEN: mesma regra de HE. HAS para a terceira pessoa do singular. "She has been very busy" — ela tem estado muito ocupada.',rule:'🔑 "She has been" = contração "She\'s been". Cuidado: "She\'s been" ≠ "She was". WAS = passado simples · HAS BEEN = ainda relevante.',sim:[{en:"She's been very busy lately.",pt:'Ela tem estado muito ocupada ultimamente.'},{en:"Has she been here before?",pt:'Ela já esteve aqui antes?'},{en:"She had been waiting for hours.",pt:'Ela tinha estado esperando por horas.'}]},
+  IT:  {desc:'IT + HAS BEEN: estados climáticos ou de situação com relevância presente. "It has been hot all week" — tem estado quente a semana toda.',rule:'🔑 "It\'s been" é uma expressão muito comum. "It\'s been a long time!" / "It\'s been great!" / "How long has it been?"',sim:[{en:"It's been hot all week.",pt:'Tem estado quente a semana toda.'},{en:"It's been a long time!",pt:'Faz muito tempo!'},{en:"Has it been cold?",pt:'Tem estado frio?'}]},
+  WE:  {desc:'WE + HAVE BEEN: experiência ou estado coletivo com relevância presente. "We have been friends for years" — somos amigos há anos.',rule:'🔑 HAVE para WE. "We\'ve been friends for 10 years" = somos amigos há 10 anos — usando HAVE BEEN + FOR + duração.',sim:[{en:"We've been friends for years.",pt:'Somos amigos há anos.'},{en:"Have we been here before?",pt:'Já estivemos aqui antes?'},{en:"We had been friends before that.",pt:'Nós tínhamos sido amigos antes disso.'}]},
+  THEY:{desc:'THEY + HAVE BEEN: ação ou estado grupal com relevância no presente. "They have been working all day" — eles têm trabalhado o dia todo.',rule:'🔑 HAVE para THEY. "They\'ve been here before" = eles já estiveram aqui. "Have they been working?" = pergunta sobre atividade recente.',sim:[{en:"They've been working all day.",pt:'Eles têm trabalhado o dia todo.'},{en:"Have they been here before?",pt:'Eles já estiveram aqui antes?'},{en:"They had been friends for years.",pt:'Eles tinham sido amigos por anos.'}]}
+};
+
+var T={
+  present:{label:'Pres. Perfeito',color:'#EC407A',
+    forms:{I:'have been',YOU:'have been',HE:'has been',SHE:'has been',IT:'has been',WE:'have been',THEY:'have been'},
+    qforms:{I:'Have',YOU:'Have',HE:'Has',SHE:'Has',IT:'Has',WE:'Have',THEY:'Have'},
+    aff:{I:['I have been here before.','Eu já estive aqui antes.'],YOU:['You have been here before.','Você já esteve aqui antes.'],HE:['He has been sick.','Ele tem estado doente.'],SHE:['She has been very busy.','Ela tem estado muito ocupada.'],IT:['It has been hot all week.','Tem estado quente a semana toda.'],WE:['We have been friends for years.','Nós somos amigos há anos.'],THEY:['They have been working all day.','Eles têm trabalhado o dia todo.']},
+    neg:{I:['I have not been here before.','Eu nunca estive aqui antes.'],YOU:['You have not been here before.','Você nunca esteve aqui.'],HE:['He has not been sick.','Ele não tem estado doente.'],SHE:['She has not been here.','Ela não esteve aqui.'],IT:['It has not been cold.','Não tem estado frio.'],WE:['We have not been friends long.','Nós não somos amigos há muito.'],THEY:['They have not been working.','Eles não têm trabalhado.']},
+    q:{I:['Have I been here before?','Eu já estive aqui antes?'],YOU:['Have you been here before?','Você já esteve aqui antes?'],HE:['Has he been sick?','Ele tem estado doente?'],SHE:['Has she been here?','Ela esteve aqui?'],IT:['Has it been cold?','Tem estado frio?'],WE:['Have we been friends long?','Nós somos amigos há muito?'],THEY:['Have they been working?','Eles têm trabalhado?']},
+    tip:'⚡ HAVE BEEN (I/YOU/WE/THEY) · HAS BEEN (HE/SHE/IT). BEEN = particípio de BE. Conecta experiência/estado passado ao presente.',
+    qtip:'🔄 Pergunta: HAVE/HAS antes do pronome. "Has she been sick?" — Sem DO/DOES/DID!'},
+  past:{label:'Passado Perfeito',color:'#64B5F6',
+    forms:{I:'had been',YOU:'had been',HE:'had been',SHE:'had been',IT:'had been',WE:'had been',THEY:'had been'},
+    qforms:{I:'Had',YOU:'Had',HE:'Had',SHE:'Had',IT:'Had',WE:'Had',THEY:'Had'},
+    aff:{I:['I had been sick for a week.','Eu tinha estado doente por uma semana.'],YOU:['You had been sick for a week.','Você tinha estado doente por uma semana.'],HE:['He had been here before.','Ele tinha estado aqui antes.'],SHE:['She had been here before.','Ela tinha estado aqui antes.'],IT:['It had been cold for days.','Tinha estado frio por dias.'],WE:['We had been friends for years.','Nós tínhamos sido amigos por anos.'],THEY:['They had been working all day.','Eles tinham trabalhado o dia todo.']},
+    neg:{I:['I had not been sick.','Eu não tinha estado doente.'],YOU:['You had not been here.','Você não tinha estado aqui.'],HE:['He had not been here.','Ele não tinha estado aqui.'],SHE:['She had not been sick.','Ela não tinha estado doente.'],IT:['It had not been cold.','Não tinha estado frio.'],WE:['We had not been friends long.','Nós não tínhamos sido amigos há muito.'],THEY:['They had not been working.','Eles não tinham trabalhado.']},
+    q:{I:['Had I been here before?','Eu tinha estado aqui antes?'],YOU:['Had you been here before?','Você tinha estado aqui antes?'],HE:['Had he been sick?','Ele tinha estado doente?'],SHE:['Had she been here?','Ela tinha estado aqui?'],IT:['Had it been cold?','Tinha estado frio?'],WE:['Had we been friends long?','Nós tínhamos sido amigos há muito?'],THEY:['Had they been working?','Eles tinham trabalhado?']},
+    tip:'⚡ Passado Perfeito: HAD BEEN = igual para todos os pronomes! Uso: ação/estado completo ANTES de outro evento passado. "She had been sick before the doctor arrived."',
+    qtip:'🔄 Pergunta passado perfeito: HAD antes do pronome. "Had she been sick?" Sem DID!'},
+  will:{label:'Futuro Perf. WILL',color:'#CE93D8',
+    forms:{I:'will have been',YOU:'will have been',HE:'will have been',SHE:'will have been',IT:'will have been',WE:'will have been',THEY:'will have been'},
+    qforms:{I:'Will',YOU:'Will',HE:'Will',SHE:'Will',IT:'Will',WE:'Will',THEY:'Will'},
+    aff:{I:['I will have been here for 10 years.','Eu terei estado aqui por 10 anos.'],YOU:['You will have been here for 10 years.','Você terá estado aqui por 10 anos.'],HE:['He will have been sick for a week.','Ele terá estado doente por uma semana.'],SHE:['She will have been working for hours.','Ela terá trabalhado por horas.'],IT:['It will have been cold for days.','Terá estado frio por dias.'],WE:['We will have been friends for 20 years.','Nós teremos sido amigos por 20 anos.'],THEY:['They will have been here before.','Eles terão estado aqui antes.']},
+    neg:{I:['I will not have been here long.','Eu não terei estado aqui muito tempo.'],YOU:['You will not have been here long.','Você não terá estado aqui muito tempo.'],HE:['He will not have been sick long.','Ele não terá estado doente muito tempo.'],SHE:['She will not have been here long.','Ela não terá estado aqui muito tempo.'],IT:['It will not have been cold.','Não terá estado frio.'],WE:['We will not have been friends long.','Nós não teremos sido amigos por muito tempo.'],THEY:['They will not have been working.','Eles não terão trabalhado.']},
+    q:{I:['Will I have been here for 10 years?','Eu terei estado aqui por 10 anos?'],YOU:['Will you have been here long?','Você terá estado aqui muito tempo?'],HE:['Will he have been sick long?','Ele terá estado doente muito tempo?'],SHE:['Will she have been here long?','Ela terá estado aqui muito tempo?'],IT:['Will it have been cold?','Terá estado frio?'],WE:['Will we have been friends long?','Nós teremos sido amigos por muito tempo?'],THEY:['Will they have been working?','Eles terão trabalhado?']},
+    tip:'⚡ Futuro Perfeito: WILL HAVE BEEN = igual para todos. "By June, I will have been here for a year." — resultado que estará completo num ponto futuro.',
+    qtip:'🔄 Pergunta futuro perfeito: WILL + pronome + HAVE BEEN. "Will she have been here long?"'},
+  goingto:{label:'Going to have been',color:'#80CBC4',
+    forms:{I:'am going to have been',YOU:'are going to have been',HE:'is going to have been',SHE:'is going to have been',IT:'is going to have been',WE:'are going to have been',THEY:'are going to have been'},
+    qforms:{I:'Am',YOU:'Are',HE:'Is',SHE:'Is',IT:'Is',WE:'Are',THEY:'Are'},
+    aff:{I:['I am going to have been here for a year.','Eu vou ter estado aqui por um ano.'],YOU:['You are going to have been here for a year.','Você vai ter estado aqui por um ano.'],HE:['He is going to have been sick for a week.','Ele vai ter estado doente por uma semana.'],SHE:['She is going to have been here for years.','Ela vai ter estado aqui por anos.'],IT:['It is going to have been cold for days.','Vai ter estado frio por dias.'],WE:['We are going to have been friends for years.','Nós vamos ter sido amigos por anos.'],THEY:['They are going to have been here before.','Eles vão ter estado aqui antes.']},
+    neg:{I:['I am not going to have been here long.','Eu não vou ter estado aqui muito tempo.'],YOU:['You are not going to have been here long.','Você não vai ter estado aqui muito tempo.'],HE:['He is not going to have been sick.','Ele não vai ter estado doente.'],SHE:['She is not going to have been here.','Ela não vai ter estado aqui.'],IT:['It is not going to have been cold.','Não vai ter estado frio.'],WE:['We are not going to have been friends long.','Nós não vamos ter sido amigos por muito tempo.'],THEY:['They are not going to have been working.','Eles não vão ter trabalhado.']},
+    q:{I:['Am I going to have been here long?','Eu vou ter estado aqui muito tempo?'],YOU:['Are you going to have been here long?','Você vai ter estado aqui muito tempo?'],HE:['Is he going to have been sick?','Ele vai ter estado doente?'],SHE:['Is she going to have been here?','Ela vai ter estado aqui?'],IT:['Is it going to have been cold?','Vai ter estado frio?'],WE:['Are we going to have been friends long?','Nós vamos ter sido amigos por muito tempo?'],THEY:['Are they going to have been working?','Eles vão ter trabalhado?']},
+    tip:'⚡ Going to have been: AM (I) · IS (HE/SHE/IT) · ARE (YOU/WE/THEY) + going to have been. Previsão de resultado futuro acumulado.',
+    qtip:'🔄 Pergunta going to have been: AM/IS/ARE + pronome + going to have been.'}
+};
+
+var TKEYS=['present','past','will','goingto'];
+var MODES=['aff','neg','q'];
+var TENSE_COLORS={present:'#EC407A',past:'#64B5F6',will:'#CE93D8',goingto:'#80CBC4'};
+
+function hlBeen(text, form, tc, mode, qform){
+  var result=text;
+  if(mode==='q'&&qform){
+    // Highlight the opening question word
+    var qesc=qform.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    result=result.replace(new RegExp('^'+qesc+'\\b','i'),function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+  } else {
+    // Highlight full form (have been / has been / had been / will have been etc.)
+    var esc=form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    result=result.replace(new RegExp(esc,'i'),function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+  }
+  // Always highlight "been"
+  result=result.replace(/\b(been)\b(?![^<]*<\/strong>)/gi,function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+  return result;
+}
+function hlPT(text){
+  return text.replace(/\b(já estive|já esteve|já estivemos|já estiveram|tem estado|têm estado|tinha estado|tinham estado|tínhamos sido|terei estado|terá estado|teremos sido|terão estado|vou ter estado|vai ter estado|vamos ter sido|vão ter estado|vou ter|vai ter|vamos ter|vão ter|nunca estive|nunca esteve|não tem estado|não tinha estado|não terei estado|não terá estado|não tínhamos|somos|não somos)\b/gi,function(m){return '<strong>'+m+'</strong>';});
+}
+
+TKEYS.forEach(function(tk){
+  MODES.forEach(function(mode){
+    var tbody=document.getElementById('tb-'+mode+'-'+tk);
+    if(!tbody||tbody.innerHTML) return;
+    var tense=T[tk];
+    PRONS.forEach(function(p){
+      var pair=tense[mode][p],col=COLS[p],tc=tense.color;
+      var hl=hlBeen(pair[0],tense.forms[p],tc,mode,tense.qforms?tense.qforms[p]:null);
+      var pthl=hlPT(pair[1]);
+      var bg=col+'1a';
+      tbody.innerHTML+='<tr><td><span class="ptag" style="color:'+col+';background:'+bg+'">'+p+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pthl+'</td></tr>';
+    });
+    var tipKey=mode==='q'?'qtip':'tip';
+    var tipEl=document.getElementById('tip-'+mode+'-'+tk);
+    if(tipEl) tipEl.textContent=tense[tipKey];
+  });
+});
+
+function setupSectionTabs(groupId,panelPrefix){
+  var tabs=document.querySelectorAll('.stab[data-group="'+groupId+'"]');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var tKey=tab.dataset.t;
+      tabs.forEach(function(t){t.classList.remove('on');t.style.borderColor='';t.style.color='';t.style.background='';});
+      tab.classList.add('on');
+      var tc=TENSE_COLORS[tKey];
+      tab.style.borderColor=tc;tab.style.color=tc;tab.style.background=tc+'14';
+      TKEYS.forEach(function(k){var p=document.getElementById(panelPrefix+'-'+k);if(p)p.classList.toggle('on',k===tKey);});
+    });
+  });
+}
+setupSectionTabs('aff','aff'); setupSectionTabs('neg','neg'); setupSectionTabs('q','q');
+
+var CONTRS=[
+  {from:"I have been",to:"I've been"},{from:"You have been",to:"You've been"},
+  {from:"He has been",to:"He's been"},{from:"She has been",to:"She's been"},
+  {from:"It has been",to:"It's been"},{from:"We have been",to:"We've been"},
+  {from:"They have been",to:"They've been"},{from:"have not been",to:"haven't been"},
+  {from:"has not been",to:"hasn't been"},{from:"had not been",to:"hadn't been"},
+  {from:"will not have been",to:"won't have been"},{from:"It has been a long time",to:"It's been a long time"}
+];
+var cg=document.getElementById('contrGrid');
+CONTRS.forEach(function(c){
+  cg.innerHTML+='<div class="contr-card"><div class="contr-from">'+c.from+'</div><div class="contr-to"><span style="color:var(--muted)">→</span> <span style="color:var(--accent)">'+c.to+'</span></div></div>';
+});
+
+var tLabels={present:'Pres. Perf.',past:'Passado P.',will:'Futuro P.',goingto:'Going to'};
+var rg=document.getElementById('resumoGrid');
+PRONS.forEach(function(p){
+  var col=COLS[p];
+  var rows='';
+  TKEYS.forEach(function(tk){rows+='<div class="sc-row"><span class="sc-tense">'+tLabels[tk]+'</span><span class="sc-form" style="color:'+TENSE_COLORS[tk]+'">'+T[tk].forms[p]+'</span></div>';});
+  rg.innerHTML+='<div class="scard" style="border-color:'+col+'33"><div class="sc-pron" style="color:'+col+'">'+p+'</div>'+rows+'</div>';
+});
+
+var navEl=document.getElementById('pnav');
+PRONS.forEach(function(p){
+  var b=document.createElement('button');
+  b.className='pbtn'; b.dataset.p=p;
+  b.style.color=COLS[p]; b.style.borderColor=COLS[p];
+  b.textContent=p;
+  b.addEventListener('click',function(){openPronoun(p);});
+  navEl.appendChild(b);
+});
+
+// ── HERO THREE.JS ──────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(58,1,0.1,100);
+hCam.position.set(0,3.2,12); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeHero(){var w=hCanvas.parentElement.clientWidth,h=440;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeHero(); window.addEventListener('resize',resizeHero);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.4;
+hCtrl.minDistance=8; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.45));
+var hDir=new THREE.DirectionalLight(0xffffff,.85); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x14020a,0x14020a));
+
+function mkChar(color,scale){
+  scale=scale||1;
+  var g=new THREE.Group();
+  var m=function(c){return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.2});};
+  var head=new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16),m(color)); head.position.y=1.48*scale; g.add(head);
+  var body=new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8),m(color)); body.position.y=.82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(p){var a=new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8),m(color));a.rotation.z=p[1];a.position.set(p[0]*scale,.93*scale,0);g.add(a);});
+  [-.16,.16].forEach(function(x){var l=new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8),m(color));l.position.set(x*scale,.06*scale,0);g.add(l);});
+  var pl=new THREE.PointLight(color,.4,3*scale); pl.position.y=.5*scale; g.add(pl);
+  return g;
+}
+
+// Central BEEN sphere — rose pink
+var beSphere=new THREE.Mesh(new THREE.SphereGeometry(.65,32,32),new THREE.MeshPhongMaterial({color:0xEC407A,emissive:0xEC407A,emissiveIntensity:.35,transparent:true,opacity:.85}));
+beSphere.position.set(0,1.2,0); hScene.add(beSphere);
+var beLight=new THREE.PointLight(0xEC407A,2,7); beLight.position.set(0,1.2,0); hScene.add(beLight);
+// HAVE ring (blue) and HAS ring (yellow) around central sphere
+var haveRing=new THREE.Mesh(new THREE.TorusGeometry(.9,.04,8,48),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.6}));
+haveRing.position.y=1.2; haveRing.rotation.x=Math.PI/2; hScene.add(haveRing);
+var hasRing=new THREE.Mesh(new THREE.TorusGeometry(1.15,.04,8,48),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.5}));
+hasRing.position.y=1.2; hasRing.rotation.x=Math.PI*0.4; hScene.add(hasRing);
+
+// Memory trail particles
+var trailGeo=new THREE.BufferGeometry();
+var trailPos=[];
+for(var i=0;i<80;i++){trailPos.push((Math.random()-.5)*12,Math.random()*3,(Math.random()-.5)*12);}
+trailGeo.setAttribute('position',new THREE.Float32BufferAttribute(trailPos,3));
+var trailPts=new THREE.Points(trailGeo,new THREE.PointsMaterial({color:0xEC407A,size:.05,transparent:true,opacity:.3}));
+hScene.add(trailPts);
+
+var hChars=[],labelData=[];
+PRONS.forEach(function(p,i){
+  var a=(i/PRONS.length)*Math.PI*2-Math.PI/2,r=4.2;
+  var x=Math.cos(a)*r,z=Math.sin(a)*r;
+  var c=mkChar(HEXN[p]); c.position.set(x,0,z); c.lookAt(0,c.position.y,0);
+  // Ring: HAVE = blue, HAS = yellow
+  var ringCol=IS_HAS[p]?0xFFE082:0x81D4FA;
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),new THREE.MeshPhongMaterial({color:ringCol,emissive:ringCol,emissiveIntensity:.4}));
+  ring.rotation.x=Math.PI/2; ring.position.y=-.4; c.add(ring);
+  hScene.add(c);
+  hChars.push({mesh:c,key:p});
+  var el=document.createElement('div');
+  el.className='hlabel'; el.style.color=COLS[p]; el.style.borderColor=COLS[p];
+  el.textContent=p;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el:el,mesh:c});
+});
+
+function updateLabels(){
+  var w=hCanvas.clientWidth,h=440;
+  labelData.forEach(function(ld){
+    var pos=new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y+=2.4; pos.project(hCam);
+    var x=(pos.x*.5+.5)*w,y=(-pos.y*.5+.5)*h;
+    ld.el.style.left=x+'px'; ld.el.style.top=y+'px';
+    ld.el.style.opacity=pos.z<1?'1':'0';
+  });
+}
+
+var ray=new THREE.Raycaster(),mPos=new THREE.Vector2();
+hCanvas.addEventListener('click',function(e){
+  var r=hCanvas.getBoundingClientRect();
+  mPos.x=((e.clientX-r.left)/r.width)*2-1;
+  mPos.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos,hCam);
+  hChars.forEach(function(c){
+    var ch=[]; c.mesh.traverse(function(m){if(m.isMesh)ch.push(m);});
+    if(ray.intersectObjects(ch).length>0) openPronoun(c.key);
+  });
+});
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  hChars.forEach(function(c,i){c.mesh.position.y=Math.sin(hT*.9+i*.7)*.14;});
+  haveRing.rotation.z+=.008;
+  hasRing.rotation.x=Math.PI*.4+Math.sin(hT*.5)*.1; hasRing.rotation.y+=.006;
+  beSphere.rotation.y+=.006;
+  // Heartbeat pulse
+  var pulse=1+Math.abs(Math.sin(hT*2.5))*.6;
+  beLight.intensity=pulse;
+  trailPts.rotation.y+=.002;
+  updateLabels(); hRend.render(hScene,hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+var dCanvas=document.getElementById('dCanvas');
+var dScene=new THREE.Scene();
+var dCam=new THREE.PerspectiveCamera(52,360/300,0.1,100);
+dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+var dRend=new THREE.WebGLRenderer({canvas:dCanvas,antialias:true,alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+dRend.setSize(360,300); dRend.setClearColor(0x080c14,1);
+var dCtrl=new THREE.OrbitControls(dCam,dRend.domElement);
+dCtrl.enableDamping=true; dCtrl.dampingFactor=.05; dCtrl.target.set(0,.5,0); dCtrl.update();
+var dAmb=new THREE.AmbientLight(0xffffff,.45);
+var dDir2=new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+var dPL=new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb,dDir2,dPL);
+var dObjs=[],dT=0;
+
+function clearD(){while(dScene.children.length)dScene.remove(dScene.children[0]);dScene.add(dAmb,dDir2,dPL);dObjs=[];}
+function dFloor(){var f=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshPhongMaterial({color:0x080c14}));f.rotation.x=-Math.PI/2;f.position.y=-.5;dScene.add(f);}
+function mkSph(col,r){return new THREE.Mesh(new THREE.SphereGeometry(r||.25,12,12),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.2}));}
+function mkBox(col,sx,sy,sz){return new THREE.Mesh(new THREE.BoxGeometry(sx||.4,sy||.4,sz||.4),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.18}));}
+
+function addMemoryOrbs(col,n){
+  n=n||5;
+  for(var i=0;i<n;i++){
+    var orb=mkSph(0xEC407A,.07); var a=i/n*Math.PI*2; var r2=1+Math.random()*.4;
+    orb.position.set(Math.cos(a)*r2,.8+Math.random()*.6,Math.sin(a)*r2); dScene.add(orb);
+    dObjs.push({m:orb,type:'orbit',r:r2,a:a,baseY:.8+Math.random()*.4,spd:.3+Math.random()*.2});
+  }
+}
+
+function buildI(){
+  dPL.color.set(0x9C8FFF); dFloor();
+  var ch=mkChar(0x9C8FFF); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'float',baseY:-.5,off:0});
+  // Timeline orbs representing past experiences
+  var tColors=[0xEC407A,0x9C8FFF,0x81D4FA,0xFFE082];
+  [-1.5,-0.5,.5,1.5].forEach(function(x,i){
+    var orb=mkSph(tColors[i],.12); orb.position.set(x,-.1,0); dScene.add(orb);
+    dObjs.push({m:orb,type:'pulse',baseY:-.1,off:i*.6});
+    if(i<3){var line=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.95,4),new THREE.MeshPhongMaterial({color:0xEC407A,transparent:true,opacity:.3}));line.rotation.z=Math.PI/2;line.position.set(x+.5,-.1,0);dScene.add(line);}
+  });
+  addMemoryOrbs(0x9C8FFF);
+}
+function buildYOU(){
+  dPL.color.set(0xFF8EC4); dFloor();
+  var ch=mkChar(0xFF8EC4); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'float',baseY:-.5,off:.3});
+  // Question mark sphere
+  var q=mkSph(0xFF8EC4,.25); q.position.set(.8,1.5,.2); dScene.add(q); dObjs.push({m:q,type:'float',baseY:1.5,off:.5});
+  addMemoryOrbs(0xFF8EC4);
+}
+function buildHE(){
+  dPL.color.set(0x81D4FA); dFloor();
+  var ch=mkChar(0x81D4FA); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sick',off:0});
+  // Sick glow
+  var sg=new THREE.PointLight(0xFF7043,.8,2.5); sg.position.set(0,.8,0); dScene.add(sg);
+  dObjs.push({m:sg,type:'pulse',baseY:.8,off:0});
+  // Thermometer
+  var therm=mkBox(0xFF7043,.08,.6,.08); therm.position.set(.7,.4,0); dScene.add(therm); dObjs.push({m:therm,type:'still'});
+  addMemoryOrbs(0x81D4FA,4);
+}
+function buildSHE(){
+  dPL.color.set(0xFFE082); dFloor();
+  var ch=mkChar(0xFFE082); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'float',baseY:-.5,off:.2});
+  // Busy papers
+  for(var i=0;i<5;i++){
+    var paper=mkBox(0xFFE082,.18,.22,.02); paper.position.set((Math.random()-.5)*1.5,.5+Math.random()*.8,(Math.random()-.5)*.8); dScene.add(paper);
+    dObjs.push({m:paper,type:'float',baseY:paper.position.y,off:i*.4});
+  }
+  addMemoryOrbs(0xFFE082,4);
+}
+function buildIT(){
+  dPL.color.set(0xA5D6A7); dFloor();
+  // Timeline of temperature states
+  var cols=[0x81D4FA,0xFFE082,0xFF7043,0xFFE082];
+  var labels=['cold','warm','hot','warm'];
+  [-1.4,-.4,.6,1.6].forEach(function(x,i){
+    var sph=mkSph(cols[i],.18); sph.position.set(x,.2,0); dScene.add(sph);
+    dObjs.push({m:sph,type:'pulse',baseY:.2,off:i*.5});
+  });
+  // Connection line
+  var line=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,3.2,4),new THREE.MeshPhongMaterial({color:0xEC407A,transparent:true,opacity:.25}));
+  line.rotation.z=Math.PI/2; line.position.set(.1,.2,0); dScene.add(line);
+  addMemoryOrbs(0xA5D6A7,5);
+}
+function buildWE(){
+  dPL.color.set(0xFFAB91); dFloor();
+  var ch1=mkChar(0xFFAB91,.95); ch1.position.set(-.7,-.5,0); dScene.add(ch1); dObjs.push({m:ch1,type:'float',baseY:-.5,off:0});
+  var ch2=mkChar(0xFFCCBC,.95); ch2.position.set(.7,-.5,0); dScene.add(ch2); dObjs.push({m:ch2,type:'float',baseY:-.5,off:.4});
+  // Friendship bond
+  var bond=new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,1.4,4),new THREE.MeshPhongMaterial({color:0xEC407A,emissive:0xEC407A,emissiveIntensity:.5,transparent:true,opacity:.6}));
+  bond.rotation.z=Math.PI/2; bond.position.set(0,.8,0); dScene.add(bond); dObjs.push({m:bond,type:'pulse',baseY:.8,off:.3});
+  addMemoryOrbs(0xFFAB91,4);
+}
+function buildTHEY(){
+  dPL.color.set(0xD1A8E8); dFloor();
+  var cc=[0xD1A8E8,0xAB47BC,0xCE93D8,0xB39DDB];
+  [[-1.2,-.5,.3],[-.3,-.5,-.4],[.6,-.5,.4],[1.2,-.5,-.3]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.88); ch.position.set(p[0],p[1],p[2]); dScene.add(ch);
+    dObjs.push({m:ch,type:'float',baseY:p[1],off:i*.25});
+  });
+  addMemoryOrbs(0xD1A8E8,5);
+}
+
+var BUILDERS={I:buildI,YOU:buildYOU,HE:buildHE,SHE:buildSHE,IT:buildIT,WE:buildWE,THEY:buildTHEY};
+
+function animDetail(){
+  requestAnimationFrame(animDetail); dT+=.016; dCtrl.update();
+  dObjs.forEach(function(o){
+    var off=o.off||0,by=o.baseY||0;
+    switch(o.type){
+      case 'float':  o.m.position.y=by+Math.sin(dT*.9+off)*.1; break;
+      case 'sick':   o.m.position.y=-.5+Math.sin(dT*.5+off)*.05; o.m.rotation.z=Math.sin(dT*.4+off)*.04; break;
+      case 'pulse':  if(o.m.isLight) o.m.intensity=0.6+Math.abs(Math.sin(dT*2+off))*.6; else o.m.scale.setScalar(1+Math.sin(dT*1.5+off)*.12); break;
+      case 'orbit':  o.m.position.x=Math.cos(dT*(o.spd||.4)+o.a)*(o.r||.8); o.m.position.z=Math.sin(dT*(o.spd||.4)+o.a)*(o.r||.8)*.4; o.m.position.y=by+Math.sin(dT*.7+off)*.08; break;
+      case 'still':  break;
+    }
+  });
+  dRend.render(dScene,dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense='present',selMode='aff',curP=null;
+
+function getSentence(pron,tense,mode){
+  var tObj=T[tense],pair=tObj[mode][pron];
+  var form=tObj.forms[pron],tc=COLS[pron];
+  var qf=tObj.qforms?tObj.qforms[pron]:null;
+  var hl=hlBeen(pair[0],form,tc,mode,qf);
+  var ctx='';
+  if(mode==='aff') ctx='✅ '+tObj.label+': '+form+' ('+pron+')';
+  if(mode==='neg') ctx='❌ Negação: NOT após HAVE/HAS/HAD. Contração: haven\'t / hasn\'t / hadn\'t';
+  if(mode==='q')   ctx='❓ Pergunta: HAVE/HAS/HAD antes do pronome. Sem DO!';
+  return {en:hl,pt:pair[1],ctx:ctx};
+}
+
+function openPronoun(p){
+  curP=p;
+  var d=PDESC[p];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent=p;
+  document.getElementById('dPron').style.color=COLS[p];
+  document.getElementById('dPt').textContent=PT[p];
+  document.getElementById('dPt').style.color=COLS[p];
+  var isHas=IS_HAS[p];
+  var haveEl=document.getElementById('dHave');
+  haveEl.textContent=HAVE_HAS[p];
+  haveEl.style.color=isHas?'#FFE082':'#81D4FA';
+  haveEl.style.background=isHas?'rgba(255,224,130,.1)':'rgba(129,212,250,.1)';
+  haveEl.style.border='1px solid '+(isHas?'rgba(255,224,130,.25)':'rgba(129,212,250,.25)');
+  document.getElementById('dDesc').textContent=d.desc;
+  document.getElementById('dRule').textContent=d.rule;
+  updateDetail();
+  var sl=document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>';});
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis=b.dataset.p===p;
+    b.classList.toggle('active',isThis);
+    b.style.backgroundColor=isThis?COLS[p]:'transparent';
+    b.style.color=isThis?'#080c14':COLS[p];
+  });
+  clearD(); BUILDERS[p]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateDetail(){
+  if(!curP) return;
+  var s=getSentence(curP,selTense,selMode);
+  document.getElementById('sEn').innerHTML=s.en;
+  document.getElementById('sPt').innerHTML=hlPT(s.pt);
+  document.getElementById('sCtx').textContent=s.ctx;
+}
+
+document.querySelectorAll('#tenseTabs .tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('#tenseTabs .tab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selTense=tab.dataset.t; updateDetail();
+  });
+});
+document.querySelectorAll('.mtab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.mtab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selMode=tab.dataset.m; updateDetail();
+  });
+});
+
+setTimeout(function(){openPronoun('I');},600);
+</script>
+</body>
+</html>

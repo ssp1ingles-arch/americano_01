@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 3 — Entrevistas com Nativos · Sistema 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:var(--co);border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{border-color:var(--co);background:rgba(255,107,107,.15);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.nav-back{color:var(--co);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-count{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--co);}
+
+.wrap{padding-top:96px;max-width:820px;margin:0 auto;padding-left:1.25rem;padding-right:1.25rem;padding-bottom:3rem;}
+
+.topic-nav{display:flex;gap:.5rem;flex-wrap:wrap;padding:1.1rem 0 1.4rem;}
+.topic-tab{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;padding:.5rem 1.05rem;border-radius:.55rem;border:1px solid var(--bd);background:var(--sf);color:var(--td);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.4rem;}
+.topic-tab:hover{color:var(--tx);border-color:var(--bdh);}
+.topic-tab.on{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.45);color:var(--co);}
+
+.topic-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.3rem;}
+.topic-question{font-size:.85rem;color:var(--tm);margin-bottom:1.25rem;padding:.85rem 1.1rem;background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--co);border-radius:.5rem;}
+
+.cards{display:flex;flex-direction:column;gap:1rem;}
+.interview-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;overflow:hidden;}
+.ic-header{padding:1.1rem 1.35rem .9rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:.6rem;}
+.ic-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,107,107,.14);border:1px solid rgba(255,107,107,.35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ic-name{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:800;}
+.ic-name span{color:var(--co);}
+
+.ic-body{padding:1.1rem 1.35rem;}
+.ic-quote{font-size:.92rem;line-height:1.65;color:var(--tx);font-style:italic;}
+.ic-quote::before{content:'"';color:var(--co);font-weight:800;}
+.ic-quote::after{content:'"';color:var(--co);font-weight:800;}
+.ic-pt{font-size:.82rem;color:var(--td);line-height:1.6;margin-top:.7rem;display:none;padding-top:.7rem;border-top:1px dashed var(--bd);}
+.ic-pt.show{display:block;}
+.ic-toggle{margin-top:.75rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .75rem;border-radius:.4rem;border:1px solid rgba(255,107,107,.3);background:rgba(255,107,107,.06);color:var(--co);cursor:pointer;transition:all .18s;}
+.ic-toggle:hover{background:rgba(255,107,107,.14);}
+
+.ic-footer{padding:.9rem 1.35rem;border-top:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.ic-vocab-label,.ic-phrase-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.4rem;}
+.ic-vocab-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem;}
+.ic-vocab-tag{font-size:.7rem;background:var(--bg);border:1px solid var(--bd);border-radius:.4rem;padding:.2rem .55rem;color:var(--tm);}
+.ic-phrase{font-size:.8rem;color:var(--tx);}
+.ic-phrase-pt{font-size:.72rem;color:var(--td);margin-top:.1rem;}
+
+@media(max-width:560px){.topic-title{font-size:1rem;}}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../index.html" class="gnav-btn gnav-s4 active">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 4</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 3 — Entrevistas com Nativos</div>
+    <div class="nav-sub">O que pessoas reais disseram sobre temas cotidianos</div>
+  </div>
+  <div class="nav-count" id="navCount">4 temas</div>
+</nav>
+
+<div class="wrap">
+  <div class="topic-nav" id="topicNav"></div>
+  <div class="topic-title" id="topicTitle"></div>
+  <div class="topic-question" id="topicQuestion"></div>
+  <div class="cards" id="cardsArea"></div>
+</div>
+
+<script>
+const TOPICS = [
+{id:1,icon:'🎵',name:'Música',question:'"What kinds of music do you like? When do you usually listen to music?"',
+ people:[
+  {name:'Natalie',
+   en:"I like classic rock. I like to see what's new. I listen to music whenever I'm waking up in the morning and getting ready, and also whenever I'm getting ready to go out in the evenings. I always listen to music. So I listen at least twice a day — in my office or in the car. I go to classical music concerts and operas sometimes.",
+   pt:'Eu gosto de rock clássico. Gosto de ver o que há de novo. Eu ouço música sempre que estou acordando de manhã e me arrumando, e também sempre que estou me arrumando para sair à noite. Eu sempre ouço música. Então eu ouço pelo menos duas vezes por dia — no meu escritório ou no carro. Às vezes eu vou a concertos de música clássica e óperas.',
+   vocab:['classic rock','getting ready','at least twice a day'],
+   phrase:{en:"I listen to music whenever I'm ___.",pt:'Ouço música sempre que estou ___.'}},
+  {name:'Mauro',
+   en:"I like rock and roll. I like American music, as a matter of fact. I don't own very many CDs, but my husband owns lots of CDs, so I listen to his instead. We have a few hundred. Wow, that's a lot!",
+   pt:'Eu gosto de rock and roll. Gosto de música americana, na verdade. Eu não tenho muitos CDs, mas meu marido tem muitos CDs, então eu ouço os dele. Temos umas centenas. Nossa, isso é bastante!',
+   vocab:['as a matter of fact','own','a few hundred'],
+   phrase:{en:"As a matter of fact...",pt:'Na verdade... / De fato...'}},
+ ]},
+{id:2,icon:'👨‍👩‍👧',name:'Família',question:'"How would you compare yourself with your sister? How are you alike and different?"',
+ people:[
+  {name:'Deepti',
+   en:"Well, we do look alike, but apart from that, we're very different. She likes the arts, and I'm more interested in sport. My sister is much better with money than I am. She can save, whereas I like to spend.",
+   pt:'Bem, nós nos parecemos, mas fora isso, somos muito diferentes. Ela gosta de artes, e eu sou mais interessada em esportes. Minha irmã é muito melhor com dinheiro do que eu. Ela consegue economizar, enquanto eu gosto de gastar.',
+   vocab:['look alike','apart from that','whereas'],
+   phrase:{en:"We look alike but we're very different.",pt:'Nos parecemos mas somos muito diferentes.'}},
+  {name:'Angelique',
+   en:"Me and my brother are quite different. I'm much more talkative, and he's much more shy. But other than that, I mean, we grew up in the same house, so we love the same food and listen to the same music pretty much, and we like the same movies.",
+   pt:'Eu e meu irmão somos bem diferentes. Eu sou bem mais falante, e ele é bem mais tímido. Mas fora isso, quer dizer, a gente cresceu na mesma casa, então gostamos praticamente da mesma comida e ouvimos praticamente a mesma música, e gostamos dos mesmos filmes.',
+   vocab:['talkative','shy','grew up'],
+   phrase:{en:'We grew up in the same house.',pt:'Crescemos na mesma casa.'}},
+ ]},
+{id:3,icon:'🏃',name:'Exercício',question:'"Are you an exercise fan? What do you do to stay in shape?"',
+ people:[
+  {name:'Entrevistada',
+   en:'Yes, I love to run. I run in the morning before work and on Saturdays and Sundays along the river and through the park.',
+   pt:'Sim, eu adoro correr. Eu corro de manhã antes do trabalho e aos sábados e domingos ao longo do rio e pelo parque.',
+   vocab:['before work','along the river'],
+   phrase:{en:'I run in the morning before work.',pt:'Corro de manhã antes do trabalho.'}},
+  {name:'Martin',
+   en:'Not really. So would you consider yourself a couch potato? Well, I do go to the park and meet people in my age group. They\'re 60, 70, 80 years old. We walk or run for about 3 and a half miles. I go to the pool and walk in the water three days a week.',
+   pt:'Não muito. Então você se considera sedentário? Bem, eu vou ao parque e encontro pessoas da minha faixa etária. Elas têm 60, 70, 80 anos. Nós andamos ou corremos por cerca de 5 quilômetros e meio. Eu vou à piscina e ando na água três dias por semana.',
+   vocab:['couch potato','age group','stay in shape'],
+   phrase:{en:'Would you consider yourself a couch potato?',pt:'Você se considera sedentário?'}},
+  {name:'Rita',
+   en:"I hate to exercise! Do you have a routine? Yes, I do tai chi about once a week. Do you feel exercise is important? Yes, I think it's important — but not enough to do it more than once a week.",
+   pt:'Eu odeio me exercitar! Você tem uma rotina? Sim, eu faço tai chi cerca de uma vez por semana. Você acha que exercício é importante? Sim, acho importante — mas não o suficiente para fazer mais de uma vez por semana.',
+   vocab:['routine','tai chi'],
+   phrase:{en:"I think it's important but not enough to do it more.",pt:'Acho importante mas não o suficiente para fazer mais.'}},
+ ]},
+{id:4,icon:'✈️',name:'Viagem',question:'"Do you fly frequently? Have you had any problems with delayed or cancelled flights?"',
+ people:[
+  {name:'Christiane',
+   en:"Yes, I travel a lot with my job, so I'm always on an airplane. I always want to sit at the aisle so I can stretch my legs. I prefer to sit in the back of the plane at a window seat. I always get a window seat — I like to sleep and I need something to lean against.",
+   pt:'Sim, eu viajo muito a trabalho, então estou sempre num avião. Eu sempre quero sentar no corredor para poder esticar as pernas. Prefiro sentar na parte de trás do avião, num assento de janela. Eu sempre pego um assento de janela — gosto de dormir e preciso de algo para me apoiar.',
+   vocab:['aisle seat','window seat','stretch my legs'],
+   phrase:{en:'I always want to sit at the aisle.',pt:'Sempre quero sentar no corredor.'}},
+  {name:'Christiane — pior experiência',
+   en:'When I had to fly from Austria to America, I got stuck in London Airport and had to wait 10 hours for a flight that got postponed, then cancelled. All the stores were closed. All we could do was sleep on benches and on the floor and try to find food that was not very good. It was not a good experience. That sounds awful! Yes, it was awful.',
+   pt:'Quando eu tive que voar da Áustria para os Estados Unidos, fiquei presa no aeroporto de Londres e tive que esperar 10 horas por um voo que foi adiado e depois cancelado. Todas as lojas estavam fechadas. Tudo que podíamos fazer era dormir em bancos e no chão e tentar achar comida que não era muito boa. Não foi uma boa experiência. Isso soa horrível! Sim, foi horrível.',
+   vocab:['got stuck','postponed','benches','delayed'],
+   phrase:{en:'The flight was postponed, then cancelled.',pt:'O voo foi adiado e depois cancelado.'}},
+ ]},
+];
+
+let current = 1;
+
+function renderNav() {
+  document.getElementById('topicNav').innerHTML = TOPICS.map(t => `
+    <button class="topic-tab ${t.id === current ? 'on' : ''}" onclick="selectTopic(${t.id})">${t.icon} ${t.name}</button>
+  `).join('');
+}
+
+function renderTopic() {
+  const t = TOPICS.find(x => x.id === current);
+  document.getElementById('topicTitle').textContent = `${t.icon} ${t.name}`;
+  document.getElementById('topicQuestion').textContent = `Pergunta: ${t.question}`;
+
+  document.getElementById('cardsArea').innerHTML = t.people.map((p,i) => `
+    <div class="interview-card">
+      <div class="ic-header">
+        <div class="ic-avatar">🎤</div>
+        <div class="ic-name"><span>${p.name}</span> fala sobre ${t.name.toUpperCase()}</div>
+      </div>
+      <div class="ic-body">
+        <div class="ic-quote">${p.en}</div>
+        <div class="ic-pt" id="ic-pt-${t.id}-${i}">${p.pt}</div>
+        <button class="ic-toggle" onclick="togglePt(${t.id},${i})">Ver tradução</button>
+      </div>
+      <div class="ic-footer">
+        <div class="ic-vocab-label">Vocabulário</div>
+        <div class="ic-vocab-row">${p.vocab.map(v => `<span class="ic-vocab-tag">${v}</span>`).join('')}</div>
+        <div class="ic-phrase-label">Frase Útil desta Fala</div>
+        <div class="ic-phrase">"${p.phrase.en}"</div>
+        <div class="ic-phrase-pt">→ ${p.phrase.pt}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('navCount').textContent = `Tema ${current} / 4`;
+}
+
+function selectTopic(id) {
+  current = id;
+  renderNav();
+  renderTopic();
+}
+
+function togglePt(t, i) {
+  document.getElementById(`ic-pt-${t}-${i}`).classList.toggle('show');
+}
+
+renderNav();
+renderTopic();
+</script>
+</body>
+</html>

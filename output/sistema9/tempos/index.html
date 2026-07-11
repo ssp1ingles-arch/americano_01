@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Went ou Gone? · Sistema 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s8{color:var(--s8);border-color:rgba(249,115,22,.4);background:rgba(249,115,22,.1);}
+.gnav-s8:hover{background:rgba(249,115,22,.18);}
+.gnav-s9{color:var(--s9);border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.1);}
+.gnav-s9:hover{background:rgba(6,182,212,.18);}
+.gnav-s9.active{border-color:var(--s9);background:rgba(6,182,212,.16);box-shadow:0 0 10px rgba(6,182,212,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s9);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:980px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.4rem .75rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s9);color:#080c14;}
+
+.progress-row{display:flex;align-items:center;gap:.7rem;}
+.progress-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--s9),#67e8f9);border-radius:3px;transition:width .4s ease;}
+.progress-text{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;color:var(--s9);white-space:nowrap;}
+
+/* MODULE STRIP */
+.mod-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;max-width:980px;margin:.75rem auto 0;padding:0 1.1rem;}
+.mod-tab{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.55rem .4rem;cursor:pointer;transition:all .18s;text-align:center;}
+.mod-tab:hover{border-color:var(--bdh);}
+.mod-tab.on{border-color:var(--s9);background:rgba(6,182,212,.12);box-shadow:0 0 12px rgba(6,182,212,.2);}
+.mod-tab.quiz-tab{border-color:rgba(6,182,212,.25);}
+.mod-tab-icon{font-size:.95rem;}
+.mod-tab-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:700;color:var(--tm);line-height:1.3;margin-top:.15rem;}
+.mod-tab.on .mod-tab-label{color:var(--s9);}
+.mod-tab-check{color:var(--gn);font-size:.6rem;}
+
+.wrap{padding-top:340px;max-width:900px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* AUX TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:.7rem;border:1px solid var(--bd);}
+table.dtbl{width:100%;border-collapse:collapse;font-size:.85rem;min-width:420px;}
+table.dtbl th{text-align:left;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);background:var(--bg);padding:.6rem .8rem;border-bottom:1px solid var(--bd);}
+table.dtbl td{padding:.65rem .8rem;border-bottom:1px solid var(--bd);vertical-align:top;}
+table.dtbl tr:last-child td{border-bottom:none;}
+table.dtbl td.en{color:var(--tx);font-weight:600;font-family:'Space Grotesk',sans-serif;}
+table.dtbl td.pt{color:var(--td);}
+table.dtbl td.uso{font-family:'Space Grotesk',sans-serif;font-weight:800;color:var(--s9);white-space:nowrap;}
+
+/* STUDY CARD (APRENDER) */
+.study-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+.study-head{padding:1.1rem 1.4rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);gap:.5rem;flex-wrap:wrap;}
+.study-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s9);}
+.study-pos{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--td);}
+.study-body{padding:1.3rem 1.4rem;}
+.rule-box{background:var(--s9);color:#080c14;border-radius:.9rem;padding:1.2rem 1.3rem;margin-bottom:1.1rem;}
+.rule-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;line-height:1.4;}
+.sec{margin-bottom:1.1rem;}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;}
+.macete-box{background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.28);border-radius:.7rem;padding:.9rem 1.05rem;font-size:.9rem;color:var(--tx);line-height:1.6;font-weight:600;}
+.macete-box b{color:var(--am);}
+.note-box{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem .95rem;font-size:.83rem;color:var(--tm);line-height:1.65;margin-bottom:.5rem;}
+.note-box:last-child{margin-bottom:0;}
+.errs-list{display:flex;flex-direction:column;gap:.4rem;}
+.err-row{font-size:.85rem;line-height:1.5;}
+.err-wrong{color:var(--rd);}
+.err-right{color:var(--gn);}
+
+/* PAIR ROWS (comparação) */
+.pair-row{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:center;background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.85rem 1rem;margin-bottom:.6rem;}
+.pair-row:last-child{margin-bottom:0;}
+.pair-a,.pair-b{font-size:.83rem;line-height:1.5;}
+.pair-a{color:var(--tx);}
+.pair-b{color:var(--s9);}
+.pair-arrow{color:var(--td);font-size:.9rem;}
+@media(max-width:640px){.pair-row{grid-template-columns:1fr;gap:.4rem;}.pair-arrow{display:none;}}
+
+.card-actions{display:flex;gap:.6rem;padding:1rem 1.4rem 1.3rem;border-top:1px solid var(--bd);flex-wrap:wrap;}
+.act-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;min-width:110px;}
+.act-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.act-btn:disabled{opacity:.35;cursor:default;}
+.act-btn.learned{border-color:rgba(95,216,122,.5);color:var(--gn);background:rgba(95,216,122,.1);}
+.act-btn.next{background:var(--s9);color:#080c14;border:none;}
+.act-btn.next:hover{filter:brightness(1.1);}
+
+/* COMPARAR MODE */
+.cmp-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
+.cmp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;overflow:hidden;}
+.cmp-card-head{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;text-align:center;padding:.8rem;color:#080c14;}
+.cmp-card-head.went{background:var(--s9);}
+.cmp-card-head.gone{background:#67e8f9;color:#080c14;}
+.cmp-card-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.6rem;}
+.cmp-ex{font-size:.8rem;color:var(--tm);line-height:1.5;border-bottom:1px dashed var(--bd);padding-bottom:.6rem;}
+.cmp-ex:last-child{border-bottom:none;padding-bottom:0;}
+.cmp-title{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin:1.3rem 0 .6rem;text-align:center;}
+@media(max-width:640px){.cmp-cards{grid-template-columns:1fr;}}
+
+/* PRATICAR MODE */
+.pz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.pz-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s9);text-align:center;margin-bottom:.3rem;}
+.pz-sub{text-align:center;font-size:.72rem;color:var(--td);margin-bottom:1.2rem;}
+.pz-sentence{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.3rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tx);margin-bottom:1.2rem;line-height:1.5;}
+.pz-sentence .bk{color:var(--s9);}
+.pz-opts{display:flex;gap:.7rem;justify-content:center;margin-bottom:1rem;}
+.pz-opt-btn{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;text-transform:uppercase;padding:.85rem 1.6rem;border-radius:.7rem;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .15s;min-width:110px;}
+.pz-opt-btn:hover{border-color:var(--bdh);}
+.pz-opt-btn.correct{border-color:var(--gn);background:rgba(95,216,122,.12);color:var(--gn);}
+.pz-opt-btn.wrong{border-color:var(--rd);background:rgba(248,113,113,.12);color:var(--rd);}
+.pz-opt-btn:disabled{cursor:default;}
+.pz-feedback{text-align:center;font-size:.85rem;color:var(--tm);background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem .9rem;margin-bottom:1rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.pz-feedback.show{opacity:1;max-height:200px;}
+.pz-feedback b{color:var(--s9);}
+.pz-next-row{text-align:center;}
+.pz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s9);color:#080c14;cursor:pointer;}
+.pz-next-btn:hover{filter:brightness(1.1);}
+.pz-next-btn:disabled{opacity:.4;cursor:default;}
+
+/* QUIZ MODE */
+.quiz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s9);}
+.timer-toggle{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;}
+.timer-toggle.on{border-color:var(--am);color:var(--am);background:rgba(245,197,24,.08);}
+.timer-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:1rem;display:none;}
+.timer-track.show{display:block;}
+.timer-fill{height:100%;background:var(--am);border-radius:2px;width:100%;}
+.quiz-qn{text-align:center;font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;}
+.quiz-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;text-align:center;line-height:1.5;color:var(--tx);}
+.quiz-prompt-box .bk{color:var(--s9);}
+.quiz-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem;}
+.quiz-opt{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.8rem .95rem;font-size:.88rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.quiz-opt:hover{border-color:var(--bdh);}
+.quiz-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.quiz-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-next-row{text-align:center;}
+.quiz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s9);color:#080c14;cursor:pointer;}
+.quiz-next-btn:hover{filter:brightness(1.1);}
+.quiz-next-btn:disabled{opacity:.4;cursor:default;}
+.quiz-result{text-align:center;padding:2rem 1rem;}
+.quiz-result-score{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--s9);margin-bottom:.5rem;}
+.quiz-result-label{font-size:.85rem;color:var(--tm);margin-bottom:1.5rem;}
+.quiz-review{text-align:left;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem;}
+.qrev-item{background:var(--bg);border:1px solid rgba(248,113,113,.3);border-radius:.6rem;padding:.6rem .8rem;font-size:.78rem;}
+.qrev-q{color:var(--tm);margin-bottom:.25rem;}
+.qrev-a{color:var(--gn);font-weight:700;}
+.quiz-restart-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.quiz-restart-btn:hover{border-color:var(--bdh);}
+
+/* MOBILE FLOATING BUTTONS */
+.fab{display:none;position:fixed;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--sf);border:1px solid var(--bdh);color:var(--tx);align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.4);cursor:pointer;}
+.fab-back{left:1rem;bottom:1rem;}
+.fab-top{right:1rem;bottom:1rem;background:var(--s9);color:#080c14;border:none;}
+
+@media(max-width:900px){
+  .wrap{padding-top:360px;}
+}
+@media(max-width:640px){
+  .fab{display:flex;}
+  .mod-strip{grid-template-columns:repeat(3,1fr);}
+  .wrap{padding-top:460px;}
+  .topbar{top:96px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../../sistema7/index.html" class="gnav-btn gnav-s7">🔗 S7</a>
+  <a href="../../sistema8/index.html" class="gnav-btn gnav-s8">🧱 S8</a>
+  <a href="../index.html" class="gnav-btn gnav-s9 active">⏱️ S9</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 9 — Went ou Gone?</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">⏱️ Tempos</div>
+</nav>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row">
+      <div class="ctrl-group" id="modeGroup">
+        <button class="ctrl-btn on" data-mode="aprender" onclick="setMode('aprender')">Aprender</button>
+        <button class="ctrl-btn" data-mode="comparar" onclick="setMode('comparar')">Comparar</button>
+        <button class="ctrl-btn" data-mode="praticar" onclick="setMode('praticar')">Praticar</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">Quiz</button>
+      </div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0/4 módulos aprendidos</span>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE STRIP -->
+<div class="mod-strip" id="modStrip"></div>
+
+<div class="wrap">
+
+  <!-- MODO APRENDER -->
+  <div class="panel" id="panelAprender"></div>
+
+  <!-- MODO COMPARAR -->
+  <div class="panel hidden" id="panelComparar"></div>
+
+  <!-- MODO PRATICAR -->
+  <div class="panel hidden" id="panelPraticar"></div>
+
+  <!-- MODO QUIZ -->
+  <div class="panel hidden" id="panelQuiz"></div>
+
+</div>
+
+<!-- MOBILE FLOATING BUTTONS -->
+<a href="../../index.html" class="fab fab-back" aria-label="Menu Principal">←</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Topo">↑</button>
+
+<script>
+// ── DATA: 4 MÓDULOS DE CONTEÚDO ─────────────────────────────────────────────────
+const MODULES = [
+{id:1,icon:'📘',label:'Went',title:'WENT — Passado Simples',
+ rule:'Ação concluída + expressão de tempo terminado (last week, ago, yesterday).',
+ macete:'Tem "last week" ou "ago"? SEMPRE <b>went</b>.',
+ examples:[
+  {en:'She went to London last week.',pt:'Ela foi a Londres semana passada.'},
+  {en:'We went to Darasha last year. We had a great time.',pt:'Fomos a Darasha ano passado. Nos divertimos muito.'},
+  {en:'He went to the shop about an hour ago.',pt:'Ele foi à loja há cerca de uma hora.'},
+  {en:'Kelly went fishing yesterday.',pt:'Kelly foi pescar ontem.'},
+  {en:'I went swimming last week.',pt:'Eu fui nadar semana passada.'},
+  {en:'He went out an hour ago.',pt:'Ele saiu há uma hora.'},
+ ],
+ errors:[
+  {wrong:"He's gone out an hour ago.",right:'He went out an hour ago.'},
+  {wrong:"I've gone swimming last week.",right:'I went swimming last week.'},
+ ],
+ notes:[
+  'Estruturas com ING: "Kelly went fishing yesterday." (ir fazer algo)',
+  'Estrutura com adjetivo: "My hands went numb when I was out in the cold." (tornar-se)',
+ ]},
+{id:2,icon:'🔵',label:'Have Gone',title:'HAVE GONE / HAS GONE — Present Perfect',
+ rule:'Use quando a pessoa foi e AINDA ESTÁ LÁ, ou quando isso tem relevância no presente.',
+ macete:'"She\'s gone to London" → alguém perguntou "Where is she NOW?"',
+ examples:[
+  {en:"Tom's just gone to grab something to eat. He'll be back in a sec.",pt:'Tom acabou de ir pegar algo para comer. Ele volta logo.'},
+  {en:'Have they gone home already?',pt:'Eles já foram para casa?'},
+  {en:"Kelly's gone fishing.",pt:'Kelly foi pescar. (ainda está pescando)'},
+  {en:"She's gone to London.",pt:'Ela foi a Londres. (ainda lá ou a caminho de volta)'},
+  {en:'My parents have gone to Darasha. They are having a great time.',pt:'Meus pais foram a Darasha. Estão se divertindo muito.'},
+  {en:"He's gone to the shop. He'll probably be back soon.",pt:'Ele foi à loja. Provavelmente volta logo.'},
+ ],
+ errors:[],
+ notes:[
+  'Contrações: I have gone → I\'ve gone · She has gone → She\'s gone.',
+  'Com advérbios: just / already / yet.',
+  'Britânico vs americano: ambos aceitam "went" ou "have gone" em muitos contextos.',
+ ]},
+{id:3,icon:'⚖️',label:'Comparação',title:'WENT vs HAVE GONE',
+ rule:'Expressão de tempo terminado (last week, ago) → WENT. Pessoa ainda lá / relevância no presente → HAVE GONE.',
+ decisionTable:[
+  {situacao:'Expressão de tempo terminado (last week, ago)',uso:'WENT'},
+  {situacao:'Pessoa ainda está lá / relevância no presente',uso:'HAVE GONE'},
+ ],
+ pairs:[
+  {a:'He went to the shop about an hour ago.',b:"He's gone to the shop. He'll probably be back soon."},
+  {a:'We went to Darasha last year. (had a great time)',b:'My parents have gone to Darasha. (are having a great time)'},
+ ],
+ note:'Perguntas: <b style="color:var(--gn)">✅ "Did you go?"</b> CORRETO · <b style="color:var(--rd)">❌ "Did you went?"</b> ERRADO — depois de "Did", o verbo principal fica no infinitivo (base form).',
+ notes:[]},
+{id:4,icon:'✈️',label:'Have Been',title:'HAVE BEEN — Foi e Voltou',
+ rule:'HAVE BEEN = foi E JÁ VOLTOU. "Been" também é o particípio passado de "go".',
+ macete:'Pronúncia: been = /bɪn/ (som curto, como "bin").',
+ pairs:[
+  {a:"They've gone to Spain. (ainda lá)",b:"They've been to Spain. (já voltaram)"},
+  {a:'Where has Jack gone? I miss him. (ainda fora)',b:'Where have you been? I missed you. (voltou — falando com a pessoa)'},
+ ],
+ errors:[],
+ notes:[
+  '"Have you ever been" = experiência de vida (não use "ever" com "gone").',
+  'Gone como adjetivo: "Lily\'s been gone for about an hour." (saiu há uma hora) · "They were gone before I got there." (foram antes de eu chegar)',
+  'Had gone (past perfect): "He\'d already gone home by the time I arrived."',
+  'Expressão idiomática "been and gone": "He\'s been and gone. He was here for a moment and then he left."',
+ ]},
+];
+
+// ── PRATICAR: itens por módulo ───────────────────────────────────────────────────
+const PRACTICE = {
+ 1:[
+  {sentence:'She ___ to London last week.',options:['went','gone'],correct:'went',explain:'"last week" = tempo terminado → WENT.'},
+  {sentence:'He ___ out an hour ago.',options:['went','gone'],correct:'went',explain:'"an hour ago" = tempo terminado → WENT.'},
+  {sentence:'I ___ swimming last week.',options:['went','gone'],correct:'went',explain:'"last week" = tempo terminado → WENT.'},
+  {sentence:'Kelly ___ fishing yesterday.',options:['went','gone'],correct:'went',explain:'"yesterday" = tempo terminado → WENT.'},
+ ],
+ 2:[
+  {sentence:"Tom's just ___ to grab something to eat. He'll be back in a sec.",options:['went','gone'],correct:'gone',explain:'Ação recente, ainda relevante agora → HAVE GONE (gone).'},
+  {sentence:'Have they ___ home already?',options:['went','gone'],correct:'gone',explain:'"already" + foco no presente → HAVE GONE (gone).'},
+  {sentence:"Kelly's ___ fishing. She's still at the lake.",options:['went','gone'],correct:'gone',explain:'Ela ainda está lá agora → HAVE GONE (gone).'},
+  {sentence:"He's ___ to the shop. He'll probably be back soon.",options:['went','gone'],correct:'gone',explain:'Ainda não voltou, relevância no presente → HAVE GONE (gone).'},
+ ],
+ 3:[
+  {sentence:'We ___ to Darasha last year. We had a great time.',options:['went','gone'],correct:'went',explain:'"last year" = tempo terminado, ação já contada → WENT.'},
+  {sentence:'My parents have ___ to Darasha. They are having a great time.',options:['went','gone'],correct:'gone',explain:'Ainda lá, ação em andamento no presente → HAVE GONE (gone).'},
+  {sentence:'Did you ___ to the party?',options:['go','went'],correct:'go',explain:'Depois de "Did", o verbo principal fica no infinitivo: "Did you GO...", nunca "Did you WENT...".'},
+ ],
+ 4:[
+  {sentence:"They've ___ to Spain. They are still there.",options:['gone','been'],correct:'gone',explain:'Ainda estão lá → GONE.'},
+  {sentence:"They've ___ to Spain. They came back last month.",options:['gone','been'],correct:'been',explain:'Já voltaram → BEEN.'},
+  {sentence:'Where have you ___? I missed you.',options:['gone','been'],correct:'been',explain:'Voltou, está falando cara a cara com a pessoa → BEEN.'},
+  {sentence:'Where has Jack ___? I miss him.',options:['gone','been'],correct:'gone',explain:'Ainda está fora → GONE.'},
+ ],
+};
+
+// ── QUIZ: 16 questões cruzando os módulos ────────────────────────────────────────
+const QUIZ = [
+ {q:'She ___ to London last week.',a:'went',opts:['went','gone','has gone','go']},
+ {q:'He ___ out an hour ago.',a:'went',opts:['went',"'s gone",'has gone','go']},
+ {q:'Kelly ___ fishing yesterday.',a:'went',opts:['went','has gone','gone','go']},
+ {q:'My hands ___ numb when I was out in the cold.',a:'went',opts:['went','have gone','are gone','go']},
+ {q:"Tom's just ___ to grab something to eat.",a:'gone',opts:['gone','went','been','go']},
+ {q:'Have they ___ home already?',a:'gone',opts:['gone','went','been','go']},
+ {q:"Kelly's ___ fishing. She's still at the lake.",a:'gone',opts:['gone','went','been','go']},
+ {q:"He's ___ to the shop. He'll probably be back soon.",a:'gone',opts:['gone','went','been','go']},
+ {q:'We ___ to Darasha last year. We had a great time.',a:'went',opts:['went','gone','have gone','been']},
+ {q:'My parents have ___ to Darasha. They are having a great time.',a:'gone',opts:['gone','went','been','go']},
+ {q:'Did you ___ to the party?',a:'go',opts:['go','went','gone','been']},
+ {q:"They've ___ to Spain. They are still there.",a:'gone',opts:['gone','been','went','go']},
+ {q:"They've ___ to Spain. They came back last month.",a:'been',opts:['been','gone','went','go']},
+ {q:'Where have you ___? I missed you.',a:'been',opts:['been','gone','went','go']},
+ {q:'Where has Jack ___? I miss him.',a:'gone',opts:['gone','been','went','go']},
+ {q:"He'd already ___ home by the time I arrived.",a:'gone',opts:['gone','been','went','go']},
+];
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function loadProgress() {
+  let p;
+  try { p = JSON.parse(localStorage.getItem('s9_progress')); } catch(e) { p = null; }
+  if (!p || !Array.isArray(p.learned)) p = { learned: new Array(4).fill(false) };
+  return p;
+}
+function saveProgress() { localStorage.setItem('s9_progress', JSON.stringify(progress)); }
+let progress = loadProgress();
+
+function toggleLearned(id) {
+  progress.learned[id-1] = !progress.learned[id-1];
+  saveProgress();
+  renderModStrip();
+  updateTopProgress();
+}
+function updateTopProgress() {
+  const n = progress.learned.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (n/4*100) + '%';
+  document.getElementById('progressText').textContent = `${n}/4 módulos aprendidos`;
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let moduleId = 1;
+let mode = 'aprender';
+let pzIdx = {1:0,2:0,3:0,4:0};
+let pzAnswered = false;
+let quizIdx = 0, quizScore = 0, quizAnswers = [], quizAnswered = false, quizTimerEnabled = false, quizTimerInterval = null, quizTimeLeft = 15;
+
+function currentModule() { return MODULES.find(m => m.id === moduleId); }
+
+// ── MODULE STRIP ──────────────────────────────────────────────────────────────
+function renderModStrip() {
+  const strip = document.getElementById('modStrip');
+  const tabs = MODULES.map(m => `
+    <div class="mod-tab ${moduleId===m.id && mode!=='quiz' && mode!=='comparar' ?'on':''}" onclick="selectModule(${m.id})">
+      <span class="mod-tab-icon">${m.icon}</span>
+      <div class="mod-tab-label">${m.label}${progress.learned[m.id-1]?' <span class="mod-tab-check">✓</span>':''}</div>
+    </div>`).join('');
+  const quizTab = `
+    <div class="mod-tab quiz-tab ${mode==='quiz'?'on':''}" onclick="setMode('quiz')">
+      <span class="mod-tab-icon">🎯</span>
+      <div class="mod-tab-label">Quiz</div>
+    </div>`;
+  strip.innerHTML = tabs + quizTab;
+}
+function selectModule(id) {
+  moduleId = id;
+  pzAnswered = false;
+  if (mode === 'comparar' || mode === 'quiz') mode = 'aprender';
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === mode));
+  renderModStrip();
+  renderAll();
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  pzAnswered = false;
+  stopQuizTimer();
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  const panelMap = {aprender:'panelAprender',comparar:'panelComparar',praticar:'panelPraticar',quiz:'panelQuiz'};
+  Object.values(panelMap).forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(panelMap[m]).classList.remove('hidden');
+  renderModStrip();
+  renderAll();
+}
+function renderAll() {
+  if (mode === 'aprender') renderAprender();
+  else if (mode === 'comparar') renderComparar();
+  else if (mode === 'praticar') renderPraticar();
+  else if (mode === 'quiz') renderQuiz();
+}
+
+// ── MODO APRENDER ──────────────────────────────────────────────────────────────
+function renderAprender() {
+  const m = currentModule();
+  const learned = progress.learned[m.id-1];
+  const idx = MODULES.findIndex(x => x.id === m.id);
+
+  const macNotes = [];
+  if (m.macete) macNotes.push(`<div class="macete-box">💡 ${m.macete}</div>`);
+  const macHTML = macNotes.length ? `<div class="sec">${macNotes.join('')}</div>` : '';
+
+  let bodyHTML = '';
+
+  if (m.decisionTable) {
+    const rows = m.decisionTable.map(r => `<tr><td class="pt">${r.situacao}</td><td class="uso">${r.uso}</td></tr>`).join('');
+    bodyHTML += `<div class="sec"><div class="sec-label">📊 Tabela de Decisão</div><div class="tbl-wrap"><table class="dtbl"><thead><tr><th>Situação</th><th>Use</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }
+
+  if (m.examples) {
+    const rows = m.examples.map(e => `<tr><td class="pt">${e.pt}</td><td class="en">${e.en}</td></tr>`).join('');
+    bodyHTML += `<div class="sec"><div class="sec-label">📖 Exemplos</div><div class="tbl-wrap"><table class="dtbl"><thead><tr><th>Português</th><th>English</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }
+
+  if (m.pairs) {
+    const rows = m.pairs.map(p => `<div class="pair-row"><span class="pair-a">${p.a}</span><span class="pair-arrow">↔</span><span class="pair-b">${p.b}</span></div>`).join('');
+    bodyHTML += `<div class="sec"><div class="sec-label">⚖️ Pares Comparativos</div>${rows}</div>`;
+  }
+
+  if (m.note) {
+    bodyHTML += `<div class="sec"><div class="note-box">${m.note}</div></div>`;
+  }
+
+  if (m.errors && m.errors.length) {
+    bodyHTML += `<div class="sec"><div class="sec-label">❌ Erros Clássicos</div><div class="errs-list">${m.errors.map(e => `<div class="err-row"><span class="err-wrong">❌ ${e.wrong}</span> → <span class="err-right">✅ ${e.right}</span></div>`).join('')}</div></div>`;
+  }
+
+  if (m.notes && m.notes.length) {
+    bodyHTML += `<div class="sec"><div class="sec-label">🔀 Notas e Variações</div>${m.notes.map(n => `<div class="note-box">${n}</div>`).join('')}</div>`;
+  }
+
+  document.getElementById('panelAprender').innerHTML = `
+    <div class="study-card">
+      <div class="study-head">
+        <span class="study-tag">${m.icon} Módulo ${String(m.id).padStart(2,'0')} · ${m.label}</span>
+        <span class="study-pos">${idx+1}/${MODULES.length}</span>
+      </div>
+      <div class="study-body">
+        <div class="rule-box"><div class="rule-title">${m.title}<br><span style="font-weight:600;font-size:.85rem;opacity:.9;">${m.rule}</span></div></div>
+        ${macHTML}
+        ${bodyHTML}
+      </div>
+      <div class="card-actions">
+        <button class="act-btn" onclick="prevModule()" ${idx===0?'disabled':''}>← Anterior</button>
+        <button class="act-btn ${learned?'learned':''}" onclick="toggleLearned(${m.id});renderAprender();">${learned?'✓ Aprendido':'Marcar Aprendido'}</button>
+        <button class="act-btn next" onclick="nextModule()" ${idx===MODULES.length-1?'disabled':''}>Próximo →</button>
+      </div>
+    </div>`;
+}
+function prevModule() { const idx = MODULES.findIndex(x=>x.id===moduleId); if (idx>0) selectModule(MODULES[idx-1].id); }
+function nextModule() { const idx = MODULES.findIndex(x=>x.id===moduleId); if (idx<MODULES.length-1) selectModule(MODULES[idx+1].id); }
+
+// ── MODO COMPARAR (fixo, independente de módulo) ────────────────────────────────
+function renderComparar() {
+  const m1 = MODULES.find(m=>m.id===1), m2 = MODULES.find(m=>m.id===2), m3 = MODULES.find(m=>m.id===3);
+  const wentEx = m1.examples.map(e => `<div class="cmp-ex">${e.en}</div>`).join('');
+  const goneEx = m2.examples.map(e => `<div class="cmp-ex">${e.en}</div>`).join('');
+  const decisionRows = m3.decisionTable.map(r => `<tr><td class="pt">${r.situacao}</td><td class="uso">${r.uso}</td></tr>`).join('');
+  const pairRows = m3.pairs.map(p => `<div class="pair-row"><span class="pair-a">${p.a}</span><span class="pair-arrow">↔</span><span class="pair-b">${p.b}</span></div>`).join('');
+
+  document.getElementById('panelComparar').innerHTML = `
+    <div class="study-card">
+      <div class="study-head"><span class="study-tag">⚖️ Comparar — WENT × HAVE GONE</span></div>
+      <div class="study-body">
+        <div class="cmp-cards">
+          <div class="cmp-card">
+            <div class="cmp-card-head went">WENT</div>
+            <div class="cmp-card-body">${wentEx}</div>
+          </div>
+          <div class="cmp-card">
+            <div class="cmp-card-head gone">HAVE GONE</div>
+            <div class="cmp-card-body">${goneEx}</div>
+          </div>
+        </div>
+        <div class="cmp-title">Tabela de Decisão</div>
+        <div class="tbl-wrap"><table class="dtbl"><thead><tr><th>Situação</th><th>Use</th></tr></thead><tbody>${decisionRows}</tbody></table></div>
+        <div class="cmp-title">Pares Lado a Lado</div>
+        ${pairRows}
+      </div>
+    </div>`;
+}
+
+// ── MODO PRATICAR ──────────────────────────────────────────────────────────────
+function renderPraticar() {
+  const items = PRACTICE[moduleId];
+  const idx = pzIdx[moduleId];
+  const item = items[idx];
+  const parts = item.sentence.split('___');
+  const display = `${parts[0]}<span class="bk">___</span>${parts[1]}`;
+
+  document.getElementById('panelPraticar').innerHTML = `
+    <div class="pz-card">
+      <div class="pz-tag">Praticar · ${currentModule().label}</div>
+      <div class="pz-sub">Frase ${idx+1}/${items.length}</div>
+      <div class="pz-sentence">${display}</div>
+      <div class="pz-opts" id="pzOpts">${item.options.map(o => `<button class="pz-opt-btn" onclick="pzAnswer(this,'${o}')">${o}</button>`).join('')}</div>
+      <div class="pz-feedback" id="pzFeedback"></div>
+      <div class="pz-next-row"><button class="pz-next-btn" id="pzNextBtn" onclick="pzNext()" disabled>→ Próxima</button></div>
+    </div>`;
+}
+function pzAnswer(btn, v) {
+  if (pzAnswered) return;
+  pzAnswered = true;
+  const item = PRACTICE[moduleId][pzIdx[moduleId]];
+  const correct = (v === item.correct);
+  document.querySelectorAll('#pzOpts .pz-opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === item.correct) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('pzFeedback');
+  fb.innerHTML = (correct ? '✓ Correto! ' : '✗ Quase! ') + item.explain;
+  fb.classList.add('show');
+  document.getElementById('pzNextBtn').disabled = false;
+}
+function pzNext() {
+  const items = PRACTICE[moduleId];
+  if (pzIdx[moduleId] < items.length-1) { pzIdx[moduleId]++; pzAnswered = false; renderPraticar(); }
+}
+
+// ── MODO QUIZ (fixo, independente de módulo) ────────────────────────────────────
+function renderQuiz() {
+  if (quizIdx >= QUIZ.length) { renderQuizResult(); return; }
+  quizAnswered = false;
+  const q = QUIZ[quizIdx];
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <span class="quiz-score">Pontuação: ${quizScore}/${QUIZ.length}</span>
+        <button class="timer-toggle ${quizTimerEnabled?'on':''}" onclick="toggleQuizTimer()">⏱ Timer 15s</button>
+      </div>
+      <div class="timer-track ${quizTimerEnabled?'show':''}" id="timerTrack"><div class="timer-fill" id="timerFill"></div></div>
+      <div class="quiz-qn">Questão ${quizIdx+1} de ${QUIZ.length}</div>
+      <div class="quiz-prompt-box">${q.q.replace('___', '<span class="bk">___</span>')}</div>
+      <div class="quiz-options" id="quizOptions">${q.opts.map(o => `<button class="quiz-opt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+      <div class="quiz-next-row"><button class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+    </div>`;
+  if (quizTimerEnabled) startQuizTimer();
+}
+function quizAnswer(btn, v) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  stopQuizTimer();
+  const q = QUIZ[quizIdx];
+  const correct = (v === q.a);
+  if (correct) quizScore++;
+  quizAnswers.push({q: q.q, correct, given: v, right: q.a});
+  document.querySelectorAll('#quizOptions .quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.a) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  document.querySelector('.quiz-score').textContent = `Pontuação: ${quizScore}/${QUIZ.length}`;
+  document.getElementById('quizNextBtn').disabled = false;
+}
+function quizNext() { quizIdx++; renderQuiz(); }
+function startQuizTimer() {
+  quizTimeLeft = 15;
+  const fill = document.getElementById('timerFill');
+  if (fill) fill.style.width = '100%';
+  quizTimerInterval = setInterval(() => {
+    quizTimeLeft -= 0.1;
+    const pct = Math.max(0, (quizTimeLeft/15)*100);
+    if (fill) fill.style.width = pct + '%';
+    if (quizTimeLeft <= 0) { stopQuizTimer(); if (!quizAnswered) quizAnswer(null, '__timeout__'); }
+  }, 100);
+}
+function stopQuizTimer() { if (quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; } }
+function toggleQuizTimer() { quizTimerEnabled = !quizTimerEnabled; renderQuiz(); }
+function renderQuizResult() {
+  const pct = Math.round((quizScore/QUIZ.length)*100);
+  const misses = quizAnswers.filter(a => !a.correct);
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-result">
+        <div class="quiz-result-score">${quizScore}/${QUIZ.length}</div>
+        <div class="quiz-result-label">${pct}% de acerto ${pct>=80?'— Excelente! 🎉':pct>=50?'— Bom trabalho, continue praticando.':'— Revise os módulos e tente de novo.'}</div>
+        ${misses.length ? `<div class="quiz-review">${misses.map(m => `<div class="qrev-item"><div class="qrev-q">${m.q.replace('___', '<b>'+m.right+'</b>')}</div><div class="qrev-a">Sua resposta: ${m.given === '__timeout__' ? '(tempo esgotado)' : m.given} · Certo: ${m.right}</div></div>`).join('')}</div>` : ''}
+        <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Refazer Quiz</button>
+      </div>
+    </div>`;
+}
+function restartQuiz() { quizIdx = 0; quizScore = 0; quizAnswers = []; renderQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init() {
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  renderModStrip();
+  updateTopProgress();
+  if (modoParam && ['aprender','comparar','praticar','quiz'].includes(modoParam)) setMode(modoParam);
+  else renderAll();
+})();
+</script>
+</body>
+</html>

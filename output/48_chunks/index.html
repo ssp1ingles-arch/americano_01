@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L48 · Chunks Essenciais · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root {
+  --ca:#34d399; --cg:rgba(52,211,153,0.13);
+  --bg:#0a0a0f; --s1:#12121a; --s2:#1a1a26; --s3:#222232;
+  --tx:#e8e8f0; --tm:#a0a0b8; --td:#606078;
+  --rd:#f87171; --gn:#4ade80; --yl:#fbbf24; --or:#fb923c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;line-height:1.05;color:var(--ca);margin-bottom:.75rem;}
+.hero-sub{font-size:1.05rem;color:var(--tm);max-width:560px;margin:0 auto 2rem;}
+
+/* 5 blocks visual */
+.blocks-row{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0;}
+.bl{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;text-align:center;min-width:120px;transition:transform .2s,border-color .2s;}
+.bl:hover{transform:translateY(-4px);border-color:var(--ca);}
+.bl-num{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ca);}
+.bl-txt{font-size:.7rem;color:var(--tm);margin-top:.2rem;line-height:1.3;}
+
+/* ── MAIN ── */
+main{max-width:900px;margin:0 auto;padding:0 1.5rem 6rem;}
+
+/* Tab nav */
+.tab-nav{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;position:sticky;top:0;background:rgba(10,10,15,.92);backdrop-filter:blur(14px);padding:.8rem 0 .9rem;z-index:10;border-bottom:1px solid var(--s3);margin-bottom:2.5rem;}
+.tb{background:var(--s2);border:1px solid var(--s3);color:var(--tm);font-family:'Space Grotesk',sans-serif;font-size:.77rem;font-weight:600;padding:.35rem .8rem;border-radius:2rem;cursor:pointer;transition:all .15s;}
+.tb:hover,.tb.act{background:var(--cg);border-color:var(--ca);color:var(--ca);}
+
+/* Section */
+.sec{margin-bottom:4rem;scroll-margin-top:72px;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.15rem;}
+
+/* USO block */
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.4rem;margin-bottom:1rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.9rem;}
+
+/* Table */
+.vt{width:100%;border-collapse:collapse;font-size:.88rem;}
+.vt th{text-align:left;color:var(--td);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.38rem .55rem;border-bottom:1px solid var(--s3);}
+.vt td{padding:.52rem .55rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.vt tr:last-child td{border-bottom:none;}
+.vt td:first-child{color:var(--td);font-size:.78rem;width:95px;}
+.vt td:nth-child(2){color:var(--tx);}
+.vt td:nth-child(2) strong{color:var(--ca);}
+.vt td:last-child{color:var(--tm);font-size:.84rem;}
+
+/* Notes */
+.nt{display:flex;gap:.55rem;align-items:flex-start;padding:.75rem .95rem;border-radius:.5rem;margin-top:.85rem;font-size:.83rem;line-height:1.5;}
+.nt-tip{background:rgba(52,211,153,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+/* Compare grid */
+.cg2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin:.5rem 0;}
+.cc{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1.1rem;}
+.cc-t{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.7rem;}
+.cc-i{display:flex;align-items:flex-start;gap:.4rem;margin-bottom:.35rem;font-size:.83rem;color:var(--tm);}
+.cc-i::before{content:'→';color:var(--ca);font-size:.75rem;margin-top:.15rem;flex-shrink:0;}
+
+/* HOW grid */
+.hg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;margin:.5rem 0 .85rem;}
+.hc{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem .95rem;}
+.hck{font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:700;color:var(--ca);margin-bottom:.3rem;}
+.hcv{font-size:.78rem;color:var(--tm);}
+.hce{font-size:.76rem;color:var(--td);margin-top:.15rem;font-style:italic;}
+
+/* Pattern box */
+.pb{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.95rem 1.1rem;margin:.65rem 0;}
+.pf{font-size:.9rem;font-weight:600;color:var(--ca);margin-bottom:.5rem;font-family:'Space Grotesk',sans-serif;}
+.pe{font-size:.85rem;margin-bottom:.2rem;}
+.pr{color:var(--gn);}
+.pw{color:var(--rd);}
+
+/* Errors */
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--rd);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(370px,1fr));gap:.7rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:1rem 1.15rem;}
+.ecw{color:var(--rd);font-size:.88rem;margin-bottom:.3rem;}
+.ecr{color:var(--gn);font-size:.88rem;margin-bottom:.45rem;}
+.ecd{font-size:.78rem;color:var(--tm);}
+
+/* Quiz */
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ca);margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.7rem 1.2rem;margin-bottom:1.25rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.15rem;margin-bottom:.85rem;}
+.qn{font-size:.72rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+.qt{font-size:.93rem;color:var(--tx);margin-bottom:.8rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.35rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.45rem;padding:.55rem .9rem;cursor:pointer;font-size:.83rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.78rem;color:var(--tm);margin-top:.5rem;padding-left:.2rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.7rem 1.9rem;border-radius:.5rem;cursor:pointer;margin-top:1.25rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+/* Module complete */
+.mc{background:linear-gradient(135deg,rgba(52,211,153,.14),rgba(52,211,153,.04));border:1px solid rgba(52,211,153,.4);border-radius:1rem;padding:1.75rem;text-align:center;margin-bottom:3rem;}
+.mc-t{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--ca);margin-bottom:.4rem;}
+.mc-s{font-size:.87rem;color:var(--tm);margin-bottom:1.1rem;}
+.mc-bs{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center;}
+.mb{background:var(--cg);border:1px solid rgba(52,211,153,.28);color:var(--ca);font-size:.77rem;font-weight:600;padding:.28rem .7rem;border-radius:2rem;font-family:'Space Grotesk',sans-serif;}
+
+/* Nav */
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.4rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:.35rem;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .cg2{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .hg{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="mod-badge">Módulo 11 · Estruturas Fixas</div>
+  <h1 class="hero-title">CHUNKS<br>ESSENCIAIS</h1>
+  <p class="hero-sub">Blocos prontos — aprenda a estrutura inteira, não palavra por palavra</p>
+  <div class="blocks-row">
+    <div class="bl"><div class="bl-num">①</div><div class="bl-txt">IT IS<br>THERE IS</div></div>
+    <div class="bl"><div class="bl-num">②</div><div class="bl-txt">HOW +<br>MEDIDAS</div></div>
+    <div class="bl"><div class="bl-num">③</div><div class="bl-txt">WHAT +<br>CHUNKS</div></div>
+    <div class="bl"><div class="bl-num">④</div><div class="bl-txt">COMPARAÇÃO<br>AS…AS</div></div>
+    <div class="bl"><div class="bl-num">⑤</div><div class="bl-txt">CAUSA<br>CONDIÇÃO</div></div>
+  </div>
+  <p style="font-size:.85rem;color:var(--td)">5 grupos · 40+ estruturas que nativos usam automaticamente</p>
+</section>
+
+<!-- ── MAIN ── -->
+<main>
+
+<!-- TAB NAV -->
+<nav class="tab-nav">
+  <button class="tb act" onclick="goSec('s1',this)">① IT IS / THERE IS</button>
+  <button class="tb" onclick="goSec('s2',this)">② HOW + MEDIDAS</button>
+  <button class="tb" onclick="goSec('s3',this)">③ WHAT + CHUNKS</button>
+  <button class="tb" onclick="goSec('s4',this)">④ COMPARAÇÃO</button>
+  <button class="tb" onclick="goSec('s5',this)">⑤ CAUSA / CONDIÇÃO</button>
+</nav>
+
+<!-- ════════════════════════════════════
+     SEÇÃO 1 — IT IS / THERE IS
+════════════════════════════════════ -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">IT IS / IT TAKES / THERE IS / THERE ARE</div>
+    <div class="sd">Construções impessoais — sujeito IT e THERE são obrigatórios em inglês</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">IT IS = É / ESTÁ / FAZ (impessoal)</div>
+    <table class="vt">
+      <tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>clima</td><td><strong>It is</strong> cold today.</td><td>Está frio hoje.</td></tr>
+      <tr><td>hora</td><td><strong>It is</strong> 3 o'clock.</td><td>São 3 horas.</td></tr>
+      <tr><td>distância</td><td><strong>It is</strong> far from here.</td><td>É longe daqui.</td></tr>
+      <tr><td>situação</td><td><strong>It is</strong> important to study.</td><td>É importante estudar.</td></tr>
+      <tr><td>identificar</td><td><strong>It's</strong> me!</td><td>Sou eu!</td></tr>
+      <tr><td>dia</td><td><strong>It is</strong> Monday.</td><td>É segunda-feira.</td></tr>
+    </table>
+    <div class="nt nt-err">O IT impessoal é OBRIGATÓRIO. "Is raining." ✗ → "IT is raining." ✓ — nunca omita o sujeito!</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">IT TAKES = LEVA (tempo)</div>
+    <table class="vt">
+      <tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>presente</td><td><strong>It takes</strong> 20 minutes by bus.</td><td>Leva 20 minutos de ônibus.</td></tr>
+      <tr><td>passado</td><td><strong>It took</strong> me 2 hours to finish.</td><td>Me levou 2 horas para terminar.</td></tr>
+      <tr><td>futuro</td><td><strong>It will take</strong> about an hour.</td><td>Vai levar cerca de uma hora.</td></tr>
+      <tr><td>pergunta</td><td>How long does <strong>it take</strong>?</td><td>Quanto tempo leva?</td></tr>
+    </table>
+    <div class="nt nt-tip">IT TAKES + tempo = leva. Uma das estruturas mais usadas para duração em inglês.</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">IT DEPENDS / IT'S WORTH / IT'S UP TO YOU</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>depende</td><td><strong>It depends on</strong> the weather.</td><td>Depende do tempo.</td></tr>
+      <tr><td>depende</td><td><strong>It depends on</strong> what you want.</td><td>Depende do que você quer.</td></tr>
+      <tr><td>vale a pena</td><td><strong>It's worth</strong> trying.</td><td>Vale a pena tentar.</td></tr>
+      <tr><td>vale a pena</td><td><strong>It's worth</strong> it.</td><td>Vale a pena.</td></tr>
+      <tr><td>decisão</td><td><strong>It's up to you</strong>.</td><td>É com você. / Você decide.</td></tr>
+      <tr><td>não importa</td><td><strong>It doesn't matter</strong>.</td><td>Não importa. / Tanto faz.</td></tr>
+    </table>
+    <div class="nt nt-tip">IT DEPENDS ON = depende de | IT'S WORTH + -ing = vale a pena | IT'S UP TO YOU = você quem decide.</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">THERE IS / THERE ARE = TEM / HÁ (existência)</div>
+    <div class="cg2">
+      <div class="cc">
+        <div class="cc-t" style="color:var(--ca)">THERE IS (singular)</div>
+        <div class="cc-i">There is a problem. — Tem um problema.</div>
+        <div class="cc-i">There is a café nearby. — Tem um café perto.</div>
+        <div class="cc-i">There isn't any milk. — Não tem leite.</div>
+        <div class="cc-i">Is there a bathroom? — Tem banheiro?</div>
+        <div class="cc-i">There was a problem. — Tinha um problema.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-t" style="color:var(--yl)">THERE ARE (plural)</div>
+        <div class="cc-i">There are many people. — Tem muita gente.</div>
+        <div class="cc-i">There are no options left. — Não tem opções.</div>
+        <div class="cc-i">There aren't any apples. — Não tem maçãs.</div>
+        <div class="cc-i">Are there any tickets? — Tem ingressos?</div>
+        <div class="cc-i">There were many people. — Tinha muita gente.</div>
+      </div>
+    </div>
+    <div class="nt nt-tip">THERE WILL BE = vai ter (futuro). Na fala informal "There's two options." é aceito, mas no formal use THERE ARE.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     SEÇÃO 2 — HOW + MEDIDAS
+════════════════════════════════════ -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">HOW + MEDIDAS</div>
+    <div class="sd">HOW + adjetivo = estrutura fixa com significado único — não traduza palavra por palavra</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Os 8 HOW essenciais</div>
+    <div class="hg">
+      <div class="hc"><div class="hck">HOW LONG</div><div class="hcv">quanto tempo / comprimento</div><div class="hce">How long does it take?</div></div>
+      <div class="hc"><div class="hck">HOW FAR</div><div class="hcv">distância</div><div class="hce">How far is it from here?</div></div>
+      <div class="hc"><div class="hck">HOW OFTEN</div><div class="hcv">com que frequência</div><div class="hce">How often do you exercise?</div></div>
+      <div class="hc"><div class="hck">HOW SOON</div><div class="hcv">em quanto tempo</div><div class="hce">How soon can you come?</div></div>
+      <div class="hc"><div class="hck">HOW OLD</div><div class="hcv">idade</div><div class="hce">How old are you?</div></div>
+      <div class="hc"><div class="hck">HOW TALL</div><div class="hcv">altura</div><div class="hce">How tall is he?</div></div>
+      <div class="hc"><div class="hck">HOW MUCH</div><div class="hcv">preço / incontável</div><div class="hce">How much is it?</div></div>
+      <div class="hc"><div class="hck">HOW MANY</div><div class="hcv">quantidade contável</div><div class="hce">How many people came?</div></div>
+    </div>
+    <div class="nt nt-err">"How much years?" ✗ → years é contável: "How MANY years?" ✓ &nbsp;|&nbsp; "How many money?" ✗ → money é incontável: "How MUCH money?" ✓</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">HOW + outros adjetivos úteis</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>HOW BIG</td><td><strong>How big</strong> is the apartment?</td><td>Qual o tamanho do apartamento?</td></tr>
+      <tr><td>HOW HEAVY</td><td><strong>How heavy</strong> is the package?</td><td>Qual o peso do pacote?</td></tr>
+      <tr><td>HOW WIDE</td><td><strong>How wide</strong> is the road?</td><td>Qual a largura da estrada?</td></tr>
+      <tr><td>HOW DEEP</td><td><strong>How deep</strong> is the pool?</td><td>Qual a profundidade da piscina?</td></tr>
+      <tr><td>HOW FAST</td><td><strong>How fast</strong> can you run?</td><td>Quão rápido você consegue correr?</td></tr>
+      <tr><td>HOW HARD</td><td><strong>How hard</strong> is the exam?</td><td>Quão difícil é a prova?</td></tr>
+    </table>
+    <div class="nt nt-tip">HOW + qualquer adjetivo = pergunta sobre o GRAU. Padrão fixo: HOW + adj + verbo + sujeito?</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Pergunta + Resposta típica — aprenda os dois juntos</div>
+    <table class="vt">
+      <tr><th>Pergunta</th><th>Resposta típica</th><th>Português</th></tr>
+      <tr><td>How long?</td><td>About 2 hours. / Not long.</td><td>Cerca de 2h. / Pouco tempo.</td></tr>
+      <tr><td>How far?</td><td>About 5km. / Very far. / Not far.</td><td>Cerca de 5km. / Muito longe. / Perto.</td></tr>
+      <tr><td>How often?</td><td>Every day. / Twice a week. / Rarely.</td><td>Todo dia. / Duas vezes/sem. / Raramente.</td></tr>
+      <tr><td>How much?</td><td>Ten dollars. / Not much. / A lot.</td><td>Dez dólares. / Pouco. / Muito.</td></tr>
+      <tr><td>How many?</td><td>Three. / About twenty. / Not many.</td><td>Três. / Uns vinte. / Poucos.</td></tr>
+      <tr><td>How soon?</td><td>Right away. / In 10 minutes. / Soon.</td><td>Já. / Em 10 minutos. / Logo.</td></tr>
+    </table>
+    <div class="nt nt-tip">O cérebro grava estruturas fixas em pares. Aprenda a pergunta e a resposta típica juntas.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     SEÇÃO 3 — WHAT + CHUNKS
+════════════════════════════════════ -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">WHAT + CHUNKS</div>
+    <div class="sd">WHAT + substantivo = estrutura fixa com significado diferente de WHAT sozinho</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">WHAT KIND OF / WHAT TYPE OF = QUE TIPO DE</div>
+    <table class="vt">
+      <tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>preferência</td><td><strong>What kind of</strong> music do you like?</td><td>Que tipo de música você gosta?</td></tr>
+      <tr><td>preferência</td><td><strong>What kind of</strong> food is it?</td><td>Que tipo de comida é?</td></tr>
+      <tr><td>preferência</td><td><strong>What type of</strong> person is he?</td><td>Que tipo de pessoa ele é?</td></tr>
+      <tr><td>preferência</td><td><strong>What kind of</strong> work do you do?</td><td>Que tipo de trabalho você faz?</td></tr>
+    </table>
+    <div class="nt nt-wrn">Com KIND OF e TYPE OF usa-se WHAT, não WHICH — mesmo quando há opções. "What kind of music?" ✓ | "Which kind of music?" ✗</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">WHAT TIME / WHAT DAY / WHAT PART OF</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>hora</td><td><strong>What time</strong> does it start?</td><td>A que horas começa?</td></tr>
+      <tr><td>hora</td><td><strong>What time</strong> are you leaving?</td><td>A que horas você vai sair?</td></tr>
+      <tr><td>dia</td><td><strong>What day</strong> is the meeting?</td><td>Em que dia é a reunião?</td></tr>
+      <tr><td>dia</td><td><strong>What day</strong> is today?</td><td>Que dia é hoje?</td></tr>
+      <tr><td>parte</td><td><strong>What part of</strong> Brazil are you from?</td><td>De que parte do Brasil você é?</td></tr>
+    </table>
+    <div class="nt nt-tip">WHAT TIME = a que horas | WHAT DAY = que dia | WHAT PART OF = que parte de. Estruturas fixas — memorize inteiras.</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">WHAT'S IT LIKE? = COMO É?</div>
+    <table class="vt">
+      <tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>descrição</td><td><strong>What's</strong> the weather <strong>like</strong>?</td><td>Como está o tempo?</td></tr>
+      <tr><td>descrição</td><td><strong>What's</strong> the food <strong>like</strong>?</td><td>Como é a comida?</td></tr>
+      <tr><td>descrição</td><td><strong>What's</strong> he <strong>like</strong>?</td><td>Como ele é?</td></tr>
+      <tr><td>descrição</td><td><strong>What was</strong> the trip <strong>like</strong>?</td><td>Como foi a viagem?</td></tr>
+      <tr><td>resposta</td><td>It's amazing! / He's very kind.</td><td>É incrível! / Ele é muito gentil.</td></tr>
+    </table>
+    <div class="nt nt-wrn">WHAT'S IT LIKE? (descreva em geral) ≠ WHAT DOES IT LOOK LIKE? (descreva a aparência física).</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">WHAT'S GOING ON / WHAT'S UP / WHAT'S WRONG</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>situação</td><td><strong>What's going on</strong>?</td><td>O que está acontecendo?</td></tr>
+      <tr><td>saudação</td><td><strong>What's up</strong>?</td><td>E aí? / Tudo bem?</td></tr>
+      <tr><td>problema</td><td><strong>What's wrong</strong>?</td><td>O que foi? / O que há de errado?</td></tr>
+      <tr><td>problema</td><td><strong>What's the matter</strong>?</td><td>O que está havendo?</td></tr>
+      <tr><td>finalidade</td><td><strong>What's</strong> this button <strong>for</strong>?</td><td>Para que serve esse botão?</td></tr>
+      <tr><td>assunto</td><td><strong>What's</strong> the movie <strong>about</strong>?</td><td>Sobre o que é o filme?</td></tr>
+    </table>
+    <div class="nt nt-tip">WHAT'S UP é a saudação informal mais comum dos americanos. Pode usar à vontade no dia a dia.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     SEÇÃO 4 — COMPARAÇÃO
+════════════════════════════════════ -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">COMPARAÇÃO E INTENSIFICAÇÃO</div>
+    <div class="sd">Estruturas para comparar, intensificar e relativizar — muito usadas na fala natural</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">AS…AS / NOT AS…AS (comparação de igualdade)</div>
+    <div class="pb">
+      <div class="pf">AS + adjetivo + AS = tão … quanto (igual)</div>
+      <div class="pe pr">She is <strong>as tall as</strong> her brother. → Ela é tão alta quanto o irmão.</div>
+      <div class="pe pr">This is <strong>as good as</strong> the other one. → Isso é tão bom quanto o outro.</div>
+      <div class="pe pr"><strong>As soon as possible.</strong> → O mais rápido possível.</div>
+    </div>
+    <div class="pb">
+      <div class="pf">NOT AS + adjetivo + AS = não tão … quanto (diferença)</div>
+      <div class="pe pr">It's <strong>not as cold as</strong> yesterday. → Não está tão frio quanto ontem.</div>
+      <div class="pe pr">He's <strong>not as fast as</strong> she is. → Ele não é tão rápido quanto ela.</div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">THE MORE…THE MORE (proporção)</div>
+    <div class="pb">
+      <div class="pf">THE MORE + frase, THE MORE/BETTER + frase = Quanto mais … mais</div>
+      <div class="pe pr"><strong>The more</strong> I study, <strong>the more</strong> I learn. → Quanto mais estudo, mais aprendo.</div>
+      <div class="pe pr"><strong>The more</strong> you practice, <strong>the better</strong>. → Quanto mais pratica, melhor.</div>
+      <div class="pe pr"><strong>The older</strong> he gets, <strong>the wiser</strong> he becomes. → Quanto mais velho, mais sábio.</div>
+      <div class="pe pr"><strong>The less</strong> you worry, <strong>the happier</strong> you'll be. → Quanto menos se preocupa, mais feliz.</div>
+    </div>
+    <div class="nt nt-err">"More I study, more I learn." ✗ → Ambas as partes precisam de THE: "The more I study, <strong>the</strong> more I learn." ✓</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">SO…THAT / SUCH…THAT (consequência intensificada)</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>SO + adj</td><td>It was <strong>so cold that</strong> I couldn't sleep.</td><td>Estava tão frio que não dormi.</td></tr>
+      <tr><td>SO + adj</td><td>She was <strong>so tired that</strong> she slept all day.</td><td>Tão cansada que dormiu o dia todo.</td></tr>
+      <tr><td>SUCH + noun</td><td>It was <strong>such a good</strong> movie <strong>that</strong> I watched it twice.</td><td>Tão bom que assisti duas vezes.</td></tr>
+    </table>
+    <div class="nt nt-wrn">SO + adjetivo | SUCH + (a/an) + substantivo. "So good" ✓ | "Such a good movie" ✓ | "Such beautiful" ✗ → precisa de noun.</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">TOO…TO / ENOUGH TO (impossível ou possível)</div>
+    <div class="cg2">
+      <div class="cc">
+        <div class="cc-t" style="color:var(--rd)">TOO + adj + TO = demais para (impossível)</div>
+        <div class="cc-i">She's <strong>too tired to</strong> cook. → Cansada demais para cozinhar.</div>
+        <div class="cc-i">It's <strong>too hot to</strong> go outside. → Quente demais para sair.</div>
+        <div class="cc-i">He's <strong>too young to</strong> drive. → Novo demais para dirigir.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-t" style="color:var(--gn)">adj + ENOUGH TO = suficiente para (possível)</div>
+        <div class="cc-i">He's <strong>old enough to</strong> drive. → Tem idade suficiente para dirigir.</div>
+        <div class="cc-i">She's <strong>strong enough to</strong> carry it. → Forte o suficiente para carregar.</div>
+        <div class="cc-i">It's <strong>warm enough to</strong> swim. → Quente o suficiente para nadar.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">KIND OF / SORT OF / MORE OR LESS / TOTALLY (suavizar e intensificar)</div>
+    <table class="vt">
+      <tr><th>Uso</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>suavizar</td><td>It's <strong>kind of</strong> difficult.</td><td>É tipo difícil. / É meio difícil.</td></tr>
+      <tr><td>suavizar</td><td>I'm <strong>sort of</strong> tired.</td><td>Estou meio cansado.</td></tr>
+      <tr><td>aproximar</td><td>It takes <strong>more or less</strong> an hour.</td><td>Leva mais ou menos uma hora.</td></tr>
+      <tr><td>intensificar</td><td>I <strong>totally</strong> agree.</td><td>Concordo totalmente.</td></tr>
+      <tr><td>intensificar</td><td>It's <strong>absolutely</strong> amazing.</td><td>É absolutamente incrível.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     SEÇÃO 5 — CAUSA E CONDIÇÃO
+════════════════════════════════════ -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">CAUSA E CONDIÇÃO</div>
+    <div class="sd">Estruturas fixas para explicar, argumentar e impor condições — essenciais para falar de forma articulada</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">THAT'S WHY / THAT'S BECAUSE / THAT'S HOW</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>resultado</td><td><strong>That's why</strong> I called.</td><td>É por isso que eu liguei.</td></tr>
+      <tr><td>resultado</td><td><strong>That's why</strong> she's upset.</td><td>É por isso que ela está chateada.</td></tr>
+      <tr><td>causa</td><td><strong>That's because</strong> it's new.</td><td>É porque é novo.</td></tr>
+      <tr><td>causa</td><td><strong>That's because</strong> she didn't study.</td><td>É porque ela não estudou.</td></tr>
+      <tr><td>modo</td><td><strong>That's how</strong> I learned English.</td><td>Foi assim que eu aprendi inglês.</td></tr>
+    </table>
+    <div class="nt nt-tip">THAT'S WHY = é por isso que (resultado) | THAT'S BECAUSE = é porque (causa) | THAT'S HOW = foi assim que (modo).</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">IN THAT CASE / OTHERWISE / BECAUSE OF THAT</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>consequência</td><td><strong>In that case</strong>, let's cancel.</td><td>Nesse caso, vamos cancelar.</td></tr>
+      <tr><td>consequência</td><td><strong>In that case</strong>, I'll stay home.</td><td>Nesse caso, fico em casa.</td></tr>
+      <tr><td>senão</td><td>Call me, <strong>otherwise</strong> I'll worry.</td><td>Me ligue, senão vou me preocupar.</td></tr>
+      <tr><td>senão</td><td>Hurry up, <strong>otherwise</strong> we'll be late.</td><td>Apresse-se, senão vamos nos atrasar.</td></tr>
+      <tr><td>resultado</td><td><strong>Because of that</strong>, I missed the bus.</td><td>Por causa disso, perdi o ônibus.</td></tr>
+    </table>
+    <div class="nt nt-tip">IN THAT CASE = nesse caso (decisão baseada no que foi dito) | OTHERWISE = caso contrário / senão.</div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">EVEN IF / EVEN THOUGH / NO MATTER WHAT</div>
+    <div class="cg2">
+      <div class="cc">
+        <div class="cc-t" style="color:var(--yl)">EVEN IF = mesmo se (hipótese futura)</div>
+        <div class="cc-i">I'll go <strong>even if</strong> it rains. → Vou mesmo se chover. <em style="color:var(--td)">(ainda não choveu)</em></div>
+        <div class="cc-i"><strong>Even if</strong> I fail, I'll try again. → Mesmo se eu falhar, vou tentar de novo.</div>
+      </div>
+      <div class="cc">
+        <div class="cc-t" style="color:var(--ca)">EVEN THOUGH = mesmo que (fato real)</div>
+        <div class="cc-i"><strong>Even though</strong> it's hard, keep going. → Mesmo sendo difícil, continue. <em style="color:var(--td)">(já é difícil)</em></div>
+        <div class="cc-i"><strong>Even though</strong> it's raining, I'll go. → Mesmo chovendo, vou. <em style="color:var(--td)">(está chovendo agora)</em></div>
+      </div>
+    </div>
+    <div class="pb" style="margin-top:.85rem">
+      <div class="pf">NO MATTER WHAT = não importa o que aconteça</div>
+      <div class="pe pr"><strong>No matter what</strong>, I'll be there. → Não importa o que aconteça, estarei lá.</div>
+      <div class="pe pr"><strong>No matter how</strong> hard it is, don't quit. → Por mais difícil que seja, não desista.</div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">AS LONG AS / IT WORKED OUT / MAKE UP YOUR MIND</div>
+    <table class="vt">
+      <tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr>
+      <tr><td>condição</td><td><strong>As long as</strong> you try, I'll help.</td><td>Desde que você tente, vou ajudar.</td></tr>
+      <tr><td>condição</td><td>I'll come <strong>as long as</strong> it's not late.</td><td>Vou desde que não seja tarde.</td></tr>
+      <tr><td>condição</td><td>You can go <strong>provided that</strong> you call.</td><td>Pode ir desde que ligue. (formal)</td></tr>
+      <tr><td>resultado +</td><td><strong>It worked out</strong>. / <strong>It turned out</strong> well.</td><td>Deu certo. / Acabou bem.</td></tr>
+      <tr><td>resultado −</td><td><strong>It didn't work out</strong>.</td><td>Não deu certo. / Não funcionou.</td></tr>
+      <tr><td>decisão</td><td><strong>Make up your mind</strong>.</td><td>Tome uma decisão. / Decida-se.</td></tr>
+    </table>
+    <div class="nt nt-tip">AS LONG AS = desde que (condição contínua, informal) | PROVIDED THAT = desde que (mais formal).</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     ERROS CLÁSSICOS
+════════════════════════════════════ -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "Is raining." / "Is cold."</div>
+      <div class="ecr">✓ "IT is raining." / "IT is cold."</div>
+      <div class="ecd">O sujeito IT impessoal é obrigatório em inglês. Toda frase precisa de sujeito — sem exceção.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Have a problem." / "It's a problem."</div>
+      <div class="ecr">✓ "There IS a problem."</div>
+      <div class="ecd">Para existência (tem / há) use THERE IS/ARE. Não use HAVE e não use IT IS nesse contexto.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "How much years?" / "How many money?"</div>
+      <div class="ecr">✓ "How MANY years?" / "How MUCH money?"</div>
+      <div class="ecd">Contável (years, people, books) → HOW MANY. Incontável (money, water, time) → HOW MUCH.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Which kind of music do you like?"</div>
+      <div class="ecr">✓ "WHAT kind of music do you like?"</div>
+      <div class="ecd">Com KIND OF e TYPE OF sempre WHAT — mesmo quando há opções. WHICH seria para selecionar entre opções já listadas.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She is such beautiful."</div>
+      <div class="ecr">✓ "She is such a beautiful woman." / "She is SO beautiful."</div>
+      <div class="ecd">SUCH precisa de substantivo: SUCH + a/an + adj + noun. Sem noun use SO: "She is so beautiful."</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Even if it's hard, keep going." (quando já é difícil)</div>
+      <div class="ecr">✓ "Even THOUGH it's hard, keep going."</div>
+      <div class="ecd">EVEN IF = hipótese (pode ou não acontecer). EVEN THOUGH = fato real que já acontece agora.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     QUIZ
+════════════════════════════════════ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — Chunks Essenciais</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Complete: "_____ cold today." (Está frio hoje.)</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">Is cold today.</button>
+      <button class="qo" onclick="ans(this,'q1',true)">It is cold today.</button>
+      <button class="qo" onclick="ans(this,'q1',false)">It's being cold today.</button>
+    </div>
+    <div class="qfb" id="q1fb">O sujeito IT impessoal é obrigatório em inglês — nunca omita o sujeito da frase.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Tem um problema." → Qual a tradução correta?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">It is a problem.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Have a problem.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">There is a problem.</button>
+    </div>
+    <div class="qfb" id="q2fb">Para existência (tem / há) use THERE IS/ARE. HAVE para existência é erro clássico do português.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Quanto tempo leva?" → Complete: "How long does _____ take?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">there</button>
+      <button class="qo" onclick="ans(this,'q3',true)">it</button>
+      <button class="qo" onclick="ans(this,'q3',false)">this</button>
+    </div>
+    <div class="qfb" id="q3fb">IT TAKES = leva (tempo). "How long does IT take?" — IT impessoal é sempre obrigatório.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Quantas pessoas vieram?" → "_____ people came?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',true)">How many</button>
+      <button class="qo" onclick="ans(this,'q4',false)">How much</button>
+      <button class="qo" onclick="ans(this,'q4',false)">How often</button>
+    </div>
+    <div class="qfb" id="q4fb">People é contável → HOW MANY. HOW MUCH = incontável (money, water) ou preço.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Que tipo de música você gosta?" → Qual é a estrutura correta?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Which kind of music do you like?</button>
+      <button class="qo" onclick="ans(this,'q5',true)">What kind of music do you like?</button>
+      <button class="qo" onclick="ans(this,'q5',false)">What music type you like?</button>
+    </div>
+    <div class="qfb" id="q5fb">Com KIND OF / TYPE OF sempre WHAT, não WHICH — mesmo quando há opções implícitas.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Como é a comida?" → Qual o chunk correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">How is the food?</button>
+      <button class="qo" onclick="ans(this,'q6',true)">What's the food like?</button>
+      <button class="qo" onclick="ans(this,'q6',false)">What the food is like?</button>
+    </div>
+    <div class="qfb" id="q6fb">WHAT'S IT LIKE? = como é? É o chunk certo para pedir descrição geral em inglês natural.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Ela é tão alta quanto o irmão." → Complete: "She is _____ tall _____ her brother."</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',true)">as … as</button>
+      <button class="qo" onclick="ans(this,'q7',false)">so … as</button>
+      <button class="qo" onclick="ans(this,'q7',false)">too … than</button>
+    </div>
+    <div class="qfb" id="q7fb">AS + adj + AS = tão…quanto (igualdade). SO + adj é para consequência (so tired THAT…).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Quanto mais você pratica, melhor." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">More you practice, better.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">The more you practice, the better.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">The more you practice, better.</button>
+    </div>
+    <div class="qfb" id="q8fb">THE MORE…THE MORE/BETTER: AMBAS as partes precisam de THE. Sem THE = erro.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Ela está cansada demais para cozinhar." → Qual a estrutura certa?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">She's so tired to cook.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">She's enough tired to cook.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">She's too tired to cook.</button>
+    </div>
+    <div class="qfb" id="q9fb">TOO + adj + TO = demais para (resultado impossível). ENOUGH TO = suficiente para (resultado possível).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"É por isso que ela está chateada." → Qual a tradução?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">That's because she's upset.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">That's why she's upset.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">That's how she's upset.</button>
+    </div>
+    <div class="qfb" id="q10fb">THAT'S WHY = é por isso que (resultado). THAT'S BECAUSE = é porque (causa). THAT'S HOW = foi assim que (modo).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Mesmo sendo difícil, continue." (já é difícil agora) → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">Even if it's hard, keep going.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">Even though it's hard, keep going.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Even when hard, keep going.</button>
+    </div>
+    <div class="qfb" id="q11fb">EVEN THOUGH = contraste com fato real (já acontece). EVEN IF = hipótese futura (ainda não aconteceu).</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Desde que você tente, vou ajudar." → Qual a tradução correta?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Even if you try, I'll help.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">No matter what you try, I'll help.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">As long as you try, I'll help.</button>
+    </div>
+    <div class="qfb" id="q12fb">AS LONG AS = desde que (condição contínua). EVEN IF = mesmo se (hipótese). NO MATTER WHAT = não importa o quê.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- ════════════════════════════════════
+     MÓDULO 11 COMPLETO
+════════════════════════════════════ -->
+<div class="mc">
+  <div class="mc-t">Módulo 11 Concluído!</div>
+  <div class="mc-s">Estruturas Fixas · Chunks Essenciais · Fala Natural</div>
+  <div class="mc-bs">
+    <span class="mb">IT IS / IT TAKES</span>
+    <span class="mb">THERE IS / THERE ARE</span>
+    <span class="mb">HOW + MEDIDAS</span>
+    <span class="mb">WHAT + CHUNKS</span>
+    <span class="mb">AS…AS / THE MORE</span>
+    <span class="mb">SO…THAT / TOO…TO</span>
+    <span class="mb">THAT'S WHY</span>
+    <span class="mb">EVEN IF / EVEN THOUGH</span>
+    <span class="mb">AS LONG AS</span>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="lnav">
+  <a class="nl" href="../47_lugar/index.html">← L47 IN/ON/AT Lugar</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- ════════════ THREE.JS ════════════ -->
+<script>
+(function(){
+  var canvas = document.getElementById('canvas-bg');
+  var renderer = new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls = new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false; controls.enablePan=false;
+  controls.autoRotate=true; controls.autoRotateSpeed=0.4; controls.enableDamping=true;
+  var CA=0x34d399;
+  // Central icosahedron
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  var mat=new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true});
+  var central=new THREE.Mesh(geo,mat); scene.add(central);
+  // Inner orbit (4 nodes)
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){
+    var a=(i/4)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));
+    m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*0.5,0); inner.add(m);
+  }
+  scene.add(inner);
+  // Outer orbit (5 nodes)
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){
+    var a=(i/5)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));
+    m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*0.4,Math.sin(a)*1.5); outer.add(m);
+  }
+  scene.add(outer);
+  // Stars
+  var sg=new THREE.BufferGeometry(), sp=[];
+  for(var i=0;i<1500;i++) sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20); pl.position.set(3,3,3); scene.add(pl);
+  function animate(){
+    requestAnimationFrame(animate);
+    inner.rotation.z+=.005; outer.rotation.z-=.003; central.rotation.y+=.003;
+    controls.update(); renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+})();
+</script>
+
+<!-- TABS -->
+<script>
+function goSec(id,btn){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('act');});
+  btn.classList.add('act');
+}
+</script>
+
+<!-- QUIZ -->
+<script>
+var qAnswers={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done) return;
+  card.dataset.done='1';
+  var opts=card.querySelectorAll('.qo');
+  opts.forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){
+    opts.forEach(function(o){
+      if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1) o.classList.add('ok');
+    });
+  }
+  qAnswers[qid]=correct;
+  var fb=document.getElementById(qid+'fb');
+  if(fb) fb.style.display='block';
+}
+function submitQ(){
+  var correct=Object.values(qAnswers).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');
+  s.style.display='block';
+  var msg=correct===12?'Perfeito! 🏆':correct>=10?'Excelente!':correct>=8?'Muito bem!':correct>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+correct+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lição 20 · KNOW – SABER e CONHECER | Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --tip:#5FD87A;--warn:#FF7043;
+  --c1:#60A5FA;--c2:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+.backnav{padding:1rem 2rem;display:flex;align-items:center;gap:.5rem;opacity:.7;font-size:.85rem}
+.backnav a{color:var(--accent);text-decoration:none}
+.backnav a:hover{text-decoration:underline}
+
+header{text-align:center;padding:2rem 1rem 1rem}
+.badge{display:inline-block;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif}
+header h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:.5rem}
+header h1 span{color:var(--accent)}
+header p.sub{color:var(--muted);font-size:1.05rem;max-width:540px;margin:0 auto}
+
+#heroWrap{width:100%;height:420px;position:relative;margin:1.5rem 0}
+#heroWrap canvas{display:block;width:100%!important;height:100%!important}
+.hero-hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.05em;pointer-events:none}
+
+.rule-wrap{max-width:900px;margin:0 auto 2rem;padding:0 1.5rem}
+.rule-box{background:var(--surface);border:1px solid rgba(34,211,238,.3);border-radius:16px;padding:1.8rem 2rem;position:relative;overflow:hidden}
+.rule-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--accent),var(--c2))}
+.rule-box h3{font-size:1rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.2rem}
+.conj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.conj-card{background:var(--surface2);border-radius:10px;padding:1rem;text-align:center}
+.conj-card .label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.conj-card .verb{font-size:1.6rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.conj-card .detail{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+.conj-card.present .verb{color:var(--c1)}
+.conj-card.present2 .verb{color:var(--c2)}
+.conj-card.past .verb{color:var(--accent)}
+.warn-box{margin-top:1.2rem;background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.25);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:flex-start;gap:.7rem}
+.warn-box .icon{font-size:1.1rem;margin-top:.05rem;flex-shrink:0}
+.warn-box p{font-size:.88rem;color:var(--text)}
+.warn-box code{font-family:'Space Grotesk',monospace;background:rgba(0,0,0,.25);padding:.1rem .35rem;border-radius:4px}
+.warn-box .bad{color:var(--warn);font-weight:700}
+.warn-box .good{color:var(--tip);font-weight:700}
+
+.sec{max-width:900px;margin:0 auto 3rem;padding:0 1.5rem}
+.sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.sec-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;flex-shrink:0}
+.sec-title{font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.sec-pt{font-size:.85rem;color:var(--muted);font-weight:400}
+
+.meaning-card{background:var(--surface);border-radius:14px;padding:1.5rem;margin-bottom:1.2rem;border-left:4px solid}
+.meaning-card h4{font-size:1rem;font-weight:700;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif}
+.examples-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.examples-list li{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;align-items:center;background:var(--surface2);border-radius:8px;padding:.65rem .9rem;font-size:.9rem}
+.examples-list li .en{font-weight:600}
+.examples-list li .pt{color:var(--muted)}
+
+.tip-box{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);border-radius:10px;padding:.9rem 1.2rem;margin-top:1rem;font-size:.88rem}
+.tip-box strong{color:var(--tip)}
+
+/* SABER vs CONHECER — the BIG reveal */
+.reveal-box{background:linear-gradient(135deg,rgba(34,211,238,.07),rgba(167,139,250,.07));border:1px solid rgba(34,211,238,.25);border-radius:16px;padding:1.8rem 2rem;margin-bottom:1.2rem;text-align:center}
+.reveal-box .pt-title{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+.reveal-box .pt-words{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:1rem}
+.reveal-box .pt-word{font-size:1.8rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.reveal-box .arrow-down{font-size:1.5rem;color:var(--muted);margin:.5rem 0}
+.reveal-box .en-word{font-size:3rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--accent);letter-spacing:-.02em}
+.reveal-box .en-desc{font-size:.85rem;color:var(--muted);margin-top:.5rem}
+
+/* know how to */
+.howto-box{background:var(--surface2);border-radius:12px;padding:1.2rem 1.5rem;margin-top:1rem}
+.howto-box .title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.8rem}
+.howto-list{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.howto-item{display:flex;gap:.5rem;align-items:center;font-size:.85rem}
+.howto-item .en{font-weight:600;color:var(--c1)}
+.howto-item .pt{color:var(--muted)}
+
+/* Know someone grid */
+.know-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:.9rem}
+.know-card{background:var(--surface2);border-radius:10px;padding:.8rem 1rem}
+.know-card .phrase{font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--c2)}
+.know-card .pt{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+
+.quiz-wrap{display:flex;flex-direction:column;gap:1.2rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color .3s}
+.q-card.correct{border-color:var(--tip)}
+.q-card.wrong{border-color:var(--warn)}
+.q-num{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.q-sent{font-size:1.05rem;font-weight:600;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.q-blank{display:inline-block;min-width:70px;border-bottom:2px solid var(--accent);text-align:center;color:var(--accent)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;cursor:pointer;font-size:.9rem;font-weight:500;text-align:center;transition:all .2s}
+.opt:hover{border-color:var(--accent);background:rgba(34,211,238,.07)}
+.opt.selected-correct{background:rgba(95,216,122,.12);border-color:var(--tip);color:var(--tip);font-weight:700}
+.opt.selected-wrong{background:rgba(255,112,67,.12);border-color:var(--warn);color:var(--warn)}
+.opt.reveal-correct{background:rgba(95,216,122,.08);border-color:rgba(95,216,122,.4);color:var(--tip)}
+.opt[disabled]{cursor:not-allowed;opacity:.7}
+.q-feedback{margin-top:.8rem;padding:.65rem .9rem;border-radius:8px;font-size:.85rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:rgba(95,216,122,.08);color:var(--tip)}
+.q-feedback.nope{background:rgba(255,112,67,.08);color:var(--warn)}
+.score-bar{text-align:center;margin-top:1.5rem;padding:1.2rem;background:var(--surface);border-radius:14px;border:1px solid var(--border)}
+.score-bar .score-num{font-size:2rem;font-weight:800;color:var(--accent);font-family:'Space Grotesk',sans-serif}
+.score-bar p{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:999px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.btn-reset{background:rgba(34,211,238,.1);color:var(--accent);border:1px solid rgba(34,211,238,.3);margin-top:.9rem}
+.btn-reset:hover{background:rgba(34,211,238,.18)}
+
+.errors-grid{display:flex;flex-direction:column;gap:.9rem}
+.err-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;background:var(--surface);border-radius:12px;padding:1.1rem 1.3rem}
+.err-wrong{color:var(--warn);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem;text-decoration:line-through;text-decoration-color:rgba(255,112,67,.5)}
+.err-arrow{color:var(--muted);font-size:1.2rem}
+.err-right{color:var(--tip);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem}
+.err-why{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+
+.mega{max-width:900px;margin:0 auto 4rem;padding:0 1.5rem}
+.mega-box{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:2.2rem;position:relative;overflow:hidden}
+.mega-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--accent),var(--c2))}
+.mega-box h2{font-size:1.4rem;color:var(--accent);margin-bottom:1.6rem}
+.mega-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.mega-col{background:var(--surface);border-radius:12px;padding:1.2rem}
+.mega-col h4{font-size:.85rem;font-weight:700;margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.06em;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.mega-col ul li{font-size:.83rem;padding-left:.9rem;position:relative;color:var(--muted)}
+.mega-col ul li::before{content:'→';position:absolute;left:0;color:inherit;opacity:.7}
+.mega-col ul li span{color:var(--text);font-weight:600}
+
+footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
+footer a{color:var(--accent);text-decoration:none}
+.progress-bar{max-width:300px;margin:.8rem auto 0;height:4px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px}
+
+@media(max-width:600px){
+  .conj-grid{grid-template-columns:1fr}
+  .examples-list li{grid-template-columns:1fr}
+  .examples-list li .pt{padding-top:.2rem;border-top:1px solid var(--border)}
+  .opts{grid-template-columns:1fr}
+  .err-card{grid-template-columns:1fr}
+  .err-arrow{display:none}
+  .mega-cols{grid-template-columns:1fr}
+  .know-grid{grid-template-columns:1fr 1fr}
+  .howto-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="backnav">
+  <a href="../index.html">← Início</a>
+  <span style="color:var(--muted)">/</span>
+  <span>Lição 20 · KNOW</span>
+</nav>
+
+<header>
+  <div class="badge">A1 · Lição 20 · Módulo 04 · Verbo KNOW</div>
+  <h1>Verbo <span>KNOW</span></h1>
+  <p class="sub">Um único verbo inglês que cobre SABER e CONHECER — a grande revelação do Módulo 04</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="c"></canvas>
+  <div class="hero-hint">arraste para girar</div>
+</div>
+
+<!-- RULE BOX -->
+<div class="rule-wrap">
+  <div class="rule-box">
+    <h3>Conjugação · KNOW</h3>
+    <div class="conj-grid">
+      <div class="conj-card present">
+        <div class="label">Presente · Eu/Você/Nós/Eles</div>
+        <div class="verb">KNOW</div>
+        <div class="detail">I know / You know / We know / They know</div>
+      </div>
+      <div class="conj-card present2">
+        <div class="label">Presente · Ele/Ela/Isso</div>
+        <div class="verb">KNOWS</div>
+        <div class="detail">He knows / She knows / It knows</div>
+      </div>
+      <div class="conj-card past">
+        <div class="label">Passado · TODOS os pronomes</div>
+        <div class="verb">KNEW</div>
+        <div class="detail">I knew / He knew / She knew / They knew</div>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:1.2rem">
+      <div class="icon">⚠️</div>
+      <p>
+        Passado irregular: <code>KNOW → KNEW</code> — parece outra palavra, mas é a mesma!<br>
+        Negação: <span class="good">"I didn't know"</span> &nbsp;|&nbsp;
+        NUNCA <span class="bad">"I didn't knew" ✗</span> &nbsp;&nbsp;
+        NUNCA <span class="bad">"She knowed" ✗</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ THE BIG REVEAL ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(34,211,238,.12);color:var(--accent)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--accent)">A Grande Revelação — KNOW faz tudo</div>
+      <div class="sec-pt">em português são dois verbos; em inglês é um só</div>
+    </div>
+  </div>
+
+  <div class="reveal-box">
+    <div class="pt-title">Em português, dois verbos diferentes:</div>
+    <div class="pt-words">
+      <span class="pt-word" style="color:var(--c1)">SABER</span>
+      <span style="color:var(--muted);font-size:1.4rem">+</span>
+      <span class="pt-word" style="color:var(--c2)">CONHECER</span>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="pt-title">Em inglês, um único verbo:</div>
+    <div class="en-word">KNOW</div>
+    <div class="en-desc">KNOW = SABER (fatos, habilidades) &nbsp;&amp;&nbsp; CONHECER (pessoas, lugares)</div>
+  </div>
+</section>
+
+<!-- ═══ SENTIDO 1: SABER ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(96,165,250,.15);color:var(--c1)">1</div>
+    <div>
+      <div class="sec-title" style="color:var(--c1)">KNOW = SABER</div>
+      <div class="sec-pt">ter conhecimento de um fato, informação ou habilidade</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c1)">
+    <h4 style="color:var(--c1)">Exemplos — fatos e habilidades</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--c1)">know</strong> the answer.</span><span class="pt">Eu sei a resposta.</span></li>
+      <li><span class="en">You <strong style="color:var(--c1)">know</strong> a lot about history.</span><span class="pt">Você sabe muito sobre história.</span></li>
+      <li><span class="en">He <strong style="color:var(--c2)">knows</strong> how to cook.</span><span class="pt">Ele sabe cozinhar.</span></li>
+      <li><span class="en">She <strong style="color:var(--c2)">knows</strong> three languages.</span><span class="pt">Ela sabe três idiomas.</span></li>
+      <li><span class="en">We <strong style="color:var(--c1)">know</strong> the rules.</span><span class="pt">Nós sabemos as regras.</span></li>
+      <li><span class="en">They <strong style="color:var(--c1)">know</strong> everything about soccer.</span><span class="pt">Eles sabem tudo sobre futebol.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--c1)">know</strong> the answer.</span><span class="pt">Eu não sabia a resposta.</span></li>
+    </ul>
+    <div class="howto-box">
+      <div class="title">KNOW HOW TO + verbo = SABER + infinitivo</div>
+      <div class="howto-list">
+        <div class="howto-item"><span class="en">know how to cook</span><span class="pt">→ saber cozinhar</span></div>
+        <div class="howto-item"><span class="en">knows how to drive</span><span class="pt">→ sabe dirigir</span></div>
+        <div class="howto-item"><span class="en">know how to swim</span><span class="pt">→ saber nadar</span></div>
+        <div class="howto-item"><span class="en">knew how to play guitar</span><span class="pt">→ sabia tocar violão</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(96,165,250,.4)">
+    <h4>No passado — KNEW</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--accent)">knew</strong> the answer.</span><span class="pt">Eu sabia / soube a resposta.</span></li>
+      <li><span class="en">He <strong style="color:var(--accent)">knew</strong> how to cook.</span><span class="pt">Ele sabia cozinhar.</span></li>
+      <li><span class="en">She <strong style="color:var(--accent)">knew</strong> three languages.</span><span class="pt">Ela sabia três idiomas.</span></li>
+      <li><span class="en">They <strong style="color:var(--accent)">knew</strong> everything about soccer.</span><span class="pt">Eles sabiam tudo sobre futebol.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ SENTIDO 2: CONHECER ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--c2)">2</div>
+    <div>
+      <div class="sec-title" style="color:var(--c2)">KNOW = CONHECER</div>
+      <div class="sec-pt">conhecer uma pessoa, lugar ou coisa pessoalmente</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c2)">
+    <h4 style="color:var(--c2)">Pessoas e lugares que você conhece</h4>
+    <div class="know-grid">
+      <div class="know-card"><div class="phrase">know my sister</div><div class="pt">conhecer minha irmã</div></div>
+      <div class="know-card"><div class="phrase">knows everyone in town</div><div class="pt">conhece todo mundo</div></div>
+      <div class="know-card"><div class="phrase">knows the city well</div><div class="pt">conhece a cidade bem</div></div>
+      <div class="know-card"><div class="phrase">know each other</div><div class="pt">nos conhecemos</div></div>
+      <div class="know-card"><div class="phrase">know that restaurant</div><div class="pt">conheço aquele restaurante</div></div>
+      <div class="know-card"><div class="phrase">knew the neighborhood</div><div class="pt">conhecia o bairro</div></div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(167,139,250,.4)">
+    <h4>Exemplos presente e passado</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--c1)">know</strong> that restaurant well.</span><span class="pt">Eu conheço aquele restaurante bem.</span></li>
+      <li><span class="en">He <strong style="color:var(--c2)">knows</strong> everyone in town.</span><span class="pt">Ele conhece todo mundo na cidade.</span></li>
+      <li><span class="en">She <strong style="color:var(--c2)">knows</strong> the city very well.</span><span class="pt">Ela conhece a cidade muito bem.</span></li>
+      <li><span class="en">We <strong style="color:var(--c1)">know</strong> each other from work.</span><span class="pt">Nós nos conhecemos do trabalho.</span></li>
+      <li><span class="en">I <strong style="color:var(--accent)">knew</strong> that place very well.</span><span class="pt">Eu conhecia aquele lugar muito bem.</span></li>
+      <li><span class="en">We <strong style="color:var(--accent)">knew</strong> each other from school.</span><span class="pt">Nós nos conhecíamos da escola.</span></li>
+      <li><span class="en">I don't <strong style="color:var(--c1)">know</strong> her.</span><span class="pt">Eu não a conheço.</span></li>
+    </ul>
+    <div class="tip-box">
+      <strong>Atenção:</strong> "I don't know him" = Eu não o <em>conheço</em>. "I don't know the answer" = Eu não <em>sei</em> a resposta. O mesmo KNOW — o contexto deixa claro qual sentido é.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUIZ ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(34,211,238,.12);color:var(--accent)">✎</div>
+    <div>
+      <div class="sec-title" style="color:var(--accent)">Quiz · Pratique KNOW</div>
+      <div class="sec-pt">escolha a forma correta</div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz"></div>
+  <div class="score-bar" id="scorebar" style="display:none">
+    <div class="score-num" id="scorenum"></div>
+    <p id="scoremsg"></p>
+    <button class="btn btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</section>
+
+<!-- ═══ ERROS CLÁSSICOS ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(255,112,67,.12);color:var(--warn)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--warn)">Erros Clássicos</div>
+      <div class="sec-pt">o que brasileiros erram mais com KNOW</div>
+    </div>
+  </div>
+  <div class="errors-grid">
+    <div class="err-card">
+      <div><div class="err-wrong">I didn't knew that.</div><div class="err-why">Negação usa KNOW base — o "didn't" já indica passado</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I didn't know that.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She knowed the answer.</div><div class="err-why">KNOW é irregular — passado = KNEW (nunca -ed)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She knew the answer.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">He know how to cook.</div><div class="err-why">He/She/It → KNOWS no presente</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">He knows how to cook.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">I know to drive.</div><div class="err-why">Habilidade precisa do HOW TO: "know how to drive"</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I know how to drive.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">Did they knew the rules?</div><div class="err-why">DID + verbo base → DID KNOW (não DID KNEW)</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">Did they know the rules?</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She didn't knew the city.</div><div class="err-why">"didn't" + verbo base: didn't KNOW — KNEW fica para afirmação no passado</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She didn't know the city.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEGA SUMMARY ═══ -->
+<div class="mega">
+  <div class="mega-box">
+    <h2>Resumão · Verbo KNOW</h2>
+    <div class="mega-cols">
+      <div class="mega-col">
+        <h4 style="color:var(--c1)">Sentido 1 · SABER</h4>
+        <ul>
+          <li><span>KNOW + fato/informação</span></li>
+          <li><span>I know the answer</span> → sei a resposta</li>
+          <li><span>She knows three languages</span> → sabe 3 idiomas</li>
+          <li><span>know how to + verbo</span> → saber + infinitivo</li>
+          <li><span>KNEW</span> = passado irregular (todos)</li>
+          <li><span>didn't know</span> → NUNCA "didn't knew"</li>
+          <li><span>KNOWS</span> = He/She/It (presente)</li>
+        </ul>
+      </div>
+      <div class="mega-col">
+        <h4 style="color:var(--c2)">Sentido 2 · CONHECER</h4>
+        <ul>
+          <li><span>KNOW + pessoa/lugar</span></li>
+          <li><span>I know that restaurant</span> → conheço aquele restaurante</li>
+          <li><span>He knows everyone</span> → conhece todo mundo</li>
+          <li><span>know each other</span> → nos conhecemos</li>
+          <li><span>knew the city</span> → conhecia a cidade</li>
+          <li>SABER e CONHECER = ambos KNOW em inglês!</li>
+          <li>O contexto indica qual sentido usar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="../index.html">← Voltar ao início</a></p>
+  <p style="margin-top:.4rem">Lição 20 de 25 · Módulo 04 · Inglês Visual para Brasileiros</p>
+  <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+</footer>
+
+<!-- THREE.JS HERO -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  var W=document.getElementById('heroWrap'),canvas=document.getElementById('c');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W.clientWidth/W.clientHeight,.1,100);
+  camera.position.set(0,1.5,9);
+  var controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.enableZoom=false;controls.autoRotate=true;controls.autoRotateSpeed=.5;
+
+  function resize(){
+    var w=W.clientWidth,h=W.clientHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();window.addEventListener('resize',resize);
+
+  var cyan=0x22D3EE,c1=0x60A5FA,c2=0xA78BFA;
+
+  function sphere(r,col,rough){
+    var geo=new THREE.SphereGeometry(r,32,32);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:rough||.45,metalness:.3,emissive:col,emissiveIntensity:.1});
+    return new THREE.Mesh(geo,mat);
+  }
+  function ring(r,col,tube){
+    var geo=new THREE.TorusGeometry(r,tube||.012,12,80);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:.6,metalness:.1,transparent:true,opacity:.28});
+    return new THREE.Mesh(geo,mat);
+  }
+
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var d1=new THREE.DirectionalLight(0xffffff,.8);d1.position.set(5,8,5);scene.add(d1);
+  var p1=new THREE.PointLight(cyan,1.2,15);p1.position.set(-3,2,3);scene.add(p1);
+  var p2=new THREE.PointLight(c2,.8,12);p2.position.set(4,-1,2);scene.add(p2);
+
+  // Core KNOW sphere
+  var core=sphere(1.15,cyan,.3);scene.add(core);
+  var gR=ring(1.6,cyan,.02);scene.add(gR);
+
+  // Inner orbit: KNOW / KNOWS / KNEW
+  var conjOrbit=new THREE.Object3D();scene.add(conjOrbit);
+  [{col:c1,angle:0},{col:c2,angle:Math.PI*2/3},{col:cyan,angle:Math.PI*4/3}].forEach(function(d){
+    var m=sphere(.38,d.col,.4);
+    m.position.set(Math.cos(d.angle)*2.7,Math.sin(d.angle)*.35,Math.sin(d.angle)*2.7);
+    conjOrbit.add(m);
+    var sr=ring(.53,d.col,.01);sr.rotation.x=Math.PI/2;m.add(sr);
+  });
+
+  // Outer orbit: SABER and CONHECER nodes
+  var outerOrbit=new THREE.Object3D();scene.add(outerOrbit);
+  [{col:c1,angle:Math.PI*.2,y:.3,r:.65},{col:c2,angle:Math.PI*1.2,y:-.2,r:.65}].forEach(function(d){
+    var m=sphere(d.r,d.col,.5);
+    m.position.set(Math.cos(d.angle)*5.3,d.y,Math.sin(d.angle)*5.3);
+    outerOrbit.add(m);
+    scene.add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),m.position.clone()]),
+      new THREE.LineBasicMaterial({color:d.col,transparent:true,opacity:.14})
+    ));
+  });
+
+  // Orbit rings
+  [c1,c2,cyan].forEach(function(col,i){
+    var orb=ring(5.6+i*.3,col,.01);
+    orb.rotation.x=Math.PI/2-.15+i*.3;
+    orb.rotation.z=i*1.1;
+    scene.add(orb);
+  });
+
+  // Knowledge particles
+  var pcols=[c1,c2,cyan,0x34D399,0xFBBF24,0xFB923C,0xF87171,0x38BDF8];
+  pcols.forEach(function(col,i){
+    var ang=i*Math.PI*2/pcols.length;
+    var m=sphere(.15,col,.6);
+    m.position.set(Math.cos(ang)*3.9,Math.sin(ang*.8+.4)*.55,Math.sin(ang)*3.9);
+    scene.add(m);
+  });
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.005;
+    controls.update();
+    core.rotation.y+=.003;
+    conjOrbit.rotation.y=t*.42;
+    outerOrbit.rotation.y=-t*.2;
+    gR.rotation.z+=.007;
+    renderer.render(scene,camera);
+  }
+  animate();
+})();
+</script>
+
+<!-- QUIZ JS -->
+<script>
+var QS=[
+  {s:'She ___ three languages.',opts:['know','knowed','knew','knows'],ans:'knows',why:'She → KNOWS no presente'},
+  {s:'I ___ the answer yesterday.',opts:['know','knowed','knows','knew'],ans:'knew',why:'Passado de KNOW = KNEW (irregular)'},
+  {s:'He ___ how to cook.',opts:['know','knowed','knew','knows'],ans:'knows',why:'He → KNOWS no presente; "knows how to" = sabe cozinhar'},
+  {s:'They ___ everything about soccer.',opts:['knows','knowed','knew','know'],ans:'know',why:'They → KNOW no presente'},
+  {s:'I didn\'t ___ that.',opts:['knew','knowed','knows','know'],ans:'know',why:'"didn\'t" + verbo base → didn\'t KNOW (nunca didn\'t knew)'},
+  {s:'We ___ each other from school.',opts:['know','knowed','knows','knew'],ans:'knew',why:'Passado = KNEW — "we knew each other" = nos conhecíamos'},
+  {s:'Do you ___ my sister?',opts:['knowed','knew','knows','know'],ans:'know',why:'DO + verbo base → DO YOU KNOW'},
+  {s:'She ___ the city very well.',opts:['know','knowed','knew','knows'],ans:'knows',why:'She → KNOWS no presente; "knows the city" = conhece a cidade'},
+  {s:'Did he ___ the rules?',opts:['knowed','knew','knows','know'],ans:'know',why:'DID + verbo base → DID HE KNOW (não DID HE KNEW)'},
+  {s:'I ___ that restaurant very well.',opts:['knows','knowed','knew','know'],ans:'know',why:'I → KNOW no presente; "know that restaurant" = conheço aquele restaurante'},
+  {s:'They ___ everyone in town back then.',opts:['know','knowed','knows','knew'],ans:'knew',why:'Passado = KNEW — "knew everyone" = conheciam todo mundo'},
+  {s:'Does she ___ how to drive?',opts:['knowed','knew','knows','know'],ans:'know',why:'DOES SHE + verbo base → DOES SHE KNOW'}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');
+  qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';card.id='qc'+i;
+    var opts=q.opts.slice().sort(function(){return Math.random()-.5});
+    card.innerHTML='<div class="q-num">Pergunta '+(i+1)+' de '+QS.length+'</div>'+
+      '<div class="q-sent">'+q.s.replace('___','<span class="q-blank">___</span>')+'</div>'+
+      '<div class="opts" id="opts'+i+'">'+
+        opts.map(function(o){return '<button class="opt" data-v="'+o+'" onclick="pick('+i+',this,\''+q.ans+'\')">'+o+'</button>';}).join('')+
+      '</div>'+
+      '<div class="q-feedback" id="fb'+i+'"></div>';
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,ans){
+  var fb=document.getElementById('fb'+i);
+  var card=document.getElementById('qc'+i);
+  var opts=document.querySelectorAll('#opts'+i+' .opt');
+  opts.forEach(function(o){o.disabled=true;});
+  if(btn.dataset.v===ans){
+    btn.className='opt selected-correct';card.className='q-card correct';
+    fb.className='q-feedback ok show';fb.textContent='✓ '+QS[i].why;score++;
+  } else {
+    btn.className='opt selected-wrong';card.className='q-card wrong';
+    fb.className='q-feedback nope show';fb.textContent='✗ Correto: '+ans+' — '+QS[i].why;
+    opts.forEach(function(o){if(o.dataset.v===ans)o.className='opt reveal-correct';});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');
+    sb.style.display='block';
+    document.getElementById('scorenum').textContent=score+'/'+QS.length;
+    var msgs=['Continue praticando!','Bom trabalho!','Muito bem!','Excelente!','Perfeito!'];
+    document.getElementById('scoremsg').textContent=msgs[Math.min(4,Math.floor(score/QS.length*4))];
+  }
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+</script>
+</body>
+</html>

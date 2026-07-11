@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 37 — WHO · WHOM · WHOSE | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#38bdf8;
+  --cw:#38bdf8;--cm:#A78BFA;--cs:#FBBF24;--cv:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,8vw,5.5rem);font-weight:800;line-height:.95;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vw{color:var(--cw)}
+.hero-title .vm{color:var(--cm)}
+.hero-title .vs{color:var(--cs)}
+.hero-title .dot{color:var(--muted)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-w{color:var(--cw);background:rgba(56,189,248,.07);border-color:rgba(56,189,248,.2)}
+.hp-m{color:var(--cm);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-s{color:var(--cs);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-v{color:var(--cv);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* MODULE INTRO */
+.mod-intro{max-width:860px;margin:5rem auto 0;padding:0 1.5rem 1.5rem}
+.mi-banner{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(167,139,250,.08));border:1px solid rgba(56,189,248,.2);border-radius:1.25rem;padding:1.5rem 2rem;display:flex;align-items:flex-start;gap:1.25rem}
+.mi-icon{font-size:1.75rem;flex-shrink:0}
+.mi-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);margin-bottom:.3rem}
+.mi-words{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.mi-chip{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.18);color:var(--cw);border-radius:.4rem;padding:.2rem .55rem}
+
+.section{max-width:860px;margin:0 auto;padding:4rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* 3 ROLES CARD */
+.three-roles{background:var(--surface);border:1px solid rgba(56,189,248,.15);border-radius:1.25rem;padding:2rem;margin-bottom:1.75rem}
+.tr-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);text-align:center;margin-bottom:1.25rem}
+.tr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
+.tr-card{border-radius:.85rem;padding:1.15rem;text-align:center}
+.tr-who{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2)}
+.tr-whom{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2)}
+.tr-whose{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2)}
+.tr-word{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.2rem}
+.tr-who .tr-word{color:var(--cw)}
+.tr-whom .tr-word{color:var(--cm)}
+.tr-whose .tr-word{color:var(--cs)}
+.tr-role{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.5rem}
+.tr-ex{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600}
+.tr-pt{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+/* USO BLOCKS */
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-w{background:rgba(56,189,248,.15);color:var(--cw)}
+.un-m{background:rgba(167,139,250,.15);color:var(--cm)}
+.un-s{background:rgba(251,191,36,.15);color:var(--cs)}
+.un-v{background:rgba(52,211,153,.15);color:var(--cv)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utw{color:var(--cw)}
+.utm{color:var(--cm)}
+.uts{color:var(--cs)}
+.utv{color:var(--cv)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbw{color:var(--cw);font-weight:700}
+.vbm{color:var(--cm);font-weight:700}
+.vbs{color:var(--cs);font-weight:700}
+.vbv{color:var(--cv);font-weight:700}
+
+/* DO/DOES key rule */
+.do-rule{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem 1.25rem;margin:.85rem 0}
+.do-rule-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--cw);margin-bottom:.65rem}
+.do-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.do-sub{border-radius:.6rem;padding:.85rem;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.18)}
+.do-obj{border-radius:.6rem;padding:.85rem;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.18)}
+.do-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem}
+.do-sub .do-label{color:var(--cw)}
+.do-obj .do-label{color:var(--cm)}
+.do-en{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem}
+.do-sub .do-en{color:var(--cw)}
+.do-obj .do-en{color:var(--cm)}
+.do-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.do-note{font-size:.73rem;color:var(--muted);margin-top:.4rem;font-style:italic}
+
+/* WHO'S vs WHOSE */
+.ww-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.85rem 0}
+.ww-card{border-radius:.75rem;padding:.9rem}
+.ww-whos{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.18)}
+.ww-whose{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.18)}
+.ww-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
+.ww-whos .ww-label{color:var(--cw)}
+.ww-whose .ww-label{color:var(--cs)}
+.ww-form{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.35rem}
+.ww-whos .ww-form{color:var(--cw)}
+.ww-whose .ww-form{color:var(--cs)}
+.ww-ex{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.ww-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.ww-rule{font-size:.74rem;font-style:italic;color:var(--muted);margin-top:.4rem}
+
+/* QA pairs */
+.qa-list{display:grid;gap:.45rem;margin:.85rem 0}
+.qa-row{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.75rem 1rem;display:grid;grid-template-columns:auto 1fr;gap:.35rem .75rem}
+.qa-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding-top:.15rem}
+.qa-q .qa-tag{color:var(--cw)}
+.qa-a .qa-tag{color:var(--tip)}
+.qa-n .qa-tag{color:var(--warn)}
+.qa-text{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.qa-pt{font-size:.78rem;color:var(--muted);grid-column:2}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cw);color:var(--cw);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cw);background:rgba(56,189,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--cs));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(56,189,248,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--cw)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .tr-grid{grid-template-columns:1fr}
+  .do-grid{grid-template-columns:1fr}
+  .ww-grid{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 07 · Question Words</span>
+  <span class="nav-badge">A1–A2 · Lição 37 · WHO · WHOM · WHOSE</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 07 · Lição 37</div>
+    <div class="hero-title">
+      <span class="vw">WHO</span>
+      <span class="dot"> · </span>
+      <span class="vm">WHOM</span>
+      <span class="dot"> · </span>
+      <span class="vs">WHOSE</span>
+    </div>
+    <div class="hero-sub">Perguntar sobre pessoas — sujeito, objeto e posse</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">WHO = quem (sujeito)</span>
+      <span class="hp hp-m">WHOM = quem (objeto)</span>
+      <span class="hp hp-s">WHOSE = de quem</span>
+      <span class="hp hp-v">WHOEVER = quem quer que</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- MOD INTRO -->
+<div class="mod-intro">
+  <div class="mi-banner">
+    <div class="mi-icon">?</div>
+    <div>
+      <div class="mi-title">Módulo 07 — Question Words (Lições 37–43)</div>
+      <div style="font-size:.85rem;color:var(--muted)">As 7 palavras interrogativas essenciais do inglês</div>
+      <div class="mi-words">
+        <span class="mi-chip">L37 WHO</span>
+        <span class="mi-chip">L38 WHAT</span>
+        <span class="mi-chip">L39 WHEN</span>
+        <span class="mi-chip">L40 WHERE</span>
+        <span class="mi-chip">L41 WHY</span>
+        <span class="mi-chip">L42 HOW</span>
+        <span class="mi-chip">L43 WHICH</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEITO -->
+<section class="section">
+  <div class="section-label">Conceito central</div>
+  <div class="section-title">WHO · WHOM · WHOSE — três papéis na frase</div>
+
+  <div class="three-roles">
+    <div class="tr-title">Todos perguntam sobre pessoas — papel diferente na frase</div>
+    <div class="tr-grid">
+      <div class="tr-card tr-who">
+        <div class="tr-word">WHO</div>
+        <div class="tr-role">sujeito — quem faz</div>
+        <div class="tr-ex">Who called?</div>
+        <div class="tr-pt">Quem ligou?</div>
+      </div>
+      <div class="tr-card tr-whom">
+        <div class="tr-word">WHOM</div>
+        <div class="tr-role">objeto — quem recebe</div>
+        <div class="tr-ex">Who did you call?</div>
+        <div class="tr-pt">Quem você ligou?</div>
+      </div>
+      <div class="tr-card tr-whose">
+        <div class="tr-word">WHOSE</div>
+        <div class="tr-role">posse — de quem é</div>
+        <div class="tr-ex">Whose phone is this?</div>
+        <div class="tr-pt">De quem é esse celular?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 1: WHO sujeito -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--cw)">WHO = Quem (sujeito — quem faz a ação)</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">1</div>
+      <div>
+        <div class="uso-title utw">WHO como sujeito — sem DO/DOES/DID</div>
+        <div class="uso-sub">WHO substitui o sujeito — o verbo vem diretamente depois</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Pergunta</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">Who</span> works here?</td><td class="pt">Quem trabalha aqui?</td></tr>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">Who</span> is your teacher?</td><td class="pt">Quem é seu professor?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Who</span> called you?</td><td class="pt">Quem te ligou?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Who</span> made this?</td><td class="pt">Quem fez isso?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Who</span> told you that?</td><td class="pt">Quem te contou isso?</td></tr>
+        <tr><td class="tipo">cont.</td><td class="en"><span class="vbw">Who</span> is coming?</td><td class="pt">Quem está vindo?</td></tr>
+      </tbody>
+    </table>
+
+    <!-- DO/DOES rule -->
+    <div class="do-rule">
+      <div class="do-rule-title">A regra do DO/DOES/DID com WHO</div>
+      <div class="do-grid">
+        <div class="do-sub">
+          <div class="do-label">WHO = sujeito → SEM DO</div>
+          <div class="do-en">Who called?</div>
+          <div class="do-pt">Quem ligou?</div>
+          <div class="do-note">WHO já é o sujeito — não precisa de DO</div>
+        </div>
+        <div class="do-obj">
+          <div class="do-label">WHO = objeto → COM DO</div>
+          <div class="do-en">Who did you call?</div>
+          <div class="do-pt">Quem você ligou?</div>
+          <div class="do-note">você = sujeito, WHO = objeto — precisa de DID</div>
+        </div>
+      </div>
+    </div>
+
+    <table class="ex-table" style="margin-top:.85rem">
+      <thead><tr><th>Tempo</th><th>WHO sujeito (sem DO)</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">presente</td><td class="en"><span class="vbw">Who</span> is your best friend?</td><td class="pt">Quem é seu melhor amigo?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Who</span> was that woman?</td><td class="pt">Quem era aquela mulher?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Who</span> were those people?</td><td class="pt">Quem eram aquelas pessoas?</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en"><span class="vbw">Who</span> will be the next teacher?</td><td class="pt">Quem será o próximo professor?</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en"><span class="vbw">Who</span> is going to call me?</td><td class="pt">Quem vai me ligar?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- USO 2: WHO(M) objeto -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--cm)">WHO(M) = Quem (objeto da frase)</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-m">2</div>
+      <div>
+        <div class="uso-title utm">WHO como objeto — usa DO/DOES/DID · WHOM é formal</div>
+        <div class="uso-sub">Você pergunta sobre quem recebe a ação — precisa de DO/DOES/DID</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Registro</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">informal</td><td class="en"><span class="vbw">Who</span> do you love?</td><td class="pt">Quem você ama?</td></tr>
+        <tr><td class="tipo">informal</td><td class="en"><span class="vbw">Who</span> did you call?</td><td class="pt">Quem você ligou?</td></tr>
+        <tr><td class="tipo">informal</td><td class="en"><span class="vbw">Who</span> are you talking to?</td><td class="pt">Com quem você está falando?</td></tr>
+        <tr><td class="tipo">informal</td><td class="en"><span class="vbw">Who</span> do you trust?</td><td class="pt">Em quem você confia?</td></tr>
+        <tr><td class="tipo">formal</td><td class="en"><span class="vbm">Whom</span> did she invite?</td><td class="pt">A quem ela convidou?</td></tr>
+        <tr><td class="tipo">formal</td><td class="en">To <span class="vbm">whom</span> did you speak?</td><td class="pt">Com quem você falou?</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>WHOM é formal</strong> — em inglês americano do dia a dia, WHO é usado no lugar de WHOM. "Who did you call?" é perfeitamente correto na fala. WHOM aparece mais em escrita formal, e-mails profissionais e textos acadêmicos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: WHOSE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--cs)">WHOSE = De quem (posse)</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-s">3</div>
+      <div>
+        <div class="uso-title uts">WHOSE + substantivo + verbo? — sempre com um noun depois</div>
+        <div class="uso-sub">Pergunta sobre a quem algo pertence</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Pergunta</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">objeto</td><td class="en"><span class="vbs">Whose</span> bag is this?</td><td class="pt">De quem é essa bolsa?</td></tr>
+        <tr><td class="tipo">objeto</td><td class="en"><span class="vbs">Whose</span> car is that?</td><td class="pt">De quem é aquele carro?</td></tr>
+        <tr><td class="tipo">evento</td><td class="en"><span class="vbs">Whose</span> idea was it?</td><td class="pt">De quem foi a ideia?</td></tr>
+        <tr><td class="tipo">jogo</td><td class="en"><span class="vbs">Whose</span> turn is it?</td><td class="pt">De quem é a vez?</td></tr>
+        <tr><td class="tipo">dispositivo</td><td class="en"><span class="vbs">Whose</span> phone is ringing?</td><td class="pt">O celular de quem está tocando?</td></tr>
+        <tr><td class="tipo">erro</td><td class="en"><span class="vbs">Whose</span> fault is this?</td><td class="pt">A culpa é de quem?</td></tr>
+      </tbody>
+    </table>
+
+    <!-- WHO'S vs WHOSE -->
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--cs);margin:.85rem 0 .5rem">Confusão clássica: WHO'S vs WHOSE</div>
+    <div class="ww-grid">
+      <div class="ww-card ww-whos">
+        <div class="ww-label">WHO'S = contração de WHO IS</div>
+        <div class="ww-form">Who's that?</div>
+        <div class="ww-ex">= Who IS that?</div>
+        <div class="ww-pt">Quem é esse?</div>
+        <div class="ww-rule">Who's coming? = Who is coming?</div>
+      </div>
+      <div class="ww-card ww-whose">
+        <div class="ww-label">WHOSE = posse</div>
+        <div class="ww-form">Whose bag is this?</div>
+        <div class="ww-ex">De quem é essa bolsa?</div>
+        <div class="ww-pt">Não é contração — é pronome possessivo</div>
+        <div class="ww-rule">Whose + substantivo (bag, car, idea...)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 4: QA + WHOEVER -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4</div>
+  <div class="section-title" style="color:var(--cv)">Respostas e WHOEVER</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">4</div>
+      <div>
+        <div class="uso-title utw">WHO em perguntas e respostas práticas</div>
+        <div class="uso-sub">Pergunta + resposta positiva + resposta negativa</div>
+      </div>
+    </div>
+    <div class="qa-list">
+      <div class="qa-row qa-q"><div class="qa-tag">?</div><div class="qa-text">Who called?</div><div class="qa-pt">Quem ligou?</div></div>
+      <div class="qa-row qa-a"><div class="qa-tag">+</div><div class="qa-text">My mom called.</div><div class="qa-pt">Minha mãe ligou.</div></div>
+      <div class="qa-row qa-n"><div class="qa-tag">–</div><div class="qa-text">Nobody called.</div><div class="qa-pt">Ninguém ligou.</div></div>
+      <div class="qa-row qa-q"><div class="qa-tag">?</div><div class="qa-text">Who do you like?</div><div class="qa-pt">Quem você gosta?</div></div>
+      <div class="qa-row qa-a"><div class="qa-tag">+</div><div class="qa-text">I like Maria.</div><div class="qa-pt">Eu gosto da Maria.</div></div>
+      <div class="qa-row qa-n"><div class="qa-tag">–</div><div class="qa-text">I don't like anyone here.</div><div class="qa-pt">Não gosto de ninguém aqui.</div></div>
+      <div class="qa-row qa-q"><div class="qa-tag">?</div><div class="qa-text">Whose is this?</div><div class="qa-pt">De quem é isso?</div></div>
+      <div class="qa-row qa-a"><div class="qa-tag">+</div><div class="qa-text">It's mine. / It's Pedro's.</div><div class="qa-pt">É meu. / É do Pedro.</div></div>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-v">5</div>
+      <div>
+        <div class="uso-title utv">WHOEVER = quem quer que / qualquer pessoa que</div>
+        <div class="uso-sub">Não é pergunta — é uma afirmação aberta sobre qualquer pessoa</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">qualquer</td><td class="en"><span class="vbv">Whoever</span> wants to join, can.</td><td class="pt">Quem quiser participar, pode.</td></tr>
+        <tr><td class="tipo">não importa</td><td class="en"><span class="vbv">Whoever</span> did this, will pay.</td><td class="pt">Quem quer que tenha feito isso, vai pagar.</td></tr>
+        <tr><td class="tipo">escolha</td><td class="en">Call <span class="vbv">whoever</span> you want.</td><td class="pt">Ligue para quem você quiser.</td></tr>
+        <tr><td class="tipo">surpresa</td><td class="en"><span class="vbv">Whoever</span> said that was wrong.</td><td class="pt">Quem quer que tenha dito isso estava errado.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>WHOEVER ≠ pergunta.</strong> "Whoever" não faz uma pergunta — expressa abertura ou indiferença sobre a identidade da pessoa. "Call whoever you want" = não importa quem, pode ligar para qualquer um.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — WHO · WHOM · WHOSE</div>
+  <div class="quiz-sub">12 questões sobre sujeito, objeto, posse e as formas compostas.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com WHO / WHOM / WHOSE</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>WHO sujeito = sem DO · WHO objeto = com DO · WHOSE + noun = posse · WHO'S ≠ WHOSE</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(56,189,248,.25)">
+      <h4 style="color:var(--cw)">WHO (sujeito)</h4>
+      <div class="sum-item"><span class="en">Who called?</span></div>
+      <div class="sum-item"><span class="en">Who made this?</span></div>
+      <div class="sum-item">sem DO/DOES/DID</div>
+      <div class="sum-item">quem faz a ação</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cm)">WHO / WHOM (objeto)</h4>
+      <div class="sum-item"><span class="en">Who did you call?</span></div>
+      <div class="sum-item">com DO/DOES/DID</div>
+      <div class="sum-item">WHO = informal</div>
+      <div class="sum-item">WHOM = formal</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--cs)">WHOSE (posse)</h4>
+      <div class="sum-item"><span class="en">Whose bag is this?</span></div>
+      <div class="sum-item">WHOSE + substantivo</div>
+      <div class="sum-item">de quem é?</div>
+      <div class="sum-item">WHO'S = who is ≠ WHOSE</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.2)">
+      <h4 style="color:var(--cv)">WHOEVER</h4>
+      <div class="sum-item"><span class="en">Whoever wants, can come.</span></div>
+      <div class="sum-item">quem quer que</div>
+      <div class="sum-item">não é pergunta</div>
+      <div class="sum-item">qualquer pessoa que</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../36_however_although/index.html">← Lição 36</a>
+  <div class="fnav-center">Lição 37 de 89 · Módulo 07</div>
+  <a class="fnav-btn" href="../38_what/index.html">Lição 38 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x38bdf8,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(1.9,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x38bdf8,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.95,3),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,opacity:.07,transparent:true})));
+
+  var mGrp=new THREE.Group();mGrp.rotation.x=.3;scene.add(mGrp);
+  var mMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),mMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);mGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  mGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.12,transparent:true})));
+
+  var sGrp=new THREE.Group();sGrp.rotation.x=-.25;sGrp.rotation.z=.35;scene.add(sGrp);
+  var sMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),sMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);sGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  sGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.1,transparent:true})));
+
+  var stPos=new Float32Array(1500);for(var i=0;i<1500;i++)stPos[i]=(Math.random()-.5)*80;
+  var stGeo=new THREE.BufferGeometry();stGeo.setAttribute('position',new THREE.BufferAttribute(stPos,3));
+  scene.add(new THREE.Points(stGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    mGrp.rotation.y+=.02;sGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"___ called you?" — quem fez a ação (sujeito)',opts:['Who','Whom','Whose','Whoever'],ans:'Who',why:"WHO = sujeito (quem faz a ação). 'Who called you?' = Quem te ligou? WHO como sujeito não usa DO/DOES/DID antes do verbo."},
+  {s:'"___ did you call?" — quem recebeu a ação (objeto)',opts:['Who','Whose','Whom only','Whoever'],ans:'Who',why:"WHO = objeto (informal). 'Who did you call?' = Quem você ligou? Como objeto, WHO usa DO/DOES/DID. WHOM seria a forma formal, mas WHO é correto no dia a dia."},
+  {s:'"___ bag is this?" — pergunta de posse',opts:['Whose','Who\'s','Who','Whom'],ans:'Whose',why:"WHOSE = de quem (posse). 'Whose bag is this?' = De quem é essa bolsa? WHOSE sempre vem antes de um substantivo (bag, car, phone...)."},
+  {s:'"___ idea was it?" — de quem foi?',opts:['Whose','Who\'s','Who','Whom'],ans:'Whose',why:"WHOSE + substantivo (idea) = posse. 'Whose idea was it?' = De quem foi a ideia? Não confundir com WHO'S (= who is)."},
+  {s:'"Who ___ those people?" (passado)',opts:['were','was','did be','are'],ans:'were',why:"'Who were those people?' = Quem eram aquelas pessoas? Com TO BE e sujeito plural, use WERE. WHO com TO BE não usa DO/DOES/DID."},
+  {s:'"___ is coming to the party?" — sem DO, por quê?',opts:['Who (sujeito)','Whom (objeto)','Whose (posse)','Whoever (aberto)'],ans:'Who (sujeito)',why:"'Who is coming?' — WHO é o sujeito aqui. Como sujeito, não usa DO/DOES/DID. O verbo vem diretamente: 'Who IS coming'."},
+  {s:'"___ did she invite?" — forma formal, objeto',opts:['Whom','Who','Whose','Whoever'],ans:'Whom',why:"WHOM = objeto formal. 'Whom did she invite?' = A quem ela convidou? Na escrita formal, use WHOM quando é objeto. Na fala, WHO é mais comum."},
+  {s:'"___ wants to join, can." — qualquer pessoa',opts:['Whoever','Whoever who','Who','Whom'],ans:'Whoever',why:"WHOEVER = quem quer que / qualquer pessoa que. 'Whoever wants to join, can' — não é pergunta, é uma afirmação aberta. Qualquer pessoa é bem-vinda."},
+  {s:'"___ that?" (= Quem é esse?) — use a contração correta',opts:["Who's","Whose","Who is that","Whom's"],ans:"Who's",why:"WHO'S = contração de WHO IS. 'Who's that?' = Who IS that? = Quem é esse? Não confundir com WHOSE (posse). Contração: who + is = who's."},
+  {s:'WHO como sujeito — precisa de DO/DOES/DID?',opts:['Não precisa','Sempre precisa','Só com DID','Só no passado'],ans:'Não precisa',why:"WHO como sujeito NÃO precisa de DO/DOES/DID. 'Who called?' ✓ — não 'Who did call?' ✗. DO/DOES/DID só é necessário quando WHO é objeto: 'Who did you call?'"},
+  {s:'"___ turn is it?" — de quem é a vez?',opts:['Whose','Who\'s','Who','Whom'],ans:'Whose',why:"WHOSE turn = de quem é a vez. WHOSE + substantivo (turn). 'Whose turn is it?' é uma expressão muito usada em jogos e conversas cotidianas."},
+  {s:'WHOM é mais ___ que WHO',opts:['formal','informal','frequente na fala','comum no dia a dia'],ans:'formal',why:"WHOM é mais formal. No inglês americano cotidiano, WHO é usado no lugar de WHOM tanto em perguntas sobre objeto quanto em contextos informais. WHOM aparece mais em escrita formal."}
+];
+
+var ERRORS=[
+  {wrong:"Who's book is this?",right:"Whose book is this?",why:"WHO'S = contração de who is ('Who's there?' = Quem está lá?). WHOSE = posse. Para perguntar de quem é algo, use WHOSE: 'Whose book is this?' = De quem é esse livro?"},
+  {wrong:'Who did called you?',right:'Who called you?',why:"WHO como sujeito NÃO usa DO/DOES/DID. 'Who called you?' ✓ — a ação foi feita por WHO, então é sujeito direto, sem auxiliar."},
+  {wrong:'Whom is she?',right:'Who is she?',why:"WHOM = objeto (quem recebe a ação). Em 'Who is she?', WHO é o sujeito da pergunta. Use WHO para identificar o sujeito — WHOM só para objeto: 'Whom did you see?'"},
+  {wrong:'Whose are these people?',right:'Who are these people?',why:"WHOSE pergunta sobre posse de objetos + substantivo (Whose bag?). Para identificar pessoas, use WHO: 'Who are these people?' = Quem são essas pessoas?"},
+  {wrong:"Who is this bag?",right:"Whose bag is this?",why:"WHO pergunta sobre pessoas. Para perguntar a quem pertence um objeto, use WHOSE + substantivo: 'Whose bag is this?' = De quem é essa bolsa?"},
+  {wrong:"Whose coming to the party?",right:"Who's coming to the party?",why:"Aqui 'coming' = verbo progressivo (who is coming). Use WHO'S (= who is): 'Who's coming to the party?' = Quem está vindo à festa? WHOSE seria para posse."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — revise WHO sujeito vs objeto!':pct<.75?'Bom progresso! Foque em WHOSE vs WHO\'S.':pct<1?'Muito bem! WHO quase dominado.':'Perfeito! WHO · WHOM · WHOSE dominados!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

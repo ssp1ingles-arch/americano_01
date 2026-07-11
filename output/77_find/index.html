@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L77 · FIND · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico família -IND → -OUND */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.mn-fam{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.5rem;}
+.mn-tag{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);border-radius:.35rem;padding:.18rem .55rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--rd);}
+
+/* FIND vs FIND OUT box */
+.vs-panel{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.vs-side{border-radius:.85rem;padding:1.1rem 1.25rem;}
+.vs-find{background:rgba(56,189,248,.07);border:2px solid var(--ca);}
+.vs-out{background:rgba(74,222,128,.07);border:2px solid var(--gn);}
+.vs-label{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.vs-word{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.25rem;}
+.vs-sub{font-size:.77rem;font-weight:700;margin-bottom:.5rem;}
+.vs-ex{font-size:.8rem;color:var(--tm);font-style:italic;line-height:1.55;}
+
+/* FIND IT + ADJ box */
+.it-box{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.ib-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.5rem;}
+.ib-rule{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ca);margin-bottom:.4rem;}
+.ib-ex{font-size:.82rem;color:var(--tm);}
+
+/* patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .vs-panel{grid-template-columns:1fr;}
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">FIND</h1>
+  <p class="hero-pt">encontrar · achar · descobrir · constatar · considerar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">FIND</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">FOUND</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">FOUND</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"I found my keys!"</div>
+    <div class="cl-pt">Encontrei minhas chaves!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">FIND — mnemônico e padrões essenciais</div>
+    <div class="sd">FIND → FOUND — família -IND → -OUND · FIND vs FIND OUT</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família -IND → -OUND</div>
+    <div class="mn-body">FIND → FOUND — a vogal -IND muda para -OUND. Lembre a família:</div>
+    <div class="mn-fam">
+      <span class="mn-tag">FIND → FOUND</span>
+      <span class="mn-tag">BIND → BOUND</span>
+      <span class="mn-tag">WIND → WOUND</span>
+      <span class="mn-tag">GRIND → GROUND</span>
+    </div>
+  </div>
+
+  <!-- FIND vs FIND OUT -->
+  <div class="vs-panel">
+    <div class="vs-side vs-find">
+      <div class="vs-label" style="color:var(--ca)">FIND · encontrar</div>
+      <div class="vs-word" style="color:var(--ca)">FIND</div>
+      <div class="vs-sub" style="color:var(--ca)">objeto físico ou pessoa</div>
+      <div class="vs-ex">
+        "I <strong>found</strong> my phone!"<br>
+        (encontrei o celular — físico)<br><br>
+        "Did you <strong>find</strong> a solution?"<br>
+        (encontrou uma solução?)
+      </div>
+    </div>
+    <div class="vs-side vs-out">
+      <div class="vs-label" style="color:var(--gn)">FIND OUT · descobrir</div>
+      <div class="vs-word" style="color:var(--gn)">FIND OUT</div>
+      <div class="vs-sub" style="color:var(--gn)">informação · fato · verdade</div>
+      <div class="vs-ex">
+        "I <strong>found out</strong> the truth."<br>
+        (descobri a verdade — informação)<br><br>
+        "She <strong>found out</strong> he was lying."<br>
+        (ela descobriu que ele mentia)
+      </div>
+    </div>
+  </div>
+
+  <!-- FIND IT + ADJ box -->
+  <div class="it-box">
+    <div class="ib-t">Padrão especial — FIND + IT + adjetivo (+ TO + base)</div>
+    <div class="ib-rule">FIND IT + adj. = achar algo [difícil/fácil/interessante]</div>
+    <div class="ib-ex">
+      "I <strong>find it</strong> interesting." = Acho interessante.<br>
+      "I <strong>find it</strong> hard to wake up early." = Acho difícil acordar cedo.<br>
+      "She <strong>found it</strong> easy to learn." = Ela achou fácil de aprender.<br>
+      <em style="font-size:.77rem;color:var(--td)">IT é obrigatório nessa estrutura — não omita: "I find hard" ✗ → "I find IT hard" ✓</em>
+    </div>
+  </div>
+
+  <!-- Padrões principais -->
+  <div class="patt-grid">
+    <div class="pg-item">
+      <div class="pg-key">FIND + objeto</div>
+      <div class="pg-pt">encontrar (físico/concreto)</div>
+      <div class="pg-ex">"I can't find my wallet." / "Did you find a job?"</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">FIND + obj. + ADJ</div>
+      <div class="pg-pt">achar / considerar (qualidade)</div>
+      <div class="pg-ex">"I found the test difficult." / "She finds him boring."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">FIND OUT</div>
+      <div class="pg-pt">descobrir (informação/fato)</div>
+      <div class="pg-ex">"Find out what time it starts." / "I found out he lied."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">FIND YOURSELF + -ING</div>
+      <div class="pg-pt">se ver fazendo algo (sem perceber)</div>
+      <div class="pg-ex">"I found myself laughing." / "She found herself alone."</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — find / finds</div>
+    <div class="sd">HE / SHE / IT → FINDS · I CAN'T FIND — forma negativa muito frequente</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>find</strong> this topic very interesting.</td><td class="cpt">Acho esse assunto muito interessante.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you <strong>find</strong> it easy to study here?</td><td class="cpt">Você acha fácil estudar aqui?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>finds</strong> it hard to concentrate.</td><td class="cpt">Ele acha difícil se concentrar.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She always <strong>finds</strong> a way to solve problems.</td><td class="cpt">Ela sempre encontra uma forma de resolver problemas.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">It <strong>finds</strong> its way home every time. (animals)</td><td class="cpt">Ele encontra o caminho de volta toda vez.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>find</strong> it difficult to agree.</td><td class="cpt">Achamos difícil chegar a um acordo.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>find</strong> out new things every day.</td><td class="cpt">Eles descobrem coisas novas todo dia.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → FINDS (com -S). "She find it easy." ✗ → "She FINDS it easy." ✓ · "He find a solution." ✗ → "He FINDS a solution." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — found (irregular)</div>
+    <div class="sd">FIND → FOUND — passado e particípio idênticos</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>found</strong> a great restaurant near here.</td><td class="cpt">Encontrei um ótimo restaurante aqui perto.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>find</strong> what you were looking for?</td><td class="cpt">Você encontrou o que estava procurando?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>found</strong> it hard to say goodbye.</td><td class="cpt">Ele achou difícil se despedir.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>found</strong> out that her friend had moved.</td><td class="cpt">Ela descobriu que sua amiga havia se mudado.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The dog <strong>found</strong> its way home.</td><td class="cpt">O cachorro encontrou o caminho de volta para casa.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>found</strong> the meeting very productive.</td><td class="cpt">Achamos a reunião muito produtiva.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>found</strong> themselves lost in the forest.</td><td class="cpt">Eles se viram perdidos na floresta.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't FIND it." ✓ / "I didn't FOUND it." ✗ — DIDN'T + base FIND. Particípio: "I have FOUND it." ✓ — FOUND com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: FIND OUT EM DETALHE -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">FIND OUT — descobrir (informação)</div>
+    <div class="sd">FIND OUT + that / what / when / where / how — estruturas com wh-words</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">FIND OUT + estruturas</div>
+    <table class="ct">
+      <tr><th>Estrutura</th><th>Exemplo</th><th class="cpt">Tradução</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND OUT + THAT</td><td class="ce">I <strong>found out</strong> that she had quit.</td><td class="cpt">Descobri que ela havia saído.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND OUT + WHAT</td><td class="ce">Find out what time it starts.</td><td class="cpt">Descubra que horas começa.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND OUT + WHERE</td><td class="ce">I need to find out where she lives.</td><td class="cpt">Preciso descobrir onde ela mora.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND OUT + HOW</td><td class="ce">Did you find out how to fix it?</td><td class="cpt">Você descobriu como consertar?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND OUT + ABOUT</td><td class="ce">She found out about the surprise.</td><td class="cpt">Ela ficou sabendo da surpresa.</td></tr>
+    </table>
+    <div class="nt nt-tip">FIND OUT pode ser separado pelo objeto: "Find OUT the answer." = "Find the answer OUT." — ambos corretos. Com pronome, a separação é obrigatória: "Find IT out." ✓ / "Find out it." ✗</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES ESSENCIAIS -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões e usos especiais</div>
+    <div class="sd">FIND YOUR WAY · FIND YOURSELF + -ING · FINDINGS · FINDERS KEEPERS</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões com FIND</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND YOUR WAY</td><td style="font-size:.83rem">encontrar o caminho / se localizar</td><td class="cpt">"Can you find your way home?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND YOURSELF + -ING</td><td style="font-size:.83rem">se ver fazendo algo / perceber que está fazendo</td><td class="cpt">"I found myself laughing at the joke."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND IT + ADJ + TO</td><td style="font-size:.83rem">achar algo difícil/fácil/impossível de fazer</td><td class="cpt">"I find it impossible to ignore her."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FIND FAULT WITH</td><td style="font-size:.83rem">encontrar defeitos em / criticar</td><td class="cpt">"He always finds fault with my work."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FINDINGS</td><td style="font-size:.83rem">descobertas / resultados / conclusões (substantivo)</td><td class="cpt">"The findings showed a clear pattern."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">FINDERS KEEPERS</td><td style="font-size:.83rem">quem achou ficou! (expressão popular)</td><td class="cpt">"Finders keepers, losers weepers!"</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com FIND</div>
+    <div class="sd">Cotidiano · opiniões · descobertas · expressões</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">I <strong>found</strong> a great restaurant near here.</div><div class="ph-pt">Encontrei um ótimo restaurante aqui perto.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>find</strong> it interesting.</div><div class="ph-pt">Acho interessante.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>find</strong> it hard to wake up early.</div><div class="ph-pt">Acho difícil acordar cedo.</div></div>
+    <div class="ph"><div class="ph-en">Did you <strong>find out</strong> what happened?</div><div class="ph-pt">Você descobriu o que aconteceu?</div></div>
+    <div class="ph"><div class="ph-en">I can't <strong>find</strong> my wallet anywhere.</div><div class="ph-pt">Não consigo encontrar minha carteira em lugar nenhum.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>found</strong> herself crying.</div><div class="ph-pt">Ela se viu chorando. (sem perceber)</div></div>
+    <div class="ph"><div class="ph-en">I <strong>found out</strong> that he was lying.</div><div class="ph-pt">Descobri que ele estava mentindo.</div></div>
+    <div class="ph"><div class="ph-en">Can you <strong>find</strong> your way home?</div><div class="ph-pt">Você consegue encontrar o caminho de volta?</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I finded my keys."</div>
+      <div class="ecr">✓ "I found my keys."</div>
+      <div class="ecd">FIND é irregular: FIND → FOUND. "I FOUND my keys." ✓ — "finded" não existe. Família -IND → -OUND: FIND → FOUND / BIND → BOUND / WIND → WOUND.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I find hard to wake up early."</div>
+      <div class="ecr">✓ "I find it hard to wake up early."</div>
+      <div class="ecd">FIND IT + adjetivo — IT é obrigatório. "I find IT hard to wake up early." ✓ — IT é o objeto formal da frase. "I find hard" ✗ — FIND precisa de objeto direto.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't found the answer."</div>
+      <div class="ecr">✓ "I didn't find the answer."</div>
+      <div class="ecd">DIDN'T + base. "I didn't FIND the answer." ✓ — depois de DIDN'T, base FIND (nunca FOUND).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She found the truth." (queria dizer: descobriu a verdade)</div>
+      <div class="ecr">✓ "She found OUT the truth."</div>
+      <div class="ecd">Para descobrir informação, use FIND OUT. "She found OUT the truth." ✓ / "She found out THAT he lied." ✓ — FIND (sem OUT) = encontrar objeto físico ou considerar. "She found the truth" pode significar que ela fisicamente encontrou algo chamado "verdade".</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Find out it before tomorrow." (com pronome)</div>
+      <div class="ecr">✓ "Find it out before tomorrow."</div>
+      <div class="ecd">Com pronome, separação é obrigatória: "Find IT out." ✓ / "Find out IT." ✗ — pronomes sempre ficam no meio do phrasal verb separável. Com substantivos: "Find OUT the answer." ✓ ou "Find the answer OUT." ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She find it interesting."</div>
+      <div class="ecr">✓ "She finds it interesting."</div>
+      <div class="ecd">SHE → FINDS (com -S). "She FINDS it interesting." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — FIND</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de FIND?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">finded</button>
+      <button class="qo" onclick="ans(this,'q1',true)">found</button>
+      <button class="qo" onclick="ans(this,'q1',false)">foud</button>
+    </div>
+    <div class="qfb" id="q1fb">FIND → FOUND (irregular). Família -IND → -OUND: FIND → FOUND / BIND → BOUND. "finded" não existe. Passado = particípio = FOUND.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é a diferença entre FIND e FIND OUT?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">FIND é formal; FIND OUT é informal.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">FIND = encontrar (objeto/pessoa); FIND OUT = descobrir (informação/fato).</button>
+      <button class="qo" onclick="ans(this,'q2',false)">FIND é passado; FIND OUT é presente.</button>
+    </div>
+    <div class="qfb" id="q2fb">FIND = encontrar fisicamente. FIND OUT = descobrir informação. "I FOUND my phone." (físico). "I FOUND OUT what happened." (informação). Para descobrir a verdade, segredo ou fato, use FIND OUT.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Acho difícil acordar cedo." → FIND IT + adjetivo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">I find hard to wake up early.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">I find it hard to wake up early.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">I find that hard wake up early.</button>
+    </div>
+    <div class="qfb" id="q3fb">"I find IT hard to wake up early." ✓ — IT é obrigatório. Estrutura: FIND + IT + adjetivo + TO + base. "I find hard" ✗ — FIND precisa de objeto (IT). "Find that hard" ✗ — estrutura inválida.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela descobriu que sua amiga havia se mudado." → FIND OUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She found that her friend had moved.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She found out that her friend had moved.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She finded out that her friend had moved.</button>
+    </div>
+    <div class="qfb" id="q4fb">"She FOUND OUT that her friend had moved." ✓ — FIND OUT para descobrir informação. "She found that" ✓ é gramaticalmente aceitável, mas "found out that" é mais preciso para descoberta. "finded out" ✗ — passado de FIND = FOUND.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Não consigo encontrar minha carteira em lugar nenhum."</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I can't found my wallet anywhere.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I can't find my wallet anywhere.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I don't find my wallet anywhere.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I can't FIND my wallet anywhere." ✓ — CAN'T + base FIND. "Can't found" ✗ — depois de modal, base FIND. "I don't find anywhere" ✗ — para busca ativa em progresso, CAN'T FIND é muito mais natural que DON'T FIND.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Você encontrou o que estava procurando?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Did you found what you were looking for?</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Did you find what you were looking for?</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Have you found what you were looking for?</button>
+    </div>
+    <div class="qfb" id="q6fb">"Did you FIND what you were looking for?" ✓ — DID + base FIND. "Did you FOUND" ✗ — depois de DID, base (nunca FOUND). "Have you FOUND" ✓ também é correto (present perfect), com nuance diferente.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Ela se viu chorando sem perceber." → FIND YOURSELF + -ING.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">She found herself to cry.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">She found herself crying.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">She found herself to crying.</button>
+    </div>
+    <div class="qfb" id="q7fb">"She found herself CRYING." ✓ — FIND YOURSELF + -ING = se ver fazendo algo (sem perceber). "Found herself to cry" ✗ — TO é inválido nessa estrutura. "To crying" ✗ — forma híbrida inválida.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">Com pronome, qual é a posição correta em FIND OUT?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Find out it before tomorrow.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Find it out before tomorrow.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Ambas as formas são corretas com pronome.</button>
+    </div>
+    <div class="qfb" id="q8fb">"Find IT out before tomorrow." ✓ — com pronome, separação é obrigatória: pronome no meio. "Find out it" ✗ — pronomes não vêm depois da partícula. Com substantivos: "Find OUT the answer." ✓ ou "Find the answer OUT." ✓</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Achamos a reunião muito produtiva." → WE + FIND + obj. + adj., passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">We found the meeting very productively.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">We found the meeting very productive.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">We found it very productive the meeting.</button>
+    </div>
+    <div class="qfb" id="q9fb">"We found the meeting very PRODUCTIVE." ✓ — FIND + objeto + adjetivo (não advérbio). "Productively" ✗ — é advérbio. "We found IT productive" também seria correto com IT como objeto formal.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"I have ___ a great solution!" → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">find</button>
+      <button class="qo" onclick="ans(this,'q10',true)">found</button>
+      <button class="qo" onclick="ans(this,'q10',false)">finded</button>
+    </div>
+    <div class="qfb" id="q10fb">"I have FOUND a great solution!" ✓ — HAVE + particípio FOUND. "I have find" ✗ — depois de HAVE, particípio (não base). "finded" ✗ — não existe.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">O que significa "He always finds fault with my work"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">Ele sempre encontra erros para corrigir no meu trabalho (de forma positiva).</button>
+      <button class="qo" onclick="ans(this,'q11',true)">Ele sempre encontra defeitos / critica meu trabalho.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Ele sempre tem culpa pelo meu trabalho.</button>
+    </div>
+    <div class="qfb" id="q11fb">FIND FAULT WITH = encontrar defeitos em / criticar. "He always FINDS FAULT with my work." = ele sempre arranja uma crítica ao meu trabalho. É uma expressão idiomática com conotação negativa.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">Qual verbo pertence à mesma família irregular de FIND → FOUND?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">THINK → THOUGHT</button>
+      <button class="qo" onclick="ans(this,'q12',true)">BIND → BOUND</button>
+      <button class="qo" onclick="ans(this,'q12',false)">KEEP → KEPT</button>
+    </div>
+    <div class="qfb" id="q12fb">BIND → BOUND pertence à família -IND → -OUND, igual a FIND → FOUND. THINK → THOUGHT é família -OUGHT. KEEP → KEPT é família EE → E + T. As famílias ajudam a memorizar grupos de irregulares juntos.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../76_think/index.html">← L76 THINK</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

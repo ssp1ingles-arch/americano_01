@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L81 · LOSE · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* LOSE / LOOSE / LOSS box — O ERRO MAIS IMPORTANTE */
+.triple-box{border-radius:.85rem;padding:1.25rem 1.4rem;margin-bottom:.85rem;background:rgba(248,113,113,.07);border:2px solid var(--rd);}
+.tb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.75rem;}
+.triple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;}
+.tg-item{background:var(--s2);border-radius:.65rem;padding:.8rem .9rem;text-align:center;border:1px solid var(--s3);}
+.tg-w{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.2rem;}
+.tg-pos{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;color:var(--td);}
+.tg-pt{font-size:.72rem;color:var(--tm);margin-bottom:.3rem;}
+.tg-ex{font-size:.73rem;color:var(--td);font-style:italic;}
+
+/* patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .triple-grid{grid-template-columns:1fr;}
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">LOSE</h1>
+  <p class="hero-pt">perder · ser derrotado · extraviar · desperdiçar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">LOSE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">LOST</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">LOST</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Don't lose your ticket!"</div>
+    <div class="cl-pt">Não perca seu ingresso!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + LOSE/LOOSE/LOSS -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">LOSE — mnemônico e a armadilha LOSE vs LOOSE vs LOSS</div>
+    <div class="sd">O erro de grafia mais comum do inglês — três palavras, três usos diferentes</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — LOSE → LOST (apenas + T)</div>
+    <div class="mn-body">LOSE + T = LOST. Passado e particípio idênticos: LOST = LOST.<br>Atenção à pronúncia: LOSE = /luːz/ (som de Z no final). LOOSE = /luːs/ (som de S). Parecidas visualmente, completamente diferentes!</div>
+  </div>
+
+  <!-- LOSE / LOOSE / LOSS -->
+  <div class="triple-box">
+    <div class="tb-t">⚠ Armadilha — LOSE · LOOSE · LOSS (três palavras diferentes!)</div>
+    <div class="triple-grid">
+      <div class="tg-item">
+        <div class="tg-w" style="color:var(--ca)">LOSE</div>
+        <div class="tg-pos">verbo</div>
+        <div class="tg-pt">perder / ser derrotado</div>
+        <div class="tg-ex">"Don't lose it!" / "We lost the game."</div>
+      </div>
+      <div class="tg-item">
+        <div class="tg-w" style="color:var(--yl)">LOOSE</div>
+        <div class="tg-pos">adjetivo</div>
+        <div class="tg-pt">frouxo · solto · folgado</div>
+        <div class="tg-ex">"The screw is loose." / "Loose clothes."</div>
+      </div>
+      <div class="tg-item">
+        <div class="tg-w" style="color:var(--gn)">LOSS</div>
+        <div class="tg-pos">substantivo</div>
+        <div class="tg-pt">perda · derrota</div>
+        <div class="tg-ex">"It was a big loss." / "Job loss."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Padrões principais -->
+  <div class="patt-grid">
+    <div class="pg-item">
+      <div class="pg-key">LOSE + objeto</div>
+      <div class="pg-pt">perder (algo / alguém)</div>
+      <div class="pg-ex">"I lost my keys." / "She lost her job."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">LOSE + TO + alguém</div>
+      <div class="pg-pt">perder para (competição)</div>
+      <div class="pg-ex">"We lost to Brazil 2–0." / "She lost to her rival."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">LOSE + WEIGHT</div>
+      <div class="pg-pt">emagrecer / perder peso</div>
+      <div class="pg-ex">"I want to lose weight." / "She lost 5 kg."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">GET LOST</div>
+      <div class="pg-pt">se perder (fisicamente)</div>
+      <div class="pg-ex">"We got lost on the way." / "Don't get lost!"</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — lose / loses</div>
+    <div class="sd">HE / SHE / IT → LOSES · YOU CAN'T LOSE · LOSE vs WIN</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>lose</strong> my glasses.</td><td class="cpt">Sempre perco meus óculos.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You can't <strong>lose</strong> — this is a win-win!</td><td class="cpt">Você não pode perder — é uma situação ganha-ganha!</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>loses</strong> his temper very easily.</td><td class="cpt">Ele perde a paciência com muita facilidade.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>loses</strong> focus when she's tired.</td><td class="cpt">Ela perde o foco quando está cansada.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">My watch <strong>loses</strong> 5 minutes a day.</td><td class="cpt">Meu relógio atrasa 5 minutos por dia.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>lose</strong> money every month on this.</td><td class="cpt">Perdemos dinheiro todo mês com isso.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They never <strong>lose</strong> hope.</td><td class="cpt">Eles nunca perdem a esperança.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → LOSES (com -S). "He lose his temper." ✗ → "He LOSES his temper." ✓ · "She lose focus." ✗ → "She LOSES focus." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — lost (irregular)</div>
+    <div class="sd">LOSE → LOST — passado e particípio idênticos · LOST também é adjetivo = perdido</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>lost</strong> my wallet on the subway.</td><td class="cpt">Perdi minha carteira no metrô.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>lose</strong> the match?</td><td class="cpt">Você perdeu a partida?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>lost</strong> his job during the crisis.</td><td class="cpt">Ele perdeu o emprego durante a crise.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>lost</strong> 5 kg in two months.</td><td class="cpt">Ela perdeu 5 kg em dois meses.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The team <strong>lost</strong> to Brazil 2–0.</td><td class="cpt">O time perdeu para o Brasil por 2 a 0.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>lost</strong> track of time.</td><td class="cpt">Perdemos a noção do tempo.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>lost</strong> everything in the fire.</td><td class="cpt">Eles perderam tudo no incêndio.</td></tr>
+    </table>
+    <div class="nt nt-tip">LOST também funciona como adjetivo: "I'm LOST." = Estou perdido. / "A LOST cause." = Uma causa perdida. / "LOST in thought." = Perdido nos pensamentos.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">HAVE LOST · BE GOING TO LOSE · WON'T LOSE — negação muito frequente</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>won't lose</strong> this time.</td><td class="cpt">Não vou perder desta vez.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>are going to lose</strong> if we don't act.</td><td class="cpt">Vamos perder se não agirmos.</td></tr>
+          <tr><td class="cp">YOU</td><td class="ce">You <strong>can't lose</strong> — it's a great deal!</td><td class="cpt">Você não tem como perder!</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has lost</strong> 10 kg this year.</td><td class="cpt">Ela perdeu 10 kg este ano.</td></tr>
+          <tr><td class="cp">I</td><td class="ce">I <strong>have lost</strong> my phone again!</td><td class="cpt">Perdi meu celular de novo!</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>haven't lost</strong> a game this season.</td><td class="cpt">Eles não perderam nenhum jogo nessa temporada.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-err">Negação: "I didn't LOSE it." ✓ / "I didn't LOST it." ✗ — DIDN'T + base LOSE. Particípio: "I have LOST it." ✓ — LOST com HAVE (igual ao passado).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES COM LOSE -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões essenciais com LOSE</div>
+    <div class="sd">LOSE WEIGHT · LOSE TRACK · LOSE SIGHT · LOSE HEART · AT A LOSS</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões com LOSE</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE WEIGHT</td><td style="font-size:.83rem">emagrecer / perder peso</td><td class="cpt">"She wants to lose weight."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE TRACK OF</td><td style="font-size:.83rem">perder o controle de / perder o fio de</td><td class="cpt">"I lost track of time." / "I lost track of him."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE SIGHT OF</td><td style="font-size:.83rem">perder de vista / esquecer o objetivo</td><td class="cpt">"Don't lose sight of your goals."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE YOUR TEMPER</td><td style="font-size:.83rem">perder a paciência / explodir de raiva</td><td class="cpt">"He lost his temper at the meeting."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE YOUR MIND</td><td style="font-size:.83rem">enlouquecer / perder o juízo</td><td class="cpt">"Are you losing your mind?!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LOSE HEART</td><td style="font-size:.83rem">desanimar / perder o ânimo</td><td class="cpt">"Don't lose heart — you'll get there!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">AT A LOSS</td><td style="font-size:.83rem">sem saber o que fazer / perplexo</td><td class="cpt">"I'm at a loss for words." = Estou sem palavras.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GET LOST</td><td style="font-size:.83rem">se perder (físico) / dar um tempo! (rude)</td><td class="cpt">"We got lost." / "Get lost!" (informal rude)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com LOSE</div>
+    <div class="sd">Objetos · competições · peso · expressões idiomáticas</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">I <strong>lost</strong> my wallet on the subway.</div><div class="ph-pt">Perdi minha carteira no metrô.</div></div>
+    <div class="ph"><div class="ph-en">We <strong>lost</strong> to Brazil 2–0.</div><div class="ph-pt">Perdemos para o Brasil por 2 a 0.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>lost</strong> track of time.</div><div class="ph-pt">Perdi a noção do tempo.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>lose</strong> heart!</div><div class="ph-pt">Não desanime!</div></div>
+    <div class="ph"><div class="ph-en">She has <strong>lost</strong> 5 kg this year.</div><div class="ph-pt">Ela perdeu 5 kg este ano.</div></div>
+    <div class="ph"><div class="ph-en">He <strong>loses</strong> his temper easily.</div><div class="ph-pt">Ele perde a paciência facilmente.</div></div>
+    <div class="ph"><div class="ph-en">I'm at a <strong>loss</strong> for words.</div><div class="ph-pt">Estou sem palavras.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>lose</strong> sight of your goals.</div><div class="ph-pt">Não perca de vista seus objetivos.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I loose my keys all the time." (verbo)</div>
+      <div class="ecr">✓ "I lose my keys all the time."</div>
+      <div class="ecd">LOSE (verbo) ≠ LOOSE (adjetivo). "I LOSE my keys." ✓ — LOSE = perder (verbo). "The screw is LOOSE." ✓ — LOOSE = frouxo (adjetivo). Este é o erro de escrita mais comum em inglês!</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "We losted the game."</div>
+      <div class="ecr">✓ "We lost the game."</div>
+      <div class="ecd">LOSE é irregular: LOSE → LOST. "We LOST the game." ✓ — "losted" não existe. Mnemônico: LOSE + T = LOST (só adiciona T).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't lost my phone."</div>
+      <div class="ecr">✓ "I didn't lose my phone."</div>
+      <div class="ecd">DIDN'T + base. "I didn't LOSE my phone." ✓ — depois de DIDN'T, base LOSE (nunca LOST).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She lost to 3–0." (placar sem sujeito)</div>
+      <div class="ecr">✓ "She lost 3–0." / "They lost to Brazil 3–0."</div>
+      <div class="ecd">LOSE TO + adversário. "She lost TO her rival." ✓ / "We lost TO Brazil 3–0." ✓ — TO + quem você perdeu. Apenas placar: "They lost 3–0." ✓ (sem TO quando não menciona o adversário).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have loose my keys." (present perfect)</div>
+      <div class="ecr">✓ "I have lost my keys."</div>
+      <div class="ecd">HAVE + particípio LOST. "I have LOST my keys." ✓ — "have loose" ✗ (LOOSE é adjetivo, não particípio). "Have lost" = situação atual: as chaves ainda estão perdidas.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She want to loose weight." (adjetivo no lugar do verbo)</div>
+      <div class="ecr">✓ "She wants to lose weight."</div>
+      <div class="ecd">LOSE WEIGHT = emagrecer (verbo LOSE). "She wants to LOSE weight." ✓ — LOOSE weight ✗ (LOOSE é adjetivo = frouxo). SHE → WANTS (com -S).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — LOSE</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de LOSE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">losted</button>
+      <button class="qo" onclick="ans(this,'q1',true)">lost</button>
+      <button class="qo" onclick="ans(this,'q1',false)">losed</button>
+    </div>
+    <div class="qfb" id="q1fb">LOSE → LOST (irregular). Mnemônico: LOSE + T = LOST. "We LOST the game." ✓ — "losted" e "losed" não existem. Passado = particípio = LOST.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é a diferença entre LOSE, LOOSE e LOSS?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">São sinônimos com grafias alternativas.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">LOSE = verbo (perder); LOOSE = adjetivo (frouxo); LOSS = substantivo (perda).</button>
+      <button class="qo" onclick="ans(this,'q2',false)">LOSE é passado de LOOSE.</button>
+    </div>
+    <div class="qfb" id="q2fb">São três palavras completamente diferentes! LOSE /luːz/ = verbo perder. LOOSE /luːs/ = adjetivo frouxo/solto. LOSS /lɒs/ = substantivo perda. "I LOSE keys." / "The screw is LOOSE." / "It was a big LOSS."</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ele perde a paciência com facilidade." → Hábito com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">He lose his temper easily.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">He loses his temper easily.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">He loose his temper easily.</button>
+    </div>
+    <div class="qfb" id="q3fb">HE → LOSES (com -S). "He LOSES his temper easily." ✓ — terceira pessoa com -S. "He lose" ✗ — falta -S. "He loose" ✗ — LOOSE é adjetivo, não verbo conjugado.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela quer emagrecer." → LOSE WEIGHT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She wants to loose weight.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She wants to lose weight.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She want to lose weight.</button>
+    </div>
+    <div class="qfb" id="q4fb">"She wants to LOSE weight." ✓ — LOSE WEIGHT = emagrecer. "Loose weight" ✗ — LOOSE é adjetivo (frouxo), não verbo. "She want" ✗ — SHE → WANTS (com -S).</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Perdemos para o Brasil por 2 a 0." → LOSE TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">We lost against Brazil 2–0.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">We lost to Brazil 2–0.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">We lost for Brazil 2–0.</button>
+    </div>
+    <div class="qfb" id="q5fb">"We LOST TO Brazil 2–0." ✓ — LOSE TO = perder para (adversário). "Lost against" ✓ também é possível mas menos comum. "Lost for Brazil" ✗ — FOR é inválido nesse contexto.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Perdi a noção do tempo." → LOSE TRACK OF.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">I lost the track of time.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">I lost track of time.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">I lost sight of time.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I LOST TRACK OF time." ✓ — LOSE TRACK OF = perder a noção/controle de. Sem artigo antes de TRACK: "lost TRACK of" (não "the track"). LOSE SIGHT OF = perder de vista / esquecer objetivo.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"I have ___ my keys again!" → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">loose</button>
+      <button class="qo" onclick="ans(this,'q7',true)">lost</button>
+      <button class="qo" onclick="ans(this,'q7',false)">lose</button>
+    </div>
+    <div class="qfb" id="q7fb">"I have LOST my keys again!" ✓ — HAVE + particípio LOST. "have loose" ✗ — LOOSE é adjetivo. "have lose" ✗ — depois de HAVE, particípio (não base). LOSE → LOST → LOST.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">O que significa "I'm at a loss for words"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Perdi minhas palavras escritas.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Estou sem palavras. / Não sei o que dizer.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Perdi a capacidade de falar.</button>
+    </div>
+    <div class="qfb" id="q8fb">"I'm AT A LOSS for words." = estou sem palavras / não sei o que dizer — expressão idiomática para quando algo nos deixa perplexos ou profundamente emocionados. AT A LOSS = sem saber o que fazer/dizer.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Não desanime!" → LOSE HEART.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Don't lose your heart!</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Don't lose heart!</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Don't loose heart!</button>
+    </div>
+    <div class="qfb" id="q9fb">"Don't LOSE HEART!" ✓ — LOSE HEART = desanimar / perder o ânimo (expressão sem artigo). "Don't loose heart" ✗ — LOOSE é adjetivo (frouxo), não verbo. "Don't lose YOUR heart" ✗ — a expressão fixa é LOSE HEART (sem YOUR).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Você não tem como perder!" → Futuro com YOU.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">You can't lost.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">You can't lose.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">You can't loose.</button>
+    </div>
+    <div class="qfb" id="q10fb">"You can't LOSE." ✓ — CAN'T + base LOSE. "Can't lost" ✗ — depois de modal, base (nunca passado). "Can't loose" ✗ — LOOSE é adjetivo.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Não perca de vista seus objetivos." → LOSE SIGHT OF.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">Don't lose track of your goals.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">Don't lose sight of your goals.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Don't lose heart of your goals.</button>
+    </div>
+    <div class="qfb" id="q11fb">"Don't LOSE SIGHT OF your goals." ✓ — LOSE SIGHT OF = perder de vista / esquecer o objetivo. LOSE TRACK OF = perder o controle/fio. LOSE HEART = desanimar. Cada expressão tem significado específico.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">LOST pode ser adjetivo? Qual frase usa LOST como adjetivo?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Não, LOST só é verbo (passado de LOSE).</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Sim. "I'm lost." / "A lost cause." / "Lost in thought."</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Sim, mas apenas em "I've lost" (present perfect).</button>
+    </div>
+    <div class="qfb" id="q12fb">LOST é tanto passado/particípio de LOSE QUANTO adjetivo. "I'm LOST." = estou perdido (adjetivo). "A LOST cause." = uma causa perdida. "LOST in thought." = perdido nos pensamentos. "I LOST my keys." = verbo (passado simples).</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../80_leave/index.html">← L80 LEAVE</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

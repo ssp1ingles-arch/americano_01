@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 36 — HOWEVER · ALTHOUGH · ALSO · TOO | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#818cf8;
+  --ch:#A78BFA;--ca:#60A5FA;--ct:#34D399;--ce:#FBBF24;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.6rem,5.5vw,3.8rem);font-weight:800;line-height:1;letter-spacing:-.02em;margin-bottom:.75rem}
+.hero-title .vh{color:var(--ch)}
+.hero-title .va{color:var(--ca)}
+.hero-title .vt{color:var(--ct)}
+.hero-title .dot{color:var(--muted)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-h{color:var(--ch);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-a{color:var(--ca);background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.hp-t{color:var(--ct);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-h{background:rgba(167,139,250,.15);color:var(--ch)}
+.un-a{background:rgba(96,165,250,.15);color:var(--ca)}
+.un-t{background:rgba(52,211,153,.15);color:var(--ct)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.uth{color:var(--ch)}
+.uta{color:var(--ca)}
+.utt{color:var(--ct)}
+.ute{color:var(--ce)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbh{color:var(--ch);font-weight:700}
+.vba{color:var(--ca);font-weight:700}
+.vbt{color:var(--ct);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+
+/* HOWEVER positions */
+.pos-grid{display:grid;gap:.5rem;margin:.85rem 0}
+.pos-row{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.8rem 1rem;display:grid;grid-template-columns:auto 1fr;gap:.35rem .75rem;align-items:start}
+.pos-label{font-size:.72rem;font-weight:700;color:var(--ch);text-transform:uppercase;letter-spacing:.06em}
+.pos-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem}
+.pos-pt{font-size:.79rem;color:var(--muted);grid-column:2}
+
+/* HOWEVER vs BUT table */
+.hvb-table{width:100%;border-collapse:collapse;margin:.85rem 0}
+.hvb-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.hvb-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.85rem}
+.hvb-table tr:last-child td{border-bottom:none}
+.hvb-but strong{color:var(--ct)}
+.hvb-how strong{color:var(--ch)}
+
+/* Surprise scale */
+.scale-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1.1rem;margin:.85rem 0}
+.scale-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem}
+.scale-bar{display:flex;align-items:stretch;gap:0;border-radius:.55rem;overflow:hidden;height:2.5rem}
+.sb-item{display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;flex:1;text-align:center;padding:.25rem}
+.sb-though{background:rgba(52,211,153,.12);color:var(--ct);border-right:1px solid var(--border)}
+.sb-although{background:rgba(96,165,250,.15);color:var(--ca);border-right:1px solid var(--border)}
+.sb-even{background:rgba(251,191,36,.15);color:var(--ce)}
+.scale-labels{display:flex;margin-top:.4rem}
+.scale-labels span{flex:1;font-size:.7rem;color:var(--muted);text-align:center}
+
+/* THOUGH final */
+.though-grid{display:grid;gap:.45rem;margin:.85rem 0}
+.though-row{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.7rem 1rem;display:flex;gap:.75rem;align-items:start}
+.though-pos{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ca);min-width:3.5rem;padding-top:.1rem;flex-shrink:0}
+.though-en{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.though-pt{font-size:.78rem;color:var(--muted)}
+
+/* POSITION grid for ALSO/TOO/AS WELL */
+.pos3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.85rem 0}
+.p3-card{border-radius:.75rem;padding:.9rem;text-align:center}
+.p3-also{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2)}
+.p3-too{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2)}
+.p3-asw{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2)}
+.p3-word{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
+.p3-also .p3-word{color:var(--ct)}
+.p3-too .p3-word{color:var(--ca)}
+.p3-asw .p3-word{color:var(--ch)}
+.p3-pos{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.35rem}
+.p3-en{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600}
+.p3-pt{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+
+/* Me too box */
+.metoo-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:.85rem}
+.metoo-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.metoo-q{font-size:.88rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:600}
+.metoo-a{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;color:var(--ct)}
+.metoo-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ct);margin-bottom:.5rem}
+
+/* Either box */
+.either-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:.85rem}
+.either-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ce);margin-bottom:.5rem}
+.either-row{display:grid;gap:.35rem}
+.er-line{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.er-pt{font-size:.78rem;color:var(--muted);margin-bottom:.25rem}
+
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+
+/* MODULE COMPLETE BANNER */
+.mod-complete{max-width:860px;margin:0 auto;padding:0 1.5rem 3rem}
+.mc-banner{background:linear-gradient(135deg,rgba(129,140,248,.1),rgba(167,139,250,.1));border:1px solid rgba(129,140,248,.3);border-radius:1.5rem;padding:2.5rem;text-align:center}
+.mc-icon{font-size:2.5rem;margin-bottom:.75rem}
+.mc-title{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:.4rem}
+.mc-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+.mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.55rem;margin-top:1.25rem}
+.mc-item{background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.15);border-radius:.65rem;padding:.6rem .8rem;text-align:left}
+.mc-num{font-size:.7rem;font-weight:700;color:var(--accent);opacity:.7}
+.mc-word{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--text)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--ch);color:var(--ch);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--ch);background:rgba(167,139,250,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--ch),var(--ct));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(167,139,250,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--ch)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .pos3-grid{grid-template-columns:1fr}
+  .metoo-row{grid-template-columns:1fr}
+  .mc-grid{grid-template-columns:1fr 1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 06 · Conectivos Essenciais</span>
+  <span class="nav-badge">A1–A2 · Lição 36 · HOWEVER · ALTHOUGH · ALSO · TOO</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 06 · Lição 36 · FINAL DO MÓDULO</div>
+    <div class="hero-title">
+      <span class="vh">HOWEVER</span>
+      <span class="dot"> · </span>
+      <span class="va">ALTHOUGH</span><br>
+      <span class="vt">ALSO</span>
+      <span class="dot"> · </span>
+      <span class="vt">TOO</span>
+    </div>
+    <div class="hero-sub">Contraste formal, concessão e adição — quatro conectivos essenciais</div>
+    <div class="hero-pills">
+      <span class="hp hp-h">HOWEVER = no entanto</span>
+      <span class="hp hp-a">ALTHOUGH = embora</span>
+      <span class="hp hp-t">ALSO/TOO = também</span>
+      <span class="hp hp-e">EITHER = também não</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- PARTE 1: HOWEVER -->
+<section class="section">
+  <div class="section-label">Parte 1 — Contraste Formal</div>
+  <div class="section-title" style="color:var(--ch)">HOWEVER — No Entanto / Porém</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-h">1</div>
+      <div>
+        <div class="uso-title uth">HOWEVER = no entanto — contraste entre frases completas</div>
+        <div class="uso-sub">Mais formal que BUT — separa duas frases (não une dentro de uma)</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">contraste</td><td class="en">She studied hard. <span class="vbh">However</span>, she failed the test.</td><td class="pt">Ela estudou muito. No entanto, reprovou.</td></tr>
+        <tr><td class="tipo">contraste</td><td class="en">The plan sounds good. <span class="vbh">However</span>, it's expensive.</td><td class="pt">O plano parece bom. No entanto, é caro.</td></tr>
+        <tr><td class="tipo">contraste</td><td class="en">He is young. <span class="vbh">However</span>, he is very experienced.</td><td class="pt">Ele é jovem. No entanto, é muito experiente.</td></tr>
+        <tr><td class="tipo">modo</td><td class="en"><span class="vbh">However</span> hard it is, don't give up.</td><td class="pt">Por mais difícil que seja, não desista.</td></tr>
+        <tr><td class="tipo">modo</td><td class="en"><span class="vbh">However</span> you do it, be careful.</td><td class="pt">De qualquer forma que você faça, seja cuidadoso.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- HOWEVER positions -->
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ch);margin-bottom:.5rem">Posições de HOWEVER</div>
+    <div class="pos-grid">
+      <div class="pos-row">
+        <div class="pos-label">início</div>
+        <div>
+          <div class="pos-en">It was cold. <span class="vbh">However,</span> we went out.</div>
+          <div class="pos-pt">Estava frio. No entanto, saímos. — vírgula depois</div>
+        </div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-label">meio</div>
+        <div>
+          <div class="pos-en">It was cold. We, <span class="vbh">however,</span> went out.</div>
+          <div class="pos-pt">Estava frio. Nós, no entanto, saímos. — vírgulas dos dois lados</div>
+        </div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-label">; how,</div>
+        <div>
+          <div class="pos-en">It was cold<span class="vbh">; however,</span> we went out.</div>
+          <div class="pos-pt">Estava frio; no entanto, saímos. — ponto e vírgula antes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOWEVER vs BUT -->
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ch);margin:.85rem 0 .5rem">HOWEVER vs BUT — mesmo significado, registro diferente</div>
+    <table class="hvb-table">
+      <thead><tr><th>Palavra</th><th>Registro</th><th>Estrutura</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr class="hvb-but"><td><strong>BUT</strong></td><td style="font-size:.8rem;color:var(--ct)">informal / fala</td><td style="font-size:.82rem;color:var(--muted)">une duas orações</td><td style="font-family:'Space Grotesk',sans-serif;font-size:.85rem">It was cold, <strong>but</strong> we went out.</td></tr>
+        <tr class="hvb-how"><td><strong>HOWEVER</strong></td><td style="font-size:.8rem;color:var(--ch)">formal / escrita</td><td style="font-size:.82rem;color:var(--muted)">separa duas frases</td><td style="font-family:'Space Grotesk',sans-serif;font-size:.85rem">It was cold. <strong>However,</strong> we went out.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <p><strong>Erro clássico:</strong> "She studied hard, however she failed." — HOWEVER não pode unir duas orações só com vírgula. Use ponto: "She studied hard. However, she failed." ou ponto e vírgula: "She studied hard; however, she failed."</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTE 2: ALTHOUGH / EVEN THOUGH / THOUGH -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Parte 2 — Concessão</div>
+  <div class="section-title" style="color:var(--ca)">ALTHOUGH · EVEN THOUGH · THOUGH — Embora / Mesmo Que</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-a">2</div>
+      <div>
+        <div class="uso-title uta">ALTHOUGH = embora / apesar de que (neutro)</div>
+        <div class="uso-sub">Início ou meio da frase — concessão surpreendente mas equilibrada</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">início</td><td class="en"><span class="vba">Although</span> it was raining, we went out.</td><td class="pt">Embora estivesse chovendo, nós saímos.</td></tr>
+        <tr><td class="tipo">início</td><td class="en"><span class="vba">Although</span> she was tired, she kept working.</td><td class="pt">Embora estivesse cansada, ela continuou.</td></tr>
+        <tr><td class="tipo">meio</td><td class="en">I enjoyed the trip, <span class="vba">although</span> it was expensive.</td><td class="pt">Eu curtei a viagem, embora fosse cara.</td></tr>
+        <tr><td class="tipo">meio</td><td class="en"><span class="vba">Although</span> I don't like coffee, I drink it.</td><td class="pt">Embora eu não goste de café, eu o bebo.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <p><strong>Erro clássico:</strong> "Although it rained, but we went out." — ALTHOUGH e BUT têm o mesmo papel. Nunca use os dois juntos. Use um ou outro: "Although it rained, we went out." / "It rained, but we went out."</p>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">3</div>
+      <div>
+        <div class="uso-title ute">EVEN THOUGH = mesmo que / mesmo assim (ênfase)</div>
+        <div class="uso-sub">Mais forte que ALTHOUGH — contraste mais surpreendente</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">ênfase</td><td class="en"><span class="vbe">Even though</span> it was freezing, she wore a t-shirt.</td><td class="pt">Mesmo com frio intenso, ela usou camiseta.</td></tr>
+        <tr><td class="tipo">ênfase</td><td class="en"><span class="vbe">Even though</span> he studied, he failed.</td><td class="pt">Mesmo tendo estudado, ele reprovou.</td></tr>
+        <tr><td class="tipo">ênfase</td><td class="en">He came <span class="vbe">even though</span> nobody invited him.</td><td class="pt">Ele veio mesmo sem ninguém tê-lo convidado.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Surprise scale -->
+    <div class="scale-wrap">
+      <div class="scale-title">Escala de surpresa / ênfase</div>
+      <div class="scale-bar">
+        <div class="sb-item sb-though">THOUGH<br><span style="font-size:.65rem;font-weight:400">leve</span></div>
+        <div class="sb-item sb-although">ALTHOUGH<br><span style="font-size:.65rem;font-weight:400">médio</span></div>
+        <div class="sb-item sb-even">EVEN THOUGH<br><span style="font-size:.65rem;font-weight:400">forte</span></div>
+      </div>
+      <div class="scale-labels">
+        <span>informal · fala</span>
+        <span>neutro · escrita</span>
+        <span>enfático · qualquer</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-a">4</div>
+      <div>
+        <div class="uso-title uta">THOUGH = embora / porém (informal — pode ir no FINAL)</div>
+        <div class="uso-sub">Única das três que pode aparecer no final da frase</div>
+      </div>
+    </div>
+    <div class="though-grid">
+      <div class="though-row">
+        <div class="though-pos">início</div>
+        <div>
+          <div class="though-en"><span class="vba">Though</span> it was late, she called me.</div>
+          <div class="though-pt">Embora fosse tarde, ela me ligou.</div>
+        </div>
+      </div>
+      <div class="though-row">
+        <div class="though-pos">meio</div>
+        <div>
+          <div class="though-en">I liked the food. The price, <span class="vba">though</span>, was high.</div>
+          <div class="though-pt">Eu gostei da comida. O preço, porém, estava alto.</div>
+        </div>
+      </div>
+      <div class="though-row">
+        <div class="though-pos">final ★</div>
+        <div>
+          <div class="though-en">The food was good. Expensive, <span class="vba">though</span>.</div>
+          <div class="though-pt">A comida estava boa. Cara, porém.</div>
+        </div>
+      </div>
+      <div class="though-row">
+        <div class="though-pos">final ★</div>
+        <div>
+          <div class="though-en">I'll go. I'm not happy about it, <span class="vba">though</span>.</div>
+          <div class="though-pt">Vou ir. Não estou feliz com isso, porém.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>THOUGH no final = muito natural na fala!</strong> "It was good, though." ALTHOUGH e EVEN THOUGH NÃO podem ir no final. THOUGH informal pode. Esta é a principal diferença prática entre as três.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTE 3: ALSO / TOO / AS WELL / EITHER -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Parte 3 — Adição</div>
+  <div class="section-title" style="color:var(--ct)">ALSO · TOO · AS WELL · EITHER — Também / Também não</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-t">5</div>
+      <div>
+        <div class="uso-title utt">ALSO · TOO · AS WELL — três formas de dizer "também"</div>
+        <div class="uso-sub">Mesma ideia — posição diferente na frase</div>
+      </div>
+    </div>
+
+    <div class="pos3-grid">
+      <div class="p3-card p3-also">
+        <div class="p3-word">ALSO</div>
+        <div class="p3-pos">meio da frase · formal</div>
+        <div class="p3-en">She <strong>also</strong> speaks Spanish.</div>
+        <div class="p3-pt">Ela também fala espanhol.</div>
+      </div>
+      <div class="p3-card p3-too">
+        <div class="p3-word">TOO</div>
+        <div class="p3-pos">final · informal</div>
+        <div class="p3-en">She speaks Spanish, <strong>too</strong>.</div>
+        <div class="p3-pt">Ela fala espanhol também.</div>
+      </div>
+      <div class="p3-card p3-asw">
+        <div class="p3-word">AS WELL</div>
+        <div class="p3-pos">final · formal</div>
+        <div class="p3-en">She speaks Spanish <strong>as well</strong>.</div>
+        <div class="p3-pt">Ela fala espanhol também.</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Palavra</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">ALSO</td><td class="en">I like coffee. I <span class="vbt">also</span> like tea.</td><td class="pt">Gosto de café. Também gosto de chá.</td></tr>
+        <tr><td class="tipo">TOO</td><td class="en">I like coffee. I like tea, <span class="vbt">too</span>.</td><td class="pt">Gosto de café. Gosto de chá também.</td></tr>
+        <tr><td class="tipo">AS WELL</td><td class="en">She speaks French <span class="vbt">as well</span>.</td><td class="pt">Ela fala francês também.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Me too! -->
+    <div class="metoo-box">
+      <div class="metoo-title">Me too! — concordância positiva informal</div>
+      <div class="metoo-row">
+        <div class="metoo-q">— I'm tired.</div>
+        <div class="metoo-a">— Me too! (Eu também!)</div>
+        <div class="metoo-q">— I love pizza.</div>
+        <div class="metoo-a">— Me too! (Eu também!)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">6</div>
+      <div>
+        <div class="uso-title ute">EITHER = também não (em frases negativas)</div>
+        <div class="uso-sub">Em negativas nunca use TOO — use EITHER no final</div>
+      </div>
+    </div>
+
+    <div class="either-box">
+      <div class="either-title">Negativas: TOO → EITHER</div>
+      <div class="either-row">
+        <div class="er-line">I don't like coffee. I don't like tea, <span class="vbe">either</span>.</div>
+        <div class="er-pt">Não gosto de café. Também não gosto de chá.</div>
+        <div class="er-line">She didn't come. He didn't come, <span class="vbe">either</span>.</div>
+        <div class="er-pt">Ela não veio. Ele também não veio.</div>
+        <div class="er-line">— I don't like it. — Me <span class="vbe">neither</span>! / Me <span class="vbe">either</span>!</div>
+        <div class="er-pt">— Não gosto. — Eu também não! (ambos corretos)</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <p><strong>TOO em negativas = errado.</strong> "She too doesn't smoke" ✗ → "She doesn't smoke either" ✓. Em negativas, use EITHER no final da frase — nunca TOO ou ALSO no meio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 06 COMPLETE -->
+<div class="mod-complete">
+  <div class="mc-banner">
+    <div class="mc-icon">🎯</div>
+    <div class="mc-title">Módulo 06 Completo!</div>
+    <div class="mc-sub">Você conhece agora os 5 conectivos essenciais do inglês</div>
+    <div class="mc-grid">
+      <div class="mc-item"><div class="mc-num">Lição 32</div><div class="mc-word">AND · BUT · OR</div></div>
+      <div class="mc-item"><div class="mc-num">Lição 33</div><div class="mc-word">SO · BECAUSE</div></div>
+      <div class="mc-item"><div class="mc-num">Lição 34</div><div class="mc-word">IF</div></div>
+      <div class="mc-item"><div class="mc-num">Lição 35</div><div class="mc-word">BEFORE · AFTER</div></div>
+      <div class="mc-item"><div class="mc-num">Lição 36</div><div class="mc-word">HOWEVER · ALTHOUGH · ALSO · TOO</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — HOWEVER · ALTHOUGH · ALSO · TOO</div>
+  <div class="quiz-sub">12 questões sobre contraste, concessão e adição.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>HOWEVER = frases separadas · ALTHOUGH/BUT = nunca juntos · TOO negativa → EITHER</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--ch)">HOWEVER</h4>
+      <div class="sum-item">no entanto / porém</div>
+      <div class="sum-item">frases separadas (ponto)</div>
+      <div class="sum-item"><span class="en">However, it's expensive.</span></div>
+      <div class="sum-item">mais formal que BUT</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(96,165,250,.2)">
+      <h4 style="color:var(--ca)">ALTHOUGH</h4>
+      <div class="sum-item">embora / apesar de</div>
+      <div class="sum-item"><span class="en">Although it rained, we went.</span></div>
+      <div class="sum-item">+ EVEN THOUGH (ênfase)</div>
+      <div class="sum-item">nunca + BUT juntos</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.25)">
+      <h4 style="color:var(--ct)">ALSO · TOO</h4>
+      <div class="sum-item"><span class="en">She also speaks Spanish.</span></div>
+      <div class="sum-item">ALSO = meio · formal</div>
+      <div class="sum-item"><span class="en">She speaks Spanish, too.</span></div>
+      <div class="sum-item">TOO = final · informal</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">AS WELL · EITHER</h4>
+      <div class="sum-item"><span class="en">She speaks French as well.</span></div>
+      <div class="sum-item">AS WELL = final · formal</div>
+      <div class="sum-item"><span class="en">He didn't come, either.</span></div>
+      <div class="sum-item">EITHER = também não</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../35_before_after/index.html">← Lição 35</a>
+  <div class="fnav-center">Lição 36 de 89 · Módulo 06 Completo</div>
+  <a class="fnav-btn" href="../37_question_words/index.html">Lição 37 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0xA78BFA,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0x34D399,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0x60A5FA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(1.9,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.95,3),new THREE.MeshBasicMaterial({color:0xA78BFA,wireframe:true,opacity:.07,transparent:true})));
+
+  var aGrp=new THREE.Group();aGrp.rotation.x=.3;scene.add(aGrp);
+  var aMat=new THREE.MeshStandardMaterial({color:0x60A5FA,emissive:0x60A5FA,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),aMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);aGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  aGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0x60A5FA,opacity:.12,transparent:true})));
+
+  var tGrp=new THREE.Group();tGrp.rotation.x=-.25;tGrp.rotation.z=.35;scene.add(tGrp);
+  var tMat=new THREE.MeshStandardMaterial({color:0x34D399,emissive:0x34D399,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),tMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);tGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  tGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0x34D399,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    aGrp.rotation.y+=.02;tGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"She studied hard. ___, she failed the test." — contraste formal',opts:['However','Although','Also','Too'],ans:'However',why:"HOWEVER = no entanto (contraste formal entre frases separadas). 'She studied hard. However, she failed.' — ponto antes e vírgula depois de HOWEVER."},
+  {s:'"___ it was raining, we went out." — concessão',opts:['Although','However','Also','So'],ans:'Although',why:"ALTHOUGH = embora (concessão). 'Although it was raining, we went out' = embora estivesse chovendo, nós saímos. ALTHOUGH une a concessão à conclusão."},
+  {s:'"___ it was freezing, she wore a t-shirt." — ênfase forte',opts:['Even though','Although','However','Too'],ans:'Even though',why:"EVEN THOUGH = mesmo que (ênfase maior). Usar no lugar de ALTHOUGH intensifica o contraste: 'Even though it was freezing' indica maior surpresa."},
+  {s:'"She speaks English. She ___ speaks Spanish." — adição, meio da frase',opts:['also','too','as well','either'],ans:'also',why:"ALSO = também (meio da frase). 'She also speaks Spanish' — ALSO fica antes do verbo principal ou depois do auxiliar. TOO e AS WELL ficam no final."},
+  {s:'"I like coffee. I like tea, ___." — adição, final, informal',opts:['too','also','as well','either'],ans:'too',why:"TOO = também (final de frase, informal). 'I like tea, too.' — TOO sempre no final. É mais informal que ALSO e AS WELL."},
+  {s:'"She didn\'t come. He didn\'t come, ___." — negativa',opts:['either','too','also','as well'],ans:'either',why:"Em frases negativas use EITHER (nunca TOO). 'He didn't come, either' = ele também não veio. EITHER sempre no final em negativas."},
+  {s:'"— I\'m tired. — Me ___!" — concordância informal',opts:['too','also','either','as well'],ans:'too',why:"'Me too!' = eu também! — a resposta mais usada para concordar com algo positivo. TOO no final, informal."},
+  {s:'"The food was good. Expensive, ___." — THOUGH no final',opts:['though','however','although','even though'],ans:'though',why:"THOUGH informal pode ir no FINAL da frase. 'Expensive, though' = caro, porém. Apenas THOUGH pode fazer isso — ALTHOUGH e EVEN THOUGH não podem."},
+  {s:'"It was cold; ___, we went out." — HOWEVER com ponto e vírgula',opts:['however','although','also','too'],ans:'however',why:"HOWEVER pode vir após ponto e vírgula: 'It was cold; however, we went out.' Alternativa ao ponto final antes de HOWEVER. Vírgula obrigatória depois."},
+  {s:'"Although it rained, ___ we went out." — complete sem erro',opts:['we','but we','so we','however we'],ans:'we',why:"'Although it rained, WE went out' — sem BUT. ALTHOUGH e BUT têm o mesmo papel. Use UM ou OUTRO, nunca os dois: 'Although... we went' ou 'It rained, but we went.'"},
+  {s:'"She speaks French ___ ___." — também, final, formal/britânico',opts:['as well','also','too','either'],ans:'as well',why:"AS WELL = também (final de frase, neutro/formal). 'She speaks French as well.' — igual a TOO em posição, mas mais formal, comum no inglês britânico."},
+  {s:'ALSO fica no ___ da frase · TOO e AS WELL ficam no ___',opts:['meio · final','final · meio','início · final','meio · início'],ans:'meio · final',why:"ALSO = meio da frase (antes do verbo principal). TOO e AS WELL = final de frase. 'She ALSO speaks French.' / 'She speaks French, TOO / AS WELL.'"}
+];
+
+var ERRORS=[
+  {wrong:'She studied hard, however she failed.',right:'She studied hard. However, she failed.',why:"HOWEVER não une duas orações com vírgula simples. Use ponto antes: 'She studied hard. However, she failed.' ou ponto e vírgula: 'She studied hard; however, she failed.'"},
+  {wrong:'Although it rained, but we went out.',right:'Although it rained, we went out.',why:"ALTHOUGH e BUT têm o mesmo papel — nunca use os dois juntos. Escolha um: 'Although it rained, we went out.' ou 'It rained, but we went out.'"},
+  {wrong:'Even though she was tired, but she kept working.',right:'Even though she was tired, she kept working.',why:"Mesmo erro: EVEN THOUGH + BUT = redundante. 'Even though she was tired, she kept working.' — sem BUT após EVEN THOUGH."},
+  {wrong:'The food was good. Although, it was expensive.',right:'The food was good. However, it was expensive.',why:"ALTHOUGH é conjunção — precisa de uma oração subordinada: 'Although it was expensive, the food was good.' Para separar frases completas como HOWEVER, use HOWEVER (advérbio)."},
+  {wrong:"— I don't like it. — Me too.",right:"— I don't like it. — Me neither! / Me either!",why:"Em concordância negativa, use ME NEITHER ou ME EITHER — nunca ME TOO. 'Me too' concorda com positivo. 'Me neither/either' = 'eu também não'."},
+  {wrong:'She too doesn\'t smoke.',right:"She doesn't smoke either.",why:"TOO não fica no meio de frases negativas. Use EITHER no final: 'She doesn't smoke either.' TOO em negativas sempre soa errado."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque em HOWEVER vs ALTHOUGH!':pct<.75?'Bom progresso! Revise ALSO/TOO/EITHER.':pct<1?'Muito bem! Módulo 06 quase dominado.':'Perfeito! Módulo 06 Conectivos Essenciais completo!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

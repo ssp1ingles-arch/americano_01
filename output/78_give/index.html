@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L78 · GIVE · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* double object box */
+.dobj-box{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.db-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.55rem;}
+.db-vs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.5rem;}
+.db-side{background:var(--s2);border-radius:.6rem;padding:.8rem 1rem;}
+.db-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;}
+.db-ex{font-size:.85rem;color:var(--ca);font-weight:600;margin-bottom:.18rem;}
+.db-pt{font-size:.77rem;color:var(--tm);}
+.db-note{font-size:.79rem;color:var(--tm);}
+
+/* phrasal verbs grid */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .db-vs{grid-template-columns:1fr;}
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">GIVE</h1>
+  <p class="hero-pt">dar · oferecer · presentear · fornecer · entregar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">GIVE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">GAVE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">GIVEN</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She gave me a gift."</div>
+    <div class="cl-pt">Ela me deu um presente.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + DUPLO OBJETO -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">GIVE — mnemônico e o duplo objeto</div>
+    <div class="sd">GIVE → GAVE → GIVEN · dois jeitos de estruturar a mesma frase</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — GIVE → GAVE → GIVEN (I → A → I-EN)</div>
+    <div class="mn-body">A vogal alterna: <strong style="color:var(--rd)">I</strong>VE → G<strong style="color:var(--rd)">A</strong>VE → G<strong style="color:var(--rd)">IV</strong>EN. Passado: GAVE (muda para A). Particípio: GIVEN (volta à raiz + -EN).<br>Família similar: DRIVE → DROVE → DRIVEN / RIDE → RODE → RIDDEN (vogal muda no passado, -EN no particípio).</div>
+  </div>
+
+  <!-- Duplo objeto -->
+  <div class="dobj-box">
+    <div class="db-t">Estrutura central — GIVE com duplo objeto</div>
+    <div class="db-vs">
+      <div class="db-side">
+        <div class="db-label">Forma 1 — indireto primeiro</div>
+        <div class="db-ex">She gave <u>me</u> a gift.</div>
+        <div class="db-pt">GIVE + pessoa + coisa (sem TO)</div>
+      </div>
+      <div class="db-side">
+        <div class="db-label">Forma 2 — TO + indireto depois</div>
+        <div class="db-ex">She gave a gift <u>to me</u>.</div>
+        <div class="db-pt">GIVE + coisa + TO + pessoa</div>
+      </div>
+    </div>
+    <div class="db-note">Ambas as formas significam a mesma coisa. Com pronome, a Forma 1 é mais natural. Com substantivos longos, a Forma 2 flui melhor. Nunca use as duas ao mesmo tempo: "She gave me a gift to me." ✗</div>
+  </div>
+
+  <!-- Padrão com verbos semelhantes -->
+  <div class="uso">
+    <div class="ul">Verbos que seguem o mesmo padrão de duplo objeto</div>
+    <table class="ct">
+      <tr><th>Verbo</th><th>Forma 1 (indireto primeiro)</th><th class="cpt">Forma 2 (TO + indireto depois)</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700">GIVE</td><td class="ce">Give <strong>me</strong> a call.</td><td class="cpt">Give a call to me.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700">SEND</td><td class="ce">Send <strong>me</strong> a message.</td><td class="cpt">Send a message to me.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700">SHOW</td><td class="ce">Show <strong>me</strong> the photo.</td><td class="cpt">Show the photo to me.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700">TELL</td><td class="ce">Tell <strong>me</strong> the truth.</td><td class="cpt">Tell the truth to me.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700">BRING</td><td class="ce">Bring <strong>me</strong> some water.</td><td class="cpt">Bring some water to me.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — give / gives</div>
+    <div class="sd">HE / SHE / IT → GIVES · GIVE IT A TRY · GIVE A SPEECH</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>give</strong> 100% at work.</td><td class="cpt">Sempre dou 100% no trabalho.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Can you <strong>give</strong> me a hand?</td><td class="cpt">Você pode me dar uma mão?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>gives</strong> a speech every Friday.</td><td class="cpt">Ele faz um discurso toda sexta-feira.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>gives</strong> great advice.</td><td class="cpt">Ela dá ótimos conselhos.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The plant <strong>gives</strong> off a nice smell.</td><td class="cpt">A planta exala um cheiro agradável.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>give</strong> discounts to loyal customers.</td><td class="cpt">Damos descontos para clientes fiéis.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>give</strong> free samples every weekend.</td><td class="cpt">Eles dão amostras grátis todo fim de semana.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → GIVES (com -S). "She give advice." ✗ → "She GIVES advice." ✓ · "He give a speech." ✗ → "He GIVES a speech." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — gave (irregular)</div>
+    <div class="sd">GIVE → GAVE — vogal muda de I para A · particípio GIVEN (com -EN)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>gave</strong> her flowers on her birthday.</td><td class="cpt">Dei flores para ela no aniversário dela.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Why did you <strong>give</strong> up so easily?</td><td class="cpt">Por que você desistiu tão facilmente?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>gave</strong> me his phone number.</td><td class="cpt">Ele me deu o número do telefone.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>gave</strong> birth to twins last year.</td><td class="cpt">Ela deu à luz gêmeos no ano passado.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The tree <strong>gave</strong> shade in the hot afternoon.</td><td class="cpt">A árvore deu sombra na tarde quente.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>gave</strong> it our best shot.</td><td class="cpt">Demos o nosso máximo.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>gave</strong> away all the food.</td><td class="cpt">Eles doaram toda a comida.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't GIVE up." ✓ / "I didn't GAVE up." ✗ — DIDN'T + base GIVE. Particípio: "I have GIVEN my best." ✓ — GIVEN (não GAVE) com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PHRASAL VERBS -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Phrasal verbs com GIVE</div>
+    <div class="sd">GIVE UP · GIVE IN · GIVE BACK · GIVE AWAY · GIVE OUT · GIVE OFF</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">GIVE UP</div>
+      <div class="pv-pt">desistir / parar</div>
+      <div class="pv-ex">"Don't give up!" / "He gave up smoking."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">GIVE IN</div>
+      <div class="pv-pt">ceder / se render / capitular</div>
+      <div class="pv-ex">"She gave in to pressure." / "Don't give in!"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">GIVE BACK</div>
+      <div class="pv-pt">devolver / retribuir</div>
+      <div class="pv-ex">"Give back my book!" / "Give it back to me."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">GIVE AWAY</div>
+      <div class="pv-pt">dar de graça / revelar (segredo)</div>
+      <div class="pv-ex">"She gave away her clothes." / "Don't give it away!"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">GIVE OUT</div>
+      <div class="pv-pt">distribuir / esgotar / parar de funcionar</div>
+      <div class="pv-ex">"Give out the flyers." / "My phone gave out."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">GIVE OFF</div>
+      <div class="pv-pt">exalar / emitir (cheiro, luz, calor)</div>
+      <div class="pv-ex">"Flowers give off a nice smell."</div>
+    </div>
+  </div>
+
+  <div class="nt nt-tip">GIVE UP (desistir) é o mais importante. "Never give up!" ✓ — imperativo. "He gave up smoking." ✓ — GIVE UP + -ING (parar de fazer algo definitivamente). Compare com STOP + -ING (L69): mesmo sentido, GIVE UP ênfase maior em desistência.</div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES COM GIVE -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões essenciais com GIVE</div>
+    <div class="sd">GIVE A CALL · GIVE A HAND · GIVE IT A SHOT · GIVE BIRTH TO · GIVEN THAT</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões fixas com GIVE</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE A CALL / RING</td><td style="font-size:.83rem">dar uma ligada</td><td class="cpt">"I'll give you a call later."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE A HAND</td><td style="font-size:.83rem">dar uma mão / ajudar / aplaudir</td><td class="cpt">"Can you give me a hand?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE IT A TRY / SHOT</td><td style="font-size:.83rem">tentar / dar uma chance a algo</td><td class="cpt">"Just give it a try — you might like it!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE BIRTH TO</td><td style="font-size:.83rem">dar à luz / gerar</td><td class="cpt">"She gave birth to twins."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE IT YOUR ALL</td><td style="font-size:.83rem">dar o seu máximo / se dedicar completamente</td><td class="cpt">"Whatever you do, give it your all."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE A SPEECH</td><td style="font-size:.83rem">fazer um discurso / falar em público</td><td class="cpt">"He gave a speech at the wedding."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVEN THAT</td><td style="font-size:.83rem">dado que / considerando que (conjunção)</td><td class="cpt">"Given that it's late, let's stop here."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com GIVE</div>
+    <div class="sd">Cotidiano · presentes · phrasal verbs · expressões</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">She <strong>gave</strong> me a gift.</div><div class="ph-pt">Ela me deu um presente.</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>give</strong> up!</div><div class="ph-pt">Não desista!</div></div>
+    <div class="ph"><div class="ph-en">Can you <strong>give</strong> me a hand?</div><div class="ph-pt">Você pode me dar uma mão?</div></div>
+    <div class="ph"><div class="ph-en">I'll <strong>give</strong> you a call later.</div><div class="ph-pt">Vou te dar uma ligada mais tarde.</div></div>
+    <div class="ph"><div class="ph-en">Just <strong>give</strong> it a try!</div><div class="ph-pt">Só tente / Dê uma chance a isso!</div></div>
+    <div class="ph"><div class="ph-en">She <strong>gave</strong> birth to twins last year.</div><div class="ph-pt">Ela deu à luz gêmeos no ano passado.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Give</strong> back my book!</div><div class="ph-pt">Devolva meu livro!</div></div>
+    <div class="ph"><div class="ph-en">He <strong>gave</strong> a speech at the wedding.</div><div class="ph-pt">Ele fez um discurso no casamento.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "She gived me a gift."</div>
+      <div class="ecr">✓ "She gave me a gift."</div>
+      <div class="ecd">GIVE é irregular: GIVE → GAVE. "She GAVE me a gift." ✓ — "gived" não existe. Mnemônico: GIVE → G<strong>A</strong>VE (I → A no passado) → G<strong>IV</strong>EN (particípio com -EN).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She gave me a gift to me."</div>
+      <div class="ecr">✓ "She gave me a gift." / "She gave a gift to me."</div>
+      <div class="ecd">Use UMA das estruturas. "She gave ME a gift." ✓ (indireto primeiro) / "She gave a gift TO me." ✓ (TO depois). Misturar as duas = redundante e incorreto.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't gave up."</div>
+      <div class="ecr">✓ "I didn't give up."</div>
+      <div class="ecd">DIDN'T + base. "I didn't GIVE up." ✓ — depois de DIDN'T, base GIVE (nunca GAVE).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have gave my best."</div>
+      <div class="ecr">✓ "I have given my best."</div>
+      <div class="ecd">Particípio de GIVE = GIVEN. "I have GIVEN my best." ✓ — "have gave" ✗. GIVE → GAVE (passado) → GIVEN (particípio). Família: DRIVE → DROVE → DRIVEN.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She give advice to everyone."</div>
+      <div class="ecr">✓ "She gives advice to everyone."</div>
+      <div class="ecd">SHE → GIVES (com -S). "She GIVES advice to everyone." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He gave up to smoke." (parou de fumar)</div>
+      <div class="ecr">✓ "He gave up smoking."</div>
+      <div class="ecd">GIVE UP + -ING (não TO + base). "He gave up SMOKING." ✓ — GIVE UP segue o padrão de STOP + -ING: o que se abandona vem em -ING. "Gave up to smoke" ✗ — TO é inválido aqui.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — GIVE</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de GIVE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">gived</button>
+      <button class="qo" onclick="ans(this,'q1',true)">gave</button>
+      <button class="qo" onclick="ans(this,'q1',false)">given</button>
+    </div>
+    <div class="qfb" id="q1fb">GIVE → GAVE (passado) → GIVEN (particípio). "gived" não existe. Passado = GAVE (vogal I → A). Particípio = GIVEN (-EN). "She GAVE me a gift." ✓</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é o particípio de GIVE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">gave</button>
+      <button class="qo" onclick="ans(this,'q2',true)">given</button>
+      <button class="qo" onclick="ans(this,'q2',false)">give</button>
+    </div>
+    <div class="qfb" id="q2fb">GIVE → GAVE → GIVEN. Particípio = GIVEN (com -EN). "I have GIVEN my best." ✓ — "have gave" ✗. Família: DRIVE → DROVE → DRIVEN / GIVE → GAVE → GIVEN.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela me deu um presente." → Estrutura com duplo objeto.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She gave a gift to me to me.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She gave me a gift.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She gave to me a gift.</button>
+    </div>
+    <div class="qfb" id="q3fb">"She GAVE me a gift." ✓ — GIVE + pessoa + coisa (sem TO). "She gave a gift TO me." ✓ também correto. "She gave to me a gift" ✗ — TO sempre depois da coisa, não antes. "gave a gift to me to me" ✗ — redundante.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Por que você desistiu tão facilmente?" → GIVE UP, passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">Why did you gave up so easily?</button>
+      <button class="qo" onclick="ans(this,'q4',true)">Why did you give up so easily?</button>
+      <button class="qo" onclick="ans(this,'q4',false)">Why you gave up so easily?</button>
+    </div>
+    <div class="qfb" id="q4fb">"Why did you GIVE up so easily?" ✓ — DID + base GIVE. "Did you GAVE" ✗ — depois de DID, base (nunca GAVE). Sem DID no início, não forma pergunta correta em inglês.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ele parou de fumar." → GIVE UP + -ING.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">He gave up to smoke.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">He gave up smoking.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">He gave up smoke.</button>
+    </div>
+    <div class="qfb" id="q5fb">"He gave up SMOKING." ✓ — GIVE UP + -ING. "Gave up to smoke" ✗ — TO é inválido aqui. "Gave up smoke" ✗ — base sem -ING também inválida. GIVE UP = desistir / parar definitivamente.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Não revelei o segredo." → DON'T GIVE AWAY.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't give out the secret.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">I didn't give away the secret.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">I didn't give back the secret.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I didn't GIVE AWAY the secret." ✓ — GIVE AWAY = revelar (segredo) ou dar gratuitamente. GIVE OUT = distribuir ou parar de funcionar. GIVE BACK = devolver algo que pertence a alguém.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Demos o nosso máximo." → WE GAVE IT OUR ALL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">We gived our best shot.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">We gave it our best shot.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">We given our best shot.</button>
+    </div>
+    <div class="qfb" id="q7fb">"We GAVE IT our best shot." ✓ — GAVE = passado de GIVE. "GIVE IT YOUR BEST SHOT" / "GIVE IT YOUR ALL" = expressões fixas para dar o máximo. "gived" ✗. "given" ✗ — precisa de HAVE antes do particípio.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">Com pronome, qual é a estrutura CORRETA de GIVE BACK?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Give back it!</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Give it back!</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Ambas são corretas com pronome.</button>
+    </div>
+    <div class="qfb" id="q8fb">"Give IT back!" ✓ — com pronome, ele fica no meio do phrasal verb. "Give back it" ✗ — pronomes não vêm depois da partícula. Com substantivos: "Give back my book." ✓ ou "Give my book back." ✓</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Vou te dar uma ligada mais tarde." → GIVE A CALL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I'll give to you a call later.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I'll give you a call later.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I'll give a call you later.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I'll give YOU a call later." ✓ — GIVE + pessoa + coisa (you primeiro, a call depois). "Give to you a call" ✗ — TO antes da coisa é inválido. "Give a call you" ✗ — ordem errada.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Ela deu à luz gêmeos." → GIVE BIRTH TO, passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">She gave birth of twins.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">She gave birth to twins.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">She gave a birth to twins.</button>
+    </div>
+    <div class="qfb" id="q10fb">"She gave birth TO twins." ✓ — GIVE BIRTH TO (não OF, não A BIRTH). É uma expressão fixa: GIVE BIRTH TO + pessoa/animal. "Give birth of" ✗ — preposição errada. "Give a birth" ✗ — não se usa artigo.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ela cedeu à pressão." → GIVE IN.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">She gave up to the pressure.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">She gave in to the pressure.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">She gave out to the pressure.</button>
+    </div>
+    <div class="qfb" id="q11fb">"She gave IN to the pressure." ✓ — GIVE IN = ceder / se render (a algo). GIVE UP = desistir completamente (diferente). GIVE OUT = distribuir ou parar de funcionar. "Gave in to pressure/temptation" = ceder a isso.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Dei flores para ela." → GIVE + duplo objeto, passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">I gave to her flowers.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">I gave her flowers.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">I gave flowers her.</button>
+    </div>
+    <div class="qfb" id="q12fb">"I GAVE her flowers." ✓ — GAVE + pessoa + coisa (her primeiro). "I gave flowers to her." ✓ também correto (TO depois). "Gave to her flowers" ✗ — TO deve vir depois da coisa. "Gave flowers her" ✗ — ordem errada.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../77_find/index.html">← L77 FIND</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

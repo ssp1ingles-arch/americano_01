@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 39 — WHEN | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#38bdf8;
+  --cw:#38bdf8;--ce:#FBBF24;--cr:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(7rem,24vw,16rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--cw)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-w{color:var(--cw);background:rgba(56,189,248,.07);border-color:rgba(56,189,248,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-r{color:var(--cr);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-k{color:var(--ck);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* TIMELINE */
+.timeline{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin:1.75rem 0}
+.tl-side{text-align:center}
+.tl-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem;opacity:.6}
+.tl-box{background:var(--surface);border:1px solid var(--border);border-radius:.85rem;padding:1rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem}
+.tl-left .tl-label{color:var(--ce)}
+.tl-left .tl-box{border-color:rgba(251,191,36,.2)}
+.tl-right .tl-label{color:var(--cr)}
+.tl-right .tl-box{border-color:rgba(167,139,250,.2)}
+.tl-center{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.tl-arrow-l{color:var(--ce);font-size:1.4rem}
+.tl-arrow-r{color:var(--cr);font-size:1.4rem}
+.tl-main{background:var(--cw);color:#07111e;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.2rem;padding:.5rem 1rem;border-radius:.65rem;white-space:nowrap}
+.tl-sub{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.2rem}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-w{background:rgba(56,189,248,.15);color:var(--cw)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.un-r{background:rgba(167,139,250,.15);color:var(--cr)}
+.un-k{background:rgba(52,211,153,.15);color:var(--ck)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utw{color:var(--cw)}.ute{color:var(--ce)}.utr{color:var(--cr)}.utk{color:var(--ck)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbw{color:var(--cw);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+.vbr{color:var(--cr);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+
+/* 3-tempos grid */
+.tenses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.tense-col{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem}
+.tense-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.7rem}
+.tense-pres .tense-label{color:var(--ck)}
+.tense-past .tense-label{color:var(--ce)}
+.tense-fut .tense-label{color:var(--cr)}
+.tense-form{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;margin-bottom:.6rem;padding:.35rem .6rem;border-radius:.4rem}
+.tense-pres .tense-form{background:rgba(52,211,153,.1);color:var(--ck)}
+.tense-past .tense-form{background:rgba(251,191,36,.1);color:var(--ce)}
+.tense-fut .tense-form{background:rgba(167,139,250,.1);color:var(--cr)}
+.tense-ex{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;margin:.25rem 0}
+.tense-pt{font-size:.74rem;color:var(--muted)}
+
+/* WILL danger box */
+.will-box{background:rgba(255,112,67,.06);border:2px solid rgba(255,112,67,.3);border-radius:1rem;padding:1.5rem;margin:1.25rem 0}
+.will-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--warn);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.will-compare{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.will-wrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);border-radius:.6rem;padding:.85rem}
+.will-right{background:rgba(95,216,122,.06);border:1px solid rgba(95,216,122,.2);border-radius:.6rem;padding:.85rem}
+.wl-badge{font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.will-wrong .wl-badge{color:var(--warn)}
+.will-right .wl-badge{color:var(--tip)}
+.wl-en{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700}
+.will-wrong .wl-en{color:var(--warn)}
+.will-right .wl-en{color:var(--tip)}
+.wl-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.will-note{font-size:.82rem;color:var(--muted);margin-top:.85rem;border-top:1px solid rgba(255,112,67,.15);padding-top:.85rem}
+.will-note strong{color:var(--warn)}
+
+/* Conjunction list */
+.conj-list{display:grid;gap:.4rem;margin:.85rem 0}
+.conj-row{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem 1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;align-items:baseline}
+.conj-ctx{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.conj-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600}
+.conj-pt{font-size:.78rem;color:var(--muted)}
+
+/* QA pairs */
+.qa-pair{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden;margin-bottom:.75rem}
+.qa-q{background:rgba(56,189,248,.06);padding:.75rem 1.1rem;border-bottom:1px solid var(--border)}
+.qa-q .label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--cw);margin-bottom:.2rem}
+.qa-q .txt{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.qa-a{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.qa-yes{padding:.65rem 1.1rem;border-right:1px solid var(--border)}
+.qa-no{padding:.65rem 1.1rem}
+.qa-yes .label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tip);margin-bottom:.2rem}
+.qa-no .label{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--warn);margin-bottom:.2rem}
+.qa-a .txt{font-size:.88rem;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.qa-a .pt{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+
+/* WHENEVER */
+.wev-list{display:grid;gap:.4rem;margin:.85rem 0}
+.wev-row{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem 1rem;display:flex;gap:1rem;align-items:baseline}
+.wev-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;flex:1.2}
+.wev-pt{font-size:.78rem;color:var(--muted);flex:1}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cw);color:var(--cw);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cw);background:rgba(56,189,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--ce));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(255,112,67,.3);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--warn)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .tenses-grid{grid-template-columns:1fr}
+  .will-compare{grid-template-columns:1fr}
+  .qa-a{grid-template-columns:1fr}
+  .qa-yes{border-right:none;border-bottom:1px solid var(--border)}
+  .conj-row{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 07 · Question Words</span>
+  <span class="nav-badge">A1 · Lição 39 · WHEN</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 07 · Lição 39</div>
+    <div class="hero-title">WHEN</div>
+    <div class="hero-sub">Quando — pergunta sobre tempo, hora, dia, momento</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">WHEN = quando</span>
+      <span class="hp hp-e">conjunção = no momento em que</span>
+      <span class="hp hp-r">WHENEVER = sempre que</span>
+      <span class="hp hp-k">sem WILL após WHEN temporal</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- OS 3 TEMPOS -->
+<section class="section">
+  <div class="section-label">Usos 1 · 2 · 3</div>
+  <div class="section-title" style="color:var(--cw)">WHEN nos Três Tempos</div>
+
+  <!-- TIMELINE VISUAL -->
+  <div class="timeline">
+    <div class="tl-side tl-left">
+      <div class="tl-label">passado</div>
+      <div class="tl-box"><span class="vbe">When</span> did you arrive?<div class="tense-pt" style="margin-top:.25rem">Quando você chegou?</div></div>
+    </div>
+    <div class="tl-center">
+      <div class="tl-arrow-l">◀</div>
+      <div class="tl-main">WHEN</div>
+      <div class="tl-sub">pergunta sobre<br>tempo</div>
+      <div class="tl-arrow-r">▶</div>
+    </div>
+    <div class="tl-side tl-right">
+      <div class="tl-label">futuro</div>
+      <div class="tl-box"><span class="vbr">When</span> will you come back?<div class="tense-pt" style="margin-top:.25rem">Quando você vai voltar?</div></div>
+    </div>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">1–3</div>
+      <div>
+        <div class="uso-title utw">Presente · Passado · Futuro — estrutura de cada tempo</div>
+        <div class="uso-sub">A ordem é sempre: WHEN + auxiliar + sujeito + verbo base</div>
+      </div>
+    </div>
+    <div class="tenses-grid">
+      <div class="tense-col tense-pres">
+        <div class="tense-label">Presente</div>
+        <div class="tense-form">WHEN + DO/DOES + suj + base</div>
+        <div class="tense-ex"><span class="vbk">When</span> does it start?</div>
+        <div class="tense-pt">Quando começa?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">When</span> do you work?</div>
+        <div class="tense-pt">Quando você trabalha?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">When</span> is the meeting?</div>
+        <div class="tense-pt">Quando é a reunião?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">When</span> are you free?</div>
+        <div class="tense-pt">Quando você está livre?</div>
+      </div>
+      <div class="tense-col tense-past">
+        <div class="tense-label">Passado</div>
+        <div class="tense-form">WHEN + DID + suj + base</div>
+        <div class="tense-ex"><span class="vbe">When</span> did you arrive?</div>
+        <div class="tense-pt">Quando você chegou?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">When</span> did it happen?</div>
+        <div class="tense-pt">Quando aconteceu?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">When</span> was she born?</div>
+        <div class="tense-pt">Quando ela nasceu?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">When</span> did they leave?</div>
+        <div class="tense-pt">Quando eles foram embora?</div>
+      </div>
+      <div class="tense-col tense-fut">
+        <div class="tense-label">Futuro</div>
+        <div class="tense-form">WHEN + WILL/going to + suj</div>
+        <div class="tense-ex"><span class="vbr">When</span> will you come back?</div>
+        <div class="tense-pt">Quando você vai voltar?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">When</span> will it be ready?</div>
+        <div class="tense-pt">Quando vai estar pronto?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">When</span> are you going to travel?</div>
+        <div class="tense-pt">Quando você vai viajar?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">When</span> is she going to call?</div>
+        <div class="tense-pt">Quando ela vai ligar?</div>
+      </div>
+    </div>
+    <div class="warn-box">
+      <p><strong>"When you will come?" — ERRADO.</strong> Na pergunta direta, o auxiliar (WILL/DO/DID) SEMPRE vem antes do sujeito: "When <strong>will you</strong> come?" ✓ / "When <strong>do you</strong> work?" ✓</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHEN CONJUNÇÃO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4</div>
+  <div class="section-title" style="color:var(--ce)">WHEN como Conjunção — "no momento em que"</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">4</div>
+      <div>
+        <div class="uso-title ute">WHEN no meio da frase — conecta dois eventos no tempo</div>
+        <div class="uso-sub">Não é pergunta — equivale a "no momento em que" / "sempre que"</div>
+      </div>
+    </div>
+    <div class="conj-list">
+      <div class="conj-row">
+        <div class="conj-ctx">evento futuro</div>
+        <div class="conj-en">Call me <span class="vbe">when</span> you arrive.</div>
+        <div class="conj-pt">Me liga quando você chegar.</div>
+      </div>
+      <div class="conj-row">
+        <div class="conj-ctx">hábito</div>
+        <div class="conj-en">I listen to music <span class="vbe">when</span> I cook.</div>
+        <div class="conj-pt">Ouço música quando cozinho.</div>
+      </div>
+      <div class="conj-row">
+        <div class="conj-ctx">passado</div>
+        <div class="conj-en"><span class="vbe">When</span> I was young, I loved soccer.</div>
+        <div class="conj-pt">Quando eu era jovem, amava futebol.</div>
+      </div>
+      <div class="conj-row">
+        <div class="conj-ctx">simultâneo</div>
+        <div class="conj-en">She smiled <span class="vbe">when</span> she saw him.</div>
+        <div class="conj-pt">Ela sorriu quando o viu.</div>
+      </div>
+      <div class="conj-row">
+        <div class="conj-ctx">condição</div>
+        <div class="conj-en">Tell me <span class="vbe">when</span> you're ready.</div>
+        <div class="conj-pt">Me diga quando você estiver pronto.</div>
+      </div>
+    </div>
+
+    <!-- WILL danger box -->
+    <div class="will-box">
+      <div class="will-title">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        WHEN temporal = SEM WILL na oração seguinte
+      </div>
+      <div class="will-compare">
+        <div class="will-wrong">
+          <div class="wl-badge">✗ errado</div>
+          <div class="wl-en">Call me when you <u>will arrive</u>.</div>
+          <div class="wl-pt">WILL depois de WHEN — nunca!</div>
+        </div>
+        <div class="will-right">
+          <div class="wl-badge">✓ certo</div>
+          <div class="wl-en">Call me when you arrive.</div>
+          <div class="wl-pt">Presente simples após WHEN</div>
+        </div>
+        <div class="will-wrong">
+          <div class="wl-badge">✗ errado</div>
+          <div class="wl-en">I'll eat when you <u>will cook</u>.</div>
+          <div class="wl-pt">WILL na oração com WHEN — errado</div>
+        </div>
+        <div class="will-right">
+          <div class="wl-badge">✓ certo</div>
+          <div class="wl-en">I'll eat when you cook.</div>
+          <div class="wl-pt">A oração principal pode ter WILL</div>
+        </div>
+      </div>
+      <div class="will-note"><strong>A mesma regra do Módulo 06:</strong> IF · BEFORE · AFTER · WHEN + futuro → use presente simples na oração temporal. A oração principal pode ter WILL: "I'll call you when you arrive." ✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- QA PAIRS -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 5</div>
+  <div class="section-title" style="color:var(--ck)">WHEN em Perguntas e Respostas</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-k">5</div>
+      <div>
+        <div class="uso-title utk">Pergunta → Resposta positiva → Resposta negativa</div>
+        <div class="uso-sub">WHEN nunca recebe resposta "yes" ou "no" — sempre resposta de tempo</div>
+      </div>
+    </div>
+    <div class="qa-pair">
+      <div class="qa-q"><div class="label">Pergunta</div><div class="txt"><span class="vbw">When</span> do you wake up?</div><div style="font-size:.75rem;color:var(--muted);margin-top:.1rem">Quando você acorda?</div></div>
+      <div class="qa-a">
+        <div class="qa-yes"><div class="label">Resposta +</div><div class="txt">I wake up at 6am.</div><div class="pt">Eu acordo às 6h.</div></div>
+        <div class="qa-no"><div class="label">Resposta –</div><div class="txt">I don't have a fixed time.</div><div class="pt">Eu não tenho horário fixo.</div></div>
+      </div>
+    </div>
+    <div class="qa-pair">
+      <div class="qa-q"><div class="label">Pergunta</div><div class="txt"><span class="vbw">When</span> did you last eat?</div><div style="font-size:.75rem;color:var(--muted);margin-top:.1rem">Quando você comeu pela última vez?</div></div>
+      <div class="qa-a">
+        <div class="qa-yes"><div class="label">Resposta +</div><div class="txt">I ate an hour ago.</div><div class="pt">Eu comi há uma hora.</div></div>
+        <div class="qa-no"><div class="label">Resposta –</div><div class="txt">I haven't eaten today.</div><div class="pt">Eu não comi hoje.</div></div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>WHEN nunca responde "yes/no"</strong> — sempre uma expressão de tempo: at 6am · yesterday · in 2020 · an hour ago · never · soon. Compare com perguntas de sim/não: "Do you work?" → "Yes, I do."</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHENEVER -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 6</div>
+  <div class="section-title" style="color:var(--cr)">WHENEVER = Sempre que / Quando quiser</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-r">6</div>
+      <div>
+        <div class="uso-title utr">WHENEVER — frequência aberta ou qualquer momento</div>
+        <div class="uso-sub">Não é pergunta — é conjunção de frequência/abertura</div>
+      </div>
+    </div>
+    <div class="wev-list">
+      <div class="wev-row"><div class="wev-en"><span class="vbr">Whenever</span> I'm sad, I listen to music.</div><div class="wev-pt">Sempre que estou triste, ouço música.</div></div>
+      <div class="wev-row"><div class="wev-en">Come <span class="vbr">whenever</span> you want.</div><div class="wev-pt">Venha quando quiser.</div></div>
+      <div class="wev-row"><div class="wev-en"><span class="vbr">Whenever</span> you're ready, we'll go.</div><div class="wev-pt">Quando você estiver pronto, a gente vai.</div></div>
+      <div class="wev-row"><div class="wev-en"><span class="vbr">Whenever</span> it rains, I stay home.</div><div class="wev-pt">Toda vez que chove, fico em casa.</div></div>
+    </div>
+    <div class="tip-box">
+      <p><strong>WHEN vs WHENEVER:</strong> WHEN = um momento específico ("Call me when you arrive"). WHENEVER = qualquer momento / toda vez que ("Come whenever you want" — sem horário fixo).</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — WHEN</div>
+  <div class="quiz-sub">12 questões sobre todos os usos de WHEN.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com WHEN</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>WHEN temporal + futuro → presente simples (sem WILL). Mesma regra de IF · BEFORE · AFTER.</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(56,189,248,.25)">
+      <h4 style="color:var(--cw)">Pergunta</h4>
+      <div class="sum-item">WHEN + DO/DOES + suj</div>
+      <div class="sum-item">WHEN + DID + suj + base</div>
+      <div class="sum-item">WHEN + WILL + suj + base</div>
+      <div class="sum-item"><span class="en">When is your birthday?</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">Conjunção</h4>
+      <div class="sum-item"><span class="en">when you arrive</span> (sem WILL)</div>
+      <div class="sum-item"><span class="en">when I cook</span> (hábito)</div>
+      <div class="sum-item"><span class="en">when I was young</span></div>
+      <div class="sum-item">oração principal pode ter WILL</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cr)">WHENEVER</h4>
+      <div class="sum-item">= sempre que</div>
+      <div class="sum-item">= toda vez que</div>
+      <div class="sum-item">= quando quiser</div>
+      <div class="sum-item">não é pergunta</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(255,112,67,.25)">
+      <h4 style="color:var(--warn)">Cuidados</h4>
+      <div class="sum-item">When <em>will</em> you come? ✓</div>
+      <div class="sum-item">When <em>you will</em> come? ✗</div>
+      <div class="sum-item">Call when you arrive ✓</div>
+      <div class="sum-item">Call when you will arrive ✗</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../38_what/index.html">← Lição 38</a>
+  <div class="fnav-center">Lição 39 de 89 · Módulo 07</div>
+  <a class="fnav-btn" href="../40_where/index.html">Lição 40 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x38bdf8,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x38bdf8,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"When ___ the class start?" — presente',opts:['does','do','is','did'],ans:'does',why:"Presente: WHEN + DOES + sujeito (he/she/it) + verbo base. 'When does the class start?' = Quando a aula começa? A aula = it → DOES."},
+  {s:'"When ___ you arrive?" — passado',opts:['did','does','were','have'],ans:'did',why:"Passado: WHEN + DID + sujeito + verbo BASE. 'When did you arrive?' = Quando você chegou? DID + arrive (base), nunca DID + arrived."},
+  {s:'"When ___ she born?" — passado de TO BE',opts:['was','did','were','is'],ans:'was',why:"TO BE no passado não usa DID — inverte diretamente: WHEN + WAS/WERE + sujeito. 'When was she born?' ✓ — não 'When did she born?' ✗."},
+  {s:'"___ you come?" — qual a ordem correta para futuro?',opts:['When will','When you will','You will when','Will when you'],ans:'When will',why:"Na pergunta direta, o auxiliar (WILL) vem ANTES do sujeito. 'When will you come?' ✓ — nunca 'When you will come?' ✗. Erro muito comum de brasileiros."},
+  {s:'"Call me when you ___." — futuro na oração with WHEN',opts:['arrive','will arrive','are going to arrive','arrived'],ans:'arrive',why:"WHEN temporal + futuro = PRESENTE SIMPLES na oração com WHEN. 'Call me when you arrive' ✓ — nunca 'when you will arrive' ✗. A oração principal pode ter WILL: 'I'll call you when you arrive.' ✓"},
+  {s:'"When I was young, I ___ soccer." — passado habitual',opts:['loved','love','will love','have loved'],ans:'loved',why:"'When I was young, I loved soccer.' — WAS = passado, então a ação contínua no passado também fica no passado (loved). Ambas as orações no passado."},
+  {s:'WHENEVER = ?',opts:['sempre que','quando exatamente','qual momento','antes que'],ans:'sempre que',why:"WHENEVER = sempre que / toda vez que / quando quiser. 'Whenever it rains, I stay home' = Toda vez que chove, fico em casa. Não é pergunta — é conjunção de frequência."},
+  {s:'"She smiled when she ___ him." — evento simultâneo',opts:['saw','see','sees','has seen'],ans:'saw',why:"'She smiled when she saw him.' — ambas as ações são passado simples simultâneo. SAW é o passado de SEE. 'She smiled when she sees him' mistura tempos — errado."},
+  {s:'"I\'ll eat when you ___." — oração principal com WILL',opts:['cook','will cook','are going to cook','cooked'],ans:'cook',why:"A oração principal tem WILL (I'll eat), mas a oração temporal com WHEN usa PRESENTE SIMPLES: 'when you cook'. Nunca WILL nas duas: 'I'll eat when you will cook' ✗."},
+  {s:'"When did you ___?" — verbo no passado ou base?',opts:['arrive (base)','arrived (past)','arrives (present)','arriving (ing)'],ans:'arrive (base)',why:"DID + verbo BASE sempre. 'When did you arrive?' ✓ — nunca 'When did you arrived?' ✗. DID já marca o passado; o verbo volta à forma base."},
+  {s:'"Come ___ you want." = venha quando quiser',opts:['whenever','when','wherever','whatever'],ans:'whenever',why:"WHENEVER = quando quiser / qualquer momento. 'Come whenever you want' — abertura total, sem horário fixo. WHEN seria para um momento específico."},
+  {s:'"___ is your birthday?" — pergunta com TO BE',opts:['When','When does','When did','When is it'],ans:'When',why:"'When is your birthday?' — com TO BE invertemos diretamente: WHEN + IS + sujeito (sem DO). 'When is the meeting?' / 'When is she free?' — same pattern."}
+];
+
+var ERRORS=[
+  {wrong:'When you will come?',right:'When will you come?',why:"Na pergunta, o auxiliar WILL vem antes do sujeito. 'When WILL you come?' ✓ — nunca 'When you will come?' ✗. Em inglês a pergunta sempre inverte: auxiliar + sujeito."},
+  {wrong:'Call me when you will arrive.',right:'Call me when you arrive.',why:"WHEN temporal + futuro = PRESENTE SIMPLES na oração com WHEN. 'Call me when you arrive' ✓ — mesma regra de IF, BEFORE e AFTER. A oração principal pode ter WILL: 'I'll call you when you arrive.'"},
+  {wrong:'When did you arrived?',right:'When did you arrive?',why:"DID + verbo BASE (forma infinitiva). 'When did you arrive?' ✓ — nunca DID + verbo no passado. O DID já marca o tempo passado; o verbo principal fica na forma base."},
+  {wrong:'When she was born?',right:'When was she born?',why:"Com TO BE, a inversão é direta: WHEN + WAS + sujeito. 'When WAS she born?' ✓ — 'When she was born?' é ordem de afirmação, não de pergunta."},
+  {wrong:'When did she went?',right:'When did she go?',why:"DID + verbo BASE. 'When did she go?' ✓ — nunca 'did she went'. WENT já é passado de GO; com DID, a forma volta ao base: GO."},
+  {wrong:'She smiled when she has seen him.',right:'She smiled when she saw him.',why:"Evento simultâneo no passado: ambas as orações usam passado simples. 'She smiled when she SAW him' ✓ — SMILED e SAW são ações pontuais passadas. Não misture com present perfect (has seen)."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — revise a regra do WILL após WHEN!':pct<.75?'Bom progresso! Atenção ao WILL na oração temporal.':pct<1?'Muito bem! WHEN quase dominado.':'Perfeito! WHEN completamente dominado!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

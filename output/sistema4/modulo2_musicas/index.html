@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 2 — Músicas · Sistema 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:var(--co);border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{border-color:var(--co);background:rgba(255,107,107,.15);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.nav-back{color:var(--co);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-count{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--co);}
+
+.wrap{padding-top:96px;max-width:820px;margin:0 auto;padding-left:1.25rem;padding-right:1.25rem;padding-bottom:3rem;}
+
+.song-nav{display:flex;gap:.5rem;flex-wrap:wrap;padding:1.1rem 0;}
+.song-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.4rem .9rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--sf);color:var(--td);cursor:pointer;transition:all .18s;}
+.song-tab:hover{color:var(--tx);border-color:var(--bdh);}
+.song-tab.on{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.45);color:var(--co);}
+
+.song-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+
+.song-header{padding:1.35rem 1.5rem 1.1rem;border-bottom:1px solid var(--bd);}
+.song-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--co);margin-bottom:.5rem;}
+.song-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.5rem;}
+.song-meta{font-size:.8rem;color:var(--tm);}
+
+.mode-bar{display:flex;gap:.5rem;padding:1rem 1.5rem;border-bottom:1px solid var(--bd);}
+.mode-btn{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.35rem .9rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.mode-btn:hover{color:var(--tx);}
+.mode-btn.on{background:rgba(255,107,107,.14);border-color:rgba(255,107,107,.45);color:var(--co);}
+
+.lyrics-box{padding:1.35rem 1.5rem;border-bottom:1px solid var(--bd);}
+.verse{margin-bottom:1.1rem;}
+.verse:last-child{margin-bottom:0;}
+.lyric-line{margin-bottom:.55rem;}
+.lyric-en{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:var(--tx);line-height:1.5;}
+.lyric-pt{font-size:.8rem;color:var(--co);line-height:1.5;margin-top:.15rem;display:none;}
+.lyric-line.pt-only .lyric-en{display:none;}
+.lyric-line.pt-only .lyric-pt{display:block;color:var(--tx);font-weight:600;font-size:1rem;font-family:'Space Grotesk',sans-serif;}
+.lyric-line.bilingue .lyric-pt{display:block;}
+
+.section{padding:1.25rem 1.5rem;border-bottom:1px solid var(--bd);}
+.section:last-child{border-bottom:none;}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:.75rem;}
+.vocab-list{display:flex;flex-wrap:wrap;gap:.5rem;}
+.vocab-chip{background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.4rem .75rem;font-size:.78rem;}
+.vocab-en{font-weight:700;color:var(--tx);}
+.vocab-pt{color:var(--co);}
+
+.phrase-item{padding:.55rem 0;border-bottom:1px dashed var(--bd);}
+.phrase-item:last-child{border-bottom:none;}
+.phrase-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--tx);}
+.phrase-en .n{color:var(--co);margin-right:.4rem;}
+.phrase-pt{font-size:.78rem;color:var(--td);margin-top:.2rem;}
+
+@media(max-width:560px){.song-title{font-size:1.15rem;}}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../index.html" class="gnav-btn gnav-s4 active">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 4</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 2 — Músicas</div>
+    <div class="nav-sub">Letra + tradução + vocabulário</div>
+  </div>
+  <div class="nav-count" id="navCount">5 músicas</div>
+</nav>
+
+<div class="wrap">
+  <div class="song-nav" id="songNav"></div>
+  <div class="song-card" id="songCard"></div>
+</div>
+
+<script>
+const SONGS = [
+{id:1,title:'Everything Will Be All Right',tema:'Saindo à noite, planos, entretenimento',estilo:'Pop / Musical',
+ verses:[
+  [
+   {en:'Everything will be all right',pt:'Tudo vai ficar bem'},
+   {en:'When you and I go out tonight.',pt:'quando você e eu sairmos hoje à noite.'},
+   {en:'Where Thomas So gives us talk — the famous chef.',pt:'Onde Thomas So, o chef famoso, conversa com a gente.'},
+   {en:"That's not for me.",pt:'Não me interessa.'},
+   {en:'The doors open at 9:00.',pt:'As portas abrem às 21h.'},
+   {en:'There\'s a movie we could see',pt:'Tem um filme que poderíamos ver'},
+   {en:'Smith and Second Avenue —',pt:'na Smith com a Second Avenue —'},
+   {en:'That\'s my favorite neighborhood.',pt:'Esse é meu bairro favorito.'},
+   {en:"I can't wait to be with you.",pt:'Mal posso esperar para estar com você.'},
+   {en:"I can't wait to have some food.",pt:'Mal posso esperar para comer alguma coisa.'},
+   {en:'Everything will be all right',pt:'Tudo vai ficar bem'},
+   {en:'When you and I go out tonight.',pt:'quando você e eu sairmos hoje à noite.'},
+  ],
+ ],
+ vocab:[
+  {en:'everything will be all right',pt:'tudo vai ficar bem'},
+  {en:'go out',pt:'sair'},
+  {en:"That's not for me",pt:'Não é para mim / Não me interessa'},
+  {en:"I can't wait to",pt:'Mal posso esperar para / Estou ansioso para'},
+  {en:'favorite neighborhood',pt:'bairro favorito'},
+ ],
+ phrases:[
+  {en:'Everything will be all right.',pt:'Tudo vai ficar bem.'},
+  {en:"I can't wait to ___.",pt:'Mal posso esperar para ___.'},
+  {en:"That's not for me.",pt:'Não é para mim.'},
+  {en:"Let's go out tonight.",pt:'Vamos sair hoje à noite.'},
+ ],
+},
+{id:2,title:'On My Dream Vacation',tema:'Viagem, romance, sonhos',estilo:'Balada pop',
+ verses:[
+  [
+   {en:'The ride was bumpy and much too long.',pt:'A viagem foi cheia de solavancos e longa demais.'},
+   {en:'It was pretty boring. It felt so wrong.',pt:'Foi bem chata. Parecia tudo errado.'},
+   {en:'I slept all night and it rained all day.',pt:'Dormi a noite toda e choveu o dia inteiro.'},
+   {en:'We left the road and we lost the way.',pt:'Saímos da estrada e perdemos o caminho.'},
+   {en:'Then you came along and you took my hand.',pt:'Então você apareceu e segurou minha mão.'},
+   {en:'You whispered words I could understand.',pt:'Você sussurrou palavras que eu conseguia entender.'},
+   {en:'On my dream vacation, I dream of you.',pt:'Nas minhas férias dos sonhos, eu sonho com você.'},
+   {en:"I don't ever want to wake up.",pt:'Eu nunca quero acordar.'},
+   {en:'On my dream vacation, this much is true —',pt:'Nas minhas férias dos sonhos, isso é verdade —'},
+   {en:"I don't ever want it to stop.",pt:'Eu nunca quero que isso pare.'},
+  ],
+  [
+   {en:'The food was awful. They stole my purse.',pt:'A comida era horrível. Roubaram minha bolsa.'},
+   {en:'The whole two weeks went from bad to worse.',pt:'As duas semanas inteiras foram de mal a pior.'},
+   {en:'They cancelled my ticket. I missed my flight.',pt:'Cancelaram minha passagem. Perdi meu voo.'},
+   {en:"They were so unfriendly. It just wasn't right.",pt:'Eram tão antipáticos. Simplesmente não era certo.'},
+   {en:'So I called a taxi and I got inside —',pt:'Então eu chamei um táxi e entrei —'},
+   {en:'And there you were, sitting by my side.',pt:'E lá estava você, sentado ao meu lado.'},
+  ],
+ ],
+ vocab:[
+  {en:'bumpy',pt:'cheio de solavancos / turbulento'},
+  {en:'boring',pt:'chato / entediante'},
+  {en:'lost the way',pt:'perdeu o caminho'},
+  {en:'whispered',pt:'sussurrou'},
+  {en:'dream vacation',pt:'férias dos sonhos'},
+  {en:'from bad to worse',pt:'de mal a pior'},
+  {en:'cancelled',pt:'cancelado'},
+  {en:'missed my flight',pt:'perdi meu voo'},
+  {en:'unfriendly',pt:'antipático'},
+  {en:'sitting by my side',pt:'sentado ao meu lado'},
+ ],
+ phrases:[
+  {en:'Things went from bad to worse.',pt:'As coisas foram de mal a pior.'},
+  {en:'I missed my flight.',pt:'Perdi meu voo.'},
+  {en:"I don't ever want it to stop.",pt:'Não quero que isso termine jamais.'},
+  {en:'You came along.',pt:'Você apareceu.'},
+ ],
+},
+{id:3,title:'Whenever I Travel Around the World',tema:'Compras em viagem, barganha, dinheiro',estilo:'Pop alegre',
+ verses:[
+  [
+   {en:'I go to the bank at a quarter to ten.',pt:'Eu vou ao banco às quinze para as dez.'},
+   {en:'I pick up my cash from the ATM.',pt:'Pego meu dinheiro no caixa eletrônico.'},
+   {en:"Here at the store it won't be too hard",pt:'Aqui na loja não vai ser muito difícil'},
+   {en:'to take out a check or a credit card.',pt:'sacar um cheque ou usar um cartão de crédito.'},
+  ],
+  [
+   {en:'The bank has a good rate of exchange',pt:'O banco tem uma boa taxa de câmbio'},
+   {en:'and everything here is in my price range.',pt:'e tudo aqui está dentro da minha faixa de preço.'},
+   {en:'The easiest part of this bargain hunt',pt:'A parte mais fácil dessa caçada por pechinchas'},
+   {en:'is that I can afford anything I want.',pt:'é que eu posso pagar por qualquer coisa que eu quiser.'},
+  ],
+  [
+   {en:'Whenever I travel around the world',pt:'Sempre que eu viajo pelo mundo'},
+   {en:'I spend my money for two —',pt:'eu gasto meu dinheiro por dois —'},
+   {en:'Shopping for souvenirs helps me to be near you.',pt:'Comprar lembrancinhas me ajuda a me sentir perto de você.'},
+  ],
+  [
+   {en:'I try to decide how much I should pay',pt:'Eu tento decidir quanto devo pagar'},
+   {en:'for the beautiful things I see on display.',pt:'pelas coisas lindas que vejo em exposição.'},
+   {en:'To get a great deal I can beat the price —',pt:'Para conseguir um bom negócio eu posso baixar o preço —'},
+   {en:"It can't hurt to ask for a better price.",pt:'Não custa nada pedir um preço melhor.'},
+  ],
+ ],
+ vocab:[
+  {en:'ATM',pt:'caixa eletrônico'},
+  {en:'rate of exchange',pt:'taxa de câmbio'},
+  {en:'price range',pt:'faixa de preço'},
+  {en:'bargain hunt',pt:'caça a pechinchas'},
+  {en:'souvenir',pt:'lembrança / souvenir'},
+  {en:'on display',pt:'em exposição'},
+  {en:'beat the price',pt:'superar o preço / conseguir mais barato'},
+  {en:"It can't hurt to ask",pt:'Não custa perguntar'},
+ ],
+ phrases:[
+  {en:"It's in my price range.",pt:'Está na minha faixa de preço.'},
+  {en:"It can't hurt to ask.",pt:'Não custa perguntar.'},
+  {en:'I need to pick up some cash.',pt:'Preciso pegar dinheiro.'},
+  {en:'To get a great deal.',pt:'Para conseguir um bom negócio.'},
+ ],
+},
+{id:4,title:'Greetings and Small Talk',tema:'Cumprimentos, conversa casual, conexão humana',estilo:'World music / Pop',
+ verses:[
+  [
+   {en:'You look so familiar. Have we met before?',pt:'Você parece tão familiar. A gente já se conheceu?'},
+   {en:"I don't think you're from around here.",pt:'Acho que você não é daqui.'},
+   {en:"It might have been two weeks ago, but I'm not sure.",pt:'Pode ter sido duas semanas atrás, mas não tenho certeza.'},
+   {en:'Has it been a month or a year?',pt:'Já faz um mês ou um ano?'},
+  ],
+  [
+   {en:"I have a funny feeling that I've met you twice.",pt:'Tenho uma sensação estranha de que já te conheci duas vezes.'},
+   {en:"That's what they call déjà vu.",pt:'É isso que chamam de déjà vu.'},
+   {en:'You are saying something friendly, trying to be nice,',pt:'Você está dizendo algo amigável, tentando ser gentil,'},
+   {en:"and now you're being friendly too.",pt:'e agora você também está sendo amigável.'},
+  ],
+  [
+   {en:'One look. One word.',pt:'Um olhar. Uma palavra.'},
+   {en:"Is the friendliest sound that I've ever heard.",pt:'É o som mais amigável que eu já ouvi.'},
+   {en:"Thanks for your greetings. I'm glad this meeting occurred.",pt:'Obrigado pelos seus cumprimentos. Fico feliz que esse encontro aconteceu.'},
+   {en:'Greetings and small talk make the world go round.',pt:'Cumprimentos e conversa fiada fazem o mundo girar.'},
+  ],
+  [
+   {en:'Have you written any letters to your friends back home?',pt:'Você escreveu alguma carta para seus amigos lá em casa?'},
+   {en:'Have you had a chance to do that?',pt:'Você teve a chance de fazer isso?'},
+   {en:'Have you spoken to your family on the telephone?',pt:'Você falou com sua família pelo telefone?'},
+   {en:'Have you taken time for a chat?',pt:'Você tirou um tempo para bater um papo?'},
+  ],
+ ],
+ vocab:[
+  {en:'familiar',pt:'familiar / conhecido'},
+  {en:'déjà vu',pt:'déjà vu (sensação de já ter visto)'},
+  {en:'greetings',pt:'cumprimentos / saudações'},
+  {en:'small talk',pt:'conversa fiada / papo'},
+  {en:'make the world go round',pt:'faz o mundo girar'},
+  {en:'back home',pt:'lá em casa / no país de origem'},
+  {en:'have a chat',pt:'bater um papo'},
+ ],
+ phrases:[
+  {en:'You look familiar.',pt:'Você parece familiar / Você tem uma cara conhecida.'},
+  {en:'Have we met before?',pt:'Já nos conhecemos antes?'},
+  {en:'I have a funny feeling.',pt:'Tenho uma sensação estranha.'},
+  {en:'Greetings and small talk make the world go round.',pt:'Cumprimentos e papo fazem o mundo girar.'},
+  {en:'Have you had a chance to ___?',pt:'Você teve chance de ___?'},
+ ],
+},
+{id:5,title:'The Colors of Love',tema:'Emoções, perspectiva, felicidade',estilo:'Pop inspiracional',
+ verses:[
+  [
+   {en:'Are you sick and tired of working hard day and night?',pt:'Você está cansado de trabalhar duro dia e noite?'},
+   {en:'Do you like to look at the world in shades of black and white?',pt:'Você gosta de ver o mundo em tons de preto e branco?'},
+   {en:'Your life can still be everything you were dreaming of —',pt:'Sua vida ainda pode ser tudo que você sempre sonhou —'},
+   {en:'Just take a look around you and see all the colors of love.',pt:'Basta olhar ao seu redor e ver todas as cores do amor.'},
+  ],
+  [
+   {en:'You wake up every morning and go through the same old grind.',pt:'Você acorda toda manhã e passa pela mesma rotina de sempre.'},
+   {en:"You don't know how the light of the window could be so unkind.",pt:'Você não sabe como a luz da janela pode ser tão cruel.'},
+   {en:'If blue is the color that you choose when the road is rough,',pt:'Se azul é a cor que você escolhe quando o caminho é difícil,'},
+   {en:'You know you really need to believe in the colors of love.',pt:'Você sabe que realmente precisa acreditar nas cores do amor.'},
+  ],
+  [
+   {en:'The colors of love are as beautiful as a rainbow.',pt:'As cores do amor são tão bonitas quanto um arco-íris.'},
+   {en:'The colors of love shine on everyone in the world.',pt:'As cores do amor brilham sobre todo mundo no mundo.'},
+  ],
+  [
+   {en:'Our negative thoughts and emotions, painful to express,',pt:'Nossos pensamentos e emoções negativas, dolorosas de expressar,'},
+   {en:'Are just tiny drops in the ocean of happiness.',pt:'São só gotinhas no oceano da felicidade.'},
+   {en:'And these are the feelings you must learn to rise above.',pt:'E esses são os sentimentos que você precisa aprender a superar.'},
+   {en:'Your whole life is a picture you paint with the colors of love.',pt:'Sua vida inteira é um quadro que você pinta com as cores do amor.'},
+  ],
+ ],
+ vocab:[
+  {en:'sick and tired of',pt:'cansado de / farto de'},
+  {en:'shades of black and white',pt:'tons de preto e branco (sem cor / sem alegria)'},
+  {en:'the same old grind',pt:'a mesma rotina de sempre'},
+  {en:'unkind',pt:'cruel / duro'},
+  {en:'rough',pt:'difícil / áspero'},
+  {en:'tiny drops',pt:'gotinhas / pequenas gotas'},
+  {en:'rise above',pt:'superar / se elevar acima de'},
+ ],
+ phrases:[
+  {en:"I'm sick and tired of ___.",pt:'Estou cansado de ___.'},
+  {en:'Go through the same old grind.',pt:'Passar pela mesma rotina de sempre.'},
+  {en:'Rise above it.',pt:'Supere isso / Eleve-se acima disso.'},
+  {en:'Your whole life is a picture you paint.',pt:'Toda a sua vida é um quadro que você pinta.'},
+ ],
+},
+];
+
+let current = 1;
+let mode = 'en'; // en | pt | bi
+
+function renderNav() {
+  document.getElementById('songNav').innerHTML = SONGS.map(s => `
+    <button class="song-tab ${s.id === current ? 'on' : ''}" onclick="selectSong(${s.id})">🎵 Música ${String(s.id).padStart(2,'0')}</button>
+  `).join('');
+}
+
+function renderSong() {
+  const s = SONGS.find(x => x.id === current);
+  const versesHTML = s.verses.map(v => `
+    <div class="verse">
+      ${v.map(l => `
+        <div class="lyric-line ${mode === 'pt' ? 'pt-only' : ''} ${mode === 'bi' ? 'bilingue' : ''}">
+          <div class="lyric-en">${l.en}</div>
+          <div class="lyric-pt">${l.pt}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  const vocabHTML = s.vocab.map(v => `
+    <div class="vocab-chip"><span class="vocab-en">${v.en}</span> = <span class="vocab-pt">${v.pt}</span></div>
+  `).join('');
+
+  const phrasesHTML = s.phrases.map((p,i) => `
+    <div class="phrase-item">
+      <div class="phrase-en"><span class="n">${i+1}.</span>"${p.en}"</div>
+      <div class="phrase-pt">→ ${p.pt}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('songCard').innerHTML = `
+    <div class="song-header">
+      <div class="song-tag">🎵 Música ${String(s.id).padStart(2,'0')}</div>
+      <div class="song-title">"${s.title}"</div>
+      <div class="song-meta">Tema: ${s.tema} · Estilo: ${s.estilo}</div>
+    </div>
+    <div class="mode-bar">
+      <button class="mode-btn ${mode==='en'?'on':''}" onclick="setMode('en')">🇺🇸 Inglês</button>
+      <button class="mode-btn ${mode==='pt'?'on':''}" onclick="setMode('pt')">🇧🇷 PT</button>
+      <button class="mode-btn ${mode==='bi'?'on':''}" onclick="setMode('bi')">🌐 Bilíngue</button>
+    </div>
+    <div class="lyrics-box">${versesHTML}</div>
+    <div class="section">
+      <div class="sec-label">Vocabulário da Música</div>
+      <div class="vocab-list">${vocabHTML}</div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Frases para Usar no Dia a Dia</div>
+      ${phrasesHTML}
+    </div>
+  `;
+  document.getElementById('navCount').textContent = `Música ${current} / 5`;
+}
+
+function selectSong(id) {
+  current = id;
+  renderNav();
+  renderSong();
+}
+
+function setMode(m) {
+  mode = m;
+  renderSong();
+}
+
+renderNav();
+renderSong();
+</script>
+</body>
+</html>

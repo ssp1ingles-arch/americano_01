@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 4 — Padrões Expansivos · Sistema 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--rd:#f87171;--am:#F5C518;--gn:#5FD87A;--cy:#64DFDF;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s3.active{border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.lnav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.lnav-back{color:var(--vl);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.8;transition:opacity .2s;}
+.lnav-back:hover{opacity:1;}.lnav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;transition:opacity .2s;}.lnav-link:hover{opacity:1;color:var(--tx);}
+.lnav-sep{color:var(--td);}
+.lnav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.lnav-sub{font-size:.72rem;color:var(--td);}
+.reveal-all-btn{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.28rem .75rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.reveal-all-btn:hover{color:var(--tx);border-color:var(--bdh);}
+
+/* LAYOUT */
+.layout{display:flex;align-items:flex-start;padding-top:108px;}
+
+/* SIDEBAR */
+.sidebar{width:240px;flex-shrink:0;position:sticky;top:108px;height:calc(100vh - 108px);overflow-y:auto;border-right:1px solid var(--bd);padding:1rem .75rem;display:flex;flex-direction:column;gap:.35rem;}
+.sidebar-title{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);padding:.25rem .5rem .75rem;border-bottom:1px solid var(--bd);margin-bottom:.25rem;}
+.pat-btn{display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;border-radius:.6rem;border:none;background:none;cursor:pointer;transition:all .18s;text-align:left;width:100%;}
+.pat-btn:hover{background:rgba(255,255,255,.04);}
+.pat-btn.active{background:rgba(167,139,250,.1);}
+.pat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pat-text{flex:1;}
+.pat-name{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--tm);display:block;line-height:1.2;}
+.pat-btn.active .pat-name{color:var(--tx);}
+.pat-count{font-size:.62rem;color:var(--td);}
+.pat-done{font-size:.7rem;margin-left:auto;opacity:.7;}
+
+/* CONTENT */
+.content{flex:1;min-width:0;padding:1.5rem 1.5rem 3rem;}
+
+/* PATTERN HEADER */
+.pat-header{margin-bottom:1.5rem;}
+.pat-tag{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .7rem;border-radius:2rem;border:1px solid;display:inline-block;margin-bottom:.75rem;}
+.pat-title-big{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;line-height:1.1;margin-bottom:.4rem;}
+.pat-desc{font-size:.87rem;color:var(--tm);line-height:1.6;margin-bottom:.9rem;}
+.pat-formula{background:var(--sf);border:1px solid var(--bd);border-left:3px solid;border-radius:.55rem;padding:.65rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.pat-formula .fl{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);display:block;margin-bottom:.2rem;}
+.pat-formula-tip{font-size:.72rem;color:var(--td);margin-left:auto;font-weight:400;}
+
+/* SENTENCES GRID */
+.sentences-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.25rem;}
+
+/* SENTENCE CARD */
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:.8rem;overflow:hidden;cursor:pointer;transition:all .2s;position:relative;}
+.sc:hover{border-color:var(--bdh);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.sc-top{padding:.85rem 1rem .7rem;}
+.sc-num{font-family:'Space Grotesk',sans-serif;font-size:.55rem;font-weight:800;letter-spacing:.1em;color:var(--td);margin-bottom:.35rem;}
+.sc-flag{font-size:.9rem;margin-bottom:.3rem;display:block;}
+.sc-en{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);line-height:1.35;}
+.sc-keyword{border-bottom:2px solid;}
+.sc-divider{height:1px;background:var(--bd);margin:0 1rem;}
+.sc-bottom{padding:.65rem 1rem .85rem;min-height:52px;display:flex;align-items:center;}
+.sc-pt{font-size:.82rem;color:var(--tm);line-height:1.4;opacity:0;transform:translateY(4px);transition:all .22s;}
+.sc-pt.show{opacity:1;transform:translateY(0);}
+.sc-tap{font-size:.65rem;color:var(--td);opacity:0;transform:translateY(4px);transition:all .22s;}
+.sc-tap.show{opacity:1;transform:translateY(0);}
+.sc-revealed .sc-tap{display:none;}
+.sc-bar{height:3px;width:0;transition:width .3s ease;}
+.sc.sc-revealed .sc-bar{width:100%;}
+
+/* PROGRESS ROW */
+.prog-row{display:flex;align-items:center;gap:.75rem;margin-top:1.5rem;margin-bottom:.25rem;}
+.prog-label{font-size:.7rem;color:var(--td);font-family:'Space Grotesk',sans-serif;font-weight:600;white-space:nowrap;}
+.prog-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;transition:width .3s ease;}
+.prog-pct{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:800;color:var(--vl);white-space:nowrap;}
+
+/* REVEAL-ALL */
+.reveal-all-local{margin-top:.5rem;}
+.ra-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.35rem .9rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.ra-btn:hover{color:var(--tx);border-color:var(--bdh);}
+
+/* ANIMATE */
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-slide{animation:fadeSlide .28s ease forwards;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .mobile-tabs{display:flex;overflow-x:auto;gap:.4rem;padding:.65rem 1rem;border-bottom:1px solid var(--bd);background:var(--sf);position:sticky;top:108px;z-index:40;}
+  .mt-btn{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .75rem;border-radius:2rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+  .mt-btn.active{background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.5);color:var(--vl);}
+  .content{padding:1rem .9rem 3rem;}
+  .sentences-grid{grid-template-columns:1fr;}
+}
+@media(min-width:769px){
+  .mobile-tabs{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../index.html" class="gnav-btn gnav-s3 active">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="lnav">
+  <a href="../../index.html" class="lnav-back">← Menu Principal</a>
+  <span class="lnav-sep">/</span>
+  <a href="../index.html" class="lnav-link">Sistema 3</a>
+  <span class="lnav-sep">/</span>
+  <span class="lnav-sep">/</span>
+  <div>
+    <div class="lnav-title">Módulo 4 — Padrões Expansivos</div>
+    <div class="lnav-sub">5 padrões × 8 frases</div>
+  </div>
+  <button class="reveal-all-btn" onclick="revealAll()">Revelar todos</button>
+</nav>
+
+<!-- MOBILE TABS -->
+<div class="mobile-tabs" id="mobileTabs"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-title">Padrões</div>
+    <div id="sidebarItems"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content" id="mainContent"></div>
+
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const PATTERNS = [
+  {
+    id:0,
+    name:'I WAS...',
+    color:'#f87171',
+    tag:'Passado',
+    title:'I WAS...',
+    desc:'Descreve estados, condições e situações no passado. Mais expressivo e natural do que apenas usar verbos no Simple Past.',
+    formula:'I was + adjetivo / substantivo / verbo-ing',
+    formulaTip:'+ contexto explica mais do que o simples passado',
+    sentences:[
+      {en:'I was really tired yesterday.',pt:'Eu estava muito cansado ontem.',kw:'really tired'},
+      {en:'I was surprised by the news.',pt:'Eu fui surpreendido pela notícia.',kw:'surprised'},
+      {en:'I was at the gym earlier.',pt:'Estava na academia mais cedo.',kw:'at the gym'},
+      {en:'I was thinking about you.',pt:'Estava pensando em você.',kw:'thinking about'},
+      {en:'I was late to the meeting.',pt:'Cheguei atrasado na reunião.',kw:'late'},
+      {en:'I was hoping you could help.',pt:'Estava esperando que você pudesse ajudar.',kw:'hoping'},
+      {en:"I was going to call you.",pt:'Ia te ligar.',kw:'going to'},
+      {en:'I was nervous before the presentation.',pt:'Estava nervoso antes da apresentação.',kw:'nervous'},
+    ],
+  },
+  {
+    id:1,
+    name:"I CAN'T WAIT...",
+    color:'#F5C518',
+    tag:'Entusiasmo',
+    title:"I CAN'T WAIT...",
+    desc:'Expressa empolgação e ansiedade positiva pelo futuro. Equivalente brasileiro seria "Mal posso esperar" — mas nativos usam constantemente.',
+    formula:"I can't wait + to + verbo / for + substantivo",
+    formulaTip:'= Mal posso esperar',
+    sentences:[
+      {en:"I can't wait to see you!",pt:'Mal posso esperar para te ver!',kw:"can't wait"},
+      {en:"I can't wait for the weekend.",pt:'Mal posso esperar pelo fim de semana.',kw:'for the weekend'},
+      {en:"I can't wait to travel again.",pt:'Mal posso esperar para viajar de novo.',kw:'to travel'},
+      {en:"I can't wait to start the new job.",pt:'Mal posso esperar para começar o novo emprego.',kw:'to start'},
+      {en:"I can't wait for summer.",pt:'Mal posso esperar pelo verão.',kw:'for summer'},
+      {en:"I can't wait to try that restaurant.",pt:'Mal posso esperar para experimentar aquele restaurante.',kw:'to try'},
+      {en:"I can't wait to watch that movie.",pt:'Mal posso esperar para ver aquele filme.',kw:'to watch'},
+      {en:"I can't wait until Friday.",pt:'Mal posso esperar até sexta-feira.',kw:'until Friday'},
+    ],
+  },
+  {
+    id:2,
+    name:'I SHOULD...',
+    color:'#5FD87A',
+    tag:'Obrigação / Conselho',
+    title:'I SHOULD...',
+    desc:'Expressa obrigação moral, conselho ou arrependimento. "I should have..." é a forma do passado — muito usada para expressar remorso.',
+    formula:'I should + verbo / I should have + V3',
+    formulaTip:'should have = erro já cometido',
+    sentences:[
+      {en:'I should call my mom.',pt:'Eu deveria ligar para a minha mãe.',kw:'should call'},
+      {en:'I should go to bed earlier.',pt:'Eu deveria dormir mais cedo.',kw:'go to bed'},
+      {en:'I should study more.',pt:'Eu deveria estudar mais.',kw:'study more'},
+      {en:'I should apologize to him.',pt:'Eu deveria pedir desculpas a ele.',kw:'apologize'},
+      {en:'I should start saving money.',pt:'Eu deveria começar a economizar.',kw:'saving money'},
+      {en:'I should drink more water.',pt:'Eu deveria beber mais água.',kw:'drink more'},
+      {en:"I shouldn't have said that.",pt:'Não deveria ter dito aquilo.',kw:"shouldn't have"},
+      {en:'I should have done it sooner.',pt:'Deveria ter feito antes.',kw:'should have done'},
+    ],
+  },
+  {
+    id:3,
+    name:"I'D LIKE...",
+    color:'#A78BFA',
+    tag:'Desejo Educado',
+    title:"I'D LIKE...",
+    desc:'"I\'d like" = "I would like" — a forma mais educada de pedir algo. Essencial em restaurantes, hotéis, reuniões e qualquer situação formal.',
+    formula:"I'd like + substantivo / to + verbo",
+    formulaTip:'= quero / gostaria (educado)',
+    sentences:[
+      {en:"I'd like a coffee, please.",pt:'Eu queria um café, por favor.',kw:"I'd like"},
+      {en:"I'd like to make a reservation.",pt:'Eu gostaria de fazer uma reserva.',kw:'a reservation'},
+      {en:"I'd like to speak with the manager.",pt:'Eu gostaria de falar com o gerente.',kw:'the manager'},
+      {en:"I'd like to know more about this.",pt:'Gostaria de saber mais sobre isso.',kw:'know more'},
+      {en:"I'd like to order the salmon.",pt:'Eu gostaria de pedir o salmão.',kw:'order the salmon'},
+      {en:"I'd like to change my appointment.",pt:'Gostaria de mudar meu agendamento.',kw:'my appointment'},
+      {en:"I'd like a window seat, please.",pt:'Gostaria de um assento perto da janela.',kw:'window seat'},
+      {en:"I'd like to take a moment to thank everyone.",pt:'Quero aproveitar para agradecer a todos.',kw:'take a moment'},
+    ],
+  },
+  {
+    id:4,
+    name:'MAY I...?',
+    color:'#64DFDF',
+    tag:'Permissão Formal',
+    title:'MAY I...?',
+    desc:'"May I" é a forma mais educada e formal de pedir permissão. Use em ambientes profissionais, com desconhecidos ou em situações que exigem respeito.',
+    formula:'May I + verbo (base)?',
+    formulaTip:'mais formal que "Can I"',
+    sentences:[
+      {en:'May I come in?',pt:'Posso entrar?',kw:'come in'},
+      {en:'May I take a seat?',pt:'Posso sentar?',kw:'take a seat'},
+      {en:'May I ask you something?',pt:'Posso te perguntar algo?',kw:'ask you'},
+      {en:'May I borrow your pen?',pt:'Posso pegar sua caneta emprestada?',kw:'borrow'},
+      {en:'May I use the restroom?',pt:'Posso usar o banheiro?',kw:'restroom'},
+      {en:'May I speak with John, please?',pt:'Posso falar com o John, por favor?',kw:'speak with'},
+      {en:'May I have the bill, please?',pt:'Posso pedir a conta, por favor?',kw:'the bill'},
+      {en:'May I interrupt for a second?',pt:'Posso interromper por um segundo?',kw:'interrupt'},
+    ],
+  },
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let activePattern = 0;
+let revealed = PATTERNS.map(() => new Set());
+
+// ── SIDEBAR ──────────────────────────────────────────────────────────────────
+function buildSidebar() {
+  const container = document.getElementById('sidebarItems');
+  const tabs = document.getElementById('mobileTabs');
+  container.innerHTML = '';
+  tabs.innerHTML = '';
+
+  PATTERNS.forEach((p, i) => {
+    const doneCount = revealed[i].size;
+    const isActive = i === activePattern;
+
+    // Sidebar button
+    const btn = document.createElement('button');
+    btn.className = 'pat-btn' + (isActive ? ' active' : '');
+    btn.onclick = () => switchPattern(i);
+    btn.innerHTML = `
+      <div class="pat-dot" style="background:${p.color};${isActive ? 'box-shadow:0 0 8px '+p.color+'66' : ''}"></div>
+      <div class="pat-text">
+        <span class="pat-name">${p.name}</span>
+        <span class="pat-count">${doneCount}/8 reveladas</span>
+      </div>
+      ${doneCount === 8 ? '<span class="pat-done">✓</span>' : ''}
+    `;
+    container.appendChild(btn);
+
+    // Mobile tab
+    const tab = document.createElement('button');
+    tab.className = 'mt-btn' + (isActive ? ' active' : '');
+    tab.textContent = p.name;
+    tab.onclick = () => switchPattern(i);
+    tabs.appendChild(tab);
+  });
+}
+
+// ── CONTENT ──────────────────────────────────────────────────────────────────
+function buildContent() {
+  const p = PATTERNS[activePattern];
+  const rev = revealed[activePattern];
+  const doneCount = rev.size;
+  const pct = Math.round(doneCount / 8 * 100);
+
+  const cards = p.sentences.map((s, i) => {
+    const isRev = rev.has(i);
+    const kw = s.kw;
+    const enHighlighted = s.en.replace(kw, `<span class="sc-keyword" style="border-color:${p.color}">${kw}</span>`);
+
+    return `<div class="sc${isRev ? ' sc-revealed' : ''}" id="sc-${activePattern}-${i}" onclick="toggleSentence(${i})">
+      <div class="sc-top">
+        <div class="sc-num">Frase ${String(i+1).padStart(2,'0')}</div>
+        <span class="sc-flag">🇺🇸</span>
+        <div class="sc-en">${enHighlighted}</div>
+      </div>
+      <div class="sc-divider"></div>
+      <div class="sc-bottom">
+        ${isRev
+          ? `<div class="sc-pt show">🇧🇷 ${s.pt}</div>`
+          : `<div class="sc-pt">🇧🇷 ${s.pt}</div><div class="sc-tap show">Clique para ver a tradução</div>`
+        }
+      </div>
+      <div class="sc-bar" style="background:${p.color};${isRev ? 'width:100%' : ''}"></div>
+    </div>`;
+  }).join('');
+
+  const content = document.getElementById('mainContent');
+  content.innerHTML = `
+    <div class="pat-header fade-slide">
+      <div class="pat-tag" style="color:${p.color};border-color:${p.color}44;background:${p.color}11">${p.tag}</div>
+      <div class="pat-title-big" style="color:${p.color}">${p.title}</div>
+      <div class="pat-desc">${p.desc}</div>
+      <div class="pat-formula" style="border-left-color:${p.color}">
+        <div>
+          <div class="fl">Fórmula</div>
+          <span style="color:${p.color}">${p.formula}</span>
+        </div>
+        <span class="pat-formula-tip">${p.formulaTip}</span>
+      </div>
+    </div>
+
+    <div class="prog-row">
+      <span class="prog-label">Progresso</span>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="background:${p.color};width:${pct}%"></div></div>
+      <span class="prog-pct" id="progPct" style="color:${p.color}">${doneCount}/8</span>
+    </div>
+
+    <div class="sentences-grid fade-slide">${cards}</div>
+
+    <div class="reveal-all-local" style="margin-top:1rem">
+      <button class="ra-btn" onclick="revealPattern(${activePattern})">Revelar todas as frases deste padrão</button>
+    </div>
+  `;
+}
+
+// ── INTERACTIONS ─────────────────────────────────────────────────────────────
+function switchPattern(idx) {
+  activePattern = idx;
+  buildSidebar();
+  buildContent();
+}
+
+function toggleSentence(idx) {
+  const rev = revealed[activePattern];
+  if (rev.has(idx)) return; // Already revealed — don't hide
+  rev.add(idx);
+
+  const card = document.getElementById(`sc-${activePattern}-${idx}`);
+  const p = PATTERNS[activePattern];
+  const s = p.sentences[idx];
+
+  card.classList.add('sc-revealed');
+  card.querySelector('.sc-bottom').innerHTML = `<div class="sc-pt">${'🇧🇷 ' + s.pt}</div>`;
+  setTimeout(() => card.querySelector('.sc-pt').classList.add('show'), 20);
+  card.querySelector('.sc-bar').style.width = '100%';
+
+  updateProgress();
+  buildSidebar();
+}
+
+function updateProgress() {
+  const doneCount = revealed[activePattern].size;
+  const pct = Math.round(doneCount / 8 * 100);
+  const fill = document.getElementById('progFill');
+  const pctEl = document.getElementById('progPct');
+  if (fill) fill.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = doneCount + '/8';
+}
+
+function revealPattern(patIdx) {
+  const p = PATTERNS[patIdx];
+  p.sentences.forEach((_, i) => revealed[patIdx].add(i));
+  buildContent();
+  buildSidebar();
+}
+
+function revealAll() {
+  PATTERNS.forEach((p, pi) => p.sentences.forEach((_, i) => revealed[pi].add(i)));
+  buildContent();
+  buildSidebar();
+}
+
+// Keyboard: left/right to switch patterns, space/enter handled by focus
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') switchPattern(Math.min(4, activePattern + 1));
+  if (e.key === 'ArrowLeft')  switchPattern(Math.max(0, activePattern - 1));
+});
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+buildSidebar();
+buildContent();
+</script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sem Artigo — Zero Article | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#26A69A;
+  --zero:#4DB6AC;
+  --A:#29B6F6;--THE:#CE93D8;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(38,166,154,.1);color:var(--accent);border:1px solid rgba(38,166,154,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:580px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#011a18 0%,var(--bg) 65%);}
+#heroCanvas{width:100%;height:420px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(7,13,13,.85);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* THREE-WAY MASTER TABLE */
+.master-wrap{max-width:920px;margin:0 auto;padding:40px 24px;border-bottom:1px solid var(--border);}
+.master-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.master-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.mc{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px 16px;text-align:center;}
+.mc-art{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin-bottom:4px;}
+.mc-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.mc-rows{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.mc-row{font-size:12px;padding:4px 10px;border-radius:6px;}
+.mc-ex{font-size:12px;font-style:italic;color:var(--muted);}
+/* The coffee flow */
+.flow-box{background:var(--surface2);border:1px solid rgba(38,166,154,.2);border-radius:12px;padding:16px 20px;}
+.flow-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.flow-steps{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.fs{text-align:center;flex:1;min-width:120px;}
+.fs-art{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:5px;margin-bottom:5px;display:inline-block;}
+.fs-en{font-size:13px;font-weight:600;}
+.fs-pt{font-size:11px;color:var(--muted);}
+.fs-arr{color:var(--muted);font-size:20px;flex-shrink:0;}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.sec-tag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:5px;text-transform:uppercase;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.sec-title em{font-style:italic;color:var(--zero);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.sittag{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:5px;background:rgba(38,166,154,.1);color:var(--accent);border:1px solid rgba(38,166,154,.2);}
+.ten{font-size:14px;font-weight:500;}
+.ten strong{font-weight:900;color:var(--zero);}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:10px;}
+.info{background:rgba(38,166,154,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--zero);margin-top:10px;}
+
+/* PROPER NOUNS GRID */
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:6px;}
+.prop-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.prop-cat{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--zero);margin-bottom:7px;}
+.prop-zero{font-size:14px;font-weight:600;margin-bottom:4px;}
+.prop-exc{font-size:11px;color:var(--muted);font-style:italic;}
+.prop-exc strong{color:var(--THE);}
+
+/* SITUATIONS TABLE */
+.sit-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+.sit-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.sit-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.sit-item{padding:7px 0;border-bottom:1px solid var(--border);}
+.sit-item:last-child{border-bottom:none;}
+.sit-en{font-size:13px;font-weight:500;}
+.sit-en strong{color:var(--zero);font-weight:900;}
+.sit-pt{font-size:11px;color:var(--muted);}
+
+/* QUIZ */
+.quiz-intro{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.quiz-list{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+.qitem{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s;}
+.qitem.correct{border-color:var(--tip);}
+.qitem.wrong{border-color:var(--warn);}
+.qi-sent{font-size:16px;font-weight:600;margin-bottom:12px;}
+.qi-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--border);text-align:center;font-weight:700;padding:0 6px;}
+.qi-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.qi-opt{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:6px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .18s;letter-spacing:.04em;}
+.qi-opt:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.qi-opt.selected-right{border-color:var(--tip);background:rgba(95,216,122,.1);color:var(--tip);}
+.qi-opt.selected-wrong{border-color:var(--warn);background:rgba(255,112,67,.1);color:var(--warn);}
+.qi-opt.show-right{border-color:var(--tip);color:var(--tip);}
+.qi-opt.disabled{cursor:default;pointer-events:none;}
+.qi-feedback{margin-top:10px;font-size:13px;display:none;}
+.qi-feedback.on{display:block;}
+.qi-feedback.right{color:var(--tip);}
+.qi-feedback.wrong-fb{color:var(--warn);}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;padding:14px 20px;border-radius:10px;border:1.5px solid var(--border);display:none;text-align:center;}
+.quiz-score.on{display:block;}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.qbtn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.qbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* ERROS */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:3px;font-weight:400;font-style:italic;}
+
+/* FINAL MEGA RESUMO */
+.mega{max-width:860px;margin:0 auto;padding:36px 24px;}
+.mega-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--zero);margin-bottom:18px;}
+.mega-rows{display:flex;flex-direction:column;gap:12px;}
+.mega-row{display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:12px;align-items:start;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;}
+.mega-art{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;text-align:center;}
+.mega-when{font-size:13px;color:var(--muted);}
+.mega-when strong{color:var(--text);}
+.mega-exs{display:flex;flex-direction:column;gap:3px;}
+.mega-ex{font-size:12px;font-style:italic;}
+.mega-avoid{font-size:12px;}
+.mega-avoid strong{color:var(--warn);}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:640px){.master-cols{grid-template-columns:1fr;}.sit-cols{grid-template-columns:1fr;}.err-grid{grid-template-columns:1fr;}.mega-row{grid-template-columns:60px 1fr;}.mega-exs,.mega-avoid{display:none;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 13 · Módulo 02 · Capstone</div>
+  <h1><span style="color:var(--zero)">∅</span> Zero Article — <span style="color:var(--zero)">Sem Artigo</span></h1>
+  <p class="subtitle">Quando NÃO usar A / AN / THE — um dos maiores erros do brasileiro. Português usa "o/a" em tudo. Inglês muitas vezes não usa nada.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Palavras que não precisam de artigo em inglês</div>
+</div>
+
+<!-- MASTER 3-WAY COMPARISON -->
+<div class="master-wrap">
+  <div class="master-title">Os três artigos — resumo completo do Módulo 02</div>
+  <div class="master-cols">
+    <div class="mc" style="border-color:rgba(41,182,246,.25)">
+      <div class="mc-art" style="color:var(--A)">A / AN</div>
+      <div class="mc-label">Indefinido</div>
+      <div class="mc-rows">
+        <div class="mc-row" style="color:var(--A);background:rgba(41,182,246,.08)">1ª menção</div>
+        <div class="mc-row" style="color:var(--muted)">singular contável</div>
+        <div class="mc-row" style="color:var(--muted)">profissão · exclamação</div>
+      </div>
+      <div class="mc-ex">"I saw a dog."<br>"She is an engineer."</div>
+    </div>
+    <div class="mc" style="border-color:rgba(206,147,216,.3)">
+      <div class="mc-art" style="color:var(--THE)">THE</div>
+      <div class="mc-label">Definido</div>
+      <div class="mc-rows">
+        <div class="mc-row" style="color:var(--THE);background:rgba(206,147,216,.1)">específico / único</div>
+        <div class="mc-row" style="color:var(--muted)">2ª menção</div>
+        <div class="mc-row" style="color:var(--muted)">superlativo · ordinal</div>
+      </div>
+      <div class="mc-ex">"The dog was big."<br>"It's the best."</div>
+    </div>
+    <div class="mc" style="border-color:rgba(77,182,172,.3)">
+      <div class="mc-art" style="color:var(--zero)">∅</div>
+      <div class="mc-label">Zero Article</div>
+      <div class="mc-rows">
+        <div class="mc-row" style="color:var(--zero);background:rgba(38,166,154,.1)">geral / categoria</div>
+        <div class="mc-row" style="color:var(--muted)">incontável · plural</div>
+        <div class="mc-row" style="color:var(--muted)">nomes próprios · línguas</div>
+      </div>
+      <div class="mc-ex">"Dogs are loyal."<br>"I like music."</div>
+    </div>
+  </div>
+  <div class="flow-box">
+    <div class="flow-title">O mesmo objeto — três artigos diferentes, três significados</div>
+    <div class="flow-steps">
+      <div class="fs">
+        <div class="fs-art" style="color:var(--A);background:rgba(41,182,246,.1);border:1px solid rgba(41,182,246,.2)">A</div>
+        <div class="fs-en">I want <strong style="color:var(--A)">a</strong> coffee.</div>
+        <div class="fs-pt">qualquer café</div>
+      </div>
+      <div class="fs-arr">→</div>
+      <div class="fs">
+        <div class="fs-art" style="color:var(--THE);background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">THE</div>
+        <div class="fs-en"><strong style="color:var(--THE)">The</strong> coffee is cold.</div>
+        <div class="fs-pt">aquele café específico</div>
+      </div>
+      <div class="fs-arr">→</div>
+      <div class="fs">
+        <div class="fs-art" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">∅</div>
+        <div class="fs-en">I love <strong style="color:var(--zero)">∅</strong> coffee.</div>
+        <div class="fs-pt">café em geral</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USO 1: INCONTÁVEIS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">USO 1</span>
+    <h2 class="sec-title">Sem artigo com incontáveis — <em>no geral</em></h2>
+  </div>
+  <table>
+    <thead><tr><th>Inglês (sem artigo)</th><th>Português (com artigo!)</th><th>Categoria</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I like <strong>music</strong>.</td><td class="tpt">Eu gosto <em>de música</em>. (PT usa "de")</td><td><span class="sittag">incontável</span></td></tr>
+      <tr><td class="ten"><strong>Water</strong> is essential.</td><td class="tpt"><em>A água</em> é essencial. (PT usa "a")</td><td><span class="sittag">incontável</span></td></tr>
+      <tr><td class="ten">She loves <strong>coffee</strong>.</td><td class="tpt">Ela adora <em>café</em>.</td><td><span class="sittag">incontável</span></td></tr>
+      <tr><td class="ten"><strong>Money</strong> isn't everything.</td><td class="tpt"><em>O dinheiro</em> não é tudo. (PT usa "o")</td><td><span class="sittag">incontável</span></td></tr>
+      <tr><td class="ten"><strong>Information</strong> is power.</td><td class="tpt"><em>A informação</em> é poder. (PT usa "a")</td><td><span class="sittag">incontável</span></td></tr>
+      <tr><td class="ten"><strong>Life</strong> is beautiful.</td><td class="tpt"><em>A vida</em> é linda. (PT usa "a")</td><td><span class="sittag">abstrato</span></td></tr>
+    </tbody>
+  </table>
+  <div class="warn" style="margin-top:14px">⚠️ Em português usamos "o/a/de" antes de incontáveis quase sempre. Em inglês quando falamos de algo no GERAL, não usamos nenhum artigo. "I like the music" em inglês = "Gosto DA música" (desta específica, desta festa).</div>
+</section>
+
+<!-- USO 2: PLURAIS NO GERAL -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">USO 2</span>
+    <h2 class="sec-title">Sem artigo com plurais — <em>categoria inteira</em></h2>
+  </div>
+  <table>
+    <thead><tr><th>Inglês — geral (sem artigo)</th><th>Português</th><th>vs específico (com THE)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="ten"><strong>Dogs</strong> are loyal animals.</td>
+        <td class="tpt">Cachorros são animais leais.</td>
+        <td style="font-size:12px;color:var(--muted)"><strong style="color:var(--THE)">The</strong> dogs in my yard (os do meu quintal)</td>
+      </tr>
+      <tr>
+        <td class="ten"><strong>Children</strong> learn fast.</td>
+        <td class="tpt">Crianças aprendem rápido.</td>
+        <td style="font-size:12px;color:var(--muted)"><strong style="color:var(--THE)">The</strong> children in this class</td>
+      </tr>
+      <tr>
+        <td class="ten">I like <strong>movies</strong>.</td>
+        <td class="tpt">Eu gosto de filmes.</td>
+        <td style="font-size:12px;color:var(--muted)"><strong style="color:var(--THE)">The</strong> movies at this cinema</td>
+      </tr>
+      <tr>
+        <td class="ten"><strong>Teachers</strong> work very hard.</td>
+        <td class="tpt">Professores trabalham muito.</td>
+        <td style="font-size:12px;color:var(--muted)"><strong style="color:var(--THE)">The</strong> teachers at my school</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 Plural sem artigo = você fala da categoria inteira, de todos os exemplos desta coisa. Plural com THE = um grupo específico que ambos conhecem.</div>
+</section>
+
+<!-- USO 3: NOMES PRÓPRIOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">USO 3</span>
+    <h2 class="sec-title">Sem artigo com nomes próprios e lugares</h2>
+  </div>
+  <div class="prop-grid">
+    <div class="prop-card">
+      <div class="prop-cat">Países simples</div>
+      <div class="prop-zero">Brazil · France · Japan · Italy</div>
+      <div class="prop-exc">exceção: <strong>the USA · the UK · the UAE</strong> (estados/uniões)</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-cat">Cidades</div>
+      <div class="prop-zero">São Paulo · London · Tokyo · Paris</div>
+      <div class="prop-exc">sempre sem THE — nenhuma exceção</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-cat">Pessoas</div>
+      <div class="prop-zero">Maria · Pedro · Dr. Smith · Obama</div>
+      <div class="prop-exc">nomes próprios nunca levam artigo</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-cat">Continentes</div>
+      <div class="prop-zero">Africa · Europe · Asia · America</div>
+      <div class="prop-exc">sempre sem THE</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-cat">Línguas</div>
+      <div class="prop-zero">English · Portuguese · Spanish</div>
+      <div class="prop-exc">sem THE: "I speak English" (não "the English")</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-cat">Refeições</div>
+      <div class="prop-zero">breakfast · lunch · dinner · tea</div>
+      <div class="prop-exc">exceção: <strong>the dinner</strong> (aquele jantar específico)</div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:14px">💡 Nomes próprios são únicos por definição — já identificam um único referente. Por isso não precisam de artigo. "The Brazil" soaria estranho porque Brazil já é específico.</div>
+</section>
+
+<!-- USO 4: SITUAÇÕES ESPECÍFICAS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">USO 4</span>
+    <h2 class="sec-title">Sem artigo — situações <em>que enganam o brasileiro</em></h2>
+  </div>
+  <div class="sit-cols">
+    <div class="sit-col" style="border-color:rgba(77,182,172,.2)">
+      <div class="sit-col-label" style="color:var(--zero);background:rgba(38,166,154,.1);border:1px solid rgba(38,166,154,.2)">SEM artigo (função)</div>
+      <div class="sit-item">
+        <div class="sit-en">She goes to <strong>school</strong>.</div>
+        <div class="sit-pt">Ela vai para a escola. (estudar = função)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">He goes to <strong>work</strong>.</div>
+        <div class="sit-pt">Ele vai trabalhar. (função)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">I go to <strong>bed</strong> at 10.</div>
+        <div class="sit-pt">Vou dormir às 10. (função)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">We go to <strong>church</strong> on Sunday.</div>
+        <div class="sit-pt">Vamos à missa no domingo. (função)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">by <strong>car</strong> · by <strong>bus</strong> · by <strong>train</strong></div>
+        <div class="sit-pt">de carro · de ônibus · de trem (modal geral)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">on <strong>Monday</strong> · in <strong>January</strong></div>
+        <div class="sit-pt">na segunda · em janeiro (dias/meses)</div>
+      </div>
+    </div>
+    <div class="sit-col" style="border-color:rgba(206,147,216,.2)">
+      <div class="sit-col-label" style="color:var(--THE);background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">COM THE (lugar físico específico)</div>
+      <div class="sit-item">
+        <div class="sit-en">She went to <strong style="color:var(--THE)">the</strong> school to pick her up.</div>
+        <div class="sit-pt">Ela foi à escola buscá-la. (lugar físico)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">I'm in <strong style="color:var(--THE)">the</strong> office right now.</div>
+        <div class="sit-pt">Estou no escritório agora. (lugar específico)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">He's still in <strong style="color:var(--THE)">the</strong> bed.</div>
+        <div class="sit-pt">Ele ainda está na cama. (aquela cama específica)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">I'm in <strong style="color:var(--THE)">the</strong> car.</div>
+        <div class="sit-pt">Estou no carro. (aquele carro específico)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en"><strong style="color:var(--THE)">The</strong> Monday of that week</div>
+        <div class="sit-pt">A segunda-feira daquela semana (específica)</div>
+      </div>
+      <div class="sit-item">
+        <div class="sit-en">He is in <strong style="color:var(--THE)">the</strong> hospital. (US)</div>
+        <div class="sit-pt">Ele está no hospital. (US diz THE; UK omite)</div>
+      </div>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:14px">⚠️ "Go to school/work/bed/church/hospital" (UK) — sem THE = falar da função do lugar. "Go to the school/hospital" — com THE = referir ao edifício físico específico. A mesma palavra, significados diferentes!</div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:#CE93D8;background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">QUIZ</span>
+    <h2 class="sec-title">A / AN / THE / ∅ — <em>escolha o artigo correto</em></h2>
+  </div>
+  <p class="quiz-intro">Este quiz cobre as 3 lições de artigo. Escolha A, AN, THE ou ∅ (nenhum artigo).</p>
+  <div class="quiz-list" id="quizList"></div>
+  <div class="quiz-score" id="quizScore"></div>
+  <div class="quiz-controls">
+    <button class="qbtn" onclick="resetQuiz()">Recomeçar</button>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-tag" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Os 7 erros clássicos do brasileiro</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong"><em>The</em> life is beautiful.<span class="err-note">"life" em geral → sem artigo</span></div>
+      <div class="err-item err-wrong">I like <em>the</em> music.<span class="err-note">"music" em geral → sem artigo</span></div>
+      <div class="err-item err-wrong"><em>The</em> Brazil is big.<span class="err-note">países simples → sem artigo</span></div>
+      <div class="err-item err-wrong">I speak <em>the</em> English.<span class="err-note">línguas → sem artigo</span></div>
+      <div class="err-item err-wrong"><em>The</em> love is important.<span class="err-note">abstrato no geral → sem artigo</span></div>
+      <div class="err-item err-wrong"><em>The</em> dogs are loyal.<span class="err-note">categoria geral → sem artigo</span></div>
+      <div class="err-item err-wrong">I go to <em>the</em> work.<span class="err-note">"go to work" = função → sem artigo</span></div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">Life is beautiful.<span class="err-note">∅ — abstrato no geral</span></div>
+      <div class="err-item err-right">I like music.<span class="err-note">∅ — incontável no geral</span></div>
+      <div class="err-item err-right">Brazil is big.<span class="err-note">∅ — país simples</span></div>
+      <div class="err-item err-right">I speak English.<span class="err-note">∅ — língua</span></div>
+      <div class="err-item err-right">Love is important.<span class="err-note">∅ — abstrato no geral</span></div>
+      <div class="err-item err-right">Dogs are loyal.<span class="err-note">∅ — plural no geral</span></div>
+      <div class="err-item err-right">I go to work.<span class="err-note">∅ — função do lugar</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEGA RESUMO FINAL -->
+<div class="mega">
+  <div class="mega-title">Resumo completo — Módulo 02: Artigos</div>
+  <div class="mega-rows">
+    <div class="mega-row">
+      <div class="mega-art" style="color:var(--A)">A/AN</div>
+      <div class="mega-when"><strong>Indefinido:</strong> 1ª menção, profissão, singular contável, "qualquer um", exclamação (What a...!), "uma vez por semana" (once a week)</div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--A)">I saw a dog.</div>
+        <div class="mega-ex" style="color:var(--A)">She is an engineer.</div>
+        <div class="mega-ex" style="color:var(--A)">What a day!</div>
+      </div>
+      <div class="mega-avoid">Não usar com: <strong>plural, incontável, nome próprio</strong></div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-art" style="color:var(--THE)">THE</div>
+      <div class="mega-when"><strong>Definido:</strong> específico, 2ª menção, único no mundo, superlativo, ordinal, instrumento musical, rios/oceanos/cadeias de montanhas</div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--THE)">The dog was big.</div>
+        <div class="mega-ex" style="color:var(--THE)">The sun is hot.</div>
+        <div class="mega-ex" style="color:var(--THE)">She plays the piano.</div>
+      </div>
+      <div class="mega-avoid">Não usar com: <strong>países simples, cidades, línguas, generalização</strong></div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-art" style="color:var(--zero)">∅</div>
+      <div class="mega-when"><strong>Zero Article:</strong> incontável no geral, plural no geral, nomes próprios, cidades, países, continentes, línguas, refeições, go to work/school/bed</div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--zero)">I like music.</div>
+        <div class="mega-ex" style="color:var(--zero)">Dogs are loyal.</div>
+        <div class="mega-ex" style="color:var(--zero)">Life is beautiful.</div>
+      </div>
+      <div class="mega-avoid">Não usar artigo onde inglês diz ∅ mesmo que o <strong>português use "o/a/de"</strong></div>
+    </div>
+  </div>
+</div>
+
+<footer>Inglês para Brasileiros · A1 · Lição 13: Zero Article — Sem Artigo · Fim do Módulo 02</footer>
+
+<script>
+// ── QUIZ DATA ────────────────────────────────────────────────────────────────
+var QS=[
+  {before:'I like',after:'music.',opts:['A','AN','THE','∅'],ans:'∅',why:'Incontável no geral — sem artigo. "I like the music" = desta festa específica.'},
+  {before:'I saw',after:'dog in the park.',opts:['A','AN','THE','∅'],ans:'A',why:'"dog" começa com consoante, é 1ª menção, singular contável → A dog.'},
+  {before:'',after:'dogs are loyal animals.',opts:['A','AN','THE','∅'],ans:'∅',why:'Plural no geral — fala da categoria inteira. "The dogs" seriam cães específicos.'},
+  {before:'She is',after:'engineer.',opts:['A','AN','THE','∅'],ans:'AN',why:'"engineer" começa com vogal "e". Profissão + 1ª menção → AN engineer.'},
+  {before:'',after:'sun is very hot today.',opts:['A','AN','THE','∅'],ans:'THE',why:'O sol é único no mundo — sempre THE. The sun, the moon, the Earth.'},
+  {before:'I love',after:'Brazil.',opts:['A','AN','THE','∅'],ans:'∅',why:'País com nome simples → sem artigo. "The Brazil" seria errado.'},
+  {before:'She plays',after:'piano.',opts:['A','AN','THE','∅'],ans:'THE',why:'Instrumentos musicais sempre com THE: the piano, the guitar, the violin.'},
+  {before:'',after:'life is beautiful.',opts:['A','AN','THE','∅'],ans:'∅',why:'"Life" em geral (abstrato) → sem artigo. "The life" soaria estranho em inglês.'},
+  {before:'It\'s',after:'best movie ever.',opts:['A','AN','THE','∅'],ans:'THE',why:'Superlativo SEMPRE com THE: the best, the worst, the most beautiful.'},
+  {before:'She goes to',after:'school every day.',opts:['A','AN','THE','∅'],ans:'∅',why:'"Go to school" = função de estudar → sem artigo. "Go to the school" = ir ao prédio.'},
+  {before:'Pass me',after:'salt, please.',opts:['A','AN','THE','∅'],ans:'THE',why:'Único no contexto — ambos sabem de qual sal se fala → THE salt.'},
+  {before:'I speak',after:'English and Portuguese.',opts:['A','AN','THE','∅'],ans:'∅',why:'Línguas nunca levam artigo em inglês.'},
+  {before:'They traveled by',after:'car.',opts:['A','AN','THE','∅'],ans:'∅',why:'"By car/bus/train" = modal de transporte geral → sem artigo.'},
+  {before:'It was',after:'honest mistake.',opts:['A','AN','THE','∅'],ans:'AN',why:'"honest" — H mudo, soa "onest" (vogal). 1ª menção → AN honest mistake.'},
+  {before:'We had',after:'dinner at 8.',opts:['A','AN','THE','∅'],ans:'∅',why:'"Dinner" como refeição em geral → sem artigo. "The dinner" seria aquele jantar específico.'},
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  var ql=document.getElementById('quizList'); ql.innerHTML='';
+  score=0; answered=0;
+  document.getElementById('quizScore').classList.remove('on');
+  QS.forEach(function(q,i){
+    var div=document.createElement('div'); div.className='qitem'; div.id='qi'+i;
+    var blank='<span class="qi-blank" id="blank'+i+'">___</span>';
+    div.innerHTML='<div class="qi-sent">'+q.before+' '+blank+' '+q.after+'</div>'+
+      '<div class="qi-opts">'+q.opts.map(function(o){return '<button class="qi-opt" data-i="'+i+'" data-o="'+o+'">'+o+'</button>';}).join('')+'</div>'+
+      '<div class="qi-feedback" id="fb'+i+'"></div>';
+    ql.appendChild(div);
+  });
+  document.querySelectorAll('.qi-opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=+btn.dataset.i, o=btn.dataset.o, q=QS[i];
+      if(document.getElementById('qi'+i).classList.contains('correct')||document.getElementById('qi'+i).classList.contains('wrong'))return;
+      var isRight=o===q.ans;
+      document.querySelectorAll('.qi-opt[data-i="'+i+'"]').forEach(function(b){
+        b.classList.add('disabled');
+        if(b.dataset.o===q.ans) b.classList.add('show-right');
+      });
+      btn.classList.add(isRight?'selected-right':'selected-wrong');
+      var fb=document.getElementById('fb'+i);
+      fb.className='qi-feedback on '+(isRight?'right':'wrong-fb');
+      fb.textContent=(isRight?'✓ Correto! — ':'✗ Era '+q.ans+'. — ')+q.why;
+      document.getElementById('blank'+i).textContent=q.ans==='∅'?'(nada)':q.ans;
+      document.getElementById('blank'+i).style.color=isRight?'var(--tip)':'var(--warn)';
+      document.getElementById('qi'+i).classList.add(isRight?'correct':'wrong');
+      if(isRight) score++;
+      answered++;
+      if(answered===QS.length){
+        var sc=document.getElementById('quizScore');
+        var pct=Math.round(score/QS.length*100);
+        sc.classList.add('on');
+        sc.style.borderColor=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.style.color=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.textContent='Resultado: '+score+' / '+QS.length+' ('+pct+'%) — '+(pct>=80?'Excelente!':pct>=60?'Bom trabalho!':'Revise os artigos e tente novamente.');
+      }
+    });
+  });
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,3,13); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=420;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.3;
+hCtrl.minDistance=7; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.45));
+hScene.add(new THREE.DirectionalLight(0xffffff,.9).position.set(5,10,7));
+hScene.add(new THREE.GridHelper(24,24,0x070d0d,0x070d0d));
+
+function mkSph(col,r,emit){return new THREE.Mesh(new THREE.SphereGeometry(r||.2,14,14),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));}
+
+// Central ZERO sphere — teal, with ring
+var zSph=mkSph(0x26A69A,1,.5); zSph.position.y=.8; hScene.add(zSph);
+var zLight=new THREE.PointLight(0x4DB6AC,2.2,8); zLight.position.y=.8; hScene.add(zLight);
+var zRing=new THREE.Mesh(new THREE.TorusGeometry(1.3,.05,8,48),new THREE.MeshPhongMaterial({color:0x4DB6AC,emissive:0x4DB6AC,emissiveIntensity:.5}));
+zRing.position.y=.8; zRing.rotation.x=Math.PI/2; hScene.add(zRing);
+// Strike-through ring
+var strk=new THREE.Mesh(new THREE.TorusGeometry(1.3,.04,8,48),new THREE.MeshPhongMaterial({color:0xFF7043,emissive:0xFF7043,emissiveIntensity:.4,transparent:true,opacity:.6}));
+strk.position.y=.8; strk.rotation.z=Math.PI*.35; strk.rotation.x=Math.PI*.25; hScene.add(strk);
+
+// Word spheres — words that take NO article
+var ZWORDS=[
+  {t:'music',      col:0x4DB6AC, r:3.8, a:0,    spd:.3},
+  {t:'water',      col:0x4DD0E1, r:3.8, a:.9,   spd:.3},
+  {t:'life',       col:0x4DB6AC, r:3.8, a:1.8,  spd:.3},
+  {t:'love',       col:0x80CBC4, r:3.8, a:2.7,  spd:.3},
+  {t:'Brazil',     col:0x66BB6A, r:5.2, a:.4,   spd:-.22},
+  {t:'English',    col:0x66BB6A, r:5.2, a:1.5,  spd:-.22},
+  {t:'London',     col:0x66BB6A, r:5.2, a:2.6,  spd:-.22},
+  {t:'Africa',     col:0x66BB6A, r:5.2, a:3.8,  spd:-.22},
+  {t:'dogs',       col:0xFFB74D, r:6.8, a:.7,   spd:.18},
+  {t:'children',   col:0xFFB74D, r:6.8, a:1.9,  spd:.18},
+  {t:'coffee',     col:0xFFB74D, r:6.8, a:3.2,  spd:.18},
+  {t:'go to work', col:0xFF8A65, r:4.8, a:5.2,  spd:-.25},
+  {t:'go to bed',  col:0xFF8A65, r:4.8, a:4.0,  spd:-.25},
+  {t:'by car',     col:0xFF8A65, r:4.8, a:2.8,  spd:-.25},
+];
+
+var orbs=[];
+ZWORDS.forEach(function(w){
+  var orb=mkSph(w.col,.1,.35); orb.position.set(Math.cos(w.a)*w.r,.4,Math.sin(w.a)*w.r); hScene.add(orb);
+  var lbl=document.createElement('div'); lbl.className='hlabel'; lbl.style.color='#'+w.col.toString(16).padStart(6,'0');
+  var r=(w.col>>16)&255,g=(w.col>>8)&255,b2=w.col&255;
+  lbl.style.borderColor='rgba('+r+','+g+','+b2+',.3)'; lbl.textContent=w.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbs.push({m:orb,lbl:lbl,r:w.r,a:w.a,spd:w.spd});
+});
+
+// Background dim particles
+for(var i=0;i<50;i++){var p=mkSph(0x26A69A,.03,.15);p.position.set((Math.random()-.5)*18,Math.random()*4,(Math.random()-.5)*18);hScene.add(p);}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  zLight.intensity=1.8+Math.sin(hT*2.2)*.6;
+  zRing.rotation.z+=.006; strk.rotation.y+=.004;
+  zSph.rotation.y+=.004;
+  orbs.forEach(function(o){
+    o.a+=o.spd*.01;
+    o.m.position.x=Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.65;
+    o.m.position.y=.4+Math.sin(o.a*.5)*.2;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*420)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

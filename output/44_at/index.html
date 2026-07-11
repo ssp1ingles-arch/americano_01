@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 44 — AT (Tempo) | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22d3ee;
+  --ca:#22d3ee;--co:#FBBF24;--ci:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(6rem,20vw,14rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--ca)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-a{color:var(--ca);background:rgba(34,211,238,.07);border-color:rgba(34,211,238,.2)}
+.hp-o{color:var(--co);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-i{color:var(--ci);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* AT = ponto no tempo — visual */
+.ponto-visual{display:flex;align-items:center;gap:0;margin:1.5rem 0;background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.5rem 2rem;overflow-x:auto}
+.pv-line{height:2px;background:linear-gradient(90deg,transparent,var(--muted),transparent);flex:1;min-width:30px}
+.pv-point{width:14px;height:14px;border-radius:50%;background:var(--ca);box-shadow:0 0 0 4px rgba(34,211,238,.2);flex-shrink:0}
+.pv-label{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--ca);padding:.25rem .6rem;background:rgba(34,211,238,.1);border-radius:.4rem;flex-shrink:0;margin:0 .35rem}
+
+/* 3-col AT vs ON vs IN centerpiece */
+.triptych{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin:1.5rem 0}
+.tri-at{background:rgba(34,211,238,.07);border:2px solid rgba(34,211,238,.3);border-radius:1.25rem;padding:1.5rem}
+.tri-on{background:rgba(251,191,36,.07);border:2px solid rgba(251,191,36,.25);border-radius:1.25rem;padding:1.5rem}
+.tri-in{background:rgba(167,139,250,.07);border:2px solid rgba(167,139,250,.25);border-radius:1.25rem;padding:1.5rem}
+.tri-head{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+.tri-at .tri-head{color:var(--ca)}
+.tri-on .tri-head{color:var(--co)}
+.tri-in .tri-head{color:var(--ci)}
+.tri-rule{font-size:.7rem;font-weight:700;padding:.25rem .55rem;border-radius:.4rem;display:inline-block;margin-bottom:.85rem;text-transform:uppercase;letter-spacing:.06em}
+.tri-at .tri-rule{background:rgba(34,211,238,.12);color:var(--ca)}
+.tri-on .tri-rule{background:rgba(251,191,36,.12);color:var(--co)}
+.tri-in .tri-rule{background:rgba(167,139,250,.12);color:var(--ci)}
+.tri-shape{font-size:1.2rem;margin-bottom:.5rem}
+.tri-ex{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;margin:.2rem 0}
+.tri-at .tri-ex{color:var(--ca)}
+.tri-on .tri-ex{color:var(--co)}
+.tri-in .tri-ex{color:var(--ci)}
+.tri-pt{font-size:.72rem;color:var(--muted)}
+
+.mnemonic{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem 1.5rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1rem}
+.mn-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);flex-shrink:0}
+.mn-items{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.mn-a{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--ca)}
+.mn-o{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--co)}
+.mn-i{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--ci)}
+.mn-sep{color:var(--muted);font-size:.8rem}
+.mn-sub{font-size:.75rem;color:var(--muted);display:block;margin-top:.15rem}
+.mn-pill{text-align:center}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0;background:rgba(34,211,238,.15);color:var(--ca)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ca)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vba{color:var(--ca);font-weight:700}
+.vbo{color:var(--co);font-weight:700}
+.vbi{color:var(--ci);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+
+/* at night vs in the morning grid */
+.night-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.85rem 0}
+.ng-at{background:rgba(34,211,238,.07);border:1.5px solid rgba(34,211,238,.25);border-radius:.75rem;padding:.85rem 1rem}
+.ng-in{background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.2);border-radius:.75rem;padding:.85rem 1rem}
+.ng-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.ng-at .ng-label{color:var(--ca)}
+.ng-in .ng-label{color:var(--ci)}
+.ng-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;margin:.2rem 0}
+.ng-at .ng-ex{color:var(--ca)}
+.ng-in .ng-ex{color:var(--ci)}
+.ng-pt{font-size:.75rem;color:var(--muted)}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:2.5rem;border-bottom:2px solid var(--ca);color:var(--ca);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--ca);background:rgba(34,211,238,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--ca),var(--ci));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .triptych{grid-template-columns:1fr}
+  .night-grid{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 08 · Preposições de Tempo</span>
+  <span class="nav-badge">A1 · Lição 44 · AT</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 08 · Lição 44 · Início</div>
+    <div class="hero-title">AT</div>
+    <div class="hero-sub">Horas e momentos específicos — AT = ponto preciso no tempo</div>
+    <div class="hero-pills">
+      <span class="hp hp-a">AT + horas</span>
+      <span class="hp hp-a">AT + momentos</span>
+      <span class="hp hp-o">ON + dias</span>
+      <span class="hp hp-i">IN + períodos</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- AT = ponto no tempo -->
+<section class="section">
+  <div class="section-label">A essência do AT</div>
+  <div class="section-title" style="color:var(--ca)">AT = Ponto Específico no Tempo</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">!</div>
+      <div>
+        <div class="uso-title">AT marca um ponto preciso na linha do tempo</div>
+        <div class="uso-sub">Hora exata, momento específico — um instante, não uma duração</div>
+      </div>
+    </div>
+    <div class="ponto-visual">
+      <div class="pv-line"></div>
+      <span style="color:var(--muted);font-size:.75rem;padding:0 .5rem">passado</span>
+      <div class="pv-line"></div>
+      <div class="pv-point"></div>
+      <div class="pv-label">AT 3pm</div>
+      <div class="pv-line"></div>
+      <div class="pv-point"></div>
+      <div class="pv-label">AT night</div>
+      <div class="pv-line"></div>
+      <div class="pv-point"></div>
+      <div class="pv-label">AT Christmas</div>
+      <div class="pv-line"></div>
+      <span style="color:var(--muted);font-size:.75rem;padding:0 .5rem">futuro</span>
+      <div class="pv-line"></div>
+    </div>
+    <div class="tip-box">
+      <p><strong>AT = ponto.</strong> Diferente de IN (período longo) e ON (dia específico). Regra: AT a hora, ON o dia, IN o mês ou ano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 1: AT + horas -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--ca)">AT + Horas</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">1</div>
+      <div>
+        <div class="uso-title">Sempre AT antes de uma hora específica</div>
+        <div class="uso-sub">Qualquer hora do relógio — am, pm, minutos, meia-noite, meio-dia</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">hora</td><td class="en">The meeting is <span class="vba">at</span> 3pm.</td><td class="pt">A reunião é às 15h.</td></tr>
+        <tr><td class="tipo">hora</td><td class="en">I wake up <span class="vba">at</span> 6am.</td><td class="pt">Eu acordo às 6h.</td></tr>
+        <tr><td class="tipo">hora</td><td class="en">Class starts <span class="vba">at</span> 8:30.</td><td class="pt">A aula começa às 8h30.</td></tr>
+        <tr><td class="tipo">hora</td><td class="en">The store closes <span class="vba">at</span> 9pm.</td><td class="pt">A loja fecha às 21h.</td></tr>
+        <tr><td class="tipo">hora</td><td class="en">She called me <span class="vba">at</span> midnight.</td><td class="pt">Ela me ligou à meia-noite.</td></tr>
+        <tr><td class="tipo">hora</td><td class="en">The train leaves <span class="vba">at</span> noon.</td><td class="pt">O trem parte ao meio-dia.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>AT + toda hora do relógio</strong> — at 6am, at 3pm, at 8:30, at midnight, at noon. Em português: "às 6h", "às 15h", "à meia-noite".</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: AT + momentos especiais -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--ca)">AT + Momentos Especiais</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">2</div>
+      <div>
+        <div class="uso-title">Momentos fixos na cultura e no calendário</div>
+        <div class="uso-sub">at night, at noon, at the weekend, at Christmas, at the moment...</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Expressão</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">at night</td><td class="en">I study <span class="vba">at night</span>.</td><td class="pt">Eu estudo à noite.</td></tr>
+        <tr><td class="tipo">at noon</td><td class="en">We eat <span class="vba">at noon</span>.</td><td class="pt">Nós comemos ao meio-dia.</td></tr>
+        <tr><td class="tipo">at midnight</td><td class="en">The party ends <span class="vba">at midnight</span>.</td><td class="pt">A festa termina à meia-noite.</td></tr>
+        <tr><td class="tipo">at the weekend</td><td class="en">I rest <span class="vba">at the weekend</span>. (UK)</td><td class="pt">Eu descanso no fim de semana.</td></tr>
+        <tr><td class="tipo">at Christmas</td><td class="en">We travel <span class="vba">at Christmas</span>.</td><td class="pt">Nós viajamos no Natal.</td></tr>
+        <tr><td class="tipo">at the moment</td><td class="en">I'm busy <span class="vba">at the moment</span>.</td><td class="pt">Estou ocupado no momento.</td></tr>
+      </tbody>
+    </table>
+    <div class="night-grid">
+      <div class="ng-at">
+        <div class="ng-label">AT night = à noite (sem hora)</div>
+        <div class="ng-ex">I work at night.</div>
+        <div class="ng-pt">Eu trabalho à noite.</div>
+        <div class="ng-ex" style="margin-top:.35rem">It's cold at night.</div>
+        <div class="ng-pt">Faz frio à noite.</div>
+      </div>
+      <div class="ng-in">
+        <div class="ng-label">IN the morning / evening / afternoon</div>
+        <div class="ng-ex">I study in the morning.</div>
+        <div class="ng-pt">Eu estudo de manhã.</div>
+        <div class="ng-ex" style="margin-top:.35rem">She walks in the evening.</div>
+        <div class="ng-pt">Ela caminha à tardinha.</div>
+      </div>
+    </div>
+    <div class="warn-box">
+      <p><strong>AT night (sem artigo) ≠ IN the morning/afternoon/evening (com "the").</strong> "At night" é fixo — não existe "at the night". Para partes do dia: IN the morning, IN the afternoon, IN the evening.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: AT + eventos/atividades -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--ca)">AT + Eventos e Lugares de Atividade</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num">3</div>
+      <div>
+        <div class="uso-title">AT indica onde alguém está ou o que está fazendo</div>
+        <div class="uso-sub">Ponto de atividade — trabalho, escola, festa, médico</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">trabalho</td><td class="en">I'm <span class="vba">at</span> work.</td><td class="pt">Estou no trabalho.</td></tr>
+        <tr><td class="tipo">escola</td><td class="en">She is <span class="vba">at</span> school.</td><td class="pt">Ela está na escola.</td></tr>
+        <tr><td class="tipo">festa</td><td class="en">We are <span class="vba">at</span> a party.</td><td class="pt">Estamos numa festa.</td></tr>
+        <tr><td class="tipo">médico</td><td class="en">He is <span class="vba">at</span> the doctor.</td><td class="pt">Ele está no médico.</td></tr>
+        <tr><td class="tipo">casa</td><td class="en">She's <span class="vba">at</span> home.</td><td class="pt">Ela está em casa.</td></tr>
+        <tr><td class="tipo">reunião</td><td class="en">They are <span class="vba">at</span> a meeting.</td><td class="pt">Eles estão numa reunião.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>AT work, AT school, AT home, AT a party</strong> — AT marca o ponto de atividade. Foco em "o que está acontecendo lá", não no prédio em si. (IN the office = dentro do escritório fisicamente; AT work = exercendo o trabalho).</p>
+    </div>
+  </div>
+</section>
+
+<!-- CENTERPIECE: AT vs ON vs IN -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4 — O mais importante</div>
+  <div class="section-title" style="color:var(--ca)">AT vs ON vs IN — As Três Preposições de Tempo</div>
+
+  <div class="triptych">
+    <div class="tri-at">
+      <div class="tri-head">AT</div>
+      <div class="tri-rule">ponto pontual</div>
+      <div class="tri-shape">●</div>
+      <div class="tri-ex">at 3pm</div><div class="tri-pt">às 15h</div>
+      <div class="tri-ex">at night</div><div class="tri-pt">à noite</div>
+      <div class="tri-ex">at noon</div><div class="tri-pt">ao meio-dia</div>
+      <div class="tri-ex">at Christmas</div><div class="tri-pt">no Natal</div>
+      <div class="tri-ex">at the moment</div><div class="tri-pt">no momento</div>
+    </div>
+    <div class="tri-on">
+      <div class="tri-head">ON</div>
+      <div class="tri-rule">dia específico</div>
+      <div class="tri-shape">□</div>
+      <div class="tri-ex">on Monday</div><div class="tri-pt">na segunda-feira</div>
+      <div class="tri-ex">on June 5th</div><div class="tri-pt">em 5 de junho</div>
+      <div class="tri-ex">on my birthday</div><div class="tri-pt">no meu aniversário</div>
+      <div class="tri-ex">on weekends</div><div class="tri-pt">nos fins de semana</div>
+      <div class="tri-ex">on New Year's Eve</div><div class="tri-pt">na véspera do Ano Novo</div>
+    </div>
+    <div class="tri-in">
+      <div class="tri-head">IN</div>
+      <div class="tri-rule">período / duração</div>
+      <div class="tri-shape">▬</div>
+      <div class="tri-ex">in January</div><div class="tri-pt">em janeiro</div>
+      <div class="tri-ex">in 2020</div><div class="tri-pt">em 2020</div>
+      <div class="tri-ex">in the morning</div><div class="tri-pt">de manhã</div>
+      <div class="tri-ex">in the summer</div><div class="tri-pt">no verão</div>
+      <div class="tri-ex">in the 21st century</div><div class="tri-pt">no século XXI</div>
+    </div>
+  </div>
+
+  <div class="mnemonic">
+    <span class="mn-label">Mnemônica</span>
+    <div class="mn-items">
+      <div class="mn-pill">
+        <span class="mn-a">AT</span>
+        <span class="mn-sub">ponto ●</span>
+      </div>
+      <span class="mn-sep">→</span>
+      <div class="mn-pill">
+        <span class="mn-o">ON</span>
+        <span class="mn-sub">dia □</span>
+      </div>
+      <span class="mn-sep">→</span>
+      <div class="mn-pill">
+        <span class="mn-i">IN</span>
+        <span class="mn-sub">período ▬</span>
+      </div>
+      <span class="mn-sep" style="margin-left:.5rem">·</span>
+      <span style="font-size:.82rem;color:var(--muted);margin-left:.25rem">Do menor ao maior</span>
+    </div>
+  </div>
+
+  <div class="warn-box" style="margin-top:.85rem">
+    <p><strong>Erros clássicos resumidos:</strong> "in night" → <strong>AT night</strong> | "at Monday" → <strong>ON Monday</strong> | "on 2020" → <strong>IN 2020</strong> | "at the morning" → <strong>IN the morning</strong> | "in noon" → <strong>AT noon</strong> | "at January" → <strong>IN January</strong>.</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — AT (Tempo)</div>
+  <div class="quiz-sub">12 questões sobre AT e a distinção AT · ON · IN.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com AT</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(34,211,238,.25)">
+      <h4 style="color:var(--ca)">AT + horas</h4>
+      <div class="sum-item"><span class="en">at 3pm</span></div>
+      <div class="sum-item"><span class="en">at 6am</span></div>
+      <div class="sum-item"><span class="en">at 8:30</span></div>
+      <div class="sum-item">sempre AT + hora</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(34,211,238,.25)">
+      <h4 style="color:var(--ca)">AT + momentos</h4>
+      <div class="sum-item"><span class="en">at night</span></div>
+      <div class="sum-item"><span class="en">at noon / midnight</span></div>
+      <div class="sum-item"><span class="en">at Christmas</span></div>
+      <div class="sum-item"><span class="en">at the moment</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--co)">ON + dias</h4>
+      <div class="sum-item"><span class="en">on Monday</span></div>
+      <div class="sum-item"><span class="en">on June 5th</span></div>
+      <div class="sum-item"><span class="en">on my birthday</span></div>
+      <div class="sum-item">dia específico = ON</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--ci)">IN + períodos</h4>
+      <div class="sum-item"><span class="en">in January</span></div>
+      <div class="sum-item"><span class="en">in 2020</span></div>
+      <div class="sum-item"><span class="en">in the morning</span></div>
+      <div class="sum-item">mês/ano/período = IN</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../43_which/index.html">← Lição 43</a>
+  <div class="fnav-center">Lição 44 de 89 · Módulo 08</div>
+  <a class="fnav-btn" href="../45_on/index.html">Lição 45 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x22d3ee,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x22d3ee,emissive:0x22d3ee,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0x22d3ee,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'The meeting is ___ 3pm.',opts:['at','on','in','by'],ans:'at',why:"AT + hora específica. 'The meeting is at 3pm.' ✓ — AT sempre precede horas do relógio: at 6am, at 3pm, at 8:30. ON vai com dias (on Monday); IN vai com meses/anos (in January)."},
+  {s:'She called me ___ midnight.',opts:['at','on','in','during'],ans:'at',why:"AT midnight — midnight (meia-noite) é um momento pontual, como uma hora. Sempre AT: at midnight, at noon, at night. 'She called me at midnight.' ✓"},
+  {s:'I wake up ___ 6am.',opts:['at','on','in','from'],ans:'at',why:"AT + hora. 'I wake up at 6am.' ✓ — toda hora do relógio usa AT. 'I wake up in 6am' ✗ / 'I wake up on 6am' ✗."},
+  {s:'I\'ll see you ___ Monday.',opts:['on','at','in','by'],ans:'on',why:"ON + dia da semana. 'I'll see you on Monday.' ✓ — ON vai com dias: on Monday, on Tuesday, on June 5th, on my birthday. AT seria para hora: 'on Monday at 3pm.'"},
+  {s:'She was born ___ 1990.',opts:['in','on','at','from'],ans:'in',why:"IN + ano. 'She was born in 1990.' ✓ — IN vai com meses e anos (períodos maiores): in January, in 2020, in the summer. ON seria para datas: on June 5th, 1990."},
+  {s:'I study ___ the morning.',opts:['in','at','on','by'],ans:'in',why:"IN the morning — partes do dia (morning, afternoon, evening) usam IN. 'I study in the morning.' ✓ — 'at the morning' ✗. Exceção: AT night (sem 'the')."},
+  {s:'We are ___ a party.',opts:['at','in','on','to'],ans:'at',why:"AT + evento/atividade. 'We are at a party.' ✓ — AT indica onde alguém está como ponto de atividade: at work, at school, at a party, at home. 'In a party' soa estranho em inglês moderno."},
+  {s:'I\'m busy ___ the moment.',opts:['at','on','in','for'],ans:'at',why:"AT the moment = no momento / agora. 'I'm busy at the moment.' ✓ — expressão fixa. Também: at the time (naquele momento), at the end (no final)."},
+  {s:'___ night — à noite. Qual preposição?',opts:['AT','ON','IN','BY'],ans:'AT',why:"AT night = à noite. Expressão fixa — sem artigo 'the'. Atenção: IN the morning/afternoon/evening (com the), mas AT night (sem the). 'In night' ✗ / 'on night' ✗."},
+  {s:'"___ Christmas" — no Natal',opts:['at','on','in','for'],ans:'at',why:"AT Christmas = no Natal. Celebrações e épocas especiais usam AT: at Christmas, at Easter, at New Year. 'In Christmas' ✗. (Mas: on Christmas Day = no dia de Natal — dia específico usa ON.)"},
+  {s:'Do menor ao maior: ___ ponto, ON dia, ___ período.',opts:['AT · IN','ON · AT','IN · AT','AT · ON'],ans:'AT · IN',why:"Mnemônica: AT ponto ● → ON dia □ → IN período ▬. Do menor ao maior. AT é o ponto mais preciso (hora); ON é o dia; IN é o período mais amplo (mês, ano, estação)."},
+  {s:'Qual preposição vai com MÊS?',opts:['IN (in January)','ON (on January)','AT (at January)','BY (by January)'],ans:'IN (in January)',why:"IN + mês. 'In January, in March, in December.' ✓ — meses são períodos longos → IN. 'At January' ✗ / 'on January' ✗ (sem dia específico). 'On January 5th' ✓ = no dia 5 de janeiro."}
+];
+
+var ERRORS=[
+  {wrong:'I work in night.',right:'I work at night.',why:"'at night' é uma expressão fixa — o único momento do dia que usa AT sem 'the'. 'In night' e 'on night' não existem em inglês. Compare: AT night / IN the morning / IN the afternoon / IN the evening."},
+  {wrong:'I\'ll see you at Monday.',right:'I\'ll see you on Monday.',why:"ON + dia da semana. 'On Monday, on Tuesday, on weekends.' — AT é para horas: 'on Monday at 3pm.' A confusão surge porque em português dizemos 'na segunda' com 'na' (como AT), mas em inglês é ON."},
+  {wrong:'She was born on 2020.',right:'She was born in 2020.',why:"IN + ano. 'in 2020, in 1990, in the 21st century.' — ON é para dias e datas específicas (on June 5th, 2020). Ano sozinho → IN."},
+  {wrong:'I exercise at the morning.',right:'I exercise in the morning.',why:"IN the morning — partes do dia (morning, afternoon, evening) sempre usam IN the. 'In the morning, in the afternoon, in the evening.' — 'at the morning' não existe. Exceção: AT night (sem the)."},
+  {wrong:'The train leaves in noon.',right:'The train leaves at noon.',why:"AT noon — 'noon' (meio-dia) é um momento pontual, como uma hora. 'at noon, at midnight, at 12pm' — todos usam AT. 'In noon' não existe."},
+  {wrong:'It happened at January.',right:'It happened in January.',why:"IN + mês. 'in January, in February, in December.' — AT é para momentos pontuais (horas, at night, at Christmas). Meses são períodos → IN. 'At January' não existe."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque na distinção AT · ON · IN!':pct<.75?'Bom progresso! Atenção ao AT night vs IN the morning.':pct<1?'Muito bem! A distinção AT · ON · IN está quase dominada.':'Perfeito! Preposições de tempo dominadas!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L75 · HEAR · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* HEAR vs LISTEN panel */
+.vs-panel{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.vs-side{border-radius:.85rem;padding:1.1rem 1.25rem;}
+.vs-hear{background:rgba(56,189,248,.07);border:2px solid var(--ca);}
+.vs-list{background:rgba(74,222,128,.07);border:2px solid var(--gn);}
+.vs-label{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem;}
+.vsl-h{color:var(--ca);}
+.vsl-l{color:var(--gn);}
+.vs-word{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.3rem;}
+.vs-sub{font-size:.78rem;font-weight:700;margin-bottom:.55rem;}
+.vs-ex{font-size:.8rem;color:var(--tm);font-style:italic;line-height:1.55;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+
+/* patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:60px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .vs-panel{grid-template-columns:1fr;}
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">HEAR</h1>
+  <p class="hero-pt">ouvir · escutar (passivamente) · ficar sabendo · ter notícias</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">HEAR</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">HEARD</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">HEARD</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Did you hear that?"</div>
+    <div class="cl-pt">Você ouviu isso?</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: HEAR vs LISTEN -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">HEAR vs LISTEN — a distinção fundamental</div>
+    <div class="sd">HEAR = involuntário · LISTEN = voluntário e ativo</div></div>
+  </div>
+
+  <div class="vs-panel">
+    <div class="vs-side vs-hear">
+      <div class="vs-label vsl-h">HEAR · involuntário</div>
+      <div class="vs-word" style="color:var(--ca)">HEAR</div>
+      <div class="vs-sub" style="color:var(--ca)">ouvir (acontece sozinho)</div>
+      <div class="vs-ex">
+        "I can <strong>hear</strong> music next door."<br>
+        (o som chega aos meus ouvidos sem eu tentar)<br><br>
+        "Did you <strong>hear</strong> that noise?"<br>
+        (você percebeu aquele barulho?)
+      </div>
+    </div>
+    <div class="vs-side vs-list">
+      <div class="vs-label vsl-l">LISTEN · voluntário</div>
+      <div class="vs-word" style="color:var(--gn)">LISTEN</div>
+      <div class="vs-sub" style="color:var(--gn)">escutar (com atenção, regular)</div>
+      <div class="vs-ex">
+        "I'm <strong>listening</strong> to music right now."<br>
+        (estou prestando atenção na música)<br><br>
+        "Please <strong>listen</strong> to me."<br>
+        (por favor me ouça com atenção)
+      </div>
+    </div>
+  </div>
+
+  <div class="nt nt-tip">Resumo: você HEARS algo sem tentar (barulho, voz, música ao fundo). Você LISTENS quando presta atenção de propósito. "I heard the alarm." ✓ (o alarme tocou e eu percebi). "I listened to the alarm." ✗ (bizarro — não se escuta alarme de propósito).</div>
+
+  <!-- Mnemônico -->
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — HEAR → HEARD (apenas +D, vogal muda)</div>
+    <div class="mn-body">HEAR /hɪər/ → HEARD /hɜːrd/ — pronuncia "HERD" (como rebanho de animais).<br>Escrita: só acrescenta D. Pronúncia: a vogal muda completamente (EAR → ER).<br>Passado e particípio idênticos: HEARD = HEARD.</div>
+  </div>
+
+  <!-- Padrões estruturais -->
+  <div class="patt-grid">
+    <div class="pg-item">
+      <div class="pg-key">HEAR + objeto</div>
+      <div class="pg-pt">ouvir algo / alguém</div>
+      <div class="pg-ex">"I can hear music." / "Did you hear him?"</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">HEAR + obj. + -ING</div>
+      <div class="pg-pt">ouvir alguém fazendo algo</div>
+      <div class="pg-ex">"I heard her singing." / "I heard him crying."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">HEAR + obj. + BASE</div>
+      <div class="pg-pt">ouvir alguém dizer / fazer algo (ação completa)</div>
+      <div class="pg-ex">"I heard him say your name." / "I heard her leave."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">HEAR ABOUT</div>
+      <div class="pg-pt">ouvir sobre / ficar sabendo de</div>
+      <div class="pg-ex">"Did you hear about the accident?"</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">HEAR FROM</div>
+      <div class="pg-pt">ter notícias de (alguém)</div>
+      <div class="pg-ex">"I haven't heard from him in weeks."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">HEAR OF</div>
+      <div class="pg-pt">ter ouvido falar de (existência)</div>
+      <div class="pg-ex">"Have you heard of this band?" / "Never heard of it."</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — hear / hears</div>
+    <div class="sd">CAN HEAR é muito comum no presente · HE / SHE / IT → HEARS</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I can <strong>hear</strong> someone at the door.</td><td class="cpt">Consigo ouvir alguém na porta.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Can you <strong>hear</strong> me now?</td><td class="cpt">Você consegue me ouvir agora?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>hears</strong> well for his age.</td><td class="cpt">Ele ouve bem para a sua idade.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>hears</strong> from her sister every week.</td><td class="cpt">Ela tem notícias da irmã toda semana.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The dog <strong>hears</strong> frequencies we can't.</td><td class="cpt">O cachorro ouve frequências que não conseguimos.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>hear</strong> a lot of complaints about this.</td><td class="cpt">Ouvimos muitas reclamações sobre isso.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>hear</strong> each other through the wall.</td><td class="cpt">Eles se ouvem através da parede.</td></tr>
+    </table>
+    <div class="nt nt-tip">HEAR raramente aparece no contínuo no sentido de percepção. "I can hear music." ✓ (muito mais natural que "I am hearing music."). Com CAN = consegue perceber/ouvir. Sem CAN = em expressões: "She hears from him every week." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — heard (irregular)</div>
+    <div class="sd">HEAR → HEARD — passado e particípio idênticos, pronúncia muda para "HERD"</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>heard</strong> a strange noise last night.</td><td class="cpt">Ouvi um barulho estranho ontem à noite.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>hear</strong> what she said?</td><td class="cpt">Você ouviu o que ela disse?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>heard</strong> her singing in the kitchen.</td><td class="cpt">Ele a ouviu cantando na cozinha.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>heard</strong> that you were looking for her.</td><td class="cpt">Ela ouviu dizer que você a estava procurando.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The rumor <strong>was heard</strong> by everyone.</td><td class="cpt">O boato foi ouvido por todos.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>heard</strong> about the accident on the news.</td><td class="cpt">Ficamos sabendo do acidente no noticiário.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>heard</strong> him say he was quitting.</td><td class="cpt">Eles ouviram ele dizer que estava saindo.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't HEAR anything." ✓ / "I didn't HEARD anything." ✗ — DIDN'T + base HEAR. Particípio: "Have you HEARD this song?" ✓ — HEARD com HAVE (não HEAR).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: HEAR + OBJETO + -ING vs BASE -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">HEAR + objeto + -ING vs BASE</div>
+    <div class="sd">Dois padrões com significado levemente diferente</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">HEAR + obj. + -ING → ação em progresso</div>
+        <table class="ct">
+          <tr><td class="ce">I heard her <strong>singing</strong>.</td><td class="cpt">Ouvi ela cantando. (flagrou no meio)</td></tr>
+          <tr><td class="ce">I heard them <strong>arguing</strong>.</td><td class="cpt">Ouvi eles brigando. (durante)</td></tr>
+          <tr><td class="ce">I heard him <strong>crying</strong>.</td><td class="cpt">Ouvi ele chorando. (em curso)</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">HEAR + obj. + BASE → ação completa</div>
+        <table class="ct">
+          <tr><td class="ce">I heard her <strong>sing</strong>.</td><td class="cpt">Ouvi ela cantar. (inteiro)</td></tr>
+          <tr><td class="ce">I heard them <strong>argue</strong>.</td><td class="cpt">Ouvi eles brigarem. (tudo)</td></tr>
+          <tr><td class="ce">I heard him <strong>leave</strong>.</td><td class="cpt">Ouvi ele sair. (ação concluída)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">Na prática, a diferença é sutil. -ING = ação flagrada no meio. BASE = ação ouvida do começo ao fim. Ambas são corretas e muito usadas. Nunca use TO: "I heard her TO sing." ✗ — HEAR + obj. usa -ING ou BASE, nunca TO.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: PREPOSIÇÕES E EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Preposições e expressões essenciais</div>
+    <div class="sd">HEAR ABOUT · HEAR FROM · HEAR OF · I HEARD THAT · HEAR ME OUT</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Preposições com HEAR</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HEAR ABOUT</td><td style="font-size:.83rem">ouvir sobre / ficar sabendo de (notícia/evento)</td><td class="cpt">"Did you hear about the new project?"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HEAR FROM</td><td style="font-size:.83rem">ter notícias de / receber contato de (alguém)</td><td class="cpt">"I haven't heard from her in months."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HEAR OF</td><td style="font-size:.83rem">ter ouvido falar de (saber da existência)</td><td class="cpt">"Have you heard of this band?" / "Never heard of it!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">I HEARD THAT…</td><td style="font-size:.83rem">ouvi dizer que… / fiquei sabendo que…</td><td class="cpt">"I heard that you got promoted. Congrats!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">HEAR ME OUT</td><td style="font-size:.83rem">me deixe terminar / me ouça por completo</td><td class="cpt">"Before you judge, hear me out."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">I HEAR YOU</td><td style="font-size:.83rem">entendo você / concordo com você (informal)</td><td class="cpt">"I hear you — it's not easy." (empatia)</td></tr>
+    </table>
+    <div class="nt nt-wrn">HEAR ABOUT vs HEAR OF: HEAR ABOUT = ouvir sobre um evento/notícia recente. HEAR OF = saber da existência de algo/alguém. "I heard ABOUT the accident." ✓ (soube da notícia) / "Have you heard OF this artist?" ✓ (você conhece a existência dele?).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com HEAR</div>
+    <div class="sd">Percepção · notícias · expressões do cotidiano</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">Can you <strong>hear</strong> me now?</div><div class="ph-pt">Você consegue me ouvir agora?</div></div>
+    <div class="ph"><div class="ph-en">Did you <strong>hear</strong> that?</div><div class="ph-pt">Você ouviu isso?</div></div>
+    <div class="ph"><div class="ph-en">I <strong>heard</strong> a strange noise last night.</div><div class="ph-pt">Ouvi um barulho estranho ontem à noite.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>heard</strong> that you got promoted!</div><div class="ph-pt">Fiquei sabendo que você foi promovido!</div></div>
+    <div class="ph"><div class="ph-en">I haven't <strong>heard</strong> from him in weeks.</div><div class="ph-pt">Não tive notícias dele há semanas.</div></div>
+    <div class="ph"><div class="ph-en">Have you <strong>heard</strong> of this band?</div><div class="ph-pt">Você já ouviu falar dessa banda?</div></div>
+    <div class="ph"><div class="ph-en">Before you judge, <strong>hear</strong> me out.</div><div class="ph-pt">Antes de julgar, me deixe terminar.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>hear</strong> you — it's not easy.</div><div class="ph-pt">Entendo você — não é fácil. (empatia)</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I heared the music."</div>
+      <div class="ecr">✓ "I heard the music."</div>
+      <div class="ecd">HEAR é irregular: HEAR → HEARD. "I HEARD the music." ✓ — "heared" não existe. Mnemônico: HEAR + D = HEARD (pronuncia "HERD" — como rebanho).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I am hearing music right now."</div>
+      <div class="ecr">✓ "I can hear music right now."</div>
+      <div class="ecd">HEAR (percepção) raramente usa contínuo. "I CAN HEAR music." ✓ — use CAN HEAR para percepção presente. "I'm LISTENING to music." ✓ — se você escolheu ouvir. "I'm hearing" só em contextos especiais (ex: "I'm hearing good things about you." = tenho ouvido coisas boas).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't heard anything."</div>
+      <div class="ecr">✓ "I didn't hear anything."</div>
+      <div class="ecd">DIDN'T + base. "I didn't HEAR anything." ✓ — depois de DIDN'T, base HEAR (nunca HEARD).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I heard her to sing."</div>
+      <div class="ecr">✓ "I heard her singing." / "I heard her sing."</div>
+      <div class="ecd">HEAR + objeto + -ING ou BASE (nunca TO). "I heard her SINGING." ✓ (em progresso) / "I heard her SING." ✓ (completo). Compare: "I asked her TO sing." ✓ — ASK usa TO, HEAR não.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't hear from him since March."</div>
+      <div class="ecr">✓ "I haven't heard from him since March."</div>
+      <div class="ecd">SINCE (desde) = present perfect. "I HAVEN'T HEARD from him since March." ✓ — sem notícias desde março (e continua assim). "I didn't hear" = passado simples (não usa SINCE normalmente).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Have you heard about this band?" (conhece a existência)</div>
+      <div class="ecr">✓ "Have you heard OF this band?"</div>
+      <div class="ecd">HEAR OF = ter ouvido falar de (existência). "Have you heard OF this band?" ✓ — você conhece? HEAR ABOUT = soube de algo sobre eles. "Did you hear ABOUT what happened to this band?" ✓ — ficou sabendo de algo específico.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — HEAR</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de HEAR?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">heared</button>
+      <button class="qo" onclick="ans(this,'q1',true)">heard</button>
+      <button class="qo" onclick="ans(this,'q1',false)">hord</button>
+    </div>
+    <div class="qfb" id="q1fb">HEAR → HEARD (irregular). Só acrescenta D, mas a vogal muda: HEAR /hɪər/ → HEARD /hɜːrd/ (pronuncia "HERD"). "heared" não existe.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual é a diferença principal entre HEAR e LISTEN?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">HEAR é para música; LISTEN é para palavras.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">HEAR é involuntário (percepção); LISTEN é voluntário (atenção ativa).</button>
+      <button class="qo" onclick="ans(this,'q2',false)">HEAR é presente; LISTEN é passado.</button>
+    </div>
+    <div class="qfb" id="q2fb">HEAR = involuntário (o som chega). LISTEN = voluntário (você presta atenção). "I CAN HEAR music." ✓ (está tocando lá). "I'm LISTENING to music." ✓ (estou prestando atenção nela).</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Você consegue me ouvir agora?" → Percepção presente.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">Are you hearing me now?</button>
+      <button class="qo" onclick="ans(this,'q3',true)">Can you hear me now?</button>
+      <button class="qo" onclick="ans(this,'q3',false)">Do you hear me now?</button>
+    </div>
+    <div class="qfb" id="q3fb">"CAN you HEAR me now?" ✓ — verbo de percepção + CAN no presente. "Are you hearing me?" ✓ mas menos natural para percepção física. "Do you hear me?" ✓ também é possível, mas "Can you hear?" é a forma mais frequente.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Não tive notícias dele há semanas." → HEAR FROM.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">I didn't hear from him for weeks.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">I haven't heard from him in weeks.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">I don't hear from him in weeks.</button>
+    </div>
+    <div class="qfb" id="q4fb">"I HAVEN'T HEARD from him in weeks." ✓ — present perfect para situação que continua. HAVE + HEARD (particípio). "I didn't hear from him FOR weeks." ✓ mas implica que a situação terminou. "In weeks" sem HAVE/HAVEN'T → menos natural.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ouvi ela cantando na cozinha." → Ação em progresso.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I heard her to sing in the kitchen.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I heard her singing in the kitchen.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I heard her sing in the kitchen.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I heard her SINGING in the kitchen." ✓ — -ING = ação em progresso (flagrou ela cantando). "I heard her SING" ✓ também é correto (ação completa). "To sing" ✗ — HEAR + objeto nunca usa TO.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Fiquei sabendo do acidente no noticiário." → HEAR ABOUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">We heard of the accident on the news.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">We heard about the accident on the news.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">We heard from the accident on the news.</button>
+    </div>
+    <div class="qfb" id="q6fb">"We heard ABOUT the accident on the news." ✓ — HEAR ABOUT = ficar sabendo de (notícia/evento). HEAR OF = saber da existência. "Heard OF the accident" ✗ — o acidente não é algo cuja existência se desconhecia. "Heard FROM the accident" ✗ — FROM é para receber notícias de pessoas.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Você já ouviu falar dessa banda?" → Conhece a existência?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Have you heard about this band?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Have you heard of this band?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Have you heard from this band?</button>
+    </div>
+    <div class="qfb" id="q7fb">"Have you heard OF this band?" ✓ — HEAR OF = conhecer a existência. "Never heard of it!" = nunca ouvi falar. HEAR ABOUT = ouvir algo específico sobre eles (notícia, evento). HEAR FROM = receber contato deles (não se usa para bandas assim).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"I didn't ___ the alarm this morning." → Passado negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">heard</button>
+      <button class="qo" onclick="ans(this,'q8',true)">hear</button>
+      <button class="qo" onclick="ans(this,'q8',false)">heared</button>
+    </div>
+    <div class="qfb" id="q8fb">"I didn't HEAR the alarm this morning." ✓ — DIDN'T + base HEAR. "I didn't HEARD" ✗ — depois de DIDN'T, sempre base. "I didn't HEARED" ✗ — não existe.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">O que significa "Hear me out!" em uma discussão?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Você me ouviu? (pergunta)</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Me deixe terminar! / Me ouça por completo!</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Fique quieto! (comando)</button>
+    </div>
+    <div class="qfb" id="q9fb">"HEAR ME OUT!" = me deixe terminar antes de responder / me ouça por completo. Usado quando alguém quer ser interrompido e pede que ouçam até o fim. "Before you judge, hear me out." ✓</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Não tive notícias dele desde março." → Usa SINCE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I didn't hear from him since March.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I haven't heard from him since March.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I don't hear from him since March.</button>
+    </div>
+    <div class="qfb" id="q10fb">"I HAVEN'T HEARD from him since March." ✓ — SINCE = present perfect. A situação (sem notícias) começou em março e continua até agora. "I didn't hear" + SINCE ✗ — SINCE com passado simples é não-padrão em inglês.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Fiquei sabendo que você foi promovido!" → I HEARD THAT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">I hear that you got promoted!</button>
+      <button class="qo" onclick="ans(this,'q11',true)">I heard that you got promoted!</button>
+      <button class="qo" onclick="ans(this,'q11',false)">I have heard that you got promoted!</button>
+    </div>
+    <div class="qfb" id="q11fb">"I HEARD that you got promoted!" ✓ — passado simples (ouviu a notícia recentemente e quer comentar). "I hear that" ✓ também é possível no coloquial. "I have heard" ✓ mas menos natural para este contexto imediato/informativo.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">Qual frase usa HEAR corretamente com objeto + estrutura verbal?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">I heard them to argue loudly.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">I heard them arguing loudly.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">I heard them argued loudly.</button>
+    </div>
+    <div class="qfb" id="q12fb">"I heard them ARGUING loudly." ✓ — HEAR + objeto + -ING. "I heard them ARGUE" ✓ também é correto (base). "Heard them TO argue" ✗ — TO é inválido. "Heard them argued" ✗ — particípio passado inválido nessa posição.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../74_feel/index.html">← L74 FEEL</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

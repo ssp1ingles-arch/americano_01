@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L84 · BUY · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.fam-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.fc{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:.3rem;}
+
+/* double object box */
+.dobj{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.do-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.7rem;}
+.do-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.do-item{background:var(--s2);border-radius:.65rem;padding:.85rem 1rem;border:1px solid var(--s3);}
+.do-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.do-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.do-pt{font-size:.78rem;color:var(--tm);}
+
+/* BUY vs PURCHASE */
+.two-panel{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem;}
+.tp-item{border-radius:.75rem;padding:.95rem 1.1rem;}
+.tp-blue{background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.4);}
+.tp-grey{background:rgba(160,160,184,.06);border:1px solid rgba(160,160,184,.2);}
+.tp-w{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.15rem;}
+.tp-sub{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.35rem;}
+.tp-ex{font-size:.79rem;color:var(--tm);font-style:italic;line-height:1.5;}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .do-grid{grid-template-columns:1fr;}
+  .two-panel{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">BUY</h1>
+  <p class="hero-pt">comprar · adquirir · acreditar em (informal)</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">BUY</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">BOUGHT</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">BOUGHT</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"I bought you a coffee!"</div>
+    <div class="cl-pt">Comprei um café para você!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + DOUBLE OBJECT -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">BUY — mnemônico e double object</div>
+    <div class="sd">BUY → BOUGHT · família -OUGHT · BUY + pessoa + coisa</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família -OUGHT (vista em THINK, L76)</div>
+    <div class="mn-body">BUY → BOUGHT — vogal muda UY→OUGH. Mesma família de THINK→THOUGHT:<br>"When you BUY, you THOUGHT about it first!" (quando você compra, você pensou antes)</div>
+    <div class="fam-chips">
+      <span class="fc">BUY→BOUGHT</span>
+      <span class="fc">THINK→THOUGHT</span>
+      <span class="fc">BRING→BROUGHT</span>
+      <span class="fc">FIGHT→FOUGHT</span>
+      <span class="fc">SEEK→SOUGHT</span>
+      <span class="fc">CATCH→CAUGHT</span>
+      <span class="fc">TEACH→TAUGHT</span>
+    </div>
+  </div>
+
+  <!-- Double object -->
+  <div class="dobj">
+    <div class="do-t">BUY + duplo objeto — duas estruturas válidas</div>
+    <div class="do-grid">
+      <div class="do-item">
+        <div class="do-label">Estrutura 1 — BUY + pessoa + coisa</div>
+        <div class="do-ex">"She bought him a gift."</div>
+        <div class="do-pt">Ela comprou um presente para ele.</div>
+      </div>
+      <div class="do-item">
+        <div class="do-label">Estrutura 2 — BUY + coisa + FOR + pessoa</div>
+        <div class="do-ex">"She bought a gift for him."</div>
+        <div class="do-pt">Ela comprou um presente para ele.</div>
+      </div>
+    </div>
+    <div class="nt nt-err" style="margin-top:.75rem">"She bought for him a gift." ✗ — nunca BUY + FOR + pessoa + coisa nessa ordem. Use Estrutura 1 ou 2, jamais misture.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — buy / buys</div>
+    <div class="sd">HE / SHE / IT → BUYS · BUY FROM · BUY FOR · BUY AT</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>buy</strong> groceries every Saturday.</td><td class="cpt">Compro mantimentos todo sábado.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Where do you <strong>buy</strong> your coffee?</td><td class="cpt">Onde você compra seu café?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>buys</strong> everything online.</td><td class="cpt">Ele compra tudo online.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>buys</strong> organic food from the farmer's market.</td><td class="cpt">Ela compra alimentos orgânicos na feira.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">Money can't <strong>buy</strong> happiness.</td><td class="cpt">Dinheiro não compra felicidade.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>buy</strong> locally whenever we can.</td><td class="cpt">Compramos local sempre que podemos.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>buy</strong> in bulk to save money.</td><td class="cpt">Eles compram em quantidade para economizar.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → BUYS (com -S). "She buy everything online." ✗ → "She BUYS everything online." ✓ · "He buy groceries." ✗ → "He BUYS groceries." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — bought (irregular)</div>
+    <div class="sd">BUY → BOUGHT · passado = particípio · BUY + FROM + vendedor</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>bought</strong> a new laptop yesterday.</td><td class="cpt">Comprei um notebook novo ontem.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>buy</strong> anything at the mall?</td><td class="cpt">Você comprou alguma coisa no shopping?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>bought</strong> flowers for his wife.</td><td class="cpt">Ele comprou flores para a esposa.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>bought</strong> the house she always wanted.</td><td class="cpt">Ela comprou a casa que sempre quis.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The company <strong>bought</strong> a smaller startup.</td><td class="cpt">A empresa adquiriu uma startup menor.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>bought</strong> two tickets to the concert.</td><td class="cpt">Compramos dois ingressos para o show.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>bought</strong> a house from the previous owner.</td><td class="cpt">Eles compraram a casa do proprietário anterior.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't BUY anything." ✓ / "I didn't BOUGHT anything." ✗ — DIDN'T + base BUY. Particípio: "I have BOUGHT too much." ✓ — BOUGHT com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: BUY informal + BUY vs PURCHASE -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">BUY informal + BUY vs PURCHASE</div>
+    <div class="sd">"I don't buy that!" = não acredito nisso · BUY (cotidiano) vs PURCHASE (formal)</div></div>
+  </div>
+
+  <div class="two-panel">
+    <div class="tp-item tp-blue">
+      <div class="tp-w" style="color:var(--ca)">BUY</div>
+      <div class="tp-sub">cotidiano · fala · informal</div>
+      <div class="tp-ex">"I need to buy milk." / "Did you buy that?" / "Can I buy you a drink?" / "Money can't buy love." / "I don't buy that excuse!" (não acredito)</div>
+    </div>
+    <div class="tp-item tp-grey">
+      <div class="tp-w" style="color:var(--tm)">PURCHASE</div>
+      <div class="tp-sub">formal · documentos · negócios</div>
+      <div class="tp-ex">"Please complete your purchase." / "The purchase price was $500K." / "Purchase order #1234." / "Items purchased online."</div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">BUY = acreditar em / aceitar (informal)</div>
+    <table class="ct">
+      <tr><th>Inglês</th><th class="cpt">Tradução</th></tr>
+      <tr><td class="ce">"I don't <strong>buy</strong> that excuse."</td><td class="cpt">Não acredito nessa desculpa.</td></tr>
+      <tr><td class="ce">"Do you really <strong>buy</strong> that story?"</td><td class="cpt">Você realmente acredita nessa história?</td></tr>
+      <tr><td class="ce">"Nobody's going to <strong>buy</strong> that."</td><td class="cpt">Ninguém vai acreditar nisso.</td></tr>
+      <tr><td class="ce">"The jury didn't <strong>buy</strong> his alibi."</td><td class="cpt">O júri não aceitou seu álibi.</td></tr>
+    </table>
+    <div class="nt nt-tip">BUY = acreditar em / aceitar algo como verdade (sentido figurado). Muito comum na fala informal. "I don't buy it." = Não acredito / Não estou convencido.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: PHRASAL VERBS + EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Phrasal verbs e expressões com BUY</div>
+    <div class="sd">BUY TIME · BUY OUT · BUY INTO · BUY UP · BUY OFF</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">BUY TIME</div>
+      <div class="pv-pt">ganhar tempo / atrasar para ter mais tempo</div>
+      <div class="pv-ex">"We need to buy time." / "The lawyer bought us time."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BUY OUT</div>
+      <div class="pv-pt">comprar a parte de alguém / adquirir negócio</div>
+      <div class="pv-ex">"They bought out their partner." / "Google bought them out."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BUY INTO</div>
+      <div class="pv-pt">acreditar em / investir em (ideia ou negócio)</div>
+      <div class="pv-ex">"I don't buy into that theory." / "She bought into the business."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BUY UP</div>
+      <div class="pv-pt">comprar em grande quantidade / esgotar estoque</div>
+      <div class="pv-ex">"They bought up all the tickets." / "He bought up land."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BUY OFF</div>
+      <div class="pv-pt">subornar / comprar silêncio/favor</div>
+      <div class="pv-ex">"He tried to buy off the witness." / "You can't buy me off!"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BUY BACK</div>
+      <div class="pv-pt">recomprar / readquirir</div>
+      <div class="pv-ex">"The company bought back its shares." / "Can I buy it back?"</div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões fixas com BUY</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BUYER'S REMORSE</td><td style="font-size:.83rem">arrependimento após compra</td><td class="cpt">"I have buyer's remorse about this phone."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BEST BUY</td><td style="font-size:.83rem">melhor compra / boa relação custo-benefício</td><td class="cpt">"This laptop is the best buy right now."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">CAN I BUY YOU A DRINK?</td><td style="font-size:.83rem">posso te pagar uma bebida? (social)</td><td class="cpt">"Can I buy you a drink?" — muito comum em bares</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MONEY CAN'T BUY</td><td style="font-size:.83rem">dinheiro não compra (valores intangíveis)</td><td class="cpt">"Money can't buy happiness / love / health."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com BUY</div>
+    <div class="sd">Compras · presentes · negócios · expressões informais</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">I <strong>bought</strong> you a coffee!</div><div class="ph-pt">Comprei um café para você!</div></div>
+    <div class="ph"><div class="ph-en">She <strong>buys</strong> everything online.</div><div class="ph-pt">Ela compra tudo online.</div></div>
+    <div class="ph"><div class="ph-en">I don't <strong>buy</strong> that excuse.</div><div class="ph-pt">Não acredito nessa desculpa.</div></div>
+    <div class="ph"><div class="ph-en">We need to <strong>buy</strong> time.</div><div class="ph-pt">Precisamos ganhar tempo.</div></div>
+    <div class="ph"><div class="ph-en">Can I <strong>buy</strong> you a drink?</div><div class="ph-pt">Posso te pagar uma bebida?</div></div>
+    <div class="ph"><div class="ph-en">Money can't <strong>buy</strong> happiness.</div><div class="ph-pt">Dinheiro não compra felicidade.</div></div>
+    <div class="ph"><div class="ph-en">They <strong>bought</strong> up all the tickets.</div><div class="ph-pt">Eles compraram todos os ingressos.</div></div>
+    <div class="ph"><div class="ph-en">He has <strong>bought</strong> a new car.</div><div class="ph-pt">Ele comprou um carro novo.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I buyed a new car."</div>
+      <div class="ecr">✓ "I bought a new car."</div>
+      <div class="ecd">BUY é irregular: BUY → BOUGHT → BOUGHT. "I BOUGHT a new car." ✓ — "buyed" não existe. Família: THINK→THOUGHT / BRING→BROUGHT / BUY→BOUGHT — todos com -OUGHT.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She bought for him a gift."</div>
+      <div class="ecr">✓ "She bought him a gift." / "She bought a gift for him."</div>
+      <div class="ecd">Double object: BUY + pessoa + coisa OU BUY + coisa + FOR + pessoa. Nunca BUY + FOR + pessoa + coisa. "She BOUGHT HIM a gift." ✓ / "She BOUGHT a gift FOR HIM." ✓ — a ordem intermédia ✗.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't bought anything."</div>
+      <div class="ecr">✓ "I didn't buy anything."</div>
+      <div class="ecd">DIDN'T + base. "I didn't BUY anything." ✓ — depois de DIDN'T, base BUY (nunca BOUGHT). "I didn't bought" ✗ — dois passados na mesma negação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I buy it for you." (prometendo ação futura)</div>
+      <div class="ecr">✓ "I'll buy it for you."</div>
+      <div class="ecd">Para promessas e decisões no momento, use WILL + base. "I'LL BUY it for you." ✓ — promessa. "I buy it every day." ✓ — hábito (presente simples). Brasileiros usam presente onde o inglês pede WILL.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I bought from a store." (vago)</div>
+      <div class="ecr">✓ "I bought it from a store." / "I bought it at the store."</div>
+      <div class="ecd">BUY precisa de objeto ou contexto claro. BUY FROM = comprar de (origem/vendedor): "I bought it FROM Amazon." ✓ BUY AT = comprar em (lugar): "I bought it AT the mall." ✓ Não omitir o objeto: "I bought it." ✓ / "I bought." ✗</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has buyed three pairs of shoes."</div>
+      <div class="ecr">✓ "She has bought three pairs of shoes."</div>
+      <div class="ecd">HAVE + particípio BOUGHT. "She has BOUGHT three pairs of shoes." ✓ — "has buyed" ✗. Passado simples = particípio = BOUGHT (os dois são idênticos).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — BUY</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de BUY?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">buyed</button>
+      <button class="qo" onclick="ans(this,'q1',true)">bought</button>
+      <button class="qo" onclick="ans(this,'q1',false)">buied</button>
+    </div>
+    <div class="qfb" id="q1fb">BUY → BOUGHT (irregular). Família -OUGHT: THINK→THOUGHT / BRING→BROUGHT / BUY→BOUGHT. "She BOUGHT a new dress." ✓ — "buyed" e "buied" não existem. Passado = particípio = BOUGHT.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ela comprou um presente para ele." → Double object, opção 1.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She bought for him a gift.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She bought him a gift.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She bought a gift to him.</button>
+    </div>
+    <div class="qfb" id="q2fb">"She BOUGHT HIM a gift." ✓ — BUY + pessoa + coisa (double object). "Bought for him a gift" ✗ — ordem proibida. "Bought a gift to him" ✗ — usa-se FOR, não TO: "She bought a gift FOR him." ✓</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela compra tudo online." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She buy everything online.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She buys everything online.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She is buying everything online.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → BUYS (com -S). "She BUYS everything online." ✓ — hábito = presente simples com -S. "She buy" ✗ — falta -S. "She is buying" = ação em andamento agora (continuous), não hábito.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"I don't buy that excuse." significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">Não compro essa desculpa (literalmente).</button>
+      <button class="qo" onclick="ans(this,'q4',true)">Não acredito / não aceito essa desculpa.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">Não vendo essa desculpa.</button>
+    </div>
+    <div class="qfb" id="q4fb">"I don't BUY that excuse." = não acredito / não aceito essa desculpa (sentido figurado informal). BUY = acreditar em / aceitar como verdade. "Do you buy that story?" = Você acredita nessa história? Muito comum na fala informal.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"I didn't ___ anything at the sale." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I didn't bought anything at the sale.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I didn't buy anything at the sale.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I didn't buys anything at the sale.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I didn't BUY anything at the sale." ✓ — DIDN'T + base BUY. "didn't bought" ✗ — dois passados na mesma negação. "didn't buys" ✗ — BUYS é terceira pessoa do presente.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Precisamos ganhar tempo." → BUY TIME.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">We need to win time.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">We need to buy time.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">We need to get time.</button>
+    </div>
+    <div class="qfb" id="q6fb">"We need to BUY TIME." ✓ — BUY TIME = ganhar tempo / criar uma pausa estratégica. "Win time" ✗ — não é expressão idiomática para isso. "Get time" ✗ — não tem esse sentido. BUY TIME é expressão fixa: "She bought us time with that negotiation." ✓</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Eles compraram todos os ingressos." → BUY UP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">They bought out all the tickets.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">They bought up all the tickets.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">They bought off all the tickets.</button>
+    </div>
+    <div class="qfb" id="q7fb">"They BOUGHT UP all the tickets." ✓ — BUY UP = comprar em grande quantidade / esgotar estoque. BUY OUT = comprar a empresa/parte do sócio. BUY OFF = subornar. Cada phrasal tem sentido bem diferente!</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"She has ___ three pairs of shoes." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">buyed</button>
+      <button class="qo" onclick="ans(this,'q8',true)">bought</button>
+      <button class="qo" onclick="ans(this,'q8',false)">buy</button>
+    </div>
+    <div class="qfb" id="q8fb">"She has BOUGHT three pairs of shoes." ✓ — HAVE + particípio BOUGHT. "has buyed" ✗ — não existe. "has buy" ✗ — depois de HAS, particípio. BUY → BOUGHT → BOUGHT (passado = particípio).</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">Qual a diferença entre BUY e PURCHASE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">BUY = produto físico; PURCHASE = produto digital.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">BUY = cotidiano/informal; PURCHASE = formal (documentos, negócios).</button>
+      <button class="qo" onclick="ans(this,'q9',false)">São sinônimos totais, sempre intercambiáveis.</button>
+    </div>
+    <div class="qfb" id="q9fb">BUY = cotidiano, fala, informal. PURCHASE = formal, documentos, negócios. "I need to buy milk." ✓ (cotidiano). "Please complete your purchase." ✓ (formal/e-commerce). Ambos significam comprar, mas o registro é diferente.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Vou comprar para você!" → Promessa/decisão no momento.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I buy it for you!</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I'll buy it for you!</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I am buying it for you!</button>
+    </div>
+    <div class="qfb" id="q10fb">"I'LL BUY it for you!" ✓ — WILL + base para promessa/decisão no momento. "I buy it for you" ✗ — presente simples = hábito, não promessa. "I am buying it for you" ✓ somente se a ação estiver em andamento agora (está no processo de comprar).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Comprei de uma loja local." → BUY FROM ou BUY AT?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">Apenas FROM é correto.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">Ambos são corretos: FROM (de) e AT (em).</button>
+      <button class="qo" onclick="ans(this,'q11',false)">Apenas AT é correto.</button>
+    </div>
+    <div class="qfb" id="q11fb">Ambos corretos, com nuance: BUY FROM = comprar de (origem/fonte): "I bought it FROM the farmer." ✓ BUY AT = comprar em (lugar): "I bought it AT the local store." ✓ Na prática, os dois funcionam para lojas: "I bought FROM / AT a local store." ✓</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">O que é "buyer's remorse"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Arrependimento por ter vendido algo.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Arrependimento após fazer uma compra.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Desejo de comprar algo que não pode pagar.</button>
+    </div>
+    <div class="qfb" id="q12fb">BUYER'S REMORSE = arrependimento pós-compra. "I have buyer's remorse about this phone — I should've waited for the sale." = Estou arrependido de ter comprado este celular — devia ter esperado a promoção. BUYER = comprador + REMORSE = remorso.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../83_break/index.html">← L83 BREAK</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

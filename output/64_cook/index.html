@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L64 · COOK · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* métodos de cozinhar */
+.methods{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.mth{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem;text-align:center;}
+.mth-en{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.mth-pt{font-size:.75rem;color:var(--td);}
+
+/* cook grid */
+.ck-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.ck{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.95rem 1.1rem;border-left:3px solid var(--ca);}
+.ck-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.3rem;}
+.ck-pt{font-size:.75rem;color:var(--td);margin-bottom:.45rem;}
+.ck-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+/* COOK AS NOUN box */
+.noun-box{background:var(--cg);border:2px solid var(--ca);border-radius:1rem;padding:1.15rem 1.5rem;margin-bottom:.85rem;}
+.nb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.7rem;}
+.nb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.nb-item{background:var(--s2);border-radius:.6rem;padding:.75rem 1rem;}
+.nb-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.nb-form{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--ca);margin-bottom:.2rem;}
+.nb-ex{font-size:.82rem;color:var(--tm);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg2{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .nb-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">COOK</h1>
+  <p class="hero-pt">cozinhar · preparar (comida) · ser cozinheiro</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">COOK</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">COOKED</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">COOKED</div></div>
+    <span class="reg-badge">✓ REGULAR · só + ED</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"Who cooked this? It's delicious!"</div>
+    <div class="cl-pt">Quem cozinhou isso? Está delicioso!</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES + MÉTODOS -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">COOK — estruturas e métodos de cozinhar</div>
+    <div class="sd">COOK + comida · COOK FOR · COOK FROM SCRATCH · e os verbos de método de preparo</div></div>
+  </div>
+
+  <div class="ck-patt">
+    <div class="ck">
+      <div class="ck-key">COOK + comida</div>
+      <div class="ck-pt">cozinhar algo</div>
+      <div class="ck-ex">"She cooked pasta for dinner."</div>
+    </div>
+    <div class="ck">
+      <div class="ck-key">COOK FOR + pessoa</div>
+      <div class="ck-pt">cozinhar para alguém</div>
+      <div class="ck-ex">"He always cooks for the family."</div>
+    </div>
+    <div class="ck">
+      <div class="ck-key">COOK FROM SCRATCH</div>
+      <div class="ck-pt">cozinhar do zero (sem industrializado)</div>
+      <div class="ck-ex">"She cooks everything from scratch."</div>
+    </div>
+    <div class="ck">
+      <div class="ck-key">HOME-COOKED</div>
+      <div class="ck-pt">comida caseira (adjetivo)</div>
+      <div class="ck-ex">"Nothing beats a home-cooked meal."</div>
+    </div>
+  </div>
+
+  <!-- Métodos de cozinhar -->
+  <div class="uso">
+    <div class="ul">Verbos de método — como você cozinha?</div>
+    <div class="methods">
+      <div class="mth"><div class="mth-en">boil</div><div class="mth-pt">ferver / cozinhar na água</div></div>
+      <div class="mth"><div class="mth-en">fry</div><div class="mth-pt">fritar</div></div>
+      <div class="mth"><div class="mth-en">bake</div><div class="mth-pt">assar (forno seco)</div></div>
+      <div class="mth"><div class="mth-en">roast</div><div class="mth-pt">assar (com gordura / churrasquear)</div></div>
+      <div class="mth"><div class="mth-en">grill</div><div class="mth-pt">grelhar / fazer na grelha</div></div>
+      <div class="mth"><div class="mth-en">steam</div><div class="mth-pt">cozinhar no vapor</div></div>
+      <div class="mth"><div class="mth-en">stir-fry</div><div class="mth-pt">refogar na wok</div></div>
+      <div class="mth"><div class="mth-en">microwave</div><div class="mth-pt">aquecer no micro-ondas</div></div>
+    </div>
+    <div class="nt nt-tip">COOK é o termo geral. Cada método tem seu próprio verbo em inglês. "I'm going to FRY the chicken." / "She BAKED a cake." — nunca se diz "cook in the fry way".</div>
+  </div>
+
+  <!-- COOK como substantivo -->
+  <div class="noun-box">
+    <div class="nb-t">COOK também é substantivo!</div>
+    <div class="nb-grid">
+      <div class="nb-item">
+        <div class="nb-label">verbo</div>
+        <div class="nb-form">to COOK</div>
+        <div class="nb-ex">"I love to cook." — cozinhar</div>
+      </div>
+      <div class="nb-item">
+        <div class="nb-label">substantivo</div>
+        <div class="nb-form">a COOK</div>
+        <div class="nb-ex">"She's a great cook." — cozinheira</div>
+      </div>
+      <div class="nb-item">
+        <div class="nb-label">adj + subst.</div>
+        <div class="nb-form">CHEF / COOK</div>
+        <div class="nb-ex">"He's a chef at a restaurant." — chef profissional</div>
+      </div>
+      <div class="nb-item">
+        <div class="nb-label">expressão</div>
+        <div class="nb-form">WHAT'S COOKING?</div>
+        <div class="nb-ex">"Hey, what's cooking?" — O que há de novo?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nt nt-tip">COOK vs CHEF: um COOK é quem cozinha (profissional ou não). Um CHEF é um cozinheiro profissional treinado, geralmente chefe de cozinha. Todo chef é um cook, mas nem todo cook é um chef.</div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — cook / cooks</div>
+    <div class="sd">HE / SHE / IT → COOKS (com -S) · I'M COOKING — ação em andamento</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>cook</strong> dinner most nights.</td><td class="cpt">Eu cozinho o jantar a maioria das noites.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you <strong>cook</strong> at home?</td><td class="cpt">Você cozinha em casa?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>cooks</strong> better than he thinks.</td><td class="cpt">Ele cozinha melhor do que pensa.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>cooks</strong> from scratch every day.</td><td class="cpt">Ela cozinha do zero todo dia.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">This dish <strong>cooks</strong> quickly in a pan.</td><td class="cpt">Este prato fica pronto rápido na frigideira.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>cook</strong> together on Sundays.</td><td class="cpt">Cozinhamos juntos nos domingos.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They never <strong>cook</strong> — they order food.</td><td class="cpt">Eles nunca cozinham — pedem comida.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → COOKS (com -S). "She cook at home." ✗ → "She COOKS at home." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — cooked (regular)</div>
+    <div class="sd">COOKED para todos os pronomes — base + ED simples</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>cooked</strong> dinner last night.</td><td class="cpt">Cozinhei o jantar ontem à noite.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>cooked</strong> this? It's amazing!</td><td class="cpt">Você cozinhou isso? É incrível!</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>cooked</strong> the whole meal himself.</td><td class="cpt">Ele cozinhou a refeição toda sozinho.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>cooked</strong> pasta for the first time.</td><td class="cpt">Ela cozinhou macarrão pela primeira vez.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The chicken <strong>cooked</strong> for 45 minutes.</td><td class="cpt">O frango ficou cozinhando por 45 minutos.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>cooked</strong> together and had a great time.</td><td class="cpt">Cozinhamos juntos e nos divertimos muito.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>cooked</strong> for 20 people at the party.</td><td class="cpt">Eles cozinharam para 20 pessoas na festa.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "She didn't COOK last night." ✓ / "She didn't COOKED last night." ✗ — DIDN'T + base COOK.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">DO / DOES / DID + base COOK — perguntas sobre hábito e evento passado</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas comuns com COOK</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Hábito</td><td class="ce">Do you <strong>cook</strong> at home?</td><td class="cpt">Você cozinha em casa?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">3ª pessoa</td><td class="ce">Does she <strong>cook</strong> well?</td><td class="cpt">Ela cozinha bem?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">Who <strong>cooked</strong> this?</td><td class="cpt">Quem cozinhou isso?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">Did you <strong>cook</strong> last night?</td><td class="cpt">Você cozinhou ontem à noite?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Futuro</td><td class="ce">Are you going to <strong>cook</strong> tonight?</td><td class="cpt">Você vai cozinhar hoje à noite?</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't cook</strong></td><td class="cpt">não cozinho/am</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't cook</strong></td><td class="cpt">não cozinha</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't cook</strong></td><td class="cpt">não cozinhou</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't cook</strong></td><td class="cpt">não vai cozinhar</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">WILL + cook · GOING TO + cook · HAVE + cooked</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will cook</strong> dinner tonight.</td><td class="cpt">Vou cozinhar o jantar hoje.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to cook</strong> for us.</td><td class="cpt">Ela vai cozinhar para a gente.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>won't cook</strong> — he never does.</td><td class="cpt">Ele não vai cozinhar — nunca faz.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I've never <strong>cooked</strong> sushi before.</td><td class="cpt">Nunca cozinhei sushi antes.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has cooked</strong> for this restaurant for years.</td><td class="cpt">Ela cozinha neste restaurante há anos.</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>have cooked</strong> together before.</td><td class="cpt">Eles já cozinharam juntos antes.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com COOK</div>
+    <div class="sd">Expressões naturais da cozinha e do cotidiano</div></div>
+  </div>
+  <div class="pg2">
+    <div class="ph"><div class="ph-en">Who <strong>cooked</strong> this?</div><div class="ph-pt">Quem cozinhou isso?</div></div>
+    <div class="ph"><div class="ph-en">Do you <strong>cook</strong> at home?</div><div class="ph-pt">Você cozinha em casa?</div></div>
+    <div class="ph"><div class="ph-en">I'm learning how to <strong>cook</strong>.</div><div class="ph-pt">Estou aprendendo a cozinhar.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>cooks</strong> from scratch.</div><div class="ph-pt">Ela cozinha do zero.</div></div>
+    <div class="ph"><div class="ph-en">Nothing beats a home-<strong>cooked</strong> meal.</div><div class="ph-pt">Nada supera uma comida caseira.</div></div>
+    <div class="ph"><div class="ph-en">What's <strong>cooking</strong>?</div><div class="ph-pt">O que está havendo? / O que tem de novo?</div></div>
+    <div class="ph"><div class="ph-en">I'll <strong>cook</strong> dinner tonight.</div><div class="ph-pt">Vou fazer o jantar hoje.</div></div>
+    <div class="ph"><div class="ph-en">She's a great <strong>cook</strong>.</div><div class="ph-pt">Ela é uma ótima cozinheira.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "She cook at home every day."</div>
+      <div class="ecr">✓ "She cooks at home every day."</div>
+      <div class="ecd">HE / SHE / IT → COOKS (com -S). "She COOKS at home every day." ✓ — hábito presente com SHE.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't cooked dinner."</div>
+      <div class="ecr">✓ "I didn't cook dinner."</div>
+      <div class="ecd">DIDN'T + BASE. "I didn't COOK dinner." ✓ — DIDN'T já indica passado; base COOK (nunca COOKED após DIDN'T).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I'm cooking pasta in boiling."</div>
+      <div class="ecr">✓ "I'm boiling pasta." / "I'm cooking pasta."</div>
+      <div class="ecd">Cada método tem seu verbo. "I'm BOILING pasta." (fervendo) / "I'm FRYING chicken." (fritando) — não se diz "cooking in boiling".</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Did you cooked last night?"</div>
+      <div class="ecr">✓ "Did you cook last night?"</div>
+      <div class="ecd">DID + BASE. "Did you COOK last night?" ✓ — depois de DID, base COOK (nunca COOKED).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She is a chef." (para qualquer pessoa que cozinha)</div>
+      <div class="ecr">✓ "She is a good cook." (cozinheira em geral)</div>
+      <div class="ecd">CHEF = cozinheiro profissional treinado. COOK = qualquer pessoa que cozinha. "She's a great COOK." ✓ / "He's the CHEF at that restaurant." ✓</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I cook the food of frying."</div>
+      <div class="ecr">✓ "I fry the food." / "I'm going to fry the chicken."</div>
+      <div class="ecd">Use o verbo específico do método: FRY (fritar), BOIL (ferver), BAKE (assar no forno), GRILL (grelhar). Não descreva o método depois de COOK.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — COOK</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de COOK?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">cookt</button>
+      <button class="qo" onclick="ans(this,'q1',true)">cooked</button>
+      <button class="qo" onclick="ans(this,'q1',false)">cuked</button>
+    </div>
+    <div class="qfb" id="q1fb">COOK → COOKED (regular). Base + ED. "She COOKED dinner last night." ✓</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ele cozinha melhor do que pensa." → Hábito com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">He cook better than he thinks.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">He cooks better than he thinks.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">He is cooking better than he thinks.</button>
+    </div>
+    <div class="qfb" id="q2fb">HE → COOKS (com -S). Hábito → simples. "He COOKS better than he thinks." ✓</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Você cozinhou ontem à noite?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">Did you cooked last night?</button>
+      <button class="qo" onclick="ans(this,'q3',true)">Did you cook last night?</button>
+      <button class="qo" onclick="ans(this,'q3',false)">You cooked last night?</button>
+    </div>
+    <div class="qfb" id="q3fb">DID + BASE. "Did you COOK last night?" ✓ — depois de DID, base COOK (nunca COOKED). "You cooked last night?" é coloquial mas formalmente incompleto.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela cozinha do zero todo dia." → COOK FROM SCRATCH.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She cooks everything from zero.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She cooks everything from scratch.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She cooks everything from the beginning.</button>
+    </div>
+    <div class="qfb" id="q4fb">"She cooks everything FROM SCRATCH." ✓ — expressão fixa. "From zero" ou "from the beginning" não são usadas com esse sentido em inglês.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Estou fritando o frango." → Qual verbo correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">I'm cooking the chicken in frying.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">I'm frying the chicken.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">I'm cooking the chicken with fry.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I'm FRYING the chicken." ✓ — o verbo específico do método: FRY = fritar. Cada método tem seu próprio verbo em inglês.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">O que significa "What's cooking?"</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Pergunta sobre o prato que está no fogão.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Expressão informal: O que está havendo? / O que tem de novo?</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Pergunta sobre a receita usada.</button>
+    </div>
+    <div class="qfb" id="q6fb">"What's cooking?" = expressão informal equivalente a "What's up?" / "O que há de novo?" — pode literalmente perguntar o que está no fogão, mas é mais usada como gíria para "o que está acontecendo?"</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Ela nunca cozinha em casa." → Presente, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">She don't cook at home.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">She doesn't cook at home.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">She doesn't cooks at home.</button>
+    </div>
+    <div class="qfb" id="q7fb">SHE → DOESN'T (não DON'T) + BASE. "She DOESN'T COOK at home." ✓ — DOESN'T + base COOK (nunca COOKS após DOESN'T).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">Qual a diferença entre COOK e CHEF?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">São sinônimos perfeitos — podem ser trocados.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">COOK = qualquer pessoa que cozinha; CHEF = cozinheiro profissional treinado.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">CHEF é informal; COOK é formal.</button>
+    </div>
+    <div class="qfb" id="q8fb">COOK é o termo geral para quem cozinha. CHEF é especificamente o cozinheiro profissional (geralmente chefe de cozinha). "She's a great COOK." ✓ (amadora ou profissional). "He's the HEAD CHEF at a restaurant." ✓</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Nunca cozinhei sushi antes." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I never cooked sushi before.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I've never cooked sushi before.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I didn't cook sushi before.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I've never COOKED sushi before." ✓ — HAVE + NEVER + particípio COOKED. "I never cooked" (sem HAVE) é passado simples com sentido de "nunca cozinhei (em período específico)".</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Vou cozinhar para vocês hoje." → Futuro com GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I am going to cooked for you today.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I am going to cook for you today.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I am going to cooks for you today.</button>
+    </div>
+    <div class="qfb" id="q10fb">GOING TO + BASE. "I am going to COOK for you today." ✓ — base COOK (nunca COOKED ou COOKS depois de GOING TO).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ela está assando um bolo no forno." → Método correto.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">She's roasting a cake in the oven.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">She's baking a cake in the oven.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">She's grilling a cake in the oven.</button>
+    </div>
+    <div class="qfb" id="q11fb">BAKE = assar em forno seco (pão, bolo, biscoito). "She's BAKING a cake." ✓ ROAST = assar com gordura ou na churrasqueira (carnes). GRILL = grelhar na grelha/churrasqueira.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Nada supera uma comida caseira." → HOME-COOKED.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Nothing beats a house meal.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Nothing beats a home-cooked meal.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Nothing beats a cooked-home meal.</button>
+    </div>
+    <div class="qfb" id="q12fb">"Nothing beats a HOME-COOKED meal." ✓ — expressão fixa. HOME-COOKED é adjetivo composto que descreve comida feita em casa. A ordem é sempre HOME-COOKED (nunca "cooked-home").</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../63_sleep/index.html">← L63 SLEEP</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Samukka\\\\Documents\\\\Claude Projetos\\\\Americano_01\\\\output\\\\07_be_ficar\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Samukka\\Documents\\Claude Projetos\\Americano_01\\output"
+    ]
+  }
+}

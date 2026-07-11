@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L67 · DRIVE · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* Formas DRIVE */
+.drv-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.dp{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.95rem 1.1rem;border-left:3px solid var(--ca);}
+.dp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.3rem;}
+.dp-pt{font-size:.75rem;color:var(--td);margin-bottom:.45rem;}
+.dp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Drive someone crazy */
+.crazy-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.3);border-radius:.85rem;padding:1.1rem 1.3rem;margin-bottom:.85rem;}
+.cb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.55rem;}
+.cb-en{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--rd);margin-bottom:.3rem;}
+.cb-pt{font-size:.85rem;color:var(--tm);margin-bottom:.3rem;}
+.cb-ex{font-size:.82rem;color:var(--td);}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg2{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">DRIVE</h1>
+  <p class="hero-pt">dirigir · ir de carro · levar (alguém) de carro</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">DRIVE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">DROVE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">DRIVEN</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She drove me to the airport."</div>
+    <div class="cl-pt">Ela me levou ao aeroporto (de carro).</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">DRIVE — quatro estruturas principais</div>
+    <div class="sd">Dirigir · ir de carro · levar alguém · percorrer distância · enlouquecer alguém</div></div>
+  </div>
+
+  <div class="drv-patt">
+    <div class="dp">
+      <div class="dp-key">DRIVE + to + lugar</div>
+      <div class="dp-pt">ir de carro até</div>
+      <div class="dp-ex">"I drive to work every day."</div>
+    </div>
+    <div class="dp">
+      <div class="dp-key">DRIVE + alguém + to + lugar</div>
+      <div class="dp-pt">levar alguém de carro</div>
+      <div class="dp-ex">"Can you drive me to the station?"</div>
+    </div>
+    <div class="dp">
+      <div class="dp-key">DRIVE + distância</div>
+      <div class="dp-pt">percorrer de carro</div>
+      <div class="dp-ex">"We drove 300 km yesterday."</div>
+    </div>
+    <div class="dp">
+      <div class="dp-key">DRIVE + veículo</div>
+      <div class="dp-pt">dirigir um veículo específico</div>
+      <div class="dp-ex">"He drives a truck for a living."</div>
+    </div>
+  </div>
+
+  <!-- DRIVE someone crazy -->
+  <div class="crazy-box">
+    <div class="cb-t">Uso figurado — DRIVE + pessoa + adjetivo</div>
+    <div class="cb-en">DRIVE someone CRAZY / MAD / NUTS</div>
+    <div class="cb-pt">enlouquecer alguém / deixar alguém louco</div>
+    <div class="cb-ex">"This noise is driving me crazy!" · "He drives me nuts sometimes." · "She's driving me mad!"</div>
+  </div>
+
+  <!-- Mnemônico DRIVE/DROVE/DRIVEN -->
+  <div class="uso">
+    <div class="ul">Mnemônico — DRIVE → DROVE → DRIVEN</div>
+    <table class="ct">
+      <tr><th>Forma</th><th>Exemplo</th><th class="cpt">Tradução</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700">DRIVE (base)</td><td class="ce">I <strong>drive</strong> to work.</td><td class="cpt">Vou de carro para o trabalho.</td></tr>
+      <tr><td style="color:var(--rd);font-weight:700">DROVE (passado)</td><td class="ce">I <strong>drove</strong> 5 hours yesterday.</td><td class="cpt">Dirigi 5 horas ontem.</td></tr>
+      <tr><td style="color:var(--rd);font-weight:700">DRIVEN (particípio)</td><td class="ce">I have <strong>driven</strong> this route many times.</td><td class="cpt">Já fiz esse trajeto várias vezes.</td></tr>
+    </table>
+    <div class="nt nt-tip">Mnemônico: WRITE → WROTE → WRITTEN segue o mesmo padrão. DRIVE → DROVE → DRIVEN. Passado ≠ particípio — fique atento!</div>
+  </div>
+
+  <!-- Phrasal verbs -->
+  <div class="uso">
+    <div class="ul">Phrasal verbs e expressões</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DRIVE-THROUGH</td><td style="font-size:.83rem">serviço sem sair do carro</td><td class="cpt">"Let's hit the drive-through."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DRIVE AWAY</td><td style="font-size:.83rem">sair dirigindo / afastar alguém</td><td class="cpt">"He drove away without saying goodbye."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DRIVE BACK</td><td style="font-size:.83rem">voltar dirigindo</td><td class="cpt">"We drove back at night."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">CAN / KNOW HOW TO DRIVE</td><td style="font-size:.83rem">saber dirigir</td><td class="cpt">"Can you drive?" / "Do you know how to drive?"</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — drive / drives</div>
+    <div class="sd">HE / SHE / IT → DRIVES (com -S) · I'M DRIVING — ação em andamento</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>drive</strong> to work every day.</td><td class="cpt">Vou de carro para o trabalho todo dia.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you <strong>drive</strong>?</td><td class="cpt">Você dirige?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>drives</strong> a truck for a living.</td><td class="cpt">Ele dirige caminhão para viver.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>drives</strong> me to school every morning.</td><td class="cpt">Ela me leva para a escola toda manhã.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">This traffic <strong>drives</strong> me crazy.</td><td class="cpt">Esse trânsito me deixa louco.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>drive</strong> everywhere — we don't take buses.</td><td class="cpt">Vamos de carro a todo lugar — não pegamos ônibus.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>drive</strong> two hours to get here.</td><td class="cpt">Eles dirigem duas horas para chegar aqui.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → DRIVES (com -S). "She drive me to school." ✗ → "She DRIVES me to school." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — drove (irregular)</div>
+    <div class="sd">DRIVE → DROVE → para todos os pronomes · não confunda com DRIVEN (particípio)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>drove</strong> for 6 hours straight.</td><td class="cpt">Dirigi 6 horas seguidas.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">How long did you <strong>drive</strong> yesterday?</td><td class="cpt">Por quanto tempo você dirigiu ontem?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>drove</strong> us to the concert.</td><td class="cpt">Ele nos levou ao show.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>drove</strong> away without looking back.</td><td class="cpt">Ela foi embora sem olhar para trás.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The rain <strong>drove</strong> everyone off the streets.</td><td class="cpt">A chuva tirou todo mundo das ruas.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>drove</strong> across the country last summer.</td><td class="cpt">Atravessamos o país de carro no verão passado.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>drove</strong> 500 km without stopping.</td><td class="cpt">Eles dirigiram 500 km sem parar.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't DRIVE." ✓ / "I didn't DROVE." ✗ — DIDN'T + base DRIVE (não DROVE). "I have DRIVEN this route before." ✓ — particípio DRIVEN com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">CAN YOU DRIVE? — a pergunta mais natural sobre dirigir</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas comuns com DRIVE</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Habilidade</td><td class="ce">Can you <strong>drive</strong>?</td><td class="cpt">Você sabe dirigir?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Hábito</td><td class="ce">Do you <strong>drive</strong> to work?</td><td class="cpt">Você vai de carro para o trabalho?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Pedido</td><td class="ce">Can you <strong>drive</strong> me to the station?</td><td class="cpt">Você pode me levar à estação?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">How long did you <strong>drive</strong>?</td><td class="cpt">Por quanto tempo você dirigiu?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Futuro</td><td class="ce">Will you <strong>drive</strong> or take the bus?</td><td class="cpt">Você vai de carro ou de ônibus?</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't drive</strong></td><td class="cpt">não dirijo/em</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't drive</strong></td><td class="cpt">não dirige</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't drive</strong></td><td class="cpt">não dirigiu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>can't drive</strong></td><td class="cpt">não sabe dirigir</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">WILL + drive · HAVE + DRIVEN — atenção ao particípio irregular DRIVEN</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will drive</strong> you home.</td><td class="cpt">Vou te levar para casa.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to drive</strong> to the beach.</td><td class="cpt">Ela vai de carro à praia.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>won't drive</strong> after drinking.</td><td class="cpt">Ele não vai dirigir depois de beber.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>have driven</strong> this route before.</td><td class="cpt">Já fiz esse trajeto antes.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has never driven</strong> a truck.</td><td class="cpt">Ela nunca dirigiu um caminhão.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>have driven</strong> over 1,000 km this trip.</td><td class="cpt">Já dirigimos mais de 1.000 km nessa viagem.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">DRIVEN (particípio) — não confunda com DROVE (passado simples). "I DROVE to work." (passado simples) / "I have DRIVEN to work every day this week." (present perfect)</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com DRIVE</div>
+    <div class="sd">Expressões naturais sobre trânsito, viagens e cotidiano</div></div>
+  </div>
+  <div class="pg2">
+    <div class="ph"><div class="ph-en">Can you <strong>drive</strong> me home?</div><div class="ph-pt">Você pode me levar para casa?</div></div>
+    <div class="ph"><div class="ph-en">I <strong>drive</strong> to work every day.</div><div class="ph-pt">Vou de carro para o trabalho todo dia.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>drove</strong> for 6 hours straight.</div><div class="ph-pt">Ela dirigiu 6 horas seguidas.</div></div>
+    <div class="ph"><div class="ph-en">This traffic is <strong>driving</strong> me crazy!</div><div class="ph-pt">Esse trânsito está me deixando louco!</div></div>
+    <div class="ph"><div class="ph-en">Do you <strong>drive</strong>? / Can you <strong>drive</strong>?</div><div class="ph-pt">Você sabe dirigir?</div></div>
+    <div class="ph"><div class="ph-en">He <strong>drove</strong> away without saying goodbye.</div><div class="ph-pt">Ele foi embora sem se despedir.</div></div>
+    <div class="ph"><div class="ph-en">I'll <strong>drive</strong> — I'm not drinking tonight.</div><div class="ph-pt">Eu dirijo — não vou beber hoje.</div></div>
+    <div class="ph"><div class="ph-en">She has never <strong>driven</strong> a truck.</div><div class="ph-pt">Ela nunca dirigiu um caminhão.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I drived to work."</div>
+      <div class="ecr">✓ "I drove to work."</div>
+      <div class="ecd">DRIVE é irregular: DRIVE → DROVE (passado). "I DROVE to work." ✓ — "drived" não existe em inglês.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She drive me to school."</div>
+      <div class="ecr">✓ "She drives me to school."</div>
+      <div class="ecd">HE / SHE / IT → DRIVES (com -S). "She DRIVES me to school." ✓ — hábito presente com SHE.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't drove to work."</div>
+      <div class="ecr">✓ "I didn't drive to work."</div>
+      <div class="ecd">DIDN'T + BASE. "I didn't DRIVE to work." ✓ — depois de DIDN'T, base DRIVE (nunca DROVE).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I have drove this road before."</div>
+      <div class="ecr">✓ "I have driven this road before."</div>
+      <div class="ecd">Particípio de DRIVE = DRIVEN (não DROVE). "I have DRIVEN this road before." ✓ — DROVE só para o passado simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Can you drive me until the station?"</div>
+      <div class="ecr">✓ "Can you drive me to the station?"</div>
+      <div class="ecd">DRIVE + pessoa + TO + lugar. "Can you drive me TO the station?" ✓ — usa-se TO, não UNTIL. UNTIL = até (tempo); TO = até (lugar destino).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "This music drive me crazy."</div>
+      <div class="ecr">✓ "This music drives me crazy."</div>
+      <div class="ecd">THIS MUSIC (IT) → DRIVES (com -S). "This music DRIVES me crazy." ✓ — terceira pessoa singular sempre com -S.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — DRIVE</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de DRIVE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">drived</button>
+      <button class="qo" onclick="ans(this,'q1',true)">drove</button>
+      <button class="qo" onclick="ans(this,'q1',false)">driven</button>
+    </div>
+    <div class="qfb" id="q1fb">DRIVE → DROVE (passado) → DRIVEN (particípio). Irregular. "I DROVE for 6 hours." ✓ — "drived" não existe.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ela me leva à escola toda manhã." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She drive me to school every morning.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She drives me to school every morning.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She drove me to school every morning.</button>
+    </div>
+    <div class="qfb" id="q2fb">SHE → DRIVES (com -S). Hábito → simples. "She DRIVES me to school every morning." ✓</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ele nos levou ao show." → Passado com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">He driven us to the concert.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">He drove us to the concert.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">He drived us to the concert.</button>
+    </div>
+    <div class="qfb" id="q3fb">"He DROVE us to the concert." ✓ — DROVE é o passado simples. DRIVEN é o particípio (usado com HAVE). "Drived" não existe.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Por quanto tempo você dirigiu ontem?" → Pergunta no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">How long did you drove yesterday?</button>
+      <button class="qo" onclick="ans(this,'q4',true)">How long did you drive yesterday?</button>
+      <button class="qo" onclick="ans(this,'q4',false)">How long you drove yesterday?</button>
+    </div>
+    <div class="qfb" id="q4fb">DID + BASE. "How long did you DRIVE yesterday?" ✓ — depois de DID, base DRIVE (nunca DROVE).</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Esse trânsito está me deixando louco!" → DRIVE + crazy.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">This traffic drive me crazy!</button>
+      <button class="qo" onclick="ans(this,'q5',true)">This traffic is driving me crazy!</button>
+      <button class="qo" onclick="ans(this,'q5',false)">This traffic drives me crazy!</button>
+    </div>
+    <div class="qfb" id="q5fb">"This traffic IS DRIVING me crazy!" ✓ — ação em andamento agora. "This traffic DRIVES me crazy." ✓ também (hábito/estado geral). As duas são corretas; o contínuo enfatiza o momento atual.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">Qual é o particípio de DRIVE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">drove</button>
+      <button class="qo" onclick="ans(this,'q6',false)">drived</button>
+      <button class="qo" onclick="ans(this,'q6',true)">driven</button>
+    </div>
+    <div class="qfb" id="q6fb">DRIVE → DROVE → DRIVEN. Particípio = DRIVEN. "I have DRIVEN this road many times." ✓ — DRIVEN com HAVE (present perfect).</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Você pode me levar à estação?" → Pedido com DRIVE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">Can you drive me until the station?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">Can you drive me to the station?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">Can you drive me at the station?</button>
+    </div>
+    <div class="qfb" id="q7fb">"Can you DRIVE ME TO the station?" ✓ — DRIVE + pessoa + TO + lugar. TO = destino. UNTIL = até (tempo, não lugar). AT = localização estática.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Eu não dirigi para o trabalho hoje." → Passado, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">I didn't drove to work today.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">I didn't drive to work today.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">I not drove to work today.</button>
+    </div>
+    <div class="qfb" id="q8fb">DIDN'T + BASE. "I didn't DRIVE to work today." ✓ — DIDN'T já indica passado; base DRIVE (nunca DROVE após DIDN'T).</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Já dirigi mais de 1.000 km nessa viagem." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">We have drove over 1,000 km this trip.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">We have driven over 1,000 km this trip.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">We drove over 1,000 km this trip.</button>
+    </div>
+    <div class="qfb" id="q9fb">"We have DRIVEN over 1,000 km this trip." ✓ — HAVE + particípio DRIVEN. "We drove..." = passado simples (sem conexão com o presente).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Ela nunca dirigiu um caminhão." → Present perfect negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">She never drove a truck.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">She has never driven a truck.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">She doesn't drive a truck.</button>
+    </div>
+    <div class="qfb" id="q10fb">"She HAS NEVER DRIVEN a truck." ✓ — present perfect com NEVER + DRIVEN. "She never drove a truck." = passado simples com NEVER (também aceito na fala).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ele não dirige depois de beber." → Futuro com determinação.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">He doesn't drive after drinking.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">He won't drive after drinking.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">He will not drove after drinking.</button>
+    </div>
+    <div class="qfb" id="q11fb">"He WON'T DRIVE after drinking." ✓ — futuro com determinação/decisão. "He doesn't drive after drinking." = presente habitual (fato geral). As duas são válidas dependendo do contexto.</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Ele foi embora sem se despedir." → DRIVE AWAY no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">He drived away without saying goodbye.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">He drove away without saying goodbye.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">He driven away without saying goodbye.</button>
+    </div>
+    <div class="qfb" id="q12fb">"He DROVE away without saying goodbye." ✓ — DROVE = passado simples de DRIVE. DRIVE AWAY = sair dirigindo / ir embora de carro.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../66_play/index.html">← L66 PLAY</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

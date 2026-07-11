@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 23 — TAKE | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --c1:#FB923C;--c2:#A78BFA;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,13,13,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:1rem}
+.hero-verb{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,13vw,9rem);font-weight:800;line-height:.9;letter-spacing:-.03em;background:linear-gradient(135deg,var(--c1) 0%,var(--accent) 50%,var(--c2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);margin-bottom:2rem}
+.hero-sub span{color:var(--c1);font-weight:600}
+.hero-sub span.s2{color:var(--c2)}
+.conj-hero{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.conj-hero .pill{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:999px;padding:.4rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--accent)}
+.conj-hero .pill.past{background:rgba(251,146,60,.08);border-color:rgba(251,146,60,.25);color:var(--c1)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS */
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:2rem;line-height:1.15}
+
+/* RULE BOX */
+.rule-box{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:2rem;border-left:4px solid var(--accent)}
+.rule-box h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:1.25rem;letter-spacing:.05em;text-transform:uppercase}
+.conj-table{width:100%;border-collapse:collapse}
+.conj-table th,.conj-table td{padding:.6rem .9rem;text-align:left;border-bottom:1px solid var(--border);font-size:.95rem}
+.conj-table th{color:var(--muted);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.conj-table tr:last-child td{border-bottom:none}
+.conj-table .pronoun{color:var(--muted);font-style:italic}
+.conj-table .verb-word{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--accent)}
+.conj-table .verb-past{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--c1)}
+.tag-irreg{display:inline-block;background:rgba(251,146,60,.12);color:var(--c1);border:1px solid rgba(251,146,60,.25);border-radius:4px;font-size:.7rem;font-weight:700;padding:.1rem .4rem;margin-left:.4rem;vertical-align:middle}
+
+/* SENTIDO BLOCKS */
+.sentido-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.5rem}
+.sentido-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.sentido-num{width:2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1rem;flex-shrink:0}
+.s1-num{background:rgba(251,146,60,.15);color:var(--c1)}
+.s2-num{background:rgba(167,139,250,.15);color:var(--c2)}
+.sentido-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700}
+.s1-title{color:var(--c1)}
+.s2-title{color:var(--c2)}
+
+/* EXAMPLES */
+.ex-grid{display:grid;gap:.75rem}
+.ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:.75rem;padding:.85rem 1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem}
+.ex-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem}
+.ex-pt{color:var(--muted);font-size:.87rem}
+.ex-en .vb1{color:var(--c1)}
+.ex-en .vb2{color:var(--c2)}
+.ex-en .vb-past{color:var(--c1)}
+.past-label{font-size:.7rem;font-weight:700;background:rgba(251,146,60,.1);color:var(--c1);border-radius:4px;padding:.05rem .35rem;margin-left:.3rem;vertical-align:middle}
+
+/* EXPRESSIONS GRID */
+.expr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.expr-card{background:var(--surface2);border:1px solid var(--border);border-radius:.75rem;padding:1rem;transition:border-color .25s,transform .2s}
+.expr-card:hover{border-color:rgba(167,139,250,.35);transform:translateY(-2px)}
+.expr-en{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--c2);margin-bottom:.25rem}
+.expr-pt{color:var(--muted);font-size:.82rem}
+
+/* INSIGHT BOX */
+.insight{background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.18);border-radius:1rem;padding:1.5rem;margin-top:1.25rem}
+.insight strong{color:var(--accent);font-family:'Space Grotesk',sans-serif}
+
+/* BIG REVEAL — O SEGREDO */
+.reveal-section{background:var(--surface);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;text-align:center;margin:2rem 0}
+.reveal-section h3{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:.5rem}
+.reveal-section p{color:var(--muted);font-size:.95rem;margin-bottom:2rem}
+.reveal-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.5rem 1rem}
+.pt-verbs{display:flex;flex-direction:column;gap:.5rem}
+.pt-verb-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.5rem 1rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:var(--text)}
+.arrow-big{font-size:2.5rem;color:var(--accent);opacity:.7;align-self:center}
+.en-result{background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(167,139,250,.08));border:2px solid var(--accent);border-radius:1rem;padding:1.2rem 2.5rem;font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;color:var(--accent)}
+
+/* NEGATION WARNING */
+.neg-box{background:rgba(255,112,67,.06);border:1px solid rgba(255,112,67,.25);border-radius:1rem;padding:1.5rem;margin:1.5rem 0}
+.neg-box h4{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--warn);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.neg-compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.neg-wrong,.neg-right{border-radius:.6rem;padding:.85rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem}
+.neg-wrong{background:rgba(255,112,67,.1);color:var(--warn)}
+.neg-right{background:rgba(95,216,122,.08);color:var(--tip)}
+.neg-label{font-size:.7rem;font-weight:700;letter-spacing:.06em;display:block;margin-bottom:.3rem;opacity:.7;text-transform:uppercase}
+
+/* TIPS */
+.tip-box{background:rgba(95,216,122,.06);border:1px solid rgba(95,216,122,.2);border-radius:1rem;padding:1.25rem 1.5rem;margin:1rem 0}
+.tip-box p{color:var(--tip);font-size:.92rem}
+.tip-box strong{color:var(--tip)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-section-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem;transition:border-color .3s}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(34,211,238,.06)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--accent),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#070d0d;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-card.s1-card h4{color:var(--c1)}
+.sum-card.s2-card h4{color:var(--c2)}
+.sum-item{font-size:.88rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(34,211,238,.2);border-radius:1rem;padding:1.5rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;color:var(--accent)}
+
+/* FOOTER NAV */
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:600px){
+  .opts{grid-template-columns:1fr}
+  .neg-compare{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+  .ex-card{grid-template-columns:1fr}
+  .reveal-flow{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 04 · Verbos Essenciais</span>
+  <span class="nav-badge">A1 · Lição 23 · Verbo TAKE</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 04 · Lição 23</div>
+    <div class="hero-verb">TAKE</div>
+    <div class="hero-sub">
+      <span>PEGAR · LEVAR</span>
+      &nbsp;&nbsp;+&nbsp;&nbsp;
+      <span class="s2">TOMAR · TIRAR · FAZER</span>
+    </div>
+    <div class="conj-hero">
+      <span class="pill">I/You/We/They TAKE</span>
+      <span class="pill">He/She/It TAKES</span>
+      <span class="pill past">ALL PRONOUNS → TOOK</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- CONJUGATION RULE -->
+<section class="section">
+  <div class="section-label">A regra</div>
+  <div class="section-title">TAKE é irregular — TOOK no passado</div>
+
+  <div class="rule-box">
+    <h3>Conjugação completa</h3>
+    <table class="conj-table">
+      <thead>
+        <tr><th>Pronome</th><th>Presente</th><th>Passado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="pronoun">I</td><td class="verb-word">take</td><td class="verb-past">took <span class="tag-irreg">irregular</span></td></tr>
+        <tr><td class="pronoun">You</td><td class="verb-word">take</td><td class="verb-past">took</td></tr>
+        <tr><td class="pronoun">He / She / It</td><td class="verb-word">takes</td><td class="verb-past">took</td></tr>
+        <tr><td class="pronoun">We</td><td class="verb-word">take</td><td class="verb-past">took</td></tr>
+        <tr><td class="pronoun">They</td><td class="verb-word">take</td><td class="verb-past">took</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Dica:</strong> TOOK parece uma palavra completamente diferente, mas é apenas o passado de TAKE. Todos os pronomes usam TOOK — sem exceção!</p>
+  </div>
+
+  <div class="neg-box">
+    <h4>⚠️ Atenção: negação e perguntas</h4>
+    <div class="neg-compare">
+      <div>
+        <span class="neg-label">Negação</span>
+        <div class="neg-wrong">✗ I didn't took the bus.</div>
+        <div class="neg-right">✓ I didn't take the bus.</div>
+      </div>
+      <div>
+        <span class="neg-label">Pergunta</span>
+        <div class="neg-wrong">✗ Did she took photos?</div>
+        <div class="neg-right">✓ Did she take photos?</div>
+      </div>
+    </div>
+    <p style="margin-top:.9rem;font-size:.87rem;color:var(--muted)">Depois de <strong style="color:var(--warn)">didn't</strong> e <strong style="color:var(--warn)">did</strong>, o verbo principal volta para a forma base — nunca use TOOK.</p>
+  </div>
+</section>
+
+<!-- SENTIDO 1 -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Sentido 1</div>
+  <div class="section-title">TAKE = PEGAR / LEVAR</div>
+
+  <div class="sentido-card">
+    <div class="sentido-header">
+      <div class="sentido-num s1-num">1</div>
+      <div class="sentido-title s1-title">PEGAR e LEVAR — um único verbo em inglês</div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vb1">take</span> my bag to work.</div>
+        <div class="ex-pt">Eu levo minha bolsa pro trabalho.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">You <span class="vb1">take</span> the bus every day.</div>
+        <div class="ex-pt">Você pega o ônibus todo dia.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vb1">takes</span> his dog for a walk.</div>
+        <div class="ex-pt">Ele leva o cachorro para passear.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vb1">takes</span> her kids to school.</div>
+        <div class="ex-pt">Ela leva os filhos para a escola.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">It <span class="vb1">takes</span> two hours to get there.</div>
+        <div class="ex-pt">Leva duas horas para chegar lá.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">We <span class="vb1">take</span> the subway to work.</div>
+        <div class="ex-pt">A gente pega o metrô pro trabalho.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">They <span class="vb1">take</span> their lunch to the office.</div>
+        <div class="ex-pt">Eles levam o almoço pro escritório.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--c1);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.07em">No passado — TOOK</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="vb-past">took</span> my bag to work. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Eu levei minha bolsa pro trabalho.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="vb-past">took</span> her kids to school. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Ela levou os filhos para a escola.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">It <span class="vb-past">took</span> two hours to get there. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Levou duas horas para chegar.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">We <span class="vb-past">took</span> the subway. <span class="past-label">passado</span></div>
+          <div class="ex-pt">A gente pegou o metrô.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:1.5rem">
+      <strong>Por que TAKE para as duas coisas?</strong><br>
+      Em português, PEGAR e LEVAR são verbos diferentes. Em inglês, não importa — se você pega ou leva, a ação de "mover algo consigo" é sempre <strong style="color:var(--c1)">TAKE</strong>.
+    </div>
+  </div>
+</section>
+
+<!-- SENTIDO 2 -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Sentido 2</div>
+  <div class="section-title">TAKE = TOMAR · TIRAR · FAZER (expressões fixas)</div>
+
+  <div class="sentido-card">
+    <div class="sentido-header">
+      <div class="sentido-num s2-num">2</div>
+      <div class="sentido-title s2-title">TAKE cobre verbos muito diferentes em português</div>
+    </div>
+
+    <div class="expr-grid">
+      <div class="expr-card">
+        <div class="expr-en">take a shower</div>
+        <div class="expr-pt">tomar banho</div>
+      </div>
+      <div class="expr-card">
+        <div class="expr-en">take medicine</div>
+        <div class="expr-pt">tomar remédio</div>
+      </div>
+      <div class="expr-card">
+        <div class="expr-en">take notes</div>
+        <div class="expr-pt">fazer/tomar anotações</div>
+      </div>
+      <div class="expr-card">
+        <div class="expr-en">take photos</div>
+        <div class="expr-pt">tirar fotos</div>
+      </div>
+      <div class="expr-card">
+        <div class="expr-en">take a break</div>
+        <div class="expr-pt">fazer uma pausa</div>
+      </div>
+      <div class="expr-card">
+        <div class="expr-en">take turns</div>
+        <div class="expr-pt">se revezar</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--c2);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.07em">No passado — TOOK (mesmo padrão)</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="vb-past">took</span> a shower. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Eu tomei banho.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="vb-past">took</span> notes at the meeting. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Ela fez anotações na reunião.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">He <span class="vb-past">took</span> a lot of photos. <span class="past-label">passado</span></div>
+          <div class="ex-pt">Ele tirou muitas fotos.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">We <span class="vb-past">took</span> a break. <span class="past-label">passado</span></div>
+          <div class="ex-pt">A gente fez uma pausa.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:1.5rem;border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.05)">
+      <strong style="color:var(--c2)">Memorizando as expressões:</strong><br>
+      Essas expressões são fixas — você não inventa, só decora. A boa notícia: todas usam o mesmo verbo <strong style="color:var(--c2)">TAKE</strong>, independente do que seria em português.
+    </div>
+  </div>
+</section>
+
+<!-- O SEGREDO DO TAKE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">O segredo</div>
+  <div class="section-title">Um único verbo inglês, muitos verbos portugueses</div>
+
+  <div class="reveal-section">
+    <h3>TAKE faz tudo isso</h3>
+    <p>Veja quantos verbos portugueses se traduzem com um único TAKE:</p>
+    <div class="reveal-flow">
+      <div class="pt-verbs">
+        <div class="pt-verb-pill">PEGAR</div>
+        <div class="pt-verb-pill">LEVAR</div>
+        <div class="pt-verb-pill">TOMAR</div>
+        <div class="pt-verb-pill">TIRAR</div>
+        <div class="pt-verb-pill">FAZER (pausa)</div>
+      </div>
+      <div class="arrow-big">→</div>
+      <div class="en-result">TAKE</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Estratégia de aprendizado:</strong> Memorize as expressões como blocos prontos — <em>take a shower</em>, <em>take notes</em>, <em>take photos</em>. Com o tempo, você vai sentir quando usar TAKE naturalmente.</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-section-label">Pratique</div>
+  <div class="quiz-section-title">Quiz — TAKE</div>
+  <div class="quiz-section-sub">12 questões. Complete as frases com a forma correta do verbo TAKE.</div>
+
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS COMUNS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros que brasileiros cometem com TAKE</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>TAKE é irregular: TAKE / TAKES no presente → TOOK no passado (todos os pronomes)</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card s1-card">
+      <h4>Sentido 1 — PEGAR / LEVAR</h4>
+      <div class="sum-item"><span class="en">take the bus</span> — pegar o ônibus</div>
+      <div class="sum-item"><span class="en">take kids to school</span> — levar ao colégio</div>
+      <div class="sum-item"><span class="en">take the dog for a walk</span> — levar passear</div>
+      <div class="sum-item"><span class="en">take the subway</span> — pegar o metrô</div>
+      <div class="sum-item"><span class="en">it takes time</span> — leva tempo</div>
+    </div>
+    <div class="sum-card s2-card">
+      <h4>Sentido 2 — Expressões Fixas</h4>
+      <div class="sum-item"><span class="en">take a shower</span> — tomar banho</div>
+      <div class="sum-item"><span class="en">take medicine</span> — tomar remédio</div>
+      <div class="sum-item"><span class="en">take notes</span> — fazer anotações</div>
+      <div class="sum-item"><span class="en">take photos</span> — tirar fotos</div>
+      <div class="sum-item"><span class="en">take a break</span> — fazer uma pausa</div>
+    </div>
+  </div>
+
+  <div class="sum-rule">
+    <p>Depois de <strong>didn't</strong> e <strong>did</strong>: sempre use TAKE (nunca TOOK)</p>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <a class="fnav-btn" href="../22_need_like_love_feel/index.html">← Lição 22</a>
+  <div class="fnav-center">Lição 23 de 25 · Módulo 04</div>
+  <a class="fnav-btn" href="../index.html">Índice →</a>
+</div>
+
+<script>
+// THREE.JS HERO
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,12);
+
+  // Central sphere
+  var cGeo=new THREE.IcosahedronGeometry(1.8,4);
+  var cMat=new THREE.MeshStandardMaterial({color:0x22D3EE,emissive:0x22D3EE,emissiveIntensity:.18,roughness:.35,metalness:.6,wireframe:false});
+  var cMesh=new THREE.Mesh(cGeo,cMat);
+  scene.add(cMesh);
+
+  // Wireframe overlay
+  var wMat=new THREE.MeshBasicMaterial({color:0x22D3EE,wireframe:true,opacity:.12,transparent:true});
+  var wMesh=new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,2),wMat);
+  scene.add(wMesh);
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0x112020,2));
+  var dl=new THREE.DirectionalLight(0x22D3EE,3);dl.position.set(5,8,5);scene.add(dl);
+  var dl2=new THREE.DirectionalLight(0xFB923C,2);dl2.position.set(-5,-4,3);scene.add(dl2);
+
+  // Orbit labels (spheres) — inner ring: TAKE TAKES TOOK
+  var innerNodes=[];
+  [{c:0x22D3EE},{c:0x22D3EE},{c:0xFB923C}].forEach(function(d,i){
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.25,12,12),new THREE.MeshStandardMaterial({color:d.c,emissive:d.c,emissiveIntensity:.5,roughness:.3,metalness:.5}));
+    innerNodes.push(s);scene.add(s);
+  });
+
+  // Outer ring: c1(orange) and c2(purple)
+  var outerNodes=[];
+  [{c:0xFB923C},{c:0xA78BFA}].forEach(function(d,i){
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.35,12,12),new THREE.MeshStandardMaterial({color:d.c,emissive:d.c,emissiveIntensity:.4,roughness:.35,metalness:.5}));
+    outerNodes.push(s);scene.add(s);
+  });
+
+  // Ring lines
+  function ringLine(r,color,segments){
+    var pts=[];
+    for(var i=0;i<=segments;i++){var a=(i/segments)*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,0));}
+    var g=new THREE.BufferGeometry().setFromPoints(pts);
+    return new THREE.Line(g,new THREE.LineBasicMaterial({color:color,opacity:.15,transparent:true}));
+  }
+  scene.add(ringLine(3.5,0x22D3EE,64));
+  scene.add(ringLine(5.5,0xFB923C,64));
+
+  // Particles
+  var pGeo=new THREE.BufferGeometry();
+  var pPos=new Float32Array(300);
+  for(var i=0;i<300;i++)pPos[i]=(Math.random()-.5)*40;
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0x22D3EE,size:.06,transparent:true,opacity:.35})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.008;
+    cMesh.rotation.y=t*.4;cMesh.rotation.x=t*.15;
+    wMesh.rotation.y=-t*.3;wMesh.rotation.x=t*.2;
+    innerNodes.forEach(function(n,i){
+      var a=t+i*(Math.PI*2/3);
+      n.position.set(Math.cos(a)*3.5,Math.sin(a)*3.5,Math.sin(a*.7)*.8);
+    });
+    outerNodes.forEach(function(n,i){
+      var a=t*.6+i*(Math.PI);
+      n.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5,Math.cos(a*.5)*1.2);
+    });
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',function(){
+    W=window.innerWidth;H=window.innerHeight;
+    renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();
+  });
+})();
+
+// QUIZ
+var QS=[
+  {s:'She ___ her kids to school every morning.',opts:['take','takes','took','taked'],ans:'takes',why:'She/He/It → TAKES (presente com -s)'},
+  {s:'I ___ the bus this morning.',opts:['take','takes','took','taked'],ans:'took',why:'This morning = passado. TAKE irregular → TOOK'},
+  {s:'He ___ notes at every meeting.',opts:['take','takes','took','taked'],ans:'takes',why:'He → TAKES no presente'},
+  {s:'They didn\'t ___ a break yesterday.',opts:['take','takes','took','taked'],ans:'take',why:'Depois de didn\'t, o verbo volta para a base: TAKE. Nunca "didn\'t took"'},
+  {s:'Did you ___ the subway to work?',opts:['take','takes','took','taked'],ans:'take',why:'Depois de Did, o verbo vai para a forma base: TAKE. Nunca "did took"'},
+  {s:'I ___ a shower every morning.',opts:['take','takes','took','taked'],ans:'take',why:'I → TAKE no presente. "Take a shower" = tomar banho'},
+  {s:'She ___ a lot of photos at the party.',opts:['take','takes','took','taked'],ans:'took',why:'Passado → TOOK. "Took photos" = tirou fotos'},
+  {s:'It ___ two hours to get to the airport.',opts:['take','takes','took','taked'],ans:'takes',why:'It → TAKES. "It takes time" = leva tempo (rotina/fato)'},
+  {s:'Does he ___ his dog for a walk every day?',opts:['take','takes','took','taked'],ans:'take',why:'Depois de Does, o verbo vai para a forma base: TAKE'},
+  {s:'We ___ the subway to work yesterday.',opts:['take','takes','took','taked'],ans:'took',why:'Yesterday = passado. TOOK para todos os pronomes'},
+  {s:'She ___ medicine every day.',opts:['take','takes','took','taked'],ans:'takes',why:'She + rotina diária = TAKES no presente. "Take medicine" = tomar remédio'},
+  {s:'I didn\'t ___ my bag to the office.',opts:['take','takes','took','taked'],ans:'take',why:'Depois de didn\'t, sempre a forma base: TAKE. Nunca "didn\'t took"'}
+];
+
+var ERRORS=[
+  {wrong:"I didn't took the bus.",right:"I didn't take the bus.",why:"Depois de 'didn't', o verbo principal SEMPRE vai para a forma base. Nunca 'didn't took'."},
+  {wrong:"She taked a shower.",right:"She took a shower.",why:"TAKE é irregular — o passado é TOOK, nunca 'taked'. A forma regular não existe."},
+  {wrong:"He take his dog for a walk every day.",right:"He takes his dog for a walk every day.",why:"Com He/She/It no presente, sempre adicione -S: TAKES."},
+  {wrong:"Did they took their lunch to the office?",right:"Did they take their lunch to the office?",why:"Depois de 'Did', o verbo principal SEMPRE vai para a forma base: TAKE."},
+  {wrong:"She doesn't takes photos.",right:"She doesn't take photos.",why:"Depois de 'doesn't', o verbo vai para a forma base sem -s: TAKE (não TAKES)."},
+  {wrong:"I take the bus yesterday.",right:"I took the bus yesterday.",why:"'Yesterday' indica passado. Use o passado irregular: TOOK."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    var txt=q.s.replace('___','<span class="blank">___</span>');
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+txt+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      var letters=['A','B','C','D'];
+      btn.innerHTML='<span class="opt-letter">'+letters[j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;
+    card.appendChild(fb);
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  var btns=card.querySelectorAll('.opt-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    btns.forEach(function(b){
+      if(b.textContent.trim().endsWith(q.ans))b.classList.add('correct');
+    });
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    var msgs=['Continue praticando — releia as seções acima!','Bom começo! Revise os erros e tente de novo.','Muito bem! Você está entendendo o TAKE.','Excelente! Você domina o verbo TAKE!'];
+    document.getElementById('score-msg').textContent=pct<.5?msgs[0]:pct<.75?msgs[1]:pct<1?msgs[2]:msgs[3];
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+// BUILD ERRORS
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML=
+      '<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div>'+
+      '<div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

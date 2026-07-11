@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L59 · LEARN · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#fb923c;--cg:rgba(251,146,60,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,14vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+.lrn-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.lp{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1rem 1.1rem;border-left:3px solid var(--ca);}
+.lp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.35rem;}
+.lp-pt{font-size:.75rem;color:var(--td);margin-bottom:.55rem;}
+.lp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Variante US/UK */
+.variant-box{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.vb{border-radius:.85rem;padding:1.15rem 1.2rem;border:1px solid var(--s3);background:var(--s2);text-align:center;}
+.vb-flag{font-size:1.3rem;margin-bottom:.3rem;}
+.vb-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.vb-form{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.vb-note{font-size:.76rem;color:var(--tm);}
+
+.struct{background:var(--s2);border:1px solid var(--ca);border-radius:.75rem;padding:1rem 1.3rem;margin-bottom:.85rem;}
+.struct-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.5rem;}
+.struct-f{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;}
+.struct-f span{color:var(--ca);}
+.struct-e{font-size:.83rem;color:var(--tm);}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.qf{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1.05rem;margin-bottom:.7rem;}
+.qft{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ca);margin-bottom:.45rem;}
+.qff{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx);margin-bottom:.35rem;}
+.qff span{color:var(--ca);}
+.qfe{font-size:.82rem;color:var(--tm);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(251,146,60,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .variant-box{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 12 · Verbos de Comunicação</div>
+  <h1 class="hero-title">LEARN</h1>
+  <p class="hero-pt">aprender · descobrir · ficar sabendo</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">LEARN</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">LEARNED</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">LEARNED</div></div>
+    <span class="reg-badge">✓ REGULAR · + ED (inglês americano)</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"You're never too old to learn."</div>
+    <div class="cl-pt">Nunca é tarde para aprender.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">LEARN — quatro estruturas + americano vs britânico</div>
+    <div class="sd">LEARN + algo · + TO · + HOW TO · + ABOUT · + FROM — e a diferença LEARNED vs LEARNT</div></div>
+  </div>
+
+  <div class="lrn-patt">
+    <div class="lp">
+      <div class="lp-key">LEARN + algo</div>
+      <div class="lp-pt">aprender algo</div>
+      <div class="lp-ex">"I'm learning English."</div>
+    </div>
+    <div class="lp">
+      <div class="lp-key">LEARN + TO + BASE</div>
+      <div class="lp-pt">aprender a fazer algo</div>
+      <div class="lp-ex">"She learned to drive at 18."</div>
+    </div>
+    <div class="lp">
+      <div class="lp-key">LEARN + HOW TO</div>
+      <div class="lp-pt">aprender como fazer algo</div>
+      <div class="lp-ex">"I want to learn how to cook."</div>
+    </div>
+    <div class="lp">
+      <div class="lp-key">LEARN FROM</div>
+      <div class="lp-pt">aprender com (erro / experiência)</div>
+      <div class="lp-ex">"Learn from your mistakes."</div>
+    </div>
+  </div>
+
+  <!-- Americano vs Britânico -->
+  <div class="variant-box">
+    <div class="vb" style="border-color:rgba(251,146,60,.35)">
+      <div class="vb-flag">🇺🇸</div>
+      <div class="vb-label" style="color:var(--ca)">Inglês Americano</div>
+      <div class="vb-form">LEARNED / LEARNED</div>
+      <div class="vb-note">Passado e particípio com -ED — o mais comum no Brasil e no mundo digital</div>
+    </div>
+    <div class="vb" style="border-color:rgba(96,165,250,.35)">
+      <div class="vb-flag">🇬🇧</div>
+      <div class="vb-label" style="color:#60a5fa">Inglês Britânico</div>
+      <div class="vb-form">LEARNT / LEARNT</div>
+      <div class="vb-note">Forma irregular britânica — também válida, mas menos usada no contexto brasileiro</div>
+    </div>
+  </div>
+
+  <div class="struct">
+    <div class="struct-t">LEARN TO vs LEARN HOW TO — qual a diferença?</div>
+    <div class="struct-f">LEARN <span>TO</span> drive = aprender a dirigir (foco no resultado)</div>
+    <div class="struct-f">LEARN <span>HOW TO</span> drive = aprender como se dirige (foco no processo)</div>
+    <div class="struct-e">Na prática, são quase intercambiáveis. "I'm learning TO cook." / "I'm learning HOW TO cook." — ambas corretas e naturais.</div>
+  </div>
+
+  <div class="nt nt-tip">LEARN é regular no inglês americano: LEARN → LEARNED. No inglês britânico, usa-se LEARNT. No Brasil, LEARNED é a forma ensinada e mais comum. As duas são aceitas em qualquer contexto.</div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — learn / learns</div>
+    <div class="sd">HE / SHE / IT → LEARNS (com -S) · I'M LEARNING — contínuo muito comum!</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>learn</strong> something new every day.</td><td class="cpt">Eu aprendo algo novo todo dia.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>learn</strong> fast — keep going!</td><td class="cpt">Você aprende rápido — continue!</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>learns</strong> by doing, not by reading.</td><td class="cpt">Ele aprende fazendo, não lendo.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>learns</strong> new languages quickly.</td><td class="cpt">Ela aprende idiomas novos rapidamente.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">It <strong>learns</strong> from each interaction.</td><td class="cpt">Ele aprende com cada interação.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>learn</strong> from our mistakes.</td><td class="cpt">Nós aprendemos com nossos erros.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>learn</strong> English together.</td><td class="cpt">Eles aprendem inglês juntos.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → LEARNS (com -S). "She learn languages quickly." ✗ → "She LEARNS languages quickly." ✓ &nbsp;|&nbsp; LEARN também é muito usado no contínuo: "I'm learning English." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — learned (regular)</div>
+    <div class="sd">LEARNED para todos os pronomes — base + ED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>learned</strong> to drive when I was 18.</td><td class="cpt">Aprendi a dirigir quando tinha 18 anos.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>learned</strong> a lot in this course.</td><td class="cpt">Você aprendeu muito neste curso.</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>learned</strong> English by watching movies.</td><td class="cpt">Ele aprendeu inglês assistindo filmes.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>learned</strong> how to cook from her mom.</td><td class="cpt">Ela aprendeu a cozinhar com a mãe.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">It <strong>learned</strong> to recognize patterns.</td><td class="cpt">Aprendeu a reconhecer padrões.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>learned</strong> from that mistake.</td><td class="cpt">Nós aprendemos com aquele erro.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>learned</strong> the hard way.</td><td class="cpt">Eles aprenderam da forma mais difícil.</td></tr>
+    </table>
+    <div class="nt nt-err">Na negação: "I didn't LEARN" ✓ | "I didn't LEARNED" ✗ — DIDN'T + BASE (learn). Verbo sempre volta à base após DIDN'T.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">DO / DOES / DID + base LEARN</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Como fazer perguntas com LEARN</div>
+    <div class="qf">
+      <div class="qft">Presente</div>
+      <div class="qff"><span>DO</span> you / we / they + <span>learn</span>? &nbsp;|&nbsp; <span>DOES</span> he / she / it + <span>learn</span>?</div>
+      <div class="qfe">"Do you learn best by doing?" / "Does she learn languages easily?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Passado</div>
+      <div class="qff"><span>DID</span> + sujeito + <span>learn</span>?</div>
+      <div class="qfe">"Did you learn to drive?" / "What did he learn from that experience?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Futuro</div>
+      <div class="qff"><span>WILL</span> + sujeito + <span>learn</span>?</div>
+      <div class="qfe">"Will you learn how to cook?" / "Will they ever learn?"</div>
+    </div>
+  </div>
+
+  <div class="uso" style="margin-top:1rem">
+    <div class="ul">Negação</div>
+    <div class="two">
+      <div>
+        <div class="tl">Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't learn</strong></td><td class="cpt">não aprendo/e</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't learn</strong></td><td class="cpt">não aprende</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't learn</strong></td><td class="cpt">não aprendeu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't learn</strong></td><td class="cpt">não vai aprender</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro — will learn / going to learn</div>
+    <div class="sd">WILL + learn | GOING TO + learn — sem -S, sem -ED</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">WILL + learn</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will learn</strong> how to code.</td><td class="cpt">Eu vou aprender a programar.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>will learn</strong> from this.</td><td class="cpt">Ela vai aprender com isso.</td></tr>
+          <tr><td class="cp">THEY</td><td class="ce">They <strong>will never learn</strong>.</td><td class="cpt">Eles nunca vão aprender.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">GOING TO + learn</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>am going to learn</strong> guitar.</td><td class="cpt">Eu vou aprender violão.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>is going to learn</strong> to drive.</td><td class="cpt">Ele vai aprender a dirigir.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>are going to learn</strong> together.</td><td class="cpt">Vamos aprender juntos.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com LEARN</div>
+    <div class="sd">Expressões que o nativo usa todo dia</div></div>
+  </div>
+  <div class="pg">
+    <div class="ph"><div class="ph-en">I'm <strong>learning</strong> English.</div><div class="ph-pt">Estou aprendendo inglês.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Learn</strong> from your mistakes.</div><div class="ph-pt">Aprenda com seus erros.</div></div>
+    <div class="ph"><div class="ph-en">I want to <strong>learn</strong> how to cook.</div><div class="ph-pt">Quero aprender a cozinhar.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>learned</strong> English by watching movies.</div><div class="ph-pt">Ela aprendeu inglês assistindo filmes.</div></div>
+    <div class="ph"><div class="ph-en">You <strong>learn</strong> something new every day.</div><div class="ph-pt">Você aprende algo novo todo dia.</div></div>
+    <div class="ph"><div class="ph-en">They <strong>learned</strong> the hard way.</div><div class="ph-pt">Eles aprenderam do jeito difícil.</div></div>
+    <div class="ph"><div class="ph-en">Live and <strong>learn</strong>!</div><div class="ph-pt">É vivendo que se aprende!</div></div>
+    <div class="ph"><div class="ph-en">I'm still <strong>learning</strong>.</div><div class="ph-pt">Ainda estou aprendendo.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I didn't learned anything."</div>
+      <div class="ecr">✓ "I didn't learn anything."</div>
+      <div class="ecd">DIDN'T + BASE (learn). "I didn't LEARN anything." ✓ — DIDN'T já carrega o passado; verbo volta à base.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She learn languages quickly."</div>
+      <div class="ecr">✓ "She learns languages quickly."</div>
+      <div class="ecd">HE / SHE / IT → LEARNS (com -S). "She LEARNS languages quickly." ✓ — presente com SHE sempre com -S.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I want to learn how cooking."</div>
+      <div class="ecr">✓ "I want to learn how to cook."</div>
+      <div class="ecd">LEARN HOW TO + BASE. "I want to learn how TO COOK." ✓ — não -ING depois de HOW TO; base sempre.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Did you learned to drive?"</div>
+      <div class="ecr">✓ "Did you learn to drive?"</div>
+      <div class="ecd">DID + BASE. "Did you LEARN to drive?" ✓ — depois de DID, base LEARN (nunca LEARNED).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I'm learning to speak English since 2020."</div>
+      <div class="ecr">✓ "I've been learning English since 2020."</div>
+      <div class="ecd">Com SINCE (desde), use present perfect contínuo: "I've BEEN LEARNING English since 2020." — o -ING simples não combina com SINCE em inglês.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I will learned how to cook."</div>
+      <div class="ecr">✓ "I will learn how to cook."</div>
+      <div class="ecd">WILL + BASE. "I will LEARN how to cook." ✓ — base sempre depois de modais.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — LEARN</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado correto de LEARN no inglês americano?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">learnt</button>
+      <button class="qo" onclick="ans(this,'q1',true)">learned</button>
+      <button class="qo" onclick="ans(this,'q1',false)">learnd</button>
+    </div>
+    <div class="qfb" id="q1fb">No inglês americano (padrão no Brasil): LEARN → LEARNED. "Learnt" é a forma britânica — também correta, mas menos usada no contexto brasileiro.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Ela aprende idiomas rapidamente." → Presente com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She learn languages quickly.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She learns languages quickly.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She learned languages quickly.</button>
+    </div>
+    <div class="qfb" id="q2fb">HE / SHE / IT → LEARNS (com -S). "She LEARNS languages quickly." ✓ — hábito/característica presente com SHE.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Eu quero aprender a cozinhar." → LEARN + TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">I want to learn cooking.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">I want to learn to cook.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">I want to learn how cooking.</button>
+    </div>
+    <div class="qfb" id="q3fb">LEARN + TO + BASE. "I want to learn TO COOK." ✓ — também correto: "learn HOW TO cook." Nunca "learn cooking" (sem TO) nem "how cooking" (sem TO).</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Aprendi a dirigir quando tinha 18 anos." → Passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">I learn to drive when I was 18.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">I learned to drive when I was 18.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">I did learned to drive when I was 18.</button>
+    </div>
+    <div class="qfb" id="q4fb">Passado afirmativo regular: LEARNED direto (sem auxiliar). "I LEARNED to drive when I was 18." ✓</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Você aprendeu muito neste curso?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Did you learned a lot in this course?</button>
+      <button class="qo" onclick="ans(this,'q5',true)">Did you learn a lot in this course?</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Do you learn a lot in this course?</button>
+    </div>
+    <div class="qfb" id="q5fb">DID + BASE. "Did you LEARN a lot in this course?" ✓ — depois de DID, base LEARN (nunca LEARNED).</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Aprenda com seus erros." → Imperativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Learning from your mistakes.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Learn from your mistakes.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Learned from your mistakes.</button>
+    </div>
+    <div class="qfb" id="q6fb">Imperativo = base do verbo diretamente. "LEARN from your mistakes." ✓ — sem auxiliar, sem -ING, sem -ED.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Ela não aprendeu nada." → Passado, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">She didn't learned anything.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">She didn't learn anything.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">She not learned anything.</button>
+    </div>
+    <div class="qfb" id="q7fb">DIDN'T + BASE. "She didn't LEARN anything." ✓ — DIDN'T já carrega o passado; verbo vai à base LEARN.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">LEARN TO vs LEARN HOW TO — qual é a diferença prática?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">LEARN TO é errado — sempre use LEARN HOW TO.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Na prática, são intercambiáveis. HOW TO enfatiza o processo; TO enfatiza o resultado.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">LEARN HOW TO é mais formal; LEARN TO é informal.</button>
+    </div>
+    <div class="qfb" id="q8fb">"Learn TO cook" e "Learn HOW TO cook" são ambas naturais e corretas. HOW TO dá um leve foco em como se faz o processo; TO foca no resultado. Na prática do dia a dia, são intercambiáveis.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Eu vou aprender a programar." → WILL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I will learned how to code.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I will learn how to code.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I will learns how to code.</button>
+    </div>
+    <div class="qfb" id="q9fb">WILL + BASE. "I will LEARN how to code." ✓ — base sempre depois de modais.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Estou aprendendo inglês." → Contínuo presente.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I learn English now.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I'm learning English.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I learns English.</button>
+    </div>
+    <div class="qfb" id="q10fb">"I'm learning English." = presente contínuo, ação em andamento. ✓ — LEARN aceita perfeitamente o -ING (diferente de UNDERSTAND/KNOW que são verbos de estado).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ele não aprende com os erros." → Presente com HE, negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">He don't learn from mistakes.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">He doesn't learns from mistakes.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">He doesn't learn from mistakes.</button>
+    </div>
+    <div class="qfb" id="q11fb">HE → DOESN'T (não DON'T). Depois de DOESN'T: BASE sem -S. "He DOESN'T LEARN from mistakes." ✓</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Vamos aprender juntos." → GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">We are going to learned together.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">We are going to learn together.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">We is going to learn together.</button>
+    </div>
+    <div class="qfb" id="q12fb">WE → ARE going to + BASE. "We ARE going to LEARN together." ✓ — base LEARN (não LEARNED) depois de GOING TO.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../58_forget/index.html">← L58 FORGET</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0xfb923c;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

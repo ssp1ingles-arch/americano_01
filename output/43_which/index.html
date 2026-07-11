@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 43 — WHICH | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#38bdf8;
+  --cw:#38bdf8;--ce:#FBBF24;--cr:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(5rem,18vw,12rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--cw)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-w{color:var(--cw);background:rgba(56,189,248,.07);border-color:rgba(56,189,248,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-r{color:var(--cr);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-k{color:var(--ck);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* WHICH = opções visuais */
+.options-visual{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0;flex-wrap:wrap}
+.opt-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:.6rem;padding:.5rem .85rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;color:var(--muted)}
+.opt-arrow{color:var(--cw);font-size:1.5rem;font-weight:800}
+.opt-which{background:rgba(56,189,248,.1);border:2px solid rgba(56,189,248,.4);border-radius:.75rem;padding:.6rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--cw)}
+.opt-vs{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:.6rem;padding:.5rem .85rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ce)}
+
+/* WHAT vs WHICH centerpiece */
+.wvc-block{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.wvc-what{background:rgba(251,191,36,.07);border:2px solid rgba(251,191,36,.25);border-radius:1.25rem;padding:1.5rem}
+.wvc-which{background:rgba(56,189,248,.07);border:2px solid rgba(56,189,248,.25);border-radius:1.25rem;padding:1.5rem}
+.wvc-head{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.3rem}
+.wvc-what .wvc-head{color:var(--ce)}
+.wvc-which .wvc-head{color:var(--cw)}
+.wvc-rule{font-size:.75rem;font-weight:700;margin-bottom:.85rem;padding:.3rem .6rem;border-radius:.4rem;display:inline-block}
+.wvc-what .wvc-rule{background:rgba(251,191,36,.12);color:var(--ce)}
+.wvc-which .wvc-rule{background:rgba(56,189,248,.12);color:var(--cw)}
+.wvc-ex{margin:.35rem 0}
+.wvc-en{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.wvc-what .wvc-en{color:var(--ce)}
+.wvc-which .wvc-en{color:var(--cw)}
+.wvc-pt{font-size:.75rem;color:var(--muted)}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-w{background:rgba(56,189,248,.15);color:var(--cw)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.un-r{background:rgba(167,139,250,.15);color:var(--cr)}
+.un-k{background:rgba(52,211,153,.15);color:var(--ck)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utw{color:var(--cw)}.ute{color:var(--ce)}.utr{color:var(--cr)}.utk{color:var(--ck)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:.85rem}
+.ex-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.82rem}
+.vbw{color:var(--cw);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+.vbr{color:var(--cr);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+
+/* relativo: WHO vs WHICH */
+.rel-compare{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.85rem 0}
+.rel-who{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:.75rem;padding:.9rem}
+.rel-which{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:.75rem;padding:.9rem}
+.rel-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.45rem}
+.rel-who .rel-label{color:var(--cr)}
+.rel-which .rel-label{color:var(--cw)}
+.rel-ex{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;margin:.25rem 0}
+.rel-who .rel-ex{color:var(--cr)}
+.rel-which .rel-ex{color:var(--cw)}
+.rel-pt{font-size:.75rem;color:var(--muted);margin-bottom:.35rem}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+
+/* MÓDULO 07 COMPLETE BANNER */
+.mod-complete{max-width:860px;margin:0 auto;padding:0 1.5rem 2rem}
+.mod-complete-card{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(167,139,250,.08));border:2px solid rgba(56,189,248,.3);border-radius:1.5rem;padding:2.5rem;text-align:center}
+.mc-badge{display:inline-block;background:rgba(56,189,248,.15);color:var(--cw);border:1px solid rgba(56,189,248,.3);border-radius:999px;padding:.35rem 1rem;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.mc-title{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:800;color:var(--cw);margin-bottom:.5rem}
+.mc-sub{color:var(--muted);font-size:.95rem;margin-bottom:1.75rem}
+.mc-lessons{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.mc-lesson{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:.6rem;padding:.4rem .85rem;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--cw)}
+.mc-lesson span{font-weight:400;opacity:.65}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cw);color:var(--cw);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cw);background:rgba(56,189,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--cr));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .wvc-block{grid-template-columns:1fr}
+  .rel-compare{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+  .mc-lessons{gap:.35rem}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 07 · Question Words</span>
+  <span class="nav-badge">A2 · Lição 43 · WHICH</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 07 · Lição 43 · Conclusão</div>
+    <div class="hero-title">WHICH</div>
+    <div class="hero-sub">Qual / Quais — escolha entre opções limitadas e definidas</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">WHICH = opções definidas</span>
+      <span class="hp hp-e">WHAT = aberto</span>
+      <span class="hp hp-r">WHICH relativo = coisas</span>
+      <span class="hp hp-k">WHO relativo = pessoas</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- A REGRA CENTRAL -->
+<section class="section">
+  <div class="section-label">A essência do WHICH</div>
+  <div class="section-title" style="color:var(--cw)">WHICH = Escolha de um Grupo Limitado</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">!</div>
+      <div>
+        <div class="uso-title utw">WHICH pressupõe que as opções já existem</div>
+        <div class="uso-sub">Sempre há um grupo limitado em mente — pode ser explícito ou implícito</div>
+      </div>
+    </div>
+    <div class="options-visual">
+      <div class="opt-item">Pizza</div>
+      <div class="opt-vs">ou</div>
+      <div class="opt-item">Sushi</div>
+      <div class="opt-arrow">→</div>
+      <div class="opt-which">Which do you prefer?</div>
+    </div>
+    <div class="options-visual">
+      <div class="opt-item">Red</div>
+      <div class="opt-vs">or</div>
+      <div class="opt-item">Blue</div>
+      <div class="opt-arrow">→</div>
+      <div class="opt-which">Which color do you want?</div>
+    </div>
+    <div class="tip-box">
+      <p><strong>WHICH = "qual dos que já estão na mesa".</strong> Se as opções não foram definidas ainda → use WHAT. "Which do you prefer, pizza or sushi?" ✓ / "What do you want to eat?" ✓ (aberto, qualquer coisa).</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHICH usos 1 + 2 -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Usos 1 · 2</div>
+  <div class="section-title" style="color:var(--cw)">WHICH = Qual · WHICH + Substantivo</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">1</div>
+      <div>
+        <div class="uso-title utw">WHICH sozinho ou + ONE/ONES</div>
+        <div class="uso-sub">Pergunta qual de um grupo definido</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Pergunta</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">preferência</td><td class="en"><span class="vbw">Which</span> do you prefer?</td><td class="pt">Qual você prefere?</td></tr>
+        <tr><td class="tipo">caminho</td><td class="en"><span class="vbw">Which</span> way is the station?</td><td class="pt">Qual caminho é a estação?</td></tr>
+        <tr><td class="tipo">melhor</td><td class="en"><span class="vbw">Which</span> is better, A or B?</td><td class="pt">Qual é melhor, A ou B?</td></tr>
+        <tr><td class="tipo">singular</td><td class="en"><span class="vbw">Which</span> one is yours?</td><td class="pt">Qual é o seu?</td></tr>
+        <tr><td class="tipo">plural</td><td class="en"><span class="vbw">Which</span> ones do you want?</td><td class="pt">Quais você quer?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">2</div>
+      <div>
+        <div class="uso-title utw">WHICH + substantivo — "qual + coisa"</div>
+        <div class="uso-sub">Funciona como adjetivo interrogativo — sempre seguido de um substantivo</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">time</td><td class="en"><span class="vbw">Which</span> team do you support?</td><td class="pt">Qual time você torce?</td></tr>
+        <tr><td class="tipo">dia</td><td class="en"><span class="vbw">Which</span> day works for you?</td><td class="pt">Qual dia funciona para você?</td></tr>
+        <tr><td class="tipo">idioma</td><td class="en"><span class="vbw">Which</span> language do you speak?</td><td class="pt">Qual idioma você fala?</td></tr>
+        <tr><td class="tipo">tamanho</td><td class="en"><span class="vbw">Which</span> size fits you?</td><td class="pt">Qual tamanho serve em você?</td></tr>
+        <tr><td class="tipo">celular</td><td class="en"><span class="vbw">Which</span> phone is newer?</td><td class="pt">Qual desses celulares é mais novo?</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PAST + FUTURE compact -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Usos 3 · 4</div>
+  <div class="section-title" style="color:var(--cw)">WHICH no Passado e no Futuro</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">3–4</div>
+      <div>
+        <div class="uso-title utw">Mesma estrutura das outras question words</div>
+        <div class="uso-sub">DID + verbo base · WAS/WERE · WILL · going to</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Which</span> did you choose?</td><td class="pt">Qual você escolheu?</td></tr>
+        <tr><td class="tipo">passado</td><td class="en"><span class="vbw">Which</span> movie did they watch?</td><td class="pt">Qual filme eles assistiram?</td></tr>
+        <tr><td class="tipo">passado TO BE</td><td class="en"><span class="vbw">Which</span> was your favorite?</td><td class="pt">Qual era o seu favorito?</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en"><span class="vbw">Which</span> will you choose?</td><td class="pt">Qual você vai escolher?</td></tr>
+        <tr><td class="tipo">futuro</td><td class="en"><span class="vbw">Which</span> team will win?</td><td class="pt">Qual time vai ganhar?</td></tr>
+        <tr><td class="tipo">going to</td><td class="en"><span class="vbw">Which</span> dress is she going to wear?</td><td class="pt">Qual vestido ela vai usar?</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box">
+      <p><strong>"Which did you chose?" — ERRADO.</strong> DID + verbo BASE. "Which did you choose?" ✓ — CHOSE é passado de CHOOSE; com DID o verbo volta à base: CHOOSE.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHICH relativo -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 5</div>
+  <div class="section-title" style="color:var(--cr)">WHICH como Pronome Relativo — para Coisas</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-r">5</div>
+      <div>
+        <div class="uso-title utr">WHICH relativo = "que / o qual" — referindo-se a coisas</div>
+        <div class="uso-sub">Para PESSOAS usa-se WHO (L37) — para COISAS usa-se WHICH</div>
+      </div>
+    </div>
+    <div class="rel-compare">
+      <div class="rel-who">
+        <div class="rel-label">WHO — para pessoas</div>
+        <div class="rel-ex">The man <span style="text-decoration:underline">who</span> called is my father.</div>
+        <div class="rel-pt">O homem que ligou é meu pai.</div>
+        <div class="rel-ex" style="margin-top:.35rem">The girl <span style="text-decoration:underline">who</span> sang was great.</div>
+        <div class="rel-pt">A garota que cantou foi ótima.</div>
+      </div>
+      <div class="rel-which">
+        <div class="rel-label">WHICH — para coisas</div>
+        <div class="rel-ex">The car <span style="text-decoration:underline">which</span> I bought is red.</div>
+        <div class="rel-pt">O carro que eu comprei é vermelho.</div>
+        <div class="rel-ex" style="margin-top:.35rem">The book <span style="text-decoration:underline">which</span> you gave me is great.</div>
+        <div class="rel-pt">O livro que você me deu é ótimo.</div>
+      </div>
+    </div>
+    <table class="ex-table" style="margin-top:.85rem">
+      <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">coisa</td><td class="en">The car <span class="vbr">which</span> I bought is red.</td><td class="pt">O carro que eu comprei é vermelho.</td></tr>
+        <tr><td class="tipo">coisa</td><td class="en">He was late, <span class="vbr">which</span> surprised me.</td><td class="pt">Ele chegou atrasado, o que me surpreendeu.</td></tr>
+        <tr><td class="tipo">escolha</td><td class="en">I don't know <span class="vbr">which</span> to choose.</td><td class="pt">Não sei qual escolher.</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>WHO (pessoas) vs WHICH (coisas).</strong> "The man WHO called" ✓ / "The car WHICH I bought" ✓. Em inglês moderno informal, THAT pode substituir ambos: "the man that called" / "the car that I bought" — mas WHICH nunca substitui WHO para pessoas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT vs WHICH CENTERPIECE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 6 — O mais importante</div>
+  <div class="section-title" style="color:var(--ce)">WHAT vs WHICH — A Distinção Final</div>
+
+  <div class="wvc-block">
+    <div class="wvc-what">
+      <div class="wvc-head">WHAT</div>
+      <div class="wvc-rule">resposta ABERTA · qualquer coisa</div>
+      <div class="wvc-ex">
+        <div class="wvc-en">What do you want to eat?</div>
+        <div class="wvc-pt">O que você quer comer? (tudo é possível)</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">What color is your car?</div>
+        <div class="wvc-pt">Que cor é seu carro? (qualquer cor)</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">What sport do you like?</div>
+        <div class="wvc-pt">Que esporte você gosta? (aberto)</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">What is your name?</div>
+        <div class="wvc-pt">Qual é o seu nome? (sem opções)</div>
+      </div>
+    </div>
+    <div class="wvc-which">
+      <div class="wvc-head">WHICH</div>
+      <div class="wvc-rule">opções LIMITADAS · escolha definida</div>
+      <div class="wvc-ex">
+        <div class="wvc-en">Which do you prefer, pizza or sushi?</div>
+        <div class="wvc-pt">Qual você prefere? (essas 2 opções)</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">Which color, red or blue?</div>
+        <div class="wvc-pt">Qual cor, vermelho ou azul? (2 opções)</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">Which sport: soccer or basketball?</div>
+        <div class="wvc-pt">Qual esporte: futebol ou basquete?</div>
+      </div>
+      <div class="wvc-ex" style="margin-top:.5rem">
+        <div class="wvc-en">Which book did you like more?</div>
+        <div class="wvc-pt">Qual livro você gostou mais? (dos lidos)</div>
+      </div>
+    </div>
+  </div>
+  <div class="warn-box">
+    <p><strong>"Which is your name?" — ERRADO.</strong> Nome não tem opções definidas → "What is your name?" ✓. WHICH só quando as opções já foram estabelecidas no contexto.</p>
+  </div>
+</section>
+
+<!-- MÓDULO 07 COMPLETE -->
+<div class="mod-complete">
+  <div class="mod-complete-card">
+    <div class="mc-badge">✓ Módulo 07 Completo</div>
+    <div class="mc-title">Question Words — Concluído!</div>
+    <div class="mc-sub">Você aprendeu todas as 7 Question Words em inglês</div>
+    <div class="mc-lessons">
+      <div class="mc-lesson">L37 <span>WHO</span></div>
+      <div class="mc-lesson">L38 <span>WHAT</span></div>
+      <div class="mc-lesson">L39 <span>WHEN</span></div>
+      <div class="mc-lesson">L40 <span>WHERE</span></div>
+      <div class="mc-lesson">L41 <span>WHY</span></div>
+      <div class="mc-lesson">L42 <span>HOW</span></div>
+      <div class="mc-lesson">L43 <span>WHICH</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — WHICH</div>
+  <div class="quiz-sub">12 questões sobre WHICH — e como distingui-lo de WHAT.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com WHICH</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(56,189,248,.25)">
+      <h4 style="color:var(--cw)">WHICH = qual</h4>
+      <div class="sum-item">opções definidas</div>
+      <div class="sum-item"><span class="en">Which do you prefer?</span></div>
+      <div class="sum-item"><span class="en">Which one is yours?</span></div>
+      <div class="sum-item">+ noun = qual + coisa</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">WHAT vs WHICH</h4>
+      <div class="sum-item">WHAT = aberto</div>
+      <div class="sum-item">WHICH = limitado</div>
+      <div class="sum-item">name? → WHAT</div>
+      <div class="sum-item">A or B? → WHICH</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cr)">WHICH relativo</h4>
+      <div class="sum-item">= que / o qual</div>
+      <div class="sum-item">para COISAS</div>
+      <div class="sum-item">WHO = para pessoas</div>
+      <div class="sum-item"><span class="en">The car which I bought</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.2)">
+      <h4 style="color:var(--ck)">Cuidados</h4>
+      <div class="sum-item">DID + base: choose ✓</div>
+      <div class="sum-item">não: chose ✗</div>
+      <div class="sum-item">Which is your name? ✗</div>
+      <div class="sum-item">What is your name? ✓</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../42_how/index.html">← Lição 42</a>
+  <div class="fnav-center">Lição 43 de 89 · Fim do Módulo 07</div>
+  <a class="fnav-btn" href="../index.html">Índice →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x38bdf8,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x38bdf8,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"Which do you prefer?" — quando usar WHICH e não WHAT?',opts:['Opções já definidas no contexto','Resposta aberta, qualquer coisa','Para perguntar nome','Para perguntar sobre pessoas'],ans:'Opções já definidas no contexto',why:"WHICH = escolha entre opções JÁ DEFINIDAS. 'Which do you prefer, pizza or sushi?' — as opções estão no contexto. WHAT seria para respostas abertas: 'What do you want to eat?' (qualquer coisa)."},
+  {s:'"___ color do you want, red or blue?" — WHICH ou WHAT?',opts:['Which','What','Who','Where'],ans:'Which',why:"WHICH — as opções estão explícitas: red or blue. Quando as opções são dadas, usa WHICH. WHAT seria: 'What color is your car?' (aberto, qualquer cor)."},
+  {s:'"___ is your name?" — WHICH ou WHAT?',opts:['What','Which','Who','Where'],ans:'What',why:"WHAT — nome não tem opções definidas. 'What is your name?' ✓ — 'Which is your name?' ✗. WHICH só quando há opções para escolher; nome pode ser qualquer coisa."},
+  {s:'"Which did you ___?" — verbo correto',opts:['choose (base)','chose (past)','chosen (past part.)','choosing (ing)'],ans:'choose (base)',why:"DID + verbo BASE. 'Which did you choose?' ✓ — CHOSE é o passado de CHOOSE; com DID, volta à base: CHOOSE. 'Which did you chose?' ✗."},
+  {s:'"Which ___ your favorite?" — TO BE passado',opts:['was','did','were','is'],ans:'was',why:"'Which was your favorite?' — TO BE no passado, sujeito singular (which = um favorito) → WAS. Não usa DID — com TO BE a inversão é direta: WHICH + WAS."},
+  {s:'"The car ___ I bought is red." — relativo para coisa',opts:['which','who','that only','whose'],ans:'which',why:"WHICH relativo = que / o qual, para COISAS. 'The car which I bought is red.' ✓ — WHO seria para pessoas: 'The man who called.' THAT também funciona, mas WHICH é mais formal."},
+  {s:'"The man ___ called is my father." — relativo para pessoa',opts:['who','which','that only','whose'],ans:'who',why:"WHO relativo = que, para PESSOAS. 'The man who called is my father.' ✓ — WHICH seria para coisas: 'The car which I bought.' WHO (pessoas) vs WHICH (coisas)."},
+  {s:'"He was late, ___ surprised me." — referência à frase',opts:['which','who','what','that'],ans:'which',why:"'He was late, which surprised me.' — WHICH aqui refere-se à frase inteira ('ele chegar atrasado me surpreendeu'). Quando o pronome relativo se refere a uma situação/ideia, usa-se WHICH."},
+  {s:'"I don\'t know ___ to choose." — entre opções',opts:['which','what','who','where'],ans:'which',why:"'I don't know which to choose.' = Não sei qual escolher. WHICH = escolha entre opções. Não é pergunta — está no meio da frase como pronome de escolha. WHAT seria: 'I don't know what to do' (aberto)."},
+  {s:'"Which team ___ win?" — futuro',opts:['will','do','did','is'],ans:'will',why:"Futuro com WILL: WHICH + WILL + sujeito + verbo base. 'Which team will win?' ✓. WILL não muda com o sujeito. 'Which team will wins?' ✗."},
+  {s:'"Which ___ is she going to wear?" — going to com noun',opts:['dress','dresses','dressed','dressing'],ans:'dress',why:"'Which dress is she going to wear?' — WHICH + substantivo singular (dress). Going to: IS + sujeito (she) + going to + verbo base (wear). O noun DRESS identifica o grupo limitado (vestidos disponíveis)."},
+  {s:'"___ book are you reading?" — aberto ou opções?',opts:['What (aberto)','Which (opções)','Who (pessoa)','Where (lugar)'],ans:'What (aberto)',why:"'What book are you reading?' — pergunta aberta, sem opções definidas. WHAT = aberto. 'Which book did you like more?' seria quando há um grupo limitado de livros lidos para comparar."}
+];
+
+var ERRORS=[
+  {wrong:'Which is your name?',right:'What is your name?',why:"Nome não tem opções definidas — qualquer nome é possível → WHAT. 'What is your name?' ✓ — WHICH pressupõe opções definidas. 'Which name, João or Pedro?' seria WHICH (2 opções claras)."},
+  {wrong:'Which did you chose?',right:'Which did you choose?',why:"DID + verbo BASE. 'Which did you choose?' ✓ — CHOSE é o passado irregular de CHOOSE; com DID, o verbo volta à base. Nunca: DID + passado."},
+  {wrong:'The man which called is my father.',right:'The man who called is my father.',why:"WHICH relativo = para COISAS. WHO relativo = para PESSOAS. 'The man WHO called' ✓ — 'which' não pode referir-se a uma pessoa."},
+  {wrong:'What do you prefer, coffee or tea?',right:'Which do you prefer, coffee or tea?',why:"Quando as opções são EXPLÍCITAS (coffee ou tea), use WHICH. 'Which do you prefer, coffee or tea?' ✓ — WHAT seria para resposta aberta: 'What do you want to drink?' (qualquer coisa)."},
+  {wrong:'He was late, who surprised me.',right:'He was late, which surprised me.',why:"Quando o pronome relativo refere-se a uma IDEIA/SITUAÇÃO (chegar atrasado), usa-se WHICH. WHO refere-se a pessoas específicas. 'He was late, which surprised me.' ✓"},
+  {wrong:"I don't know who to choose.",right:"I don't know which to choose.",why:"WHICH = escolha entre opções (coisas). WHO = pessoas. 'I don't know which to choose' = Não sei qual escolher (entre opções). WHO seria para escolher uma pessoa: 'I don't know who to invite.'"}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque em WHAT vs WHICH!':pct<.75?'Bom progresso! Atenção ao WHICH relativo (coisas vs pessoas).':pct<1?'Muito bem! Módulo 07 quase dominado.':'Perfeito! Módulo 07 de Question Words concluído!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

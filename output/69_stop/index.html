@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L69 · STOP · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* Duplo P alert */
+.double-box{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.3);border-radius:.85rem;padding:1.1rem 1.3rem;margin-bottom:.85rem;}
+.db-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yl);margin-bottom:.55rem;}
+.db-rule{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--yl);margin-bottom:.4rem;}
+.db-ex{font-size:.82rem;color:var(--tm);}
+
+/* STOP -ING vs STOP TO comparison — the KEY lesson */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.85rem;}
+.cm{border-radius:.85rem;padding:1.1rem 1.2rem;}
+.cm-a{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);}
+.cm-b{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.25);}
+.cm-label{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem;}
+.cm-rule{font-family:'Space Grotesk',sans-serif;font-size:.93rem;font-weight:800;margin-bottom:.4rem;}
+.cm-ex{font-size:.8rem;color:var(--tm);}
+.cm-pt{font-size:.75rem;color:var(--td);margin-top:.35rem;font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.pg2{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .cmp{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">STOP</h1>
+  <p class="hero-pt">parar · parar de · impedir · fazer escala</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">STOP</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">STOPPED</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">STOPPED</div></div>
+    <span class="reg-badge">✓ REGULAR · +PP+ED</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She stopped smoking two years ago."</div>
+    <div class="cl-pt">Ela parou de fumar há dois anos.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: STOP + -ING vs STOP + TO -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">A maior pegadinha do STOP — -ING ou TO?</div>
+    <div class="sd">STOP + -ING e STOP + TO têm significados OPOSTOS — atenção total!</div></div>
+  </div>
+
+  <div class="cmp">
+    <div class="cm cm-a">
+      <div class="cm-label" style="color:var(--rd)">STOP + -ING</div>
+      <div class="cm-rule" style="color:var(--rd)">= parar DE fazer algo</div>
+      <div class="cm-ex">"She <strong style="color:var(--rd)">stopped smoking</strong>."<br>"He <strong style="color:var(--rd)">stopped talking</strong>."<br>"Stop <strong style="color:var(--rd)">running</strong>!"</div>
+      <div class="cm-pt">→ Ela parou de fumar (não fuma mais).<br>→ Ele parou de falar (ficou em silêncio).<br>→ Pare de correr!</div>
+    </div>
+    <div class="cm cm-b">
+      <div class="cm-label" style="color:var(--ca)">STOP + TO + base</div>
+      <div class="cm-rule" style="color:var(--ca)">= parar PARA fazer algo</div>
+      <div class="cm-ex">"She <strong style="color:var(--ca)">stopped to smoke</strong>."<br>"He <strong style="color:var(--ca)">stopped to talk</strong>."<br>"I <strong style="color:var(--ca)">stopped to rest</strong>."</div>
+      <div class="cm-pt">→ Ela parou (o que fazia) para fumar.<br>→ Ele parou (p/ conversar comigo).<br>→ Parei para descansar.</div>
+    </div>
+  </div>
+
+  <div class="nt nt-wrn">Significados OPOSTOS! "She stopped smoking." = ela não fuma mais ✓ · "She stopped to smoke." = ela parou (de andar/trabalhar) para acender um cigarro ✓. O contexto muda completamente com a escolha de -ING ou TO!</div>
+
+  <!-- Consonant doubling -->
+  <div class="double-box" style="margin-top:1.1rem">
+    <div class="db-t">⚠ Regra ortográfica — consoante dobrada</div>
+    <div class="db-rule">STOP → STOPP + ED = STOPPED · STOPPING</div>
+    <div class="db-ex">1 sílaba + 1 vogal + 1 consoante final → dobra a consoante antes de -ED / -ING.<br>Outros exemplos: drop → dropped · plan → planned · shop → shopped · run → running · sit → sitting.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — stop / stops</div>
+    <div class="sd">HE / SHE / IT → STOPS · STOP! = imperativo mais natural</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>stop</strong> working at 6 p.m.</td><td class="cpt">Paro de trabalhar às 18h.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Do you ever <strong>stop</strong> to think?</td><td class="cpt">Você para para pensar alguma vez?</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>stops</strong> at the gym every morning.</td><td class="cpt">Ele passa na academia toda manhã.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She never <strong>stops</strong> talking.</td><td class="cpt">Ela nunca para de falar.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The bus <strong>stops</strong> on every corner.</td><td class="cpt">O ônibus para em cada esquina.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>stop</strong> here for lunch.</td><td class="cpt">Paramos aqui para o almoço.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>stop</strong> production on weekends.</td><td class="cpt">Eles param a produção nos fins de semana.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → STOPS (com -S). "She never stop talking." ✗ → "She never STOPS talking." ✓</div>
+  </div>
+
+  <!-- Phrasal verbs e expressões -->
+  <div class="uso">
+    <div class="ul">Phrasal verbs e expressões com STOP</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">STOP BY</td><td style="font-size:.83rem">passar por (lugar) rapidamente</td><td class="cpt">"Stop by my office later."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">STOP OVER</td><td style="font-size:.83rem">fazer escala / parada em viagem</td><td class="cpt">"We stopped over in Dubai."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BUS STOP</td><td style="font-size:.83rem">ponto de ônibus</td><td class="cpt">"I'll meet you at the bus stop."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">NON-STOP</td><td style="font-size:.83rem">sem parar / direto (voo, trabalho)</td><td class="cpt">"It was a non-stop flight to Tokyo."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">PUT A STOP TO</td><td style="font-size:.83rem">colocar fim a / encerrar definitivamente</td><td class="cpt">"We need to put a stop to this behavior."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — stopped (regular + PP dobrado)</div>
+    <div class="sd">STOPPED para todos os pronomes — lembre do duplo P!</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>stopped</strong> eating sugar last month.</td><td class="cpt">Parei de comer açúcar no mês passado.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">When did you <strong>stop</strong> smoking?</td><td class="cpt">Quando você parou de fumar?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>stopped</strong> to tie his shoes.</td><td class="cpt">Ele parou para amarrar o tênis.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>stopped</strong> working at midnight.</td><td class="cpt">Ela parou de trabalhar à meia-noite.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The rain <strong>stopped</strong> just before the game.</td><td class="cpt">A chuva parou bem antes do jogo.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>stopped</strong> over in Rome on the way back.</td><td class="cpt">Fizemos uma escala em Roma na volta.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>stopped</strong> by to say hello.</td><td class="cpt">Eles passaram para dar um oi.</td></tr>
+    </table>
+    <div class="nt nt-err">Ortografia: STOP → STOPPED (dois P). "She stoped smoking." ✗ → "She STOPPED smoking." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">STOP IT! · CAN'T STOP · DON'T STOP — as formas mais usadas</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas e formas negativas</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Imperativo</td><td class="ce"><strong>Stop!</strong> / <strong>Stop it!</strong></td><td class="cpt">Pare! / Para com isso!</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">When did you <strong>stop</strong>?</td><td class="cpt">Quando você parou?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Can't</td><td class="ce">I can't <strong>stop</strong> thinking about it.</td><td class="cpt">Não consigo parar de pensar nisso.</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Don't</td><td class="ce">Don't <strong>stop</strong> now — keep going!</td><td class="cpt">Não pare agora — continue!</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Didn't</td><td class="ce">He didn't <strong>stop</strong> running until the end.</td><td class="cpt">Ele não parou de correr até o final.</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't stop</strong></td><td class="cpt">não paro/am</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't stop</strong></td><td class="cpt">não para</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't stop</strong></td><td class="cpt">não parou</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't stop</strong></td><td class="cpt">não vai parar</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">HAVE STOPPED · HAVE BEEN + -ING — "I've stopped + -ING" marca mudança de hábito</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will stop</strong> by later.</td><td class="cpt">Passo aí mais tarde.</td></tr>
+          <tr><td class="cp">IT</td><td class="ce">The rain <strong>is going to stop</strong> soon.</td><td class="cpt">A chuva vai parar em breve.</td></tr>
+          <tr><td class="cp">HE</td><td class="ce">He <strong>won't stop</strong> until he finishes.</td><td class="cpt">Ele não vai parar até terminar.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>have stopped</strong> drinking coffee.</td><td class="cpt">Parei de tomar café. (mudança)</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has stopped</strong> coming to class.</td><td class="cpt">Ela parou de vir à aula.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>haven't stopped</strong> yet.</td><td class="cpt">Ainda não paramos.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">"I've stopped eating sugar." = present perfect marcando mudança de hábito (e o efeito continua até agora). Compare com "I stopped eating sugar last month." = passado simples com referência ao momento.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com STOP</div>
+    <div class="sd">Imperativo · hábitos · paradas · voos · ponto de ônibus</div></div>
+  </div>
+  <div class="pg2">
+    <div class="ph"><div class="ph-en"><strong>Stop!</strong> / <strong>Stop it!</strong></div><div class="ph-pt">Pare! / Para com isso!</div></div>
+    <div class="ph"><div class="ph-en">She <strong>stopped</strong> smoking two years ago.</div><div class="ph-pt">Ela parou de fumar há dois anos.</div></div>
+    <div class="ph"><div class="ph-en">He <strong>stopped</strong> to talk to me.</div><div class="ph-pt">Ele parou para conversar comigo.</div></div>
+    <div class="ph"><div class="ph-en">I can't <strong>stop</strong> thinking about it.</div><div class="ph-pt">Não consigo parar de pensar nisso.</div></div>
+    <div class="ph"><div class="ph-en"><strong>Stop by</strong> my office later.</div><div class="ph-pt">Passa no meu escritório mais tarde.</div></div>
+    <div class="ph"><div class="ph-en">We <strong>stopped over</strong> in Dubai.</div><div class="ph-pt">Fizemos escala em Dubai.</div></div>
+    <div class="ph"><div class="ph-en">It was a non-<strong>stop</strong> flight.</div><div class="ph-pt">Foi um voo direto (sem escala).</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>stop</strong> now — keep going!</div><div class="ph-pt">Não pare agora — continue!</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "She stoped smoking."</div>
+      <div class="ecr">✓ "She stopped smoking."</div>
+      <div class="ecd">STOP → STOPPED (P duplo). 1 sílaba + vogal + consoante → dobra antes de -ED. "She STOPPED smoking." ✓ — "stoped" com um P só está errado.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He stopped to smoking."</div>
+      <div class="ecr">✓ "He stopped smoking." / "He stopped to smoke."</div>
+      <div class="ecd">STOP + TO + -ING é inválido. Escolha: STOP + -ING ("stopped smoking" = parou de fumar) ou STOP + TO + base ("stopped to smoke" = parou para fumar).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She never stop talking."</div>
+      <div class="ecr">✓ "She never stops talking."</div>
+      <div class="ecd">SHE → STOPS (com -S). "She never STOPS talking." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He stopped to working." (quis dizer: parou de trabalhar)</div>
+      <div class="ecr">✓ "He stopped working."</div>
+      <div class="ecd">STOP + -ING = parar de fazer. "He STOPPED WORKING." ✓ — "stopped to working" ✗ é inválido; "stopped to work" = parou PARA trabalhar (sentido oposto).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't stopped the car."</div>
+      <div class="ecr">✓ "I didn't stop the car."</div>
+      <div class="ecd">DIDN'T + BASE. "I didn't STOP the car." ✓ — depois de DIDN'T, base STOP (nunca STOPPED).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "The bus stop here." (hábito com THE BUS)</div>
+      <div class="ecr">✓ "The bus stops here."</div>
+      <div class="ecd">THE BUS (IT) → STOPS (com -S). "The bus STOPS here." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — STOP</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de STOP? (atenção à ortografia!)</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">stoped</button>
+      <button class="qo" onclick="ans(this,'q1',true)">stopped</button>
+      <button class="qo" onclick="ans(this,'q1',false)">stopt</button>
+    </div>
+    <div class="qfb" id="q1fb">STOP → STOPPED (P duplo). 1 sílaba + vogal + consoante → dobra a consoante. "She STOPPED smoking." ✓ — "stoped" com um P é errado.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"She stopped smoking." — o que essa frase significa?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">Ela parou para fumar (acendeu um cigarro).</button>
+      <button class="qo" onclick="ans(this,'q2',true)">Ela parou de fumar (não fuma mais).</button>
+      <button class="qo" onclick="ans(this,'q2',false)">Ela fumou e parou ao mesmo tempo.</button>
+    </div>
+    <div class="qfb" id="q2fb">STOP + -ING = parar DE fazer. "She stopped SMOKING." = ela não fuma mais. Compare: "She stopped TO smoke." = ela parou (o que estava fazendo) para acender um cigarro — significados opostos!</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"He stopped to talk to me." — o que essa frase significa?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">Ele parou de falar comigo (ficou em silêncio).</button>
+      <button class="qo" onclick="ans(this,'q3',true)">Ele parou (o que estava fazendo) para conversar comigo.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">Ele conversou e então parou.</button>
+    </div>
+    <div class="qfb" id="q3fb">STOP + TO + base = parar PARA fazer. "He stopped TO TALK to me." = ele parou (de caminhar, por exemplo) para me falar algo. Compare: "He stopped talking to me." = ele parou de falar comigo (ficou em silêncio).</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Ela nunca para de falar." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">She never stop talking.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">She never stops talking.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">She never stopped talking.</button>
+    </div>
+    <div class="qfb" id="q4fb">SHE → STOPS (com -S). "She never STOPS talking." ✓ — hábito presente com SHE. "She never stopped talking." = passado (ela nunca parou de falar — em algum período passado).</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">Qual a tradução de "We stopped over in Dubai"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Paramos de vez em Dubai.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">Fizemos escala em Dubai.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Passamos por Dubai muito rápido.</button>
+    </div>
+    <div class="qfb" id="q5fb">STOP OVER = fazer escala / parada durante uma viagem. "We stopped over in Dubai." = fizemos uma escala em Dubai (em uma viagem mais longa). Comum para voos e viagens longas.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Não consigo parar de pensar nisso." → CAN'T STOP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">I can't stop to think about it.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">I can't stop thinking about it.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">I can't stop think about it.</button>
+    </div>
+    <div class="qfb" id="q6fb">"I can't stop THINKING about it." ✓ — STOP + -ING = parar de fazer. "I can't stop to think about it." significaria "não consigo parar para pensar nisso" (outra coisa me impede de parar).</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Quando você parou de fumar?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">When did you stopped smoking?</button>
+      <button class="qo" onclick="ans(this,'q7',true)">When did you stop smoking?</button>
+      <button class="qo" onclick="ans(this,'q7',false)">When you stopped smoking?</button>
+    </div>
+    <div class="qfb" id="q7fb">DID + BASE. "When did you STOP smoking?" ✓ — depois de DID, base STOP (nunca STOPPED). Sem DID no início, não forma pergunta correta no inglês formal.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Passo no seu escritório mais tarde." → STOP BY.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">I'll stop in your office later.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">I'll stop by your office later.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">I'll stop at your office later.</button>
+    </div>
+    <div class="qfb" id="q8fb">"I'll stop BY your office later." ✓ — STOP BY = passar por um lugar rapidamente / dar uma passada. "Stop at" = parar em (genérico). "Stop in" = entrar brevemente (mais AmE).</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"A chuva parou bem antes do jogo." → Passado com IT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">The rain stop before the game.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">The rain stopped just before the game.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">The rain stoped just before the game.</button>
+    </div>
+    <div class="qfb" id="q9fb">"The rain STOPPED just before the game." ✓ — STOPPED (dois P). "The rain stoped" ✗ (um P só está errado). "The rain stop" ✗ (ausência de conjugação de passado).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Precisamos colocar um fim a esse comportamento." → PUT A STOP TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">We need to make a stop to this behavior.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">We need to put a stop to this behavior.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">We need to give a stop to this behavior.</button>
+    </div>
+    <div class="qfb" id="q10fb">"We need to PUT A STOP TO this behavior." ✓ — expressão fixa: PUT A STOP TO = colocar um fim a / encerrar definitivamente. "Make/give a stop to" não existem nesse contexto.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Parei de tomar café." → Present perfect marcando mudança de hábito.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">I stopped to drink coffee.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">I've stopped drinking coffee.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">I stop drinking coffee.</button>
+    </div>
+    <div class="qfb" id="q11fb">"I'VE STOPPED DRINKING coffee." ✓ — present perfect marca mudança de hábito com efeito até o presente. "I stopped TO drink coffee." = parei (o que estava fazendo) para tomar café — sentido oposto!</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">Qual forma é CORRETA para dizer "ele não vai parar de correr"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">He won't stop to run.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">He won't stop running.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">He won't stop run.</button>
+    </div>
+    <div class="qfb" id="q12fb">"He won't STOP RUNNING." ✓ — STOP + -ING = parar de fazer. "He won't stop to run." = ele não vai parar para correr (parar outra coisa para correr) — sentido diferente!</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../68_start/index.html">← L68 START</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

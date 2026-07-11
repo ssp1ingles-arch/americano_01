@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GO — 3 Sentidos | Inglês Visual para Brasileiros</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F59E0B;
+  --c1:#60A5FA;--c2:#A78BFA;--c3:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:600px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#1a0f00 0%,var(--bg) 65%);}
+#heroCanvas{width:100%;height:420px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(7,13,13,.85);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* RULE BOX */
+.rule-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.rule-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.conj-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+.conj-col{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:18px 16px;}
+.conj-head{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:2px;}
+.conj-sub{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.conj-list{display:flex;flex-direction:column;gap:4px;}
+.conj-item{font-size:12.5px;padding:4px 8px;border-radius:5px;}
+.rule-box{background:var(--surface2);border:1px solid rgba(245,158,11,.22);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--accent);}
+
+/* TRANSPORT GRID */
+.transport-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0;}
+.transport-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center;}
+.transport-en{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--c3);margin-bottom:3px;}
+.transport-pt{font-size:12px;color:var(--muted);}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;}
+.sec-num{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;line-height:1.2;}
+.sec-sub{color:var(--muted);font-size:12px;margin-top:3px;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.ten{font-size:14px;font-weight:500;}
+.tpt{color:var(--muted);font-size:13px;}
+.ttag{font-size:11px;color:var(--muted);white-space:nowrap;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(245,158,11,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+/* QUIZ */
+.quiz-intro{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.quiz-list{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+.qitem{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s;}
+.qitem.correct{border-color:var(--tip);}
+.qitem.wrong{border-color:var(--warn);}
+.qi-sent{font-size:16px;font-weight:600;margin-bottom:12px;}
+.qi-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--border);text-align:center;font-weight:700;padding:0 6px;}
+.qi-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.qi-opt{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:6px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .18s;letter-spacing:.04em;}
+.qi-opt:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.qi-opt.selected-right{border-color:var(--tip);background:rgba(95,216,122,.1);color:var(--tip);}
+.qi-opt.selected-wrong{border-color:var(--warn);background:rgba(255,112,67,.1);color:var(--warn);}
+.qi-opt.show-right{border-color:var(--tip);color:var(--tip);}
+.qi-opt.disabled{cursor:default;pointer-events:none;}
+.qi-feedback{margin-top:10px;font-size:13px;display:none;}
+.qi-feedback.on{display:block;}
+.qi-feedback.right{color:var(--tip);}
+.qi-feedback.wrong-fb{color:var(--warn);}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;padding:14px 20px;border-radius:10px;border:1.5px solid var(--border);display:none;text-align:center;}
+.quiz-score.on{display:block;}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.qbtn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.qbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* ERRORS */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:3px;font-weight:400;font-style:italic;}
+
+/* MEGA SUMMARY */
+.mega{max-width:860px;margin:0 auto;padding:36px 24px;}
+.mega-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+.mega-rows{display:flex;flex-direction:column;gap:10px;}
+.mega-row{display:grid;grid-template-columns:120px 1fr 1fr;gap:12px;align-items:start;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;}
+.mega-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;text-align:center;padding-top:2px;}
+.mega-label{font-size:22px;font-weight:700;line-height:1;}
+.mega-pt{font-size:13px;}
+.mega-pt strong{color:var(--text);}
+.mega-exs{display:flex;flex-direction:column;gap:4px;}
+.mega-ex{font-size:12px;font-style:italic;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+
+@media(max-width:640px){
+  .conj-grid{grid-template-columns:1fr;}
+  .transport-grid{grid-template-columns:1fr 1fr;}
+  .err-grid{grid-template-columns:1fr;}
+  .mega-row{grid-template-columns:90px 1fr;}
+  .mega-exs{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 16 · Módulo 03 · Verbo GO</div>
+  <h1>GO — <span style="color:var(--accent)">3 Sentidos</span></h1>
+  <p class="subtitle">IR (para um lugar), FICAR (tornar-se um estado: go crazy) e IR DE (meio de transporte: go by bus) — e o passado irregular WENT.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Os 3 sentidos do GO em órbita</div>
+</div>
+
+<!-- GO/GOES/WENT RULE -->
+<div class="rule-wrap">
+  <div class="rule-title">Conjugação do GO — o passado WENT parece outra palavra!</div>
+  <div class="conj-grid">
+    <div class="conj-col" style="border-color:rgba(245,158,11,.35)">
+      <div class="conj-head" style="color:var(--accent)">GO</div>
+      <div class="conj-sub">presente — I · You · We · They</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:var(--accent);background:rgba(245,158,11,.09)">I <strong>go</strong> to school.</div>
+        <div class="conj-item" style="color:var(--muted)">You <strong>go</strong> to work.</div>
+        <div class="conj-item" style="color:var(--muted)">We <strong>go</strong> to the beach.</div>
+        <div class="conj-item" style="color:var(--muted)">They <strong>go</strong> to church.</div>
+      </div>
+    </div>
+    <div class="conj-col" style="border-color:rgba(248,113,113,.35)">
+      <div class="conj-head" style="color:#F87171">GOES</div>
+      <div class="conj-sub">presente — He · She · It</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:#F87171;background:rgba(248,113,113,.09)">He <strong>goes</strong> to the gym.</div>
+        <div class="conj-item" style="color:var(--muted)">She <strong>goes</strong> to market.</div>
+        <div class="conj-item" style="color:var(--muted)">It <strong>goes</strong> well.</div>
+        <div class="conj-item" style="color:var(--muted);font-size:11px;font-style:italic">← só He/She/It mudam!</div>
+      </div>
+    </div>
+    <div class="conj-col" style="border-color:rgba(52,211,153,.35)">
+      <div class="conj-head" style="color:#34D399">WENT</div>
+      <div class="conj-sub">passado — todos os pronomes</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:#34D399;background:rgba(52,211,153,.09)">I <strong>went</strong> to school.</div>
+        <div class="conj-item" style="color:var(--muted)">She <strong>went</strong> to market.</div>
+        <div class="conj-item" style="color:var(--muted)">They <strong>went</strong> to church.</div>
+        <div class="conj-item" style="color:var(--muted);font-size:11px;font-style:italic">← todos usam WENT!</div>
+      </div>
+    </div>
+  </div>
+  <div class="rule-box">⚡ WENT parece uma palavra diferente, mas é o passado de GO para <strong>todos</strong> os pronomes. Ver "went" = lembrar: base = GO. No futuro: <strong>will go</strong> para todos. Negativo passado: <strong>didn't go</strong> — nunca "didn't went"!</div>
+</div>
+
+<!-- SENTIDO 1: IR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c1);background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2)">SENTIDO 1</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c1)">IR</span> — deslocamento para um lugar</h2>
+      <div class="sec-sub">go to school, go to work, go to the gym, go to the beach, go to the market…</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c1)">go</strong> to school every day.</td><td class="tpt">Eu <em>vou</em> para a escola todo dia.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c1)">goes</strong> to the gym on Mondays.</td><td class="tpt">Ele <em>vai</em> para a academia às segundas.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">goes</strong> to the market on Saturdays.</td><td class="tpt">Ela <em>vai</em> ao mercado nos sábados.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c1)">go</strong> to the beach on Sundays.</td><td class="tpt">Nós <em>vamos</em> à praia nos domingos.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c1)">went</strong> to school yesterday.</td><td class="tpt">Eu <em>fui</em> para a escola ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">They <strong style="color:var(--c1)">went</strong> to church last week.</td><td class="tpt">Eles <em>foram</em> à igreja semana passada.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c1)">will go</strong> to school tomorrow.</td><td class="tpt">Eu <em>vou ir</em> para a escola amanhã.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">is going to go</strong> to the market.</td><td class="tpt">Ela <em>vai ir</em> ao mercado.</td><td class="ttag">futuro próximo</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c1)">Does</strong> he go to the gym?</td><td class="tpt">Ele <em>vai</em> para a academia?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c1)">Did</strong> you go to work yesterday?</td><td class="tpt">Você <em>foi</em> ao trabalho ontem?</td><td class="ttag">pergunta passado</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c1)">doesn't go</strong> to the gym.</td><td class="tpt">Ele <em>não vai</em> para a academia.</td><td class="ttag">negação</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c1)">didn't go</strong> to the beach.</td><td class="tpt">Nós <em>não fomos</em> à praia.</td><td class="ttag">negação passado</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ "I didn't <strong>go</strong>" — nunca "I didn't went". O "didn't" já indica passado — o GO volta para a forma base.</div>
+</section>
+
+<!-- SENTIDO 2: FICAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c2);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)">SENTIDO 2</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c2)">FICAR</span> — tornar-se um estado</h2>
+      <div class="sec-sub">go + adjetivo — mudança de estado emocional, físico ou de qualidade</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c2)">go</strong> crazy when I'm stressed.</td><td class="tpt">Eu <em>fico</em> louco quando estou estressado.</td><td class="ttag">emoção</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c2)">goes</strong> quiet when he's upset.</td><td class="tpt">Ele <em>fica</em> quieto quando está chateado.</td><td class="ttag">emoção</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c2)">goes</strong> pale when she's scared.</td><td class="tpt">Ela <em>fica</em> pálida quando está com medo.</td><td class="ttag">físico</td></tr>
+      <tr><td class="ten">You <strong style="color:var(--c2)">go</strong> red when you're embarrassed.</td><td class="tpt">Você <em>fica</em> vermelho quando está envergonhado.</td><td class="ttag">físico</td></tr>
+      <tr><td class="ten">It <strong style="color:var(--c2)">goes</strong> bad after two days.</td><td class="tpt">Ele <em>fica</em> ruim depois de dois dias.</td><td class="ttag">qualidade</td></tr>
+      <tr><td class="ten">They <strong style="color:var(--c2)">go</strong> silent when the boss arrives.</td><td class="tpt">Eles <em>ficam</em> em silêncio quando o chefe chega.</td><td class="ttag">emoção</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c2)">went</strong> quiet after the news.</td><td class="tpt">Ele <em>ficou</em> quieto depois da notícia.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c2)">went</strong> pale when she saw it.</td><td class="tpt">Ela <em>ficou</em> pálida quando viu.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">It <strong style="color:var(--c2)">went</strong> bad overnight.</td><td class="tpt">Ele <em>ficou</em> ruim da noite para o dia.</td><td class="ttag">passado</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ Em português usamos FICAR antes do adjetivo. Em inglês: GO + adjetivo diretamente — "go crazy" (não "go to be crazy"), "go bad" (não "go to be bad").</div>
+  <div class="info">💡 Expressões fixas com GO + adjetivo: go crazy · go quiet · go pale · go red · go bad · go silent · go wrong · go missing · go bankrupt</div>
+</section>
+
+<!-- SENTIDO 3: IR DE -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c3);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)">SENTIDO 3</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c3)">IR DE</span> — meio de transporte</h2>
+      <div class="sec-sub">go by bus · go by car · go by bike · go on foot — como você se locomove</div>
+    </div>
+  </div>
+  <div class="transport-grid">
+    <div class="transport-card"><div class="transport-en">go by bus</div><div class="transport-pt">ir de ônibus</div></div>
+    <div class="transport-card"><div class="transport-en">go by car</div><div class="transport-pt">ir de carro</div></div>
+    <div class="transport-card"><div class="transport-en">go by bike</div><div class="transport-pt">ir de bicicleta</div></div>
+    <div class="transport-card"><div class="transport-en">go by subway</div><div class="transport-pt">ir de metrô</div></div>
+    <div class="transport-card"><div class="transport-en">go by train</div><div class="transport-pt">ir de trem</div></div>
+    <div class="transport-card"><div class="transport-en">go on foot</div><div class="transport-pt">ir a pé</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c3)">go by bus</strong> to work every day.</td><td class="tpt">Eu <em>vou de ônibus</em> para o trabalho todo dia.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c3)">goes by bike</strong>.</td><td class="tpt">Ele <em>vai de bicicleta</em>.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c3)">goes by subway</strong>.</td><td class="tpt">Ela <em>vai de metrô</em>.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c3)">go on foot</strong>.</td><td class="tpt">Nós <em>vamos a pé</em>.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c3)">went by bus</strong> yesterday.</td><td class="tpt">Eu <em>fui de ônibus</em> ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">They <strong style="color:var(--c3)">went by train</strong>.</td><td class="tpt">Eles <em>foram de trem</em>.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c3)">will go by bus</strong> tomorrow.</td><td class="tpt">Eu <em>vou ir de ônibus</em> amanhã.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c3)">Does</strong> he go by bike?</td><td class="tpt">Ele <em>vai de bicicleta</em>?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c3)">doesn't go by car</strong>.</td><td class="tpt">Ela <em>não vai de carro</em>.</td><td class="ttag">negação</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 A fórmula é sempre <strong>go + BY + transporte</strong> (go by bus, go by car). A exceção é "a pé" = <strong>go ON foot</strong> — usa ON, não BY.</div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:#CE93D8;background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">QUIZ</span>
+    <h2 class="sec-title">GO, GOES ou WENT — complete a forma correta</h2>
+  </div>
+  <p class="quiz-intro">Atenção ao sujeito, ao tempo verbal e ao sentido!</p>
+  <div class="quiz-list" id="quizList"></div>
+  <div class="quiz-score" id="quizScore"></div>
+  <div class="quiz-controls">
+    <button class="qbtn" onclick="resetQuiz()">Recomeçar</button>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Os 6 erros mais comuns com GO</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong">She <em>go</em> to the gym every day.<span class="err-note">She → sempre GOES no presente</span></div>
+      <div class="err-item err-wrong">I <em>didn't went</em> to school.<span class="err-note">Após didn't → forma base: "didn't go"</span></div>
+      <div class="err-item err-wrong">He <em>go</em> crazy sometimes.<span class="err-note">He → "he goes crazy"</span></div>
+      <div class="err-item err-wrong">I go to work <em>on</em> bus.<span class="err-note">Transporte: GO BY bus (não "on bus")</span></div>
+      <div class="err-item err-wrong">She <em>becomes</em> pale when scared.<span class="err-note">Estado físico: "she goes pale" em inglês</span></div>
+      <div class="err-item err-wrong">I <em>goed</em> to school yesterday.<span class="err-note">Passado irregular de GO = WENT, não "goed"</span></div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">She <strong>goes</strong> to the gym every day.<span class="err-note">She → GOES</span></div>
+      <div class="err-item err-right">I <strong>didn't go</strong> to school.<span class="err-note">didn't + verbo base (go)</span></div>
+      <div class="err-item err-right">He <strong>goes</strong> crazy sometimes.<span class="err-note">He → goes + adjetivo</span></div>
+      <div class="err-item err-right">I go to work <strong>by</strong> bus.<span class="err-note">GO BY bus/car/bike/train</span></div>
+      <div class="err-item err-right">She <strong>goes</strong> pale when scared.<span class="err-note">go + adjetivo = ficar/tornar-se</span></div>
+      <div class="err-item err-right">I <strong>went</strong> to school yesterday.<span class="err-note">Passado de GO = WENT</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEGA RESUMO -->
+<div class="mega">
+  <div class="mega-title">Resumo — Os 3 sentidos do GO</div>
+  <div class="mega-rows">
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c1)"><div class="mega-label">1</div>IR</div>
+      <div class="mega-pt"><strong>Deslocamento para um lugar</strong><br><span style="font-size:12px;color:var(--muted)">go to school / work / gym / beach / church</span><br><span style="font-size:12px;color:var(--muted)">I/You/We/They → GO · He/She/It → GOES · Passado → WENT</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c1)">I go to school. / She goes to the gym.</div>
+        <div class="mega-ex" style="color:var(--muted)">He went to the market. / They will go to the beach.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c2)"><div class="mega-label">2</div>FICAR</div>
+      <div class="mega-pt"><strong>Tornar-se um estado — GO + adjetivo</strong><br><span style="font-size:12px;color:var(--muted)">go crazy · go quiet · go pale · go red · go bad · go silent</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c2)">I go crazy. / She goes pale. / It goes bad.</div>
+        <div class="mega-ex" style="color:var(--muted)">He went quiet after the news.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c3)"><div class="mega-label">3</div>IR DE</div>
+      <div class="mega-pt"><strong>Meio de transporte — GO BY + transporte</strong><br><span style="font-size:12px;color:var(--muted)">go by bus · car · bike · subway · train · go on foot</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c3)">I go by bus. / She goes by subway.</div>
+        <div class="mega-ex" style="color:var(--muted)">He went by bike. / We go on foot.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Referência rápida</div>
+    <table>
+      <thead><tr><th>Forma</th><th>Uso</th><th>Exemplos</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent)">GO</strong></td><td class="tpt">presente: I/You/We/They</td><td class="tpt">I go, you go, we go, they go</td></tr>
+        <tr><td><strong style="color:#F87171">GOES</strong></td><td class="tpt">presente: He/She/It</td><td class="tpt">he goes, she goes, it goes</td></tr>
+        <tr><td><strong style="color:#34D399">WENT</strong></td><td class="tpt">passado: TODOS (irregular!)</td><td class="tpt">I went, she went, they went</td></tr>
+        <tr><td><strong style="color:var(--muted)">will go</strong></td><td class="tpt">futuro: todos</td><td class="tpt">I will go, she will go</td></tr>
+        <tr><td><strong style="color:var(--muted)">didn't go</strong></td><td class="tpt">negação passado — NUNCA "didn't went"</td><td class="tpt">I didn't go, she didn't go</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>Inglês para Brasileiros · A1 · Lição 16: GO — 3 Sentidos · Módulo 03</footer>
+
+<script>
+// ── QUIZ ────────────────────────────────────────────────────────────────────
+var QS=[
+  {s:'He ___ to the gym on Mondays.',opts:['go','goes','went','will go'],ans:'goes',why:'He → GOES no presente simples.'},
+  {s:'I ___ to school yesterday.',opts:['go','goes','went','will go'],ans:'went',why:'Passado de GO = WENT para todos os pronomes.'},
+  {s:'She ___ crazy when she\'s stressed.',opts:['go','goes','went','will go'],ans:'goes',why:'She → GOES. "She goes crazy" = Ela fica louca.'},
+  {s:'They ___ to church every week.',opts:['go','goes','went','will go'],ans:'go',why:'They → GO no presente.'},
+  {s:'I didn\'t ___ to work yesterday.',opts:['go','goes','went','gone'],ans:'go',why:'Após didn\'t → verbo base (go). Nunca "didn\'t went"!'},
+  {s:'We ___ to the beach last Sunday.',opts:['go','goes','went','will go'],ans:'went',why:'Passado → WENT. "We went to the beach" = Fomos à praia.'},
+  {s:'It ___ bad after two days.',opts:['go','goes','went','will go'],ans:'goes',why:'It → GOES. "It goes bad" = Fica ruim / estraga.'},
+  {s:'She ___ by subway every morning.',opts:['go','goes','went','will go'],ans:'goes',why:'She → GOES. "She goes by subway" = Ela vai de metrô.'},
+  {s:'___ he go to the gym?',opts:['Do','Does','Did','Will'],ans:'Does',why:'Pergunta presente com He → DOES no início da frase.'},
+  {s:'He ___ quiet after the news.',opts:['go','goes','went','will go'],ans:'went',why:'Passado → WENT. "He went quiet" = Ele ficou quieto.'},
+  {s:'I ___ by bus tomorrow.',opts:['go','goes','went','will go'],ans:'will go',why:'Futuro → will go. "I will go by bus" = Irei de ônibus.'},
+  {s:'___ you go to school yesterday?',opts:['Do','Does','Did','Will'],ans:'Did',why:'Pergunta no passado → DID no início da frase.'},
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  var ql=document.getElementById('quizList'); ql.innerHTML='';
+  score=0; answered=0;
+  document.getElementById('quizScore').classList.remove('on');
+  QS.forEach(function(q,i){
+    var div=document.createElement('div'); div.className='qitem'; div.id='qi'+i;
+    var sent=q.s.replace('___','<span class="qi-blank" id="blank'+i+'">___</span>');
+    div.innerHTML='<div class="qi-sent">'+sent+'</div>'+
+      '<div class="qi-opts">'+q.opts.map(function(o){return '<button class="qi-opt" data-i="'+i+'" data-o="'+o+'">'+o+'</button>';}).join('')+'</div>'+
+      '<div class="qi-feedback" id="fb'+i+'"></div>';
+    ql.appendChild(div);
+  });
+  document.querySelectorAll('.qi-opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=+btn.dataset.i, o=btn.dataset.o, q=QS[i];
+      if(document.getElementById('qi'+i).classList.contains('correct')||document.getElementById('qi'+i).classList.contains('wrong'))return;
+      var isRight=o===q.ans;
+      document.querySelectorAll('.qi-opt[data-i="'+i+'"]').forEach(function(b){
+        b.classList.add('disabled');
+        if(b.dataset.o===q.ans) b.classList.add('show-right');
+      });
+      btn.classList.add(isRight?'selected-right':'selected-wrong');
+      var fb=document.getElementById('fb'+i);
+      fb.className='qi-feedback on '+(isRight?'right':'wrong-fb');
+      fb.textContent=(isRight?'✓ Correto! — ':'✗ Era "'+q.ans+'". — ')+q.why;
+      document.getElementById('blank'+i).textContent=q.ans;
+      document.getElementById('blank'+i).style.color=isRight?'var(--tip)':'var(--warn)';
+      document.getElementById('qi'+i).classList.add(isRight?'correct':'wrong');
+      if(isRight) score++;
+      answered++;
+      if(answered===QS.length){
+        var sc=document.getElementById('quizScore');
+        var pct=Math.round(score/QS.length*100);
+        sc.classList.add('on');
+        sc.style.borderColor=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.style.color=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.textContent='Resultado: '+score+' / '+QS.length+' ('+pct+'%) — '+(pct>=80?'Excelente! Você domina o GO!':pct>=60?'Bom trabalho! Revise o GOES e WENT.':'Revise GO/GOES/WENT e tente novamente.');
+      }
+    });
+  });
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+// ── HERO THREE.JS ────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,3,13); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=420;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.4;
+hCtrl.minDistance=7; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.4));
+var dl=new THREE.DirectionalLight(0xffa040,1.2); dl.position.set(5,10,7); hScene.add(dl);
+var dl2=new THREE.DirectionalLight(0x4060ff,.5); dl2.position.set(-5,5,-5); hScene.add(dl2);
+hScene.add(new THREE.GridHelper(24,24,0x070d0d,0x070d0d));
+
+function mkSph(col,r,emit){return new THREE.Mesh(new THREE.SphereGeometry(r||.18,14,14),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));}
+
+// Central GO sphere
+var cSph=mkSph(0xF59E0B,1.05,.6); cSph.position.y=.7; hScene.add(cSph);
+var cLight=new THREE.PointLight(0xF59E0B,2.5,9); cLight.position.y=.7; hScene.add(cLight);
+
+// Conjugation cluster: GO, GOES, WENT
+var conjData=[{t:'GO',c:0xF59E0B,p:[-3,.8,0]},{t:'GOES',c:0xF87171,p:[0,2.5,3]},{t:'WENT',c:0x34D399,p:[3,.8,0]}];
+var conjOrbs=[];
+conjData.forEach(function(d){
+  var s=mkSph(d.c,.24,.45); s.position.set(d.p[0],d.p[1],d.p[2]); hScene.add(s);
+  var l=new THREE.PointLight(d.c,.7,4); l.position.set(d.p[0],d.p[1],d.p[2]); hScene.add(l);
+  var lbl=document.createElement('div'); lbl.className='hlabel';
+  lbl.style.color='#'+d.c.toString(16).padStart(6,'0');
+  var rr=(d.c>>16)&255,gg=(d.c>>8)&255,bb=d.c&255;
+  lbl.style.borderColor='rgba('+rr+','+gg+','+bb+',.3)';
+  lbl.textContent=d.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  conjOrbs.push({m:s,lbl:lbl,base:new THREE.Vector3(d.p[0],d.p[1],d.p[2])});
+});
+
+// 3 meaning nodes orbiting
+var MEANINGS=[
+  {t:'IR',     col:0x60A5FA, r:4.8, a:0,          spd:.28, y:.6},
+  {t:'FICAR',  col:0xA78BFA, r:4.8, a:2.094,       spd:.28, y:.4},
+  {t:'IR DE',  col:0x34D399, r:4.8, a:4.189,       spd:.28, y:.5},
+];
+var orbs=[];
+MEANINGS.forEach(function(m){
+  var orb=mkSph(m.col,.14,.45); hScene.add(orb);
+  var lbl=document.createElement('div'); lbl.className='hlabel';
+  lbl.style.color='#'+m.col.toString(16).padStart(6,'0');
+  var rr=(m.col>>16)&255,gg=(m.col>>8)&255,bb=m.col&255;
+  lbl.style.borderColor='rgba('+rr+','+gg+','+bb+',.3)';
+  lbl.textContent=m.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbs.push({m:orb,lbl:lbl,r:m.r,a:m.a,spd:m.spd,y:m.y});
+});
+
+for(var i=0;i<45;i++){var p=mkSph(0xF59E0B,.025,.1);p.position.set((Math.random()-.5)*18,Math.random()*4,(Math.random()-.5)*18);hScene.add(p);}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.011; hCtrl.update();
+  cLight.intensity=2+Math.sin(hT*2)*.6;
+  cSph.rotation.y+=.006;
+  conjOrbs.forEach(function(o,i){
+    o.m.position.y=o.base.y+Math.sin(hT*1.4+i*1.2)*.12;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*420)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  orbs.forEach(function(o){
+    o.a+=o.spd*.01;
+    o.m.position.x=Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.7;
+    o.m.position.y=o.y+Math.sin(o.a*.8)*.18;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*420)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

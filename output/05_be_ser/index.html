@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE — SER | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F5C518;
+  --I:#9C8FFF;--Y:#FF8EC4;--H:#81D4FA;--S:#FFE082;--IT:#A5D6A7;--W:#FFAB91;--T:#D1A8E8;
+  --pres:#F5C518;--past:#64B5F6;--will:#CE93D8;--go:#80CBC4;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,197,24,.1);color:var(--accent);border:1px solid rgba(245,197,24,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,3.2vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#0f1a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 8px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+.pnav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:7px 14px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:18px;color:var(--accent);font-weight:600;margin-bottom:14px;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(245,197,24,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.tab{font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.mode-tabs{display:flex;gap:5px;margin-bottom:10px;}
+.mtab{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.mtab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.15);}
+.mtab[data-m="aff"].on{border-color:var(--tip);color:var(--tip);}
+.mtab[data-m="neg"].on{border-color:var(--warn);color:var(--warn);}
+.mtab[data-m="q"].on{border-color:#64DFDF;color:#64DFDF;}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:18px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+/* FORMULA SLOT */
+.formula-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.formula-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.slots{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.slot{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 16px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;}
+.slot-verb{background:rgba(245,197,24,.12);color:var(--accent);border:1px solid rgba(245,197,24,.3);}
+.slot-what{background:rgba(100,223,223,.1);color:#64DFDF;border:1px solid rgba(100,223,223,.25);}
+.slot-with{background:rgba(156,143,255,.1);color:var(--I);border:1px solid rgba(156,143,255,.25);}
+.slot-where{background:rgba(129,212,250,.1);color:var(--H);border:1px solid rgba(129,212,250,.25);}
+.slot-when{background:rgba(255,171,145,.1);color:var(--W);border:1px solid rgba(255,171,145,.25);}
+.slot-opt{opacity:.45;}
+.slot-sep{color:var(--muted);font-size:18px;line-height:1;}
+.fex{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;}
+.fex-en{font-size:17px;font-weight:600;color:var(--en);margin-bottom:6px;}
+.fex-pt{color:var(--muted);font-size:13px;margin-bottom:12px;}
+.fex-blocks{display:flex;gap:7px;flex-wrap:wrap;}
+.fb{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:.04em;}
+
+/* SECTION TABS (for main tables) */
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+.stabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.stab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.stab.on{color:#080c14;}
+.tpanel{display:none;}
+.tpanel.on{display:block;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:2px 8px;border-radius:5px;display:inline-block;white-space:nowrap;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tpt strong{font-weight:700;color:var(--text);}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(100,223,223,.07);border-left:2.5px solid #64DFDF;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:#64DFDF;margin-top:14px;}
+
+/* CONTRAÇÕES */
+.contr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:18px;}
+.contr-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.contr-from{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);margin-bottom:3px;}
+.contr-to{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;}
+.contr-arrow{color:var(--muted);font-size:11px;margin:0 4px;}
+
+/* RESUMO */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sc-pron{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;margin-bottom:6px;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.sc-row:last-child{border-bottom:none;padding-bottom:0;}
+.sc-tense{color:var(--muted);font-size:10px;letter-spacing:.04em;}
+.sc-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.slots{gap:5px;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 05</div>
+  <h1>
+    <span style="color:var(--I)">AM</span> ·
+    <span style="color:var(--H)">IS</span> ·
+    <span style="color:var(--Y)">ARE</span> ·
+    <span style="color:var(--past)">WAS</span> ·
+    <span style="color:#90CAF9">WERE</span> ·
+    <span style="color:var(--will)">WILL BE</span>
+  </h1>
+  <p class="subtitle">Verbo BE — sentido SER. Identidade, profissão, nacionalidade, características permanentes. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs" id="tenseTabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="will">Futuro WILL</button>
+      <button class="tab" data-t="goingto">Going to</button>
+    </div>
+    <div class="mode-tabs">
+      <button class="mtab on" data-m="aff">(+) Afirmativa</button>
+      <button class="mtab" data-m="neg">(−) Negação</button>
+      <button class="mtab" data-m="q">(?) Pergunta</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Outras frases com este pronome</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- FÓRMULA DE CONSTRUÇÃO -->
+<div class="formula-wrap">
+  <div class="formula-label">Fórmula de construção</div>
+  <div class="slots">
+    <div class="slot slot-verb">VERBO</div>
+    <div class="slot slot-what">O QUÊ</div>
+    <span class="slot-sep">·</span>
+    <div class="slot slot-with slot-opt">COM QUEM</div>
+    <span class="slot-sep">·</span>
+    <div class="slot slot-where slot-opt">ONDE</div>
+    <span class="slot-sep">·</span>
+    <div class="slot slot-when slot-opt">QUANDO</div>
+  </div>
+  <div class="fex">
+    <div class="fex-en"><span style="color:var(--accent);font-weight:800">I am</span> a student <span style="color:var(--H)">in Rio</span>.</div>
+    <div class="fex-pt">Eu <strong style="color:var(--accent)">sou</strong> um estudante <span style="color:var(--H)">no Rio</span>.</div>
+    <div class="fex-blocks">
+      <span class="fb slot-verb">VERBO: am</span>
+      <span class="fb slot-what">O QUÊ: a student</span>
+      <span class="fb slot-where">ONDE: in Rio</span>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:14px">💡 Use só os blocos que fazem sentido para a frase. "I am a doctor." — só VERBO + O QUÊ. "She is Brazilian in São Paulo." — VERBO + O QUÊ + ONDE.</div>
+</div>
+
+<!-- AFIRMATIVA -->
+<section class="uso">
+  <div class="uhead"><span class="unum">AFIRMATIVA</span><h2 class="utitle">SER — <em>am · is · are · was · were · will be</em></h2></div>
+  <div class="stabs" id="affTabs">
+    <button class="stab on" data-group="aff" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(245,197,24,.08)">Presente</button>
+    <button class="stab" data-group="aff" data-t="past">Passado</button>
+    <button class="stab" data-group="aff" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="aff" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="aff-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-present"></tbody></table><div class="tip" id="tip-aff-present"></div></div>
+  <div class="tpanel" id="aff-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-past"></tbody></table><div class="tip" id="tip-aff-past"></div></div>
+  <div class="tpanel" id="aff-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-will"></tbody></table><div class="tip" id="tip-aff-will"></div></div>
+  <div class="tpanel" id="aff-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-goingto"></tbody></table><div class="tip" id="tip-aff-goingto"></div></div>
+</section>
+
+<!-- NEGAÇÃO -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">NEGAÇÃO</span><h2 class="utitle">NÃO SER — <em>not · isn't · weren't · won't</em></h2></div>
+  <div class="stabs" id="negTabs">
+    <button class="stab on" data-group="neg" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(245,197,24,.08)">Presente</button>
+    <button class="stab" data-group="neg" data-t="past">Passado</button>
+    <button class="stab" data-group="neg" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="neg" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="neg-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-present"></tbody></table><div class="tip" id="tip-neg-present"></div></div>
+  <div class="tpanel" id="neg-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-past"></tbody></table><div class="tip" id="tip-neg-past"></div></div>
+  <div class="tpanel" id="neg-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-will"></tbody></table><div class="tip" id="tip-neg-will"></div></div>
+  <div class="tpanel" id="neg-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-goingto"></tbody></table><div class="tip" id="tip-neg-goingto"></div></div>
+</section>
+
+<!-- PERGUNTA -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:#64DFDF;background:rgba(100,223,223,.08);border-color:rgba(100,223,223,.2)">PERGUNTA</span><h2 class="utitle">SER? — <em>Am · Is · Are · Was · Were · Will</em></h2></div>
+  <div class="stabs" id="qTabs">
+    <button class="stab on" data-group="q" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(245,197,24,.08)">Presente</button>
+    <button class="stab" data-group="q" data-t="past">Passado</button>
+    <button class="stab" data-group="q" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="q" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="q-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-present"></tbody></table><div class="info" id="tip-q-present"></div></div>
+  <div class="tpanel" id="q-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-past"></tbody></table><div class="info" id="tip-q-past"></div></div>
+  <div class="tpanel" id="q-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-will"></tbody></table><div class="info" id="tip-q-will"></div></div>
+  <div class="tpanel" id="q-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-goingto"></tbody></table><div class="info" id="tip-q-goingto"></div></div>
+  <div class="warn" style="margin-top:18px">⚠️ BE é especial — para fazer pergunta <strong>não usa DO/DOES/DID</strong>. Basta inverter: <em>"She is"</em> → <em>"Is she?"</em></div>
+</section>
+
+<!-- CONTRAÇÕES -->
+<section class="uso">
+  <div class="uhead"><span class="unum">CONTRAÇÕES</span><h2 class="utitle">Formas <em>curtas e informais</em></h2></div>
+  <div class="contr-grid" id="contrGrid"></div>
+  <div class="tip" style="margin-top:18px">💡 Contrações são usadas na fala e na escrita informal. "I am not" = formal · "I'm not" = natural. Na negação com I: só existe <strong>I'm not</strong> (nunca "I amn't")!</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todas as formas do BE — SER</h2></div>
+  <div class="sgrid" id="resumoGrid"></div>
+  <div class="tip" style="margin-top:20px">🔑 BE tem mais formas que qualquer outro verbo inglês: am · is · are (presente) · was · were (passado) · will be (futuro) · going to be (plano). Mas a lógica é sempre a mesma: PRONOME + FORMA DO BE + COMPLEMENTO.</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 05: BE — SER</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+var PRONS=['I','YOU','HE','SHE','IT','WE','THEY'];
+var COLS={I:'#9C8FFF',YOU:'#FF8EC4',HE:'#81D4FA',SHE:'#FFE082',IT:'#A5D6A7',WE:'#FFAB91',THEY:'#D1A8E8'};
+var HEXN={I:0x9C8FFF,YOU:0xFF8EC4,HE:0x81D4FA,SHE:0xFFE082,IT:0xA5D6A7,WE:0xFFAB91,THEY:0xD1A8E8};
+var PT={I:'EU',YOU:'VOCÊ',HE:'ELE',SHE:'ELA',IT:'ELA / ISSO',WE:'NÓS',THEY:'ELES / ELAS'};
+
+var PDESC={
+  I:   {desc:"'I' + a forma AM — só e exclusivamente AM. Identidade, profissão, origem. É quem você é.",           rule:"⚡ AM é exclusivo de I no presente. No passado: WAS. No futuro: WILL BE / AM GOING TO BE.", sim:[{en:"I'm a Brazilian.",pt:'Eu sou brasileiro.'},{en:'I was here before.',pt:'Eu estava aqui antes.'},{en:'I will be ready.',pt:'Eu estarei pronto.'}]},
+  YOU: {desc:"'YOU' usa ARE no presente e WERE no passado — mesmas formas dos plurais. Você singular ou vocês.",    rule:"⚡ YOU + ARE (presente) · YOU + WERE (passado). Mesma forma para singular e plural!", sim:[{en:"You're a teacher.",pt:'Você é professor.'},{en:'Were you there?',pt:'Você estava lá?'},{en:"You'll be great.",pt:'Você vai ser ótimo.'}]},
+  HE:  {desc:"'HE' usa IS no presente — mesmo IS de SHE e IT. Profissão, identidade masculina.",                    rule:"⚡ HE/SHE/IT compartilham IS (presente) e WAS (passado). Só o pronome muda — o verbo é igual!", sim:[{en:'He is a pilot.',pt:'Ele é piloto.'},{en:'He was a student.',pt:'Ele era estudante.'},{en:'He will be famous.',pt:'Ele será famoso.'}]},
+  SHE: {desc:"'SHE' usa IS — idêntico ao HE e IT. Profissão, identidade feminina, características.",                rule:"⚡ SHE + IS (presente) · SHE + WAS (passado). 'She is a nurse' — a identidade dela, imutável no presente.", sim:[{en:'She is a lawyer.',pt:'Ela é advogada.'},{en:'She was a nurse.',pt:'Ela era enfermeira.'},{en:'She will be a doctor.',pt:'Ela vai ser médica.'}]},
+  IT:  {desc:"'IT' usa IS — coisas, lugares, animais, situações. 'It is a big city' descreve a característica do lugar.", rule:"⚡ IT + IS (presente) · IT + WAS (passado). Use IT para descrever coisas, cidades, países, animais.", sim:[{en:"It's a great city.",pt:'É uma cidade ótima.'},{en:'It was cold yesterday.',pt:'Estava frio ontem.'},{en:'It will be amazing.',pt:'Vai ser incrível.'}]},
+  WE:  {desc:"'WE' usa ARE — mesma forma de YOU e THEY. Grupo que inclui você.",                                     rule:"⚡ WE + ARE (presente) · WE + WERE (passado). Inclui sempre a pessoa que fala no grupo!", sim:[{en:"We're Brazilians.",pt:'Somos brasileiros.'},{en:'We were students.',pt:'Éramos estudantes.'},{en:'We will be champions.',pt:'Seremos campeões.'}]},
+  THEY:{desc:"'THEY' usa ARE — idêntico a YOU e WE. Grupo de pessoas ou coisas fora de quem fala.",                 rule:"⚡ THEY + ARE (presente) · THEY + WERE (passado). Para qualquer grupo de 2 ou mais pessoas/coisas.", sim:[{en:'They are teachers.',pt:'Eles são professores.'},{en:'They were students.',pt:'Eles eram estudantes.'},{en:"They'll be here soon.",pt:'Eles chegarão em breve.'}]}
+};
+
+var T={
+  present:{label:'Presente',color:'#F5C518',
+    forms:{I:'am',YOU:'are',HE:'is',SHE:'is',IT:'is',WE:'are',THEY:'are'},
+    aff:{I:['I am a student.','Eu sou um estudante.'],YOU:['You are a teacher.','Você é um professor.'],HE:['He is a doctor.','Ele é um médico.'],SHE:['She is a nurse.','Ela é uma enfermeira.'],IT:['It is a big city.','Ela é uma cidade grande.'],WE:['We are Brazilians.','Nós somos brasileiros.'],THEY:['They are students.','Eles são estudantes.']},
+    neg:{I:['I am not a doctor.','Eu não sou médico.'],YOU:['You are not a teacher.','Você não é professor.'],HE:['He is not a pilot.','Ele não é piloto.'],SHE:['She is not a nurse.','Ela não é enfermeira.'],IT:['It is not a big city.','Ela não é cidade grande.'],WE:['We are not Brazilians.','Nós não somos brasileiros.'],THEY:['They are not students.','Eles não são estudantes.']},
+    q:{I:['Am I a student?','Eu sou estudante?'],YOU:['Are you a teacher?','Você é professor?'],HE:['Is he a doctor?','Ele é médico?'],SHE:['Is she a nurse?','Ela é enfermeira?'],IT:['Is it a big city?','Ela é cidade grande?'],WE:['Are we Brazilians?','Nós somos brasileiros?'],THEY:['Are they students?','Eles são estudantes?']},
+    tip:'⚡ BE no presente tem 3 formas: am (só I) · is (HE/SHE/IT) · are (YOU/WE/THEY).',
+    qtip:'🔄 Pergunta no presente: AM/IS/ARE vem antes do pronome. Sem DO/DOES!'},
+  past:{label:'Passado',color:'#64B5F6',
+    forms:{I:'was',YOU:'were',HE:'was',SHE:'was',IT:'was',WE:'were',THEY:'were'},
+    aff:{I:['I was a student.','Eu era um estudante.'],YOU:['You were a teacher.','Você era um professor.'],HE:['He was a doctor.','Ele era um médico.'],SHE:['She was a nurse.','Ela era uma enfermeira.'],IT:['It was a big city.','Ela era uma cidade grande.'],WE:['We were Brazilians.','Nós éramos brasileiros.'],THEY:['They were students.','Eles eram estudantes.']},
+    neg:{I:['I was not a student.','Eu não era estudante.'],YOU:['You were not a teacher.','Você não era professor.'],HE:['He was not a doctor.','Ele não era médico.'],SHE:['She was not a nurse.','Ela não era enfermeira.'],IT:['It was not a big city.','Ela não era cidade grande.'],WE:['We were not Brazilians.','Nós não éramos brasileiros.'],THEY:['They were not students.','Eles não eram estudantes.']},
+    q:{I:['Was I a student?','Eu era estudante?'],YOU:['Were you a teacher?','Você era professor?'],HE:['Was he a doctor?','Ele era médico?'],SHE:['Was she a nurse?','Ela era enfermeira?'],IT:['Was it a big city?','Ela era cidade grande?'],WE:['Were we Brazilians?','Nós éramos brasileiros?'],THEY:['Were they students?','Eles eram estudantes?']},
+    tip:'⚡ Passado do BE: was (I/HE/SHE/IT) · were (YOU/WE/THEY). Só 2 formas!',
+    qtip:'🔄 Pergunta no passado: WAS/WERE antes do pronome. Sem DID!'},
+  will:{label:'Futuro WILL',color:'#CE93D8',
+    forms:{I:'will be',YOU:'will be',HE:'will be',SHE:'will be',IT:'will be',WE:'will be',THEY:'will be'},
+    aff:{I:['I will be a doctor.','Eu serei / vou ser médico.'],YOU:['You will be a teacher.','Você será / vai ser professor.'],HE:['He will be a pilot.','Ele será / vai ser piloto.'],SHE:['She will be a lawyer.','Ela será / vai ser advogada.'],IT:['It will be a great city.','Ela será uma cidade ótima.'],WE:['We will be champions.','Nós seremos campeões.'],THEY:['They will be teachers.','Eles serão professores.']},
+    neg:{I:["I won't be a doctor.",'Eu não serei médico.'],YOU:["You won't be a teacher.",'Você não será professor.'],HE:["He won't be a pilot.",'Ele não será piloto.'],SHE:["She won't be a lawyer.",'Ela não será advogada.'],IT:["It won't be a big city.",'Ela não será cidade grande.'],WE:["We won't be champions.",'Nós não seremos campeões.'],THEY:["They won't be teachers.",'Eles não serão professores.']},
+    q:{I:['Will I be a doctor?','Eu serei médico?'],YOU:['Will you be a teacher?','Você será professor?'],HE:['Will he be a pilot?','Ele será piloto?'],SHE:['Will she be a lawyer?','Ela será advogada?'],IT:['Will it be a big city?','Ela será cidade grande?'],WE:['Will we be champions?','Nós seremos campeões?'],THEY:['Will they be teachers?','Eles serão professores?']},
+    tip:'⚡ WILL BE é igual para todos os pronomes — sem exceção! A forma mais simples.',
+    qtip:'🔄 Pergunta com WILL: WILL + pronome + BE. Ex: Will she be…?'},
+  goingto:{label:'Going to',color:'#80CBC4',
+    forms:{I:'am going to be',YOU:'are going to be',HE:'is going to be',SHE:'is going to be',IT:'is going to be',WE:'are going to be',THEY:'are going to be'},
+    aff:{I:['I am going to be a doctor.','Eu vou ser médico.'],YOU:['You are going to be a teacher.','Você vai ser professor.'],HE:['He is going to be a pilot.','Ele vai ser piloto.'],SHE:['She is going to be a lawyer.','Ela vai ser advogada.'],IT:['It is going to be a great city.','Ela vai ser uma cidade ótima.'],WE:['We are going to be champions.','Nós vamos ser campeões.'],THEY:['They are going to be teachers.','Eles vão ser professores.']},
+    neg:{I:['I am not going to be a doctor.','Eu não vou ser médico.'],YOU:['You are not going to be a teacher.','Você não vai ser professor.'],HE:['He is not going to be a pilot.','Ele não vai ser piloto.'],SHE:['She is not going to be a lawyer.','Ela não vai ser advogada.'],IT:['It is not going to be a big city.','Ela não vai ser cidade grande.'],WE:['We are not going to be champions.','Nós não vamos ser campeões.'],THEY:['They are not going to be teachers.','Eles não vão ser professores.']},
+    q:{I:['Am I going to be a doctor?','Eu vou ser médico?'],YOU:['Are you going to be a teacher?','Você vai ser professor?'],HE:['Is he going to be a pilot?','Ele vai ser piloto?'],SHE:['Is she going to be a lawyer?','Ela vai ser advogada?'],IT:['Is it going to be a big city?','Ela vai ser cidade grande?'],WE:['Are we going to be champions?','Nós vamos ser campeões?'],THEY:['Are they going to be teachers?','Eles vão ser professores?']},
+    tip:'⚡ GOING TO usa o AM/IS/ARE do presente como auxiliar: I = am · HE/SHE/IT = is · YOU/WE/THEY = are going to be.',
+    qtip:'🔄 Pergunta com GOING TO: inverta AM/IS/ARE com o pronome. Ex: Is he going to be…?'}
+};
+
+var TKEYS=['present','past','will','goingto'];
+var MODES=['aff','neg','q'];
+
+// ── HIGHLIGHT ────────────────────────────────────────────────────────────────
+function hlBE(text, form, pronColor, tenseColor){
+  var tc=tenseColor||pronColor;
+  var escaped=form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp(escaped,'gi'),function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+}
+
+function highlightSentence(text, pronoun, tenseKey, pronColor){
+  var tense=T[tenseKey], form=tense.forms[pronoun], tc=tense.color;
+  return hlBE(text, form, pronColor, tc);
+}
+
+// ── BUILD TABLES ─────────────────────────────────────────────────────────────
+function buildTable(mode, tenseKey){
+  var tbody=document.getElementById('tb-'+mode+'-'+tenseKey);
+  if(!tbody||tbody.innerHTML) return;
+  var tense=T[tenseKey];
+  PRONS.forEach(function(p){
+    var pair=tense[mode][p], col=COLS[p], bg=col+'1a';
+    var hl=highlightSentence(pair[0], p, tenseKey, col);
+    var pthl=pair[1].replace(/\b(sou|é|somos|são|era|éramos|eram|serei|será|seremos|serão|vou ser|vai ser|vamos ser|vão ser|não sou|não é|não somos|não são|não era|não éramos|não eram|não serei|não será|não seremos|não serão|não vou|não vai|não vamos|não vão)\b/gi,function(m){return '<strong>'+m+'</strong>';});
+    tbody.innerHTML+='<tr><td><span class="ptag" style="color:'+col+';background:'+bg+'">'+p+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pthl+'</td></tr>';
+  });
+  var tipEl=document.getElementById('tip-'+mode+'-'+tenseKey);
+  if(tipEl) tipEl.textContent=(mode==='q'?tense.qtip:tense.tip);
+}
+
+TKEYS.forEach(function(tk){
+  MODES.forEach(function(m){ buildTable(m,tk); });
+});
+
+// ── SECTION TABS ──────────────────────────────────────────────────────────────
+var TENSE_COLORS={present:'#F5C518',past:'#64B5F6',will:'#CE93D8',goingto:'#80CBC4'};
+
+function setupSectionTabs(groupId, panelPrefix){
+  var tabs=document.querySelectorAll('.stab[data-group="'+groupId+'"]');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var tKey=tab.dataset.t;
+      // update tab styles
+      tabs.forEach(function(t){
+        t.classList.remove('on');
+        t.style.borderColor=''; t.style.color=''; t.style.background='';
+      });
+      tab.classList.add('on');
+      var tc=TENSE_COLORS[tKey];
+      tab.style.borderColor=tc; tab.style.color=tc; tab.style.background=tc+'14';
+      // show/hide panels
+      TKEYS.forEach(function(k){
+        var p=document.getElementById(panelPrefix+'-'+k);
+        if(p) p.classList.toggle('on',k===tKey);
+      });
+    });
+  });
+}
+setupSectionTabs('aff','aff');
+setupSectionTabs('neg','neg');
+setupSectionTabs('q','q');
+
+// ── CONTRAÇÕES ───────────────────────────────────────────────────────────────
+var CONTRS=[
+  {from:'I am',to:"I'm",note:''},
+  {from:'you are',to:"you're",note:''},
+  {from:'he is',to:"he's",note:''},
+  {from:'she is',to:"she's",note:''},
+  {from:'it is',to:"it's",note:''},
+  {from:'we are',to:"we're",note:''},
+  {from:'they are',to:"they're",note:''},
+  {from:'is not',to:"isn't",note:''},
+  {from:'are not',to:"aren't",note:''},
+  {from:'was not',to:"wasn't",note:''},
+  {from:'were not',to:"weren't",note:''},
+  {from:'will not be',to:"won't be",note:''},
+];
+var cg=document.getElementById('contrGrid');
+CONTRS.forEach(function(c){
+  cg.innerHTML+='<div class="contr-card"><div class="contr-from">'+c.from+'</div><div class="contr-to"><span style="color:var(--muted)">→</span> <span style="color:var(--accent)">'+c.to+'</span></div></div>';
+});
+
+// ── RESUMO GRID ───────────────────────────────────────────────────────────────
+var rg=document.getElementById('resumoGrid');
+PRONS.forEach(function(p){
+  var col=COLS[p],bg=col+'18';
+  var rows='';
+  var tenseLabels={present:'Presente',past:'Passado',will:'Futuro WILL',goingto:'Going to'};
+  TKEYS.forEach(function(tk){
+    var form=T[tk].forms[p];
+    rows+='<div class="sc-row"><span class="sc-tense">'+tenseLabels[tk]+'</span><span class="sc-form" style="color:'+T[tk].color+'">'+form+'</span></div>';
+  });
+  rg.innerHTML+='<div class="scard" style="border-color:'+col+'33"><div class="sc-pron" style="color:'+col+'">'+p+'</div>'+rows+'</div>';
+});
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(58,1,0.1,100);
+hCam.position.set(0,3.2,12); hCam.lookAt(0,0.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeHero(){var w=hCanvas.parentElement.clientWidth,h=440;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeHero(); window.addEventListener('resize',resizeHero);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.35;
+hCtrl.minDistance=8; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,0.5));
+var hDir=new THREE.DirectionalLight(0xffffff,0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x182030,0x182030));
+
+function mkChar(color,scale){
+  scale=scale||1;
+  var g=new THREE.Group();
+  var m=function(c){return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.22});};
+  var head=new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16),m(color)); head.position.y=1.48*scale; g.add(head);
+  var body=new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8),m(color)); body.position.y=.82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(p){var a=new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8),m(color));a.rotation.z=p[1];a.position.set(p[0]*scale,.93*scale,0);g.add(a);});
+  [-.16,.16].forEach(function(x){var l=new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8),m(color));l.position.set(x*scale,.06*scale,0);g.add(l);});
+  var pl=new THREE.PointLight(color,.5,3*scale); pl.position.y=.5*scale; g.add(pl);
+  return g;
+}
+
+// Central BE sphere
+var beSphere=new THREE.Mesh(new THREE.SphereGeometry(.7,32,32),new THREE.MeshPhongMaterial({color:0xF5C518,emissive:0xF5C518,emissiveIntensity:.3,transparent:true,opacity:.85}));
+beSphere.position.set(0,1.2,0); hScene.add(beSphere);
+var beGlow=new THREE.PointLight(0xF5C518,1.5,6); beGlow.position.set(0,1.2,0); hScene.add(beGlow);
+// Rings around center
+[.9,1.05].forEach(function(r,i){
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,48),new THREE.MeshPhongMaterial({color:0xF5C518,emissive:0xF5C518,emissiveIntensity:.5,transparent:true,opacity:.4-i*.15}));
+  ring.rotation.x=Math.PI/2; ring.position.y=1.2; hScene.add(ring);
+});
+
+var hChars=[],labelData=[],beArcs=[];
+PRONS.forEach(function(p,i){
+  var a=(i/PRONS.length)*Math.PI*2-Math.PI/2, r=4.2;
+  var x=Math.cos(a)*r,z=Math.sin(a)*r;
+  var c=mkChar(HEXN[p]); c.position.set(x,0,z); c.lookAt(0,c.position.y,0);
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),new THREE.MeshPhongMaterial({color:HEXN[p],emissive:HEXN[p],emissiveIntensity:.4}));
+  ring.rotation.x=Math.PI/2; ring.position.y=-.4; c.add(ring);
+  // BE connection arc above each character
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.28,.03,8,32),new THREE.MeshPhongMaterial({color:HEXN[p],emissive:HEXN[p],emissiveIntensity:.6}));
+  arc.position.y=2.05; arc.rotation.x=Math.PI/3; c.add(arc);
+  beArcs.push({m:arc,off:i*.8});
+  hScene.add(c);
+  hChars.push({mesh:c,key:p});
+  var el=document.createElement('div');
+  el.className='hlabel'; el.style.color=COLS[p]; el.style.borderColor=COLS[p];
+  el.textContent=p;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el:el,mesh:c});
+});
+
+// Build nav
+var nav=document.getElementById('pnav');
+PRONS.forEach(function(p){
+  var b=document.createElement('button');
+  b.className='pbtn'; b.dataset.p=p;
+  b.style.color=COLS[p]; b.style.borderColor=COLS[p];
+  b.textContent=p;
+  b.addEventListener('click',function(){openPronoun(p);});
+  nav.appendChild(b);
+});
+
+function updateLabels(){
+  var w=hCanvas.clientWidth,h=440;
+  labelData.forEach(function(ld){
+    var pos=new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y+=2.4; pos.project(hCam);
+    var x=(pos.x*.5+.5)*w,y=(-pos.y*.5+.5)*h;
+    ld.el.style.left=x+'px'; ld.el.style.top=y+'px';
+    ld.el.style.opacity=pos.z<1?'1':'0';
+  });
+}
+
+var ray=new THREE.Raycaster(),mPos=new THREE.Vector2();
+hCanvas.addEventListener('click',function(e){
+  var r=hCanvas.getBoundingClientRect();
+  mPos.x=((e.clientX-r.left)/r.width)*2-1;
+  mPos.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos,hCam);
+  hChars.forEach(function(c){
+    var ch=[]; c.mesh.traverse(function(m){if(m.isMesh)ch.push(m);});
+    if(ray.intersectObjects(ch).length>0) openPronoun(c.key);
+  });
+});
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.01; hCtrl.update();
+  hChars.forEach(function(c,i){c.mesh.position.y=Math.sin(hT+i*.9)*.12;});
+  beArcs.forEach(function(a){a.m.rotation.y+=.018;});
+  beSphere.rotation.y+=.005;
+  beGlow.intensity=1.2+Math.sin(hT*1.5)*.4;
+  updateLabels(); hRend.render(hScene,hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+var dCanvas=document.getElementById('dCanvas');
+var dScene=new THREE.Scene();
+var dCam=new THREE.PerspectiveCamera(52,360/300,0.1,100);
+dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+var dRend=new THREE.WebGLRenderer({canvas:dCanvas,antialias:true,alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+dRend.setSize(360,300); dRend.setClearColor(0x080c14,1);
+var dCtrl=new THREE.OrbitControls(dCam,dRend.domElement);
+dCtrl.enableDamping=true; dCtrl.dampingFactor=.05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+var dAmb=new THREE.AmbientLight(0xffffff,.45);
+var dDir2=new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+var dPL=new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb,dDir2,dPL);
+var dObjs=[],dParts=null,dT=0;
+
+function clearD(){while(dScene.children.length)dScene.remove(dScene.children[0]);dScene.add(dAmb,dDir2,dPL);dObjs=[];dParts=null;}
+function dFloor(){var f=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshPhongMaterial({color:0x080c14}));f.rotation.x=-Math.PI/2;f.position.y=-.5;dScene.add(f);}
+function dParticles(col,n){
+  n=n||50;
+  var geo=new THREE.BufferGeometry(),pos=[],cols=[];var c=new THREE.Color(col);
+  for(var i=0;i<n;i++){pos.push((Math.random()-.5)*5,Math.random()*3.5,(Math.random()-.5)*5);cols.push(c.r,c.g,c.b);}
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+  dParts=new THREE.Points(geo,new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+function mkBETag(col){
+  var g=new THREE.Group();
+  var card=new THREE.Mesh(new THREE.BoxGeometry(.9,.35,.04),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.2,transparent:true,opacity:.8}));
+  g.add(card);
+  var glow=new THREE.Mesh(new THREE.BoxGeometry(.96,.41,.02),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:.5,transparent:true,opacity:.25}));
+  glow.position.z=-.03; g.add(glow);
+  return g;
+}
+
+function buildI(){
+  dPL.color.set(0x9C8FFF); dFloor();
+  var ch=mkChar(0x9C8FFF); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // floating ID tag
+  var tag=mkBETag(0x9C8FFF); tag.position.set(.5,1.7,.2); dScene.add(tag); dObjs.push({m:tag,type:'float',baseY:1.7,off:.2});
+  // BE text glow sphere
+  var bs=new THREE.Mesh(new THREE.SphereGeometry(.18,16,16),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.7}));
+  bs.position.set(0,2.5,0); dScene.add(bs); dObjs.push({m:bs,type:'float',baseY:2.5,off:.5});
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.35,.04,8,32),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.55}));
+  arc.position.set(0,2.5,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dParticles(0x9C8FFF);
+}
+function buildYOU(){
+  dPL.color.set(0xFF8EC4); dFloor();
+  var ch=mkChar(0xFF8EC4); ch.position.set(-.4,-.5,.3); ch.rotation.y=.4; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // spotlight cone
+  var geo=new THREE.ConeGeometry(.5,1.5,16,1,true);
+  var mat=new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.3,transparent:true,opacity:.18,side:THREE.DoubleSide});
+  var cone=new THREE.Mesh(geo,mat); cone.position.set(-.4,2.4,.3); cone.rotation.z=Math.PI; dScene.add(cone); dObjs.push({m:cone,type:'pulse',baseY:2.4,off:.1});
+  [0,1.2,2.4].forEach(function(a,i){
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.08,8,8),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.7}));
+    s.position.set(Math.cos(a)*1.6,1.5+Math.sin(a)*.2,Math.sin(a)*1.6); dScene.add(s); dObjs.push({m:s,type:'float',baseY:1.5+Math.sin(a)*.2,off:i*.5});
+  });
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.38,.04,8,32),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.55}));
+  arc.position.set(-.4,2.6,.3); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dParticles(0xFF8EC4);
+}
+function buildHE(){
+  dPL.color.set(0x81D4FA); dFloor();
+  var ch=mkChar(0x81D4FA); ch.position.set(-.3,-.5,0); ch.rotation.y=.3; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // doctor cross
+  var v=new THREE.Mesh(new THREE.BoxGeometry(.1,.5,.1),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.5}));
+  v.position.set(.9,1.4,0); dScene.add(v); dObjs.push({m:v,type:'float',baseY:1.4,off:.2});
+  var h=new THREE.Mesh(new THREE.BoxGeometry(.5,.1,.1),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.5}));
+  h.position.set(.9,1.4,0); dScene.add(h); dObjs.push({m:h,type:'float',baseY:1.4,off:.2});
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.38,.04,8,32),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.55}));
+  arc.position.set(-.3,2.5,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dParticles(0x81D4FA);
+}
+function buildSHE(){
+  dPL.color.set(0xFFE082); dFloor();
+  var ch=mkChar(0xFFE082); ch.position.set(-.3,-.5,.2); ch.rotation.y=.2; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // scales of justice
+  var pole=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,.9,8),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.3}));
+  pole.position.set(.9,1.3,0); dScene.add(pole); dObjs.push({m:pole,type:'float',baseY:1.3,off:.15});
+  [-.28,.28].forEach(function(x,i){
+    var d=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.04,16),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.4,transparent:true,opacity:.7}));
+    d.position.set(.9+x,1.1-.04*i,0); dScene.add(d); dObjs.push({m:d,type:'float',baseY:1.1-.04*i,off:i*.3+.15});
+  });
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.38,.04,8,32),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.55}));
+  arc.position.set(-.3,2.5,.2); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dParticles(0xFFE082);
+}
+function buildIT(){
+  dPL.color.set(0xA5D6A7); dFloor();
+  // city blocks
+  [[-.8,.5,.3],[0,.8,0],[.7,.4,-.2],[-.4,.3,-.5],[.4,.6,.5]].forEach(function(b,i){
+    var h=b[1]+Math.random()*.3;
+    var bld=new THREE.Mesh(new THREE.BoxGeometry(.35,h,.35),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.22+i*.04,transparent:true,opacity:.75}));
+    bld.position.set(b[0],-.5+h/2,b[2]); dScene.add(bld); dObjs.push({m:bld,type:'pulse',baseY:-.5+h/2,off:i*.4});
+  });
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.5,.04,8,48),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.5}));
+  arc.rotation.x=Math.PI/2; arc.position.y=-.48; dScene.add(arc); dObjs.push({m:arc,type:'pulse',baseY:-.48,off:0});
+  dParticles(0xA5D6A7);
+}
+function buildWE(){
+  dPL.color.set(0xFFAB91); dFloor();
+  var cc=[0xFFAB91,0xFF8A65,0xFFCCBC];
+  [[-.9,-.5,.5],[.1,-.5,-.5],[.9,-.5,.4]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.9); ch.position.set(p[0],p[1],p[2]); ch.rotation.y=(i-.7)*.4; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.5});
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.1,8,8),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.7}));
+    s.position.set(p[0],2.0,p[2]); dScene.add(s); dObjs.push({m:s,type:'float',baseY:2.0,off:i*.5});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(1.5,.04,8,48),new THREE.MeshPhongMaterial({color:0xFFAB91,emissive:0xFFAB91,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:0});
+  dParticles(0xFFAB91,55);
+}
+function buildTHEY(){
+  dPL.color.set(0xD1A8E8); dFloor();
+  var cc=[0xD1A8E8,0xAB47BC,0xCE93D8,0xB39DDB];
+  [[-1.2,-.5,.5],[-.3,-.5,-.5],[.6,-.5,.6],[1.2,-.5,-.3]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.88); ch.position.set(p[0],p[1],p[2]); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.45});
+    var bub=new THREE.Mesh(new THREE.SphereGeometry(.12,10,10),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.45,transparent:true,opacity:.75}));
+    bub.position.set(p[0]+.2,2.0,p[2]); dScene.add(bub); dObjs.push({m:bub,type:'float',baseY:2.0,off:i*.4});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(2.0,.04,8,56),new THREE.MeshPhongMaterial({color:0xD1A8E8,emissive:0xD1A8E8,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:.2});
+  dParticles(0xD1A8E8,60);
+}
+
+var BUILDERS={I:buildI,YOU:buildYOU,HE:buildHE,SHE:buildSHE,IT:buildIT,WE:buildWE,THEY:buildTHEY};
+
+function animDetail(){
+  requestAnimationFrame(animDetail); dT+=.016; dCtrl.update();
+  dObjs.forEach(function(o){
+    var off=o.off||0,by=o.baseY||0;
+    switch(o.type){
+      case 'sway':  o.m.rotation.y=Math.sin(dT*.8+off)*.2; break;
+      case 'float': o.m.position.y=by+Math.sin(dT*1.2+off)*.13; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2+off)*.08); o.m.position.y=by+Math.sin(dT*1.5)*.05; break;
+      case 'spinY': o.m.rotation.y+=.014; break;
+    }
+  });
+  if(dParts) dParts.rotation.y+=.003;
+  dRend.render(dScene,dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense='present', selMode='aff', curP=null;
+
+function getSentence(pron, tense, mode){
+  var pair=T[tense][mode][pron];
+  var form=T[tense].forms[pron];
+  var tc=T[tense].color, pc=COLS[pron];
+  var hl=hlBE(pair[0], form, pc, tc);
+  var ctx='';
+  if(mode==='aff') ctx='✅ Afirmativa — identidade/profissão no '+T[tense].label.toLowerCase()+'. Verbo BE: <em>'+form+'</em>';
+  if(mode==='neg') ctx='❌ Negação — coloca NOT após o verbo BE: <em>'+form+' not</em>';
+  if(mode==='q')   ctx='❓ Pergunta — verbo BE vai para o início da frase. Sem DO/DOES/DID!';
+  return {en:hl, pt:pair[1], ctx:ctx};
+}
+
+function openPronoun(p){
+  curP=p;
+  var d=PDESC[p];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent=p;
+  document.getElementById('dPron').style.color=COLS[p];
+  document.getElementById('dPt').textContent=PT[p];
+  document.getElementById('dPt').style.color=COLS[p];
+  document.getElementById('dDesc').textContent=d.desc;
+  document.getElementById('dRule').textContent=d.rule;
+  updateDetail();
+  var sl=document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>';});
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis=b.dataset.p===p;
+    b.classList.toggle('active',isThis);
+    b.style.backgroundColor=isThis?COLS[p]:'transparent';
+    b.style.color=isThis?'#080c14':COLS[p];
+  });
+  clearD(); BUILDERS[p]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateDetail(){
+  if(!curP) return;
+  var s=getSentence(curP,selTense,selMode);
+  document.getElementById('sEn').innerHTML=s.en;
+  document.getElementById('sPt').textContent=s.pt;
+  document.getElementById('sCtx').innerHTML=s.ctx;
+}
+
+// Tense tabs in detail
+document.querySelectorAll('#tenseTabs .tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('#tenseTabs .tab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selTense=tab.dataset.t;
+    updateDetail();
+  });
+});
+
+// Mode tabs in detail
+document.querySelectorAll('.mtab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.mtab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selMode=tab.dataset.m;
+    updateDetail();
+  });
+});
+
+setTimeout(function(){openPronoun('I');},600);
+</script>
+</body>
+</html>

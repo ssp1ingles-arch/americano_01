@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 25 — CALL · USE | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --cc:#60A5FA;--cu:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,13,13,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+.nav-final{background:rgba(52,211,153,.12);color:var(--cu);border:1px solid rgba(52,211,153,.25);border-radius:999px;padding:.25rem .7rem;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.5rem}
+.hero-final-tag{display:inline-block;background:rgba(52,211,153,.1);color:var(--cu);border:1px solid rgba(52,211,153,.25);border-radius:999px;padding:.3rem .9rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;margin-bottom:1.25rem}
+.hero-verbs{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,12vw,8rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-verbs .vc{color:var(--cc)}
+.hero-verbs .dot{color:var(--muted);font-size:.55em}
+.hero-verbs .vu{color:var(--cu)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.1rem);color:var(--muted);margin-bottom:2rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+.hero-sub .chunk span{font-weight:600}
+.hero-sub .sc{color:var(--cc)}
+.hero-sub .su{color:var(--cu)}
+.conj-hero{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.ch-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.35rem .9rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700}
+.ch-pill.cc{color:var(--cc);background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.ch-pill.cu{color:var(--cu);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS */
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* OVERVIEW */
+.ov-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;overflow:hidden;margin-bottom:2rem}
+.ov-table{width:100%;border-collapse:collapse}
+.ov-table th{padding:.7rem 1rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ov-table td{padding:.75rem 1rem;border-bottom:1px solid var(--border);font-size:.92rem}
+.ov-table tr:last-child td{border-bottom:none}
+.vname{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem}
+.vname-c{color:var(--cc)}
+.vname-u{color:var(--cu)}
+.vpt{color:var(--muted);font-size:.83rem}
+.past-form{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--accent)}
+.tag-reg{display:inline-block;background:rgba(52,211,153,.1);color:var(--cu);border:1px solid rgba(52,211,153,.25);border-radius:4px;font-size:.68rem;font-weight:700;padding:.1rem .4rem;margin-left:.35rem;vertical-align:middle}
+
+/* VERB BLOCKS */
+.verb-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:2rem}
+.vb-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.vb-icon{width:2.5rem;height:2.5rem;border-radius:.65rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem;flex-shrink:0}
+.vb-icon-c{background:rgba(96,165,250,.15);color:var(--cc)}
+.vb-icon-u{background:rgba(52,211,153,.15);color:var(--cu)}
+.vb-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800}
+.vb-title-c{color:var(--cc)}
+.vb-title-u{color:var(--cu)}
+.vb-sub{color:var(--muted);font-size:.85rem;margin-top:.1rem}
+.conj-strip{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.cs-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.35rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600}
+.cs-pill .pn{color:var(--muted);font-size:.73rem;margin-right:.25rem}
+
+/* CALL 2-SENTIDOS */
+.sentido-header{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.s1-h{color:var(--cc)}
+.s2-h{color:var(--cu)}
+
+/* EXAMPLES */
+.ex-grid{display:grid;gap:.6rem}
+.ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:.7rem;padding:.75rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.2rem .75rem}
+.ex-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem}
+.ex-pt{color:var(--muted);font-size:.83rem}
+.vbc{color:var(--cc)}
+.vbu{color:var(--cu)}
+.past-c{color:var(--cc)}
+.past-u{color:var(--cu)}
+.past-badge{font-size:.67rem;font-weight:700;background:rgba(34,211,238,.08);color:var(--accent);border-radius:4px;padding:.05rem .3rem;margin-left:.25rem;vertical-align:middle}
+
+/* PATTERN BOX */
+.pattern-box{background:rgba(96,165,250,.04);border:1px solid rgba(96,165,250,.15);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1.25rem}
+.pattern-box h4{font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:700;color:var(--cc);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.06em}
+.pr{display:flex;align-items:center;gap:.75rem;padding:.3rem 0;border-bottom:1px solid var(--border)}
+.pr:last-child{border-bottom:none}
+.pr-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;color:var(--cc);min-width:200px}
+.pr-pt{color:var(--muted);font-size:.83rem}
+
+/* NEG BOX */
+.neg-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.neg-box h5{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--warn);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.neg-pair{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.neg-w{background:rgba(255,112,67,.08);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--warn)}
+.neg-r{background:rgba(95,216,122,.06);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--tip)}
+
+/* TIP */
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.tip-box p{color:var(--tip);font-size:.9rem}
+.tip-box strong{color:var(--tip)}
+
+/* MÓDULO COMPLETO */
+.complete-section{background:var(--surface);border:1px solid rgba(52,211,153,.25);border-radius:1.5rem;padding:2.5rem;margin:4rem 1.5rem;max-width:860px;margin-left:auto;margin-right:auto;text-align:center}
+.complete-badge{display:inline-block;background:rgba(52,211,153,.1);color:var(--cu);border:1px solid rgba(52,211,153,.3);border-radius:999px;padding:.4rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.complete-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;color:var(--cu);margin-bottom:.5rem}
+.complete-sub{color:var(--muted);font-size:.95rem;margin-bottom:2rem}
+.verbs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.65rem;margin-bottom:1.5rem}
+.verb-chip{background:var(--surface2);border:1px solid var(--border);border-radius:.65rem;padding:.75rem 1rem;text-align:left;transition:border-color .2s}
+.verb-chip:hover{border-color:rgba(34,211,238,.25)}
+.vc-num{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.vc-en{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:var(--accent)}
+.vc-pt{font-size:.78rem;color:var(--muted)}
+.vc-past{font-size:.72rem;margin-top:.2rem}
+.vc-past .irreg{color:var(--warn);font-weight:600}
+.vc-past .reg{color:var(--tip);font-weight:600}
+.complete-msg{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;color:var(--accent);padding:1.25rem;background:rgba(34,211,238,.05);border-radius:.85rem;border:1px solid rgba(34,211,238,.15)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-section-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(34,211,238,.06)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cc),var(--accent),var(--cu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#070d0d;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.07em}
+.sc-h h4{color:var(--cc)}
+.su-h h4{color:var(--cu)}
+.sum-item{font-size:.85rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(34,211,238,.2);border-radius:1rem;padding:1.25rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:600;color:var(--accent)}
+
+/* FOOTER NAV */
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+.fnav-complete{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--cu);opacity:.9;cursor:default}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .sum-grid2{grid-template-columns:1fr}
+  .ex-card{grid-template-columns:1fr}
+  .neg-pair{grid-template-columns:1fr}
+  .verbs-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 04 · Verbos Essenciais</span>
+  <span class="nav-badge">A1 · Lição 25 · CALL · USE</span>
+  <span class="nav-final">Lição Final</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 04 · Lição Final</div>
+    <div class="hero-final-tag">Sistema 1 — Lição 25 de 25</div>
+    <div class="hero-verbs">
+      <span class="vc">CALL</span>
+      <span class="dot"> · </span>
+      <span class="vu">USE</span>
+    </div>
+    <div class="hero-sub">
+      <div class="chunk"><span class="sc">LIGAR · CHAMAR</span></div>
+      <div class="chunk"><span class="su">USAR · UTILIZAR</span></div>
+    </div>
+    <div class="conj-hero">
+      <span class="ch-pill cc">CALL / CALLS → CALLED</span>
+      <span class="ch-pill cu">USE / USES → USED</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="section-label">Visão geral</div>
+  <div class="section-title">2 verbos regulares — passados simples</div>
+
+  <div class="ov-table-wrap">
+    <table class="ov-table">
+      <thead>
+        <tr><th>Verbo</th><th>Significados</th><th>He/She usa</th><th>Passado</th><th>Tipo</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="vname vname-c">CALL</span></td>
+          <td><span class="vpt">LIGAR · CHAMAR · DAR NOME</span></td>
+          <td><span class="past-form">CALLS</span></td>
+          <td><span class="past-form">CALLED</span></td>
+          <td><span class="tag-reg">regular</span></td>
+        </tr>
+        <tr>
+          <td><span class="vname vname-u">USE</span></td>
+          <td><span class="vpt">USAR · UTILIZAR</span></td>
+          <td><span class="past-form">USES</span></td>
+          <td><span class="past-form">USED</span></td>
+          <td><span class="tag-reg">regular</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>Os dois são regulares!</strong> CALL → CALLED (add -ED). USE → USED (add -D, pois já termina em E). Encerramos o Módulo 04 com verbos simples.</p>
+  </div>
+</section>
+
+<!-- CALL -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Verbo 1</div>
+  <div class="section-title" style="color:var(--cc)">CALL — 2 Sentidos</div>
+
+  <div class="verb-block">
+    <div class="vb-header">
+      <div class="vb-icon vb-icon-c">C</div>
+      <div>
+        <div class="vb-title vb-title-c">CALL / CALLS → CALLED</div>
+        <div class="vb-sub">verbo regular — adiciona -ED: call → called</div>
+      </div>
+    </div>
+
+    <div class="conj-strip">
+      <div class="cs-pill"><span class="pn">I/You/We/They</span><span style="color:var(--cc)">call</span></div>
+      <div class="cs-pill"><span class="pn">He/She/It</span><span style="color:var(--cc)">calls</span></div>
+      <div class="cs-pill"><span class="pn">passado</span><span style="color:var(--cc)">called</span> <span class="tag-reg">regular</span></div>
+    </div>
+
+    <!-- Sentido 1 -->
+    <div class="sentido-header s1-h">Sentido 1 — LIGAR / TELEFONAR</div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbc">call</span> my mom every Sunday.</div>
+        <div class="ex-pt">Eu ligo para minha mãe todo domingo.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbc">calls</span> his boss every morning.</div>
+        <div class="ex-pt">Ele liga para o chefe toda manhã.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vbc">calls</span> her friends every day.</div>
+        <div class="ex-pt">Ela liga para as amigas todo dia.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">I will <span class="vbc">call</span> you tomorrow.</div>
+        <div class="ex-pt">Eu vou te ligar amanhã.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--cc);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.07em">No passado — CALLED</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="past-c">called</span> my mom last Sunday. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eu liguei para minha mãe no domingo.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">He <span class="past-c">called</span> his boss this morning. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ele ligou para o chefe esta manhã.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="past-c">called</span> her friends last night. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ela ligou para as amigas ontem à noite.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">They <span class="past-c">called</span> a meeting yesterday. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eles convocaram uma reunião ontem.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sentido 2 -->
+    <div class="sentido-header s2-h">Sentido 2 — CHAMAR / DAR NOME A</div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">They <span class="vbc">call</span> him 'Big John' at work.</div>
+        <div class="ex-pt">Eles chamam ele de 'Big John' no trabalho.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbc">calls</span> his dog 'Rex'.</div>
+        <div class="ex-pt">Ele chama o cachorro de 'Rex'.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vbc">calls</span> herself a teacher.</div>
+        <div class="ex-pt">Ela se chama professora.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbc">call</span> this place home.</div>
+        <div class="ex-pt">Eu chamo esse lugar de lar.</div>
+      </div>
+    </div>
+
+    <div class="pattern-box">
+      <h4>Padrões úteis — perguntas naturais</h4>
+      <div class="pr">
+        <div class="pr-en">What do they call you?</div>
+        <div class="pr-pt">Como te chamam? / Qual é seu nome?</div>
+      </div>
+      <div class="pr">
+        <div class="pr-en">What is it called?</div>
+        <div class="pr-pt">Como se chama? / Qual é o nome disso?</div>
+      </div>
+      <div class="pr">
+        <div class="pr-en">They call it 'Rio'.</div>
+        <div class="pr-pt">Eles chamam de 'Rio'.</div>
+      </div>
+      <div class="pr">
+        <div class="pr-en">We call it a success.</div>
+        <div class="pr-pt">A gente chama isso de sucesso.</div>
+      </div>
+    </div>
+
+    <div class="neg-box">
+      <h5>⚠️ Negação</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ I didn't called you.</div>
+        <div class="neg-r">✓ I didn't call you.</div>
+        <div class="neg-w">✗ She doesn't calls him that.</div>
+        <div class="neg-r">✓ She doesn't call him that.</div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.65rem">Depois de <strong style="color:var(--warn)">didn't</strong> e <strong style="color:var(--warn)">doesn't</strong>: sempre a forma base CALL.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Verbo 2</div>
+  <div class="section-title" style="color:var(--cu)">USE — USAR / UTILIZAR</div>
+
+  <div class="verb-block">
+    <div class="vb-header">
+      <div class="vb-icon vb-icon-u">U</div>
+      <div>
+        <div class="vb-title vb-title-u">USE / USES → USED</div>
+        <div class="vb-sub">regular — termina em E, então só adiciona -D: use → used</div>
+      </div>
+    </div>
+
+    <div class="conj-strip">
+      <div class="cs-pill"><span class="pn">I/You/We/They</span><span style="color:var(--cu)">use</span></div>
+      <div class="cs-pill"><span class="pn">He/She/It</span><span style="color:var(--cu)">uses</span></div>
+      <div class="cs-pill"><span class="pn">passado</span><span style="color:var(--cu)">used</span> <span class="tag-reg">regular</span></div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbu">use</span> my phone all day.</div>
+        <div class="ex-pt">Eu uso meu celular o dia todo.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbu">uses</span> public transport.</div>
+        <div class="ex-pt">Ele usa transporte público.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vbu">uses</span> a notebook for everything.</div>
+        <div class="ex-pt">Ela usa um caderno para tudo.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">We <span class="vbu">use</span> English at the office.</div>
+        <div class="ex-pt">Nós usamos inglês no escritório.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">It <span class="vbu">uses</span> a lot of battery.</div>
+        <div class="ex-pt">Ele/Ela usa muita bateria.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">They <span class="vbu">use</span> solar energy.</div>
+        <div class="ex-pt">Eles usam energia solar.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--cu);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.07em">No passado — USED</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="past-u">used</span> my phone all day yesterday. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eu usei meu celular o dia todo ontem.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="past-u">used</span> her notebook at the meeting. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ela usou o caderno na reunião.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">He <span class="past-u">used</span> public transport yesterday. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ele usou transporte público ontem.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">We <span class="past-u">used</span> English at the conference. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Nós usamos inglês na conferência.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="neg-box">
+      <h5>⚠️ Negação</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ I didn't used it.</div>
+        <div class="neg-r">✓ I didn't use it.</div>
+        <div class="neg-w">✗ He doesn't uses it.</div>
+        <div class="neg-r">✓ He doesn't use it.</div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.65rem">Depois de <strong style="color:var(--warn)">didn't</strong> e <strong style="color:var(--warn)">doesn't</strong>: sempre a forma base USE.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULO 04 COMPLETO -->
+<div class="complete-section">
+  <div class="complete-badge">Módulo 04 · Sistema 1</div>
+  <div class="complete-title">Módulo Completo!</div>
+  <div class="complete-sub">Você aprendeu todos os verbos do Módulo 04. Veja o caminho que percorreu:</div>
+
+  <div class="verbs-grid">
+    <div class="verb-chip"><div class="vc-num">Lição 20</div><div class="vc-en">KNOW</div><div class="vc-pt">saber · conhecer</div><div class="vc-past"><span class="irreg">KNEW</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 21</div><div class="vc-en">SEE</div><div class="vc-pt">ver · perceber</div><div class="vc-past"><span class="irreg">SAW</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 22</div><div class="vc-en">NEED</div><div class="vc-pt">precisar</div><div class="vc-past"><span class="reg">NEEDED</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 22</div><div class="vc-en">LIKE</div><div class="vc-pt">gostar</div><div class="vc-past"><span class="reg">LIKED</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 22</div><div class="vc-en">LOVE</div><div class="vc-pt">amar · adorar</div><div class="vc-past"><span class="reg">LOVED</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 22</div><div class="vc-en">FEEL</div><div class="vc-pt">sentir</div><div class="vc-past"><span class="irreg">FELT</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 23</div><div class="vc-en">TAKE</div><div class="vc-pt">pegar · levar · tomar</div><div class="vc-past"><span class="irreg">TOOK</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 24</div><div class="vc-en">GIVE</div><div class="vc-pt">dar · oferecer</div><div class="vc-past"><span class="irreg">GAVE</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 24</div><div class="vc-en">FIND</div><div class="vc-pt">encontrar · achar</div><div class="vc-past"><span class="irreg">FOUND</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 24</div><div class="vc-en">WORK</div><div class="vc-pt">trabalhar · funcionar</div><div class="vc-past"><span class="reg">WORKED</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 25</div><div class="vc-en">CALL</div><div class="vc-pt">ligar · chamar</div><div class="vc-past"><span class="reg">CALLED</span></div></div>
+    <div class="verb-chip"><div class="vc-num">Lição 25</div><div class="vc-en">USE</div><div class="vc-pt">usar · utilizar</div><div class="vc-past"><span class="reg">USED</span></div></div>
+  </div>
+
+  <div class="complete-msg">
+    Sistema 1 concluído — 25 lições, 4 módulos, base sólida para o inglês americano do dia a dia.
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-section-label">Pratique</div>
+  <div class="quiz-section-title">Quiz — CALL · USE</div>
+  <div class="quiz-section-sub">12 questões finais do Módulo 04. Complete as frases com a forma correta.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS COMUNS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com CALL · USE</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>CALL → CALLED &nbsp;·&nbsp; USE → USED &nbsp;·&nbsp; Ambos regulares — negação sempre usa a forma base</p>
+  </div>
+
+  <div class="sum-grid2">
+    <div class="sum-card sc-h">
+      <h4>CALL</h4>
+      <div class="sum-item"><span class="en">call someone</span> — ligar para alguém</div>
+      <div class="sum-item"><span class="en">call your boss</span> — ligar pro chefe</div>
+      <div class="sum-item"><span class="en">call a meeting</span> — convocar reunião</div>
+      <div class="sum-item"><span class="en">call him 'Rex'</span> — chamar de 'Rex'</div>
+      <div class="sum-item"><span class="en">What is it called?</span> — Como se chama?</div>
+    </div>
+    <div class="sum-card su-h">
+      <h4>USE</h4>
+      <div class="sum-item"><span class="en">use my phone</span> — usar meu celular</div>
+      <div class="sum-item"><span class="en">use English</span> — usar inglês</div>
+      <div class="sum-item"><span class="en">use public transport</span> — usar transporte</div>
+      <div class="sum-item"><span class="en">use solar energy</span> — usar energia solar</div>
+      <div class="sum-item"><span class="en">use a notebook</span> — usar um caderno</div>
+    </div>
+  </div>
+
+  <div class="sum-rule">
+    <p>Depois de <strong>didn't</strong> e <strong>doesn't</strong>: sempre a forma base — call, use</p>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <a class="fnav-btn" href="../24_give_find_work/index.html">← Lição 24</a>
+  <div class="fnav-center">Lição 25 de 25 · Módulo 04</div>
+  <a class="fnav-btn" href="../index.html">Ver Índice →</a>
+</div>
+
+<script>
+// THREE.JS HERO — CELEBRAÇÃO FINAL
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,13);
+
+  // Central sphere
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x22D3EE,emissive:0x22D3EE,emissiveIntensity:.25,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);
+  scene.add(cMesh);
+  var wMat=new THREE.MeshBasicMaterial({color:0x22D3EE,wireframe:true,opacity:.08,transparent:true});
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),wMat));
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0x112020,2));
+  var dl1=new THREE.DirectionalLight(0x60A5FA,3);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0x34D399,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0x22D3EE,1.5);dl3.position.set(0,0,-6);scene.add(dl3);
+
+  // CALL orbit (blue, inner)
+  var callGroup=new THREE.Group();callGroup.rotation.x=.4;scene.add(callGroup);
+  var callMat=new THREE.MeshStandardMaterial({color:0x60A5FA,emissive:0x60A5FA,emissiveIntensity:.5,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){
+    var a=(i/4)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),callMat.clone());
+    m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);
+    callGroup.add(m);
+  }
+  var rpts=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rpts.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  callGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rpts),new THREE.LineBasicMaterial({color:0x60A5FA,opacity:.15,transparent:true})));
+
+  // USE orbit (green, outer)
+  var useGroup=new THREE.Group();useGroup.rotation.x=-.3;useGroup.rotation.z=.2;scene.add(useGroup);
+  var useMat=new THREE.MeshStandardMaterial({color:0x34D399,emissive:0x34D399,emissiveIntensity:.45,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){
+    var a=(i/5)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.25,12,12),useMat.clone());
+    m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);
+    useGroup.add(m);
+  }
+  var rpts2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rpts2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  useGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rpts2),new THREE.LineBasicMaterial({color:0x34D399,opacity:.12,transparent:true})));
+
+  // Celebration particles — denser
+  var pPos=new Float32Array(600);
+  var pColors=new Float32Array(600);
+  var cols=[[0.38,0.64,0.98],[0.20,0.83,0.60],[0.13,0.83,0.93]];
+  for(var i=0;i<200;i++){
+    pPos[i*3]=(Math.random()-.5)*50;
+    pPos[i*3+1]=(Math.random()-.5)*50;
+    pPos[i*3+2]=(Math.random()-.5)*50;
+    var c=cols[i%3];
+    pColors[i*3]=c[0];pColors[i*3+1]=c[1];pColors[i*3+2]=c[2];
+  }
+  var pGeo=new THREE.BufferGeometry();
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  pGeo.setAttribute('color',new THREE.BufferAttribute(pColors,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({size:.08,vertexColors:true,transparent:true,opacity:.45})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.008;
+    cMesh.rotation.y=t*.4;cMesh.rotation.x=t*.12;
+    callGroup.rotation.y+=.014;
+    useGroup.rotation.y-=.01;
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',function(){
+    W=window.innerWidth;H=window.innerHeight;
+    renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();
+  });
+})();
+
+// QUIZ
+var QS=[
+  {s:'She ___ her friends every day.',opts:['call','calls','called','calles'],ans:'calls',why:'She → CALLS no presente (regular com -S)'},
+  {s:'I ___ my phone all day yesterday.',opts:['use','uses','used','useed'],ans:'used',why:'Yesterday = passado. USE regular → USED (só +D)'},
+  {s:'He ___ his dog \'Rex\'.',opts:['call','calls','called','calles'],ans:'calls',why:'He → CALLS no presente'},
+  {s:'We ___ English at the meeting last week.',opts:['use','uses','used','useed'],ans:'used',why:'Last week = passado. USED (passado de USE)'},
+  {s:'She didn\'t ___ you back yesterday?',opts:['call','calls','called','calles'],ans:'call',why:"Depois de didn't: sempre a forma base CALL. Nunca 'didn't called'"},
+  {s:'He ___ public transport every day.',opts:['use','uses','used','useed'],ans:'uses',why:'He → USES no presente'},
+  {s:'They ___ him \'Big John\' at work.',opts:['call','calls','called','calles'],ans:'call',why:'They → CALL no presente'},
+  {s:'I ___ my mom last Sunday.',opts:['call','calls','called','calles'],ans:'called',why:'Last Sunday = passado. CALL regular → CALLED'},
+  {s:'Did she ___ her notebook at the conference?',opts:['use','uses','used','useed'],ans:'use',why:"Depois de 'Did': sempre a forma base USE"},
+  {s:'What do they ___ this dish?',opts:['call','calls','called','calles'],ans:'call',why:"Depois de 'do they': forma base CALL. 'What do they call it?' = Como chamam isso?"},
+  {s:'They ___ solar energy in their factory last year.',opts:['use','uses','used','useed'],ans:'used',why:'Last year = passado. USED (passado de USE)'},
+  {s:'She doesn\'t ___ her computer much.',opts:['use','uses','used','useed'],ans:'use',why:"Depois de 'doesn't': forma base USE sem -S"}
+];
+
+var ERRORS=[
+  {wrong:"I didn't called you.",right:"I didn't call you.",why:"Depois de 'didn't', o verbo volta para a forma base: CALL. Nunca 'didn't called'."},
+  {wrong:'He use public transport.',right:'He uses public transport.',why:'Com He/She/It no presente, sempre adicione -S: USES.'},
+  {wrong:"Did she used her notebook?",right:"Did she use her notebook?",why:"Depois de 'Did', o verbo vai para a forma base: USE. Nunca 'did used'."},
+  {wrong:"She doesn't calls her friends.",right:"She doesn't call her friends.",why:"Depois de 'doesn't', o verbo fica na forma base sem -S: CALL."},
+  {wrong:"I didn't used it.",right:"I didn't use it.",why:"Depois de 'didn't', sempre a forma base: USE. Nunca 'didn't used'."},
+  {wrong:"He call his dog 'Rex'.",right:"He calls his dog 'Rex'.",why:"Com He no presente, sempre adicione -S: CALLS."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    var txt=q.s.replace('___','<span class="blank">___</span>');
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+txt+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      var letters=['A','B','C','D'];
+      btn.innerHTML='<span class="opt-letter">'+letters[j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;
+    card.appendChild(fb);
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  var btns=card.querySelectorAll('.opt-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    btns.forEach(function(b){if(b.textContent.trim().endsWith(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    var msgs=['Continue praticando — releia as seções acima!','Bom progresso! Revise os erros e tente de novo.','Muito bem! Você está dominando CALL e USE.','Perfeito! Módulo 04 concluído com excelência!'];
+    document.getElementById('score-msg').textContent=pct<.5?msgs[0]:pct<.75?msgs[1]:pct<1?msgs[2]:msgs[3];
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+// BUILD ERRORS
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML=
+      '<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div>'+
+      '<div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

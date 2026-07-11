@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 6 — Conversas do Dia a Dia · Inglês para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--rd:#f87171;--am:#F5C518;--gn:#5FD87A;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s6.active{border-color:var(--s6);background:rgba(14,165,233,.16);box-shadow:0 0 10px rgba(14,165,233,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* BG PARTICLES */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.p{position:absolute;border-radius:50%;animation:fp linear infinite;}
+@keyframes fp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:3.5rem 1.5rem 2.5rem;text-align:center;max-width:860px;margin:0 auto;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s6);background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);padding:.35rem 1rem;border-radius:2rem;margin-bottom:1.25rem;}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--s6);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:.75rem;}
+.hero-title span{color:var(--s6);}
+.hero-sub{font-size:1rem;color:var(--tm);line-height:1.65;max-width:580px;margin:0 auto 2rem;}
+
+/* STATS */
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem;}
+.stat{background:var(--sf);border:1px solid var(--bd);border-radius:.65rem;padding:.65rem 1.1rem;text-align:center;}
+.stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--s6);line-height:1;}
+.stat-l{font-size:.62rem;font-weight:600;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;}
+
+/* SECTION */
+.section{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 1.25rem 2.5rem;}
+
+/* BIG CARDS */
+.big-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.big-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .22s;position:relative;}
+.big-card:hover{border-color:rgba(14,165,233,.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(14,165,233,.14);}
+.big-card-bar{height:4px;background:linear-gradient(90deg,var(--s6),transparent);}
+.big-card-body{padding:2rem 1.75rem 1.5rem;flex:1;text-align:center;}
+.big-card-icon{font-size:2.6rem;display:block;margin-bottom:1rem;line-height:1;}
+.big-card-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;line-height:1.25;margin-bottom:.65rem;color:var(--s6);}
+.big-card-desc{font-size:.85rem;color:var(--tm);line-height:1.6;}
+.big-card-footer{padding:1rem 1.75rem;border-top:1px solid var(--bd);text-align:center;background:rgba(0,0,0,.15);}
+.big-card-cta{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--s6);}
+
+/* PROGRESS */
+.progress-card{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.4rem;margin-top:1.5rem;}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;color:var(--s6);}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s6),#38bdf8);border-radius:3px;transition:width .6s ease;}
+
+/* THEMES PREVIEW */
+.themes-preview{display:grid;grid-template-columns:repeat(7,1fr);gap:.55rem;margin-top:1.5rem;}
+.tp-item{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.65rem .5rem;text-align:center;}
+.tp-icon{font-size:1.1rem;margin-bottom:.25rem;}
+.tp-name{font-size:.58rem;font-weight:700;color:var(--tm);line-height:1.25;}
+
+/* BACK LINK */
+.back-row{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:.5rem 1.25rem 1rem;display:flex;align-items:center;gap:.5rem;}
+.back-link{color:var(--td);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;transition:color .18s;}
+.back-link:hover{color:var(--tx);}
+.back-sep{color:var(--td);}
+
+@media(max-width:620px){
+  .big-cards{grid-template-columns:1fr;}
+  .themes-preview{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="./index.html" class="gnav-btn gnav-s6 active">💬 S6</a>
+  <a href="../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- BACK -->
+<div class="back-row">
+  <a href="../index.html" class="back-link">← Menu Principal</a>
+  <span class="back-sep">/</span>
+  <span style="font-size:.78rem;color:var(--tm);font-family:'Space Grotesk',sans-serif;font-weight:600;">Sistema 6 — Conversas do Dia a Dia</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow"><div class="hero-dot"></div> 💬 Sistema 6 — Conversas do Dia a Dia</div>
+  <h1 class="hero-title">Perguntas e respostas naturais<br><span>os dois lados da conversa</span></h1>
+  <p class="hero-sub">A maioria aprende só a responder. Quem faz as perguntas controla a conversa. Pratique os dois lados de 14 conversas reais sobre situações do dia a dia.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">14</div><div class="stat-l">Conversas</div></div>
+    <div class="stat"><div class="stat-n">98</div><div class="stat-l">Pares Q&A</div></div>
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">Modos de Prática</div></div>
+  </div>
+</div>
+
+<!-- BIG CARDS -->
+<div class="section">
+  <div class="big-cards">
+
+    <a class="big-card" href="conversas/index.html">
+      <div class="big-card-bar"></div>
+      <div class="big-card-body">
+        <span class="big-card-icon">💬</span>
+        <div class="big-card-title">Iniciar Conversas</div>
+        <div class="big-card-desc">Todos os 5 modos de prática: conversa completa, praticar perguntas, praticar respostas, role-play e quiz.</div>
+      </div>
+      <div class="big-card-footer"><span class="big-card-cta">Iniciar →</span></div>
+    </a>
+
+    <a class="big-card" href="conversas/index.html?modo=roleplay">
+      <div class="big-card-bar"></div>
+      <div class="big-card-body">
+        <span class="big-card-icon">🎭</span>
+        <div class="big-card-title">Role-Play Direto</div>
+        <div class="big-card-desc">Simule uma conversa real agora. Escolha se você pergunta ou responde, e pratique em tempo real.</div>
+      </div>
+      <div class="big-card-footer"><span class="big-card-cta">Começar →</span></div>
+    </a>
+
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-card">
+    <div class="prog-header">
+      <span class="prog-title">Progresso Geral</span>
+      <span class="prog-num" id="progNum">0/98 pares dominados</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- THEMES PREVIEW -->
+  <div class="themes-preview">
+    <div class="tp-item"><div class="tp-icon">⏰</div><div class="tp-name">Rotina de Trabalho</div></div>
+    <div class="tp-item"><div class="tp-icon">🏘️</div><div class="tp-name">Cidade Natal</div></div>
+    <div class="tp-item"><div class="tp-icon">🎬</div><div class="tp-name">Filmes</div></div>
+    <div class="tp-item"><div class="tp-icon">🎮</div><div class="tp-name">Video Games</div></div>
+    <div class="tp-item"><div class="tp-icon">🍔</div><div class="tp-name">Restaurante</div></div>
+    <div class="tp-item"><div class="tp-icon">📱</div><div class="tp-name">Celular</div></div>
+    <div class="tp-item"><div class="tp-icon">🧹</div><div class="tp-name">Limpeza</div></div>
+    <div class="tp-item"><div class="tp-icon">🏨</div><div class="tp-name">Hotel</div></div>
+    <div class="tp-item"><div class="tp-icon">🍝</div><div class="tp-name">Cozinhando</div></div>
+    <div class="tp-item"><div class="tp-icon">🚌</div><div class="tp-name">Transporte</div></div>
+    <div class="tp-item"><div class="tp-icon">☁️</div><div class="tp-name">Clima</div></div>
+    <div class="tp-item"><div class="tp-icon">✈️</div><div class="tp-name">Viagem</div></div>
+    <div class="tp-item"><div class="tp-icon">📚</div><div class="tp-name">Aprendendo Inglês</div></div>
+    <div class="tp-item"><div class="tp-icon">⏰</div><div class="tp-name">Chegando Atrasado</div></div>
+  </div>
+</div>
+
+<script>
+const colors = ['#0EA5E9','#38bdf8','#7dd3fc','#64DFDF','#A78BFA'];
+const wrap = document.getElementById('particles');
+for (let i = 0; i < 22; i++) {
+  const p = document.createElement('div');
+  p.className = 'p';
+  const sz = 2 + Math.random() * 4;
+  p.style.cssText = `
+    width:${sz}px; height:${sz}px;
+    left:${Math.random()*100}%;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    opacity:${.15 + Math.random()*.25};
+    animation-duration:${12 + Math.random()*18}s;
+    animation-delay:${-Math.random()*20}s;
+  `;
+  wrap.appendChild(p);
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+(function(){
+  try {
+    let progress = null;
+    const raw = localStorage.getItem('sistema6_progresso');
+    if (raw) progress = JSON.parse(raw);
+    const pairs = (progress && Array.isArray(progress.pairs)) ? progress.pairs : new Array(98).fill(false);
+    const n = pairs.filter(Boolean).length;
+
+    document.getElementById('progFill').style.width = (n/98*100) + '%';
+    document.getElementById('progNum').textContent = `${n}/98 pares dominados`;
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

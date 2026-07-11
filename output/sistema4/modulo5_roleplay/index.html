@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 5 — Role-Play Interativo · Sistema 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:var(--co);border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{border-color:var(--co);background:rgba(255,107,107,.15);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.nav-back{color:var(--co);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:.6rem;}
+.mode-switch{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.3rem .8rem;border-radius:.4rem;border:1px solid rgba(255,107,107,.3);background:rgba(255,107,107,.06);color:var(--co);cursor:pointer;transition:all .18s;}
+.mode-switch:hover{background:rgba(255,107,107,.14);}
+.mode-switch.on{background:rgba(255,107,107,.2);}
+
+.wrap{padding-top:96px;max-width:760px;margin:0 auto;padding-left:1.25rem;padding-right:1.25rem;padding-bottom:3rem;}
+
+.rp-nav{display:flex;gap:.5rem;flex-wrap:wrap;padding:1.1rem 0 1.4rem;}
+.rp-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.45rem .95rem;border-radius:.55rem;border:1px solid var(--bd);background:var(--sf);color:var(--td);cursor:pointer;transition:all .18s;}
+.rp-tab:hover{color:var(--tx);border-color:var(--bdh);}
+.rp-tab.on{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.45);color:var(--co);}
+
+.rp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+.rp-header{padding:1.35rem 1.5rem 1.1rem;border-bottom:1px solid var(--bd);}
+.rp-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--co);margin-bottom:.5rem;}
+.rp-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.6rem;}
+.rp-situacao{font-size:.85rem;color:var(--tm);line-height:1.6;background:var(--bg);border:1px solid var(--bd);border-left:3px solid var(--co);border-radius:.5rem;padding:.75rem 1rem;}
+
+/* CHAT */
+.chat-area{padding:1.35rem 1.5rem;display:flex;flex-direction:column;gap:.9rem;min-height:120px;}
+.bubble-row{display:flex;}
+.bubble-row.them{justify-content:flex-start;}
+.bubble-row.you{justify-content:flex-end;}
+.bubble{max-width:80%;padding:.7rem 1rem;border-radius:.9rem;font-size:.9rem;line-height:1.5;}
+.bubble .who{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.25rem;opacity:.7;}
+.bubble.them-bubble{background:var(--bg);border:1px solid var(--bd);border-bottom-left-radius:.2rem;}
+.bubble.you-bubble{background:rgba(255,107,107,.14);border:1px solid rgba(255,107,107,.3);border-bottom-right-radius:.2rem;}
+.bubble-pt{font-size:.74rem;color:var(--td);margin-top:.3rem;}
+
+/* YOUR TURN INPUT */
+.turn-box{padding:1.1rem 1.5rem;border-top:1px solid var(--bd);}
+.turn-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--co);margin-bottom:.5rem;}
+.turn-prompt{font-size:.82rem;color:var(--tm);margin-bottom:.7rem;}
+.turn-input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .95rem;color:var(--tx);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;margin-bottom:.75rem;}
+.turn-input:focus{border-color:rgba(255,107,107,.5);}
+.suggestion-box{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.25);border-radius:.55rem;padding:.75rem .95rem;margin-bottom:.75rem;display:none;}
+.suggestion-box.show{display:block;}
+.suggestion-label{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gn);margin-bottom:.3rem;}
+.suggestion-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--tx);}
+.suggestion-pt{font-size:.78rem;color:var(--td);margin-top:.2rem;}
+.turn-actions{display:flex;gap:.6rem;}
+.tbtn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.6rem 1.05rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;}
+.tbtn:hover{color:var(--tx);border-color:var(--bdh);}
+.tbtn.primary{background:var(--co);color:#080c14;border:none;}
+.tbtn.primary:hover{background:#ff8787;}
+
+.rp-done{padding:1.5rem;text-align:center;}
+.rp-done-icon{font-size:2rem;margin-bottom:.5rem;}
+.rp-done-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gn);margin-bottom:.4rem;}
+.rp-done-sub{font-size:.8rem;color:var(--td);margin-bottom:1rem;}
+
+/* GUIDED MODE */
+.guided-script{padding:1.35rem 1.5rem;display:flex;flex-direction:column;gap:.8rem;}
+.gscript-line{padding:.7rem .95rem;border-radius:.6rem;}
+.gscript-line.them{background:var(--bg);border:1px solid var(--bd);}
+.gscript-line.you{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);}
+.gscript-who{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.25rem;opacity:.7;}
+.gscript-en{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;}
+.gscript-pt{font-size:.76rem;color:var(--td);margin-top:.2rem;}
+
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../index.html" class="gnav-btn gnav-s4 active">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 4</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 5 — Role-Play Interativo</div>
+    <div class="nav-sub">Pratique as cenas como se estivesse no vídeo</div>
+  </div>
+  <div class="nav-right">
+    <button class="mode-switch on" id="interModeBtn" onclick="setViewMode('inter')">🎭 Interativo</button>
+    <button class="mode-switch" id="guidedModeBtn" onclick="setViewMode('guided')">📖 Modo Guiado</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="rp-nav" id="rpNav"></div>
+  <div class="rp-card" id="rpCard"></div>
+</div>
+
+<script>
+const ROLEPLAYS = [
+{id:1,title:'Apresentando alguém',
+ situacao:'Você está no escritório e precisa apresentar um novo colega para a equipe.',
+ turns:[
+  {speaker:'you',en:"_____, I'd like you to meet _____. He/She is our new _____.",pt:'_____, quero que você conheça _____. Ele/Ela é nosso(a) novo(a) _____.'},
+  {speaker:'them',who:'Colegas',en:"It's very nice to meet you!",pt:'É um prazer te conhecer!'},
+  {speaker:'you',en:'___ is from _____.',pt:'___ é de _____.'},
+ ],
+ pratique:'Pratique com: apresentar amigos, familiares, colegas.'},
+{id:2,title:'Pedindo direções',
+ situacao:'Você está perdido e precisa encontrar um lugar.',
+ turns:[
+  {speaker:'you',en:"Excuse me, I'm looking for _____. Could you help me?",pt:'Com licença, estou procurando _____. Você pode me ajudar?'},
+  {speaker:'them',who:'Pedestre',en:'Sure! Go straight two blocks, turn left, and it\'s on your right.',pt:'Claro! Siga em frente dois quarteirões, vire à esquerda, e é à sua direita.'},
+  {speaker:'you',en:"So I go straight, turn left, and it's on my right? Thank you!",pt:'Então eu sigo em frente, viro à esquerda, e é à minha direita? Obrigado!'},
+ ]},
+{id:3,title:'No Restaurante',
+ situacao:'Você quer fazer um pedido com modificações.',
+ turns:[
+  {speaker:'them',who:'Waiter',en:'Are you ready to order?',pt:'Já estão prontos para pedir?'},
+  {speaker:'you',en:"I'm in the mood for the chicken, but could I order it without the sauce?",pt:'Estou com vontade de frango, mas posso pedir sem o molho?'},
+  {speaker:'them',who:'Waiter',en:'Sure. What would you like instead?',pt:'Claro. O que você gostaria no lugar?'},
+  {speaker:'you',en:'Could I have grilled vegetables instead?',pt:'Posso ter vegetais grelhados em vez disso?'},
+  {speaker:'them',who:'Waiter',en:'Of course. Anything to drink?',pt:'Claro. Algo para beber?'},
+  {speaker:'you',en:'Just water, please.',pt:'Só água, por favor.'},
+ ]},
+{id:4,title:'Barganhando',
+ situacao:'Você quer comprar algo mas o preço é alto.',
+ turns:[
+  {speaker:'them',who:'Vendedor',en:'This is $100.',pt:'Isso custa $100.'},
+  {speaker:'you',en:'That\'s more than I want to pay. Could you do $80?',pt:'Isso é mais do que eu quero pagar. Você consegue fazer por $80?'},
+  {speaker:'them',who:'Vendedor',en:'I could go as low as $90.',pt:'Eu poderia baixar até $90.'},
+  {speaker:'you',en:'How about $85?',pt:'Que tal $85?'},
+  {speaker:'them',who:'Vendedor',en:"$87. That's my final offer.",pt:'$87. Essa é minha oferta final.'},
+  {speaker:'you',en:"It's a deal!",pt:'Fechado!'},
+ ]},
+{id:5,title:'Planos de Fim de Semana',
+ situacao:'Seus amigos perguntam o que você quer fazer.',
+ turns:[
+  {speaker:'them',who:'Amigo',en:'Do you guys want to go out this weekend?',pt:'Vocês querem sair este fim de semana?'},
+  {speaker:'you',en:'A rock concert sounds good to me.',pt:'Um show de rock parece bom pra mim.'},
+  {speaker:'you',en:"Not my style. I'd love to see a movie.",pt:'Não é meu estilo. Eu adoraria ver um filme.'},
+  {speaker:'you',en:'How about a play?',pt:'Que tal uma peça?'},
+  {speaker:'them',who:'Amigo',en:'There\'s a concert Saturday at 8pm. Sounds good?',pt:'Tem um show sábado às 20h. Parece bom?'},
+  {speaker:'you',en:"Sounds great! I can't wait!",pt:'Parece ótimo! Mal posso esperar!'},
+ ]},
+];
+
+let current = 1;
+let viewMode = 'inter';
+let turnIndex = {}; // per-roleplay progress
+let suggestionShown = {};
+
+function renderNav() {
+  document.getElementById('rpNav').innerHTML = ROLEPLAYS.map(r => `
+    <button class="rp-tab ${r.id === current ? 'on' : ''}" onclick="selectRP(${r.id})">🎭 Role-Play ${String(r.id).padStart(2,'0')}</button>
+  `).join('');
+}
+
+function selectRP(id) {
+  current = id;
+  renderNav();
+  renderCard();
+}
+
+function setViewMode(m) {
+  viewMode = m;
+  document.getElementById('interModeBtn').classList.toggle('on', m === 'inter');
+  document.getElementById('guidedModeBtn').classList.toggle('on', m === 'guided');
+  renderCard();
+}
+
+function renderCard() {
+  const r = ROLEPLAYS.find(x => x.id === current);
+  const card = document.getElementById('rpCard');
+
+  const header = `
+    <div class="rp-header">
+      <div class="rp-tag">🎭 Role-Play ${String(r.id).padStart(2,'0')}</div>
+      <div class="rp-title">${r.title}</div>
+      <div class="rp-situacao"><b>Situação:</b> ${r.situacao}</div>
+    </div>
+  `;
+
+  if (viewMode === 'guided') {
+    const scriptHTML = r.turns.map(t => `
+      <div class="gscript-line ${t.speaker}">
+        <div class="gscript-who">${t.speaker === 'you' ? '💬 Você' : '💬 ' + (t.who || 'Personagem')}</div>
+        <div class="gscript-en">"${t.en}"</div>
+        <div class="gscript-pt">${t.pt}</div>
+      </div>
+    `).join('');
+    card.innerHTML = header + `<div class="guided-script">${scriptHTML}</div>`;
+    return;
+  }
+
+  // INTERACTIVE MODE
+  turnIndex[r.id] = turnIndex[r.id] || 0;
+  suggestionShown[r.id] = suggestionShown[r.id] || false;
+  const idx = turnIndex[r.id];
+
+  const doneHistory = r.turns.slice(0, idx);
+  const chatHTML = doneHistory.map(t => `
+    <div class="bubble-row ${t.speaker}">
+      <div class="bubble ${t.speaker === 'you' ? 'you-bubble' : 'them-bubble'}">
+        <div class="who">${t.speaker === 'you' ? 'Você' : (t.who || 'Personagem')}</div>
+        "${t.en}"
+        <div class="bubble-pt">${t.pt}</div>
+      </div>
+    </div>
+  `).join('');
+
+  if (idx >= r.turns.length) {
+    card.innerHTML = header + `
+      <div class="chat-area">${chatHTML}</div>
+      <div class="rp-done">
+        <div class="rp-done-icon">🎉</div>
+        <div class="rp-done-text">Role-play concluído!</div>
+        <div class="rp-done-sub">${r.pratique || 'Pratique novamente para fixar as frases.'}</div>
+        <button class="tbtn primary" onclick="restartRP(${r.id})">↺ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const t = r.turns[idx];
+
+  if (t.speaker === 'them') {
+    card.innerHTML = header + `<div class="chat-area">${chatHTML}</div>` + `
+      <div class="turn-box">
+        <div class="turn-label">💬 ${t.who || 'Personagem'}</div>
+        <div class="suggestion-box show">
+          <div class="suggestion-en">"${t.en}"</div>
+          <div class="suggestion-pt">${t.pt}</div>
+        </div>
+        <div class="turn-actions">
+          <button class="tbtn primary" onclick="advanceTurn(${r.id})">Próxima fala →</button>
+        </div>
+      </div>
+    `;
+  } else {
+    const showSug = suggestionShown[r.id];
+    card.innerHTML = header + `<div class="chat-area">${chatHTML}</div>` + `
+      <div class="turn-box">
+        <div class="turn-label">✏️ Sua vez!</div>
+        <div class="turn-prompt">Complete ou escreva sua resposta em inglês:</div>
+        <input class="turn-input" id="turnInput" type="text" placeholder="Digite sua resposta...">
+        <div class="suggestion-box ${showSug ? 'show' : ''}">
+          <div class="suggestion-label">Sugestão</div>
+          <div class="suggestion-en">"${t.en}"</div>
+          <div class="suggestion-pt">${t.pt}</div>
+        </div>
+        <div class="turn-actions">
+          <button class="tbtn" onclick="showSuggestion(${r.id})">👁 Ver sugestão</button>
+          <button class="tbtn primary" onclick="advanceTurn(${r.id})">Próxima fala →</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function showSuggestion(id) {
+  suggestionShown[id] = true;
+  renderCard();
+}
+
+function advanceTurn(id) {
+  turnIndex[id] = (turnIndex[id] || 0) + 1;
+  suggestionShown[id] = false;
+  renderCard();
+}
+
+function restartRP(id) {
+  turnIndex[id] = 0;
+  suggestionShown[id] = false;
+  renderCard();
+}
+
+renderNav();
+renderCard();
+</script>
+</body>
+</html>

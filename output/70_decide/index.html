@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L70 · DECIDE · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.reg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.reg-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--gn);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* DECIDE + TO highlight box */
+.to-box{background:rgba(56,189,248,.07);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;text-align:center;}
+.tb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.55rem;}
+.tb-rule{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--ca);margin-bottom:.4rem;}
+.tb-sub{font-size:.82rem;color:var(--tm);}
+
+/* +D rule box */
+.plus-d{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.pd-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gn);margin-bottom:.45rem;}
+.pd-body{font-size:.83rem;color:var(--tm);}
+
+/* four patterns grid */
+.patt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.pg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.1rem;border-left:3px solid var(--ca);}
+.pg-key{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.25rem;}
+.pg-pt{font-size:.74rem;color:var(--td);margin-bottom:.4rem;}
+.pg-ex{font-size:.81rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--gn);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">DECIDE</h1>
+  <p class="hero-pt">decidir · resolver · optar · determinar</p>
+
+  <div class="reg-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">DECIDE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--gn)">DECIDED</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--gn)">DECIDED</div></div>
+    <span class="reg-badge">✓ REGULAR · só + D</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She decided to leave early."</div>
+    <div class="cl-pt">Ela decidiu sair cedo.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: PADRÕES -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">DECIDE + TO — a estrutura mais importante</div>
+    <div class="sd">DECIDE pede sempre TO + base — nunca DECIDE + -ING diretamente</div></div>
+  </div>
+
+  <!-- Destaque DECIDE TO -->
+  <div class="to-box">
+    <div class="tb-t">Regra principal</div>
+    <div class="tb-rule">DECIDE + TO + base (infinitivo)</div>
+    <div class="tb-sub">"She decided <strong>to leave</strong>." ✓ &nbsp;|&nbsp; "He decided <strong>to study</strong> abroad." ✓ &nbsp;|&nbsp; "I decided <strong>to stay</strong> home." ✓</div>
+  </div>
+
+  <div class="nt nt-err" style="margin-top:0;margin-bottom:.85rem">DECIDE + -ING direto é inválido. "She decided leaving." ✗ → "She decided TO LEAVE." ✓ · "He decided studying abroad." ✗ → "He decided TO STUDY abroad." ✓</div>
+
+  <!-- Regra ortográfica +D -->
+  <div class="plus-d">
+    <div class="pd-t">✓ Regra ortográfica — termina em -E: só acrescenta D</div>
+    <div class="pd-body">DECIDE → DECID<strong style="color:var(--gn)">ED</strong> (não DECIDEED). Mesma regra: like→liked · love→loved · hate→hated · use→used · arrive→arrived.</div>
+  </div>
+
+  <!-- Quatro padrões -->
+  <div class="patt-grid">
+    <div class="pg-item">
+      <div class="pg-key">DECIDE + TO + base</div>
+      <div class="pg-pt">decidir fazer algo</div>
+      <div class="pg-ex">"She decided to leave."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">DECIDE + that + oração</div>
+      <div class="pg-pt">decidir que…</div>
+      <div class="pg-ex">"He decided that he would go."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">DECIDE ON + substantivo</div>
+      <div class="pg-pt">optar por / escolher algo específico</div>
+      <div class="pg-ex">"We decided on the blue one."</div>
+    </div>
+    <div class="pg-item">
+      <div class="pg-key">DECIDE AGAINST + -ING</div>
+      <div class="pg-pt">decidir não fazer / optar contra</div>
+      <div class="pg-ex">"She decided against taking the job."</div>
+    </div>
+  </div>
+
+  <!-- Expressões com DECIDE -->
+  <div class="uso">
+    <div class="ul">Expressões e formatos com DECIDE</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE A DECISION</td><td style="font-size:.83rem">tomar uma decisão (forma substantiva)</td><td class="cpt">"I need to make a decision today."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">IT'S UP TO YOU</td><td style="font-size:.83rem">é você quem decide / depende de você</td><td class="cpt">"It's up to you — I can't decide for you."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DECIDE BETWEEN</td><td style="font-size:.83rem">escolher entre duas opções</td><td class="cpt">"I can't decide between the two."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">DECIDE FOR YOURSELF</td><td style="font-size:.83rem">decidir por si mesmo / por conta própria</td><td class="cpt">"You need to decide for yourself."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — decide / decides</div>
+    <div class="sd">HE / SHE / IT → DECIDES (com -S) · I CAN'T DECIDE — muito usado no cotidiano</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I can't <strong>decide</strong> what to order.</td><td class="cpt">Não consigo decidir o que pedir.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You always <strong>decide</strong> at the last minute.</td><td class="cpt">Você sempre decide na última hora.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>decides</strong> everything on his own.</td><td class="cpt">Ele decide tudo sozinho.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>decides</strong> where we eat tonight.</td><td class="cpt">Ela decide onde comemos hoje.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The committee <strong>decides</strong> the budget.</td><td class="cpt">O comitê decide o orçamento.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>decide</strong> together — always.</td><td class="cpt">Decidimos juntos — sempre.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>decide</strong> on the new policy next week.</td><td class="cpt">Eles decidem sobre a nova política semana que vem.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → DECIDES (com -S). "She decide everything." ✗ → "She DECIDES everything." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — decided (regular + só D)</div>
+    <div class="sd">DECIDED para todos os pronomes — termina em -E, então apenas + D</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>decided</strong> to quit my job.</td><td class="cpt">Decidi largar meu emprego.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">When did you <strong>decide</strong> to move?</td><td class="cpt">Quando você decidiu se mudar?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>decided</strong> to study medicine.</td><td class="cpt">Ele decidiu estudar medicina.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>decided</strong> against taking the job.</td><td class="cpt">Ela decidiu não aceitar o emprego.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The court <strong>decided</strong> in her favor.</td><td class="cpt">O tribunal decidiu a seu favor.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>decided</strong> on a trip to Portugal.</td><td class="cpt">Optamos por uma viagem a Portugal.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>decided</strong> that more time was needed.</td><td class="cpt">Decidiram que mais tempo era necessário.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't DECIDE." ✓ / "I didn't DECIDED." ✗ — DIDN'T + base DECIDE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">HAVE YOU DECIDED? · I CAN'T DECIDE — as formas mais naturais no dia a dia</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Perguntas comuns com DECIDE</div>
+    <table class="ct">
+      <tr><th>Tipo</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Hábito</td><td class="ce">How do you <strong>decide</strong>?</td><td class="cpt">Como você decide?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Passado</td><td class="ce">When did you <strong>decide</strong> to leave?</td><td class="cpt">Quando você decidiu ir embora?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">P. Perfect</td><td class="ce">Have you <strong>decided</strong> yet?</td><td class="cpt">Você já decidiu?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Escolha</td><td class="ce">What did you <strong>decide</strong> on?</td><td class="cpt">O que você escolheu?</td></tr>
+      <tr><td style="color:var(--ca);font-weight:600;white-space:nowrap">Futuro</td><td class="ce">When will you <strong>decide</strong>?</td><td class="cpt">Quando você vai decidir?</td></tr>
+    </table>
+
+    <div class="two" style="margin-top:1rem">
+      <div>
+        <div class="tl">Negação — Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>can't decide</strong></td><td class="cpt">não consigo decidir</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't decide</strong></td><td class="cpt">não decide</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Negação — Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't decide</strong></td><td class="cpt">não decidiu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>haven't decided</strong></td><td class="cpt">ainda não decidiu</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">"Have you decided yet?" = Você já decidiu? (present perfect com YET = pergunta sobre resultado até agora). "I haven't decided yet." = Ainda não decidi.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: FUTURO + PRESENT PERFECT -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Futuro e Present Perfect</div>
+    <div class="sd">HAVE DECIDED + WILL DECIDE — "I've decided!" marca uma decisão tomada agora</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="two">
+      <div>
+        <div class="tl">Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>will decide</strong> by tomorrow.</td><td class="cpt">Decido até amanhã.</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>is going to decide</strong> today.</td><td class="cpt">Ela vai decidir hoje.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>won't decide</strong> without you.</td><td class="cpt">Não vamos decidir sem você.</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Present Perfect</div>
+        <table class="ct">
+          <tr><td class="cp">I</td><td class="ce">I <strong>have decided</strong> to go!</td><td class="cpt">Decidi ir! (decisão tomada agora)</td></tr>
+          <tr><td class="cp">SHE</td><td class="ce">She <strong>has decided</strong> to stay.</td><td class="cpt">Ela decidiu ficar.</td></tr>
+          <tr><td class="cp">WE</td><td class="ce">We <strong>haven't decided</strong> yet.</td><td class="cpt">Ainda não decidimos.</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-tip">"I've decided!" (present perfect) = anúncio de decisão tomada agora, com impacto no presente. Compare com "I decided yesterday." (passado simples com referência temporal).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com DECIDE</div>
+    <div class="sd">Decisões cotidianas, profissionais e idiomáticas</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">I can't <strong>decide</strong> what to order.</div><div class="ph-pt">Não consigo decidir o que pedir.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>decided</strong> to leave early.</div><div class="ph-pt">Ela decidiu sair cedo.</div></div>
+    <div class="ph"><div class="ph-en">Have you <strong>decided</strong> yet?</div><div class="ph-pt">Você já decidiu?</div></div>
+    <div class="ph"><div class="ph-en">We <strong>decided</strong> on Italy for the vacation.</div><div class="ph-pt">Optamos pela Itália para as férias.</div></div>
+    <div class="ph"><div class="ph-en">It's up to you to <strong>decide</strong>.</div><div class="ph-pt">É você quem decide.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>decided</strong> against taking the job.</div><div class="ph-pt">Ela decidiu não aceitar o emprego.</div></div>
+    <div class="ph"><div class="ph-en">I've <strong>decided</strong> — I'm going!</div><div class="ph-pt">Decidi — vou embora!</div></div>
+    <div class="ph"><div class="ph-en">I need to make a <strong>decision</strong> today.</div><div class="ph-pt">Preciso tomar uma decisão hoje.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "She decided leaving."</div>
+      <div class="ecr">✓ "She decided to leave."</div>
+      <div class="ecd">DECIDE + TO + base (nunca + -ING diretamente). "She decided TO LEAVE." ✓ — DECIDE pede infinitivo com TO, não gerúndio. Compare com STOP e START que aceitam -ING.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He decideed to go."</div>
+      <div class="ecr">✓ "He decided to go."</div>
+      <div class="ecd">DECIDE termina em -E → só acrescenta D: DECIDED (não DECIDEED). "He DECIDED to go." ✓ — mesma regra de like→liked, love→loved.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She decide everything."</div>
+      <div class="ecr">✓ "She decides everything."</div>
+      <div class="ecd">SHE → DECIDES (com -S). "She DECIDES everything." ✓ — terceira pessoa singular sempre com -S no presente simples.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "When did you decided to move?"</div>
+      <div class="ecr">✓ "When did you decide to move?"</div>
+      <div class="ecd">DID + BASE. "When did you DECIDE to move?" ✓ — depois de DID, base DECIDE (nunca DECIDED).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I decided on going to Italy." (escolha)</div>
+      <div class="ecr">✓ "I decided on Italy." / "I decided to go to Italy."</div>
+      <div class="ecd">DECIDE ON + substantivo (escolha): "decided ON Italy" ✓ · DECIDE + TO + base (ação): "decided TO GO to Italy" ✓ · "decided on going" é mais raro e específico.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't decided to stay."</div>
+      <div class="ecr">✓ "I didn't decide to stay."</div>
+      <div class="ecd">DIDN'T + BASE. "I didn't DECIDE to stay." ✓ — DIDN'T já indica passado; base DECIDE (nunca DECIDED após DIDN'T).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — DECIDE</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de DECIDE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">decideed</button>
+      <button class="qo" onclick="ans(this,'q1',true)">decided</button>
+      <button class="qo" onclick="ans(this,'q1',false)">decidd</button>
+    </div>
+    <div class="qfb" id="q1fb">DECIDE → DECIDED (termina em -E → só + D). "She DECIDED to leave." ✓ — "decideed" com dois E é errado.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">Qual estrutura é a correta com DECIDE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">She decided leaving early.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">She decided to leave early.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">She decided leave early.</button>
+    </div>
+    <div class="qfb" id="q2fb">DECIDE + TO + base. "She decided TO LEAVE early." ✓ — DECIDE pede infinitivo com TO, não -ING diretamente. "Decided leaving" ✗ é inválido.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela decide onde comemos hoje." → Hábito com SHE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She decide where we eat tonight.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She decides where we eat tonight.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She decided where we eat tonight.</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → DECIDES (com -S). "She DECIDES where we eat tonight." ✓ — hábito presente com SHE. "She decided" = passado.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Quando você decidiu se mudar?" → Passado, pergunta.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">When did you decided to move?</button>
+      <button class="qo" onclick="ans(this,'q4',true)">When did you decide to move?</button>
+      <button class="qo" onclick="ans(this,'q4',false)">When you decided to move?</button>
+    </div>
+    <div class="qfb" id="q4fb">DID + BASE. "When did you DECIDE to move?" ✓ — depois de DID, base DECIDE (nunca DECIDED). Sem DID no início, não forma pergunta correta.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Você já decidiu?" → Present perfect com YET.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Did you decide yet?</button>
+      <button class="qo" onclick="ans(this,'q5',true)">Have you decided yet?</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Do you decide yet?</button>
+    </div>
+    <div class="qfb" id="q5fb">"HAVE you DECIDED yet?" ✓ — YET em perguntas pede present perfect. "Have you decided yet?" = pergunta sobre resultado até agora. "Did you decide?" = passado simples (sem YET).</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Ela decidiu não aceitar o emprego." → DECIDE AGAINST.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">She decided to not take the job.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">She decided against taking the job.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">She decided without taking the job.</button>
+    </div>
+    <div class="qfb" id="q6fb">"She decided AGAINST TAKING the job." ✓ — DECIDE AGAINST + -ING = decidir não fazer / optar contra. Nota: "decided not to take" também é correto e muito comum.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Optamos por uma viagem a Portugal." → DECIDE ON.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">We decided for a trip to Portugal.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">We decided on a trip to Portugal.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">We decided with a trip to Portugal.</button>
+    </div>
+    <div class="qfb" id="q7fb">"We decided ON a trip to Portugal." ✓ — DECIDE ON + substantivo = optar por / escolher algo específico. "Decided for" e "decided with" não existem nesse contexto.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"É você quem decide." → IT'S UP TO YOU.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">It depends to you to decide.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">It's up to you to decide.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">It's in you to decide.</button>
+    </div>
+    <div class="qfb" id="q8fb">"It's UP TO YOU to decide." ✓ — expressão fixa: UP TO YOU = é você quem decide / depende de você. "It depends on you" também existe, mas com "to decide" a estrutura é "up to you".</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Preciso tomar uma decisão hoje." → MAKE A DECISION.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">I need to take a decision today.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">I need to make a decision today.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I need to do a decision today.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I need to MAKE a decision today." ✓ — em inglês, MAKE A DECISION (não "take" ou "do"). Em português dizemos "tomar uma decisão", em inglês MAKE A DECISION.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Ainda não decidimos." → Present perfect negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">We didn't decide yet.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">We haven't decided yet.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">We don't decide yet.</button>
+    </div>
+    <div class="qfb" id="q10fb">"We HAVEN'T DECIDED yet." ✓ — YET em negativas pede present perfect. "We haven't decided yet." = estado até o momento presente. "We didn't decide yet." ✗ (informal americano; o padrão é present perfect com YET).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Decidi ir!" → Present perfect — decisão tomada agora.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">I decided to go!</button>
+      <button class="qo" onclick="ans(this,'q11',true)">I've decided to go!</button>
+      <button class="qo" onclick="ans(this,'q11',false)">I decide to go!</button>
+    </div>
+    <div class="qfb" id="q11fb">"I'VE DECIDED to go!" ✓ — present perfect para anunciar uma decisão tomada agora, com efeito imediato. "I decided to go." = passado simples (geralmente com referência ao passado).</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Não vamos decidir sem você." → Futuro negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">We don't decide without you.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">We won't decide without you.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">We didn't decide without you.</button>
+    </div>
+    <div class="qfb" id="q12fb">"We WON'T DECIDE without you." ✓ — futuro negativo com WON'T + base DECIDE. "We don't decide without you." = presente habitual. "We didn't decide" = passado.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../69_stop/index.html">← L69 STOP</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

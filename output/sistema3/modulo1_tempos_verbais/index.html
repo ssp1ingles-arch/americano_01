@@ -1,0 +1,711 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 — Os 12 Tempos Verbais · Sistema 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--sf3:#1c2a3e;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--rd:#f87171;--gn:#5FD87A;--cy:#64DFDF;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);border-color:rgba(100,223,223,.6);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.55);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.6);}
+.gnav-s3.active{color:#A78BFA;border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--vl);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.8;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;transition:opacity .2s;}.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+
+/* LAYOUT */
+.wrap{padding-top:96px;position:relative;z-index:1;}
+
+/* CONTROLS BAR */
+.controls{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;padding:.85rem 1.25rem;border-bottom:1px solid var(--bd);background:var(--sf);}
+.gf-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .85rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.gf-btn:hover{color:var(--tx);border-color:var(--bdh);}
+.gf-btn.all.on{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4);color:var(--vl);}
+.gf-btn.past.on{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.4);color:var(--rd);}
+.gf-btn.present.on{background:rgba(95,216,122,.1);border-color:rgba(95,216,122,.4);color:var(--gn);}
+.gf-btn.future.on{background:rgba(100,223,223,.1);border-color:rgba(100,223,223,.4);color:var(--cy);}
+.cmp-btn{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.3rem .9rem;border-radius:.4rem;border:1px solid rgba(167,139,250,.35);background:rgba(167,139,250,.08);color:var(--vl);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.cmp-btn:hover{background:rgba(167,139,250,.18);border-color:rgba(167,139,250,.6);}
+.cmp-btn.on{background:rgba(167,139,250,.2);border-color:var(--vl);box-shadow:0 0 10px rgba(167,139,250,.2);}
+
+/* TIMELINE */
+.timeline-area{padding:1.25rem 1.25rem 0;background:var(--sf);border-bottom:1px solid var(--bd);overflow-x:auto;}
+.timeline-inner{display:flex;align-items:flex-start;min-width:540px;position:relative;padding-bottom:1rem;}
+.timeline-line{position:absolute;top:44px;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(248,113,113,.4),rgba(248,113,113,.4) 33%,rgba(95,216,122,.4) 33%,rgba(95,216,122,.4) 66%,rgba(100,223,223,.4) 66%);pointer-events:none;}
+.tg{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;padding:0 .25rem;}
+.tg-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.55rem;padding:.2rem .65rem;border-radius:2rem;border:1px solid;}
+.tg-past .tg-label{color:var(--rd);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.07);}
+.tg-present .tg-label{color:var(--gn);border-color:rgba(95,216,122,.3);background:rgba(95,216,122,.07);}
+.tg-future .tg-label{color:var(--cy);border-color:rgba(100,223,223,.3);background:rgba(100,223,223,.07);}
+.tg-dots{display:flex;gap:.5rem;position:relative;z-index:2;}
+.dot{width:38px;height:38px;border-radius:50%;background:var(--sf2);border:2px solid var(--bd);cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;transition:all .2s;display:flex;align-items:center;justify-content:center;position:relative;}
+.dot .dot-num{font-size:.7rem;font-weight:800;}
+.tg-past .dot{color:var(--rd);}
+.tg-past .dot:hover,.tg-past .dot.active{background:rgba(248,113,113,.12);border-color:var(--rd);box-shadow:0 0 14px rgba(248,113,113,.35);}
+.tg-present .dot{color:var(--gn);}
+.tg-present .dot:hover,.tg-present .dot.active{background:rgba(95,216,122,.12);border-color:var(--gn);box-shadow:0 0 14px rgba(95,216,122,.35);}
+.tg-future .dot{color:var(--cy);}
+.tg-future .dot:hover,.tg-future .dot.active{background:rgba(100,223,223,.12);border-color:var(--cy);box-shadow:0 0 14px rgba(100,223,223,.35);}
+.dot.dim{opacity:.28;}
+.tg-names{display:flex;gap:.5rem;margin-top:.4rem;}
+.tg-names span{width:38px;font-size:.5rem;font-weight:600;text-align:center;color:var(--td);line-height:1.3;display:block;}
+
+/* PANEL */
+.panel-wrap{padding:1.25rem;max-width:900px;margin:0 auto;}
+.panel{display:none;}
+.panel.active{display:block;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.p-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.p-anchor{width:88px;height:88px;flex-shrink:0;background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;display:flex;align-items:center;justify-content:center;}
+.p-meta{flex:1;}
+.p-group-tag{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.p-name{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.15;margin-bottom:.35rem;}
+.p-namePT{font-size:.82rem;color:var(--td);}
+.p-formula{background:var(--sf2);border:1px solid var(--bd);border-radius:.65rem;padding:.75rem 1rem;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;}
+.p-formula .label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;}
+
+.p-use{background:var(--sf);border:1px solid var(--bd);border-left:3px solid;border-radius:.55rem;padding:.7rem 1rem;margin-bottom:1rem;font-size:.84rem;color:var(--tm);line-height:1.55;}
+
+.p-section-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.55rem;}
+
+/* EXAMPLES TABLE */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem;font-size:.82rem;}
+.ex-table th{text-align:left;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);padding:.35rem .5rem;border-bottom:1px solid var(--bd);}
+.ex-table td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ex-table tr:last-child td{border-bottom:none;}
+.ex-pronoun{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8rem;width:60px;}
+.ex-en{color:var(--tx);}
+.ex-pt{color:var(--td);}
+
+/* MARKERS */
+.markers{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+.marker{background:var(--sf2);border:1px solid var(--bd);border-radius:2rem;padding:.2rem .65rem;font-size:.72rem;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--tm);}
+
+/* ERROR BOX */
+.error-box{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.65rem;padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.75rem;}
+.error-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem;}
+.error-wrong{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--rd);text-decoration:line-through;margin-right:.5rem;}
+.error-right{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--gn);}
+.error-note{font-size:.76rem;color:var(--tm);margin-top:.3rem;}
+
+/* TIP BOX */
+.tip-box{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.25);border-radius:.65rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--tm);line-height:1.55;}
+.tip-box strong{color:var(--vl);}
+
+/* COMPARE PANEL */
+.compare-wrap{display:none;padding:1.25rem;gap:1rem;max-width:1100px;margin:0 auto;}
+.compare-wrap.active{display:grid;grid-template-columns:1fr 1fr;animation:fadeIn .25s ease;}
+.cmp-card{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1rem;}
+.cmp-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.5rem;}
+.cmp-formula{font-family:'Space Grotesk',sans-serif;font-size:.78rem;background:var(--sf2);border-radius:.45rem;padding:.5rem .75rem;margin-bottom:.75rem;}
+.cmp-ex{font-size:.8rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.cmp-ex:last-child{border-bottom:none;}
+.cmp-ex .en{color:var(--tx);}
+.cmp-ex .pt{color:var(--td);font-size:.74rem;}
+
+/* SVG ANCHORS */
+@keyframes draw{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}
+@keyframes pulse{0%,100%{r:6}50%{r:9}}
+@keyframes grow-tri{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+@keyframes bounce-arrow{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes bounce-arrow-up{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes bounce-arrow-r{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+
+@media(max-width:640px){
+  .compare-wrap.active{grid-template-columns:1fr;}
+  .timeline-area{padding:.75rem .75rem 0;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../index.html" class="gnav-btn gnav-s3 active">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 3</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 1 — Os 12 Tempos Verbais</div>
+    <div class="nav-sub">Linha do tempo interativa</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="gf-btn all on" onclick="filterGroup('all',this)">Todos</button>
+    <button class="gf-btn past" onclick="filterGroup('past',this)">Passado</button>
+    <button class="gf-btn present" onclick="filterGroup('present',this)">Presente</button>
+    <button class="gf-btn future" onclick="filterGroup('future',this)">Futuro</button>
+    <button class="cmp-btn" id="cmpBtn" onclick="toggleCompare()">⇌ Comparar Simple vs Continuous</button>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-area">
+    <div class="timeline-inner">
+      <div class="timeline-line"></div>
+
+      <div class="tg tg-past">
+        <div class="tg-label">Passado</div>
+        <div class="tg-dots">
+          <button class="dot" data-id="0" onclick="selectById(0)"><span class="dot-num">1</span></button>
+          <button class="dot" data-id="1" onclick="selectById(1)"><span class="dot-num">2</span></button>
+          <button class="dot" data-id="2" onclick="selectById(2)"><span class="dot-num">3</span></button>
+          <button class="dot" data-id="3" onclick="selectById(3)"><span class="dot-num">4</span></button>
+        </div>
+        <div class="tg-names">
+          <span>Simple</span><span>Cont.</span><span>Perfect</span><span>P.Cont.</span>
+        </div>
+      </div>
+
+      <div class="tg tg-present">
+        <div class="tg-label">Presente</div>
+        <div class="tg-dots">
+          <button class="dot" data-id="4" onclick="selectById(4)"><span class="dot-num">5</span></button>
+          <button class="dot" data-id="5" onclick="selectById(5)"><span class="dot-num">6</span></button>
+          <button class="dot" data-id="6" onclick="selectById(6)"><span class="dot-num">7</span></button>
+          <button class="dot" data-id="7" onclick="selectById(7)"><span class="dot-num">8</span></button>
+        </div>
+        <div class="tg-names">
+          <span>Simple</span><span>Cont.</span><span>Perfect</span><span>P.Cont.</span>
+        </div>
+      </div>
+
+      <div class="tg tg-future">
+        <div class="tg-label">Futuro</div>
+        <div class="tg-dots">
+          <button class="dot" data-id="8" onclick="selectById(8)"><span class="dot-num">9</span></button>
+          <button class="dot" data-id="9" onclick="selectById(9)"><span class="dot-num">10</span></button>
+          <button class="dot" data-id="10" onclick="selectById(10)"><span class="dot-num">11</span></button>
+          <button class="dot" data-id="11" onclick="selectById(11)"><span class="dot-num">12</span></button>
+        </div>
+        <div class="tg-names">
+          <span>Simple</span><span>Cont.</span><span>Perfect</span><span>P.Cont.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANELS -->
+  <div class="panel-wrap" id="panelWrap"></div>
+
+  <!-- COMPARE PANEL -->
+  <div class="compare-wrap" id="cmpWrap"></div>
+
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const C = {rd:'#f87171', gn:'#5FD87A', cy:'#64DFDF', vl:'#A78BFA'};
+
+const TENSES = [
+  // ── PASSADO ──────────────────────────────────────────────────────────────
+  {
+    id:0, group:'past', color:C.rd,
+    name:'Simple Past', namePT:'Passado Simples',
+    formula:'Subject + <span style="color:'+C.rd+'">V2</span> (forma passada)',
+    use:'Ações completadas no passado, com tempo definido.',
+    markers:['yesterday','last week','ago','in 2020','last night'],
+    examples:[
+      ['I','played football yesterday.','Eu joguei futebol ontem.'],
+      ['You','read a story last night.','Você leu uma história ontem à noite.'],
+      ['He','wrote a new song.','Ele escreveu uma nova música.'],
+      ['She','cooked dinner yesterday.','Ela cozinhou jantar ontem.'],
+      ['It','rained heavily last week.','Choveu muito na semana passada.'],
+      ['We','studied English last year.','Nós estudamos inglês no ano passado.'],
+      ['They','watched a movie yesterday.','Eles assistiram um filme ontem.'],
+    ],
+    error:{wrong:'I writed',right:'I wrote',note:'Verbos irregulares não têm -ed!'},
+    tip:null, anchor:'down',
+  },
+  {
+    id:1, group:'past', color:C.rd,
+    name:'Past Continuous', namePT:'Passado Contínuo',
+    formula:'Subject + <span style="color:'+C.rd+'">was/were</span> + <span style="color:'+C.rd+'">verb-ing</span>',
+    use:'Ação em progresso num momento específico do passado; frequentemente interrompida por outra ação.',
+    markers:['while','when','at that moment','at 6pm yesterday'],
+    examples:[
+      ['I','was reading a book when you called.','Eu estava lendo quando você ligou.'],
+      ['You','were cooking dinner yesterday evening.','Você estava cozinhando ontem à tarde.'],
+      ['He','was playing the guitar at 6PM.','Ele estava tocando violão às 18h.'],
+      ['She','was watching TV when I arrived.','Ela estava assistindo TV quando cheguei.'],
+      ['It','was raining all night.','Estava chovendo a noite toda.'],
+      ['We','were working on the assignment.','Estávamos trabalhando na tarefa.'],
+      ['They','were talking to each other.','Eles estavam conversando entre si.'],
+    ],
+    error:null,
+    tip:'Imagine uma linha do passado — algo estava acontecendo (contínuo) <strong>quando</strong> algo interrompeu (simples).',
+    anchor:'v-down',
+  },
+  {
+    id:2, group:'past', color:C.rd,
+    name:'Past Perfect', namePT:'Passado Perfeito',
+    formula:'Subject + <span style="color:'+C.rd+'">had</span> + <span style="color:'+C.rd+'">V3</span> (particípio)',
+    use:'Ação que aconteceu ANTES de outra ação no passado. O "passado do passado".',
+    markers:['before','after','already','by the time','when'],
+    examples:[
+      ['I','had finished my homework before dinner.','Eu tinha terminado a lição antes do jantar.'],
+      ['You','had visited London before moving there.','Você tinha visitado antes de se mudar.'],
+      ['He','had written a song before joining the band.','Ele tinha escrito antes de entrar na banda.'],
+      ['She','had cooked dinner before guests arrived.','Ela tinha cozinhado antes dos convidados chegarem.'],
+      ['It','had stopped raining before we went out.','Tinha parado de chover antes de sairmos.'],
+      ['We','had seen that movie before it was on TV.','Tínhamos visto antes de passar na TV.'],
+      ['They','had completed the project before the deadline.','Tinham completado antes do prazo.'],
+    ],
+    error:null, tip:null, anchor:'arc-left',
+  },
+  {
+    id:3, group:'past', color:C.rd,
+    name:'Past Perfect Continuous', namePT:'Passado Perfeito Contínuo',
+    formula:'Subject + <span style="color:'+C.rd+'">had been</span> + <span style="color:'+C.rd+'">verb-ing</span>',
+    use:'Ação que estava em progresso antes de outra ação no passado. Ênfase na duração.',
+    markers:['for','since','before','when','by the time'],
+    examples:[
+      ['I','had been writing a book.','Eu tinha estado escrevendo um livro.'],
+      ['She','had been working there for 5 years before she quit.','Ela tinha trabalhado lá 5 anos antes de sair.'],
+      ['They','had been waiting for an hour before the bus arrived.','Eles tinham esperado uma hora antes do ônibus chegar.'],
+    ],
+    error:null,
+    tip:'Raro no dia a dia. Mais usado para narrativas complexas e inglês formal.',
+    anchor:'tri-left',
+  },
+  // ── PRESENTE ─────────────────────────────────────────────────────────────
+  {
+    id:4, group:'present', color:C.gn,
+    name:'Simple Present', namePT:'Presente Simples',
+    formula:'Subject + <span style="color:'+C.gn+'">base verb</span> <em style="color:var(--td)">(+s/es para he/she/it)</em>',
+    use:'Hábitos, rotinas, fatos permanentes, verdades universais.',
+    markers:['every day','always','usually','never','often','sometimes'],
+    examples:[
+      ['I','play football every day.','Eu jogo futebol todo dia.'],
+      ['You','read books in the library.','Você lê livros na biblioteca.'],
+      ['He','plays the guitar well.','Ele toca violão bem.'],
+      ['She','cooks delicious food.','Ela cozinha comida deliciosa.'],
+      ['It','rains a lot in July.','Chove muito em julho.'],
+      ['We','study English together.','Nós estudamos inglês juntos.'],
+      ['They','watch movies on weekends.','Eles assistem filmes nos fins de semana.'],
+    ],
+    error:{wrong:'He play',right:'He plays',note:'Não esqueça o -s para he/she/it!'},
+    tip:null, anchor:'up',
+  },
+  {
+    id:5, group:'present', color:C.gn,
+    name:'Present Continuous', namePT:'Presente Contínuo',
+    formula:'Subject + <span style="color:'+C.gn+'">am/is/are</span> + <span style="color:'+C.gn+'">verb-ing</span>',
+    use:'Ação acontecendo AGORA. Também usado para planos futuros confirmados.',
+    markers:['now','right now','at the moment','currently','today'],
+    examples:[
+      ['I','am reading a book now.','Estou lendo um livro agora.'],
+      ['You','are cooking dinner.','Você está cozinhando jantar.'],
+      ['He','is playing the guitar.','Ele está tocando violão.'],
+      ['She','is watching TV.','Ela está assistindo TV.'],
+      ['It','is raining outside.','Está chovendo lá fora.'],
+      ['We','are working on a project.','Estamos trabalhando num projeto.'],
+      ['They','are talking to their friends.','Eles estão falando com os amigos.'],
+    ],
+    error:{wrong:'She is cook',right:'She is cooking',note:'Precisa do -ing!'},
+    tip:null, anchor:'v-up',
+  },
+  {
+    id:6, group:'present', color:C.gn,
+    name:'Present Perfect', namePT:'Presente Perfeito',
+    formula:'Subject + <span style="color:'+C.gn+'">have/has</span> + <span style="color:'+C.gn+'">V3</span> (particípio)',
+    use:'Experiências de vida, ações com resultado no presente, ações recentes sem tempo específico.',
+    markers:['already','yet','ever','never','just','recently','since','for'],
+    examples:[
+      ['I','have finished my homework.','Terminei minha lição.'],
+      ['You','have visited London twice.','Você visitou Londres duas vezes.'],
+      ['He','has written a new song.','Ele escreveu uma nova música.'],
+      ['She','has cooked dinner.','Ela cozinhou jantar.'],
+      ['It','has stopped raining.','Parou de chover.'],
+      ['We','have seen that movie before.','Já vimos esse filme antes.'],
+      ['They','have completed the project.','Eles completaram o projeto.'],
+    ],
+    error:null,
+    tip:'<strong>MACETE OURO:</strong> "Have you ever been to the US?" → experiência de vida (sem data) · "Did you go to the US?" → viagem específica (com data implícita)',
+    anchor:'arc-right',
+  },
+  {
+    id:7, group:'present', color:C.gn,
+    name:'Present Perfect Continuous', namePT:'Presente Perfeito Contínuo',
+    formula:'Subject + <span style="color:'+C.gn+'">have/has been</span> + <span style="color:'+C.gn+'">verb-ing</span>',
+    use:'Ação que começou no passado e continua até agora. Ênfase na duração.',
+    markers:['for','since','all day','lately','recently'],
+    examples:[
+      ['I','have been writing a book.','Tenho escrito um livro.'],
+      ['He','has been working here for 3 years.','Ele trabalha aqui há 3 anos.'],
+      ['She','has been studying all night.','Ela tem estudado a noite toda.'],
+      ['They','have been waiting for an hour.','Eles estão esperando há uma hora.'],
+    ],
+    error:null, tip:null, anchor:'tri-center',
+  },
+  // ── FUTURO ───────────────────────────────────────────────────────────────
+  {
+    id:8, group:'future', color:C.cy,
+    name:'Future Simple', namePT:'Futuro Simples',
+    formula:'Subject + <span style="color:'+C.cy+'">will</span> + <span style="color:'+C.cy+'">base verb</span>',
+    use:'Decisões no momento, promessas, previsões e ofertas espontâneas.',
+    markers:['tomorrow','next week','soon','tonight','in the future'],
+    examples:[
+      ['I','will play football tomorrow.','Eu vou jogar futebol amanhã.'],
+      ['You','will read this book next week.','Você vai ler esse livro semana que vem.'],
+      ['He','will write a new song.','Ele vai escrever uma nova música.'],
+      ['She','will cook dinner tonight.','Ela vai cozinhar jantar esta noite.'],
+      ['It','will rain tomorrow morning.','Vai chover amanhã de manhã.'],
+      ['We','will study English next year.','Nós vamos estudar inglês no próximo ano.'],
+      ['They','will watch a movie tonight.','Eles vão assistir um filme esta noite.'],
+    ],
+    error:null,
+    tip:'<strong>WILL</strong> = decisão tomada agora, no momento da fala · <strong>GOING TO</strong> = plano já decidido antes',
+    anchor:'right',
+  },
+  {
+    id:9, group:'future', color:C.cy,
+    name:'Future Continuous', namePT:'Futuro Contínuo',
+    formula:'Subject + <span style="color:'+C.cy+'">will be</span> + <span style="color:'+C.cy+'">verb-ing</span>',
+    use:'Ação que estará em progresso num momento específico do futuro.',
+    markers:['at this time tomorrow','at 8pm tonight','next Monday at noon'],
+    examples:[
+      ['I','will be reading a book at 8PM tomorrow.','Estarei lendo às 20h amanhã.'],
+      ['You','will be cooking dinner tonight.','Você estará cozinhando jantar esta noite.'],
+      ['He','will be playing the guitar at the party.','Ele estará tocando na festa.'],
+      ['She','will be watching TV in the evening.','Ela estará assistindo TV à noite.'],
+      ['It','will be raining tomorrow morning.','Estará chovendo amanhã de manhã.'],
+      ['We','will be working on the project next week.','Estaremos trabalhando no projeto semana que vem.'],
+      ['They','will be talking during the break.','Eles estarão conversando durante o intervalo.'],
+    ],
+    error:null, tip:null, anchor:'v-right',
+  },
+  {
+    id:10, group:'future', color:C.cy,
+    name:'Future Perfect', namePT:'Futuro Perfeito',
+    formula:'Subject + <span style="color:'+C.cy+'">will have</span> + <span style="color:'+C.cy+'">V3</span> (particípio)',
+    use:'Ação que estará completa antes de um momento futuro específico.',
+    markers:['by tomorrow','by the time','by next week','by 8pm'],
+    examples:[
+      ['I','will have finished my homework by 8PM.','Terei terminado antes das 20h.'],
+      ['You','will have visited London by next summer.','Você terá visitado antes do próximo verão.'],
+      ['He','will have written five songs by December.','Ele terá escrito 5 músicas antes de dezembro.'],
+      ['She','will have cooked dinner by the time we arrive.','Ela terá cozinhado quando chegarmos.'],
+      ['It','will have stopped raining by noon.','Terá parado de chover antes do meio-dia.'],
+      ['We','will have seen all the episodes by Friday.','Teremos visto todos os episódios antes da sexta.'],
+      ['They','will have completed the project by tomorrow.','Terão completado antes de amanhã.'],
+    ],
+    error:null, tip:null, anchor:'arc-far-right',
+  },
+  {
+    id:11, group:'future', color:C.cy,
+    name:'Future Perfect Continuous', namePT:'Futuro Perfeito Contínuo',
+    formula:'Subject + <span style="color:'+C.cy+'">will have been</span> + <span style="color:'+C.cy+'">verb-ing</span>',
+    use:'Ação que estará em progresso por um período antes de um ponto futuro específico.',
+    markers:['by next year','for X years by then','by the time'],
+    examples:[
+      ['I','will have been writing a book.','Terei estado escrevendo um livro.'],
+      ['—','By next year, I will have been working here for 10 years.','No próximo ano, terei trabalhado aqui por 10 anos.'],
+      ['—','By June, they will have been living together for 5 years.','Em junho, eles estarão morando juntos por 5 anos.'],
+    ],
+    error:null,
+    tip:'Raro no dia a dia. Mais usado em inglês formal e escrito. Foco na <strong>duração</strong> até um ponto futuro.',
+    anchor:'tri-right',
+  },
+];
+
+// ── SVG ANCHORS ──────────────────────────────────────────────────────────────
+function anchorSVG(type, color) {
+  const c = color;
+  const svgs = {
+    // Simple: single arrow
+    'down': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="44" y1="15" x2="44" y2="62" stroke="${c}" stroke-width="2.5" stroke-dasharray="60" stroke-dashoffset="60" style="animation:draw .6s .1s ease forwards"/>
+      <polygon points="44,73 37,58 51,58" fill="${c}" opacity="0" style="animation:fadeIn .3s .6s ease forwards"/>
+      <circle cx="44" cy="14" r="5" fill="${c}" opacity=".3"/>
+      <text x="44" y="85" text-anchor="middle" font-size="9" font-family="Space Grotesk" fill="${c}" opacity=".5">PAST</text>
+    </svg>`,
+    'up': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="44" y1="73" x2="44" y2="26" stroke="${c}" stroke-width="2.5" stroke-dasharray="60" stroke-dashoffset="60" style="animation:draw .6s .1s ease forwards"/>
+      <polygon points="44,15 37,30 51,30" fill="${c}" opacity="0" style="animation:fadeIn .3s .6s ease forwards"/>
+      <circle cx="44" cy="74" r="5" fill="${c}" opacity=".3"/>
+      <text x="44" y="13" text-anchor="middle" font-size="9" font-family="Space Grotesk" fill="${c}" opacity=".5">NOW</text>
+    </svg>`,
+    'right': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="44" x2="62" y2="44" stroke="${c}" stroke-width="2.5" stroke-dasharray="60" stroke-dashoffset="60" style="animation:draw .6s .1s ease forwards"/>
+      <polygon points="73,44 58,37 58,51" fill="${c}" opacity="0" style="animation:fadeIn .3s .6s ease forwards"/>
+      <circle cx="14" cy="44" r="5" fill="${c}" opacity=".3"/>
+      <text x="78" y="48" text-anchor="middle" font-size="9" font-family="Space Grotesk" fill="${c}" opacity=".5">→</text>
+    </svg>`,
+    // Continuous: V shape
+    'v-down': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="14,20 44,65 74,20" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .8s .1s ease forwards"/>
+      <circle cx="44" cy="65" r="4" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+      <text x="44" y="84" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">PROGRESSO</text>
+    </svg>`,
+    'v-up': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="14,68 44,23 74,68" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .8s .1s ease forwards"/>
+      <circle cx="44" cy="23" r="4" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+      <text x="44" y="84" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">AGORA</text>
+    </svg>`,
+    'v-right': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="14,14 59,44 14,74" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .8s .1s ease forwards"/>
+      <circle cx="59" cy="44" r="4" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+    </svg>`,
+    // Perfect: connecting arc
+    'arc-left': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="60" r="5" fill="${c}" opacity=".5"/>
+      <path d="M16,60 Q44,14 72,44" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="100" stroke-dashoffset="100" style="animation:draw .8s .1s ease forwards"/>
+      <circle cx="72" cy="44" r="5" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+      <text x="44" y="84" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">ANTES</text>
+    </svg>`,
+    'arc-right': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="44" r="5" fill="${c}" opacity=".4"/>
+      <path d="M16,44 Q44,10 72,44" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="100" stroke-dashoffset="100" style="animation:draw .8s .1s ease forwards"/>
+      <circle cx="72" cy="44" r="5" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+      <text x="44" y="82" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">EXPERIÊNCIA</text>
+    </svg>`,
+    'arc-far-right': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="50" r="4" fill="${c}" opacity=".4"/>
+      <path d="M16,50 Q44,10 72,32" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="100" stroke-dashoffset="100" style="animation:draw .8s .1s ease forwards"/>
+      <polygon points="78,28 65,30 70,42" fill="${c}" opacity="0" style="animation:fadeIn .3s .8s ease forwards"/>
+      <line x1="72" y1="32" x2="72" y2="68" stroke="${c}" stroke-width="1.5" stroke-dasharray="4 3" opacity=".4"/>
+      <text x="44" y="82" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">BY THEN</text>
+    </svg>`,
+    // Perfect Continuous: triangles
+    'tri-left': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="72,60 14,60 14,30" fill="${c}" opacity="0" style="animation:fadeIn .5s .1s ease forwards;opacity:.15"/>
+      <polyline points="14,30 14,60 72,60" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .7s .1s ease forwards"/>
+      <text x="44" y="82" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">DURAÇÃO</text>
+    </svg>`,
+    'tri-center': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="14,65 72,65 72,25" fill="${c}" opacity="0" style="animation:fadeIn .5s .1s ease forwards;opacity:.12"/>
+      <polyline points="14,65 72,65 72,25" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .7s .1s ease forwards"/>
+      <circle cx="72" cy="65" r="4" fill="${c}"/>
+      <text x="44" y="82" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">AINDA AGORA</text>
+    </svg>`,
+    'tri-right': `<svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="14,65 72,65 14,25" fill="${c}" opacity="0" style="animation:fadeIn .5s .1s ease forwards;opacity:.12"/>
+      <polyline points="14,25 14,65 72,65" stroke="${c}" stroke-width="2.5" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:draw .7s .1s ease forwards"/>
+      <polygon points="72,65 72,55 80,65" fill="${c}" opacity="0" style="animation:fadeIn .3s .75s ease forwards"/>
+      <text x="44" y="82" text-anchor="middle" font-size="8" font-family="Space Grotesk" fill="${c}" opacity=".45">ATÉ LÁ</text>
+    </svg>`,
+  };
+  return svgs[type] || svgs['up'];
+}
+
+// ── RENDER PANEL ─────────────────────────────────────────────────────────────
+function renderPanel(t) {
+  const groupLabel = {past:'Passado', present:'Presente', future:'Futuro'}[t.group];
+  const groupColor = t.color;
+
+  let errorHTML = '';
+  if (t.error) {
+    errorHTML = `<div class="error-box">
+      <div class="error-icon">⚠️</div>
+      <div>
+        <span class="error-wrong">${t.error.wrong}</span>
+        <span class="error-right">✓ ${t.error.right}</span>
+        <div class="error-note">${t.error.note}</div>
+      </div>
+    </div>`;
+  }
+
+  let tipHTML = '';
+  if (t.tip) {
+    tipHTML = `<div class="tip-box">💡 ${t.tip}</div>`;
+  }
+
+  const exRows = t.examples.map(([pron, en, pt]) =>
+    `<tr>
+      <td class="ex-pronoun" style="color:${groupColor}">${pron}</td>
+      <td class="ex-en">${en}</td>
+      <td class="ex-pt">${pt}</td>
+    </tr>`
+  ).join('');
+
+  const markers = t.markers.map(m => `<span class="marker">${m}</span>`).join('');
+
+  return `
+    <div class="p-header">
+      <div class="p-anchor" id="anchorBox">${anchorSVG(t.anchor, t.color)}</div>
+      <div class="p-meta">
+        <div class="p-group-tag" style="color:${groupColor}">${groupLabel} · Tempo ${t.id + 1} de 12</div>
+        <div class="p-name" style="color:${groupColor}">${t.name}</div>
+        <div class="p-namePT">${t.namePT}</div>
+      </div>
+    </div>
+
+    <div class="p-formula">
+      <div class="label">Fórmula</div>
+      ${t.formula}
+    </div>
+
+    <div class="p-use" style="border-left-color:${groupColor}">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;">Quando usar</div>
+      ${t.use}
+    </div>
+
+    <div class="p-section-label">Marcadores de tempo</div>
+    <div class="markers" style="margin-bottom:1.1rem">${markers}</div>
+
+    <div class="p-section-label">Exemplos por pronome</div>
+    <table class="ex-table">
+      <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>${exRows}</tbody>
+    </table>
+
+    ${errorHTML}
+    ${tipHTML}
+  `;
+}
+
+// ── STATE & SELECTION ─────────────────────────────────────────────────────────
+let currentId = 4;
+let compareMode = false;
+let groupFilter = 'all';
+
+function selectById(id) {
+  if (compareMode) return;
+  currentId = id;
+  const t = TENSES[id];
+
+  // Update dots
+  document.querySelectorAll('.dot').forEach(d => {
+    d.classList.remove('active');
+    if (parseInt(d.dataset.id) === id) d.classList.add('active');
+  });
+
+  // Render
+  const wrap = document.getElementById('panelWrap');
+  wrap.innerHTML = renderPanel(t);
+  wrap.style.display = 'block';
+  // Force SVG animation re-trigger
+  const anchor = document.getElementById('anchorBox');
+  if (anchor) {
+    anchor.innerHTML = anchorSVG(t.anchor, t.color);
+  }
+}
+
+// ── FILTER ────────────────────────────────────────────────────────────────────
+function filterGroup(group, btn) {
+  groupFilter = group;
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.dot').forEach(d => {
+    const id = parseInt(d.dataset.id);
+    const g = TENSES[id].group;
+    if (group === 'all' || g === group) {
+      d.classList.remove('dim');
+    } else {
+      d.classList.add('dim');
+    }
+  });
+}
+
+// ── COMPARE MODE ─────────────────────────────────────────────────────────────
+const COMPARE_PAIRS = [
+  [0,1], // Simple Past vs Past Continuous
+  [4,5], // Simple Present vs Present Continuous
+  [8,9], // Future Simple vs Future Continuous
+];
+let cmpPairIdx = 0;
+
+function renderCmpCard(t) {
+  const exHTML = t.examples.slice(0,4).map(([p,en,pt]) =>
+    `<div class="cmp-ex"><div class="en">${p} — ${en}</div><div class="pt">${pt}</div></div>`
+  ).join('');
+  return `
+    <div class="cmp-card" style="border-color:${t.color}22">
+      <div class="cmp-title" style="color:${t.color}">${t.name}</div>
+      <div class="cmp-formula">${t.formula}</div>
+      <div style="font-size:.72rem;color:var(--td);margin-bottom:.5rem;">${t.use}</div>
+      ${exHTML}
+    </div>`;
+}
+
+function toggleCompare() {
+  compareMode = !compareMode;
+  const btn = document.getElementById('cmpBtn');
+  const wrap = document.getElementById('panelWrap');
+  const cmpWrap = document.getElementById('cmpWrap');
+  btn.classList.toggle('on', compareMode);
+
+  if (compareMode) {
+    wrap.style.display = 'none';
+    const [a, b] = COMPARE_PAIRS[cmpPairIdx % COMPARE_PAIRS.length];
+    cmpPairIdx++;
+    cmpWrap.innerHTML = renderCmpCard(TENSES[a]) + renderCmpCard(TENSES[b]);
+    cmpWrap.classList.add('active');
+  } else {
+    cmpWrap.classList.remove('active');
+    wrap.style.display = 'block';
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+// Add @keyframes for SVG via style tag
+const sty = document.createElement('style');
+sty.textContent = `
+  @keyframes draw{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+`;
+document.head.appendChild(sty);
+
+selectById(4); // Start with Simple Present
+</script>
+</body>
+</html>

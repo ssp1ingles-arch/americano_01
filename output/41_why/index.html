@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 41 — WHY | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#38bdf8;
+  --cw:#38bdf8;--ce:#FBBF24;--cr:#A78BFA;--ck:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(56,189,248,.12);color:var(--accent);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(7rem,26vw,17rem);font-weight:800;line-height:.85;letter-spacing:-.04em;margin-bottom:.75rem;color:var(--cw)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-w{color:var(--cw);background:rgba(56,189,248,.07);border-color:rgba(56,189,248,.2)}
+.hp-e{color:var(--ce);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-r{color:var(--cr);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-k{color:var(--ck);background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* WHY → BECAUSE visual */
+.wb-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin:1.75rem 0}
+.wb-why{background:rgba(56,189,248,.07);border:2px solid rgba(56,189,248,.3);border-radius:1.25rem;padding:1.5rem;text-align:center}
+.wb-because{background:rgba(251,191,36,.07);border:2px solid rgba(251,191,36,.3);border-radius:1.25rem;padding:1.5rem;text-align:center}
+.wb-word{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:800;margin-bottom:.35rem}
+.wb-why .wb-word{color:var(--cw)}
+.wb-because .wb-word{color:var(--ce)}
+.wb-pt{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.6rem}
+.wb-why .wb-pt{color:var(--cw);opacity:.7}
+.wb-because .wb-pt{color:var(--ce);opacity:.7}
+.wb-role{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
+.wb-ex{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.wb-why .wb-ex{color:var(--cw)}
+.wb-because .wb-ex{color:var(--ce)}
+.wb-expt{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.wb-arrow{font-size:2rem;color:var(--muted);text-align:center;flex-shrink:0}
+
+/* 3-tempos */
+.tenses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.tense-col{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem}
+.tense-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.7rem}
+.tense-pres .tense-label{color:var(--ck)}
+.tense-past .tense-label{color:var(--ce)}
+.tense-fut .tense-label{color:var(--cr)}
+.tense-form{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;margin-bottom:.6rem;padding:.3rem .55rem;border-radius:.4rem}
+.tense-pres .tense-form{background:rgba(52,211,153,.1);color:var(--ck)}
+.tense-past .tense-form{background:rgba(251,191,36,.1);color:var(--ce)}
+.tense-fut .tense-form{background:rgba(167,139,250,.1);color:var(--cr)}
+.tense-ex{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;margin:.25rem 0}
+.tense-pt{font-size:.74rem;color:var(--muted)}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.25rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-w{background:rgba(56,189,248,.15);color:var(--cw)}
+.un-e{background:rgba(251,191,36,.15);color:var(--ce)}
+.un-r{background:rgba(167,139,250,.15);color:var(--cr)}
+.un-k{background:rgba(52,211,153,.15);color:var(--ck)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800}
+.utw{color:var(--cw)}.ute{color:var(--ce)}.utr{color:var(--cr)}.utk{color:var(--ck)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+/* QA conversation */
+.conv-list{display:grid;gap:.65rem;margin:.85rem 0}
+.conv-q{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);border-radius:.6rem .6rem .6rem 0;padding:.7rem 1rem}
+.conv-a{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:.6rem .6rem 0 .6rem;padding:.7rem 1rem;margin-left:2rem}
+.conv-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem}
+.conv-q .conv-label{color:var(--cw)}
+.conv-a .conv-label{color:var(--ce)}
+.conv-en{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600}
+.conv-pt{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+
+/* WHY NOT */
+.wn-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.85rem 0}
+.wn-suggest{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:.85rem;padding:1rem}
+.wn-agree{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);border-radius:.85rem;padding:1rem}
+.wn-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.55rem}
+.wn-suggest .wn-label{color:var(--cr)}
+.wn-agree .wn-label{color:var(--ck)}
+.wn-item{margin:.3rem 0}
+.wn-en{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600}
+.wn-pt{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+
+/* negative table */
+.neg-table{width:100%;border-collapse:collapse}
+.neg-table th{padding:.5rem .85rem;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.neg-table td{padding:.6rem .85rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top}
+.neg-table tr:last-child td{border-bottom:none}
+.neg-table .tipo{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.neg-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.neg-table .pt{color:var(--muted);font-size:.82rem}
+.vbw{color:var(--cw);font-weight:700}
+.vbe{color:var(--ce);font-weight:700}
+.vbr{color:var(--cr);font-weight:700}
+.vbk{color:var(--ck);font-weight:700}
+
+.warn-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.warn-box p{color:var(--warn);font-size:.88rem}
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:.85rem 1.1rem;margin-top:.85rem}
+.tip-box p{color:var(--tip);font-size:.88rem}
+
+/* confusion box — POR QUÊ vs PORQUE */
+.conf-box{background:var(--surface2);border:2px solid rgba(255,112,67,.25);border-radius:1rem;padding:1.25rem;margin:.85rem 0}
+.conf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--warn);margin-bottom:.85rem}
+.conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.conf-pt-why{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:.65rem;padding:.85rem;text-align:center}
+.conf-pt-bc{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:.65rem;padding:.85rem;text-align:center}
+.conf-pt-word{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.2rem}
+.conf-pt-why .conf-pt-word{color:var(--cw)}
+.conf-pt-bc .conf-pt-word{color:var(--ce)}
+.conf-pt-role{font-size:.72rem;color:var(--muted);margin-bottom:.35rem}
+.conf-en{font-size:.85rem;font-weight:600;font-family:'Space Grotesk',sans-serif}
+.conf-pt-why .conf-en{color:var(--cw)}
+.conf-pt-bc .conf-en{color:var(--ce)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--cw);color:var(--cw);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cw);background:rgba(56,189,248,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--ce));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .tenses-grid{grid-template-columns:1fr}
+  .wb-pair{grid-template-columns:1fr;text-align:center}
+  .wb-arrow{font-size:1.5rem;transform:rotate(90deg)}
+  .wn-grid{grid-template-columns:1fr}
+  .conf-grid{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 07 · Question Words</span>
+  <span class="nav-badge">A1 · Lição 41 · WHY</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 07 · Lição 41</div>
+    <div class="hero-title">WHY</div>
+    <div class="hero-sub">Por quê — pergunta sobre motivo e razão, sempre respondida com BECAUSE</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">WHY = por quê</span>
+      <span class="hp hp-e">BECAUSE = porque</span>
+      <span class="hp hp-r">WHY NOT = por que não</span>
+      <span class="hp hp-k">WHY + negação</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- WHY → BECAUSE VISUAL -->
+<section class="section">
+  <div class="section-label">O par fundamental</div>
+  <div class="section-title" style="color:var(--cw)">WHY pergunta · BECAUSE responde</div>
+
+  <div class="wb-pair">
+    <div class="wb-why">
+      <div class="wb-word">WHY</div>
+      <div class="wb-pt">por quê</div>
+      <div class="wb-role">pergunta o motivo</div>
+      <div class="wb-ex">Why are you happy?</div>
+      <div class="wb-expt">Por que você está feliz?</div>
+    </div>
+    <div class="wb-arrow">→</div>
+    <div class="wb-because">
+      <div class="wb-word">BECAUSE</div>
+      <div class="wb-pt">porque</div>
+      <div class="wb-role">responde com o motivo</div>
+      <div class="wb-ex">Because I got a new job.</div>
+      <div class="wb-expt">Porque eu consegui um emprego novo.</div>
+    </div>
+  </div>
+
+  <div class="conf-box">
+    <div class="conf-title">Confusão comum para brasileiros</div>
+    <div class="conf-grid">
+      <div class="conf-pt-why">
+        <div class="conf-pt-word">por quê</div>
+        <div class="conf-pt-role">pergunta em português → em inglês</div>
+        <div class="conf-en">WHY (pergunta)</div>
+      </div>
+      <div class="conf-pt-bc">
+        <div class="conf-pt-word">porque</div>
+        <div class="conf-pt-role">resposta em português → em inglês</div>
+        <div class="conf-en">BECAUSE (resposta)</div>
+      </div>
+    </div>
+    <div style="margin-top:.85rem;font-size:.85rem;color:var(--warn)">Em inglês são palavras COMPLETAMENTE DIFERENTES. Nunca use WHY como resposta!</div>
+  </div>
+</section>
+
+<!-- OS 3 TEMPOS -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Usos 1 · 2 · 3</div>
+  <div class="section-title" style="color:var(--cw)">WHY nos Três Tempos</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-w">1–3</div>
+      <div>
+        <div class="uso-title utw">Presente · Passado · Futuro</div>
+        <div class="uso-sub">Mesma estrutura das outras question words: auxiliar antes do sujeito</div>
+      </div>
+    </div>
+    <div class="tenses-grid">
+      <div class="tense-col tense-pres">
+        <div class="tense-label">Presente</div>
+        <div class="tense-form">WHY + DO/DOES / IS/ARE</div>
+        <div class="tense-ex"><span class="vbk">Why</span> are you crying?</div>
+        <div class="tense-pt">Por que você está chorando?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">Why</span> do you study English?</div>
+        <div class="tense-pt">Por que você estuda inglês?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">Why</span> does he work so much?</div>
+        <div class="tense-pt">Por que ele trabalha tanto?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbk">Why</span> is she upset?</div>
+        <div class="tense-pt">Por que ela está chateada?</div>
+      </div>
+      <div class="tense-col tense-past">
+        <div class="tense-label">Passado</div>
+        <div class="tense-form">WHY + DID + base / WAS/WERE</div>
+        <div class="tense-ex"><span class="vbe">Why</span> did you leave?</div>
+        <div class="tense-pt">Por que você foi embora?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">Why</span> did she cry?</div>
+        <div class="tense-pt">Por que ela chorou?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">Why</span> were you angry?</div>
+        <div class="tense-pt">Por que você estava bravo?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbe">Why</span> didn't he come?</div>
+        <div class="tense-pt">Por que ele não veio?</div>
+      </div>
+      <div class="tense-col tense-fut">
+        <div class="tense-label">Futuro</div>
+        <div class="tense-form">WHY + WILL / going to</div>
+        <div class="tense-ex"><span class="vbr">Why</span> will you do that?</div>
+        <div class="tense-pt">Por que você vai fazer isso?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">Why</span> won't she come?</div>
+        <div class="tense-pt">Por que ela não vai vir?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">Why</span> are you going to quit?</div>
+        <div class="tense-pt">Por que você vai desistir?</div>
+        <div class="tense-ex" style="margin-top:.4rem"><span class="vbr">Why</span> is he going to move?</div>
+        <div class="tense-pt">Por que ele vai se mudar?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY + BECAUSE CONVERSATIONS -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4</div>
+  <div class="section-title" style="color:var(--ce)">WHY + BECAUSE em Conversas Reais</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-e">4</div>
+      <div>
+        <div class="uso-title ute">Pergunta WHY → Resposta BECAUSE</div>
+        <div class="uso-sub">A resposta para WHY SEMPRE começa com BECAUSE — nunca com WHY</div>
+      </div>
+    </div>
+    <div class="conv-list">
+      <div>
+        <div class="conv-q"><div class="conv-label">Pergunta WHY</div><div class="conv-en"><span class="vbw">Why</span> did you leave early?</div><div class="conv-pt">Por que você saiu cedo?</div></div>
+        <div class="conv-a"><div class="conv-label">Resposta BECAUSE</div><div class="conv-en"><span class="vbe">Because</span> I was tired.</div><div class="conv-pt">Porque eu estava cansado.</div></div>
+      </div>
+      <div>
+        <div class="conv-q"><div class="conv-label">Pergunta WHY</div><div class="conv-en"><span class="vbw">Why</span> don't you eat meat?</div><div class="conv-pt">Por que você não come carne?</div></div>
+        <div class="conv-a"><div class="conv-label">Resposta BECAUSE</div><div class="conv-en"><span class="vbe">Because</span> I'm vegetarian.</div><div class="conv-pt">Porque sou vegetariano.</div></div>
+      </div>
+      <div>
+        <div class="conv-q"><div class="conv-label">Pergunta WHY</div><div class="conv-en"><span class="vbw">Why</span> will you study more?</div><div class="conv-pt">Por que você vai estudar mais?</div></div>
+        <div class="conv-a"><div class="conv-label">Resposta BECAUSE</div><div class="conv-en"><span class="vbe">Because</span> I want to pass the test.</div><div class="conv-pt">Porque quero passar no teste.</div></div>
+      </div>
+    </div>
+    <div class="warn-box">
+      <p><strong>BECAUSE começa a resposta, mas não começa a pergunta.</strong> "Why are you happy?" ✓ (WHY pergunta) → "Because I got a new job." ✓ (BECAUSE responde). Nunca: "Because are you happy?" ✗</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOT -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 5</div>
+  <div class="section-title" style="color:var(--cr)">WHY NOT? — Sugestão e Concordância</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-r">5</div>
+      <div>
+        <div class="uso-title utr">WHY NOT + verbo base = sugestão · WHY NOT! = concordância</div>
+        <div class="uso-sub">Dois usos completamente diferentes com a mesma expressão</div>
+      </div>
+    </div>
+    <div class="wn-grid">
+      <div class="wn-suggest">
+        <div class="wn-label">Sugestão — por que não tentar?</div>
+        <div class="wn-item">
+          <div class="wn-en"><span class="vbr">Why not</span> try it?</div>
+          <div class="wn-pt">Por que não tentar?</div>
+        </div>
+        <div class="wn-item" style="margin-top:.4rem">
+          <div class="wn-en"><span class="vbr">Why not</span> call him?</div>
+          <div class="wn-pt">Por que não ligar para ele?</div>
+        </div>
+        <div class="wn-item" style="margin-top:.4rem">
+          <div class="wn-en"><span class="vbr">Why not</span> do it now?</div>
+          <div class="wn-pt">Por que não fazer agora?</div>
+        </div>
+      </div>
+      <div class="wn-agree">
+        <div class="wn-label">Concordância — claro, por que não!</div>
+        <div class="wn-item">
+          <div class="wn-en">— Do you want to go?<br>— <span class="vbk">Why not!</span></div>
+          <div class="wn-pt">— Quer ir? — Por que não!</div>
+        </div>
+        <div class="wn-item" style="margin-top:.4rem">
+          <div class="wn-en">— Let's eat pizza.<br>— <span class="vbk">Why not!</span></div>
+          <div class="wn-pt">— Vamos comer pizza. — Por que não!</div>
+        </div>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong>WHY NOT!</strong> (sem verbo, com "!") = concordância positiva / "claro!". <strong>WHY NOT + verbo</strong> (com verbo na base) = sugestão. Contexto define o significado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NEGATIVO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 6</div>
+  <div class="section-title" style="color:var(--ck)">WHY + Negação — "Por que não..."</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-k">6</div>
+      <div>
+        <div class="uso-title utk">WHY + don't / doesn't / didn't / won't...</div>
+        <div class="uso-sub">Questiona a AUSÊNCIA de uma ação — muito comum no dia a dia</div>
+      </div>
+    </div>
+    <table class="neg-table">
+      <thead><tr><th>Tempo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr><td class="tipo">pres. neg.</td><td class="en"><span class="vbk">Why</span> don't you eat breakfast?</td><td class="pt">Por que você não toma café da manhã?</td></tr>
+        <tr><td class="tipo">pres. neg.</td><td class="en"><span class="vbk">Why</span> doesn't she answer?</td><td class="pt">Por que ela não atende?</td></tr>
+        <tr><td class="tipo">pas. neg.</td><td class="en"><span class="vbk">Why</span> didn't you call me?</td><td class="pt">Por que você não me ligou?</td></tr>
+        <tr><td class="tipo">fut. neg.</td><td class="en"><span class="vbk">Why</span> won't you help me?</td><td class="pt">Por que você não vai me ajudar?</td></tr>
+        <tr><td class="tipo">going to neg.</td><td class="en"><span class="vbk">Why</span> aren't you going to come?</td><td class="pt">Por que você não vai vir?</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <p><strong>"Why don't you...?"</strong> também funciona como sugestão educada: "Why don't you try this restaurant?" = Que tal tentar esse restaurante? Sugestão mais suave que "Why not try?" </p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — WHY</div>
+  <div class="quiz-sub">12 questões sobre todos os usos de WHY e BECAUSE.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com WHY</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(56,189,248,.25)">
+      <h4 style="color:var(--cw)">WHY = Por quê</h4>
+      <div class="sum-item">WHY + DO/DOES</div>
+      <div class="sum-item">WHY + DID + base</div>
+      <div class="sum-item">WHY + WILL/going to</div>
+      <div class="sum-item">sempre invertido</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--ce)">BECAUSE = porque</h4>
+      <div class="sum-item">resposta para WHY</div>
+      <div class="sum-item"><span class="en">Because I was tired.</span></div>
+      <div class="sum-item">palavras DIFERENTES</div>
+      <div class="sum-item">WHY ≠ BECAUSE</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.2)">
+      <h4 style="color:var(--cr)">WHY NOT</h4>
+      <div class="sum-item">+ verbo = sugestão</div>
+      <div class="sum-item"><span class="en">Why not try it?</span></div>
+      <div class="sum-item">! = concordância</div>
+      <div class="sum-item"><span class="en">Why not!</span></div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.2)">
+      <h4 style="color:var(--ck)">WHY + negação</h4>
+      <div class="sum-item"><span class="en">Why don't you...?</span></div>
+      <div class="sum-item"><span class="en">Why didn't you...?</span></div>
+      <div class="sum-item">questiona a AUSÊNCIA</div>
+      <div class="sum-item">sugestão educada</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../40_where/index.html">← Lição 40</a>
+  <div class="fnav-center">Lição 41 de 89 · Módulo 07</div>
+  <a class="fnav-btn" href="../42_how/index.html">Lição 42 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.55;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x38bdf8,3.5);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xFBBF24,2.5);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,2);dl3.position.set(2,0,-6);scene.add(dl3);
+
+  var cGeo=new THREE.IcosahedronGeometry(2,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x38bdf8,emissive:0x38bdf8,emissiveIntensity:.3,roughness:.25,metalness:.75});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshBasicMaterial({color:0x38bdf8,wireframe:true,opacity:.07,transparent:true})));
+
+  var eGrp=new THREE.Group();eGrp.rotation.x=.3;scene.add(eGrp);
+  var eMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),eMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);eGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  eGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.12,transparent:true})));
+
+  var rGrp=new THREE.Group();rGrp.rotation.x=-.25;rGrp.rotation.z=.35;scene.add(rGrp);
+  var rMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),rMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);rGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  rGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    eGrp.rotation.y+=.02;rGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'"Why ___ you crying?" — presente progressivo',opts:['are','do','is','did'],ans:'are',why:"'Why are you crying?' — verbo TO BE presente: WHY + ARE + sujeito. 'Crying' é gerúndio = precisa de IS/ARE/AM. Não usa DO aqui."},
+  {s:'"Why ___ she cry?" — passado simples',opts:['did','does','was','were'],ans:'did',why:"'Why did she cry?' — passado: WHY + DID + sujeito + verbo BASE. CRY fica na base, DID marca o passado. Não usa 'Why she cried?'"},
+  {s:'"Why ___ he work so much?" — presente, 3ª pessoa',opts:['does','do','is','did'],ans:'does',why:"'Why does he work so much?' — he/she/it no presente com verbo comum: DOES. WORK fica na base (sem -s). 'Why does he works?' ✗."},
+  {s:'"Why ___?" → como se responde?',opts:['Because...','Why...','So...','Since...'],ans:'Because...',why:"A resposta para WHY SEMPRE começa com BECAUSE. 'Why are you happy?' → 'Because I got a new job.' BECAUSE = porque (resposta). WHY = por quê (pergunta)."},
+  {s:'"Why did you leave?" — "Because I ___ tired."',opts:['was','am','were','be'],ans:'was',why:"'Because I was tired.' — passado de TO BE, sujeito I: WAS. A resposta fica no mesmo tempo da pergunta (passado). 'Because I am tired' seria presente."},
+  {s:'"Why ___ you call me?" — passado negativo',opts:["didn't",'don\'t','wasn\'t','won\'t'],ans:"didn't",why:"'Why didn't you call me?' = Por que você não me ligou? Passado negativo: DIDN'T. 'Why don't you call me?' seria presente; 'didn't' marca o passado."},
+  {s:'"Why not ___ it?" — sugestão',opts:['try','tries','tried','trying'],ans:'try',why:"'Why not try it?' — WHY NOT + verbo BASE. 'Try' na forma infinitiva (base). 'Why not trying it?' ✗ / 'Why not tried it?' ✗ — sempre a forma base após WHY NOT."},
+  {s:'"— Let\'s go! — ___" — concordância positiva',opts:['Why not!','Why not go!','Because yes!','Why yes!'],ans:'Why not!',why:"'Why not!' (sem verbo, com !) = concordância positiva = 'claro!' / 'por que não!' 'Why not go!' seria uma sugestão diferente."},
+  {s:'"Why ___ she answer?" — neg. presente, 3ª pessoa',opts:["doesn't",'don\'t','didn\'t','won\'t'],ans:"doesn't",why:"'Why doesn't she answer?' — presente negativo, she (3ª pessoa): DOESN'T. 'Why don't she answer?' ✗ — DON'T é para I/you/we/they."},
+  {s:'"Por quê?" (pergunta) em inglês = ?',opts:['Why','Because','So','Since'],ans:'Why',why:"'Por quê?' (pergunta) = WHY. 'Porque' (resposta) = BECAUSE. São palavras completamente diferentes. Nunca use WHY como resposta nem BECAUSE como pergunta."},
+  {s:'"Why won\'t you help me?" — o que isso questiona?',opts:['Ausência de ajuda (por que não vai ajudar?)','Forma de ajudar','Quem vai ajudar','Quando vai ajudar'],ans:'Ausência de ajuda (por que não vai ajudar?)',why:"WHY + negação questiona a AUSÊNCIA de uma ação. 'Why won't you help me?' = Por que você não vai me ajudar? Questiona o fato de não ajudar, não como ou quando."},
+  {s:'"Why ___ you going to quit?" — futuro going to neg.',opts:["aren't",'won\'t','didn\'t','don\'t'],ans:"aren't",why:"'Why aren't you going to quit?' — going to usa ARE/IS/AM como auxiliar. 'You' → AREN'T (negativo). 'Why won't you going to quit?' ✗ — going to usa ARE, não WILL."}
+];
+
+var ERRORS=[
+  {wrong:'Why you are late?',right:'Why are you late?',why:"Na pergunta, o auxiliar (ARE/DO/DID/WILL) vem ANTES do sujeito. 'Why ARE you late?' ✓ — 'Why you are' é ordem de afirmação, não de pergunta. Inversão obrigatória."},
+  {wrong:'Why did you cried?',right:'Why did you cry?',why:"DID + verbo BASE. 'Why did you cry?' ✓ — nunca DID + passado. CRIED é o passado de CRY; com DID, o verbo volta à base: CRY."},
+  {wrong:'Why she doesn\'t answer?',right:"Why doesn't she answer?",why:"Com negação, o auxiliar completo (DOESN'T) vem antes do sujeito. 'Why DOESN'T she answer?' ✓ — 'Why she doesn't' é ordem de afirmação."},
+  {wrong:'— Why did you leave? — Why I was tired.',right:'— Why did you leave? — Because I was tired.',why:"WHY é a pergunta; BECAUSE é a resposta. Nunca use WHY para responder. 'Because I was tired' = Porque eu estava cansado. WHY (por quê) ≠ BECAUSE (porque)."},
+  {wrong:"Why won't she came?",right:"Why won't she come?",why:"WILL/WON'T + verbo BASE. 'Why won't she come?' ✓ — nunca WON'T + passado. CAME é o passado de COME; com WON'T, volta à base: COME."},
+  {wrong:'Why not trying it?',right:'Why not try it?',why:"WHY NOT + verbo BASE (infinitivo). 'Why not try it?' ✓ — 'Why not trying' usa gerúndio — errado. Sugestão com WHY NOT sempre usa a forma base do verbo."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — lembre: WHY pergunta, BECAUSE responde!':pct<.75?'Bom progresso! Atenção à inversão na pergunta.':pct<1?'Muito bem! WHY quase dominado.':'Perfeito! WHY completamente dominado!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

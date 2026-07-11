@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L89 · MAKE · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+.hero-final{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--yl);margin-bottom:1.25rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* MAKE vs DO — o painel central desta lição */
+.make-do{margin-bottom:.85rem;}
+.md-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.75rem;padding:.55rem .9rem;background:rgba(56,189,248,.06);border-radius:.45rem;border:1px solid rgba(56,189,248,.15);}
+.md-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.md-col{background:var(--s2);border-radius:.65rem;padding:.9rem 1.05rem;border:1px solid var(--s3);}
+.md-head{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem;}
+.md-rule{font-size:.72rem;color:var(--td);margin-bottom:.6rem;font-style:italic;}
+.md-list{font-size:.79rem;color:var(--tm);line-height:2;}
+.md-list strong{color:var(--tx);font-weight:600;}
+
+/* causativo */
+.caus{background:rgba(56,189,248,.05);border:2px solid var(--ca);border-radius:.85rem;padding:1.2rem 1.4rem;margin-bottom:.85rem;}
+.caus-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.75rem;}
+.caus-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.caus-item{background:var(--s2);border-radius:.65rem;padding:.85rem 1rem;border:1px solid var(--s3);}
+.caus-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.3rem;}
+.caus-ex{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.2rem;}
+.caus-pt{font-size:.78rem;color:var(--tm);}
+.caus-note{font-size:.74rem;color:var(--td);margin-top:.18rem;font-style:italic;}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+/* collocations grid */
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.55rem;margin-bottom:.85rem;}
+.coll-item{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;}
+.coll-head{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--ca);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;}
+.coll-list{font-size:.78rem;color:var(--tm);line-height:1.8;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+/* COMPLETION BANNER */
+.complete-banner{background:linear-gradient(135deg,rgba(56,189,248,.12),rgba(74,222,128,.1));border:2px solid var(--ca);border-radius:1rem;padding:2.5rem 2rem;text-align:center;margin:3rem 0;}
+.cb-star{font-size:2rem;margin-bottom:.75rem;}
+.cb-title{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ca);margin-bottom:.5rem;}
+.cb-sub{font-size:.95rem;color:var(--tm);margin-bottom:1.25rem;}
+.cb-stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.cb-stat{text-align:center;}
+.cb-num{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--ca);}
+.cb-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--td);}
+.cb-msg{font-size:.85rem;color:var(--tm);line-height:1.7;max-width:540px;margin:0 auto;}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .md-grid{grid-template-columns:1fr;}
+  .caus-grid{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .cb-stats{gap:1.2rem;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-final">Lição Final · 89 de 89</div>
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">MAKE</h1>
+  <p class="hero-pt">fazer · fabricar · produzir · causar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">MAKE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">MADE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">MADE</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"She made a difference."</div>
+    <div class="cl-pt">Ela fez a diferença.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + MAKE vs DO -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">MAKE vs DO — a distinção que mais confunde brasileiros</div>
+    <div class="sd">MAKE → MADE · -AKE→-ADE · MAKE = produto/resultado · DO = processo/atividade</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Mnemônico — MAKE → MADE</div>
+    <p style="font-size:.85rem;color:var(--tm);margin-bottom:.7rem">MAKE troca o K pelo D: <strong style="color:var(--ca)">MA<span style="color:var(--rd)">K</span>E → MA<span style="color:var(--rd)">D</span>E</strong>. Pense: "You MAKE it, then it's MADE." Passado = particípio = MADE.</p>
+  </div>
+
+  <!-- MAKE vs DO -->
+  <div class="make-do">
+    <div class="md-title">MAKE vs DO — os dois "fazer" do inglês</div>
+    <div class="md-grid">
+      <div class="md-col">
+        <div class="md-head" style="color:var(--ca)">MAKE = produto / resultado</div>
+        <div class="md-rule">Você cria, produz ou causa algo</div>
+        <div class="md-list">
+          <strong>make</strong> a cake · a decision · a mistake<br>
+          <strong>make</strong> money · progress · noise<br>
+          <strong>make</strong> friends · enemies · a deal<br>
+          <strong>make</strong> a speech · a point · a promise<br>
+          <strong>make</strong> an effort · a difference · sense
+        </div>
+      </div>
+      <div class="md-col">
+        <div class="md-head" style="color:var(--yl)">DO = processo / atividade</div>
+        <div class="md-rule">Você realiza uma tarefa ou atividade</div>
+        <div class="md-list">
+          <strong>do</strong> homework · the laundry · dishes<br>
+          <strong>do</strong> exercise · yoga · business<br>
+          <strong>do</strong> your best · your job · a favor<br>
+          <strong>do</strong> research · damage · harm<br>
+          <strong>do</strong> the right thing · your hair · nails
+        </div>
+      </div>
+    </div>
+    <div class="nt nt-wrn" style="margin-top:.75rem">"I did a mistake." ✗ → "I MADE a mistake." ✓ · "She made her homework." ✗ → "She DID her homework." ✓ · Não existe regra gramatical — são colocações fixas que precisam ser memorizadas.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — make / makes</div>
+    <div class="sd">HE / SHE / IT → MAKES · MAKE + sentidos múltiplos</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>make</strong> a to-do list on Monday mornings.</td><td class="cpt">Sempre faço uma lista de tarefas nas manhãs de segunda.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>make</strong> me happy.</td><td class="cpt">Você me faz feliz.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>makes</strong> a lot of money.</td><td class="cpt">Ele ganha muito dinheiro.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>makes</strong> her own clothes.</td><td class="cpt">Ela faz as próprias roupas.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">This <strong>makes</strong> no sense at all.</td><td class="cpt">Isso não faz sentido nenhum.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>make</strong> decisions as a team.</td><td class="cpt">Tomamos decisões em equipe.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>make</strong> the best coffee in town.</td><td class="cpt">Eles fazem o melhor café da cidade.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → MAKES (com -S). "She make her own clothes." ✗ → "She MAKES her own clothes." ✓ · "This make no sense." ✗ → "This MAKES no sense." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO — made (irregular)</div>
+    <div class="sd">MAKE → MADE · MA<span style="font-size:.7em">K</span>E → MA<span style="font-size:.7em">D</span>E · 5 sentidos no passado</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>made</strong> a huge mistake.</td><td class="cpt">Cometi um erro enorme.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">You <strong>made</strong> the right choice.</td><td class="cpt">Você fez a escolha certa.</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>made</strong> it to the finals!</td><td class="cpt">Ele chegou à final!</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>made</strong> everyone feel welcome.</td><td class="cpt">Ela fez todos se sentirem bem-vindos.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The movie <strong>made</strong> me cry.</td><td class="cpt">O filme me fez chorar.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>made</strong> history today.</td><td class="cpt">Nós fizemos história hoje.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>made</strong> a deal with the client.</td><td class="cpt">Eles fizeram um acordo com o cliente.</td></tr>
+    </table>
+    <div class="nt nt-err">Negação: "I didn't MAKE a mistake." ✓ / "I didn't MADE a mistake." ✗ — DIDN'T + base MAKE. Particípio: "She has MADE great progress." ✓ — MADE com HAVE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: MAKE CAUSATIVO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">MAKE causativo — fazer alguém fazer algo</div>
+    <div class="sd">MAKE + pessoa + VERBO BASE · sem TO · comparação com LET / GET / HAVE</div></div>
+  </div>
+
+  <div class="caus">
+    <div class="caus-t">MAKE + pessoa + verbo base (sem TO) — 4 causativos</div>
+    <div class="caus-grid">
+      <div class="caus-item">
+        <div class="caus-label">MAKE — forçar / causar (sem escolha)</div>
+        <div class="caus-ex">"She made me cry."</div>
+        <div class="caus-pt">Ela me fez chorar. (involuntário)</div>
+        <div class="caus-note">MAKE + pessoa + BASE (sem TO)</div>
+      </div>
+      <div class="caus-item">
+        <div class="caus-label">LET — permitir / deixar</div>
+        <div class="caus-ex">"She let me go."</div>
+        <div class="caus-pt">Ela me deixou ir. (permissão)</div>
+        <div class="caus-note">LET + pessoa + BASE (sem TO)</div>
+      </div>
+      <div class="caus-item">
+        <div class="caus-label">GET — persuadir / conseguir</div>
+        <div class="caus-ex">"I got him to fix it."</div>
+        <div class="caus-pt">Convenci ele a consertar. (esforço)</div>
+        <div class="caus-note">GET + pessoa + TO + verbo</div>
+      </div>
+      <div class="caus-item">
+        <div class="caus-label">HAVE — arranjar / mandar fazer</div>
+        <div class="caus-ex">"I had him fix it."</div>
+        <div class="caus-pt">Mandei ele consertar. (autoridade)</div>
+        <div class="caus-note">HAVE + pessoa + BASE (sem TO)</div>
+      </div>
+    </div>
+    <div class="nt nt-err" style="margin-top:.75rem">"She made me to cry." ✗ → "She made me cry." ✓ — MAKE + pessoa + BASE sem TO. Apenas GET usa TO: "I got him TO fix it." ✓ / "I made him TO fix it." ✗</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: PHRASAL VERBS -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Phrasal verbs com MAKE</div>
+    <div class="sd">MAKE UP (5 sentidos!) · MAKE OUT · MAKE DO · MAKE IT · MAKE UP FOR</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">MAKE UP</div>
+      <div class="pv-pt">(1) inventar (2) reconciliar (3) constituir (4) compensar (5) maquiagem</div>
+      <div class="pv-ex">"Don't make that up!" / "They made up." / "Women make up 51%." / "I'll make it up to you." / "She's putting on make-up."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">MAKE IT</div>
+      <div class="pv-pt">conseguir / chegar / ter sucesso</div>
+      <div class="pv-ex">"I made it!" / "Can you make it to the party?" / "He never made it as an actor."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">MAKE OUT</div>
+      <div class="pv-pt">entender / distinguir / se sair bem</div>
+      <div class="pv-ex">"I can't make out his handwriting." / "How did you make out on the test?"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">MAKE DO</div>
+      <div class="pv-pt">se virar / se contentar / improvisar</div>
+      <div class="pv-ex">"We'll have to make do without coffee." / "Just make do with what you have."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">MAKE UP FOR</div>
+      <div class="pv-pt">compensar / recompensar</div>
+      <div class="pv-ex">"She worked hard to make up for lost time." / "Nothing can make up for it."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">MAKE OF</div>
+      <div class="pv-pt">achar / pensar sobre / entender</div>
+      <div class="pv-ex">"What do you make of this?" / "I don't know what to make of it."</div>
+    </div>
+  </div>
+  <div class="nt nt-tip">MAKE UP é o phrasal verb mais versátil do inglês — 5 sentidos completamente distintos. O contexto é tudo: "They made up after the fight." = se reconciliaram. "She made up a story." = inventou uma história. "Women make up 60% of nurses." = constituem.</div>
+</section>
+
+<!-- SEÇÃO 6: COLOCAÇÕES ESSENCIAIS -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Colocações e expressões com MAKE</div>
+    <div class="sd">MAKE SENSE · MAKE A DIFFERENCE · MAKE THE MOST OF · MAKE OR BREAK · MAKE BELIEVE</div></div>
+  </div>
+
+  <div class="coll-grid">
+    <div class="coll-item">
+      <div class="coll-head">Decisão / Erro</div>
+      <div class="coll-list">make a decision<br>make a choice<br>make a mistake<br>make an error<br>make a plan</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Dinheiro / Progresso</div>
+      <div class="coll-list">make money<br>make a profit<br>make a living<br>make progress<br>make an effort</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Relações / Comunicação</div>
+      <div class="coll-list">make friends<br>make a promise<br>make a deal<br>make a speech<br>make a point</div>
+    </div>
+    <div class="coll-item">
+      <div class="coll-head">Expressões-chave</div>
+      <div class="coll-list">make sense<br>make a difference<br>make history<br>make noise<br>make believe</div>
+    </div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões idiomáticas</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE SENSE</td><td style="font-size:.83rem">fazer sentido</td><td class="cpt">"Does this make sense?" / "It makes no sense!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE A DIFFERENCE</td><td style="font-size:.83rem">fazer diferença / importar</td><td class="cpt">"Your work makes a real difference."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE THE MOST OF</td><td style="font-size:.83rem">aproveitar ao máximo</td><td class="cpt">"Make the most of every opportunity."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE OR BREAK</td><td style="font-size:.83rem">decisivo / que define o resultado</td><td class="cpt">"This is a make-or-break moment."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE BELIEVE</td><td style="font-size:.83rem">fingir / faz-de-conta</td><td class="cpt">"Let's make believe we're pirates!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">MAKE HISTORY</td><td style="font-size:.83rem">fazer história / ser histórico</td><td class="cpt">"We made history today."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I did a mistake."</div>
+      <div class="ecr">✓ "I made a mistake."</div>
+      <div class="ecd">MAKE A MISTAKE = cometer um erro (collocação fixa). "Do" é para atividades/processos: "do homework", "do exercise". "Make" é para produtos/resultados: "make a mistake", "make a decision", "make progress". Não existe regra — é colocação.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She made me to cry."</div>
+      <div class="ecr">✓ "She made me cry."</div>
+      <div class="ecd">MAKE causativo = MAKE + pessoa + BASE (sem TO). "She made me CRY." ✓ — sem TO. Apenas GET usa TO: "She got me TO cry." ✓ Erro frequente porque em português dizemos "fez eu chorar" e se traduz literalmente com TO.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I maked/maded dinner."</div>
+      <div class="ecr">✓ "I made dinner."</div>
+      <div class="ecd">MAKE é irregular: MAKE → MADE → MADE. "I MADE dinner." ✓ — "maked" e "maded" não existem. Passado = particípio = MADE. Troca o K pelo D: MA<b>K</b>E → MA<b>D</b>E.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She made her homework."</div>
+      <div class="ecr">✓ "She did her homework."</div>
+      <div class="ecd">DO + homework / laundry / dishes / exercise / job. Atividades rotineiras = DO. "She DID her homework." ✓ / "She MADE her homework." ✗. Em português, "fazer" serve para os dois — mas em inglês, há a distinção MAKE vs DO.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't made any progress."</div>
+      <div class="ecr">✓ "I didn't make any progress."</div>
+      <div class="ecd">DIDN'T + base. "I didn't MAKE any progress." ✓ — depois de DIDN'T, base MAKE (nunca MADE). "I didn't made" ✗ — dois passados. MAKE PROGRESS = progressar (colocação fixa, sem artigo).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "This doesn't make sense for me."</div>
+      <div class="ecr">✓ "This doesn't make sense to me."</div>
+      <div class="ecd">MAKE SENSE TO someone (não FOR). "This doesn't make sense TO me." ✓ — preposição fixa TO. "Make sense FOR" ✗ não existe. "Does this make sense?" ✓ (sem complemento também funciona).</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz Final — MAKE</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado de MAKE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">maked</button>
+      <button class="qo" onclick="ans(this,'q1',true)">made</button>
+      <button class="qo" onclick="ans(this,'q1',false)">maden</button>
+    </div>
+    <div class="qfb" id="q1fb">MAKE → MADE (irregular). Troca K pelo D: MA<b>K</b>E → MA<b>D</b>E. Passado = particípio = MADE. "I MADE dinner." ✓ — "maked" e "maden" não existem.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Eu cometi um erro enorme." → Qual é a colocação correta?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">I did a huge mistake.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">I made a huge mistake.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">I have a huge mistake.</button>
+    </div>
+    <div class="qfb" id="q2fb">"I MADE a huge mistake." ✓ — MAKE A MISTAKE é colocação fixa. "Did a mistake" ✗ — DO é para atividades. "Have a mistake" ✗ — HAVE não faz esse papel. Memorize: MAKE a mistake / decision / plan / effort / progress / difference.</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Ela ganhou muito dinheiro." → MAKE + MONEY, terceira pessoa.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">She make a lot of money.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">She makes a lot of money.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">She is making a lot of money. (hábito geral)</button>
+    </div>
+    <div class="qfb" id="q3fb">SHE → MAKES (com -S). "She MAKES a lot of money." ✓ — hábito geral = presente simples com -S. "She make" ✗ — falta -S. "She is making" = ação em andamento agora, não característica geral.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"O filme me fez chorar." → MAKE causativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">The movie made me to cry.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">The movie made me cry.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">The movie made me crying.</button>
+    </div>
+    <div class="qfb" id="q4fb">"The movie made me CRY." ✓ — MAKE + pessoa + BASE (sem TO, sem -ING). "made me to cry" ✗ — MAKE não usa TO. "made me crying" ✗ — MAKE não usa -ING. Apenas GET usa TO: "The movie got me TO cry." ✓</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ela fez a lição de casa." → DO ou MAKE?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">She made her homework.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">She did her homework.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Ambas são corretas.</button>
+    </div>
+    <div class="qfb" id="q5fb">"She DID her homework." ✓ — DO + atividade/tarefa. DO: homework / laundry / dishes / exercise / job / your best. MAKE: mistake / decision / cake / money / noise / friends. "She MADE her homework." ✗ — colocação incorreta.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"Eles se reconciliaram depois da briga." → MAKE UP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">They made up a story after the fight.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">They made up after the fight.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">They made out after the fight.</button>
+    </div>
+    <div class="qfb" id="q6fb">"They MADE UP after the fight." ✓ — MAKE UP = reconciliar. "Made up a story" = inventou uma história (outro sentido de MAKE UP). "Made out" = entender / distinguir / se dar bem. MAKE UP tem 5 sentidos — contexto determina o significado.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"I didn't ___ any progress last month."</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't made any progress last month.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">I didn't make any progress last month.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't do any progress last month.</button>
+    </div>
+    <div class="qfb" id="q7fb">"I didn't MAKE any progress last month." ✓ — DIDN'T + base MAKE. "didn't made" ✗ — dois passados. "didn't do progress" ✗ — PROGRESS é colocação com MAKE, não DO. MAKE PROGRESS = progressar (sem artigo A/AN — progress é incontável).</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Conseguimos!" → MAKE IT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">We made out!</button>
+      <button class="qo" onclick="ans(this,'q8',true)">We made it!</button>
+      <button class="qo" onclick="ans(this,'q8',false)">We made up!</button>
+    </div>
+    <div class="qfb" id="q8fb">"We MADE IT!" ✓ — MAKE IT = conseguir / chegar / ter sucesso. "We made it to the airport in time!" ✓ "Can you make it to the party?" ✓ "Made out" = entender / distinguir. "Made up" = reconciliar / inventar.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">O que significa "Make the most of every opportunity"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Faça a maioria das oportunidades aparecerem.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Aproveite ao máximo cada oportunidade.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Crie mais oportunidades do que o necessário.</button>
+    </div>
+    <div class="qfb" id="q9fb">"MAKE THE MOST OF" = aproveitar ao máximo / tirar o melhor proveito de. "Make the most of your time here." = Aproveite ao máximo o seu tempo aqui. "Make the most of what you have." = Tire o melhor proveito do que você tem.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"This doesn't make sense ___ me."</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">This doesn't make sense for me.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">This doesn't make sense to me.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">This doesn't make sense of me.</button>
+    </div>
+    <div class="qfb" id="q10fb">"This doesn't make sense TO me." ✓ — preposição fixa TO com MAKE SENSE. "For me" ✗ e "of me" ✗. Porém: "Does this make sense?" (sem complemento) também é corretíssimo no uso cotidiano.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">Qual das expressões significa "constituir / representar (uma porcentagem)"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">make out (ex: "Women make out 51%")</button>
+      <button class="qo" onclick="ans(this,'q11',true)">make up (ex: "Women make up 51%")</button>
+      <button class="qo" onclick="ans(this,'q11',false)">make do (ex: "Women make do 51%")</button>
+    </div>
+    <div class="qfb" id="q11fb">"Women MAKE UP 51% of the population." ✓ — MAKE UP = constituir / representar. "Women make out 51%" ✗ — MAKE OUT = entender / distinguir. "Women make do 51%" ✗ — MAKE DO = se virar / improvisar. MAKE UP tem 5 sentidos distintos!</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">MAKE causativo vs GET — qual usa TO antes do verbo?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">MAKE: "She made me to stop." ✓</button>
+      <button class="qo" onclick="ans(this,'q12',true)">GET: "She got me to stop." ✓</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Ambos usam TO antes do verbo.</button>
+    </div>
+    <div class="qfb" id="q12fb">"She GOT me TO stop." ✓ — GET + pessoa + TO + verbo. "She MADE me stop." ✓ — MAKE + pessoa + BASE (sem TO). LET e HAVE também não usam TO. Só GET usa TO. "She made me to stop." ✗ — o erro mais frequente com MAKE causativo.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado Final</button>
+</div>
+
+<!-- BANNER DE CONCLUSÃO DO CURSO -->
+<div class="complete-banner">
+  <div class="cb-star">★</div>
+  <div class="cb-title">Sistema 1 — Completo!</div>
+  <div class="cb-sub">Você concluiu todas as 89 lições de Inglês Visual para Brasileiros.</div>
+  <div class="cb-stats">
+    <div class="cb-stat"><div class="cb-num">89</div><div class="cb-lbl">lições</div></div>
+    <div class="cb-stat"><div class="cb-num">13</div><div class="cb-lbl">módulos</div></div>
+    <div class="cb-stat"><div class="cb-num">1068</div><div class="cb-lbl">questões</div></div>
+  </div>
+  <div class="cb-msg">De A/AN (L01) até MAKE (L89), você percorreu toda a estrutura essencial do inglês — artigos, tempos verbais, preposições, phrasal verbs, erros clássicos e os verbos mais usados da língua. Every lesson was made for you.</div>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../88_bring/index.html">← L88 BRING</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito — digno da lição final!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

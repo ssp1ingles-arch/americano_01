@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DO — 2 Sentidos | Inglês Visual para Brasileiros</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F59E0B;
+  --c1:#60A5FA;--c2:#A78BFA;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:600px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#1a0f00 0%,var(--bg) 65%);}
+#heroCanvas{width:100%;height:400px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(7,13,13,.85);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* RULE BOX */
+.rule-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.rule-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.conj-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+.conj-col{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:18px 16px;}
+.conj-head{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:2px;}
+.conj-sub{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.conj-list{display:flex;flex-direction:column;gap:4px;}
+.conj-item{font-size:12.5px;padding:4px 8px;border-radius:5px;}
+.rule-box{background:var(--surface2);border:1px solid rgba(245,158,11,.22);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--accent);}
+
+/* SECTIONS */
+.sec{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.sec-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;}
+.sec-num{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;line-height:1.2;}
+.sec-sub{color:var(--muted);font-size:12px;margin-top:3px;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.012);}
+.ten{font-size:14px;font-weight:500;}
+.tpt{color:var(--muted);font-size:13px;}
+.ttag{font-size:11px;color:var(--muted);white-space:nowrap;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(245,158,11,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+/* EMPHASIS BOX */
+.emph-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0;}
+.emph-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center;}
+.emph-en{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px;}
+.emph-pt{font-size:12px;color:var(--muted);}
+
+/* QUIZ */
+.quiz-intro{color:var(--muted);font-size:14px;margin-bottom:20px;}
+.quiz-list{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+.qitem{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s;}
+.qitem.correct{border-color:var(--tip);}
+.qitem.wrong{border-color:var(--warn);}
+.qi-sent{font-size:16px;font-weight:600;margin-bottom:12px;}
+.qi-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--border);text-align:center;font-weight:700;padding:0 6px;}
+.qi-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.qi-opt{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:6px 16px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .18s;letter-spacing:.04em;}
+.qi-opt:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.qi-opt.selected-right{border-color:var(--tip);background:rgba(95,216,122,.1);color:var(--tip);}
+.qi-opt.selected-wrong{border-color:var(--warn);background:rgba(255,112,67,.1);color:var(--warn);}
+.qi-opt.show-right{border-color:var(--tip);color:var(--tip);}
+.qi-opt.disabled{cursor:default;pointer-events:none;}
+.qi-feedback{margin-top:10px;font-size:13px;display:none;}
+.qi-feedback.on{display:block;}
+.qi-feedback.right{color:var(--tip);}
+.qi-feedback.wrong-fb{color:var(--warn);}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;padding:14px 20px;border-radius:10px;border:1.5px solid var(--border);display:none;text-align:center;}
+.quiz-score.on{display:block;}
+.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.qbtn{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.qbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+
+/* ERRORS */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.err-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:5px;display:inline-block;margin-bottom:10px;}
+.err-item{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px;font-weight:500;}
+.err-wrong{background:rgba(255,112,67,.09);border:1px solid rgba(255,112,67,.2);color:var(--warn);}
+.err-right{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);color:var(--tip);}
+.err-note{font-size:11px;opacity:.65;display:block;margin-top:3px;font-weight:400;font-style:italic;}
+
+/* MEGA SUMMARY */
+.mega{max-width:860px;margin:0 auto;padding:36px 24px;}
+.mega-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;}
+.mega-rows{display:flex;flex-direction:column;gap:10px;}
+.mega-row{display:grid;grid-template-columns:120px 1fr 1fr;gap:12px;align-items:start;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;}
+.mega-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;text-align:center;padding-top:2px;}
+.mega-label{font-size:22px;font-weight:700;line-height:1;}
+.mega-pt{font-size:var(--muted);font-size:13px;}
+.mega-pt strong{color:var(--text);}
+.mega-exs{display:flex;flex-direction:column;gap:4px;}
+.mega-ex{font-size:12px;font-style:italic;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+
+@media(max-width:640px){
+  .conj-grid{grid-template-columns:1fr;}
+  .emph-grid{grid-template-columns:1fr;}
+  .err-grid{grid-template-columns:1fr;}
+  .mega-row{grid-template-columns:90px 1fr;}
+  .mega-exs{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 15 · Módulo 03 · Verbo DO</div>
+  <h1>DO — <span style="color:var(--accent)">2 Sentidos</span></h1>
+  <p class="subtitle">FAZER (atividade, tarefa, ação) e AUXILIAR (estrutura perguntas, negações e ênfases) — o verbo que aparece em toda frase.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Os 2 sentidos do DO em órbita</div>
+</div>
+
+<!-- DO/DOES/DID RULE -->
+<div class="rule-wrap">
+  <div class="rule-title">Conjugação completa do DO — presente, passado e futuro</div>
+  <div class="conj-grid">
+    <div class="conj-col" style="border-color:rgba(245,158,11,.35)">
+      <div class="conj-head" style="color:var(--accent)">DO</div>
+      <div class="conj-sub">presente — I · You · We · They</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:var(--accent);background:rgba(245,158,11,.09)">I <strong>do</strong> my homework.</div>
+        <div class="conj-item" style="color:var(--muted)">You <strong>do</strong> your job.</div>
+        <div class="conj-item" style="color:var(--muted)">We <strong>do</strong> our best.</div>
+        <div class="conj-item" style="color:var(--muted)">They <strong>do</strong> the work.</div>
+      </div>
+    </div>
+    <div class="conj-col" style="border-color:rgba(248,113,113,.35)">
+      <div class="conj-head" style="color:#F87171">DOES</div>
+      <div class="conj-sub">presente — He · She · It</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:#F87171;background:rgba(248,113,113,.09)">He <strong>does</strong> the dishes.</div>
+        <div class="conj-item" style="color:var(--muted)">She <strong>does</strong> yoga.</div>
+        <div class="conj-item" style="color:var(--muted)">It <strong>does</strong> the job.</div>
+        <div class="conj-item" style="color:var(--muted);font-size:11px;font-style:italic">← só He/She/It mudam!</div>
+      </div>
+    </div>
+    <div class="conj-col" style="border-color:rgba(52,211,153,.35)">
+      <div class="conj-head" style="color:#34D399">DID</div>
+      <div class="conj-sub">passado — todos os pronomes</div>
+      <div class="conj-list">
+        <div class="conj-item" style="color:#34D399;background:rgba(52,211,153,.09)">I <strong>did</strong> my homework.</div>
+        <div class="conj-item" style="color:var(--muted)">She <strong>did</strong> yoga.</div>
+        <div class="conj-item" style="color:var(--muted)">They <strong>did</strong> the work.</div>
+        <div class="conj-item" style="color:var(--muted);font-size:11px;font-style:italic">← todos usam DID!</div>
+      </div>
+    </div>
+  </div>
+  <div class="rule-box">⚡ No <strong>futuro</strong>: <strong>will do</strong> para todos. Negativo presente: <strong>don't / doesn't</strong>. Negativo passado: <strong>didn't</strong> + verbo base. Nunca "didn't did"!</div>
+</div>
+
+<!-- SENTIDO 1: FAZER -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c1);background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2)">SENTIDO 1</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c1)">FAZER</span> — realizar uma atividade ou tarefa</h2>
+      <div class="sec-sub">homework, dishes, yoga, the job, our best, exercise, work…</div>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c1)">do</strong> my homework every day.</td><td class="tpt">Eu <em>faço</em> minha lição todo dia.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c1)">does</strong> the dishes after dinner.</td><td class="tpt">Ele <em>faz</em> a louça depois do jantar.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">does</strong> yoga every morning.</td><td class="tpt">Ela <em>faz</em> yoga toda manhã.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">We <strong style="color:var(--c1)">do</strong> our best every day.</td><td class="tpt">Nós <em>fazemos</em> o nosso melhor todo dia.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c1)">did</strong> my homework yesterday.</td><td class="tpt">Eu <em>fiz</em> minha lição ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">did</strong> yoga yesterday.</td><td class="tpt">Ela <em>fez</em> yoga ontem.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c1)">will do</strong> my homework tonight.</td><td class="tpt">Eu <em>vou fazer</em> minha lição hoje.</td><td class="ttag">futuro</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">is going to do</strong> yoga tomorrow.</td><td class="tpt">Ela <em>vai fazer</em> yoga amanhã.</td><td class="ttag">futuro próximo</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c1)">Does</strong> he do the dishes?</td><td class="tpt">Ele <em>faz</em> a louça?</td><td class="ttag">pergunta</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c1)">Did</strong> you do your homework?</td><td class="tpt">Você <em>fez</em> sua lição?</td><td class="ttag">pergunta passado</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c1)">don't do</strong> homework on weekends.</td><td class="tpt">Eu <em>não faço</em> lição nos fins de semana.</td><td class="ttag">negação</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c1)">didn't do</strong> yoga yesterday.</td><td class="tpt">Ela <em>não fez</em> yoga ontem.</td><td class="ttag">negação passado</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 "DO the dishes" = fazer a louça. "DO your best" = fazer o seu melhor. "DO exercise" = fazer exercício. Todas atividades e tarefas usam DO.</div>
+  <div class="warn">⚠️ "Does he do the dishes?" — parece estranho com DO repetido, mas é correto! O primeiro DO é auxiliar, o segundo é o verbo principal.</div>
+</section>
+
+<!-- SENTIDO 2: AUXILIAR -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--c2);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)">SENTIDO 2</span>
+    <div>
+      <h2 class="sec-title"><span style="color:var(--c2)">AUXILIAR</span> — estrutura perguntas, negações e ênfases</h2>
+      <div class="sec-sub">sem tradução direta — aparece invisível em toda frase do inglês</div>
+    </div>
+  </div>
+
+  <p style="font-size:14px;color:var(--muted);margin-bottom:14px;">O DO auxiliar tem <strong style="color:var(--text)">3 funções</strong>:</p>
+
+  <!-- PERGUNTA -->
+  <p style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c2);margin-bottom:10px;">① PERGUNTA — DO/DOES/DID vai para o início</p>
+  <table style="margin-bottom:18px">
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten"><strong style="color:var(--c2)">Do</strong> you like pizza?</td><td class="tpt">Você <em>gosta</em> de pizza?</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c2)">Does</strong> he work here?</td><td class="tpt">Ele <em>trabalha</em> aqui?</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c2)">Does</strong> she care?</td><td class="tpt">Ela <em>se importa</em>?</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c2)">Did</strong> you call?</td><td class="tpt">Você <em>ligou</em>?</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten"><strong style="color:var(--c2)">Did</strong> he come?</td><td class="tpt">Ele <em>veio</em>?</td><td class="ttag">passado</td></tr>
+    </tbody>
+  </table>
+
+  <!-- NEGAÇÃO -->
+  <p style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c2);margin-bottom:10px;">② NEGAÇÃO — don't / doesn't / didn't</p>
+  <table style="margin-bottom:18px">
+    <thead><tr><th>Inglês</th><th>Português</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td class="ten">I <strong style="color:var(--c2)">don't</strong> like it.</td><td class="tpt">Eu <em>não gosto</em>.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">He <strong style="color:var(--c2)">doesn't</strong> work here.</td><td class="tpt">Ele <em>não trabalha</em> aqui.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">It <strong style="color:var(--c2)">doesn't</strong> matter.</td><td class="tpt">Isso <em>não importa</em>.</td><td class="ttag">presente</td></tr>
+      <tr><td class="ten">I <strong style="color:var(--c2)">didn't</strong> see it.</td><td class="tpt">Eu <em>não vi</em>.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">She <strong style="color:var(--c2)">didn't</strong> know.</td><td class="tpt">Ela <em>não sabia</em>.</td><td class="ttag">passado</td></tr>
+      <tr><td class="ten">It <strong style="color:var(--c2)">didn't</strong> work.</td><td class="tpt"><em>Não funcionou</em>.</td><td class="ttag">passado</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ÊNFASE -->
+  <p style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c2);margin-bottom:10px;">③ ÊNFASE — "SIM que eu faço!" — reforça que é verdade</p>
+  <div class="emph-grid">
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">I <strong>do</strong> like you!</div>
+      <div class="emph-pt">Eu gosto <em>sim</em> de você!</div>
+    </div>
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">He <strong>does</strong> work hard.</div>
+      <div class="emph-pt">Ele trabalha duro <em>sim</em>.</div>
+    </div>
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">She <strong>did</strong> see it.</div>
+      <div class="emph-pt">Ela viu <em>sim</em>.</div>
+    </div>
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">It <strong>does</strong> matter.</div>
+      <div class="emph-pt">Isso importa <em>sim</em>.</div>
+    </div>
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">We <strong>did</strong> finish.</div>
+      <div class="emph-pt">Nós terminamos <em>sim</em>.</div>
+    </div>
+    <div class="emph-card">
+      <div class="emph-en" style="color:var(--c2)">They <strong>did</strong> arrive.</div>
+      <div class="emph-pt">Eles chegaram <em>sim</em>.</div>
+    </div>
+  </div>
+
+  <div class="info">💡 DO/DOES/DID auxiliar não tem tradução direta — em português expressamos isso com "sim", tom de voz ou contexto. "I <strong>do</strong> like you!" = "Eu gosto de você, sim!" (com ênfase).</div>
+  <div class="tip">💡 Na pergunta e negação do inglês, o DO auxiliar aparece mesmo sem tradução visível: "Do you like coffee?" — em português dizemos só "Você gosta de café?", sem equivalente ao "Do".</div>
+</section>
+
+<!-- QUIZ -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:#CE93D8;background:rgba(206,147,216,.1);border:1px solid rgba(206,147,216,.2)">QUIZ</span>
+    <h2 class="sec-title">DO, DOES ou DID — complete a forma correta</h2>
+  </div>
+  <p class="quiz-intro">Atenção ao sujeito e ao tempo verbal!</p>
+  <div class="quiz-list" id="quizList"></div>
+  <div class="quiz-score" id="quizScore"></div>
+  <div class="quiz-controls">
+    <button class="qbtn" onclick="resetQuiz()">Recomeçar</button>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="sec-num" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERROS</span>
+    <h2 class="sec-title">Os 6 erros mais comuns com DO</h2>
+  </div>
+  <div class="err-grid">
+    <div>
+      <div class="err-col-label" style="color:var(--warn);background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.2)">ERRADO</div>
+      <div class="err-item err-wrong">She <em>do</em> yoga every day.<span class="err-note">She/He/It → sempre DOES no presente</span></div>
+      <div class="err-item err-wrong">I <em>didn't did</em> it.<span class="err-note">Após didn't → verbo base: "didn't do"</span></div>
+      <div class="err-item err-wrong"><em>Does</em> she <em>does</em> yoga?<span class="err-note">Auxiliar + verbo base: "Does she do yoga?"</span></div>
+      <div class="err-item err-wrong">He <em>don't</em> work here.<span class="err-note">He → doesn't (não don't)</span></div>
+      <div class="err-item err-wrong">I <em>make</em> homework every day.<span class="err-note">Tarefa/atividade = DO, não make</span></div>
+      <div class="err-item err-wrong"><em>Did</em> she <em>did</em> it?<span class="err-note">Auxiliar + verbo base: "Did she do it?"</span></div>
+    </div>
+    <div>
+      <div class="err-col-label" style="color:var(--tip);background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2)">CORRETO</div>
+      <div class="err-item err-right">She <strong>does</strong> yoga every day.<span class="err-note">She → DOES</span></div>
+      <div class="err-item err-right">I <strong>didn't do</strong> it.<span class="err-note">didn't + verbo base (do)</span></div>
+      <div class="err-item err-right"><strong>Does</strong> she <strong>do</strong> yoga?<span class="err-note">Auxiliar (Does) + verbo base (do)</span></div>
+      <div class="err-item err-right">He <strong>doesn't</strong> work here.<span class="err-note">He → doesn't</span></div>
+      <div class="err-item err-right">I <strong>do</strong> my homework every day.<span class="err-note">Tarefa = DO my homework</span></div>
+      <div class="err-item err-right"><strong>Did</strong> she <strong>do</strong> it?<span class="err-note">Auxiliar (Did) + verbo base (do)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEGA RESUMO -->
+<div class="mega">
+  <div class="mega-title">Resumo — Os 2 sentidos do DO</div>
+  <div class="mega-rows">
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c1)"><div class="mega-label">1</div>FAZER</div>
+      <div class="mega-pt"><strong>Atividade / tarefa / ação</strong><br><span style="font-size:12px;color:var(--muted)">homework, dishes, yoga, job, best, exercise</span><br><span style="font-size:12px;color:var(--muted)">I/You/We/They → DO · He/She/It → DOES · Passado → DID</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c1)">I do my homework. / She does yoga.</div>
+        <div class="mega-ex" style="color:var(--muted)">He did the dishes. / We will do our best.</div>
+      </div>
+    </div>
+    <div class="mega-row">
+      <div class="mega-num" style="color:var(--c2)"><div class="mega-label">2</div>AUXILIAR</div>
+      <div class="mega-pt"><strong>Pergunta + Negação + Ênfase</strong><br><span style="font-size:12px;color:var(--muted)">estrutura toda frase em inglês — sem tradução direta</span><br><span style="font-size:12px;color:var(--muted)">Pergunta: Do/Does/Did + sujeito + verbo? · Negação: don't/doesn't/didn't</span></div>
+      <div class="mega-exs">
+        <div class="mega-ex" style="color:var(--c2)">Do you like it? / He doesn't work here.</div>
+        <div class="mega-ex" style="color:var(--muted)">I do like you! (ênfase) / Did she call?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick reference table -->
+  <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Referência rápida</div>
+    <table>
+      <thead><tr><th>Forma</th><th>Uso</th><th>Exemplos</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent)">DO</strong></td><td class="tpt">presente: I/You/We/They</td><td class="tpt">I do, you do, we do, they do</td></tr>
+        <tr><td><strong style="color:#F87171">DOES</strong></td><td class="tpt">presente: He/She/It</td><td class="tpt">he does, she does, it does</td></tr>
+        <tr><td><strong style="color:#34D399">DID</strong></td><td class="tpt">passado: todos</td><td class="tpt">I did, she did, they did</td></tr>
+        <tr><td><strong style="color:var(--muted)">don't</strong></td><td class="tpt">negação presente: I/You/We/They</td><td class="tpt">I don't, you don't, they don't</td></tr>
+        <tr><td><strong style="color:var(--muted)">doesn't</strong></td><td class="tpt">negação presente: He/She/It</td><td class="tpt">he doesn't, she doesn't</td></tr>
+        <tr><td><strong style="color:var(--muted)">didn't</strong></td><td class="tpt">negação passado: todos</td><td class="tpt">I didn't, she didn't, they didn't</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>Inglês para Brasileiros · A1 · Lição 15: DO — 2 Sentidos · Módulo 03</footer>
+
+<script>
+// ── QUIZ ────────────────────────────────────────────────────────────────────
+var QS=[
+  {s:'She ___ yoga every morning.',opts:['do','does','did','will do'],ans:'does',why:'She/He/It → DOES no presente simples.'},
+  {s:'I ___ my homework yesterday.',opts:['do','does','did','will do'],ans:'did',why:'Passado → DID para todos os pronomes.'},
+  {s:'They ___ the work together.',opts:['do','does','did','will do'],ans:'do',why:'They → DO no presente.'},
+  {s:'He ___ the dishes after dinner.',opts:['do','does','did','will do'],ans:'does',why:'He → DOES no presente.'},
+  {s:'___ you call last night?',opts:['Do','Does','Did','Will'],ans:'Did',why:'Pergunta no passado → DID no início da frase.'},
+  {s:'I didn\'t ___ it. (correto!)',opts:['do','does','did','done'],ans:'do',why:'Após didn\'t → sempre verbo BASE (do). Nunca "didn\'t did"!'},
+  {s:'I ___ like pizza! (ênfase)',opts:['do','does','did','will do'],ans:'do',why:'Ênfase no presente com I → DO: "I do like pizza!"'},
+  {s:'She ___ care about others. (ênfase)',opts:['do','does','did','will do'],ans:'does',why:'Ênfase com She → DOES: "She does care about others."'},
+  {s:'He ___ come to the party. (ênfase passado)',opts:['do','does','did','will do'],ans:'did',why:'Ênfase no passado → DID: "He did come to the party."'},
+  {s:'___ she do yoga every day?',opts:['Do','Does','Did','Will'],ans:'Does',why:'Pergunta no presente com She → DOES no início.'},
+  {s:'It ___ matter. (negação)',opts:['don\'t','doesn\'t','didn\'t','won\'t'],ans:'doesn\'t',why:'It → doesn\'t. "It doesn\'t matter" = Isso não importa.'},
+  {s:'We ___ do our best tomorrow.',opts:['do','does','did','will do'],ans:'will do',why:'Futuro → will do para todos os pronomes.'},
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  var ql=document.getElementById('quizList'); ql.innerHTML='';
+  score=0; answered=0;
+  document.getElementById('quizScore').classList.remove('on');
+  QS.forEach(function(q,i){
+    var div=document.createElement('div'); div.className='qitem'; div.id='qi'+i;
+    var sent=q.s.replace('___','<span class="qi-blank" id="blank'+i+'">___</span>');
+    div.innerHTML='<div class="qi-sent">'+sent+'</div>'+
+      '<div class="qi-opts">'+q.opts.map(function(o){return '<button class="qi-opt" data-i="'+i+'" data-o="'+o+'">'+o+'</button>';}).join('')+'</div>'+
+      '<div class="qi-feedback" id="fb'+i+'"></div>';
+    ql.appendChild(div);
+  });
+  document.querySelectorAll('.qi-opt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=+btn.dataset.i, o=btn.dataset.o, q=QS[i];
+      if(document.getElementById('qi'+i).classList.contains('correct')||document.getElementById('qi'+i).classList.contains('wrong'))return;
+      var isRight=o===q.ans;
+      document.querySelectorAll('.qi-opt[data-i="'+i+'"]').forEach(function(b){
+        b.classList.add('disabled');
+        if(b.dataset.o===q.ans) b.classList.add('show-right');
+      });
+      btn.classList.add(isRight?'selected-right':'selected-wrong');
+      var fb=document.getElementById('fb'+i);
+      fb.className='qi-feedback on '+(isRight?'right':'wrong-fb');
+      fb.textContent=(isRight?'✓ Correto! — ':'✗ Era "'+q.ans+'". — ')+q.why;
+      document.getElementById('blank'+i).textContent=q.ans;
+      document.getElementById('blank'+i).style.color=isRight?'var(--tip)':'var(--warn)';
+      document.getElementById('qi'+i).classList.add(isRight?'correct':'wrong');
+      if(isRight) score++;
+      answered++;
+      if(answered===QS.length){
+        var sc=document.getElementById('quizScore');
+        var pct=Math.round(score/QS.length*100);
+        sc.classList.add('on');
+        sc.style.borderColor=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.style.color=pct>=80?'var(--tip)':pct>=60?'var(--accent)':'var(--warn)';
+        sc.textContent='Resultado: '+score+' / '+QS.length+' ('+pct+'%) — '+(pct>=80?'Excelente! Você domina o DO!':pct>=60?'Bom trabalho! Revise o DOES e DID.':'Revise DO/DOES/DID e tente novamente.');
+      }
+    });
+  });
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+
+// ── HERO THREE.JS ────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(55,1,.1,100);
+hCam.position.set(0,3,12); hCam.lookAt(0,.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeH(){var w=hCanvas.parentElement.clientWidth,h=400;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeH(); window.addEventListener('resize',resizeH);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.45;
+hCtrl.minDistance=7; hCtrl.maxDistance=16; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,.4));
+var dl=new THREE.DirectionalLight(0xffa040,1.3); dl.position.set(5,10,7); hScene.add(dl);
+var dl2=new THREE.DirectionalLight(0x8080ff,.6); dl2.position.set(-5,5,-5); hScene.add(dl2);
+hScene.add(new THREE.GridHelper(20,20,0x070d0d,0x070d0d));
+
+function mkSph(col,r,emit){return new THREE.Mesh(new THREE.SphereGeometry(r||.18,14,14),new THREE.MeshPhongMaterial({color:col,emissive:col,emissiveIntensity:emit||.2}));}
+
+// Central DO sphere
+var cSph=mkSph(0xF59E0B,1.0,.6); cSph.position.y=.6; hScene.add(cSph);
+var cLight=new THREE.PointLight(0xF59E0B,2.5,8); cLight.position.y=.6; hScene.add(cLight);
+
+// DO / DOES / DID constellation
+var conjColors=[0xF59E0B,0xF87171,0x34D399];
+var conjLabels=['DO','DOES','DID'];
+var conjPos=[[-3.5,.8,0],[0,2.2,3.5],[3.5,.8,0]];
+var conjOrbs=[];
+conjPos.forEach(function(pos,i){
+  var s=mkSph(conjColors[i],.28,.45);
+  s.position.set(pos[0],pos[1],pos[2]);
+  hScene.add(s);
+  var l=new THREE.PointLight(conjColors[i],.8,4);
+  l.position.set(pos[0],pos[1],pos[2]); hScene.add(l);
+  var lbl=document.createElement('div'); lbl.className='hlabel';
+  lbl.style.color='#'+conjColors[i].toString(16).padStart(6,'0');
+  lbl.style.borderColor='rgba('+(conjColors[i]>>16)+','+((conjColors[i]>>8)&255)+','+(conjColors[i]&255)+',.3)';
+  lbl.textContent=conjLabels[i];
+  document.getElementById('heroOverlay').appendChild(lbl);
+  conjOrbs.push({m:s,lbl:lbl,basePos:new THREE.Vector3(pos[0],pos[1],pos[2])});
+});
+
+// Orbiting meaning nodes
+var MEANINGS=[
+  {t:'FAZER',    col:0x60A5FA, r:4.5, a:0,    spd:.30, y:.5},
+  {t:'AUXILIAR', col:0xA78BFA, r:4.5, a:Math.PI, spd:.30, y:.5},
+];
+var orbs=[];
+MEANINGS.forEach(function(m){
+  var orb=mkSph(m.col,.15,.45); hScene.add(orb);
+  var lbl=document.createElement('div'); lbl.className='hlabel';
+  lbl.style.color='#'+m.col.toString(16).padStart(6,'0');
+  var rr=(m.col>>16)&255,gg=(m.col>>8)&255,bb=m.col&255;
+  lbl.style.borderColor='rgba('+rr+','+gg+','+bb+',.3)';
+  lbl.textContent=m.t;
+  document.getElementById('heroOverlay').appendChild(lbl);
+  orbs.push({m:orb,lbl:lbl,r:m.r,a:m.a,spd:m.spd,y:m.y});
+});
+
+// Background particles
+for(var i=0;i<40;i++){var p=mkSph(0xF59E0B,.025,.1);p.position.set((Math.random()-.5)*16,Math.random()*4,(Math.random()-.5)*16);hScene.add(p);}
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.012; hCtrl.update();
+  cLight.intensity=2+Math.sin(hT*2)*.6;
+  cSph.rotation.y+=.007;
+  conjOrbs.forEach(function(o,i){
+    o.m.position.y=o.basePos.y+Math.sin(hT*1.3+i*1.1)*.12;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*400)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  orbs.forEach(function(o){
+    o.a+=o.spd*.01;
+    o.m.position.x=Math.cos(o.a)*o.r;
+    o.m.position.z=Math.sin(o.a)*o.r*.7;
+    o.m.position.y=o.y+Math.sin(o.a*.8)*.2;
+    var pos=new THREE.Vector3(); o.m.getWorldPosition(pos); pos.project(hCam);
+    var w=hCanvas.clientWidth;
+    o.lbl.style.left=((pos.x*.5+.5)*w)+'px';
+    o.lbl.style.top=((-pos.y*.5+.5)*400)+'px';
+    o.lbl.style.opacity=pos.z<1?'1':'0';
+  });
+  hRend.render(hScene,hCam);
+}
+animHero();
+</script>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronomes Objeto | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F5C518;
+  --ME:#FF6B9D;--YOU:#64B5F6;--HIM:#FFAB40;--HER:#F06292;--IT:#66BB6A;--US:#FF7043;--THEM:#AB47BC;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,197,24,.1);color:var(--accent);border:1px solid rgba(245,197,24,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#0f1a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+.pnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:22px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 18px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.05em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:68px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:22px;color:var(--accent);font-weight:600;margin-bottom:14px;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(245,197,24,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+.tabs{display:flex;gap:6px;margin-bottom:14px;}
+.tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:19px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:2px 9px;border-radius:5px;display:inline-block;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+
+.ecols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.ebox{border-radius:12px;padding:20px;text-align:center;}
+.ewrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.3);}
+.eright{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.3);}
+.elabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.esen{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sen2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;display:block;margin-bottom:3px;}
+.spt2{font-size:12px;color:var(--muted);}
+.snote{font-size:10px;color:rgba(255,255,255,.25);margin-top:4px;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.ecols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1–A2 · Lição 02</div>
+  <h1>
+    <span style="color:var(--ME)">ME</span>&nbsp;
+    <span style="color:var(--YOU)">YOU</span>&nbsp;
+    <span style="color:var(--HIM)">HIM</span>&nbsp;
+    <span style="color:var(--HER)">HER</span>&nbsp;
+    <span style="color:var(--IT)">IT</span>&nbsp;
+    <span style="color:var(--US)">US</span>&nbsp;
+    <span style="color:var(--THEM)">THEM</span>
+  </h1>
+  <p class="subtitle">Pronomes Objeto — quem recebe a ação na frase. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="future">Futuro</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Frases similares para praticar</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- USO 1 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 1</span><h2 class="utitle">Pronomes objeto após <em>verbo</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t1"></tbody>
+  </table>
+  <div class="tip">💡 Pronomes objeto vêm DEPOIS do verbo — substituem o objeto (quem recebe a ação).</div>
+</section>
+
+<!-- USO 2 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 2</span><h2 class="utitle">Pronomes objeto após <em>preposição</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t2"></tbody>
+  </table>
+  <div class="warn">⚠️ Após preposição (for, with, to, about, at, near...) use SEMPRE pronome objeto — nunca sujeito: "for HIM" ✅ &nbsp;·&nbsp; "for HE" ❌</div>
+</section>
+
+<!-- USO 3 — Sujeito vs Objeto -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 3</span><h2 class="utitle">Sujeito vs <em>Objeto</em> — comparação direta</h2></div>
+  <table>
+    <thead><tr><th>Sujeito</th><th>Objeto</th><th>Como sujeito</th><th>Como objeto</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="ptag" style="color:var(--ME);background:#FF6B9D1a">I</span></td>
+        <td><span class="ptag" style="color:var(--ME);background:#FF6B9D1a">me</span></td>
+        <td class="ten"><strong>I</strong> called her.</td>
+        <td class="ten">She called <strong>me</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--YOU);background:#64B5F61a">you</span></td>
+        <td><span class="ptag" style="color:var(--YOU);background:#64B5F61a">you</span></td>
+        <td class="ten"><strong>You</strong> see me.</td>
+        <td class="ten">I see <strong>you</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--HIM);background:#FFAB401a">he</span></td>
+        <td><span class="ptag" style="color:var(--HIM);background:#FFAB401a">him</span></td>
+        <td class="ten"><strong>He</strong> loves her.</td>
+        <td class="ten">She loves <strong>him</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--HER);background:#F062921a">she</span></td>
+        <td><span class="ptag" style="color:var(--HER);background:#F062921a">her</span></td>
+        <td class="ten"><strong>She</strong> knows us.</td>
+        <td class="ten">We know <strong>her</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--US);background:#FF70431a">we</span></td>
+        <td><span class="ptag" style="color:var(--US);background:#FF70431a">us</span></td>
+        <td class="ten"><strong>We</strong> saw them.</td>
+        <td class="ten">They saw <strong>us</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="ptag" style="color:var(--THEM);background:#AB47BC1a">they</span></td>
+        <td><span class="ptag" style="color:var(--THEM);background:#AB47BC1a">them</span></td>
+        <td class="ten"><strong>They</strong> helped me.</td>
+        <td class="ten">I helped <strong>them</strong>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 O pronome MUDA de forma dependendo do papel na frase: I→me · he→him · she→her · we→us · they→them. Apenas YOU e IT ficam iguais nos dois papéis!</div>
+</section>
+
+<!-- USO 4 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 4</span><h2 class="utitle">Pronomes objeto no <em>dia a dia</em></h2></div>
+  <table>
+    <thead><tr><th>Expressão</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t4"></tbody>
+  </table>
+  <div class="tip">💡 Pronomes objeto aparecem em expressões fixíssimas do dia a dia. Aprenda-as como blocos prontos — não traduza palavra por palavra!</div>
+</section>
+
+<!-- ERRO CLÁSSICO -->
+<section class="uso">
+  <div class="uhead">
+    <span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">ATENÇÃO</span>
+    <h2 class="utitle">Erro clássico do brasileiro</h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px">Em português dizemos "ela me ligou" com o pronome antes do verbo. Em inglês o pronome objeto vem DEPOIS do verbo ou preposição.</p>
+  <div class="ecols">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ ERRADO</div>
+      <div class="esen" style="color:var(--warn)">She called I.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Pronome sujeito após verbo</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ CORRETO</div>
+      <div class="esen" style="color:var(--tip)">She called ME.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Pronome objeto após verbo</p>
+    </div>
+  </div>
+  <div class="ecols" style="margin-top:14px">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ ERRADO</div>
+      <div class="esen" style="color:var(--warn)">This is for he.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Pronome sujeito após preposição</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ CORRETO</div>
+      <div class="esen" style="color:var(--tip)">This is for HIM.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Pronome objeto após preposição</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todos os pronomes objeto</h2></div>
+  <div class="sgrid">
+    <div class="scard"><span class="sen2" style="color:var(--ME)">ME</span><div class="spt2">MIM / ME</div><div class="snote">← I</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--YOU)">YOU</span><div class="spt2">TE / VOCÊ</div><div class="snote">não muda!</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--HIM)">HIM</span><div class="spt2">ELE (objeto)</div><div class="snote">← HE</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--HER)">HER</span><div class="spt2">ELA (objeto)</div><div class="snote">← SHE</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--IT)">IT</span><div class="spt2">ISSO / ELE / ELA</div><div class="snote">não muda!</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--US)">US</span><div class="spt2">NÓS / NOS</div><div class="snote">← WE</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--THEM)">THEM</span><div class="spt2">ELES / ELAS</div><div class="snote">← THEY</div></div>
+  </div>
+  <div class="warn" style="margin-top:20px">🔑 Regra de ouro: após verbo ou preposição → use SEMPRE pronome OBJETO. Nunca pronome sujeito nessa posição!</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1–A2 · Lição 02: Pronomes Objeto</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const PD = {
+  ME:{pt:'MIM / ME',hex:'#FF6B9D',col:0xFF6B9D,
+    desc:'Pronome objeto de "I". Vem DEPOIS do verbo ou preposição — nunca como sujeito da frase. O mais comum dos pronomes objeto no cotidiano!',
+    rule:'⚡ "She called I" é ERRADO. "She called ME" é CORRETO. Após verbo ou preposição, sempre use o pronome objeto!',
+    s:{present:{en:'She calls me every day.',pt:'Ela me liga todo dia.',ctx:'💬 ME vem direto após "calls". Substituiu o nome de quem recebe a chamada. Note: em inglês o pronome SEMPRE vem depois!'},
+       past:{en:"He didn't see me at the party.",pt:'Ele não me viu na festa.',ctx:'💬 ME após o verbo "see" no passado. O objeto vem antes da expressão de lugar.'},
+       future:{en:'Will you wait for me?',pt:'Você vai me esperar?',ctx:'💬 ME após a preposição "for". Preposição + pronome objeto — sempre assim!'}},
+    sim:[{en:'Tell me everything.',pt:'Me conta tudo.'},{en:'Come with me.',pt:'Vem comigo.'},{en:'Give me a minute.',pt:'Me dá um minuto.'}]},
+
+  YOU:{pt:'TE / LHE / VOCÊ',hex:'#64B5F6',col:0x64B5F6,
+    desc:'YOU não muda! É o único pronome (junto com IT) com a mesma forma como sujeito E como objeto. Vida facilitada — você já sabe como usar!',
+    rule:'⚡ "I need YOU" (objeto) e "YOU need me" (sujeito) — mesma palavra, papel diferente. Fácil!',
+    s:{present:{en:'I need you here.',pt:'Eu preciso de você aqui.',ctx:'💬 YOU após "need". Expressão de necessidade direta e emocional — muito comum no dia a dia.'},
+       past:{en:'I saw you at the market.',pt:'Eu te vi no mercado.',ctx:'💬 YOU após "saw". Contando um encontro passado. Você = objeto de "ver".'},
+       future:{en:'I will call you tonight.',pt:'Eu vou te ligar hoje à noite.',ctx:'💬 YOU após "call". Promessa ou plano de futuro contato.'}},
+    sim:[{en:'I miss you.',pt:'Sinto sua falta.'},{en:'I love you.',pt:'Eu te amo.'},{en:"I'll text you later.",pt:'Vou te mandar mensagem depois.'}]},
+
+  HIM:{pt:'ELE (objeto)',hex:'#FFAB40',col:0xFFAB40,
+    desc:'Pronome objeto de "HE". Em inglês, o masculino objeto tem forma própria — diferente do sujeito HE. Essa distinção não existe em português!',
+    rule:'⚡ HE → HIM quando recebe a ação. "I saw HE" = ERRADO. "I saw HIM" = CORRETO.',
+    s:{present:{en:'I saw him at the store.',pt:'Eu o vi na loja.',ctx:'💬 HIM após "saw". Substituiu o nome do rapaz — evita repetição desnecessária na frase.'},
+       past:{en:'She called him last night.',pt:'Ela ligou para ele ontem à noite.',ctx:'💬 HIM após "called". Relatando o que aconteceu com um terceiro masculino.'},
+       future:{en:'Are you going to tell him?',pt:'Você vai contar para ele?',ctx:'💬 HIM como objeto do verbo "tell". Planejando uma conversa futura.'}},
+    sim:[{en:'She is angry at him.',pt:'Ela está brava com ele.'},{en:'Give him a chance.',pt:'Dê uma chance a ele.'},{en:"I don't know him.",pt:'Eu não o conheço.'}]},
+
+  HER:{pt:'ELA (objeto)',hex:'#F06292',col:0xF06292,
+    desc:'Pronome objeto de "SHE". Atenção: HER também é pronome possessivo (her book = o livro dela). O contexto sempre deixa claro qual é qual!',
+    rule:'⚡ SHE → HER quando recebe a ação. "I love SHE" = ERRADO. "I love HER" = CORRETO.',
+    s:{present:{en:'Do you know her?',pt:'Você a conhece?',ctx:'💬 HER após "know". Perguntando sobre uma terceira pessoa. Natural, direto, muito usado.'},
+       past:{en:'I called her this morning.',pt:'Eu liguei para ela esta manhã.',ctx:'💬 HER após "called". Relatando contato feito mais cedo.'},
+       future:{en:'Can you help her?',pt:'Você pode ajudá-la?',ctx:'💬 HER como objeto de "help". Pedindo ajuda para outra pessoa.'}},
+    sim:[{en:"I'm worried about her.",pt:'Estou preocupado com ela.'},{en:'Give her the message.',pt:'Passa a mensagem para ela.'},{en:'I met her at work.',pt:'Eu a conheci no trabalho.'}]},
+
+  IT:{pt:'ISSO / ELE / ELA (coisa)',hex:'#66BB6A',col:0x66BB6A,
+    desc:'Pronome objeto de "IT" — para coisas, objetos e situações. IT não muda de forma entre sujeito e objeto, assim como YOU!',
+    rule:'⚡ IT não muda! "I bought IT" (objeto) e "IT is expensive" (sujeito) — mesma palavra em ambos os papéis.',
+    s:{present:{en:"I don't believe it.",pt:'Eu não acredito nisso.',ctx:'💬 IT após "believe". Reação a uma notícia ou situação. Muitíssimo usado no cotidiano!'},
+       past:{en:'I lost it yesterday.',pt:'Eu o/a perdi ontem.',ctx:'💬 IT após "lost". Falando de um objeto sem precisar repetir seu nome.'},
+       future:{en:'I will fix it tomorrow.',pt:'Eu vou consertar isso amanhã.',ctx:'💬 IT após "fix". Prometendo resolver algo — "it" substitui o problema ou objeto.'}},
+    sim:[{en:'Turn it off.',pt:'Desligue isso.'},{en:"I'll think about it.",pt:'Vou pensar sobre isso.'},{en:'Did you see it?',pt:'Você o/a viu?'}]},
+
+  US:{pt:'NÓS / NOS',hex:'#FF7043',col:0xFF7043,
+    desc:'Pronome objeto de "WE". Quando o grupo — incluindo você — recebe a ação. US sempre inclui quem está falando!',
+    rule:'⚡ WE → US quando o grupo recebe a ação. "Call WE" = ERRADO. "Call US" = CORRETO.',
+    s:{present:{en:'Can you help us?',pt:'Você pode nos ajudar?',ctx:'💬 US após "help". Pedido de ajuda em nome do grupo. Muito natural e cortês no inglês!'},
+       past:{en:"They didn't invite us.",pt:'Eles não nos convidaram.',ctx:'💬 US após "invite". Falando sobre uma exclusão do grupo no passado.'},
+       future:{en:'Will you wait for us?',pt:'Você vai nos esperar?',ctx:'💬 US após a preposição "for". O grupo todo pede que alguém aguarde.'}},
+    sim:[{en:'Come with us!',pt:'Vem com a gente!'},{en:'They saw us.',pt:'Eles nos viram.'},{en:'Give us a chance.',pt:'Nos dê uma chance.'}]},
+
+  THEM:{pt:'ELES / ELAS',hex:'#AB47BC',col:0xAB47BC,
+    desc:'Pronome objeto de "THEY". Para grupos que não incluem você — eles recebem a ação. Serve para masculino, feminino ou misto!',
+    rule:'⚡ THEY → THEM quando o grupo recebe a ação. "I like THEY" = ERRADO. "I like THEM" = CORRETO.',
+    s:{present:{en:"I don't like them.",pt:'Eu não gosto deles/delas.',ctx:'💬 THEM após "like". Expressando desagrado sobre um grupo. Direto e claro!'},
+       past:{en:'I helped them yesterday.',pt:'Eu os ajudei ontem.',ctx:'💬 THEM após "helped". Contando sobre ajuda prestada a um grupo.'},
+       future:{en:'Are you going to call them?',pt:'Você vai ligar para eles?',ctx:'💬 THEM após "call". Perguntando sobre plano de contato futuro.'}},
+    sim:[{en:'She lives near them.',pt:'Ela mora perto deles.'},{en:'Tell them the truth.',pt:'Conta a verdade para eles.'},{en:'I miss them.',pt:'Sinto falta deles.'}]}
+};
+
+// ── TABLES ───────────────────────────────────────────────────────────────────
+const rows = {
+  t1:[['ME','She called me this morning.','Ela me ligou esta manhã.'],
+      ['YOU','I need you here.','Eu preciso de você aqui.'],
+      ['HIM','I saw him at the store.','Eu o vi na loja.'],
+      ['HER','Do you know her?','Você a conhece?'],
+      ['IT','I lost it.','Eu o/a perdi.'],
+      ['US','Can you help us?','Você pode nos ajudar?'],
+      ['THEM',"I don't like them.",'Eu não gosto deles/delas.']],
+  t2:[['ME','This gift is for me.','Esse presente é para mim.'],
+      ['YOU',"I'm talking to you.",'Estou falando com você.'],
+      ['HIM','She is angry at him.','Ela está brava com ele.'],
+      ['HER',"I'm worried about her.",'Estou preocupado com ela.'],
+      ['IT',"I'm not interested in it.",'Não estou interessado nisso.'],
+      ['US','Wait for us!','Espere por nós!'],
+      ['THEM','She lives near them.','Ela mora perto deles.']],
+  t4:[['me too',"— I'm tired. — Me too.",'— Estou cansado. — Eu também.'],
+      ['tell me','Tell me everything.','Me conta tudo.'],
+      ['help me','Can you help me?','Você pode me ajudar?'],
+      ['miss you','I miss you so much.','Sinto muito sua falta.'],
+      ['love you','I love you.','Eu te amo.'],
+      ['with me','Come with me.','Vem comigo.'],
+      ['call them','Please call them now.','Por favor, ligue para eles agora.']]
+};
+
+const lc = {ME:'me',YOU:'you',HIM:'him',HER:'her',IT:'it',US:'us',THEM:'them'};
+
+function fillTable(id, data) {
+  const tbody = document.getElementById(id);
+  data.forEach(([key, en, pt]) => {
+    const d = PD[key];
+    const word = lc[key] || key.toLowerCase();
+    const hl = en.replace(new RegExp('\\b' + word + '\\b', 'gi'), m => `<strong>${m}</strong>`);
+    tbody.innerHTML += `<tr>
+      <td><span class="ptag" style="color:${d.hex};background:${d.hex}1a">${key}</span></td>
+      <td class="ten">${hl}</td><td class="tpt">${pt}</td></tr>`;
+  });
+}
+function fillT4() {
+  const tbody = document.getElementById('t4');
+  rows.t4.forEach(([expr, en, pt]) => {
+    tbody.innerHTML += `<tr>
+      <td><span class="ptag" style="color:var(--accent);background:rgba(245,197,24,.1)">${expr}</span></td>
+      <td class="ten">${en}</td><td class="tpt">${pt}</td></tr>`;
+  });
+}
+fillTable('t1', rows.t1);
+fillTable('t2', rows.t2);
+fillT4();
+
+// ── HERO THREE.JS ─────────────────────────────────────────────────────────────
+const hCanvas = document.getElementById('heroCanvas');
+const hScene  = new THREE.Scene();
+const hCam    = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+hCam.position.set(0, 3.2, 11);
+hCam.lookAt(0, 0.5, 0);
+const hRend = new THREE.WebGLRenderer({canvas: hCanvas, antialias: true, alpha: true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+hRend.setClearColor(0x000000, 0);
+
+function resizeHero() {
+  const w = hCanvas.parentElement.clientWidth, h = 440;
+  hRend.setSize(w, h); hCam.aspect = w/h; hCam.updateProjectionMatrix();
+}
+resizeHero();
+window.addEventListener('resize', resizeHero);
+
+const hCtrl = new THREE.OrbitControls(hCam, hRend.domElement);
+hCtrl.enableDamping = true; hCtrl.dampingFactor = .05;
+hCtrl.autoRotate = true; hCtrl.autoRotateSpeed = 0.4;
+hCtrl.minDistance = 7; hCtrl.maxDistance = 17; hCtrl.enablePan = false;
+
+hScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const hDir = new THREE.DirectionalLight(0xffffff, 0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(22, 22, 0x182030, 0x182030));
+
+function mkChar(color, scale) {
+  scale = scale || 1;
+  const g = new THREE.Group();
+  const m = function(c) { return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.22}); };
+  const head = new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16), m(color));
+  head.position.y = 1.48*scale; g.add(head);
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8), m(color));
+  body.position.y = .82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(pair) {
+    const a = new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8), m(color));
+    a.rotation.z = pair[1]; a.position.set(pair[0]*scale,.93*scale,0); g.add(a);
+  });
+  [-.16,.16].forEach(function(x) {
+    const l = new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8), m(color));
+    l.position.set(x*scale,.06*scale,0); g.add(l);
+  });
+  const pl = new THREE.PointLight(color, .5, 3*scale); pl.position.y = .5*scale; g.add(pl);
+  return g;
+}
+
+// Central sender character (gold)
+const sender = mkChar(0xF5C518, 1);
+sender.position.set(0, 0, 0);
+hScene.add(sender);
+
+// Sender label
+const senderLbl = document.createElement('div');
+senderLbl.className = 'hlabel';
+senderLbl.style.color = '#F5C518';
+senderLbl.style.borderColor = '#F5C518';
+senderLbl.textContent = 'SOMEONE →';
+document.getElementById('heroOverlay').appendChild(senderLbl);
+
+// Connection beams (lines from center to each outer char)
+const beamMat = new THREE.LineBasicMaterial({transparent:true, opacity:.3});
+
+const keys = Object.keys(PD);
+const hChars = [], labelData = [];
+
+keys.forEach(function(k, i) {
+  const a = (i / keys.length) * Math.PI * 2 - Math.PI / 2;
+  const r = 4.0;
+  const x = Math.cos(a) * r, z = Math.sin(a) * r;
+  const c = mkChar(PD[k].col);
+  c.position.set(x, 0, z);
+  c.lookAt(0, c.position.y, 0);
+
+  // ring under feet
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(.5,.05,8,32),
+    new THREE.MeshPhongMaterial({color:PD[k].col,emissive:PD[k].col,emissiveIntensity:.4})
+  );
+  ring.rotation.x = Math.PI/2; ring.position.y = -.4; c.add(ring);
+  hScene.add(c);
+  hChars.push({mesh:c, key:k});
+
+  // beam from center to character
+  const pts = [new THREE.Vector3(0,0.8,0), new THREE.Vector3(x*.7, 0.8, z*.7)];
+  const beamGeo = new THREE.BufferGeometry().setFromPoints(pts);
+  const bm = new THREE.LineBasicMaterial({color:PD[k].col, transparent:true, opacity:.25});
+  hScene.add(new THREE.Line(beamGeo, bm));
+
+  // HTML label
+  const el = document.createElement('div');
+  el.className = 'hlabel';
+  el.style.color = PD[k].hex;
+  el.style.borderColor = PD[k].hex;
+  el.textContent = k + ' = ' + PD[k].pt;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el: el, mesh: c});
+});
+
+// Build nav
+const nav = document.getElementById('pnav');
+keys.forEach(function(k) {
+  const d = PD[k], b = document.createElement('button');
+  b.className = 'pbtn'; b.dataset.p = k;
+  b.style.color = d.hex; b.style.borderColor = d.hex;
+  b.textContent = k + ' — ' + d.pt;
+  b.addEventListener('click', function() { openPronoun(k); });
+  nav.appendChild(b);
+});
+
+function updateLabels() {
+  const w = hCanvas.clientWidth, h = 440;
+  // sender label
+  const sp = new THREE.Vector3(); sender.getWorldPosition(sp);
+  sp.y += 2.1; sp.project(hCam);
+  const sx = (sp.x*.5+.5)*w, sy = (-sp.y*.5+.5)*h;
+  senderLbl.style.left = sx+'px'; senderLbl.style.top = sy+'px';
+  senderLbl.style.opacity = sp.z < 1 ? '1' : '0';
+  // outer chars
+  labelData.forEach(function(ld) {
+    const pos = new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y += 2.1; pos.project(hCam);
+    const x = (pos.x*.5+.5)*w, y = (-pos.y*.5+.5)*h;
+    ld.el.style.left = x+'px'; ld.el.style.top = y+'px';
+    ld.el.style.opacity = pos.z < 1 ? '1' : '0';
+  });
+}
+
+// Raycaster for clicks
+const ray = new THREE.Raycaster(), mPos = new THREE.Vector2();
+hCanvas.addEventListener('click', function(e) {
+  const r = hCanvas.getBoundingClientRect();
+  mPos.x = ((e.clientX-r.left)/r.width)*2-1;
+  mPos.y = -((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos, hCam);
+  hChars.forEach(function(c) {
+    const ch = []; c.mesh.traverse(function(m) { if(m.isMesh) ch.push(m); });
+    if(ray.intersectObjects(ch).length > 0) openPronoun(c.key);
+  });
+});
+
+let hT = 0;
+function animHero() {
+  requestAnimationFrame(animHero);
+  hT += .01; hCtrl.update();
+  hChars.forEach(function(c, i) { c.mesh.position.y = Math.sin(hT + i*.9)*.12; });
+  sender.position.y = Math.sin(hT * 1.3) * .08;
+  updateLabels();
+  hRend.render(hScene, hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+const dCanvas = document.getElementById('dCanvas');
+const dScene  = new THREE.Scene();
+const dCam    = new THREE.PerspectiveCamera(52, 360/300, 0.1, 100);
+dCam.position.set(0, 2, 6.5); dCam.lookAt(0, .5, 0);
+const dRend   = new THREE.WebGLRenderer({canvas:dCanvas, antialias:true, alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+dRend.setSize(360, 300); dRend.setClearColor(0x080c14, 1);
+
+const dCtrl = new THREE.OrbitControls(dCam, dRend.domElement);
+dCtrl.enableDamping = true; dCtrl.dampingFactor = .05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+
+let dAmb = new THREE.AmbientLight(0xffffff,.45);
+let dDir2 = new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+let dPL = new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb, dDir2, dPL);
+
+let dObjs = [], dParts = null, curP = null, dT = 0;
+let dArrows = []; // particles flowing sender→receiver
+
+function clearD() {
+  while(dScene.children.length) dScene.remove(dScene.children[0]);
+  dScene.add(dAmb, dDir2, dPL);
+  dObjs = []; dParts = null; dArrows = [];
+}
+function floor(col) {
+  col = col || 0x080c14;
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(12,12),
+    new THREE.MeshPhongMaterial({color:col}));
+  f.rotation.x = -Math.PI/2; f.position.y = -.5; dScene.add(f);
+}
+function particles(col, count, spread, yMin, yMax) {
+  count = count||60; spread = spread||4; yMin=yMin||.5; yMax=yMax||3.5;
+  const geo = new THREE.BufferGeometry(), pos=[], cols=[];
+  const c = new THREE.Color(col);
+  for(var i=0;i<count;i++){
+    pos.push((Math.random()-.5)*spread, yMin+Math.random()*(yMax-yMin), (Math.random()-.5)*spread);
+    cols.push(c.r,c.g,c.b);
+  }
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
+  dParts = new THREE.Points(geo, new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+function arrowFlow(color, fromX, toX, y) {
+  // animated dots moving from sender to receiver
+  const count = 20;
+  const geo = new THREE.BufferGeometry(), pos=[];
+  const c = new THREE.Color(color);
+  const cols=[];
+  for(var i=0;i<count;i++){
+    var t = i/count;
+    pos.push(fromX + (toX-fromX)*t, y+.5, 0);
+    cols.push(c.r,c.g,c.b);
+  }
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({size:.08,vertexColors:true}));
+  dScene.add(pts);
+  dArrows.push({pts:pts, fromX:fromX, toX:toX, y:y, color:color});
+}
+
+// buildME: Phone scene — sender calls ME
+function buildME() {
+  dPL.color.set(0xFF6B9D); floor();
+  // sender (gold) on left
+  const snd = mkChar(0xF5C518,.9); snd.position.set(-1.8,-.5,0); snd.rotation.y = .6; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  // phone icon on sender's hand area (small box)
+  const ph1 = new THREE.Mesh(new THREE.BoxGeometry(.18,.28,.06),
+    new THREE.MeshPhongMaterial({color:0x222222}));
+  ph1.position.set(-.4,.7,0); snd.add(ph1);
+  dObjs.push({m:ph1,type:'float',baseY:.7,off:.3});
+  // ME character (pink) on right, receiving
+  const me = mkChar(0xFF6B9D,1.05); me.position.set(1.5,-.5,0); me.rotation.y = -Math.PI/2-.4; dScene.add(me);
+  dObjs.push({m:me,type:'sway',off:.5});
+  // ring glow under ME
+  const gr = new THREE.Mesh(new THREE.TorusGeometry(.55,.06,8,32),
+    new THREE.MeshPhongMaterial({color:0xFF6B9D,emissive:0xFF6B9D,emissiveIntensity:.5}));
+  gr.rotation.x = Math.PI/2; gr.position.set(1.5,-.48,0); dScene.add(gr);
+  dObjs.push({m:gr,type:'pulse',baseY:-.48});
+  arrowFlow(0xFF6B9D, -1.0, 1.0, 0.8);
+  particles(0xFF6B9D,40,3,.3,2.5);
+}
+
+// buildYOU: Conversation — eye contact, heart between
+function buildYOU() {
+  dPL.color.set(0x64B5F6); floor();
+  const snd = mkChar(0xF5C518,.9); snd.position.set(-1.5,-.5,0); snd.rotation.y = .5; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  const you = mkChar(0x64B5F6,1.05); you.position.set(1.5,-.5,0); you.rotation.y = -Math.PI/2-.4; dScene.add(you);
+  dObjs.push({m:you,type:'sway',off:.6});
+  // heart floating between
+  const heart = new THREE.Mesh(new THREE.SphereGeometry(.22,16,16),
+    new THREE.MeshPhongMaterial({color:0xff2255,emissive:0xff2255,emissiveIntensity:.6}));
+  heart.position.set(0,2.1,0); dScene.add(heart); dObjs.push({m:heart,type:'pulse',baseY:2.1,off:0});
+  // speech bubble ring
+  const bub = new THREE.Mesh(new THREE.TorusGeometry(.4,.05,8,32),
+    new THREE.MeshPhongMaterial({color:0x64B5F6,emissive:0x64B5F6,emissiveIntensity:.35}));
+  bub.position.set(1.5,2.4,0); dScene.add(bub); dObjs.push({m:bub,type:'float',baseY:2.4,off:.7});
+  particles(0x64B5F6,50,4,.3,2.8);
+}
+
+// buildHIM: HIM apart — sender points at him
+function buildHIM() {
+  dPL.color.set(0xFFAB40); floor();
+  const snd = mkChar(0xFF6B9D,.85); snd.position.set(-1.8,-.5,.4); snd.rotation.y = .7; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  const him = mkChar(0xFFAB40,1.05); him.position.set(1.5,-.5,0); him.rotation.y = -.3; dScene.add(him);
+  dObjs.push({m:him,type:'sway',off:.5});
+  // spotlight on HIM
+  const spot = new THREE.SpotLight(0xFFAB40, 2, 8, Math.PI/6, .5);
+  spot.position.set(1.5, 6, 1); spot.target.position.set(1.5, 0, 0); dScene.add(spot); dScene.add(spot.target);
+  // badge ring
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(.55,.06,8,32),
+    new THREE.MeshPhongMaterial({color:0xFFAB40,emissive:0xFFAB40,emissiveIntensity:.45}));
+  ring.rotation.x = Math.PI/2; ring.position.set(1.5,-.48,0); dScene.add(ring);
+  dObjs.push({m:ring,type:'pulse',baseY:-.48,off:.3});
+  arrowFlow(0xFFAB40,-1.0,1.0,1.0);
+  particles(0xFFAB40,40,3,.3,2.5);
+}
+
+// buildHER: HER highlighted — sender looks at her
+function buildHER() {
+  dPL.color.set(0xF06292); floor();
+  const snd = mkChar(0x64B5F6,.85); snd.position.set(-1.8,-.5,.4); snd.rotation.y = .7; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  const her = mkChar(0xF06292,1.05); her.position.set(1.5,-.5,0); her.rotation.y = -.3; dScene.add(her);
+  dObjs.push({m:her,type:'sway',off:.5});
+  // floating star above HER
+  const star = new THREE.Mesh(new THREE.SphereGeometry(.18,8,8),
+    new THREE.MeshPhongMaterial({color:0xF06292,emissive:0xF06292,emissiveIntensity:.7}));
+  star.position.set(1.5,2.4,0); dScene.add(star); dObjs.push({m:star,type:'float',baseY:2.4,off:.2});
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(.55,.06,8,32),
+    new THREE.MeshPhongMaterial({color:0xF06292,emissive:0xF06292,emissiveIntensity:.45}));
+  ring.rotation.x = Math.PI/2; ring.position.set(1.5,-.48,0); dScene.add(ring);
+  dObjs.push({m:ring,type:'pulse',baseY:-.48});
+  arrowFlow(0xF06292,-1.0,1.0,1.0);
+  particles(0xF06292,40,3,.3,2.5);
+}
+
+// buildIT: Character examines object (box = IT)
+function buildIT() {
+  dPL.color.set(0x66BB6A); floor(0x050a0c);
+  const snd = mkChar(0xF5C518,.95); snd.position.set(-.8,-.5,0); snd.rotation.y = .2; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  // the object IT = glowing box
+  const box = new THREE.Mesh(new THREE.BoxGeometry(.55,.55,.55),
+    new THREE.MeshPhongMaterial({color:0x66BB6A,emissive:0x66BB6A,emissiveIntensity:.35}));
+  box.position.set(1.4,.8,0); dScene.add(box); dObjs.push({m:box,type:'spinY'});
+  // glow ring around object
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),
+    new THREE.MeshPhongMaterial({color:0x66BB6A,emissive:0x66BB6A,emissiveIntensity:.55}));
+  ring.position.set(1.4,.8,0); ring.rotation.x = Math.PI/2; dScene.add(ring);
+  dObjs.push({m:ring,type:'pulse',baseY:.8,off:.5});
+  arrowFlow(0x66BB6A,-.2,1.0,.8);
+  particles(0x66BB6A,50,3,.3,2.5);
+}
+
+// buildUS: sender faces 2 US-colored chars
+function buildUS() {
+  dPL.color.set(0xFF7043); floor();
+  const snd = mkChar(0xF5C518,.85); snd.position.set(-2,-.5,0); snd.rotation.y = .6; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  // US group (2 chars + me)
+  const c1 = mkChar(0xFF7043,.95); c1.position.set(.9,-.5,.7); c1.rotation.y = -Math.PI/2-.3; dScene.add(c1); dObjs.push({m:c1,type:'sway',off:.4});
+  const c2 = mkChar(0xFF5722,.95); c2.position.set(1.2,-.5,-.6); c2.rotation.y = -Math.PI/2+.3; dScene.add(c2); dObjs.push({m:c2,type:'sway',off:.9});
+  // ring around group
+  const gr = new THREE.Mesh(new THREE.TorusGeometry(1.1,.05,8,32),
+    new THREE.MeshPhongMaterial({color:0xFF7043,emissive:0xFF7043,emissiveIntensity:.4}));
+  gr.rotation.x = Math.PI/2; gr.position.set(1.0,-.48,0); dScene.add(gr);
+  dObjs.push({m:gr,type:'pulse',baseY:-.48,off:.2});
+  arrowFlow(0xFF7043,-1.2,.5,.8);
+  particles(0xFF7043,45,3,.3,2.5);
+}
+
+// buildTHEM: sender looks at group of THEM (3 chars)
+function buildTHEM() {
+  dPL.color.set(0xAB47BC); floor();
+  const snd = mkChar(0xF5C518,.85); snd.position.set(-2,-.5,0); snd.rotation.y = .5; dScene.add(snd);
+  dObjs.push({m:snd,type:'sway',off:0});
+  const cols=[0xAB47BC,0x9C27B0,0xCE93D8];
+  const positions=[[.9,-.5,.7],[1.4,-.5,-.1],[.8,-.5,-.8]];
+  cols.forEach(function(c,i){
+    const ch=mkChar(c,.9); ch.position.set(positions[i][0],positions[i][1],positions[i][2]);
+    ch.rotation.y = -Math.PI/2+(Math.random()-.5)*.4; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.5});
+    const bub=new THREE.Mesh(new THREE.SphereGeometry(.15,10,10),
+      new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.4,transparent:true,opacity:.7}));
+    bub.position.set(positions[i][0]+.2,1.9,positions[i][2]); dScene.add(bub);
+    dObjs.push({m:bub,type:'float',baseY:1.9,off:i*.4});
+  });
+  // envelope ring around the group
+  const gr = new THREE.Mesh(new THREE.TorusGeometry(1.2,.05,8,32),
+    new THREE.MeshPhongMaterial({color:0xAB47BC,emissive:0xAB47BC,emissiveIntensity:.4}));
+  gr.rotation.x = Math.PI/2; gr.position.set(1.0,-.48,0); dScene.add(gr);
+  dObjs.push({m:gr,type:'pulse',baseY:-.48,off:.1});
+  arrowFlow(0xAB47BC,-1.2,.5,.8);
+  particles(0xAB47BC,50,4,.3,2.8);
+}
+
+const builders = {ME:buildME,YOU:buildYOU,HIM:buildHIM,HER:buildHER,IT:buildIT,US:buildUS,THEM:buildTHEM};
+
+function animDetail() {
+  requestAnimationFrame(animDetail);
+  dT += .016; dCtrl.update();
+  dObjs.forEach(function(o) {
+    var off = o.off||0, by = o.baseY||0;
+    switch(o.type) {
+      case 'sway':  o.m.rotation.y = off + Math.sin(dT*.8+off)*.15; break;
+      case 'float': o.m.position.y = by + Math.sin(dT*1.2+off)*.11; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2+off)*.1); o.m.position.y=by+Math.sin(dT*1.5)*.08; break;
+      case 'spinY': o.m.rotation.y += .008; break;
+    }
+  });
+  if(dParts) dParts.rotation.y += .003;
+  // animate arrow flows
+  dArrows.forEach(function(ar) {
+    var pa = ar.pts.geometry.attributes.position;
+    for(var i=0;i<pa.count;i++){
+      var x = pa.getX(i) + .04;
+      if(x > ar.toX) x = ar.fromX;
+      pa.setX(i, x);
+    }
+    pa.needsUpdate=true;
+  });
+  dRend.render(dScene, dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense = 'present';
+
+function openPronoun(k) {
+  curP = k;
+  var d = PD[k];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent = k;
+  document.getElementById('dPron').style.color = d.hex;
+  document.getElementById('dPt').textContent = d.pt;
+  document.getElementById('dDesc').textContent = d.desc;
+  document.getElementById('dRule').textContent = d.rule;
+  updateSent(k, selTense);
+  var sl = document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){ sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>'; });
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis = b.dataset.p===k;
+    b.classList.toggle('active', isThis);
+    b.style.backgroundColor = isThis ? PD[b.dataset.p].hex : 'transparent';
+    b.style.color = isThis ? '#080c14' : PD[b.dataset.p].hex;
+  });
+  clearD(); builders[k]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateSent(k, tense) {
+  var d = PD[k], s = d.s[tense];
+  var word = lc[k];
+  var hl = s.en.replace(new RegExp('\\b'+word+'\\b','gi'),
+    function(m){ return '<span style="color:'+d.hex+';font-weight:800">'+m+'</span>'; });
+  document.getElementById('sEn').innerHTML = hl;
+  document.getElementById('sPt').textContent = s.pt;
+  document.getElementById('sCtx').textContent = s.ctx;
+}
+
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+    t.classList.add('on'); selTense = t.dataset.t;
+    if(curP) updateSent(curP, selTense);
+  });
+});
+
+setTimeout(function(){ openPronoun('ME'); }, 600);
+</script>
+</body>
+</html>

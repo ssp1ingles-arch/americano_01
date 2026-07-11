@@ -1,0 +1,698 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 1 — Frases Crescentes · Sistema 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;--sf3:#1c2a3e;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --cy:#64DFDF;--am:#F5C518;--gn:#5FD87A;--rd:#f87171;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);border-color:rgba(100,223,223,.6);}
+.gnav-s1.active{color:#64DFDF;border-color:#64DFDF;background:rgba(100,223,223,.12);box-shadow:0 0 10px rgba(100,223,223,.2);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.55);}
+.gnav-s2.active{color:#F5C518;border-color:#F5C518;background:rgba(245,197,24,.1);box-shadow:0 0 10px rgba(245,197,24,.2);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.6);}
+.gnav-s3.active{color:#A78BFA;border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* PARTICLES */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.p{position:absolute;border-radius:50%;background:var(--cy);opacity:0;}
+@keyframes float-p{0%,100%{transform:translateY(0) scale(1);opacity:0;}10%{opacity:.15;}90%{opacity:.08;}50%{transform:translateY(-40px) scale(1.1);}}
+
+/* NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--cy);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.8;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;transition:opacity .2s;}.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);}
+.nav-sub{font-size:.75rem;color:var(--td);}
+.nav-progress{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+.nav-prog-bar{width:120px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.nav-prog-fill{height:100%;background:var(--cy);border-radius:3px;transition:width .5s ease;}
+.nav-prog-label{font-size:.72rem;color:var(--td);white-space:nowrap;}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh;padding-top:108px;position:relative;z-index:1;}
+
+/* SIDEBAR */
+.sidebar{width:280px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--bd);padding:1.25rem .9rem;overflow-y:auto;height:calc(100vh - 108px);position:sticky;top:108px;}
+.sidebar-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.85rem;padding:0 .3rem;}
+.cat-group{margin-bottom:1.1rem;}
+.cat-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);padding:.2rem .5rem;margin-bottom:.3rem;}
+.sit-btn{width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:.55rem;padding:.6rem .75rem;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.6rem;}
+.sit-btn:hover{background:var(--sf2);border-color:var(--bd);}
+.sit-btn.active{background:rgba(100,223,223,.08);border-color:rgba(100,223,223,.3);}
+.sit-btn.done{opacity:.7;}
+.sit-icon{font-size:1rem;flex-shrink:0;}
+.sit-info{flex:1;min-width:0;}
+.sit-num{font-size:.63rem;color:var(--td);font-weight:600;}
+.sit-name{font-size:.82rem;color:var(--tx);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sit-check{flex-shrink:0;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--td);display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:all .2s;}
+.sit-btn.done .sit-check{background:var(--gn);border-color:var(--gn);color:#000;}
+.sit-btn.active .sit-name{color:var(--cy);}
+
+/* MAIN */
+.main{flex:1;padding:2.5rem 2rem;max-width:680px;}
+
+.sit-header{margin-bottom:2rem;}
+.cat-badge{display:inline-block;padding:.25rem .75rem;background:rgba(100,223,223,.1);border:1px solid rgba(100,223,223,.25);border-radius:2rem;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cy);margin-bottom:.75rem;}
+.sit-h2{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tx);margin-bottom:.5rem;}
+.layer-bar{display:flex;align-items:center;gap:.5rem;}
+.layer-dots{display:flex;gap:.3rem;}
+.ldot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .3s;}
+.ldot.done{background:var(--cy);}
+.ldot.current{background:var(--cy);box-shadow:0 0 6px var(--cy);}
+.layer-label{font-size:.78rem;color:var(--td);}
+
+/* SENTENCE DISPLAY */
+.sentence-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:2rem;margin:1.5rem 0;min-height:120px;position:relative;overflow:hidden;}
+.sentence-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(100,223,223,.04),transparent);pointer-events:none;}
+.sentence-text{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--tx);line-height:1.6;}
+.sentence-text .hl{color:var(--cy);position:relative;display:inline;}
+.sentence-text .hl::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--cy);opacity:.5;border-radius:1px;}
+@keyframes hl-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sentence-text .hl{animation:hl-in .35s ease forwards;}
+
+/* CONTROLS */
+.controls{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap;}
+.btn-next{background:var(--cy);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.7rem 1.5rem;border-radius:.6rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.btn-next:hover{opacity:.88;transform:translateY(-1px);}
+.btn-next:disabled{background:rgba(255,255,255,.1);color:var(--td);cursor:default;transform:none;}
+.btn-restart{background:none;border:1px solid var(--bd);color:var(--tm);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;padding:.7rem 1.2rem;border-radius:.6rem;cursor:pointer;transition:all .2s;}
+.btn-restart:hover{border-color:var(--bdh);color:var(--tx);}
+.btn-complete{background:var(--gn);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.7rem 1.5rem;border-radius:.6rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.btn-complete:hover{opacity:.88;}
+
+/* VOCAB */
+.vocab-sec{margin-bottom:1.75rem;}
+.sec-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.65rem;}
+.vocab-grid{display:flex;flex-wrap:wrap;gap:.4rem;}
+.vocab-chip{background:var(--sf2);border:1px solid var(--bd);border-radius:.45rem;padding:.35rem .7rem;display:flex;flex-direction:column;}
+.vc-en{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--cy);}
+.vc-pt{font-size:.7rem;color:var(--td);}
+
+/* SPOKEN */
+.spoken-sec{background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.spoken-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:.35rem;}
+.spoken-text{font-size:.88rem;color:var(--tm);line-height:1.6;}
+.spoken-text em{color:var(--am);font-style:normal;font-weight:600;}
+
+/* COMPLETE OVERLAY */
+.complete-overlay{display:none;position:absolute;inset:0;background:linear-gradient(135deg,rgba(95,216,122,.06),rgba(100,223,223,.04));border-radius:.95rem;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem;}
+.complete-overlay.show{display:flex;}
+.co-icon{font-size:2rem;margin-bottom:.25rem;}
+.co-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gn);}
+.co-sub{font-size:.82rem;color:var(--tm);}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .layout{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:static;padding:.75rem;overflow-x:auto;white-space:nowrap;border-right:none;border-bottom:1px solid var(--bd);}
+  .cat-group{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;margin-bottom:0;margin-right:.5rem;}
+  .cat-label{display:none;}
+  .sit-btn{display:inline-flex;width:auto;padding:.45rem .65rem;}
+  .sit-name{display:none;}
+  .main{padding:1.5rem 1rem;}
+  .sentence-text{font-size:1.1rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../index.html" class="gnav-btn gnav-s2 active">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 2</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Pilar 1 — Frases Crescentes</div>
+    <div class="nav-sub">Sistema 2 · Inglês Real do Dia a Dia</div>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-prog-bar"><div class="nav-prog-fill" id="navFill" style="width:0%"></div></div>
+    <span class="nav-prog-label" id="navLabel">0 / 20</span>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">20 Situações</div>
+    <div id="sitList"></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainArea">
+    <div class="sit-header">
+      <span class="cat-badge" id="catBadge">—</span>
+      <h2 class="sit-h2" id="sitTitle">Escolha uma situação</h2>
+      <div class="layer-bar">
+        <div class="layer-dots" id="layerDots"></div>
+        <span class="layer-label" id="layerLabel"></span>
+      </div>
+    </div>
+
+    <div class="sentence-card" id="sentCard">
+      <div class="sentence-text" id="sentText" style="color:var(--td);font-size:1rem;font-weight:400;">
+        Selecione uma situação no menu para começar.
+      </div>
+      <div class="complete-overlay" id="completeOverlay">
+        <div class="co-icon">✓</div>
+        <div class="co-title">Situação concluída!</div>
+        <div class="co-sub" id="coSub"></div>
+      </div>
+    </div>
+
+    <div class="controls" id="controls" style="display:none">
+      <button class="btn-next" id="btnNext">▶ Próxima camada</button>
+      <button class="btn-complete" id="btnComplete" style="display:none">✓ Marcar concluída</button>
+      <button class="btn-restart" id="btnRestart">↺ Reiniciar</button>
+    </div>
+
+    <div id="vocabSec" style="display:none">
+      <div class="vocab-sec">
+        <div class="sec-label">Vocabulário-chave</div>
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+    </div>
+
+    <div id="spokenSec" style="display:none">
+      <div class="spoken-sec">
+        <div class="spoken-label">Forma Falada</div>
+        <div class="spoken-text" id="spokenText"></div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const SITS = [
+  {id:1,cat:'Trabalho',icon:'💼',title:'Manhã no escritório',
+   layers:[
+    {t:'I work.',hl:'I work.'},
+    {t:'I work at an office.',hl:'at an office'},
+    {t:'I work at an office every day.',hl:'every day'},
+    {t:'I work at an office every day. I start at 9am.',hl:'I start at 9am.'},
+    {t:'I work at an office every day. I start at 9am and finish at 6pm.',hl:'and finish at 6pm'},
+    {t:"I work at an office every day. I start at 9am and finish at 6pm. I'm always tired on Fridays.",hl:"I'm always tired on Fridays."}
+   ],
+   vocab:[['work','trabalhar'],['office','escritório'],['start','começar'],['finish','terminar'],['tired','cansado'],['always','sempre']],
+   spoken:"I'm always tired → <em>aim always tired</em>"},
+
+  {id:2,cat:'Trabalho',icon:'📊',title:'Reunião',
+   layers:[
+    {t:'We have a meeting.',hl:'We have a meeting.'},
+    {t:'We have a meeting today.',hl:'today'},
+    {t:'We have a meeting today at 2pm.',hl:'at 2pm'},
+    {t:'We have a meeting today at 2pm. The boss is coming.',hl:'The boss is coming.'},
+    {t:'We have a meeting today at 2pm. The boss is coming. I need to prepare.',hl:'I need to prepare.'},
+    {t:'We have a meeting today at 2pm. The boss is coming. I need to prepare my presentation.',hl:'my presentation'}
+   ],
+   vocab:[['meeting','reunião'],['today','hoje'],['boss','chefe'],['coming','vindo'],['need','precisar'],['prepare','preparar'],['presentation','apresentação']],
+   spoken:"I need to → <em>I needa</em> · going to → <em>gonna</em>"},
+
+  {id:3,cat:'Trabalho',icon:'⚠️',title:'Problema no trabalho',
+   layers:[
+    {t:"There's a problem.",hl:"There's a problem."},
+    {t:"There's a problem at work.",hl:'at work'},
+    {t:"There's a problem at work with the system.",hl:'with the system'},
+    {t:"There's a problem at work with the system. It doesn't work.",hl:"It doesn't work."},
+    {t:"There's a problem at work with the system. It doesn't work. I called IT support",hl:'I called IT support'},
+    {t:"There's a problem at work with the system. It doesn't work. I called IT support but they didn't answer.",hl:"but they didn't answer."}
+   ],
+   vocab:[['problem','problema'],['system','sistema'],["doesn't work",'não funciona'],['called','liguei/chamei'],['support','suporte'],['answer','atender/responder']],
+   spoken:"there's a → <em>theres a</em> · didn't → <em>didnt</em>"},
+
+  {id:4,cat:'Compras',icon:'🛒',title:'Supermercado',
+   layers:[
+    {t:'I go shopping.',hl:'I go shopping.'},
+    {t:'I go shopping on Saturdays.',hl:'on Saturdays'},
+    {t:'I go shopping on Saturdays with my wife.',hl:'with my wife'},
+    {t:'I go shopping on Saturdays with my wife. We buy food for the week.',hl:'We buy food for the week.'},
+    {t:'I go shopping on Saturdays with my wife. We buy food for the week. The market is always crowded.',hl:'The market is always crowded.'},
+    {t:'I go shopping on Saturdays with my wife. We buy food for the week. The market is always crowded on weekends.',hl:'on weekends'}
+   ],
+   vocab:[['shopping','fazer compras'],['Saturdays','sábados'],['wife','esposa'],['buy','comprar'],['food','comida'],['crowded','lotado'],['weekends','fins de semana']],
+   spoken:null},
+
+  {id:5,cat:'Compras',icon:'👕',title:'Loja de roupas',
+   layers:[
+    {t:'I need new clothes.',hl:'I need new clothes.'},
+    {t:'I need new clothes for work.',hl:'for work'},
+    {t:'I need new clothes for work. I go to the mall.',hl:'I go to the mall.'},
+    {t:'I need new clothes for work. I go to the mall on my lunch break.',hl:'on my lunch break'},
+    {t:'I need new clothes for work. I go to the mall on my lunch break. Everything is expensive.',hl:'Everything is expensive.'},
+    {t:'I need new clothes for work. I go to the mall on my lunch break. Everything is expensive but I find a good deal.',hl:'but I find a good deal.'}
+   ],
+   vocab:[['clothes','roupas'],['mall','shopping'],['lunch break','pausa para almoço'],['expensive','caro'],['find','encontrar'],['deal','negócio/promoção']],
+   spoken:"everything → <em>ev'rything</em>"},
+
+  {id:6,cat:'Compras',icon:'📱',title:'Compras online',
+   layers:[
+    {t:'I buy things online.',hl:'I buy things online.'},
+    {t:'I buy things online all the time.',hl:'all the time'},
+    {t:"I buy things online all the time. It's easier.",hl:"It's easier."},
+    {t:"I buy things online all the time. It's easier than going to the store.",hl:'than going to the store'},
+    {t:"I buy things online all the time. It's easier than going to the store. I wait for the delivery.",hl:'I wait for the delivery.'},
+    {t:"I buy things online all the time. It's easier than going to the store. I wait for the delivery. It usually takes 3 days.",hl:'It usually takes 3 days.'}
+   ],
+   vocab:[['online','online'],['easier','mais fácil'],['store','loja'],['wait','esperar'],['delivery','entrega'],['usually','geralmente'],['takes','leva']],
+   spoken:null},
+
+  {id:7,cat:'Família',icon:'🏠',title:'Manhã em casa',
+   layers:[
+    {t:'My family wakes up early.',hl:'My family wakes up early.'},
+    {t:'My family wakes up early every day.',hl:'every day'},
+    {t:'My family wakes up early every day. My wife makes breakfast.',hl:'My wife makes breakfast.'},
+    {t:'My family wakes up early every day. My wife makes breakfast. The kids get ready for school.',hl:'The kids get ready for school.'},
+    {t:"My family wakes up early every day. My wife makes breakfast. The kids get ready for school. It's always a rush.",hl:"It's always a rush."},
+    {t:"My family wakes up early every day. My wife makes breakfast. The kids get ready for school. It's always a rush but we manage.",hl:'but we manage.'}
+   ],
+   vocab:[['family','família'],['wakes up','acorda'],['breakfast','café da manhã'],['kids','filhos/crianças'],['school','escola'],['rush','correria'],['manage','dar conta']],
+   spoken:null},
+
+  {id:8,cat:'Família',icon:'🎬',title:'Fim de semana juntos',
+   layers:[
+    {t:'We stay home.',hl:'We stay home.'},
+    {t:'We stay home on Sundays.',hl:'on Sundays'},
+    {t:'We stay home on Sundays. We watch movies together.',hl:'We watch movies together.'},
+    {t:'We stay home on Sundays. We watch movies together and order food.',hl:'and order food'},
+    {t:'We stay home on Sundays. We watch movies together and order food. The kids love it.',hl:'The kids love it.'},
+    {t:"We stay home on Sundays. We watch movies together and order food. The kids love it. It's our family time.",hl:"It's our family time."}
+   ],
+   vocab:[['stay','ficar'],['Sundays','domingos'],['together','juntos'],['order','pedir'],['love','amar/adorar'],['family time','tempo em família']],
+   spoken:null},
+
+  {id:9,cat:'Família',icon:'📞',title:'Ligar para os pais',
+   layers:[
+    {t:'I call my mom.',hl:'I call my mom.'},
+    {t:'I call my mom every Sunday.',hl:'every Sunday'},
+    {t:'I call my mom every Sunday. We talk for a long time.',hl:'We talk for a long time.'},
+    {t:'I call my mom every Sunday. We talk for a long time. She asks about my life.',hl:'She asks about my life.'},
+    {t:'I call my mom every Sunday. We talk for a long time. She asks about my life and my kids.',hl:'and my kids'},
+    {t:'I call my mom every Sunday. We talk for a long time. She asks about my life and my kids. I miss her a lot.',hl:'I miss her a lot.'}
+   ],
+   vocab:[['call','ligar'],['mom','mãe'],['Sunday','domingo'],['talk','conversar'],['asks','pergunta'],['miss','sentir falta'],['lot','muito']],
+   spoken:null},
+
+  {id:10,cat:'Rotina',icon:'⏰',title:'Acordar',
+   layers:[
+    {t:'I wake up.',hl:'I wake up.'},
+    {t:'I wake up at 7am.',hl:'at 7am'},
+    {t:'I wake up at 7am and have breakfast.',hl:'and have breakfast'},
+    {t:'I wake up at 7am and have breakfast. I go to work.',hl:'I go to work.'},
+    {t:'I wake up at 7am and have breakfast. I go to work by bus.',hl:'by bus'},
+    {t:'I wake up at 7am and have breakfast. I go to work by bus. It takes about 40 minutes.',hl:'It takes about 40 minutes.'}
+   ],
+   vocab:[['wake up','acordar'],['breakfast','café da manhã'],['work','trabalho'],['bus','ônibus'],['takes','leva'],['minutes','minutos']],
+   spoken:null},
+
+  {id:11,cat:'Rotina',icon:'🌙',title:'À noite',
+   layers:[
+    {t:'I come home.',hl:'I come home.'},
+    {t:'I come home tired.',hl:'tired'},
+    {t:'I come home tired every day.',hl:'every day'},
+    {t:'I come home tired every day. I take a shower.',hl:'I take a shower.'},
+    {t:'I come home tired every day. I take a shower and have dinner.',hl:'and have dinner'},
+    {t:'I come home tired every day. I take a shower and have dinner. Then I watch TV until I fall asleep.',hl:'Then I watch TV until I fall asleep.'}
+   ],
+   vocab:[['come home','chegar em casa'],['tired','cansado'],['shower','banho'],['dinner','jantar'],['watch','assistir'],['fall asleep','adormecer']],
+   spoken:null},
+
+  {id:12,cat:'Saúde',icon:'🤒',title:'Indo ao médico',
+   layers:[
+    {t:"I don't feel well.",hl:"I don't feel well."},
+    {t:"I don't feel well today.",hl:'today'},
+    {t:"I don't feel well today. I have a headache.",hl:'I have a headache.'},
+    {t:"I don't feel well today. I have a headache and a fever.",hl:'and a fever'},
+    {t:"I don't feel well today. I have a headache and a fever. I need to see a doctor.",hl:'I need to see a doctor.'},
+    {t:"I don't feel well today. I have a headache and a fever. I need to see a doctor. I'm going to call the clinic.",hl:"I'm going to call the clinic."}
+   ],
+   vocab:[['feel well','sentir-se bem'],['headache','dor de cabeça'],['fever','febre'],['doctor','médico'],['clinic','clínica'],['call','ligar']],
+   spoken:"going to → <em>gonna</em>"},
+
+  {id:13,cat:'Saúde',icon:'💊',title:'Farmácia',
+   layers:[
+    {t:'I go to the pharmacy.',hl:'I go to the pharmacy.'},
+    {t:'I go to the pharmacy near my house.',hl:'near my house'},
+    {t:'I go to the pharmacy near my house. I need medicine.',hl:'I need medicine.'},
+    {t:'I go to the pharmacy near my house. I need medicine for my cold.',hl:'for my cold'},
+    {t:'I go to the pharmacy near my house. I need medicine for my cold. The pharmacist helps me.',hl:'The pharmacist helps me.'},
+    {t:'I go to the pharmacy near my house. I need medicine for my cold. The pharmacist helps me find the right product.',hl:'find the right product.'}
+   ],
+   vocab:[['pharmacy','farmácia'],['near','perto'],['medicine','remédio'],['cold','resfriado'],['pharmacist','farmacêutico'],['helps','ajuda'],['right','certo/correto']],
+   spoken:null},
+
+  {id:14,cat:'Viagem',icon:'✈️',title:'Aeroporto',
+   layers:[
+    {t:"I'm at the airport.",hl:"I'm at the airport."},
+    {t:"I'm at the airport. My flight is at 10am.",hl:'My flight is at 10am.'},
+    {t:"I'm at the airport. My flight is at 10am. I check in my luggage.",hl:'I check in my luggage.'},
+    {t:"I'm at the airport. My flight is at 10am. I check in my luggage and go through security.",hl:'and go through security'},
+    {t:"I'm at the airport. My flight is at 10am. I check in my luggage and go through security. I find my gate.",hl:'I find my gate.'},
+    {t:"I'm at the airport. My flight is at 10am. I check in my luggage and go through security. I find my gate and wait for boarding.",hl:'and wait for boarding.'}
+   ],
+   vocab:[['airport','aeroporto'],['flight','voo'],['check in','fazer check-in'],['luggage','bagagem'],['security','segurança'],['gate','portão'],['boarding','embarque']],
+   spoken:null},
+
+  {id:15,cat:'Viagem',icon:'🏨',title:'Hotel',
+   layers:[
+    {t:'I arrive at the hotel.',hl:'I arrive at the hotel.'},
+    {t:'I arrive at the hotel late at night.',hl:'late at night'},
+    {t:'I arrive at the hotel late at night. I check in at the front desk.',hl:'I check in at the front desk.'},
+    {t:'I arrive at the hotel late at night. I check in at the front desk. My room is on the 5th floor.',hl:'My room is on the 5th floor.'},
+    {t:'I arrive at the hotel late at night. I check in at the front desk. My room is on the 5th floor. The bed is very comfortable.',hl:'The bed is very comfortable.'},
+    {t:'I arrive at the hotel late at night. I check in at the front desk. My room is on the 5th floor. The bed is very comfortable. I fall asleep immediately.',hl:'I fall asleep immediately.'}
+   ],
+   vocab:[['arrive','chegar'],['late','tarde'],['check in','fazer check-in'],['front desk','recepção'],['floor','andar'],['comfortable','confortável'],['immediately','imediatamente']],
+   spoken:null},
+
+  {id:16,cat:'Lazer',icon:'🛋️',title:'Fim de semana livre',
+   layers:[
+    {t:'I have free time.',hl:'I have free time.'},
+    {t:'I have free time this weekend.',hl:'this weekend'},
+    {t:'I have free time this weekend. I want to relax.',hl:'I want to relax.'},
+    {t:'I have free time this weekend. I want to relax and do nothing.',hl:'and do nothing'},
+    {t:'I have free time this weekend. I want to relax and do nothing special.',hl:'special'},
+    {t:"I have free time this weekend. I want to relax and do nothing special. Maybe I'll watch a series on Netflix.",hl:"Maybe I'll watch a series on Netflix."}
+   ],
+   vocab:[['free time','tempo livre'],['weekend','fim de semana'],['relax','relaxar'],['nothing','nada'],['special','especial'],['maybe','talvez'],['series','série']],
+   spoken:null},
+
+  {id:17,cat:'Lazer',icon:'🏋️',title:'Academia',
+   layers:[
+    {t:'I go to the gym.',hl:'I go to the gym.'},
+    {t:'I go to the gym three times a week.',hl:'three times a week'},
+    {t:'I go to the gym three times a week. I work out for one hour.',hl:'I work out for one hour.'},
+    {t:'I go to the gym three times a week. I work out for one hour. I do weights and cardio.',hl:'I do weights and cardio.'},
+    {t:'I go to the gym three times a week. I work out for one hour. I do weights and cardio. It makes me feel better.',hl:'It makes me feel better.'},
+    {t:'I go to the gym three times a week. I work out for one hour. I do weights and cardio. It makes me feel better about myself.',hl:'about myself'}
+   ],
+   vocab:[['gym','academia'],['times','vezes'],['work out','treinar'],['weights','pesos'],['cardio','cardio'],['makes','faz'],['feel better','sentir-se melhor']],
+   spoken:null},
+
+  {id:18,cat:'Restaurante',icon:'🍽️',title:'Jantar fora',
+   layers:[
+    {t:'We go out for dinner.',hl:'We go out for dinner.'},
+    {t:'We go out for dinner on Friday nights.',hl:'on Friday nights'},
+    {t:'We go out for dinner on Friday nights. We choose a restaurant nearby.',hl:'We choose a restaurant nearby.'},
+    {t:'We go out for dinner on Friday nights. We choose a restaurant nearby. The food is always delicious.',hl:'The food is always delicious.'},
+    {t:'We go out for dinner on Friday nights. We choose a restaurant nearby. The food is always delicious. We split the bill.',hl:'We split the bill.'},
+    {t:"We go out for dinner on Friday nights. We choose a restaurant nearby. The food is always delicious. We split the bill. It's our little tradition.",hl:"It's our little tradition."}
+   ],
+   vocab:[['go out','sair'],['dinner','jantar'],['Friday','sexta-feira'],['choose','escolher'],['nearby','próximo'],['delicious','delicioso'],['split','dividir'],['bill','conta'],['tradition','tradição']],
+   spoken:null},
+
+  {id:19,cat:'Emoções',icon:'😰',title:'Dia ruim',
+   layers:[
+    {t:"I'm having a bad day.",hl:"I'm having a bad day."},
+    {t:"I'm having a bad day at work.",hl:'at work'},
+    {t:"I'm having a bad day at work. Everything is going wrong.",hl:'Everything is going wrong.'},
+    {t:"I'm having a bad day at work. Everything is going wrong. I made a mistake.",hl:'I made a mistake.'},
+    {t:"I'm having a bad day at work. Everything is going wrong. I made a mistake. My boss is not happy.",hl:'My boss is not happy.'},
+    {t:"I'm having a bad day at work. Everything is going wrong. I made a mistake. My boss is not happy. I just want to go home.",hl:'I just want to go home.'}
+   ],
+   vocab:[['bad day','dia ruim'],['wrong','errado'],['mistake','erro'],['boss','chefe'],['happy','feliz'],['just','apenas/só'],['want','querer'],['go home','ir para casa']],
+   spoken:null},
+
+  {id:20,cat:'Emoções',icon:'🎉',title:'Boa notícia',
+   layers:[
+    {t:'I got good news.',hl:'I got good news.'},
+    {t:'I got good news today.',hl:'today'},
+    {t:'I got good news today. I got a promotion.',hl:'I got a promotion.'},
+    {t:'I got good news today. I got a promotion at work.',hl:'at work'},
+    {t:"I got good news today. I got a promotion at work. I can't believe it.",hl:"I can't believe it."},
+    {t:"I got good news today. I got a promotion at work. I can't believe it. I'm so happy. I have to call my family.",hl:"I'm so happy. I have to call my family."}
+   ],
+   vocab:[['good news','boa notícia'],['promotion','promoção'],["can't believe",'não consigo acreditar'],['happy','feliz'],['have to','ter que'],['call','ligar'],['family','família']],
+   spoken:null}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+const LS_KEY = 'p1_done';
+let currentSit = null;
+let currentLayer = 0;
+let doneSets = new Set(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
+
+// ── UTILS ─────────────────────────────────────────────────────────────────
+function saveDone(){localStorage.setItem(LS_KEY, JSON.stringify([...doneSets]));}
+
+function renderSentence(layer){
+  const t = layer.t;
+  const hl = layer.hl;
+  // escape special regex chars
+  const esc = hl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return t.replace(new RegExp(esc),'<span class="hl">'+hl+'</span>');
+}
+
+// ── PARTICLES ─────────────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('particles');
+  const colors = ['#64DFDF','#F5C518','#5FD87A'];
+  for(let i=0;i<22;i++){
+    const d = document.createElement('div');
+    d.className = 'p';
+    const size = 3 + Math.random()*5;
+    const x = Math.random()*100;
+    const y = Math.random()*100;
+    const dur = 8 + Math.random()*12;
+    const delay = Math.random()*8;
+    const col = colors[Math.floor(Math.random()*colors.length)];
+    d.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${col};animation:float-p ${dur}s ${delay}s infinite ease-in-out;`;
+    container.appendChild(d);
+  }
+})();
+
+// ── BUILD SIDEBAR ──────────────────────────────────────────────────────────
+(function(){
+  const cats = {};
+  SITS.forEach(s=>{
+    if(!cats[s.cat]) cats[s.cat]=[];
+    cats[s.cat].push(s);
+  });
+  const list = document.getElementById('sitList');
+  Object.entries(cats).forEach(([cat,sits])=>{
+    const g = document.createElement('div');
+    g.className = 'cat-group';
+    const lbl = document.createElement('div');
+    lbl.className = 'cat-label';
+    lbl.textContent = cat;
+    g.appendChild(lbl);
+    sits.forEach(s=>{
+      const btn = document.createElement('button');
+      btn.className = 'sit-btn' + (doneSets.has(s.id)?' done':'');
+      btn.id = 'sbtn-'+s.id;
+      btn.onclick = ()=>loadSit(s.id);
+      btn.innerHTML = `
+        <span class="sit-icon">${s.icon}</span>
+        <span class="sit-info">
+          <span class="sit-num">Situação ${String(s.id).padStart(2,'0')}</span>
+          <span class="sit-name">${s.title}</span>
+        </span>
+        <span class="sit-check">${doneSets.has(s.id)?'✓':''}</span>`;
+      g.appendChild(btn);
+    });
+    list.appendChild(g);
+  });
+  updateNavProgress();
+})();
+
+// ── LOAD SITUATION ─────────────────────────────────────────────────────────
+function loadSit(id){
+  // deactivate old
+  if(currentSit){
+    const old = document.getElementById('sbtn-'+currentSit.id);
+    if(old) old.classList.remove('active');
+  }
+  currentSit = SITS.find(s=>s.id===id);
+  currentLayer = 0;
+
+  // activate sidebar btn
+  const btn = document.getElementById('sbtn-'+id);
+  if(btn) btn.classList.add('active');
+
+  // header
+  document.getElementById('catBadge').textContent = currentSit.cat;
+  document.getElementById('sitTitle').textContent = currentSit.title;
+
+  // clear complete overlay
+  document.getElementById('completeOverlay').classList.remove('show');
+
+  // show controls
+  document.getElementById('controls').style.display = 'flex';
+  document.getElementById('btnNext').style.display = 'flex';
+  document.getElementById('btnComplete').style.display = 'none';
+  document.getElementById('btnNext').disabled = false;
+
+  // vocab
+  const vg = document.getElementById('vocabGrid');
+  vg.innerHTML = '';
+  currentSit.vocab.forEach(([en,pt])=>{
+    const chip = document.createElement('div');
+    chip.className = 'vocab-chip';
+    chip.innerHTML = `<span class="vc-en">${en}</span><span class="vc-pt">${pt}</span>`;
+    vg.appendChild(chip);
+  });
+  document.getElementById('vocabSec').style.display = 'block';
+
+  // spoken
+  if(currentSit.spoken){
+    document.getElementById('spokenText').innerHTML = currentSit.spoken;
+    document.getElementById('spokenSec').style.display = 'block';
+  } else {
+    document.getElementById('spokenSec').style.display = 'none';
+  }
+
+  renderLayer();
+}
+
+// ── RENDER LAYER ──────────────────────────────────────────────────────────
+function renderLayer(){
+  if(!currentSit) return;
+  const layer = currentSit.layers[currentLayer];
+  document.getElementById('sentText').innerHTML = renderSentence(layer);
+  document.getElementById('layerLabel').textContent = `Camada ${currentLayer+1} de ${currentSit.layers.length}`;
+
+  // dots
+  const dotsEl = document.getElementById('layerDots');
+  dotsEl.innerHTML = '';
+  currentSit.layers.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'ldot' + (i<currentLayer?' done':(i===currentLayer?' current':''));
+    dotsEl.appendChild(d);
+  });
+
+  // buttons
+  const isLast = currentLayer === currentSit.layers.length-1;
+  const btnNext = document.getElementById('btnNext');
+  const btnComplete = document.getElementById('btnComplete');
+  if(isLast){
+    btnNext.style.display = 'none';
+    btnComplete.style.display = 'flex';
+  } else {
+    btnNext.style.display = 'flex';
+    btnNext.disabled = false;
+    btnComplete.style.display = 'none';
+  }
+}
+
+// ── NEXT LAYER ────────────────────────────────────────────────────────────
+document.getElementById('btnNext').onclick = function(){
+  if(!currentSit) return;
+  if(currentLayer < currentSit.layers.length-1){
+    currentLayer++;
+    renderLayer();
+  }
+};
+
+// ── COMPLETE ──────────────────────────────────────────────────────────────
+document.getElementById('btnComplete').onclick = function(){
+  if(!currentSit) return;
+  doneSets.add(currentSit.id);
+  saveDone();
+
+  // update sidebar
+  const btn = document.getElementById('sbtn-'+currentSit.id);
+  if(btn){
+    btn.classList.add('done');
+    btn.querySelector('.sit-check').textContent='✓';
+  }
+
+  // show complete overlay
+  document.getElementById('coSub').textContent = currentSit.title + ' concluída!';
+  document.getElementById('completeOverlay').classList.add('show');
+
+  document.getElementById('btnComplete').style.display = 'none';
+  updateNavProgress();
+
+  // auto-advance to next sit after 1.5s
+  const nextId = currentSit.id < 20 ? currentSit.id+1 : null;
+  if(nextId){
+    setTimeout(()=>{
+      document.getElementById('completeOverlay').classList.remove('show');
+      loadSit(nextId);
+    }, 1800);
+  }
+};
+
+// ── RESTART ───────────────────────────────────────────────────────────────
+document.getElementById('btnRestart').onclick = function(){
+  if(!currentSit) return;
+  currentLayer = 0;
+  document.getElementById('completeOverlay').classList.remove('show');
+  document.getElementById('btnNext').style.display = 'flex';
+  document.getElementById('btnComplete').style.display = 'none';
+  renderLayer();
+};
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────
+function updateNavProgress(){
+  const done = doneSets.size;
+  const pct = Math.round(done/20*100);
+  document.getElementById('navFill').style.width = pct+'%';
+  document.getElementById('navLabel').textContent = done+' / 20';
+}
+
+// auto-load first
+loadSit(1);
+</script>
+</body>
+</html>

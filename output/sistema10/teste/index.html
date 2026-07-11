@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste seu Nível · Sistema 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s8{color:var(--s8);border-color:rgba(249,115,22,.4);background:rgba(249,115,22,.1);}
+.gnav-s8:hover{background:rgba(249,115,22,.18);}
+.gnav-s9{color:var(--s9);border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.1);}
+.gnav-s9:hover{background:rgba(6,182,212,.18);}
+.gnav-s10{color:var(--s10);border-color:rgba(132,204,22,.4);background:rgba(132,204,22,.1);}
+.gnav-s10:hover{background:rgba(132,204,22,.18);}
+.gnav-s10.active{border-color:var(--s10);background:rgba(132,204,22,.16);box-shadow:0 0 10px rgba(132,204,22,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s10);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:1.6rem 1.25rem 1.1rem;text-align:center;max-width:760px;margin:96px auto 0;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s10);background:rgba(132,204,22,.1);border:1px solid rgba(132,204,22,.25);padding:.32rem .95rem;border-radius:2rem;margin-bottom:.9rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.35rem,3.4vw,1.85rem);font-weight:800;line-height:1.25;margin-bottom:.4rem;}
+.hero-sub{font-size:.85rem;color:var(--tm);line-height:1.55;max-width:520px;margin:0 auto;}
+
+/* PROGRESS BAR (sticky) */
+.topbar{position:sticky;top:96px;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.75rem 1.1rem;margin-top:.5rem;}
+.topbar-inner{max-width:760px;margin:0 auto;}
+.progress-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.55rem;}
+.progress-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;transition:width .4s ease,background .3s ease;background:var(--s10);}
+.progress-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--tm);white-space:nowrap;}
+.level-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.05em;padding:.3rem .7rem;border-radius:.5rem;transition:background .3s ease,color .3s ease;}
+.level-badge.blink{animation:badgeBlink .6s ease;}
+@keyframes badgeBlink{0%{transform:scale(1)}30%{transform:scale(1.18)}60%{transform:scale(.96)}100%{transform:scale(1)}}
+
+.wrap{max-width:760px;margin:0 auto;padding:1.4rem 1.1rem 5rem;}
+.hidden{display:none!important;}
+
+/* QUESTION CARD */
+.q-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+.q-head{padding:1.1rem 1.4rem .9rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);gap:.6rem;flex-wrap:wrap;}
+.q-num{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--td);}
+.q-body{padding:1.3rem 1.4rem;}
+.q-instruction{font-size:.82rem;color:var(--tm);margin-bottom:.7rem;}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.08rem;font-weight:700;color:var(--tx);line-height:1.55;margin-bottom:1.2rem;}
+.q-text .bk{color:var(--s10);}
+
+.q-opts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.2rem;}
+.q-opt{display:flex;align-items:flex-start;gap:.7rem;text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.65rem;padding:.85rem 1rem;font-size:.9rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.q-opt:hover{border-color:var(--bdh);}
+.q-opt.picked{border-color:var(--s10);background:rgba(132,204,22,.1);}
+.q-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.12);color:var(--gn);}
+.q-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.12);color:var(--rd);}
+.q-opt-letter{font-family:'Space Grotesk',sans-serif;font-weight:800;color:var(--td);flex-shrink:0;}
+.q-opt.correct .q-opt-letter,.q-opt.wrong .q-opt-letter{color:inherit;}
+.q-opt:disabled,.q-opt[disabled]{cursor:default;}
+
+.q-actions{padding:0 1.4rem 1.3rem;}
+.q-confirm-btn{width:100%;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;padding:.85rem 1rem;border-radius:.65rem;border:none;background:var(--s10);color:#080c14;cursor:pointer;transition:filter .15s;}
+.q-confirm-btn:hover{filter:brightness(1.1);}
+.q-confirm-btn:disabled{opacity:.35;cursor:default;}
+
+/* FEEDBACK */
+.feedback{margin:0 1.4rem 1.3rem;border-radius:.8rem;padding:1.1rem 1.2rem;}
+.feedback.correct{background:rgba(95,216,122,.1);border:1px solid rgba(95,216,122,.35);}
+.feedback.wrong{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.35);}
+.feedback-title{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:800;margin-bottom:.5rem;}
+.feedback.correct .feedback-title{color:var(--gn);}
+.feedback.wrong .feedback-title{color:var(--rd);}
+.feedback-text{font-size:.85rem;color:var(--tx);line-height:1.6;}
+.feedback-next{margin-top:1rem;text-align:right;}
+.feedback-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.65rem 1.3rem;border-radius:.6rem;border:none;background:var(--s10);color:#080c14;cursor:pointer;}
+.feedback-next-btn:hover{filter:brightness(1.1);}
+
+/* RESULT SCREEN */
+.result-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2rem 1.6rem;text-align:center;}
+.result-icon{font-size:2.2rem;margin-bottom:.4rem;}
+.result-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:.6rem;}
+.result-score{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--tx);margin-bottom:1.4rem;}
+.result-level-box{display:inline-flex;flex-direction:column;align-items:center;gap:.15rem;border-radius:1rem;padding:1.1rem 2.2rem;margin-bottom:1.6rem;}
+.result-level-id{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:800;}
+.result-level-name{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;opacity:.85;}
+
+.level-breakdown{text-align:left;margin-bottom:1.6rem;}
+.lb-title{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.7rem;}
+.lb-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.5rem;}
+.lb-label{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;width:32px;flex-shrink:0;}
+.lb-track{flex:1;height:9px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;}
+.lb-fill{height:100%;border-radius:5px;}
+.lb-n{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;color:var(--tm);width:52px;text-align:right;flex-shrink:0;}
+.lb-check{width:16px;text-align:center;flex-shrink:0;}
+
+.result-actions{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;}
+.result-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.3rem;border-radius:.65rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;transition:all .18s;}
+.result-btn:hover{border-color:var(--bdh);}
+.result-btn.primary{background:var(--s10);color:#080c14;border:none;}
+.result-btn.primary:hover{filter:brightness(1.1);}
+
+/* REVIEW SCREEN */
+.review-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.6rem;}
+.review-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;}
+.review-back-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.55rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.review-back-btn:hover{border-color:var(--bdh);}
+.review-note{font-size:.8rem;color:var(--td);margin-bottom:1.2rem;line-height:1.6;}
+.rev-level-group{margin-bottom:1.3rem;}
+.rev-level-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .1rem;margin-bottom:.6rem;border-bottom:1px solid var(--bd);}
+.rev-item{background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1.05rem;margin-bottom:.6rem;}
+.rev-item.rev-wrong{border-color:rgba(248,113,113,.3);}
+.rev-item.rev-correct{border-color:rgba(95,216,122,.25);}
+.rev-item-top{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.35rem;}
+.rev-icon{flex-shrink:0;}
+.rev-q{font-size:.88rem;font-weight:600;color:var(--tx);line-height:1.5;}
+.rev-instruction{font-size:.76rem;color:var(--td);margin-bottom:.2rem;}
+.rev-ans{font-size:.8rem;line-height:1.55;margin-left:1.6rem;}
+.rev-ans .given-wrong{color:var(--rd);}
+.rev-ans .given-right{color:var(--gn);}
+.rev-explain{font-size:.8rem;color:var(--tm);line-height:1.6;margin-left:1.6rem;margin-top:.35rem;}
+.rev-explain b{color:var(--s10);}
+
+/* MOBILE FLOATING BUTTONS */
+.fab{display:none;position:fixed;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--sf);border:1px solid var(--bdh);color:var(--tx);align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.4);cursor:pointer;}
+.fab-back{left:1rem;bottom:1rem;}
+.fab-top{right:1rem;bottom:1rem;background:var(--s10);color:#080c14;border:none;}
+
+@media(max-width:640px){
+  .fab{display:flex;}
+  .hero{margin-top:96px;}
+  .result-actions{flex-direction:column;}
+  .result-btn{width:100%;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../../sistema7/index.html" class="gnav-btn gnav-s7">🔗 S7</a>
+  <a href="../../sistema8/index.html" class="gnav-btn gnav-s8">🧱 S8</a>
+  <a href="../../sistema9/index.html" class="gnav-btn gnav-s9">⏱️ S9</a>
+  <a href="../index.html" class="gnav-btn gnav-s10 active">📊 S10</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 10 — Teste seu Nível</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📊 Teste</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">📊 Teste seu Nível</div>
+  <h1 class="hero-title">Descubra seu nível real de inglês: A1 até C2</h1>
+  <p class="hero-sub">30 questões progressivas com explicação de cada resposta.</p>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">Questão 1 de 30</span>
+    </div>
+    <span class="level-badge" id="levelBadge">A1</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="quizArea"></div>
+</div>
+
+<!-- MOBILE FLOATING BUTTONS -->
+<a href="../../index.html" class="fab fab-back" aria-label="Menu Principal">←</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Topo">↑</button>
+
+<script>
+// ── LEVEL META ──────────────────────────────────────────────────────────────────
+const LEVELS = [
+ {id:'A1', name:'Iniciante',              color:'#94A3B8'},
+ {id:'A2', name:'Básico',                 color:'#4ADE80'},
+ {id:'B1', name:'Intermediário',          color:'#38BDF8'},
+ {id:'B2', name:'Intermediário Superior', color:'#F5C518'},
+ {id:'C1', name:'Avançado',               color:'#F97316'},
+ {id:'C2', name:'Proficiente',            color:'#f87171'},
+];
+function levelOfIndex(i){ return LEVELS[Math.floor(i/5)]; }
+
+// ── DATA: 30 QUESTÕES ─────────────────────────────────────────────────────────
+const QUESTIONS = [
+// ── A1 (1–5) ──
+{level:'A1', instruction:'Escolha a palavra correta:', text:"'___ is your name? I'm Maria.'",
+ options:['Whom','What','Who'], correct:1,
+ explain:'"What" pede informações (nome). "Who" se refere a pessoas ("Who is that?"). "Whom" é formal e tem função de objeto — não se aplica aqui.'},
+{level:'A1', instruction:'Qual frase está correta?', text:'',
+ options:['She have two cats.','She has two cats.',"She's having two cats."], correct:1,
+ explain:'Com he/she/it usamos "has". Não usamos Continuous para posse.'},
+{level:'A1', instruction:'Escolha a palavra correta:', text:"'There ___ a park near my house.'",
+ options:['is','are','am'], correct:0,
+ explain:'"There is" + singular. "There are" + plural. "Am" só se usa com "I".'},
+{level:'A1', instruction:'Qual frase soa mais natural?', text:'',
+ options:['I go often to the gym.','Often I go to the gym.','I often go to the gym.'], correct:2,
+ explain:'Advérbios de frequência vão ANTES do verbo principal. A opção B é gramaticalmente possível, mas não é natural no dia a dia.'},
+{level:'A1', instruction:'Escolha a palavra correta:', text:"'She ___ like pizza.'",
+ options:["don't","doesn't","hasn't"], correct:1,
+ explain:'Com she/he/it negativo no Simple Present → "doesn\'t". "Don\'t" é usado com I/you/we/they.'},
+// ── A2 (6–10) ──
+{level:'A2', instruction:'Escolha a palavra correta:', text:"'Brenda has lived here ___ three years.'",
+ options:['since','for','during'], correct:1,
+ explain:'"For" + duração (three years). "Since" + ponto de início (since Monday).'},
+{level:'A2', instruction:'Escolha a palavra correta:', text:"'She's much ___ than her sister.'",
+ options:['more kind','kinder','kindest'], correct:1,
+ explain:'Adjetivos curtos formam o comparativo com "-er". "Kindest" é superlativo. "More kind" não é a forma padrão.'},
+{level:'A2', instruction:'Escolha a palavra correta:', text:"'I was really tired, ___ I went to bed early.'",
+ options:['but','because','so'], correct:2,
+ explain:'"So" indica resultado/consequência. Estar cansado CAUSOU ir dormir cedo.'},
+{level:'A2', instruction:'Escolha a palavra correta:', text:"'You ___ park here. It\'s not allowed.'",
+ options:["don't have to","don't need to","mustn't"], correct:2,
+ explain:'"Mustn\'t" indica proibição. "Don\'t have to" significa que não é necessário (mas pode). Aqui há uma proibição explícita.'},
+{level:'A2', instruction:'Qual frase está correta?', text:'',
+ options:["I'm interesting in learning English.","I'm interested in learning English.",'Ambas corretas.'], correct:1,
+ explain:'A terminação -ED descreve como a pessoa SE SENTE. A terminação -ING descreve o que CAUSA o sentimento.'},
+// ── B1 (11–15) ──
+{level:'B1', instruction:'Escolha a opção correta:', text:"'I ___ working here since January.'",
+ options:['am','have been','was'], correct:1,
+ explain:'Present Perfect Continuous para uma ação que começou no passado e CONTINUA. "Since" exige um tempo perfeito.'},
+{level:'B1', instruction:'Escolha a palavra correta:', text:"'The hotel offers excellent ___, including a gym and pool.'",
+ options:['facilities','services','equipment'], correct:0,
+ explain:'"Facilities" são instalações disponíveis para uso. "Services" é o que é feito para você. "Equipment" são objetos físicos.'},
+{level:'B1', instruction:'Escolha a opção correta:', text:"'Gerald\'s phone ___ while he was traveling.'",
+ options:['is stealing','were stolen','was stolen'], correct:2,
+ explain:'Voz passiva. "Phone" é singular → "was stolen". Usamos a passiva quando não sabemos quem praticou a ação.'},
+{level:'B1', instruction:'Escolha a palavra correta:', text:"'I'd like to make a/an ___ for two people at 8 o'clock.'",
+ options:['reservation','appointment','arrangement'], correct:0,
+ explain:'"Reservation" é usado para reservas em restaurante/hotel. "Appointment" é uma hora marcada com um profissional.'},
+{level:'B1', instruction:'Escolha as palavras corretas:', text:"'If I had ___ you needed help, I would have ___ the document for you.'",
+ options:['know / translate','known / translated','knew / had translated'], correct:1,
+ explain:'3ª Condicional: IF + past perfect (had + particípio) + WOULD HAVE + particípio.'},
+// ── B2 (16–20) ──
+{level:'B2', instruction:'Escolha as palavras corretas:', text:"'...technical issues ___ us ___ for over an hour.'",
+ options:['held / up','took / over','cut / off'], correct:0,
+ explain:'"Hold up" significa atrasar (ex: "I got held up in traffic."). "Take over" significa assumir o controle. "Cut off" significa desconectar.'},
+{level:'B2', instruction:'Escolha a palavra correta:', text:"'Buying in bulk is more ___ than buying single items.'",
+ options:['economic','economical','Ambas corretas'], correct:1,
+ explain:'"Economical" descreve algo com bom custo-benefício, que economiza dinheiro. "Economic" se refere à economia como ciência.'},
+{level:'B2', instruction:'Escolha a palavra correta:', text:"'The Council decided to ___ a survey among local residents.'",
+ options:['conduct','convert','construct'], correct:0,
+ explain:'"Conduct" + pesquisa/investigação significa organizar e realizar. "Convert" significa transformar. "Construct" significa construir.'},
+{level:'B2', instruction:'Escolha a palavra correta:', text:"'We experienced technical issues ___ the presentation.'",
+ options:['during','throughout','Ambas corretas'], correct:2,
+ explain:'"During" indica que algo aconteceu em algum momento (flexível). "Throughout" indica do início ao fim (contínuo). Ambas funcionam aqui.'},
+{level:'B2', instruction:'Escolha as palavras corretas:', text:"'She suggested ___ the deadline rather than ___ the project entirely.'",
+ options:['to extend / to cancel','extending / cancelling','extend / cancel'], correct:1,
+ explain:'"Suggest" é seguido de gerúndio (-ing). "Rather than" cria uma estrutura paralela — o mesmo tempo verbal nos dois verbos.'},
+// ── C1 (21–25) ──
+{level:'C1', instruction:'Qual é a melhor paráfrase da frase abaixo?', text:"'After years of neglecting her mental health, Sarah decided to completely overhaul her approach to wellness.'",
+ options:['Sarah decided to change her wellness routine.','After years of neglect, Sarah resolved to transform her approach to well-being completely.','Neglecting her mental health led Sarah to think negatively about wellness.'], correct:1,
+ explain:'A opção B captura o período de tempo, a decisão ativa e a escala da mudança. A opção A usa "routine", que é mais estreito que "approach". A opção C muda o significado original.'},
+{level:'C1', instruction:'Escolha a opção correta:', text:"'What Anna needed ___ a complete lifestyle overhaul, not just a new job.'",
+ options:['was','to do','that was'], correct:0,
+ explain:'Cleft sentence: What + sujeito + verbo + was + foco. A estrutura enfatiza "a complete lifestyle overhaul".'},
+{level:'C1', instruction:'Escolha a palavra correta:', text:"'Both parties agreed to ___ a compromise.'",
+ options:['do','strike','hit'], correct:1,
+ explain:'"Strike a compromise" é uma colocação natural em inglês. Também dizemos "strike a deal" e "strike a balance" — o verbo "strike" combina com acordos.'},
+{level:'C1', instruction:'Escolha a opção correta:', text:"'Hardly ___ concerns were raised.'",
+ options:['the committee approved the budget then','had the committee approved the budget when','when the committee approved the budget than'], correct:1,
+ explain:'Inversão negativa: Hardly + auxiliar + sujeito + verbo + "when". Estrutura formal e enfática, equivalente a "Assim que o comitê aprovou o orçamento, preocupações surgiram."'},
+{level:'C1', instruction:'Qual frase está mais clara?', text:'',
+ options:['Hoping to reduce traffic congestion, the new transport policy was introduced by the council.','Hoping to reduce traffic congestion, the council introduced a new transport policy.','The new transport policy, hoping to reduce traffic congestion, was introduced by the council.'], correct:1,
+ explain:'Uma cláusula não-finita (com "-ing") deve ter o mesmo sujeito da cláusula principal. Nas opções A e C, o texto sugere que a "política de transporte" é quem tem esperanças — um "dangling modifier" (modificador solto).'},
+// ── C2 (26–30) ──
+{level:'C2', instruction:'Escolha a palavra correta:', text:"'His reputation was in ___.'",
+ options:['remnants','shards','tatters'], correct:2,
+ explain:'"In tatters" é a colocação forte com "reputation" = completamente destruída. "Remnants" são partes restantes de algo. "Shards" são fragmentos afiados (como vidro).'},
+{level:'C2', instruction:'Complete as três expressões idiomáticas com a mesma palavra:', text:"'The washing machine is on the ___. / He lives on the ___ (unemployment benefit). / She\'s always on the ___ at work.'",
+ options:['in the blink / in the doll / in the ball','on the blink / on the dole / on the ball','at the blink / at the dole / at the ball'], correct:1,
+ explain:'"On the blink" = com defeito. "On the dole" = recebendo seguro-desemprego (BrE). "On the ball" = alerta, perspicaz.'},
+{level:'C2', instruction:'Tom disse "I\'ve failed completely" com um tom de decepção. Qual frase melhor captura o tom dele?', text:'',
+ options:['He seethed over his failure.','He was livid at his failure.','He lamented his failure.'], correct:2,
+ explain:'"Lament" transmite tristeza/decepção. "Seethe" transmite raiva intensa. "Livid" transmite estar furiosamente irritado. A frase original tem tom de tristeza, não de raiva.'},
+{level:'C2', instruction:'Escolha as palavras corretas:', text:"'___ for Sarah's patience, we ___ never have stopped being poles ___ on the holiday plans.'",
+ options:['But / would / apart','Not / will / away','Except / could / aside'], correct:0,
+ explain:'"But for" é uma forma formal de dizer "if it were not for" (se não fosse por). Combinada com "would have" (3ª condicional). "Poles apart" significa completamente opostos.'},
+{level:'C2', instruction:'Um crítico escreveu sobre uma exposição de arte: "The exhibition assembles its gestures with immaculate assurance, yet the profusion of references feels more like a catalogue of influence than a conversation with it." O que essa crítica sugere sobre a exposição?', text:'',
+ options:['Demonstra confiança técnica, mas depende demais de tradições existentes sem dialogar com elas de forma original.','Reinterpreta suas influências com sucesso, criando algo genuinamente original.','Carece de coerência por misturar estilos demais.'], correct:0,
+ explain:'"Catalogue" sugere uma listagem sem diálogo real com as referências. A técnica existe ("immaculate assurance"), mas a originalidade não. Não se trata de falta de coerência nem de uma reinterpretação bem-sucedida.'},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let qIdx = 0;
+let score = 0;
+let answered = false;
+let picked = null;
+const answers = []; // {chosen, correct, correctIdx, isCorrect}
+
+// ── PROGRESS BAR ──────────────────────────────────────────────────────────────
+let lastLevelId = null;
+function updateProgressBar(){
+  const lvl = levelOfIndex(qIdx);
+  document.getElementById('progressFill').style.width = ((qIdx)/QUESTIONS.length*100) + '%';
+  document.getElementById('progressFill').style.background = lvl.color;
+  document.getElementById('progressText').textContent = `Questão ${qIdx+1} de ${QUESTIONS.length}`;
+  const badge = document.getElementById('levelBadge');
+  badge.textContent = lvl.id;
+  badge.style.background = lvl.color;
+  badge.style.color = '#080c14';
+  if (lastLevelId !== null && lastLevelId !== lvl.id) {
+    badge.classList.remove('blink');
+    void badge.offsetWidth;
+    badge.classList.add('blink');
+  }
+  lastLevelId = lvl.id;
+}
+
+// ── RENDER QUESTION ───────────────────────────────────────────────────────────
+function renderQuestion(){
+  answered = false;
+  picked = null;
+  updateProgressBar();
+  const q = QUESTIONS[qIdx];
+  const lvl = levelOfIndex(qIdx);
+  const textHTML = q.text ? `<div class="q-text">${q.text.replace(/___/g,'<span class="bk">___</span>')}</div>` : '';
+  const optsHTML = q.options.map((o,i) => `
+    <button class="q-opt" data-i="${i}" onclick="selectOption(${i})">
+      <span class="q-opt-letter">${String.fromCharCode(65+i)})</span><span>${o}</span>
+    </button>`).join('');
+
+  document.getElementById('quizArea').innerHTML = `
+    <div class="q-card">
+      <div class="q-head">
+        <span class="level-badge" style="background:${lvl.color};color:#080c14;">${lvl.id}</span>
+        <span class="q-num">Questão ${qIdx+1} de ${QUESTIONS.length}</span>
+      </div>
+      <div class="q-body">
+        <div class="q-instruction">${q.instruction}</div>
+        ${textHTML}
+        <div class="q-opts" id="qOpts">${optsHTML}</div>
+      </div>
+      <div class="q-actions">
+        <button class="q-confirm-btn" id="confirmBtn" onclick="confirmAnswer()" disabled>Confirmar Resposta</button>
+      </div>
+    </div>`;
+}
+function selectOption(i){
+  if (answered) return;
+  picked = i;
+  document.querySelectorAll('#qOpts .q-opt').forEach((b,idx) => b.classList.toggle('picked', idx===i));
+  document.getElementById('confirmBtn').disabled = false;
+}
+function confirmAnswer(){
+  if (answered || picked === null) return;
+  answered = true;
+  const q = QUESTIONS[qIdx];
+  const isCorrect = picked === q.correct;
+  if (isCorrect) score++;
+  answers.push({chosen:picked, correct:q.correct, isCorrect});
+
+  document.querySelectorAll('#qOpts .q-opt').forEach((b,idx) => {
+    b.disabled = true;
+    b.classList.remove('picked');
+    if (idx === q.correct) b.classList.add('correct');
+    else if (idx === picked) b.classList.add('wrong');
+  });
+  document.getElementById('confirmBtn').disabled = true;
+
+  const fbClass = isCorrect ? 'correct' : 'wrong';
+  const fbTitle = isCorrect ? '✅ Correto!' : '❌ Incorreto';
+  const isLast = qIdx === QUESTIONS.length - 1;
+  const nextLabel = isLast ? 'Ver Resultado →' : 'Próxima questão →';
+
+  const fbHTML = `
+    <div class="feedback ${fbClass}">
+      <div class="feedback-title">${fbTitle}</div>
+      <div class="feedback-text">${q.explain}</div>
+      <div class="feedback-next"><button class="feedback-next-btn" onclick="nextQuestion()">${nextLabel}</button></div>
+    </div>`;
+  document.querySelector('.q-card').insertAdjacentHTML('beforeend', fbHTML);
+}
+function nextQuestion(){
+  qIdx++;
+  if (qIdx >= QUESTIONS.length) { finishQuiz(); return; }
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── SCORING / RESULT ──────────────────────────────────────────────────────────
+function computePerLevel(){
+  const perLevel = LEVELS.map(l => ({id:l.id, name:l.name, color:l.color, correct:0, total:5}));
+  answers.forEach((a,i) => {
+    const li = Math.floor(i/5);
+    if (a.isCorrect) perLevel[li].correct++;
+  });
+  return perLevel;
+}
+function determineLevel(perLevel){
+  for (let i = perLevel.length - 1; i >= 0; i--) {
+    if (perLevel[i].correct >= 3) return LEVELS[i];
+  }
+  return LEVELS[0];
+}
+function finishQuiz(){
+  const perLevel = computePerLevel();
+  const finalLevel = determineLevel(perLevel);
+  try {
+    localStorage.setItem('s10_ultimo_resultado', JSON.stringify({
+      score, total: QUESTIONS.length,
+      levelId: finalLevel.id, levelName: finalLevel.name,
+      perLevel: perLevel.map(p => ({id:p.id, correct:p.correct, total:p.total})),
+      date: new Date().toISOString()
+    }));
+  } catch(e) {}
+  renderResult(perLevel, finalLevel);
+  document.getElementById('topbar').classList.add('hidden');
+}
+function renderResult(perLevel, finalLevel){
+  const pct = Math.round(score/QUESTIONS.length*100);
+  const rows = perLevel.map(p => {
+    const w = Math.round(p.correct/p.total*100);
+    const ok = p.correct >= 3;
+    return `<div class="lb-row">
+      <span class="lb-label" style="color:${p.color}">${p.id}</span>
+      <div class="lb-track"><div class="lb-fill" style="width:${w}%;background:${p.color}"></div></div>
+      <span class="lb-n">${p.correct}/${p.total}</span>
+      <span class="lb-check">${ok?'✅':''}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('quizArea').innerHTML = `
+    <div class="result-card">
+      <div class="result-icon">📊</div>
+      <div class="result-title">Seu Resultado</div>
+      <div class="result-score">Você acertou ${score} de ${QUESTIONS.length} questões (${pct}%)</div>
+      <div class="result-level-box" style="background:${finalLevel.color};color:#080c14;">
+        <span class="result-level-id">SEU NÍVEL: ${finalLevel.id}</span>
+        <span class="result-level-name">${finalLevel.name}</span>
+      </div>
+      <div class="level-breakdown">
+        <div class="lb-title">Desempenho por nível</div>
+        ${rows}
+      </div>
+      <div class="result-actions">
+        <button class="result-btn primary" onclick="restartQuiz()">🔄 Refazer o teste</button>
+        <button class="result-btn" onclick="renderReview(true)">📋 Ver todas as respostas</button>
+      </div>
+    </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restartQuiz(){
+  qIdx = 0; score = 0; answered = false; picked = null; lastLevelId = null;
+  answers.length = 0;
+  document.getElementById('topbar').classList.remove('hidden');
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── REVIEW SCREEN ─────────────────────────────────────────────────────────────
+function renderReview(hasAttempt){
+  document.getElementById('topbar').classList.add('hidden');
+  const groups = LEVELS.map((lvl, li) => {
+    const items = QUESTIONS.slice(li*5, li*5+5).map((q, j) => {
+      const globalIdx = li*5+j;
+      const a = hasAttempt ? answers[globalIdx] : null;
+      const textHTML = q.text ? `<div class="rev-instruction">${q.instruction}</div><div class="rev-q">${q.text}</div>` : `<div class="rev-q">${q.instruction}</div>`;
+      const letters = q.options.map((o,i) => `${String.fromCharCode(65+i)}) ${o}`);
+      let ansHTML = '';
+      let explainHTML = '';
+      let cls = '';
+      let icon = '';
+      if (hasAttempt && a) {
+        cls = a.isCorrect ? 'rev-correct' : 'rev-wrong';
+        icon = a.isCorrect ? '✅' : '❌';
+        if (a.isCorrect) {
+          ansHTML = `<div class="rev-ans"><span class="given-right">Sua resposta: ${letters[a.chosen]}</span></div>`;
+        } else {
+          ansHTML = `<div class="rev-ans"><span class="given-wrong">Sua resposta: ${letters[a.chosen]}</span><br><span class="given-right">Resposta correta: ${letters[q.correct]}</span></div>`;
+          explainHTML = `<div class="rev-explain"><b>Explicação:</b> ${q.explain}</div>`;
+        }
+      } else {
+        icon = '📖';
+        ansHTML = `<div class="rev-ans"><span class="given-right">Resposta correta: ${letters[q.correct]}</span></div>`;
+        explainHTML = `<div class="rev-explain"><b>Explicação:</b> ${q.explain}</div>`;
+      }
+      return `<div class="rev-item ${cls}">
+        <div class="rev-item-top"><span class="rev-icon">${icon}</span>${textHTML}</div>
+        ${ansHTML}
+        ${explainHTML}
+      </div>`;
+    }).join('');
+    return `<div class="rev-level-group">
+      <div class="rev-level-title" style="color:${lvl.color};border-color:${lvl.color}44">${lvl.id} · ${lvl.name}</div>
+      ${items}
+    </div>`;
+  }).join('');
+
+  const note = hasAttempt
+    ? 'Revisão do seu último teste — respostas erradas mostram a explicação pedagógica.'
+    : 'Gabarito completo das 30 questões, com a resposta correta e a explicação de cada uma.';
+
+  document.getElementById('quizArea').innerHTML = `
+    <div class="review-head">
+      <div class="review-title">📋 Todas as Respostas</div>
+      <button class="review-back-btn" onclick="goBackFromReview(${hasAttempt})">← Voltar</button>
+    </div>
+    <div class="review-note">${note}</div>
+    ${groups}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goBackFromReview(hasAttempt){
+  if (hasAttempt) {
+    const perLevel = computePerLevel();
+    renderResult(perLevel, determineLevel(perLevel));
+  } else {
+    location.href = '../index.html';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('modo') === 'revisao') {
+    // localStorage only stores aggregated per-level counts, not per-question answers,
+    // so the standalone entry point always shows the full answer key.
+    renderReview(false);
+  } else {
+    renderQuestion();
+  }
+})();
+</script>
+</body>
+</html>

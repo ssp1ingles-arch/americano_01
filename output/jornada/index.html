@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornada Completa — 120 Etapas · Inglês para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--gn:#5FD87A;
+  --bd:rgba(255,255,255,.07);--bdh:rgba(255,255,255,.13);
+  --grad:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* BG */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.bg-glow::before{content:'';position:absolute;top:-20%;left:10%;width:50%;height:60%;background:radial-gradient(ellipse,rgba(100,223,223,.04) 0%,transparent 70%);border-radius:50%;}
+.bg-glow::after{content:'';position:absolute;top:20%;right:5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(167,139,250,.04) 0%,transparent 70%);border-radius:50%;}
+.bg-glow2{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.bg-glow2::before{content:'';position:absolute;bottom:10%;left:30%;width:40%;height:40%;background:radial-gradient(ellipse,rgba(245,197,24,.03) 0%,transparent 70%);border-radius:50%;}
+
+/* NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.25rem;gap:.65rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;opacity:.8;transition:opacity .2s;}
+.gnav-logo:hover{opacity:1;}
+.gnav-logo span{opacity:.55;font-size:1.05rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-decoration:none;padding:.27rem .78rem;border-radius:.35rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:var(--cy);border-color:rgba(100,223,223,.3);background:rgba(100,223,223,.07);}
+.gnav-s1:hover{background:rgba(100,223,223,.14);border-color:rgba(100,223,223,.55);}
+.gnav-s2{color:var(--am);border-color:rgba(245,197,24,.28);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.5);}
+.gnav-s3{color:var(--vl);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.07);}
+.gnav-s3:hover{background:rgba(167,139,250,.14);border-color:rgba(167,139,250,.55);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.07);}
+.gnav-s4:hover{background:rgba(255,107,107,.14);border-color:rgba(255,107,107,.55);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;position:relative;}
+.gnav-jornada:hover,.gnav-jornada.active{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+.gnav-jornada.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--grad);}
+
+/* HERO */
+.jornada-hero{position:relative;z-index:1;padding:2.5rem 1.5rem 1.5rem;text-align:center;max-width:860px;margin:0 auto;}
+.breadcrumb{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:1.5rem;font-size:.78rem;color:var(--td);}
+.crumb-link{color:var(--td);text-decoration:none;transition:color .2s;}
+.crumb-link:hover{color:var(--tm);}
+.crumb-sep{opacity:.35;}
+.crumb-curr{color:var(--tm);}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:.3rem 1rem;border-radius:2rem;background:rgba(255,255,255,.04);border:1px solid var(--bd);color:var(--td);margin-bottom:1.1rem;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--grad);flex-shrink:0;animation:badge-pulse 2s ease-in-out infinite;}
+@keyframes badge-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.8)}}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;line-height:1.1;margin-bottom:.75rem;letter-spacing:-.025em;}
+.grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:.98rem;color:var(--tm);margin-bottom:1rem;}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:.7rem;flex-wrap:wrap;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--td);}
+.hero-stats span:not(:nth-child(even)){color:var(--tm);}
+
+/* PROGRESS */
+.progress-section{position:relative;z-index:1;max-width:860px;margin:0 auto 1.5rem;padding:0 1.25rem;}
+.prog-overall-card{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1.2rem 1.5rem;}
+.prog-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem;}
+.prog-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--td);}
+.prog-pct-label{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.prog-count-text{font-size:.73rem;color:var(--tm);margin-bottom:.6rem;}
+.prog-track-main{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-bottom:.9rem;}
+.prog-fill-main{height:100%;border-radius:3px;background:var(--grad);background-size:200% 100%;transition:width .8s ease;}
+.prog-phases-row{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;}
+.prog-phase{display:flex;flex-direction:column;gap:.22rem;}
+.prog-phase-label{font-family:'Space Grotesk',sans-serif;font-size:.57rem;font-weight:700;color:var(--td);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prog-phase-row2{display:flex;align-items:center;gap:.28rem;}
+.prog-phase-track{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.prog-phase-fill{height:100%;border-radius:2px;transition:width .6s ease;}
+.prog-phase-n{font-family:'Space Grotesk',sans-serif;font-size:.55rem;font-weight:700;color:var(--td);white-space:nowrap;}
+
+/* PHASE SELECTOR */
+.fase-selector{position:relative;z-index:1;max-width:860px;margin:0 auto 2rem;padding:0 1.25rem;display:flex;gap:.45rem;flex-wrap:wrap;}
+.fase-btn{flex:1;min-width:130px;background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.6rem .8rem;cursor:pointer;text-align:left;transition:all .2s;color:var(--tx);}
+.fase-btn:hover{border-color:var(--bdh);background:var(--sf2);}
+.fase-btn.active{border-color:rgba(255,255,255,.2);background:var(--sf2);}
+.fase-num{display:block;font-family:'Space Grotesk',sans-serif;font-size:.55rem;font-weight:800;letter-spacing:.12em;color:var(--td);margin-bottom:.15rem;}
+.fase-btn.active .fase-num{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fase-name{display:block;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tm);}
+.fase-btn.active .fase-name{color:var(--tx);}
+.fase-count{display:block;font-size:.63rem;color:var(--td);margin-top:.1rem;}
+
+/* TIMELINE */
+.timeline-section{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 1.25rem 4rem;}
+.timeline{position:relative;padding-left:2.4rem;}
+.timeline::before{content:'';position:absolute;left:.62rem;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(to bottom,rgba(100,223,223,.25),rgba(245,197,24,.18),rgba(167,139,250,.25));border-radius:2px;}
+
+/* STEP WRAP & DOT */
+.step-wrap{position:relative;margin-bottom:1rem;}
+.step-dot{position:absolute;left:-2.4rem;top:1.1rem;width:12px;height:12px;border-radius:50%;border:2px solid;transition:all .25s;z-index:1;}
+.dot-licao{border-color:var(--cy);background:rgba(100,223,223,.18);}
+.dot-frases,.dot-texto,.dot-crescente{border-color:var(--am);background:rgba(245,197,24,.14);}
+.dot-gramatica,.dot-irregulares,.dot-basicbetter{border-color:var(--vl);background:rgba(167,139,250,.14);}
+.dot-padrao{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.06);}
+.dot-revisao{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.07);}
+.dot-quiz{border-color:var(--gn);background:rgba(95,216,122,.14);}
+
+/* CARD BASE */
+.step-card{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;overflow:hidden;transition:all .22s;position:relative;}
+.step-card:hover:not(.locked-card){border-color:var(--bdh);transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,.28);}
+.card-bar{height:2px;}
+.bar-licao{background:linear-gradient(90deg,var(--cy),transparent);}
+.bar-frases,.bar-texto,.bar-crescente{background:linear-gradient(90deg,var(--am),transparent);}
+.bar-gramatica,.bar-irregulares,.bar-basicbetter{background:linear-gradient(90deg,var(--vl),transparent);}
+.bar-padrao{background:linear-gradient(90deg,rgba(100,223,223,.7),rgba(245,197,24,.7),rgba(167,139,250,.7),transparent);}
+.bar-revisao{background:var(--grad);}
+.bar-quiz{background:linear-gradient(90deg,var(--gn),transparent);}
+.card-inner{padding:.95rem 1.2rem;}
+.card-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.5rem;}
+.card-num{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);}
+.badge-done{font-family:'Space Grotesk',sans-serif;font-size:.56rem;font-weight:700;color:var(--gn);border:1px solid rgba(95,216,122,.28);padding:.12rem .42rem;border-radius:2rem;background:rgba(95,216,122,.07);white-space:nowrap;}
+.badge-current{font-family:'Space Grotesk',sans-serif;font-size:.56rem;font-weight:700;white-space:nowrap;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.card-title-row{display:flex;align-items:flex-start;gap:.55rem;margin-bottom:.45rem;}
+.card-icon{flex-shrink:0;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:.38rem;}
+.icon-licao{background:rgba(100,223,223,.1);}
+.icon-frases,.icon-texto,.icon-crescente{background:rgba(245,197,24,.08);}
+.icon-gramatica,.icon-irregulares,.icon-basicbetter{background:rgba(167,139,250,.09);}
+.icon-padrao{background:rgba(255,255,255,.05);}
+.icon-revisao{background:rgba(255,255,255,.06);}
+.icon-quiz{background:rgba(95,216,122,.09);}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;line-height:1.3;}
+.card-meta{display:flex;align-items:center;gap:.45rem;font-size:.69rem;color:var(--td);margin-bottom:.5rem;flex-wrap:wrap;}
+.meta-sep{opacity:.32;}
+.card-desc{font-size:.76rem;color:var(--tm);line-height:1.58;margin-bottom:.8rem;}
+.card-footer-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+
+/* BUTTONS */
+.btn-study{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.32rem .85rem;border-radius:.42rem;border:1px solid;text-decoration:none;display:inline-flex;align-items:center;gap:.32rem;transition:all .18s;cursor:pointer;background:transparent;}
+.btn-licao{color:var(--cy);border-color:rgba(100,223,223,.32);}
+.btn-licao:hover{background:rgba(100,223,223,.09);border-color:rgba(100,223,223,.58);}
+.btn-frases,.btn-texto,.btn-crescente{color:var(--am);border-color:rgba(245,197,24,.28);}
+.btn-frases:hover,.btn-texto:hover,.btn-crescente:hover{background:rgba(245,197,24,.08);border-color:rgba(245,197,24,.52);}
+.btn-gramatica,.btn-irregulares,.btn-basicbetter{color:var(--vl);border-color:rgba(167,139,250,.28);}
+.btn-gramatica:hover,.btn-irregulares:hover,.btn-basicbetter:hover{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.55);}
+.btn-padrao{color:var(--tx);border-color:var(--bd);}
+.btn-padrao:hover{border-color:var(--bdh);background:rgba(255,255,255,.04);}
+.btn-revisao{color:var(--tx);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.03);}
+.btn-revisao:hover{border-color:rgba(255,255,255,.32);background:rgba(255,255,255,.07);}
+.btn-quiz{color:var(--gn);border-color:rgba(95,216,122,.28);}
+.btn-quiz:hover{background:rgba(95,216,122,.08);border-color:rgba(95,216,122,.52);}
+.btn-mark{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .75rem;border-radius:.42rem;border:1px solid rgba(95,216,122,.28);color:var(--gn);background:transparent;cursor:pointer;transition:all .2s;}
+.btn-mark:hover{background:rgba(95,216,122,.09);border-color:rgba(95,216,122,.52);}
+
+/* CARD STATES */
+.state-locked .step-card{opacity:.32;pointer-events:none;}
+.state-locked .step-dot{opacity:.25;}
+.state-done .step-card{opacity:.62;}
+.state-done .step-dot{background:rgba(95,216,122,.25);border-color:var(--gn);}
+.state-current .step-card{border-color:transparent;background:var(--sf2);}
+.state-current .step-card::before{content:'';position:absolute;inset:-1px;border-radius:.9rem;background:var(--grad);background-size:200% 200%;animation:grad-spin 4s linear infinite;z-index:-1;}
+.state-current .step-dot{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.8);animation:dot-pulse 2s ease-in-out infinite;}
+.current-label{font-family:'Space Grotesk',sans-serif;font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:.32rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+@keyframes grad-spin{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes dot-pulse{0%,100%{transform:scale(1);box-shadow:0 0 6px rgba(255,255,255,.25)}50%{transform:scale(1.3);box-shadow:0 0 12px rgba(255,255,255,.45)}}
+
+/* REVISAO COLS */
+.revisao-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.8rem;}
+.revisao-col{background:rgba(255,255,255,.025);border:1px solid var(--bd);border-radius:.55rem;padding:.65rem .75rem;}
+.rcol-sys{font-family:'Space Grotesk',sans-serif;font-size:.56rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.rcol-s1{color:var(--cy);}
+.rcol-s2{color:var(--am);}
+.rcol-s3{color:var(--vl);}
+.rcol-txt{font-size:.7rem;color:var(--tm);line-height:1.5;margin-bottom:.45rem;}
+.rcol-link{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:700;text-decoration:none;transition:opacity .18s;opacity:.7;display:inline-flex;align-items:center;gap:.25rem;}
+.rcol-link:hover{opacity:1;}
+.rcol-link-s1{color:var(--cy);}
+.rcol-link-s2{color:var(--am);}
+.rcol-link-s3{color:var(--vl);}
+
+/* QUIZ OVERLAY */
+.quiz-overlay{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(8,12,20,.9);backdrop-filter:blur(10px);}
+.quiz-overlay.visible{display:flex;}
+.quiz-panel{background:var(--sf);border:1px solid var(--bdh);border-radius:1rem;width:min(600px,100%);max-height:92vh;overflow-y:auto;display:flex;flex-direction:column;}
+.quiz-ph{display:flex;align-items:flex-start;justify-content:space-between;padding:1.1rem 1.4rem .8rem;border-bottom:1px solid var(--bd);}
+.quiz-badge{font-family:'Space Grotesk',sans-serif;font-size:.56rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gn);margin-bottom:.18rem;}
+.quiz-panel-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;}
+.quiz-close{background:transparent;border:1px solid var(--bd);color:var(--td);width:28px;height:28px;border-radius:.38rem;cursor:pointer;font-size:.85rem;transition:all .18s;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.quiz-close:hover{border-color:var(--bdh);color:var(--tx);}
+.quiz-prog-bar-row{display:flex;align-items:center;gap:.7rem;padding:.65rem 1.4rem;border-bottom:1px solid var(--bd);}
+.quiz-prog-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.quiz-prog-fill{height:100%;border-radius:2px;background:var(--gn);transition:width .35s ease;}
+.quiz-prog-txt{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;color:var(--td);white-space:nowrap;}
+#quizMain{padding:1.3rem 1.4rem;}
+.quiz-dir{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.75rem;}
+.quiz-q-card{background:var(--sf2);border:1px solid var(--bd);border-radius:.65rem;padding:1rem 1.15rem;margin-bottom:.9rem;}
+.quiz-q-text{font-size:1rem;color:var(--tx);line-height:1.55;font-style:italic;}
+.quiz-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:.52rem;padding:.65rem .95rem;font-size:.87rem;color:var(--tx);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;margin-bottom:.7rem;}
+.quiz-input:focus{border-color:rgba(95,216,122,.38);background:rgba(95,216,122,.03);}
+.quiz-fb{min-height:0;font-size:.8rem;line-height:1.5;margin-bottom:.7rem;border-radius:.48rem;padding:0;display:none;transition:all .2s;}
+.quiz-fb.show-correct{display:block;padding:.45rem .7rem;background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.22);color:var(--gn);}
+.quiz-fb.show-wrong{display:block;padding:.45rem .7rem;background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);color:#f87171;}
+.quiz-fb.show-accepted{display:block;padding:.45rem .7rem;background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.22);color:var(--am);}
+.quiz-btns{display:flex;gap:.45rem;flex-wrap:wrap;}
+.q-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.38rem .9rem;border-radius:.42rem;cursor:pointer;border:1px solid;transition:all .18s;background:transparent;}
+.q-btn-check,.q-btn-next{color:var(--gn);border-color:rgba(95,216,122,.32);}
+.q-btn-check:hover,.q-btn-next:hover{background:rgba(95,216,122,.09);}
+.q-btn-accept{color:var(--am);border-color:rgba(245,197,24,.28);font-size:.66rem;}
+.q-btn-accept:hover{background:rgba(245,197,24,.07);}
+.quiz-result{padding:1.5rem 1.4rem;text-align:center;border-top:1px solid var(--bd);}
+.quiz-final-score{font-family:'Space Grotesk',sans-serif;font-size:3.2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem;line-height:1;}
+.quiz-result-msg{color:var(--tm);font-size:.82rem;margin-bottom:1.2rem;line-height:1.6;}
+.quiz-result-btns{display:flex;gap:.45rem;justify-content:center;flex-wrap:wrap;}
+.q-btn-done{color:var(--gn);border-color:rgba(95,216,122,.32);background:rgba(95,216,122,.07);}
+.q-btn-retry{color:var(--td);border-color:var(--bd);}
+.q-btn-retry:hover{border-color:var(--bdh);color:var(--tm);}
+
+/* CERTIFICATE */
+.cert-overlay{position:fixed;inset:0;z-index:950;display:flex;align-items:center;justify-content:center;background:#080c14;overflow:hidden;}
+.cert-canvas{position:absolute;inset:0;pointer-events:none;}
+.cert-content{position:relative;z-index:1;text-align:center;padding:2rem;max-width:540px;}
+.cert-trophy{font-size:4rem;display:block;margin-bottom:.9rem;animation:trophy-in .7s cubic-bezier(.34,1.56,.64,1);}
+@keyframes trophy-in{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.cert-badge-lbl{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--td);margin-bottom:.65rem;}
+.cert-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem;}
+.cert-subtitle{font-size:1rem;color:var(--tm);margin-bottom:.3rem;}
+.cert-date{font-size:.78rem;color:var(--td);margin-bottom:1.4rem;}
+.cert-phases{display:flex;gap:.38rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.6rem;}
+.cert-phases span{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:700;padding:.18rem .65rem;border-radius:2rem;border:1px solid;opacity:0;animation:fade-up .4s ease forwards;}
+.cert-phases span:nth-child(1){color:var(--cy);border-color:rgba(100,223,223,.3);animation-delay:.2s;}
+.cert-phases span:nth-child(2){color:var(--am);border-color:rgba(245,197,24,.28);animation-delay:.35s;}
+.cert-phases span:nth-child(3){color:var(--vl);border-color:rgba(167,139,250,.3);animation-delay:.5s;}
+.cert-phases span:nth-child(4){color:var(--gn);border-color:rgba(95,216,122,.28);animation-delay:.65s;}
+.cert-phases span:nth-child(5){color:var(--tx);border-color:var(--bdh);animation-delay:.8s;}
+@keyframes fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.cert-btns{display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;}
+.cert-share,.cert-close-cert{font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:700;padding:.48rem 1.2rem;border-radius:.52rem;cursor:pointer;border:1px solid;transition:all .2s;}
+.cert-share{background:rgba(255,255,255,.06);border-color:var(--bdh);color:var(--tx);}
+.cert-share:hover{background:rgba(255,255,255,.1);}
+.cert-close-cert{background:transparent;border-color:var(--bd);color:var(--td);}
+.cert-close-cert:hover{border-color:var(--bdh);color:var(--tm);}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .revisao-cols{grid-template-columns:1fr;}
+  .prog-phases-row{grid-template-columns:repeat(3,1fr);}
+  .fase-btn{min-width:unset;flex:0 0 calc(50% - .23rem);}
+  .gnav-s1,.gnav-s2,.gnav-s3,.gnav-s4,.gnav-s5{display:none;}
+}
+@media(max-width:460px){
+  .fase-btn{flex:0 0 100%;}
+  .prog-phases-row{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<!-- NAV -->
+<nav class="gnav">
+  <a href="../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="./index.html" class="gnav-btn gnav-jornada active">🗺 Jornada</a>
+</nav>
+
+<!-- HERO -->
+<div class="jornada-hero">
+  <div class="breadcrumb">
+    <a href="../index.html" class="crumb-link">← Menu Principal</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-curr">Jornada Completa</span>
+  </div>
+  <div class="hero-badge"><span class="badge-dot"></span>JORNADA COMPLETA</div>
+  <h1 class="hero-title">Do <span class="grad-text">Zero</span> ao <span class="grad-text">Avançado</span></h1>
+  <p class="hero-sub">120 etapas · Do zero ao avançado</p>
+  <div class="hero-stats">
+    <span>📚 120 etapas</span><span>·</span>
+    <span>⚡ 5 fases</span><span>·</span>
+    <span>⏱ ~20 horas de estudo</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="prog-overall-card">
+    <div class="prog-header-row">
+      <span class="prog-label">Progresso Geral</span>
+      <span class="prog-pct-label" id="progPct">0%</span>
+    </div>
+    <div class="prog-count-text" id="progCount">0 de 120 etapas concluídas</div>
+    <div class="prog-track-main"><div class="prog-fill-main" id="progFillMain" style="width:0%"></div></div>
+    <div class="prog-phases-row" id="progPhasesRow"></div>
+  </div>
+</div>
+
+<!-- PHASE SELECTOR -->
+<div class="fase-selector">
+  <button class="fase-btn active" data-fase="1" onclick="selectFase(1)">
+    <span class="fase-num">FASE 01</span><span class="fase-name">Fundação</span><span class="fase-count">20 etapas</span>
+  </button>
+  <button class="fase-btn" data-fase="2" onclick="selectFase(2)">
+    <span class="fase-num">FASE 02</span><span class="fase-name">Construção</span><span class="fase-count">25 etapas</span>
+  </button>
+  <button class="fase-btn" data-fase="3" onclick="selectFase(3)">
+    <span class="fase-num">FASE 03</span><span class="fase-name">Expansão</span><span class="fase-count">25 etapas</span>
+  </button>
+  <button class="fase-btn" data-fase="4" onclick="selectFase(4)">
+    <span class="fase-num">FASE 04</span><span class="fase-name">Fluência</span><span class="fase-count">20 etapas</span>
+  </button>
+  <button class="fase-btn" data-fase="5" onclick="selectFase(5)">
+    <span class="fase-num">FASE 05</span><span class="fase-name">Domínio</span><span class="fase-count">30 etapas</span>
+  </button>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline-section">
+  <div class="timeline" id="timeline"></div>
+</div>
+
+<!-- QUIZ OVERLAY -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-panel">
+    <div class="quiz-ph">
+      <div>
+        <div class="quiz-badge" id="quizBadge">DESAFIO</div>
+        <h3 class="quiz-panel-title" id="quizTitle">Quiz</h3>
+      </div>
+      <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="quiz-prog-bar-row">
+      <div class="quiz-prog-track"><div class="quiz-prog-fill" id="quizProgFill" style="width:5%"></div></div>
+      <span class="quiz-prog-txt" id="quizProgTxt">1 / 20</span>
+    </div>
+    <div id="quizMain">
+      <div class="quiz-dir" id="quizDir">Traduza para português:</div>
+      <div class="quiz-q-card"><p class="quiz-q-text" id="quizQText"></p></div>
+      <input type="text" class="quiz-input" id="quizInput" placeholder="Digite sua resposta aqui..."
+        onkeydown="if(event.key==='Enter')checkAnswer()">
+      <div class="quiz-fb" id="quizFb"></div>
+      <div class="quiz-btns">
+        <button class="q-btn q-btn-check" id="btnCheck" onclick="checkAnswer()">Verificar →</button>
+        <button class="q-btn q-btn-accept" id="btnAccept" onclick="acceptAnswer()" style="display:none">✓ Minha resposta estava certa</button>
+        <button class="q-btn q-btn-next" id="btnNext" onclick="nextQuestion()" style="display:none">Próxima →</button>
+      </div>
+    </div>
+    <div class="quiz-result" id="quizResult" style="display:none">
+      <div class="quiz-final-score" id="quizScore">18/20</div>
+      <p class="quiz-result-msg" id="quizMsg"></p>
+      <div class="quiz-result-btns">
+        <button class="q-btn q-btn-done" onclick="markQuizComplete()">✓ Marcar etapa como concluída</button>
+        <button class="q-btn q-btn-retry" onclick="retryQuiz()">↺ Tentar novamente</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATE -->
+<div class="cert-overlay" id="certOverlay" style="display:none">
+  <canvas class="cert-canvas" id="certCanvas"></canvas>
+  <div class="cert-content">
+    <span class="cert-trophy">🏆</span>
+    <div class="cert-badge-lbl">CERTIFICADO DE CONCLUSÃO</div>
+    <h2 class="cert-title">Jornada Completa</h2>
+    <p class="cert-subtitle">120 etapas concluídas</p>
+    <p class="cert-date" id="certDate"></p>
+    <div class="cert-phases">
+      <span>Fundação</span><span>Construção</span><span>Expansão</span><span>Fluência</span><span>Domínio</span>
+    </div>
+    <div class="cert-btns">
+      <button class="cert-share" onclick="shareCert()">📤 Compartilhar conquista</button>
+      <button class="cert-close-cert" onclick="closeCert()">← Voltar à Jornada</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── ETAPAS 1–60 ──
+const ETAPAS_A=[
+{id:1,fase:1,tipo:'licao',titulo:'Pronomes Sujeito',sistema:'Sistema 1',sub:'Lição 01',tempo:10,desc:'Pronomes que fazem a ação — a primeira peça de qualquer frase em inglês.',url:'../01_pronomes_sujeito/index.html'},
+{id:2,fase:1,tipo:'frases',titulo:'Primeiras 15 frases — Sobrevivência',sistema:'Sistema 2',sub:'Pilar 2 · Nível 1',tempo:8,desc:'Yes, No, Maybe, Of course — pronomes em uso imediato desde o primeiro dia.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:3,fase:1,tipo:'licao',titulo:'Verbo BE — Ser',sistema:'Sistema 1',sub:'Lição 05',tempo:10,desc:'Primeiro verbo que une pronome e complemento — base de toda frase descritiva.',url:'../05_be_ser/index.html'},
+{id:4,fase:1,tipo:'licao',titulo:'Verbo BE — Estar',sistema:'Sistema 1',sub:'Lição 06',tempo:10,desc:'BE com sentido de estado e localização — extensão natural do BE/Ser.',url:'../06_be_estar/index.html'},
+{id:5,fase:1,tipo:'padrao',titulo:'I WAS — Eu estava',sistema:'Sistema 3',sub:'Módulo 4 · Padrão 01',tempo:8,desc:'Primeiro uso do BE no passado — ancora o conceito de tempo verbal na prática.',url:'../sistema3/modulo4_padroes_expansivos/index.html'},
+{id:6,fase:1,tipo:'gramatica',titulo:'Simple Present — o tempo do hábito',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 01',tempo:12,desc:'Primeiro tempo verbal formal — a base de toda comunicação em inglês.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:7,fase:1,tipo:'frases',titulo:'Apresentações e saudações',sistema:'Sistema 2',sub:'Pilar 2 · Nível 1',tempo:10,desc:'Aplicar o Simple Present em situações reais de apresentação imediatamente.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:8,fase:1,tipo:'licao',titulo:'Artigo A / AN',sistema:'Sistema 1',sub:'Lição 11',tempo:8,desc:'Necessário para formar frases completas com substantivos.',url:'../11_artigo_a_an/index.html'},
+{id:9,fase:1,tipo:'licao',titulo:'Artigo THE',sistema:'Sistema 1',sub:'Lição 12',tempo:8,desc:'Par natural do A/AN — define o que já foi mencionado ou é único.',url:'../12_artigo_the/index.html'},
+{id:10,fase:1,tipo:'texto',titulo:'Primeiro texto — Monday Morning',sistema:'Sistema 2',sub:'Pilar 4 · Texto 76',tempo:10,desc:'Primeiro contato com inglês corrido — rotina matinal em contexto real.',url:'../sistema2/pilar4_textos/index.html'},
+{id:11,fase:1,tipo:'licao',titulo:'Pronomes Objeto',sistema:'Sistema 1',sub:'Lição 02',tempo:10,desc:'ME, YOU, HIM, HER, IT, US, THEM — completa o par sujeito/objeto.',url:'../02_pronomes_objeto/index.html'},
+{id:12,fase:1,tipo:'licao',titulo:'Pronomes Possessivos',sistema:'Sistema 1',sub:'Lição 03',tempo:10,desc:'MY, YOUR, HIS, HER, ITS, OUR, THEIR — terceiro tipo de pronome.',url:'../03_pronomes_possessivos/index.html'},
+{id:13,fase:1,tipo:'padrao',titulo:'I SHOULD — Eu deveria',sistema:'Sistema 3',sub:'Módulo 4 · Padrão 03',tempo:8,desc:'Primeiro modal em uso real — simples, polido e muito útil.',url:'../sistema3/modulo4_padroes_expansivos/index.html'},
+{id:14,fase:1,tipo:'gramatica',titulo:'Simple Past — o tempo do passado',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 02',tempo:12,desc:'Segundo tempo verbal mais usado — conta o que aconteceu.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:15,fase:1,tipo:'irregulares',titulo:'Os 6 verbos irregulares mais usados',sistema:'Sistema 3',sub:'Módulo 2 · Grupo 1',tempo:10,desc:'GO, HAVE, DO, SPEAK, COME, TAKE — necessários para usar o Simple Past.',url:'../sistema3/modulo2_verbos_irregulares/index.html'},
+{id:16,fase:1,tipo:'frases',titulo:'Situações cotidianas — Parte 1',sistema:'Sistema 2',sub:'Pilar 2 · Nível 1',tempo:10,desc:'Aplicar passado e vocabulário novo em situações reais do dia a dia.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:17,fase:1,tipo:'crescente',titulo:'Rotina matinal',sistema:'Sistema 2',sub:'Pilar 1 · Situação 10',tempo:8,desc:'Simple Present com vocabulário de rotina crescendo frase por frase.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:18,fase:1,tipo:'licao',titulo:'Verbo HAVE — Ter',sistema:'Sistema 1',sub:'Lição 14',tempo:10,desc:'Verbo mais versátil do inglês — ter, possuir, participar e auxiliar.',url:'../14_have_ter/index.html'},
+{id:19,fase:1,tipo:'licao',titulo:'Verbo DO — Fazer e Auxiliar',sistema:'Sistema 1',sub:'Lição 15',tempo:10,desc:'DO como auxiliar é fundamental para perguntas e frases negativas.',url:'../15_do_fazer/index.html'},
+{id:20,fase:1,tipo:'texto',titulo:'Texto de rotina — Evening Routine',sistema:'Sistema 2',sub:'Pilar 4 · Texto 77',tempo:10,desc:'Consolidar tudo da Fase 1 em um texto corrido de rotina noturna.',url:'../sistema2/pilar4_textos/index.html'},
+{id:21,fase:2,tipo:'gramatica',titulo:'Simple Future — WILL e GOING TO',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 03',tempo:12,desc:'Terceiro tempo essencial — completa o trio básico presente/passado/futuro.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:22,fase:2,tipo:'padrao',titulo:"I'M GOING TO — planejando o futuro",sistema:'Sistema 2',sub:'Pilar 3 · Padrão 04',tempo:8,desc:'Colocar o futuro em uso imediato com planos e intenções reais.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:23,fase:2,tipo:'gramatica',titulo:'Present Continuous — ação acontecendo agora',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 04',tempo:12,desc:'Quarto tempo mais usado no dia a dia — o que está acontecendo agora.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:24,fase:2,tipo:'licao',titulo:'Verbo BE — Ação Contínua (-ing)',sistema:'Sistema 1',sub:'Lição 09',tempo:10,desc:'BE como auxiliar do -ing — consolida o Present Continuous na prática.',url:'../09_be_ing/index.html'},
+{id:25,fase:2,tipo:'frases',titulo:'Rotina — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 3',tempo:12,desc:'Aplicar todos os tempos aprendidos em frases de rotina real.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:26,fase:2,tipo:'basicbetter',titulo:'Falar melhor — Parte 1',sistema:'Sistema 3',sub:'Módulo 3 · Situações 1–5',tempo:10,desc:'Elevar o nível das frases aprendidas — do inglês de escola ao natural.',url:'../sistema3/modulo3_basic_vs_better/index.html'},
+{id:27,fase:2,tipo:'licao',titulo:'Verbo GO — Ir, Ficar, Ir de',sistema:'Sistema 1',sub:'Lição 16',tempo:10,desc:'GO é essencial para falar de movimento e futuro — múltiplos usos.',url:'../16_go_ir/index.html'},
+{id:28,fase:2,tipo:'crescente',titulo:'Indo trabalhar',sistema:'Sistema 2',sub:'Pilar 1 · Situação 01',tempo:8,desc:'GO em contexto real — frase crescendo do básico ao completo.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:29,fase:2,tipo:'licao',titulo:'Modais — CAN e COULD',sistema:'Sistema 1',sub:'Lição 27',tempo:10,desc:'Modal mais básico e mais usado — capacidade, possibilidade e pedido.',url:'../27_can_could/index.html'},
+{id:30,fase:2,tipo:'padrao',titulo:'MAY I? — pedindo permissão',sistema:'Sistema 3',sub:'Módulo 4 · Padrão 05',tempo:8,desc:'Modal em uso real e polido — situações formais e do dia a dia.',url:'../sistema3/modulo4_padroes_expansivos/index.html'},
+{id:31,fase:2,tipo:'irregulares',titulo:'Verbos de comunicação e percepção',sistema:'Sistema 3',sub:'Módulo 2 · Grupo 2',tempo:10,desc:'TELL, EAT, DRINK, MAKE, SEE, SAY, THINK — ampliar vocabulário essencial.',url:'../sistema3/modulo2_verbos_irregulares/index.html'},
+{id:32,fase:2,tipo:'texto',titulo:'No trabalho — The Email',sistema:'Sistema 2',sub:'Pilar 4 · Texto 02',tempo:10,desc:'Ver vocabulário de trabalho em contexto narrativo real.',url:'../sistema2/pilar4_textos/index.html'},
+{id:33,fase:2,tipo:'licao',titulo:'Question Words — WHO WHAT WHERE WHEN WHY HOW',sistema:'Sistema 1',sub:'Módulo Question Words',tempo:12,desc:'Fazer perguntas é metade da conversação — as 6 words essenciais.',url:'../37_who/index.html'},
+{id:34,fase:2,tipo:'frases',titulo:'Perguntas e respostas naturais',sistema:'Sistema 2',sub:'Pilar 2 · Nível 1',tempo:10,desc:'Aplicar question words em situações reais de comunicação.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:35,fase:2,tipo:'licao',titulo:'Pronomes Reflexivos',sistema:'Sistema 1',sub:'Lição 04',tempo:10,desc:'MYSELF, YOURSELF, HIMSELF — completa a família dos pronomes.',url:'../04_pronomes_reflexivos/index.html'},
+{id:36,fase:2,tipo:'padrao',titulo:"I CAN'T WAIT — animação e expectativa",sistema:'Sistema 3',sub:'Módulo 4 · Padrão 02',tempo:8,desc:'Expressão de emoção — conecta gramática com sentimento real.',url:'../sistema3/modulo4_padroes_expansivos/index.html'},
+{id:37,fase:2,tipo:'gramatica',titulo:'Past Continuous — o que estava acontecendo',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 05',tempo:12,desc:'Expandir o passado para ações que estavam em progresso.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:38,fase:2,tipo:'crescente',titulo:'Problema no trabalho',sistema:'Sistema 2',sub:'Pilar 1 · Situação 03',tempo:8,desc:'Past Continuous em narrativa real — o que estava acontecendo.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:39,fase:2,tipo:'licao',titulo:'Verbo GET — o mais versátil do inglês',sistema:'Sistema 1',sub:'Lição 17',tempo:12,desc:'GET aparece em todo lugar — hora de dominar seus múltiplos usos.',url:'../17_get_ficar/index.html'},
+{id:40,fase:2,tipo:'irregulares',titulo:'Verbos de ação',sistema:'Sistema 3',sub:'Módulo 2 · Grupo 3',tempo:10,desc:'GET, KNOW, FEEL, BUY, SELL, FIND — complementar e ampliar o vocabulário.',url:'../sistema3/modulo2_verbos_irregulares/index.html'},
+{id:41,fase:2,tipo:'basicbetter',titulo:'Falar melhor — Parte 2',sistema:'Sistema 3',sub:'Módulo 3 · Situações 6–10',tempo:10,desc:'Elevar o nível — a diferença entre o inglês de escola e o nativo.',url:'../sistema3/modulo3_basic_vs_better/index.html'},
+{id:42,fase:2,tipo:'frases',titulo:'Relações — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 4',tempo:12,desc:'Vocabulário emocional e relacional em frases do cotidiano.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:43,fase:2,tipo:'texto',titulo:'Família — Sunday Lunch',sistema:'Sistema 2',sub:'Pilar 4 · Texto 51',tempo:10,desc:'Vocabulário de família e relações em narrativa real.',url:'../sistema2/pilar4_textos/index.html'},
+{id:44,fase:2,tipo:'padrao',titulo:"I'D LIKE — pedindo com educação",sistema:'Sistema 3',sub:'Módulo 4 · Padrão 04',tempo:8,desc:'Modal polido essencial para situações formais e restaurantes.',url:'../sistema3/modulo4_padroes_expansivos/index.html'},
+{id:45,fase:2,tipo:'licao',titulo:'Artigo — Quando NÃO usar',sistema:'Sistema 1',sub:'Lição 13',tempo:8,desc:'Completa o trio de artigos — regra importante para brasileiros.',url:'../13_sem_artigo/index.html'},
+{id:46,fase:3,tipo:'gramatica',titulo:'Present Perfect — experiências de vida',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 07',tempo:15,desc:'O tempo que mais confunde brasileiros — hora certa de atacar de frente.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:47,fase:3,tipo:'licao',titulo:'Verbo BE — Já Esteve',sistema:'Sistema 1',sub:'Lição 10',tempo:10,desc:'HAVE BEEN — BE no Present Perfect, consolida o tempo na prática.',url:'../10_be_been/index.html'},
+{id:48,fase:3,tipo:'frases',titulo:'Presença e existência — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 2',tempo:12,desc:'Aplicar Present Perfect em contexto cotidiano imediato.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:49,fase:3,tipo:'padrao',titulo:"I'VE BEEN — tenho estado",sistema:'Sistema 2',sub:'Pilar 3 · Padrão 10',tempo:8,desc:'Present Perfect em uso real imediato — duração até o presente.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:50,fase:3,tipo:'licao',titulo:'Modais — SHOULD e OUGHT TO',sistema:'Sistema 1',sub:'Lição 29',tempo:10,desc:'Conselho e obrigação moral — muito usados em situações cotidianas.',url:'../29_should/index.html'},
+{id:51,fase:3,tipo:'texto',titulo:'Dia ruim — The Bad Day',sistema:'Sistema 2',sub:'Pilar 4 · Texto 102',tempo:10,desc:'Vocabulário de emoção negativa em narrativa realista.',url:'../sistema2/pilar4_textos/index.html'},
+{id:52,fase:3,tipo:'frases',titulo:'Opinião — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 5',tempo:12,desc:'Expressar ponto de vista — marco do nível intermediário.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:53,fase:3,tipo:'crescente',titulo:'Indo às compras',sistema:'Sistema 2',sub:'Pilar 1 · Situação 04',tempo:8,desc:'Vocabulário de compras crescendo frase por frase.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:54,fase:3,tipo:'licao',titulo:'Conectivos — AND BUT SO OR BECAUSE',sistema:'Sistema 1',sub:'Lições 32–33',tempo:10,desc:'Conectar frases — salto de qualidade significativo na fala.',url:'../32_and_but_or/index.html'},
+{id:55,fase:3,tipo:'padrao',titulo:"THAT'S WHY — explicando razões",sistema:'Sistema 2',sub:'Pilar 3 · Padrão 25',tempo:8,desc:'Aplicar conectivos em padrão real — causa e consequência.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:56,fase:3,tipo:'gramatica',titulo:'Future Continuous — o que estará acontecendo',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 06',tempo:12,desc:'Expandir o futuro para ações que estarão em progresso.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:57,fase:3,tipo:'crescente',titulo:'Planejando uma viagem',sistema:'Sistema 2',sub:'Pilar 1 · Situação 14',tempo:8,desc:'Futuro + vocabulário de aeroporto e viagem em frase crescente.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:58,fase:3,tipo:'licao',titulo:'Preposições de Tempo — IN ON AT',sistema:'Sistema 1',sub:'Lições 44–46',tempo:12,desc:'Situar ações no tempo — essencial para qualquer frase completa.',url:'../44_at/index.html'},
+{id:59,fase:3,tipo:'frases',titulo:'Negociação — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 6',tempo:12,desc:'Vocabulário profissional e de negociação em uso real.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:60,fase:3,tipo:'texto',titulo:'Entrevista de emprego — The Job Interview',sistema:'Sistema 2',sub:'Pilar 4 · Texto 06',tempo:10,desc:'Vocabulário profissional em situação de entrevista real.',url:'../sistema2/pilar4_textos/index.html'},
+];
+
+// ── ICONS ──
+const ICONS={
+  licao:`<svg viewBox="0 0 24 24" fill="none" stroke="#64DFDF" stroke-width="2.2" width="14" height="14"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+  frases:`<svg viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2.2" width="14" height="14"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  texto:`<svg viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2.2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  crescente:`<svg viewBox="0 0 24 24" fill="none" stroke="#F5C518" stroke-width="2.2" width="14" height="14"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>`,
+  gramatica:`<svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2" width="14" height="14"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/></svg>`,
+  irregulares:`<svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2" width="14" height="14"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>`,
+  basicbetter:`<svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2" width="14" height="14"><polyline points="17,11 12,6 7,11"/><polyline points="17,18 12,13 7,18"/></svg>`,
+  padrao:`<svg viewBox="0 0 24 24" fill="none" stroke="#a0a8b8" stroke-width="2.2" width="14" height="14"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#a0a8b8" stroke="none"/></svg>`,
+  revisao:`<svg viewBox="0 0 24 24" fill="none" stroke="#e4ddd4" stroke-width="2.2" width="14" height="14"><rect x="2" y="3" width="20" height="5" rx="1"/><rect x="2" y="11" width="20" height="5" rx="1"/><rect x="2" y="19" width="20" height="2" rx="1"/></svg>`,
+  quiz:`<svg viewBox="0 0 24 24" fill="none" stroke="#5FD87A" stroke-width="2.2" width="14" height="14"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>`,
+};
+
+const FASE_INFO=[
+  {fase:1,label:'Fundação',range:[1,20],total:20,color:'var(--cy)'},
+  {fase:2,label:'Construção',range:[21,45],total:25,color:'var(--am)'},
+  {fase:3,label:'Expansão',range:[46,70],total:25,color:'var(--vl)'},
+  {fase:4,label:'Fluência',range:[71,90],total:20,color:'var(--gn)'},
+  {fase:5,label:'Domínio',range:[91,120],total:30,color:'rgba(255,255,255,.7)'},
+];
+
+const KEY='jornada_progresso';
+let progress=[];
+let activeFase=1;
+let activeQuizId=null;
+let quizQs=[];
+let quizIdx=0;
+let quizScore=0;
+let quizAnswered=false;
+
+function loadProgress(){
+  try{
+    const s=localStorage.getItem(KEY);
+    progress=s?JSON.parse(s):new Array(120).fill(false);
+    if(!Array.isArray(progress)||progress.length!==120)progress=new Array(120).fill(false);
+  }catch(e){progress=new Array(120).fill(false);}
+}
+function saveProgress(){localStorage.setItem(KEY,JSON.stringify(progress));}
+function isDone(id){return progress[id-1]===true;}
+
+function getFirstAvailable(){
+  for(let i=1;i<=120;i++){if(!isDone(i))return i;}
+  return 121;
+}
+
+function stateOf(id){
+  if(isDone(id))return'done';
+  const first=getFirstAvailable();
+  if(id===first)return'current';
+  if(id===1||isDone(id-1))return'available';
+  return'locked';
+}
+
+function updateProgressUI(){
+  const total=progress.filter(Boolean).length;
+  const pct=Math.round(total/120*100);
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('progCount').textContent=total+' de 120 etapas concluídas';
+  document.getElementById('progFillMain').style.width=pct+'%';
+  const row=document.getElementById('progPhasesRow');
+  row.innerHTML=FASE_INFO.map(f=>{
+    const done=progress.slice(f.range[0]-1,f.range[1]).filter(Boolean).length;
+    const pf=Math.round(done/f.total*100);
+    return`<div class="prog-phase"><span class="prog-phase-label">${f.label}</span><div class="prog-phase-row2"><div class="prog-phase-track"><div class="prog-phase-fill" style="width:${pf}%;background:${f.color}"></div></div><span class="prog-phase-n">${done}/${f.total}</span></div></div>`;
+  }).join('');
+}
+
+function selectFase(n){
+  activeFase=n;
+  document.querySelectorAll('.fase-btn').forEach(b=>b.classList.toggle('active',+b.dataset.fase===n));
+  renderTimeline();
+}
+
+const TYPE_LABELS={licao:'Lição',frases:'Frases Reais',texto:'Texto',crescente:'Frase Crescente',gramatica:'Gramática',irregulares:'Verbos Irregulares',basicbetter:'Basic vs Better',padrao:'Padrão',revisao:'Revisão Cruzada',quiz:'Desafio Final'};
+
+function renderCard(e){
+  const state=stateOf(e.id);
+  const isCurrent=state==='current';
+  const icon=ICONS[e.tipo]||ICONS.padrao;
+  const num=String(e.id).padStart(2,'0');
+  const currentLbl=isCurrent?'<span class="current-label">→ VOCÊ ESTÁ AQUI</span>':'';
+  const badgeHtml=state==='done'?'<span class="badge-done">✓ Concluída</span>':(isCurrent?'<span class="badge-current">→ Atual</span>':'');
+
+  let revisaoCols='';
+  if(e.tipo==='revisao'){
+    revisaoCols=`<div class="revisao-cols">
+      <div class="revisao-col"><div class="rcol-sys rcol-s1">Sistema 1</div><div class="rcol-txt">${e.s1.texto}</div><a class="rcol-link rcol-link-s1" href="${e.s1.url}?origem=jornada">Acessar →</a></div>
+      <div class="revisao-col"><div class="rcol-sys rcol-s2">Sistema 2</div><div class="rcol-txt">${e.s2.texto}</div><a class="rcol-link rcol-link-s2" href="${e.s2.url}?origem=jornada">Acessar →</a></div>
+      <div class="revisao-col"><div class="rcol-sys rcol-s3">Sistema 3</div><div class="rcol-txt">${e.s3.texto}</div><a class="rcol-link rcol-link-s3" href="${e.s3.url}?origem=jornada">Acessar →</a></div>
+    </div>`;
+  }
+
+  let footer='';
+  if(state!=='locked'){
+    if(e.tipo==='quiz'){
+      footer=`<button class="btn-study btn-quiz" onclick="openQuiz(${e.id})">▶ Iniciar desafio</button>`;
+      if(state!=='done')footer+=`<button class="btn-mark" onclick="markDone(${e.id})">✓ Marcar concluída</button>`;
+    }else if(e.tipo==='revisao'){
+      if(state!=='done')footer=`<button class="btn-mark" onclick="markDone(${e.id})">✓ Marcar concluída</button>`;
+    }else{
+      footer=`<a class="btn-study btn-${e.tipo}" href="${e.url}?origem=jornada">▶ Estudar agora</a>`;
+      if(state!=='done')footer+=`<button class="btn-mark" onclick="markDone(${e.id})">✓ Marcar concluída</button>`;
+    }
+  }
+
+  const sysOrType=e.sistema||TYPE_LABELS[e.tipo];
+  return`<div class="step-wrap state-${state}" id="step-${e.id}">
+    <div class="step-dot dot-${e.tipo}"></div>
+    <div class="step-card">
+      <div class="card-bar bar-${e.tipo}"></div>
+      <div class="card-inner">
+        ${currentLbl}
+        <div class="card-top-row"><span class="card-num">ETAPA ${num}</span>${badgeHtml}</div>
+        <div class="card-title-row"><div class="card-icon icon-${e.tipo}">${icon}</div><span class="card-title">${e.titulo}</span></div>
+        <div class="card-meta"><span>${sysOrType}</span>${e.sub?`<span class="meta-sep">·</span><span>${e.sub}</span>`:''}<span class="meta-sep">·</span><span>${e.tempo} min</span></div>
+        <div class="card-desc">${e.desc}</div>
+        ${revisaoCols}
+        <div class="card-footer-row">${footer}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTimeline(){
+  const tl=document.getElementById('timeline');
+  if(!window.ETAPAS||!ETAPAS.length){tl.innerHTML='<p style="color:var(--td);padding:1rem">Carregando...</p>';return;}
+  tl.innerHTML=ETAPAS.filter(e=>e.fase===activeFase).map(e=>renderCard(e)).join('');
+  const first=getFirstAvailable();
+  if(first<=120){
+    const s=ETAPAS.find(e=>e.id===first);
+    if(s&&s.fase===activeFase){
+      setTimeout(()=>{const el=document.getElementById('step-'+first);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},250);
+    }
+  }
+}
+
+function markDone(id){
+  progress[id-1]=true;
+  saveProgress();
+  updateProgressUI();
+  renderTimeline();
+  if(progress.every(Boolean)){setTimeout(()=>showCert(),700);}
+}
+
+// ── ETAPAS 61–120 ──
+const ETAPAS_B=[
+{id:61,fase:3,tipo:'licao',titulo:'Preposições de Lugar — IN ON AT UNDER...',sistema:'Sistema 1',sub:'Lição 47',tempo:12,desc:'Par natural das preposições de tempo — agora situando coisas no espaço.',url:'../47_lugar/index.html'},
+{id:62,fase:3,tipo:'padrao',titulo:'I ENDED UP — o que aconteceu no final',sistema:'Sistema 2',sub:'Pilar 3 · Padrão 24',tempo:8,desc:'Expressão narrativa muito usada para contar como as coisas terminaram.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:63,fase:3,tipo:'licao',titulo:'Modais — WILL WOULD MAY MIGHT',sistema:'Sistema 1',sub:'Lições 30–31',tempo:12,desc:'Expandir os modais com nuance — possibilidade, hipótese e educação.',url:'../30_may_might/index.html'},
+{id:64,fase:3,tipo:'gramatica',titulo:'Past Perfect — o passado do passado',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 08',tempo:15,desc:'Narrar sequências de eventos no passado — o que já tinha acontecido.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:65,fase:3,tipo:'texto',titulo:'O argumento — The Argument',sistema:'Sistema 2',sub:'Pilar 4 · Texto 55',tempo:10,desc:'Past Perfect em narrativa emocional real — uma discussão em família.',url:'../sistema2/pilar4_textos/index.html'},
+{id:66,fase:3,tipo:'frases',titulo:'Naturalidade — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 7',tempo:12,desc:'Expressões e fillers que fazem a fala soar natural, não traduzida.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:67,fase:3,tipo:'crescente',titulo:'Indo ao médico',sistema:'Sistema 2',sub:'Pilar 1 · Situação 12',tempo:8,desc:'Vocabulário de saúde crescendo frase por frase, do básico ao completo.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:68,fase:3,tipo:'frases',titulo:'Quantificadores em uso — SOME ANY MUCH MANY',sistema:'Sistema 2',sub:'Pilar 2 · Nível 3',tempo:10,desc:'Quantidade aparece em toda frase prática — ver SOME, ANY, MUCH e MANY em contexto real.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:69,fase:3,tipo:'basicbetter',titulo:'Revisão — escola vs nativo completo',sistema:'Sistema 3',sub:'Módulo 3 · Revisão geral',tempo:15,desc:'Consolidar o salto de qualidade na fala revisando as 10 situações.',url:'../sistema3/modulo3_basic_vs_better/index.html'},
+{id:70,fase:3,tipo:'texto',titulo:'Recomeçando — Starting Over',sistema:'Sistema 2',sub:'Pilar 4 · Texto 104',tempo:12,desc:'Texto avançado — motivação e vocabulário mais complexo fecham a Fase 3.',url:'../sistema2/pilar4_textos/index.html'},
+{id:71,fase:4,tipo:'gramatica',titulo:'Present Perfect Continuous — duração até agora',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 10',tempo:15,desc:'O tempo que diferencia intermediário de avançado.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:72,fase:4,tipo:'frases',titulo:'Série e Filme — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 8',tempo:12,desc:'Inglês informal — gonna, wanna, kinda — como nativos realmente falam.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:73,fase:4,tipo:'padrao',titulo:'WHAT IF — hipóteses e possibilidades',sistema:'Sistema 2',sub:'Pilar 3 · Padrão 12',tempo:8,desc:'Pensar em inglês, não traduzir — hipóteses soam naturais com esse padrão.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:74,fase:4,tipo:'licao',titulo:'Phrasal Verbs e Chunks — os essenciais',sistema:'Sistema 1',sub:'Lição 48',tempo:15,desc:'Blocos e combinações fixas indispensáveis para entender nativos.',url:'../48_chunks/index.html'},
+{id:75,fase:4,tipo:'crescente',titulo:'Fim de semana',sistema:'Sistema 2',sub:'Pilar 1 · Situação 16',tempo:8,desc:'Vocabulário de lazer em contexto casual, com phrasal verbs comuns.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:76,fase:4,tipo:'gramatica',titulo:'Future Perfect — concluído antes de um ponto futuro',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 09',tempo:15,desc:'Tempo de precisão — necessário para fluência real.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:77,fase:4,tipo:'frases',titulo:'Emoção — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 9',tempo:12,desc:'Expressar emoção é metade da comunicação — vocabulário afetivo real.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:78,fase:4,tipo:'padrao',titulo:'I REALIZE — tomando consciência',sistema:'Sistema 2',sub:'Pilar 3 · Padrão 29',tempo:8,desc:'Reflexão e insight — vocabulário de crescimento pessoal em uso real.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:79,fase:4,tipo:'licao',titulo:'Estruturas Fixas — Chunks avançados',sistema:'Sistema 1',sub:'Lição 48',tempo:12,desc:'Blocos prontos — atalho direto para soar fluente sem pensar demais.',url:'../48_chunks/index.html'},
+{id:80,fase:4,tipo:'texto',titulo:'O último dia — The Last Day',sistema:'Sistema 2',sub:'Pilar 4 · Texto 105',tempo:12,desc:'Texto avançado com vocabulário emocional e profissional combinados.',url:'../sistema2/pilar4_textos/index.html'},
+{id:81,fase:4,tipo:'frases',titulo:'Fluência — 50 frases',sistema:'Sistema 2',sub:'Pilar 2 · Nível 10',tempo:12,desc:'Ironia, humor, hesitação — o que diferencia o nível nativo.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:82,fase:4,tipo:'padrao',titulo:'ALL I WANT IS — o que realmente importa',sistema:'Sistema 2',sub:'Pilar 3 · Padrão 30',tempo:8,desc:'Expressão de desejo profundo — vocabulário emocional avançado.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:83,fase:4,tipo:'licao',titulo:'Conectivos Intermediários — HOWEVER THEREFORE MEANWHILE',sistema:'Sistema 1',sub:'Lição 36',tempo:12,desc:'Conectivos que marcam o salto para o nível B2.',url:'../36_however_although/index.html'},
+{id:84,fase:4,tipo:'crescente',titulo:'Boa notícia',sistema:'Sistema 2',sub:'Pilar 1 · Situação 20',tempo:8,desc:'Vocabulário emocional positivo crescendo em uma frase completa.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+{id:85,fase:4,tipo:'gramatica',titulo:'Past Perfect Continuous — duração antes do passado',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 11',tempo:15,desc:'Narrativa sofisticada — diferencia C1 de B2.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:86,fase:4,tipo:'frases',titulo:'Fluência — 50 frases finais',sistema:'Sistema 2',sub:'Pilar 2 · Nível 10',tempo:12,desc:'Completar as 1.000 frases do Sistema 2 — marco importante da jornada.',url:'../sistema2/pilar2_1000_frases/index.html'},
+{id:87,fase:4,tipo:'padrao',titulo:'STOP — parando hábitos ruins',sistema:'Sistema 2',sub:'Pilar 3 · Padrão 28',tempo:8,desc:'Imperativo em uso real — pedir mudança de comportamento.',url:'../sistema2/pilar3_padroes/index.html'},
+{id:88,fase:4,tipo:'texto',titulo:'Trabalhando tarde — Working Late',sistema:'Sistema 2',sub:'Pilar 4 · Texto 05',tempo:10,desc:'Vocabulário profissional avançado em narrativa real.',url:'../sistema2/pilar4_textos/index.html'},
+{id:89,fase:4,tipo:'gramatica',titulo:'Future Perfect Continuous — duração até um ponto futuro',sistema:'Sistema 3',sub:'Módulo 1 · Tempo 12',tempo:15,desc:'Último tempo verbal — completa os 12 tempos do inglês.',url:'../sistema3/modulo1_tempos_verbais/index.html'},
+{id:90,fase:4,tipo:'padrao',titulo:"LET'S — propondo ações conjuntas",sistema:'Sistema 2',sub:'Pilar 3 · Padrão 27',tempo:8,desc:'Liderança e colaboração em uso real — fecha a Fase 4.',url:'../sistema2/pilar3_padroes/index.html'},
+
+{id:91,fase:5,tipo:'revisao',titulo:'TRABALHO — revisão cruzada',tempo:15,desc:'Revisitar vocabulário e estruturas de trabalho cruzando os 3 sistemas.',
+  s1:{texto:'Verbos essenciais do ambiente profissional: CALL, USE, MAKE, GET, WORK.',url:'../25_call_use/index.html'},
+  s2:{texto:'Textos e frases reais de trabalho: o email, a entrevista, trabalhando tarde.',url:'../sistema2/pilar4_textos/index.html'},
+  s3:{texto:'Basic vs Better aplicado a situações profissionais — soar mais natural no trabalho.',url:'../sistema3/modulo3_basic_vs_better/index.html'}},
+{id:92,fase:5,tipo:'revisao',titulo:'FAMÍLIA — revisão cruzada',tempo:15,desc:'Cruzar pronomes, BE, HAVE e padrões de sentimento em contexto familiar.',
+  s1:{texto:'Pronomes + BE + HAVE — a base para falar de quem é quem na família.',url:'../01_pronomes_sujeito/index.html'},
+  s2:{texto:'Textos de família (Sunday Lunch) e frases de relação do dia a dia.',url:'../sistema2/pilar4_textos/index.html'},
+  s3:{texto:'Padrões I SHOULD (ligar pra mãe) e I WAS em uso real e afetivo.',url:'../sistema3/modulo4_padroes_expansivos/index.html'}},
+{id:93,fase:5,tipo:'revisao',titulo:'COMPRAS — revisão cruzada',tempo:15,desc:'Artigos, quantificadores e pedidos educados aplicados a situações de compra.',
+  s1:{texto:'Artigos A/AN/THE — essenciais para pedir e descrever produtos.',url:'../11_artigo_a_an/index.html'},
+  s2:{texto:'Frase crescente "Indo às compras" e frases reais de negociação.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+  s3:{texto:"Padrões I'D LIKE e MAY I? — pedir com educação em qualquer loja.",url:'../sistema3/modulo4_padroes_expansivos/index.html'}},
+{id:94,fase:5,tipo:'revisao',titulo:'SAÚDE — revisão cruzada',tempo:15,desc:'Modais de obrigação e conselho com vocabulário de saúde e bem-estar.',
+  s1:{texto:'Modais SHOULD e MUST — conselho e obrigação ao falar de saúde.',url:'../29_should/index.html'},
+  s2:{texto:'Frase crescente "Indo ao médico" com vocabulário de saúde real.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+  s3:{texto:'Padrões de emoção e sensação — "I was feeling..." em contexto de saúde.',url:'../sistema3/modulo4_padroes_expansivos/index.html'}},
+{id:95,fase:5,tipo:'revisao',titulo:'VIAGEM — revisão cruzada',tempo:15,desc:'Preposições, question words e tempos futuros aplicados a viagens.',
+  s1:{texto:'Preposições de lugar e question words — orientar-se em qualquer viagem.',url:'../47_lugar/index.html'},
+  s2:{texto:'Frase crescente "Planejando uma viagem" — aeroporto e vocabulário de viagem.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+  s3:{texto:"Tempos futuros e o padrão I CAN'T WAIT — ansiedade boa antes de viajar.",url:'../sistema3/modulo1_tempos_verbais/index.html'}},
+{id:96,fase:5,tipo:'revisao',titulo:'EMOÇÕES — revisão cruzada',tempo:15,desc:'Verbos de sentimento, vocabulário emocional e Past Perfect combinados.',
+  s1:{texto:'Verbos de sentimento: FEEL, LOVE, HATE — a base do vocabulário emocional.',url:'../74_feel/index.html'},
+  s2:{texto:'Nível 9 (emoções) e textos emocionais como The Bad Day e The Argument.',url:'../sistema2/pilar2_1000_frases/index.html'},
+  s3:{texto:'Past Perfect e padrões de reflexão para narrar o que já tinha acontecido.',url:'../sistema3/modulo1_tempos_verbais/index.html'}},
+{id:97,fase:5,tipo:'revisao',titulo:'PASSADO — revisão dos 4 tempos',tempo:18,desc:'Simple Past, Past Continuous, Past Perfect e Past Perfect Continuous lado a lado.',
+  s1:{texto:'BE no passado (WAS/WERE) — a raiz de todos os tempos passados.',url:'../05_be_ser/index.html'},
+  s2:{texto:'Frases crescentes e textos narrativos que usam os 4 tempos do passado.',url:'../sistema2/pilar1_frases_crescentes/index.html'},
+  s3:{texto:'Os 4 tempos do passado explicados lado a lado, com contraste direto.',url:'../sistema3/modulo1_tempos_verbais/index.html'}},
+{id:98,fase:5,tipo:'revisao',titulo:'PRESENTE — revisão dos 4 tempos',tempo:18,desc:'Simple Present, Present Continuous, Present Perfect e Present Perfect Continuous lado a lado.',
+  s1:{texto:'Verbo BE no presente e no -ing — a base de todo tempo presente.',url:'../05_be_ser/index.html'},
+  s2:{texto:'Frases de rotina e presença aplicando os 4 tempos do presente.',url:'../sistema2/pilar2_1000_frases/index.html'},
+  s3:{texto:'Os 4 tempos do presente explicados lado a lado, com contraste direto.',url:'../sistema3/modulo1_tempos_verbais/index.html'}},
+{id:99,fase:5,tipo:'revisao',titulo:'FUTURO — revisão dos 4 tempos',tempo:18,desc:'Simple Future, Future Continuous, Future Perfect e Future Perfect Continuous lado a lado.',
+  s1:{texto:'GO e modais WILL/WOULD — as ferramentas básicas para falar do futuro.',url:'../16_go_ir/index.html'},
+  s2:{texto:"Padrão I'M GOING TO e frases crescentes de planejamento e viagem.",url:'../sistema2/pilar3_padroes/index.html'},
+  s3:{texto:'Os 4 tempos do futuro explicados lado a lado, com contraste direto.',url:'../sistema3/modulo1_tempos_verbais/index.html'}},
+{id:100,fase:5,tipo:'revisao',titulo:'MARCO DE FLUÊNCIA — revisão geral',tempo:20,desc:'Os 20 verbos irregulares, Basic vs Better completo e as frases mais importantes — o grande marco antes do desafio final.',
+  s1:{texto:'Revisão dos verbos essenciais (HAVE, DO, GO, GET, MAKE) que sustentam tudo.',url:'../15_do_fazer/index.html'},
+  s2:{texto:'As frases e textos mais importantes de toda a trilha do Sistema 2.',url:'../sistema2/pilar2_1000_frases/index.html'},
+  s3:{texto:'Os 20 verbos irregulares mais usados e o Basic vs Better completo.',url:'../sistema3/modulo2_verbos_irregulares/index.html'}},
+
+{id:101,fase:5,tipo:'quiz',titulo:"Desafio 01 — Fundação: Pronomes, BE e Artigos",tempo:15,desc:"20 perguntas sem dica cobrindo pronomes, o verbo BE e artigos.",dir:"e2p",quiz:[
+  {q:"I am a teacher.",a:"Eu sou professor"},
+  {q:"You are my friend.",a:"Você é meu amigo"},
+  {q:"He is at home.",a:"Ele está em casa"},
+  {q:"She is tired.",a:"Ela está cansada"},
+  {q:"We are ready.",a:"Nós estamos prontos"},
+  {q:"They are here.",a:"Eles estão aqui"},
+  {q:"It is a book.",a:"É um livro"},
+  {q:"This is my house.",a:"Esta é minha casa"},
+  {q:"I was busy yesterday.",a:"Eu estava ocupado ontem"},
+  {q:"You were right.",a:"Você estava certo"},
+  {q:"He was late.",a:"Ele estava atrasado"},
+  {q:"I have a car.",a:"Eu tenho um carro"},
+  {q:"She has a question.",a:"Ela tem uma pergunta"},
+  {q:"I need a pen.",a:"Eu preciso de uma caneta"},
+  {q:"He is a doctor.",a:"Ele é médico"},
+  {q:"I am not sure.",a:"Eu não tenho certeza"},
+  {q:"You are not alone.",a:"Você não está sozinho"},
+  {q:"We were at the party.",a:"Nós estávamos na festa"},
+  {q:"It was a good day.",a:"Foi um bom dia"},
+  {q:"They were happy.",a:"Eles estavam felizes"}
+]},
+{id:102,fase:5,tipo:'quiz',titulo:"Desafio 02 — Fundação: HAVE, DO, GO, GET",tempo:15,desc:"20 perguntas sem dica cobrindo os quatro verbos mais versáteis do inglês.",dir:"p2e",quiz:[
+  {q:"Eu tenho dois irmãos.",a:"I have two brothers"},
+  {q:"Ela tem um cachorro.",a:"She has a dog"},
+  {q:"Nós temos tempo.",a:"We have time"},
+  {q:"Eu faço a lição de casa.",a:"I do my homework"},
+  {q:"Ele não entende.",a:"He does not understand"},
+  {q:"Você faz exercício?",a:"Do you exercise"},
+  {q:"Eu vou trabalhar de ônibus.",a:"I go to work by bus"},
+  {q:"Ela vai para casa cedo.",a:"She goes home early"},
+  {q:"Nós vamos à praia.",a:"We go to the beach"},
+  {q:"Eu fico cansado fácil.",a:"I get tired easily"},
+  {q:"Ele ficou bravo.",a:"He got angry"},
+  {q:"Você entendeu?",a:"Did you get it"},
+  {q:"Eu tenho que ir.",a:"I have to go"},
+  {q:"Ela não tem carro.",a:"She does not have a car"},
+  {q:"Eles vão sair hoje.",a:"They are going out today"},
+  {q:"Eu peguei o ônibus.",a:"I got the bus"},
+  {q:"Nós fazemos isso juntos.",a:"We do this together"},
+  {q:"Ele tem uma ideia.",a:"He has an idea"},
+  {q:"Você vai ao médico?",a:"Are you going to the doctor"},
+  {q:"Ele ficou surpreso.",a:"He got surprised"}
+]},
+{id:103,fase:5,tipo:'quiz',titulo:"Desafio 03 — Construção: Tempos Verbais Básicos",tempo:15,desc:"20 perguntas sem dica cobrindo presente, passado e futuro simples.",dir:"e2p",quiz:[
+  {q:"I work every day.",a:"Eu trabalho todos os dias"},
+  {q:"She studies English.",a:"Ela estuda inglês"},
+  {q:"We live in Brazil.",a:"Nós moramos no Brasil"},
+  {q:"I worked yesterday.",a:"Eu trabalhei ontem"},
+  {q:"He studied last night.",a:"Ele estudou ontem à noite"},
+  {q:"They lived in Rio.",a:"Eles moravam no Rio"},
+  {q:"I will call you.",a:"Eu vou te ligar"},
+  {q:"She will travel tomorrow.",a:"Ela vai viajar amanhã"},
+  {q:"We are going to eat.",a:"Nós vamos comer"},
+  {q:"He is going to sleep.",a:"Ele vai dormir"},
+  {q:"I am working now.",a:"Eu estou trabalhando agora"},
+  {q:"She is studying now.",a:"Ela está estudando agora"},
+  {q:"They are eating dinner.",a:"Eles estão jantando"},
+  {q:"I don't work on Sundays.",a:"Eu não trabalho aos domingos"},
+  {q:"She doesn't like coffee.",a:"Ela não gosta de café"},
+  {q:"We didn't go out.",a:"Nós não saímos"},
+  {q:"He won't come.",a:"Ele não vai vir"},
+  {q:"Do you work here?",a:"Você trabalha aqui"},
+  {q:"Did you call her?",a:"Você ligou para ela"},
+  {q:"Will you help me?",a:"Você vai me ajudar"}
+]},
+{id:104,fase:5,tipo:'quiz',titulo:"Desafio 04 — Construção: Modais Básicos",tempo:15,desc:"20 perguntas sem dica cobrindo CAN, COULD, MAY, MUST e SHOULD.",dir:"p2e",quiz:[
+  {q:"Eu posso ajudar.",a:"I can help"},
+  {q:"Você poderia me ajudar?",a:"Could you help me"},
+  {q:"Ele deve estar certo.",a:"He must be right"},
+  {q:"Você deveria descansar.",a:"You should rest"},
+  {q:"Posso entrar?",a:"May I come in"},
+  {q:"Eu não posso ir.",a:"I cannot go"},
+  {q:"Ela pode falar inglês.",a:"She can speak English"},
+  {q:"Nós devemos ir agora.",a:"We must go now"},
+  {q:"Você deveria ligar para ela.",a:"You should call her"},
+  {q:"Poderia repetir, por favor?",a:"Could you repeat please"},
+  {q:"Eu talvez chegue tarde.",a:"I might be late"},
+  {q:"Ele pode estar em casa.",a:"He may be at home"},
+  {q:"Você tem que trabalhar?",a:"Do you have to work"},
+  {q:"Nós não devemos desistir.",a:"We should not give up"},
+  {q:"Posso usar seu telefone?",a:"May I use your phone"},
+  {q:"Ele não pode dirigir.",a:"He cannot drive"},
+  {q:"Você deveria ver isso.",a:"You should see this"},
+  {q:"Eu poderia tentar de novo.",a:"I could try again"},
+  {q:"Ela deve saber a resposta.",a:"She must know the answer"},
+  {q:"Nós podemos começar agora.",a:"We can start now"}
+]},
+{id:105,fase:5,tipo:'quiz',titulo:"Desafio 05 — Construção: Trabalho e Relações",tempo:15,desc:"20 perguntas sem dica com vocabulário de trabalho, família e amizade.",dir:"e2p",quiz:[
+  {q:"I have a meeting today.",a:"Eu tenho uma reunião hoje"},
+  {q:"She sent an email.",a:"Ela enviou um email"},
+  {q:"He works in an office.",a:"Ele trabalha em um escritório"},
+  {q:"We had a job interview.",a:"Nós tivemos uma entrevista de emprego"},
+  {q:"I called my boss.",a:"Eu liguei para meu chefe"},
+  {q:"She is my sister.",a:"Ela é minha irmã"},
+  {q:"He is my best friend.",a:"Ele é meu melhor amigo"},
+  {q:"They are my parents.",a:"Eles são meus pais"},
+  {q:"I love my family.",a:"Eu amo minha família"},
+  {q:"We talked for hours.",a:"Nós conversamos por horas"},
+  {q:"She helped me a lot.",a:"Ela me ajudou muito"},
+  {q:"He understands me.",a:"Ele me entende"},
+  {q:"I trust you.",a:"Eu confio em você"},
+  {q:"We work well together.",a:"Nós trabalhamos bem juntos"},
+  {q:"She remembers everything.",a:"Ela lembra de tudo"},
+  {q:"I forgot his name.",a:"Eu esqueci o nome dele"},
+  {q:"He learned fast.",a:"Ele aprendeu rápido"},
+  {q:"We found a solution.",a:"Nós encontramos uma solução"},
+  {q:"I gave her my number.",a:"Eu dei meu número para ela"},
+  {q:"She showed me the way.",a:"Ela me mostrou o caminho"}
+]},
+{id:106,fase:5,tipo:'quiz',titulo:"Desafio 06 — Expansão: Present Perfect",tempo:15,desc:"20 perguntas sem dica cobrindo experiências de vida com o Present Perfect.",dir:"p2e",quiz:[
+  {q:"Eu já estive na Europa.",a:"I have been to Europe"},
+  {q:"Ela já terminou o trabalho.",a:"She has finished the work"},
+  {q:"Nós nunca vimos isso.",a:"We have never seen that"},
+  {q:"Você já comeu?",a:"Have you eaten"},
+  {q:"Ele ainda não chegou.",a:"He has not arrived yet"},
+  {q:"Eu vivo aqui há dez anos.",a:"I have lived here for ten years"},
+  {q:"Ela conhece ele desde a escola.",a:"She has known him since school"},
+  {q:"Nós já terminamos.",a:"We have already finished"},
+  {q:"Eles perderam as chaves.",a:"They have lost the keys"},
+  {q:"Eu nunca estive tão feliz.",a:"I have never been so happy"},
+  {q:"Você já viajou para o Japão?",a:"Have you traveled to Japan"},
+  {q:"Ela já leu esse livro.",a:"She has already read this book"},
+  {q:"Nós trabalhamos juntos por anos.",a:"We have worked together for years"},
+  {q:"Ele mudou muito.",a:"He has changed a lot"},
+  {q:"Eu perdi meu telefone.",a:"I have lost my phone"},
+  {q:"Eles já chegaram.",a:"They have already arrived"},
+  {q:"Você já esteve aqui antes?",a:"Have you been here before"},
+  {q:"Nós decidimos isso juntos.",a:"We have decided this together"},
+  {q:"Ela sempre me ajudou.",a:"She has always helped me"},
+  {q:"Eu nunca fiz isso antes.",a:"I have never done this before"}
+]},
+{id:107,fase:5,tipo:'quiz',titulo:"Desafio 07 — Expansão: Conectivos e Opinião",tempo:15,desc:"20 perguntas sem dica cobrindo conectivos e formas de dar opinião.",dir:"e2p",quiz:[
+  {q:"I think it's a good idea.",a:"Eu acho que é uma boa ideia"},
+  {q:"I like it, but it's expensive.",a:"Eu gosto, mas é caro"},
+  {q:"She is tired, so she went home.",a:"Ela está cansada, então foi para casa"},
+  {q:"I stayed because it was raining.",a:"Eu fiquei porque estava chovendo"},
+  {q:"If you need help, call me.",a:"Se você precisar de ajuda, me ligue"},
+  {q:"I called before I left.",a:"Eu liguei antes de sair"},
+  {q:"She left after the meeting.",a:"Ela saiu depois da reunião"},
+  {q:"He is smart, however he is lazy.",a:"Ele é inteligente, porém é preguiçoso"},
+  {q:"Although it was late, we stayed.",a:"Embora fosse tarde, ficamos"},
+  {q:"In my opinion, it's the best option.",a:"Na minha opinião, é a melhor opção"},
+  {q:"I believe she is right.",a:"Eu acredito que ela está certa"},
+  {q:"That's why I called you.",a:"É por isso que eu te liguei"},
+  {q:"I agree with you.",a:"Eu concordo com você"},
+  {q:"I don't think that's true.",a:"Eu não acho que isso é verdade"},
+  {q:"She wants coffee or tea.",a:"Ela quer café ou chá"},
+  {q:"We can go now or later.",a:"Nós podemos ir agora ou depois"},
+  {q:"He is nice and honest.",a:"Ele é gentil e honesto"},
+  {q:"I like her, but she's busy.",a:"Eu gosto dela, mas ela está ocupada"},
+  {q:"It's expensive, however it's worth it.",a:"É caro, porém vale a pena"},
+  {q:"To be honest, I don't know.",a:"Para ser sincero, eu não sei"}
+]},
+{id:108,fase:5,tipo:'quiz',titulo:"Desafio 08 — Expansão: Preposições",tempo:15,desc:"20 perguntas sem dica cobrindo preposições de tempo e lugar.",dir:"p2e",quiz:[
+  {q:"Eu acordo às sete horas.",a:"I wake up at seven o'clock"},
+  {q:"Nós nos vemos na segunda-feira.",a:"We see each other on Monday"},
+  {q:"Ele nasceu em 1990.",a:"He was born in 1990"},
+  {q:"O livro está na mesa.",a:"The book is on the table"},
+  {q:"Ela mora em São Paulo.",a:"She lives in São Paulo"},
+  {q:"Eu estou na sala.",a:"I am in the room"},
+  {q:"O gato está embaixo da cama.",a:"The cat is under the bed"},
+  {q:"Nós nos encontramos no parque.",a:"We meet at the park"},
+  {q:"A reunião é às três.",a:"The meeting is at three"},
+  {q:"Ele trabalha à noite.",a:"He works at night"},
+  {q:"Estou de férias em julho.",a:"I am on vacation in July"},
+  {q:"O quadro está na parede.",a:"The picture is on the wall"},
+  {q:"Ela está entre os dois.",a:"She is between the two"},
+  {q:"Nós moramos perto do centro.",a:"We live near downtown"},
+  {q:"O carro está em frente à casa.",a:"The car is in front of the house"},
+  {q:"Eu chego ao meio-dia.",a:"I arrive at noon"},
+  {q:"Ele está atrás de você.",a:"He is behind you"},
+  {q:"Estamos na praia.",a:"We are at the beach"},
+  {q:"O evento é em dezembro.",a:"The event is in December"},
+  {q:"Ela chegou na hora certa.",a:"She arrived on time"}
+]},
+{id:109,fase:5,tipo:'quiz',titulo:"Desafio 09 — Expansão: Profissional e Negociação",tempo:15,desc:"20 perguntas sem dica com vocabulário de negociação e negócios.",dir:"e2p",quiz:[
+  {q:"I'd like to schedule a meeting.",a:"Eu gostaria de marcar uma reunião"},
+  {q:"Can we talk about the price?",a:"Podemos falar sobre o preço"},
+  {q:"I think we have a deal.",a:"Eu acho que fechamos negócio"},
+  {q:"Let's discuss the details.",a:"Vamos discutir os detalhes"},
+  {q:"She negotiated a better salary.",a:"Ela negociou um salário melhor"},
+  {q:"We need more time.",a:"Nós precisamos de mais tempo"},
+  {q:"I can offer a discount.",a:"Eu posso oferecer um desconto"},
+  {q:"He accepted the offer.",a:"Ele aceitou a proposta"},
+  {q:"They rejected the proposal.",a:"Eles rejeitaram a proposta"},
+  {q:"I'll send you the contract.",a:"Eu vou te enviar o contrato"},
+  {q:"We agreed on the terms.",a:"Nós concordamos com os termos"},
+  {q:"She is a great negotiator.",a:"Ela é uma ótima negociadora"},
+  {q:"Let's find a middle ground.",a:"Vamos encontrar um meio-termo"},
+  {q:"I need your approval.",a:"Eu preciso da sua aprovação"},
+  {q:"He signed the agreement.",a:"Ele assinou o acordo"},
+  {q:"We should close this deal today.",a:"Nós deveríamos fechar esse negócio hoje"},
+  {q:"I'll follow up next week.",a:"Eu vou dar um retorno semana que vem"},
+  {q:"Can you lower the price?",a:"Você pode baixar o preço"},
+  {q:"That sounds fair to me.",a:"Isso me parece justo"},
+  {q:"Let's shake on it.",a:"Vamos fechar com um aperto de mão"}
+]},
+{id:110,fase:5,tipo:'quiz',titulo:"Desafio 10 — Expansão: Revisão Geral (Fase 3)",tempo:15,desc:"20 perguntas sem dica misturando tudo o que foi visto na Fase 3.",dir:"p2e",quiz:[
+  {q:"Eu já trabalhei em Londres.",a:"I have worked in London"},
+  {q:"Ela deveria descansar mais.",a:"She should rest more"},
+  {q:"Nós vamos viajar amanhã.",a:"We are going to travel tomorrow"},
+  {q:"Ele estava estudando quando eu liguei.",a:"He was studying when I called"},
+  {q:"Eu acho que ela está certa.",a:"I think she is right"},
+  {q:"Se chover, eu fico em casa.",a:"If it rains, I'll stay home"},
+  {q:"Ela mora perto do trabalho.",a:"She lives near work"},
+  {q:"Nós tivemos uma boa entrevista.",a:"We had a good interview"},
+  {q:"Eu nunca vi algo assim.",a:"I have never seen anything like that"},
+  {q:"Ele chegou depois da reunião.",a:"He arrived after the meeting"},
+  {q:"Você pode me ajudar amanhã?",a:"Can you help me tomorrow"},
+  {q:"Eu gostaria de um café.",a:"I would like a coffee"},
+  {q:"Ela concordou com o plano.",a:"She agreed with the plan"},
+  {q:"Nós estamos ocupados hoje.",a:"We are busy today"},
+  {q:"Ele já terminou o projeto.",a:"He has already finished the project"},
+  {q:"Eu estava dirigindo quando aconteceu.",a:"I was driving when it happened"},
+  {q:"Você deveria ver esse lugar.",a:"You should see this place"},
+  {q:"Ela trabalha das nove às cinco.",a:"She works from nine to five"},
+  {q:"Nós vamos fechar negócio hoje.",a:"We are going to close the deal today"},
+  {q:"Eu confio em você.",a:"I trust you"}
+]},
+{id:111,fase:5,tipo:'quiz',titulo:"Desafio 11 — Fluência: Present Perfect Continuous e Phrasal Verbs",tempo:15,desc:"20 perguntas sem dica cobrindo duração até agora e verbos com partícula.",dir:"e2p",quiz:[
+  {q:"I have been working here for years.",a:"Eu tenho trabalhado aqui há anos"},
+  {q:"She has been studying all day.",a:"Ela tem estudado o dia todo"},
+  {q:"We have been waiting for an hour.",a:"Nós temos esperado por uma hora"},
+  {q:"He has been feeling sick.",a:"Ele tem se sentido mal"},
+  {q:"They have been living here since 2020.",a:"Eles têm morado aqui desde 2020"},
+  {q:"I need to wake up early.",a:"Eu preciso acordar cedo"},
+  {q:"She gave up smoking.",a:"Ela desistiu de fumar"},
+  {q:"He looked after his kids.",a:"Ele cuidou dos filhos"},
+  {q:"We ran into an old friend.",a:"Nós encontramos um velho amigo por acaso"},
+  {q:"I need to figure this out.",a:"Eu preciso descobrir isso"},
+  {q:"She showed up late.",a:"Ela apareceu atrasada"},
+  {q:"They broke up last year.",a:"Eles terminaram no ano passado"},
+  {q:"I turned off the lights.",a:"Eu apaguei as luzes"},
+  {q:"He picked up the phone.",a:"Ele atendeu o telefone"},
+  {q:"We got along really well.",a:"Nós nos demos muito bem"},
+  {q:"She has been trying hard.",a:"Ela tem se esforçado bastante"},
+  {q:"I have been thinking about it.",a:"Eu tenho pensado sobre isso"},
+  {q:"He set up the meeting.",a:"Ele organizou a reunião"},
+  {q:"They have been working together.",a:"Eles têm trabalhado juntos"},
+  {q:"I look forward to seeing you.",a:"Eu estou ansioso para te ver"}
+]},
+{id:112,fase:5,tipo:'quiz',titulo:"Desafio 12 — Fluência: Padrões Emocionais",tempo:15,desc:"20 perguntas sem dica cobrindo WHAT IF, I REALIZE e ALL I WANT IS.",dir:"p2e",quiz:[
+  {q:"E se ele não vier?",a:"What if he doesn't come"},
+  {q:"E se eu perder o voo?",a:"What if I miss the flight"},
+  {q:"Eu percebi que estava errado.",a:"I realized I was wrong"},
+  {q:"Eu percebo que preciso mudar.",a:"I realize I need to change"},
+  {q:"Tudo que eu quero é paz.",a:"All I want is peace"},
+  {q:"Tudo que eu quero é você feliz.",a:"All I want is you happy"},
+  {q:"E se der tudo errado?",a:"What if everything goes wrong"},
+  {q:"Eu percebi isso tarde demais.",a:"I realized that too late"},
+  {q:"Tudo que eu preciso é tempo.",a:"All I need is time"},
+  {q:"E se a gente tentasse de novo?",a:"What if we tried again"},
+  {q:"Eu percebo o quanto isso importa.",a:"I realize how much this matters"},
+  {q:"Tudo que eu quero é ficar aqui.",a:"All I want is to stay here"},
+  {q:"E se estiver certo?",a:"What if it's right"},
+  {q:"Eu percebi que amava ela.",a:"I realized I loved her"},
+  {q:"Tudo que importa é você.",a:"All that matters is you"},
+  {q:"E se eles descobrirem?",a:"What if they find out"},
+  {q:"Eu acabei ficando até tarde.",a:"I ended up staying late"},
+  {q:"Ele acabou desistindo.",a:"He ended up giving up"},
+  {q:"Nós acabamos indo a pé.",a:"We ended up walking"},
+  {q:"Eu percebi que precisava de ajuda.",a:"I realized I needed help"}
+]},
+{id:113,fase:5,tipo:'quiz',titulo:"Desafio 13 — Fluência: Conectivos Intermediários",tempo:15,desc:"20 perguntas sem dica cobrindo HOWEVER, THEREFORE, MEANWHILE e afins.",dir:"e2p",quiz:[
+  {q:"I was tired; however, I kept working.",a:"Eu estava cansado; porém, continuei trabalhando"},
+  {q:"It was raining; meanwhile, we waited inside.",a:"Estava chovendo; enquanto isso, esperamos dentro"},
+  {q:"He didn't study; therefore, he failed.",a:"Ele não estudou; portanto, ele foi reprovado"},
+  {q:"She is smart; however, she is shy.",a:"Ela é inteligente; porém, é tímida"},
+  {q:"I was cooking; meanwhile, he was cleaning.",a:"Eu estava cozinhando; enquanto isso, ele estava limpando"},
+  {q:"It's expensive; therefore, I won't buy it.",a:"É caro; portanto, eu não vou comprar"},
+  {q:"He apologized; however, it was too late.",a:"Ele pediu desculpas; porém, já era tarde"},
+  {q:"She left early; meanwhile, we stayed.",a:"Ela saiu cedo; enquanto isso, nós ficamos"},
+  {q:"I missed the bus; therefore, I was late.",a:"Eu perdi o ônibus; portanto, cheguei atrasado"},
+  {q:"He is rich; however, he is unhappy.",a:"Ele é rico; porém, é infeliz"},
+  {q:"We waited; meanwhile, they arrived.",a:"Nós esperamos; enquanto isso, eles chegaram"},
+  {q:"She was sick; therefore, she stayed home.",a:"Ela estava doente; portanto, ficou em casa"},
+  {q:"It was late; nevertheless, we finished the work.",a:"Era tarde; mesmo assim, terminamos o trabalho"},
+  {q:"He is young; nonetheless, he is wise.",a:"Ele é jovem; contudo, é sábio"},
+  {q:"I agree with you; still, I have doubts.",a:"Eu concordo com você; ainda assim, tenho dúvidas"},
+  {q:"She studied hard; as a result, she passed.",a:"Ela estudou muito; como resultado, ela passou"},
+  {q:"I called him; meanwhile, he was sleeping.",a:"Eu liguei para ele; enquanto isso, ele estava dormindo"},
+  {q:"It's late; therefore, we should go.",a:"Está tarde; portanto, deveríamos ir"},
+  {q:"He lost his job; however, he stayed positive.",a:"Ele perdeu o emprego; porém, ficou positivo"},
+  {q:"She is quiet; nevertheless, she is confident.",a:"Ela é quieta; mesmo assim, é confiante"}
+]},
+{id:114,fase:5,tipo:'quiz',titulo:"Desafio 14 — Fluência: Perfect Tenses Avançados",tempo:18,desc:"20 perguntas sem dica cobrindo Future Perfect e as formas Continuous.",dir:"p2e",quiz:[
+  {q:"Eu já terei terminado até amanhã.",a:"I will have finished by tomorrow"},
+  {q:"Ela já terá saído quando você chegar.",a:"She will have left when you arrive"},
+  {q:"Nós já teremos comido antes das oito.",a:"We will have eaten before eight"},
+  {q:"Eu tinha terminado antes de você ligar.",a:"I had finished before you called"},
+  {q:"Ela tinha ido embora quando cheguei.",a:"She had left when I arrived"},
+  {q:"Nós tínhamos trabalhado juntos antes.",a:"We had worked together before"},
+  {q:"Eu estava trabalhando há duas horas quando ele chegou.",a:"I had been working for two hours when he arrived"},
+  {q:"Ela estava estudando há um mês antes da prova.",a:"She had been studying for a month before the exam"},
+  {q:"Até dezembro, eu terei morado aqui por dez anos.",a:"By December, I will have lived here for ten years"},
+  {q:"Ele terá terminado o projeto até sexta.",a:"He will have finished the project by Friday"},
+  {q:"Nós teremos viajado por três países até junho.",a:"We will have traveled through three countries by June"},
+  {q:"Eu tinha esquecido o nome dele.",a:"I had forgotten his name"},
+  {q:"Ela tinha perdido as chaves antes de sair.",a:"She had lost her keys before leaving"},
+  {q:"Até as cinco, eles terão chegado.",a:"By five, they will have arrived"},
+  {q:"Eu estarei trabalhando há um ano em março.",a:"I will have been working for a year in March"},
+  {q:"Nós estávamos esperando há uma hora quando ela apareceu.",a:"We had been waiting for an hour when she showed up"},
+  {q:"Ele tinha estudado inglês antes de viajar.",a:"He had studied English before traveling"},
+  {q:"Até o fim do mês, ela terá economizado o suficiente.",a:"By the end of the month, she will have saved enough"},
+  {q:"Eu já tinha comido quando você ligou.",a:"I had already eaten when you called"},
+  {q:"Eles estarão trabalhando juntos há cinco anos em breve.",a:"They will have been working together for five years soon"}
+]},
+{id:115,fase:5,tipo:'quiz',titulo:"Desafio 15 — Fluência: Revisão Geral (Fase 4)",tempo:15,desc:"20 perguntas sem dica misturando tudo o que foi visto na Fase 4.",dir:"e2p",quiz:[
+  {q:"I have been living here for years.",a:"Eu tenho morado aqui há anos"},
+  {q:"What if we tried something new?",a:"E se tentássemos algo novo"},
+  {q:"I realized I was wrong.",a:"Eu percebi que estava errado"},
+  {q:"He is smart; however, he is lazy.",a:"Ele é inteligente; porém, é preguiçoso"},
+  {q:"I will have finished by tomorrow.",a:"Eu já terei terminado até amanhã"},
+  {q:"She gave up smoking last year.",a:"Ela desistiu de fumar no ano passado"},
+  {q:"All I want is to see you happy.",a:"Tudo que eu quero é te ver feliz"},
+  {q:"We ended up staying home.",a:"Nós acabamos ficando em casa"},
+  {q:"He had left when I arrived.",a:"Ele tinha ido embora quando cheguei"},
+  {q:"I look forward to seeing you.",a:"Eu estou ansioso para te ver"},
+  {q:"She has been trying really hard.",a:"Ela tem se esforçado bastante"},
+  {q:"It was raining; meanwhile, we waited.",a:"Estava chovendo; enquanto isso, esperamos"},
+  {q:"I stopped drinking coffee at night.",a:"Eu parei de beber café à noite"},
+  {q:"Let's talk about it tomorrow.",a:"Vamos conversar sobre isso amanhã"},
+  {q:"She has changed a lot since college.",a:"Ela mudou muito desde a faculdade"},
+  {q:"I had never seen anything like that.",a:"Eu nunca tinha visto algo assim"},
+  {q:"He picked up the phone quickly.",a:"Ele atendeu o telefone rápido"},
+  {q:"We will have traveled a lot by June.",a:"Nós teremos viajado bastante até junho"},
+  {q:"I realize how important this is.",a:"Eu percebo o quanto isso é importante"},
+  {q:"She showed up right on time.",a:"Ela apareceu bem na hora"}
+]},
+{id:116,fase:5,tipo:'quiz',titulo:"Desafio 16 — Domínio: Passado Completo",tempo:18,desc:"20 perguntas sem dica cobrindo os 4 tempos do passado lado a lado.",dir:"p2e",quiz:[
+  {q:"Eu trabalhei ontem.",a:"I worked yesterday"},
+  {q:"Eu estava trabalhando quando ela ligou.",a:"I was working when she called"},
+  {q:"Eu já tinha trabalhado antes de me mudar.",a:"I had already worked before I moved"},
+  {q:"Eu estava trabalhando há duas horas quando ele chegou.",a:"I had been working for two hours when he arrived"},
+  {q:"Ela estudou a noite toda.",a:"She studied all night"},
+  {q:"Ela estava estudando quando eu cheguei.",a:"She was studying when I arrived"},
+  {q:"Ela já tinha estudado antes da prova.",a:"She had already studied before the exam"},
+  {q:"Ela estava estudando há um mês antes da prova.",a:"She had been studying for a month before the exam"},
+  {q:"Nós viajamos para o Rio.",a:"We traveled to Rio"},
+  {q:"Nós estávamos viajando quando aconteceu.",a:"We were traveling when it happened"},
+  {q:"Nós já tínhamos viajado para lá antes.",a:"We had already traveled there before"},
+  {q:"Nós estávamos esperando há horas quando ela chegou.",a:"We had been waiting for hours when she arrived"},
+  {q:"Ele comeu tudo.",a:"He ate everything"},
+  {q:"Ele estava comendo quando o telefone tocou.",a:"He was eating when the phone rang"},
+  {q:"Ele já tinha comido antes de sair.",a:"He had already eaten before leaving"},
+  {q:"Eles moraram lá por anos.",a:"They lived there for years"},
+  {q:"Eles estavam morando lá quando nos conhecemos.",a:"They were living there when we met"},
+  {q:"Eles já tinham se mudado quando eu liguei.",a:"They had already moved when I called"},
+  {q:"Eles estavam trabalhando juntos há meses quando terminou.",a:"They had been working together for months when it ended"},
+  {q:"Eu nunca tinha visto isso antes.",a:"I had never seen that before"}
+]},
+{id:117,fase:5,tipo:'quiz',titulo:"Desafio 17 — Domínio: Presente Completo",tempo:18,desc:"20 perguntas sem dica cobrindo os 4 tempos do presente lado a lado.",dir:"e2p",quiz:[
+  {q:"I work every day.",a:"Eu trabalho todos os dias"},
+  {q:"I am working right now.",a:"Eu estou trabalhando agora"},
+  {q:"I have worked here for years.",a:"Eu trabalho aqui há anos"},
+  {q:"I have been working here for years.",a:"Eu tenho trabalhado aqui há anos"},
+  {q:"She studies English.",a:"Ela estuda inglês"},
+  {q:"She is studying now.",a:"Ela está estudando agora"},
+  {q:"She has studied English for years.",a:"Ela estuda inglês há anos"},
+  {q:"She has been studying all day.",a:"Ela tem estudado o dia todo"},
+  {q:"We live in Brazil.",a:"Nós moramos no Brasil"},
+  {q:"We are living in Brazil now.",a:"Nós estamos morando no Brasil agora"},
+  {q:"We have lived here since 2020.",a:"Nós moramos aqui desde 2020"},
+  {q:"We have been living here for years.",a:"Nós temos morado aqui há anos"},
+  {q:"He works at a bank.",a:"Ele trabalha em um banco"},
+  {q:"He is working late today.",a:"Ele está trabalhando até tarde hoje"},
+  {q:"He has worked here since college.",a:"Ele trabalha aqui desde a faculdade"},
+  {q:"He has been working all week.",a:"Ele tem trabalhado a semana toda"},
+  {q:"They travel a lot.",a:"Eles viajam muito"},
+  {q:"They are traveling this week.",a:"Eles estão viajando essa semana"},
+  {q:"They have traveled to many countries.",a:"Eles já viajaram para muitos países"},
+  {q:"They have been traveling for a month.",a:"Eles têm viajado há um mês"}
+]},
+{id:118,fase:5,tipo:'quiz',titulo:"Desafio 18 — Domínio: Futuro Completo",tempo:18,desc:"20 perguntas sem dica cobrindo os 4 tempos do futuro lado a lado.",dir:"p2e",quiz:[
+  {q:"Eu vou trabalhar amanhã.",a:"I will work tomorrow"},
+  {q:"Eu estarei trabalhando às nove.",a:"I will be working at nine"},
+  {q:"Eu já terei terminado até sexta.",a:"I will have finished by Friday"},
+  {q:"Eu estarei trabalhando aqui há um ano em março.",a:"I will have been working here for a year in March"},
+  {q:"Ela vai estudar para a prova.",a:"She will study for the exam"},
+  {q:"Ela estará estudando quando você ligar.",a:"She will be studying when you call"},
+  {q:"Ela já terá estudado tudo até amanhã.",a:"She will have studied everything by tomorrow"},
+  {q:"Ela estará estudando há três horas quando terminar.",a:"She will have been studying for three hours when she finishes"},
+  {q:"Nós vamos viajar em julho.",a:"We will travel in July"},
+  {q:"Nós estaremos viajando na próxima semana.",a:"We will be traveling next week"},
+  {q:"Nós já teremos viajado por três países até junho.",a:"We will have traveled through three countries by June"},
+  {q:"Nós estaremos morando aqui há cinco anos em breve.",a:"We will have been living here for five years soon"},
+  {q:"Ele vai ligar mais tarde.",a:"He will call later"},
+  {q:"Ele estará dirigindo quando você chegar.",a:"He will be driving when you arrive"},
+  {q:"Ele já terá saído quando eu chegar.",a:"He will have left when I arrive"},
+  {q:"Eles vão se mudar ano que vem.",a:"They will move next year"},
+  {q:"Eles estarão trabalhando quando você chegar.",a:"They will be working when you arrive"},
+  {q:"Eles já terão terminado o projeto até sexta.",a:"They will have finished the project by Friday"},
+  {q:"Vai chover amanhã.",a:"It will rain tomorrow"},
+  {q:"Até dezembro, ela terá economizado o suficiente.",a:"By December, she will have saved enough"}
+]},
+{id:119,fase:5,tipo:'quiz',titulo:"Desafio 19 — Domínio: Verbos Irregulares e Basic vs Better",tempo:15,desc:"20 perguntas sem dica cobrindo os verbos irregulares mais usados.",dir:"e2p",quiz:[
+  {q:"I went to the store.",a:"Eu fui à loja"},
+  {q:"She had a great time.",a:"Ela se divertiu muito"},
+  {q:"We did our best.",a:"Nós demos o nosso melhor"},
+  {q:"He spoke to the manager.",a:"Ele falou com o gerente"},
+  {q:"They came home late.",a:"Eles chegaram em casa tarde"},
+  {q:"I took a taxi.",a:"Eu peguei um táxi"},
+  {q:"She saw the movie.",a:"Ela viu o filme"},
+  {q:"We ate at a new restaurant.",a:"Nós comemos em um restaurante novo"},
+  {q:"He said he was sorry.",a:"Ele disse que sentia muito"},
+  {q:"I thought about it a lot.",a:"Eu pensei muito sobre isso"},
+  {q:"She found her keys.",a:"Ela encontrou as chaves dela"},
+  {q:"We gave him a gift.",a:"Nós demos um presente para ele"},
+  {q:"He left without saying goodbye.",a:"Ele saiu sem se despedir"},
+  {q:"I lost my wallet.",a:"Eu perdi minha carteira"},
+  {q:"She won the competition.",a:"Ela ganhou a competição"},
+  {q:"We broke the rule.",a:"Nós quebramos a regra"},
+  {q:"He bought a new car.",a:"Ele comprou um carro novo"},
+  {q:"I sold my old bike.",a:"Eu vendi minha bicicleta velha"},
+  {q:"She sent the package yesterday.",a:"Ela enviou o pacote ontem"},
+  {q:"We brought snacks for everyone.",a:"Nós trouxemos lanches para todo mundo"}
+]},
+{id:120,fase:5,tipo:'quiz',titulo:"Desafio Final — Marco de Fluência",tempo:20,desc:"As últimas 20 perguntas da jornada — misturando tudo o que você aprendeu, do zero ao avançado.",dir:"p2e",quiz:[
+  {q:"Eu sou professor e moro no Brasil.",a:"I am a teacher and I live in Brazil"},
+  {q:"Ela estava cansada, então foi para casa cedo.",a:"She was tired, so she went home early"},
+  {q:"Nós já viajamos para três países diferentes.",a:"We have already traveled to three different countries"},
+  {q:"Você poderia me ajudar com isso, por favor?",a:"Could you help me with this, please"},
+  {q:"Eu percebi que precisava mudar de vida.",a:"I realized I needed to change my life"},
+  {q:"E se tudo desse certo dessa vez?",a:"What if everything went right this time"},
+  {q:"Ele tem trabalhado muito ultimamente.",a:"He has been working hard lately"},
+  {q:"Nós tínhamos terminado antes de vocês chegarem.",a:"We had finished before you arrived"},
+  {q:"Ela vai ligar assim que chegar em casa.",a:"She will call as soon as she gets home"},
+  {q:"Tudo que eu quero é começar de novo.",a:"All I want is to start over"},
+  {q:"Eu confio em você, mesmo à distância.",a:"I trust you, even from a distance"},
+  {q:"Ele desistiu de fumar no ano passado.",a:"He gave up smoking last year"},
+  {q:"Até o fim do ano, eu terei aprendido inglês.",a:"By the end of the year, I will have learned English"},
+  {q:"Nós concordamos com os termos do contrato.",a:"We agreed on the terms of the contract"},
+  {q:"Ela sempre me ajudou nos momentos difíceis.",a:"She has always helped me in difficult times"},
+  {q:"Vamos encontrar um jeito juntos.",a:"Let's find a way together"},
+  {q:"Eu nunca tinha visto uma cidade tão bonita.",a:"I had never seen such a beautiful city"},
+  {q:"Ele acabou ficando até tarde no trabalho.",a:"He ended up staying late at work"},
+  {q:"Estou muito orgulhoso do que conquistei.",a:"I am very proud of what I achieved"},
+  {q:"Essa foi a jornada completa — do zero ao avançado.",a:"This was the complete journey — from zero to advanced"}
+]},
+];
+
+// ── QUIZ LOGIC ──
+function normalizeAnswer(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^\w\s]/g,'').replace(/\s+/g,' ').trim();
+}
+
+function openQuiz(id){
+  const e=ETAPAS.find(x=>x.id===id);
+  if(!e||!e.quiz)return;
+  activeQuizId=id;
+  quizQs=e.quiz;
+  quizIdx=0;
+  quizScore=0;
+  document.getElementById('quizTitle').textContent=e.titulo;
+  document.getElementById('quizBadge').textContent='DESAFIO · ETAPA '+String(e.id).padStart(2,'0');
+  document.getElementById('quizResult').style.display='none';
+  document.getElementById('quizMain').style.display='block';
+  document.getElementById('quizOverlay').classList.add('visible');
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+  const e=ETAPAS.find(x=>x.id===activeQuizId);
+  const item=quizQs[quizIdx];
+  quizAnswered=false;
+  document.getElementById('quizDir').textContent=e.dir==='p2e'?'Traduza para inglês:':'Traduza para português:';
+  document.getElementById('quizQText').textContent=item.q;
+  const input=document.getElementById('quizInput');
+  input.value='';
+  input.disabled=false;
+  const fb=document.getElementById('quizFb');
+  fb.className='quiz-fb';
+  fb.style.display='none';
+  fb.textContent='';
+  document.getElementById('btnCheck').style.display='inline-flex';
+  document.getElementById('btnAccept').style.display='none';
+  document.getElementById('btnNext').style.display='none';
+  const pct=Math.round(quizIdx/quizQs.length*100);
+  document.getElementById('quizProgFill').style.width=pct+'%';
+  document.getElementById('quizProgTxt').textContent=(quizIdx+1)+' / '+quizQs.length;
+  setTimeout(()=>input.focus(),50);
+}
+
+function checkAnswer(){
+  if(quizAnswered)return;
+  const item=quizQs[quizIdx];
+  const input=document.getElementById('quizInput');
+  const userVal=normalizeAnswer(input.value);
+  const correctVal=normalizeAnswer(item.a);
+  const fb=document.getElementById('quizFb');
+  quizAnswered=true;
+  input.disabled=true;
+  document.getElementById('btnCheck').style.display='none';
+  document.getElementById('btnNext').style.display='inline-flex';
+  if(userVal&&userVal===correctVal){
+    quizScore++;
+    fb.className='quiz-fb show-correct';
+    fb.textContent='✓ Correto! — '+item.a;
+    fb.style.display='block';
+  }else{
+    fb.className='quiz-fb show-wrong';
+    fb.textContent='✗ Resposta esperada: "'+item.a+'"';
+    fb.style.display='block';
+    document.getElementById('btnAccept').style.display='inline-flex';
+  }
+}
+
+function acceptAnswer(){
+  quizScore++;
+  const fb=document.getElementById('quizFb');
+  fb.className='quiz-fb show-accepted';
+  fb.textContent='✓ Considerado correto';
+  document.getElementById('btnAccept').style.display='none';
+}
+
+function nextQuestion(){
+  quizIdx++;
+  if(quizIdx>=quizQs.length){showQuizResult();}else{renderQuizQuestion();}
+}
+
+function showQuizResult(){
+  document.getElementById('quizMain').style.display='none';
+  document.getElementById('quizProgFill').style.width='100%';
+  document.getElementById('quizProgTxt').textContent=quizQs.length+' / '+quizQs.length;
+  document.getElementById('quizResult').style.display='block';
+  document.getElementById('quizScore').textContent=quizScore+'/'+quizQs.length;
+  const pct=Math.round(quizScore/quizQs.length*100);
+  let msg;
+  if(pct>=90)msg='Excelente! Você dominou esse desafio.';
+  else if(pct>=70)msg='Muito bom! Vale revisar os pontos que você errou.';
+  else msg='Bom começo — vale a pena revisar esse conteúdo antes de seguir em frente.';
+  document.getElementById('quizMsg').textContent=msg;
+}
+
+function retryQuiz(){
+  quizIdx=0;
+  quizScore=0;
+  document.getElementById('quizResult').style.display='none';
+  document.getElementById('quizMain').style.display='block';
+  renderQuizQuestion();
+}
+
+function markQuizComplete(){
+  markDone(activeQuizId);
+  closeQuiz();
+}
+
+function closeQuiz(){
+  document.getElementById('quizOverlay').classList.remove('visible');
+}
+
+// ── CERTIFICATE ──
+let certParticles=[];
+let certAnimId=null;
+
+function startCertParticles(){
+  const canvas=document.getElementById('certCanvas');
+  const ctx=canvas.getContext('2d');
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  const colors=['#64DFDF','#F5C518','#A78BFA','#5FD87A','#e4ddd4'];
+  certParticles=[];
+  for(let i=0;i<80;i++){
+    certParticles.push({
+      x:Math.random()*canvas.width,
+      y:-20-Math.random()*canvas.height,
+      r:2+Math.random()*3,
+      c:colors[Math.floor(Math.random()*colors.length)],
+      vy:1+Math.random()*2,
+      vx:(Math.random()-.5)*1.2,
+      o:.5+Math.random()*.5
+    });
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    certParticles.forEach(p=>{
+      p.y+=p.vy;p.x+=p.vx;
+      if(p.y>canvas.height+20){p.y=-20;p.x=Math.random()*canvas.width;}
+      ctx.globalAlpha=p.o;
+      ctx.fillStyle=p.c;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    certAnimId=requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+function stopCertParticles(){
+  if(certAnimId)cancelAnimationFrame(certAnimId);
+}
+
+function showCert(){
+  document.getElementById('certOverlay').style.display='flex';
+  const dateStr=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('certDate').textContent='Concluído em '+dateStr;
+  startCertParticles();
+}
+
+function closeCert(){
+  document.getElementById('certOverlay').style.display='none';
+  stopCertParticles();
+}
+
+function shareCert(){
+  const text='🏆 Concluí a Jornada Completa — 120 etapas do zero ao avançado em inglês!';
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>{
+      alert('Texto copiado! Cole onde quiser compartilhar sua conquista.');
+    }).catch(()=>{alert(text);});
+  }else{
+    alert(text);
+  }
+}
+
+// ── INIT ──
+var ETAPAS=ETAPAS_A.concat(ETAPAS_B);
+
+document.addEventListener('DOMContentLoaded',()=>{
+  loadProgress();
+  updateProgressUI();
+  const first=getFirstAvailable();
+  if(first<=120){
+    const s=ETAPAS.find(e=>e.id===first);
+    if(s)activeFase=s.fase;
+  }else{
+    activeFase=5;
+  }
+  document.querySelectorAll('.fase-btn').forEach(b=>b.classList.toggle('active',+b.dataset.fase===activeFase));
+  renderTimeline();
+  if(progress.every(Boolean))showCert();
+});
+</script>
+</body>
+</html>

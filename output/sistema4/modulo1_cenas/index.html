@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 — 20 Cenas com Diálogo · Sistema 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:var(--co);border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{border-color:var(--co);background:rgba(255,107,107,.15);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.nav-back{color:var(--co);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;transition:opacity .2s;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-count{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--co);}
+
+.wrap{padding-top:96px;position:relative;z-index:1;max-width:900px;margin:0 auto;}
+
+/* PROGRESS */
+.progress-bar{padding:1.1rem 1.25rem .25rem;}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+.prog-label{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:800;color:var(--co);}
+.prog-track{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--co),#ffa07a);border-radius:3px;transition:width .4s ease;}
+
+/* FILTER TOOLBAR */
+.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;padding:.85rem 1.25rem;}
+.filt-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.32rem .85rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.filt-btn:hover{color:var(--tx);border-color:var(--bdh);}
+.filt-btn.on{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.45);color:var(--co);}
+
+/* SCENE GRID */
+.scene-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;padding:0 1.25rem 1.5rem;}
+.mini-card{background:var(--sf);border:1px solid var(--bd);border-radius:.65rem;padding:.65rem .55rem;cursor:pointer;transition:all .18s;text-align:center;position:relative;}
+.mini-card:hover{border-color:rgba(255,107,107,.4);transform:translateY(-2px);}
+.mini-card.active{border-color:var(--co);background:rgba(255,107,107,.08);box-shadow:0 0 12px rgba(255,107,107,.15);}
+.mini-num{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;color:var(--td);}
+.mini-title{font-size:.62rem;color:var(--tm);line-height:1.25;margin-top:.25rem;height:2.2em;overflow:hidden;}
+.mini-check{position:absolute;top:.3rem;right:.35rem;font-size:.65rem;color:var(--gn);}
+
+/* DETAIL CARD */
+.card-area{padding:.5rem 1.25rem 3rem;}
+.scene-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;}
+
+.sc-header{padding:1.35rem 1.5rem 1rem;border-bottom:1px solid var(--bd);}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+.sc-tag{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--co);}
+.sc-level{font-size:.6rem;font-weight:700;padding:.2rem .6rem;border-radius:2rem;border:1px solid rgba(255,107,107,.3);color:var(--co);background:rgba(255,107,107,.08);}
+.sc-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;line-height:1.25;margin-bottom:.55rem;}
+.sc-situacao{font-size:.85rem;color:var(--tm);line-height:1.6;}
+
+/* DIALOGUE */
+.dlg-section{padding:1.25rem 1.5rem;border-bottom:1px solid var(--bd);}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;}
+.dlg-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);}
+.dlg-toggle{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .75rem;border-radius:.4rem;border:1px solid rgba(255,107,107,.3);background:rgba(255,107,107,.06);color:var(--co);cursor:pointer;transition:all .18s;}
+.dlg-toggle:hover{background:rgba(255,107,107,.14);}
+.dlg-toggle.on{background:rgba(255,107,107,.2);}
+.dlg-box{background:var(--bg);border:1px solid var(--bd);border-radius:.75rem;padding:1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem;}
+.dlg-line{font-size:.9rem;line-height:1.5;color:var(--tx);cursor:pointer;padding:.15rem 0;}
+.dlg-line .dash{color:var(--td);margin-right:.4rem;}
+.dlg-line .key{color:var(--co);font-weight:700;}
+.dlg-pt{font-size:.78rem;color:var(--td);display:none;margin-top:.15rem;padding-left:1.1rem;}
+.dlg-pt.show{display:block;}
+.dlg-hint{font-size:.62rem;color:var(--td);opacity:.6;margin-top:.5rem;}
+
+/* VOCAB */
+.vocab-section{padding:1.25rem 1.5rem;border-bottom:1px solid var(--bd);}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:.75rem;}
+.vocab-list{display:flex;flex-wrap:wrap;gap:.5rem;}
+.vocab-chip{background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.4rem .75rem;font-size:.78rem;cursor:pointer;transition:all .18s;}
+.vocab-chip:hover{border-color:rgba(255,107,107,.4);}
+.vocab-en{font-weight:700;color:var(--tx);}
+.vocab-pt{color:var(--co);display:none;}
+.vocab-chip.open .vocab-pt{display:inline;}
+.vocab-chip.open .vocab-en::after{content:' =';color:var(--td);}
+
+/* PHRASES */
+.phrases-section{padding:1.25rem 1.5rem;border-bottom:1px solid var(--bd);}
+.phrase-item{padding:.6rem 0;border-bottom:1px dashed var(--bd);}
+.phrase-item:last-child{border-bottom:none;}
+.phrase-en{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;color:var(--tx);}
+.phrase-pt{font-size:.78rem;color:var(--td);margin-top:.2rem;}
+.phrase-en .n{color:var(--co);margin-right:.4rem;}
+
+/* LEARN / ERRORS / EXTRA */
+.note-section{padding:1.1rem 1.5rem;border-bottom:1px solid var(--bd);}
+.note-section:last-of-type{border-bottom:none;}
+.note-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;}
+.learn-box .note-label{color:var(--gn);}
+.learn-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.learn-list li{font-size:.82rem;color:var(--tm);line-height:1.55;padding-left:1rem;position:relative;}
+.learn-list li::before{content:'→';position:absolute;left:0;color:var(--gn);}
+
+.error-box .note-label{color:var(--rd);}
+.error-row{display:flex;flex-direction:column;gap:.25rem;font-size:.82rem;margin-bottom:.5rem;}
+.error-row:last-child{margin-bottom:0;}
+.err-wrong{color:var(--rd);}
+.err-right{color:var(--gn);}
+
+.extra-box .note-label{color:var(--am);}
+.extra-body{font-size:.82rem;color:var(--tm);line-height:1.65;}
+.extra-body b,.extra-body strong{color:var(--tx);}
+
+/* ACTIONS */
+.actions{display:flex;align-items:center;gap:.75rem;padding:1.1rem 1.5rem;}
+.study-btn{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1.15rem;border-radius:.55rem;border:1px solid rgba(95,216,122,.35);background:rgba(95,216,122,.08);color:var(--gn);cursor:pointer;transition:all .2s;}
+.study-btn:hover{background:rgba(95,216,122,.16);}
+.study-btn.done{background:var(--gn);color:#080c14;}
+.next-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1.25rem;border-radius:.55rem;border:none;background:var(--co);color:#080c14;cursor:pointer;transition:all .2s;text-align:center;}
+.next-btn:hover{background:#ff8787;transform:translateY(-1px);}
+.next-btn:disabled{background:var(--sf2);color:var(--td);cursor:default;transform:none;}
+
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:slideIn .3s ease forwards;}
+
+@media(max-width:720px){.scene-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:560px){.scene-grid{grid-template-columns:repeat(3,1fr);}.sc-title{font-size:1.15rem;}}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../index.html" class="gnav-btn gnav-s4 active">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 4</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Módulo 1 — 20 Cenas com Diálogo</div>
+    <div class="nav-sub">Diálogo → vocabulário → frases-chave → o que aprender</div>
+  </div>
+  <div class="nav-count" id="navCount">20 cenas</div>
+</nav>
+
+<div class="wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="prog-top">
+      <span class="prog-label">Progresso</span>
+      <span class="prog-num" id="progNum">0 de 20 cenas estudadas</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="toolbar">
+    <button class="filt-btn on" onclick="filterLevel('todas',this)">Todas</button>
+    <button class="filt-btn" onclick="filterLevel('iniciante',this)">Iniciante</button>
+    <button class="filt-btn" onclick="filterLevel('intermediario',this)">Intermediário</button>
+    <button class="filt-btn" onclick="filterLevel('avancado',this)">Avançado</button>
+  </div>
+
+  <!-- GRID -->
+  <div class="scene-grid" id="sceneGrid"></div>
+
+  <!-- DETAIL -->
+  <div class="card-area">
+    <div class="scene-card anim" id="sceneCard"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const CENAS = [
+{id:1,level:'Iniciante',bucket:'iniciante',title:'Apresentações na Agência de Viagens',
+ situacao:'Giorgio Moretti, um cantor italiano famoso, visita a agência de viagens Top Notch pela primeira vez.',
+ lines:[
+  {en:"You're from Italy?",pt:'Você é da Itália?'},
+  {en:'Yes, I am.',pt:'Sim, sou.'},
+  {en:'Welcome to Top Notch Travel Agency. Let me introduce you to my staff.',pt:'Bem-vindo à Agência de Viagens Top Notch. Deixa eu te apresentar à minha equipe.'},
+  {en:"Marie, I'd like you to meet Giorgio.",pt:'Marie, quero que você conheça o Giorgio.'},
+  {en:'Oh, you already know him?',pt:'Ah, você já o conhece?'},
+  {en:"It's very nice to meet you. What's your name?",pt:'É um grande prazer te conhecer. Qual é o seu nome?'},
+  {en:'My name is Marie. Marie Léage.',pt:'Meu nome é Marie. Marie Léage.'},
+  {en:'Very nice to meet you, Marie.',pt:'Muito prazer, Marie.'},
+  {en:'Marie is our receptionist. She\'s from Paris.',pt:'Marie é nossa recepcionista. Ela é de Paris.'},
+  {en:'Mr. Moretti is a new client. He\'s from Italy.',pt:'O Sr. Moretti é um novo cliente. Ele é da Itália.'},
+ ],
+ vocab:[
+  {en:'welcome to',pt:'bem-vindo a'},
+  {en:'let me introduce you to',pt:'deixa eu te apresentar a'},
+  {en:'staff',pt:'equipe / funcionários'},
+  {en:"I'd like you to meet",pt:'quero que você conheça'},
+  {en:'receptionist',pt:'recepcionista'},
+  {en:'client',pt:'cliente'},
+ ],
+ phrases:[
+  {en:"I'd like you to meet ___.",pt:'Quero que você conheça ___.'},
+  {en:"She's from Paris.",pt:'Ela é de Paris.'},
+  {en:"He's a new client.",pt:'Ele é um novo cliente.'},
+  {en:"It's very nice to meet you.",pt:'É um prazer te conhecer.'},
+ ],
+ learn:[
+  'Como apresentar alguém formalmente: "I\'d like you to meet ___"',
+  'Como dizer de onde alguém é: "She\'s from ___"',
+  'Como descrever a função de alguém: "She\'s our receptionist"',
+  'MACETE: "I\'d like you to meet" é mais educado que "meet my friend"',
+ ],
+ errors:[
+  {wrong:'"I present you my friend"',right:'"I\'d like you to meet my friend"'},
+  {wrong:'"She is from the Paris"',right:'"She\'s from Paris" (sem artigo com cidades)'},
+ ],
+},
+{id:2,level:'Iniciante',bucket:'iniciante',title:'Conhecendo a Equipe',
+ situacao:'Giorgio é apresentado a cada membro da equipe — Cheryl, Bob e Paul.',
+ lines:[
+  {en:'This is Cheryl.',pt:'Esta é a Cheryl.'},
+  {en:'Hello, Mr. Giorgio... I mean, Mr. Moretti.',pt:'Olá, Sr. Giorgio... quer dizer, Sr. Moretti.'},
+  {en:'Please, call me Giorgio.',pt:'Por favor, me chame de Giorgio.'},
+  {en:'Bob! Come meet Giorgio Moretti.',pt:'Bob! Vem conhecer o Giorgio Moretti.'},
+  {en:"Hey man, how are you? I'm Bob. But everyone calls me Roberto.",pt:'E aí, cara, como vai? Eu sou o Bob. Mas todo mundo me chama de Roberto.'},
+  {en:'Who calls you Roberto?',pt:'Quem te chama de Roberto?'},
+  {en:"I'm also a travel agent.",pt:'Eu também sou agente de viagens.'},
+  {en:'And Paul is a tour guide.',pt:'E o Paul é guia de turismo.'},
+  {en:"Goodbye! So long! It's nice to meet you, but I must be going.",pt:'Tchau! Até mais! Foi um prazer te conhecer, mas preciso ir.'},
+  {en:"Toby! So long! It's nice to know you, but I'm traveling down.",pt:'Toby! Até mais! Foi bom te conhecer, mas estou de viagem.'},
+ ],
+ vocab:[
+  {en:'office manager',pt:'gerente de escritório'},
+  {en:'travel agent',pt:'agente de viagens'},
+  {en:'tour guide',pt:'guia de turismo'},
+  {en:'Please, call me ___',pt:'Por favor, me chame de ___'},
+  {en:'everyone calls me',pt:'todo mundo me chama de'},
+  {en:'I must be going',pt:'preciso ir'},
+ ],
+ phrases:[
+  {en:'Please, call me ___.',pt:'Por favor, me chame de ___.'},
+  {en:'Everyone calls me ___.',pt:'Todo mundo me chama de ___.'},
+  {en:'I must be going.',pt:'Preciso ir / Tenho que ir.'},
+  {en:'So long!',pt:'Até mais! (informal, um pouco antiquado mas usado)'},
+ ],
+ learn:[
+  'Como pedir para alguém usar seu apelido ou primeiro nome',
+  'Profissões em inglês: travel agent, tour guide, office manager',
+  '"I must be going" — forma educada de se despedir no meio de conversa',
+ ],
+},
+{id:3,level:'Iniciante',bucket:'iniciante',title:'Ficha do Cliente',
+ situacao:'Marie preenche a ficha de Giorgio com suas informações pessoais.',
+ lines:[
+  {en:'Let\'s see... Name: Giorgio Moretti.',pt:'Vamos ver... Nome: Giorgio Moretti.'},
+  {en:'Occupation?',pt:'Profissão?'},
+  {en:'Singer. Famous singer.',pt:'Cantor. Cantor famoso.'},
+  {en:'Great. And famous singer.',pt:'Ótimo. E cantor famoso.'},
+  {en:'Nationality: Italian.',pt:'Nacionalidade: Italiano.'},
+  {en:'Age: 32.',pt:'Idade: 32.'},
+  {en:'Married?',pt:'Casado?'},
+  {en:'No. Single.',pt:'Não. Solteiro.'},
+  {en:'Phone number?',pt:'Número de telefone?'},
+  {en:'This is my information.',pt:'Esta é a minha informação.'},
+  {en:'Everything okay?',pt:'Está tudo certo?'},
+  {en:'Come with me, Mr. Moretti.',pt:'Venha comigo, Sr. Moretti.'},
+ ],
+ vocab:[
+  {en:'occupation',pt:'profissão / ocupação'},
+  {en:'nationality',pt:'nacionalidade'},
+  {en:'age',pt:'idade'},
+  {en:'married',pt:'casado'},
+  {en:'single',pt:'solteiro'},
+  {en:'phone number',pt:'número de telefone'},
+ ],
+ phrases:[
+  {en:"What's your occupation?",pt:'Qual é a sua profissão?'},
+  {en:"I'm single.",pt:'Sou solteiro/a.'},
+  {en:"I'm married.",pt:'Sou casado/a.'},
+  {en:"What's your phone number?",pt:'Qual é o seu número de telefone?'},
+ ],
+ extra:{title:'Comparações Úteis',body:'<b>job</b> = trabalho (informal) · <b>occupation</b> = profissão (formal, em formulários) · <b>career</b> = carreira (trajetória profissional)'},
+},
+{id:4,level:'Iniciante-Intermediário',bucket:'intermediario',title:'Saindo no Fim de Semana',
+ situacao:'O grupo discute o que fazer no fim de semana — cinema, rock, peça de teatro ou ópera.',
+ lines:[
+  {en:'Do you guys want to go out this weekend?',pt:'Vocês querem sair este fim de semana?'},
+  {en:"There's a great movie playing at the Glenwood.",pt:'Tem um filme ótimo em cartaz no Glenwood.'},
+  {en:'A rock concert sounds better to me.',pt:'Um show de rock parece melhor pra mim.'},
+  {en:"I'd love to see a play.",pt:'Eu adoraria ver uma peça.'},
+  {en:'How about an opera?',pt:'Que tal uma ópera?'},
+  {en:'Okay, there\'s a rock concert Saturday night at 8pm. Blue City is playing.',pt:'Certo, tem um show de rock sábado à noite às 20h. A Blue City vai tocar.'},
+  {en:'Blue City! I love them!',pt:'Blue City! Eu amo eles!'},
+  {en:'Sounds good.',pt:'Parece bom.'},
+  {en:"Not my style. I don't like rock.",pt:'Não é meu estilo. Eu não gosto de rock.'},
+  {en:'Okay, there\'s a play tonight at midnight at the 2nd Avenue Theater.',pt:'Certo, tem uma peça hoje à meia-noite no Teatro da 2nd Avenue.'},
+  {en:'It\'s called "Conversations with Food."',pt:'Se chama "Conversas com Comida".'},
+  {en:'Sounds great!',pt:'Parece ótimo!'},
+  {en:"At midnight? That's way past my bedtime. No thanks.",pt:'À meia-noite? Isso é muito depois da minha hora de dormir. Não, obrigado.'},
+  {en:'Carmen is playing at the City Opera. 8pm.',pt:'Carmen está em cartaz na Ópera da Cidade. Às 20h.'},
+  {en:'How much are the tickets?',pt:'Quanto custam os ingressos?'},
+  {en:'[shocked reaction] Whoa! Oh no way!',pt:'[reação de choque] Uau! De jeito nenhum!'},
+  {en:"Great, it's a movie then.",pt:'Ótimo, então é um filme.'},
+ ],
+ vocab:[
+  {en:'sounds good',pt:'parece bom / soa bem'},
+  {en:'not my style',pt:'não é meu estilo'},
+  {en:'way past my bedtime',pt:'muito depois da minha hora de dormir'},
+  {en:'playing',pt:'em cartaz / tocando'},
+  {en:'How much are the tickets?',pt:'Quanto custam os ingressos?'},
+ ],
+ phrases:[
+  {en:'A ___ sounds better to me.',pt:'___ parece melhor para mim.'},
+  {en:'Not my style.',pt:'Não é meu estilo.'},
+  {en:"That's way past my bedtime!",pt:'Isso é muito tarde para mim!'},
+  {en:'Sounds good.',pt:'Parece bom.'},
+  {en:"I'd love to see ___.",pt:'Eu adoraria ver ___.'},
+ ],
+ learn:[
+  'Como expressar preferência: "sounds better to me"',
+  'Como recusar educadamente: "not my style" / "no thanks"',
+  '"Way" como intensificador: "way past" = muito além de',
+ ],
+},
+{id:5,level:'Iniciante-Intermediário',bucket:'intermediario',title:'Como Chegar ao Cinema',
+ situacao:'Alguém pede direções para o Rose Cinema e recebe instruções confusas.',
+ lines:[
+  {en:"Excuse me. I'm looking for the Rose Cinema.",pt:'Com licença. Estou procurando o Rose Cinema.'},
+  {en:"The Rose Cinema? Let's see... that's on the corner of Market Street and Park Street.",pt:'O Rose Cinema? Vamos ver... fica na esquina da Market Street com a Park Street.'},
+  {en:'Or is it Third and Grand? No, I think it\'s on Market between First and Second Avenue.',pt:'Ou é na Third com a Grand? Não, acho que é na Market entre a First e a Second Avenue.'},
+  {en:'Okay, so go around the corner, walk three blocks... no, five blocks to Harper Street.',pt:'Certo, então vire a esquina, ande três quarteirões... não, cinco quarteirões até a Harper Street.'},
+  {en:'Turn left. Sorry, right.',pt:'Vire à esquerda. Desculpa, à direita.'},
+  {en:'Go another two blocks — no, yes, two blocks — to 4th Avenue.',pt:'Ande mais dois quarteirões — não, isso, dois quarteirões — até a 4th Avenue.'},
+  {en:'Take a right. Walk about five blocks to Market Street.',pt:'Vire à direita. Ande uns cinco quarteirões até a Market Street.'},
+  {en:'Go right again. Go straight two more blocks. The cinema is on your right.',pt:'Vire à direita de novo. Siga reto mais dois quarteirões. O cinema fica à sua direita.'},
+  {en:'Uh... no. Sorry. Your left.',pt:'Uh... não. Desculpa. À sua esquerda.'},
+  {en:'[another person walks up] You\'re looking for the Rose Cinema?',pt:'[outra pessoa se aproxima] Você está procurando o Rose Cinema?'},
+  {en:'Yes!',pt:'Sim!'},
+  {en:"Go across the street. It's right there.",pt:'Atravesse a rua. É bem ali.'},
+  {en:'Thank you.',pt:'Obrigado.'},
+  {en:"And you're a tour guide?!",pt:'E você é guia de turismo?!'},
+ ],
+ vocab:[
+  {en:"I'm looking for ___",pt:'Estou procurando ___'},
+  {en:'on the corner of',pt:'na esquina de'},
+  {en:'between',pt:'entre'},
+  {en:'go around the corner',pt:'vire a esquina'},
+  {en:'walk ___ blocks',pt:'ande ___ quarteirões'},
+  {en:'turn left / right',pt:'vire à esquerda / direita'},
+  {en:'go straight',pt:'siga em frente'},
+  {en:'across the street',pt:'do outro lado da rua'},
+ ],
+ phrases:[
+  {en:"I'm looking for ___.",pt:'Estou procurando ___.'},
+  {en:"It's on the corner of ___ and ___.",pt:'Fica na esquina de ___ com ___.'},
+  {en:'Go straight two blocks.',pt:'Siga em frente dois quarteirões.'},
+  {en:'Turn left at the light.',pt:'Vire à esquerda no sinal.'},
+  {en:"It's right there.",pt:'É bem ali.'},
+ ],
+ extra:{title:'Humor da Cena',body:'A ironia é que o guia de turismo dá direções completamente confusas, e um estranho resolve tudo com uma frase simples. Lição: às vezes a resposta mais simples é a melhor!'},
+},
+{id:6,level:'Iniciante',bucket:'iniciante',title:'Fotos da Família',
+ situacao:'Bob estuda fotos da família de Cheryl para se preparar para conhecê-los.',
+ lines:[
+  {en:"That's your cousin Teddy. He's a waiter. He's single and he likes rock music.",pt:'Esse é seu primo Teddy. Ele é garçom. É solteiro e gosta de rock.'},
+  {en:"It's my brother Eddie. He's a doctor. He's got a wife and two kids. He likes classical music.",pt:'Esse é meu irmão Eddie. Ele é médico. Tem esposa e dois filhos. Gosta de música clássica.'},
+  {en:'How about this one?',pt:'E esse aqui?'},
+  {en:"I don't know... a cousin? No. Your brother? No. An uncle?",pt:'Não sei... um primo? Não. Seu irmão? Não. Um tio?'},
+  {en:"It's my Aunt Judy. Sorry, Mrs. Morris.",pt:'É a minha Tia Judy. Desculpa, a Sra. Morris.'},
+  {en:'She looks like your uncle.',pt:'Ela parece com seu tio.'},
+  {en:'Tell me something about her.',pt:'Me conta algo sobre ela.'},
+  {en:'She\'s an architect. Married. Divorced. Two kids. Three kids. Four kids. Five kids. No kids.',pt:'Ela é arquiteta. Casada. Divorciada. Dois filhos. Três filhos. Quatro filhos. Cinco filhos. Nenhum filho.'},
+  {en:'Only eight more.',pt:'Faltam só mais oito.'},
+  {en:"Here's an easy one.",pt:'Aqui vai uma fácil.'},
+  {en:"I don't know.",pt:'Não sei.'},
+  {en:"It's my father.",pt:'É o meu pai.'},
+  {en:'I know who your father is! Why are you showing me photos of your father?',pt:'Eu sei quem é seu pai! Por que você está me mostrando fotos do seu pai?'},
+  {en:'My family is coming in one hour. Now pay attention!',pt:'Minha família chega em uma hora. Agora presta atenção!'},
+  {en:'Why do you have such a large family?',pt:'Por que sua família é tão grande?'},
+  {en:"It's not that large!",pt:'Não é tão grande assim!'},
+  {en:'Not that large? You have six brothers and sisters, 14 aunts and uncles, who knows how many cousins, nieces and nephews.',pt:'Não é tão grande? Você tem seis irmãos e irmãs, 14 tios e tias, sabe-se lá quantos primos, sobrinhas e sobrinhos.'},
+  {en:"I'd say that's a large family.",pt:'Eu diria que isso é uma família grande.'},
+  {en:"They're not all coming over.",pt:'Nem todos vão vir.'},
+  {en:'No? Just 18 of them.',pt:'Não? Só 18 deles.'},
+  {en:'I\'m sorry, honey. I just want them to like you.',pt:'Desculpa, querido. Eu só quero que eles gostem de você.'},
+  {en:"Calm down. It's okay. You're doing fine.",pt:'Se acalme. Está tudo bem. Você está indo bem.'},
+ ],
+ vocab:[
+  {en:'cousin',pt:'primo/prima'},
+  {en:'brother / sister',pt:'irmão / irmã'},
+  {en:'aunt / uncle',pt:'tia / tio'},
+  {en:'niece / nephew',pt:'sobrinha / sobrinho'},
+  {en:'single',pt:'solteiro'},
+  {en:'divorced',pt:'divorciado'},
+  {en:'architect',pt:'arquiteto'},
+  {en:"He's got a wife and two kids",pt:'Ele tem uma esposa e dois filhos'},
+ ],
+ phrases:[
+  {en:"He's got a wife and two kids.",pt:'Ele tem esposa e dois filhos.'},
+  {en:"She's an architect.",pt:'Ela é arquiteta.'},
+  {en:'I just want them to like you.',pt:'Só quero que eles gostem de você.'},
+  {en:"Calm down. You're doing fine.",pt:'Calma. Você está indo bem.'},
+ ],
+ extra:{title:'Família em Inglês — Guia Rápido',body:'<b>parents</b> = pais (pai + mãe) · <b>siblings</b> = irmãos (irmão + irmã) · <b>in-laws</b> = sogros / cunhados · <b>grandparents</b> = avós · <b>grandchildren</b> = netos'},
+},
+{id:7,level:'Intermediário',bucket:'intermediario',title:'Barganhando pela Câmera',
+ situacao:'Paul tenta vender sua câmera digital usada e Bob e Cheryl tentam barganhar.',
+ lines:[
+  {en:'Hey, you want to sell me this digital camera?',pt:'Ei, você quer me vender essa câmera digital?'},
+  {en:'The best digital camera money can buy!',pt:'A melhor câmera digital que dá pra comprar!'},
+  {en:'Why are you selling it?',pt:'Por que você está vendendo ela?'},
+  {en:'Cheryl gave me another one for my birthday.',pt:'A Cheryl me deu outra de aniversário.'},
+  {en:'How much do you want?',pt:'Quanto você quer?'},
+  {en:'$250.',pt:'$250.'},
+  {en:"Wow, that's a great price... but that's more than I want to pay.",pt:'Nossa, isso é um ótimo preço... mas é mais do que eu quero pagar.'},
+  {en:'I can give you $200 for it.',pt:'Posso te dar $200 por ela.'},
+  {en:'No, I need at least $245.',pt:'Não, eu preciso de pelo menos $245.'},
+  {en:'Sorry, all I have is $210.',pt:'Desculpa, tudo que eu tenho é $210.'},
+  {en:'I could go as low as $230. But that\'s it.',pt:'Eu poderia baixar até $230. Mas é isso.'},
+  {en:'Sorry. Thanks anyway.',pt:'Desculpa. Obrigado mesmo assim.'},
+  {en:'[Later] You almost bought that camera yesterday for $300!',pt:'[Mais tarde] Você quase comprou aquela câmera ontem por $300!'},
+  {en:"You don't know how to bargain, do you?",pt:'Você não sabe barganhar, sabe?'},
+  {en:'Of course I know how to bargain!',pt:'Claro que eu sei barganhar!'},
+  {en:'You don\'t know how to bargain. You could buy that camera for $230!',pt:'Você não sabe barganhar. Você podia ter comprado a câmera por $230!'},
+  {en:'All right, you can have it for $225.',pt:'Tudo bem, pode ficar com ela por $225.'},
+  {en:'$220.',pt:'$220.'},
+  {en:'$224.',pt:'$224.'},
+  {en:'$221.',pt:'$221.'},
+  {en:'$223.',pt:'$223.'},
+  {en:'$222. Not a dollar more.',pt:'$222. Nem um dólar a mais.'},
+  {en:"I'm not selling this for less than $223.",pt:'Eu não vendo por menos de $223.'},
+  {en:'Here\'s $1. Now you both get what you want.',pt:'Aqui está $1. Agora os dois conseguem o que querem.'},
+  {en:"It's a deal!",pt:'Fechado!'},
+ ],
+ vocab:[
+  {en:'bargain',pt:'barganhar / pechinchar'},
+  {en:'How much do you want?',pt:'Quanto você quer?'},
+  {en:'at least',pt:'pelo menos'},
+  {en:'I could go as low as',pt:'posso baixar até'},
+  {en:'Thanks anyway',pt:'obrigado mesmo assim'},
+  {en:"It's a deal!",pt:'Fechado! / É um acordo!'},
+  {en:'Not a dollar more',pt:'nem um centavo a mais'},
+ ],
+ phrases:[
+  {en:'How much do you want for it?',pt:'Quanto você quer por isso?'},
+  {en:"That's more than I want to pay.",pt:'Isso é mais do que quero pagar.'},
+  {en:'I could go as low as ___.',pt:'Posso baixar até ___.'},
+  {en:"It's a deal!",pt:'Fechado!'},
+  {en:'Not a dollar more.',pt:'Nem um centavo a mais.'},
+ ],
+ extra:{title:'Macetes de Negociação',body:'<b>"Can you do better?"</b> = Você consegue um preço melhor? · <b>"That\'s my final offer."</b> = Essa é minha oferta final. · <b>"Meet me in the middle."</b> = Vamos no meio-termo.'},
+},
+{id:8,level:'Intermediário',bucket:'intermediario',title:'A Conta do Restaurante',
+ situacao:'Bob e Paul discutem sobre quanto deixar de gorjeta.',
+ lines:[
+  {en:"I'll ask for the check.",pt:'Vou pedir a conta.'},
+  {en:"$5? That's not enough!",pt:'$5? Isso não é suficiente!'},
+  {en:'Sure it is.',pt:'Claro que é.'},
+  {en:"The bill was $50. That's only 10%.",pt:'A conta foi $50. Isso é só 10%.'},
+  {en:"Didn't you like the food?",pt:'Você não gostou da comida?'},
+  {en:'It was good.',pt:'Estava boa.'},
+  {en:'Was there a problem with the service?',pt:'Teve algum problema com o atendimento?'},
+  {en:'No.',pt:'Não.'},
+  {en:'Then you need to leave at least 15%.',pt:'Então você precisa deixar pelo menos 15%.'},
+  {en:"No, I don't.",pt:'Não, não preciso.'},
+  {en:'We come here all the time! The waitress gives us great service because we usually tip well.',pt:'A gente vem aqui sempre! A garçonete nos dá um ótimo atendimento porque sempre damos boa gorjeta.'},
+  {en:'I always leave 10%.',pt:'Eu sempre deixo 10%.'},
+  {en:"Look, I'm paying tonight, so I get to decide how much to tip.",pt:'Olha, eu que estou pagando hoje, então cabe a mim decidir quanto dar de gorjeta.'},
+  {en:"Oh! All right. Hey, isn't that Mr. Evans over there?",pt:'Ah! Tudo bem. Ei, aquele não é o Sr. Evans ali?'},
+  {en:'Where?',pt:'Onde?'},
+  {en:"Never mind, it's someone else.",pt:'Deixa pra lá, é outra pessoa.'},
+  {en:'Shall we go?',pt:'Vamos?'},
+ ],
+ vocab:[
+  {en:'check',pt:'conta (nos EUA) / bill = conta (britânico)'},
+  {en:'tip',pt:'gorjeta'},
+  {en:'service',pt:'serviço / atendimento'},
+  {en:'at least',pt:'pelo menos'},
+  {en:'I get to decide',pt:'cabe a mim decidir'},
+  {en:'Never mind',pt:'deixa pra lá / não importa'},
+  {en:'Shall we go?',pt:'Vamos?'},
+ ],
+ phrases:[
+  {en:'Can we get the check, please?',pt:'Pode trazer a conta, por favor?'},
+  {en:'Was there a problem with the service?',pt:'Teve algum problema com o serviço?'},
+  {en:'I get to decide.',pt:'Cabe a mim decidir.'},
+  {en:'Never mind.',pt:'Deixa pra lá.'},
+  {en:'Shall we go?',pt:'Vamos?'},
+ ],
+ extra:{title:'Cultura Americana — Gorjeta',body:'<b>15%</b> = mínimo aceitável · <b>20%</b> = bom serviço · <b>25%+</b> = serviço excelente · Não dar gorjeta = insulto grave nos EUA'},
+},
+{id:9,level:'Intermediário',bucket:'intermediario',title:'Escolhendo Roupas para a Festa',
+ situacao:'Marie e Cheryl pedem a opinião de Bob sobre o que vestir para a festa.',
+ lines:[
+  {en:'Bob, what do you think of our new clothes for the party?',pt:'Bob, o que você acha das nossas roupas novas pra festa?'},
+  {en:"There's a party tomorrow?",pt:'Tem uma festa amanhã?'},
+  {en:"It's Mr. Evans's birthday! Remember? You're going.",pt:'É o aniversário do Sr. Evans! Lembra? Você vai.'},
+  {en:'Okay. So tell us what you think of our new clothes.',pt:'Certo. Então nos diga o que acha das nossas roupas novas.'},
+  {en:'All those clothes are for one party?',pt:'Todas essas roupas são pra uma festa só?'},
+  {en:'No, we have to decide what to wear.',pt:'Não, a gente precisa decidir o que vestir.'},
+  {en:'What do you think of these blouses?',pt:'O que você acha dessas blusas?'},
+  {en:"They're very flattering.",pt:'Elas ficam muito bem em vocês.'},
+  {en:'Which one do you like more?',pt:'Qual você gosta mais?'},
+  {en:'What do you mean, "which one"? Which one do you prefer?',pt:'Como assim, "qual"? Qual você prefere?'},
+  {en:'I like them both the same.',pt:'Eu gosto das duas igualmente.'},
+  {en:'No, you don\'t. You\'re just saying that. You need to have an opinion. You have to choose.',pt:'Não, não gosta. Você só está falando isso. Você precisa ter uma opinião. Tem que escolher.'},
+  {en:"No, no, no. I'm not doing that.",pt:'Não, não, não. Eu não vou fazer isso.'},
+  {en:'Bob, please help us decide what to wear.',pt:'Bob, por favor nos ajuda a decidir o que vestir.'},
+  {en:'Okay. Which skirt do you like — the red one?',pt:'Certo. Qual saia você gosta — a vermelha?'},
+  {en:"Great! That's not so hard, is it?",pt:'Ótimo! Não foi tão difícil, foi?'},
+  {en:'Which shoes look better?',pt:'Quais sapatos ficam melhor?'},
+  {en:'Those.',pt:'Aqueles.'},
+  {en:'Which sweater do you prefer?',pt:'Qual suéter você prefere?'},
+  {en:'I like the purple one.',pt:'Eu gosto do roxo.'},
+  {en:"Bob! You like Marie's clothes more than mine!",pt:'Bob! Você gosta mais das roupas da Marie do que das minhas!'},
+  {en:"No, I don't! That's not true!",pt:'Não gosto! Isso não é verdade!'},
+  {en:'Then which dress do you prefer?',pt:'Então qual vestido você prefere?'},
+  {en:'That one.',pt:'Aquele.'},
+  {en:"This is Marie's dress too!",pt:'Esse também é vestido da Marie!'},
+  {en:'I like your clothes. I like Marie\'s clothes. I like everything. I like all dresses and all sweaters and all skirts and all shoes.',pt:'Eu gosto das suas roupas. Gosto das roupas da Marie. Gosto de tudo. Gosto de todos os vestidos, suéteres, saias e sapatos.'},
+  {en:'Who asked you anyway?',pt:'Quem perguntou pra você, afinal?'},
+ ],
+ vocab:[
+  {en:'flattering',pt:'que fica bem / favorecedor'},
+  {en:'which one',pt:'qual deles'},
+  {en:'prefer',pt:'preferir'},
+  {en:'sweater',pt:'suéter / moletom'},
+  {en:'skirt',pt:'saia'},
+  {en:'blouse',pt:'blusa'},
+ ],
+ phrases:[
+  {en:'What do you think of ___?',pt:'O que você acha de ___?'},
+  {en:'Which one do you prefer?',pt:'Qual você prefere?'},
+  {en:'I like them both the same.',pt:'Gosto dos dois igualmente.'},
+  {en:'You need to have an opinion.',pt:'Você precisa ter uma opinião.'},
+  {en:'Who asked you anyway?',pt:'Quem perguntou pra você?'},
+ ],
+},
+{id:10,level:'Intermediário',bucket:'intermediario',title:'O Dia de Bob Melhorar o Visual',
+ situacao:'Cheryl e Marie convencem Bob a se cuidar mais — manicure, cabelo, cuidados com a pele.',
+ lines:[
+  {en:'Cheryl, your hair looks gorgeous!',pt:'Cheryl, seu cabelo está lindo!'},
+  {en:'Thank you! I have a new shampoo. "Bright and Clean."',pt:'Obrigada! Eu tenho um xampu novo. "Bright and Clean."'},
+  {en:"Don't you use any skin care products? Body lotion or skin cream?",pt:'Você não usa nenhum produto de cuidado com a pele? Loção corporal ou creme?'},
+  {en:'No. Should I?',pt:'Não. Deveria?'},
+  {en:'If you want your skin to stay young and healthy.',pt:'Se você quiser que sua pele fique jovem e saudável.'},
+  {en:'Do you use any conditioner?',pt:'Você usa condicionador?'},
+  {en:"That's for women!",pt:'Isso é coisa de mulher!'},
+  {en:'Lots of men use it too!',pt:'Muitos homens também usam!'},
+  {en:'Really? Sure! Women like men who take care of their appearance.',pt:'Sério? Claro! Mulheres gostam de homens que cuidam da aparência.'},
+  {en:"Really? Okay. What else should I do? You don't want me to wear makeup, do you?",pt:'Sério? Certo. O que mais eu deveria fazer? Vocês não querem que eu use maquiagem, né?'},
+  {en:'Lipstick? Mascara? Eye shadow? No. But how about a manicure?',pt:'Batom? Máscara? Sombra? Não. Mas que tal uma manicure?'},
+  {en:'Look at your nails — they\'re a mess! Men get manicures.',pt:'Olha suas unhas — estão uma bagunça! Homens fazem manicure.'},
+  {en:'Many do, yes. We can give you one right here.',pt:'Muitos fazem, sim. A gente pode te fazer uma aqui mesmo.'},
+  {en:'Really? Piece of cake!',pt:'Sério? Moleza!'},
+  {en:'Well, okay.',pt:'Bom, tá bem.'},
+  {en:'Great! Then we can talk about your haircut, facial and face lift.',pt:'Ótimo! Depois a gente fala sobre seu corte de cabelo, limpeza de pele e lifting facial.'},
+  {en:'What?!',pt:'O quê?!'},
+ ],
+ vocab:[
+  {en:'gorgeous',pt:'lindo / deslumbrante'},
+  {en:'shampoo',pt:'xampu'},
+  {en:'skin care products',pt:'produtos de cuidado com a pele'},
+  {en:'body lotion',pt:'loção corporal'},
+  {en:'conditioner',pt:'condicionador'},
+  {en:'manicure',pt:'manicure'},
+  {en:'facial',pt:'limpeza de pele'},
+  {en:'face lift',pt:'cirurgia de levantamento facial'},
+  {en:'piece of cake',pt:'moleza / fácil'},
+  {en:"they're a mess",pt:'estão uma bagunça'},
+ ],
+ phrases:[
+  {en:'Your hair looks gorgeous!',pt:'Seu cabelo está lindo!'},
+  {en:'Piece of cake!',pt:'Moleza! / Fácil!'},
+  {en:"They're a mess.",pt:'Estão uma bagunça.'},
+  {en:'Take care of your appearance.',pt:'Cuide da sua aparência.'},
+  {en:'What else should I do?',pt:'O que mais devo fazer?'},
+ ],
+},
+{id:11,level:'Intermediário',bucket:'intermediario',title:'A Impressora Quebrada',
+ situacao:'A equipe precisa imprimir ingressos urgentes mas a impressora está com problemas.',
+ lines:[
+  {en:"Where are the tickets? They're printing.",pt:'Cadê os ingressos? Eles estão imprimindo.'},
+  {en:'Mr. Evans needs them right now! The client is coming in 5 minutes!',pt:'O Sr. Evans precisa deles agora mesmo! O cliente chega em 5 minutos!'},
+  {en:"This printer is driving me crazy! It's so slow!",pt:'Essa impressora está me deixando louco! É tão lenta!'},
+  {en:'Try blowing on it.',pt:'Tenta soprar nela.'},
+  {en:'What?! Really?',pt:'O quê?! Sério?'},
+  {en:'Try it. Now tap the sides. Just try it.',pt:'Tenta. Agora bate nas laterais. Só tenta.'},
+  {en:'Now rub this side gently.',pt:'Agora esfrega esse lado com cuidado.'},
+  {en:'Does this really work?',pt:'Isso realmente funciona?'},
+  {en:"[Later] The client's coming in 1 minute. The printer's a little slow today.",pt:'[Mais tarde] O cliente chega em 1 minuto. A impressora está um pouco lenta hoje.'},
+  {en:"Okay, stop! Don't come near this printer!",pt:'Certo, para! Não chega perto dessa impressora!'},
+  {en:'What?',pt:'O quê?'},
+  {en:"You know machines don't work when you're around.",pt:'Você sabe que as máquinas não funcionam quando você está por perto.'},
+  {en:"That's not true!",pt:'Isso não é verdade!'},
+  {en:'Is your laptop working? No.',pt:'Seu laptop está funcionando? Não.'},
+  {en:'Is your cell phone working? No.',pt:'Seu celular está funcionando? Não.'},
+  {en:'Is your PDA working? No.',pt:'Seu PDA está funcionando? Não.'},
+  {en:'But stay away!',pt:'Mas fica longe!'},
+  {en:'The client is here. Where are the tickets?',pt:'O cliente chegou. Cadê os ingressos?'},
+  {en:'Right here, sir.',pt:'Aqui, senhor.'},
+  {en:"There are only nine. Where's the last one?",pt:'Tem só nove aqui. Cadê o último?'},
+  {en:'Right here, sir.',pt:'Aqui, senhor.'},
+ ],
+ vocab:[
+  {en:'driving me crazy',pt:'me deixando louco'},
+  {en:'tap the sides',pt:'bata nas laterais'},
+  {en:'gently',pt:'suavemente / delicadamente'},
+  {en:'stay away',pt:'fique longe / não se aproxime'},
+  {en:'slow',pt:'lento'},
+  {en:'last one',pt:'último'},
+ ],
+ phrases:[
+  {en:'This is driving me crazy!',pt:'Isso está me deixando louco!'},
+  {en:'Stay away!',pt:'Fique longe! / Não se aproxime!'},
+  {en:'We need it right now.',pt:'Precisamos agora mesmo.'},
+  {en:'The client is here.',pt:'O cliente chegou.'},
+  {en:"It's a little slow today.",pt:'Está um pouco lento hoje.'},
+ ],
+ extra:{title:'Humor da Cena',body:'Bob parece fazer as máquinas pararem de funcionar. É uma piada sobre "aquela pessoa que estraga tudo que toca" — muito relatable!'},
+},
+{id:12,level:'Intermediário',bucket:'intermediario',title:'No Restaurante — Pedido Complicado',
+ situacao:'Um cliente difícil faz pedidos muito específicos e cheios de restrições.',
+ lines:[
+  {en:'Are you ready to order?',pt:'Já estão prontos para pedir?'},
+  {en:"I'm in the mood for lamb, but the sauce looks too fatty. Could I order the lamb without the sauce?",pt:'Estou com vontade de cordeiro, mas o molho parece muito gorduroso. Posso pedir o cordeiro sem o molho?'},
+  {en:'Sure. What does it come with?',pt:'Claro. O que vem junto?'},
+  {en:'French fries.',pt:'Batata frita.'},
+  {en:"I don't like fried food. Could I have a grilled vegetable instead?",pt:'Não gosto de fritura. Posso ter um vegetal grelhado no lugar?'},
+  {en:'I think we have grilled peppers.',pt:'Acho que temos pimentões grelhados.'},
+  {en:'Perfect. Would you like to start with an appetizer?',pt:'Perfeito. Gostariam de começar com uma entrada?'},
+  {en:'Is there oil on the tomato salad?',pt:'Tem azeite na salada de tomate?'},
+  {en:"There's a lot of olive oil, yes.",pt:'Tem bastante azeite de oliva, sim.'},
+  {en:'Could I get it without the oil?',pt:'Posso pedir sem o azeite?'},
+  {en:"But it won't taste very good.",pt:'Mas não vai ficar tão gostoso.'},
+  {en:"Then I'll just have a mixed green salad.",pt:'Então eu só vou querer uma salada verde mista.'},
+  {en:'And you?',pt:'E o senhor?'},
+  {en:"I'm sorry, I have another question. Is there salt on the lamb? It's cooked with salt and pepper.",pt:'Desculpa, tenho outra pergunta. Tem sal no cordeiro? Ele é preparado com sal e pimenta.'},
+  {en:"I don't want a lot of salt. I think I'll have the fish instead.",pt:'Não quero muito sal. Acho que vou querer o peixe no lugar.'},
+  {en:"What's in the sauce?",pt:'O que tem no molho?'},
+  {en:'Lemon, butter, milk.',pt:'Limão, manteiga, leite.'},
+  {en:"Oh, that's too much dairy. Maybe I'll have a large salad for my entrée.",pt:'Ah, isso é muito laticínio. Talvez eu peça uma salada grande como prato principal.'},
+  {en:'No appetizer?',pt:'Sem entrada?'},
+  {en:"What's in the salad?",pt:'O que tem na salada?'},
+  {en:'Lettuce, carrots, peppers, onions, eggs.',pt:'Alface, cenoura, pimentão, cebola, ovo.'},
+  {en:'Oh, no egg, please.',pt:'Ah, sem ovo, por favor.'},
+  {en:'Salad, no egg.',pt:'Salada, sem ovo.'},
+  {en:'Anything to drink?',pt:'Algo para beber?'},
+  {en:'Just water, please.',pt:'Só água, por favor.'},
+  {en:'And for you?',pt:'E para o senhor?'},
+  {en:"I'll have the special.",pt:'Vou querer o prato especial.'},
+  {en:'Could I ask you another question?',pt:'Posso fazer mais uma pergunta?'},
+  {en:'No.',pt:'Não.'},
+ ],
+ vocab:[
+  {en:'I\'m in the mood for',pt:'estou com vontade de'},
+  {en:'fatty',pt:'gorduroso'},
+  {en:'fried',pt:'frito'},
+  {en:'grilled',pt:'grelhado'},
+  {en:'appetizer',pt:'entrada / aperitivo'},
+  {en:'entrée',pt:'prato principal'},
+  {en:'dairy',pt:'laticínios'},
+  {en:'What does it come with?',pt:'O que vem junto?'},
+ ],
+ phrases:[
+  {en:"I'm in the mood for ___.",pt:'Estou com vontade de ___.'},
+  {en:'Could I order ___ without ___?',pt:'Posso pedir ___ sem ___?'},
+  {en:'What does it come with?',pt:'O que vem junto?'},
+  {en:'Could I have ___ instead?',pt:'Posso ter ___ em vez disso?'},
+  {en:'Just water, please.',pt:'Só água, por favor.'},
+ ],
+},
+{id:13,level:'Intermediário',bucket:'intermediario',title:'A Férias Perfeita e a Péssima',
+ situacao:'O Sr. Rasheed volta de uma terrível viagem mas está feliz por ter encontrado alguém especial.',
+ lines:[
+  {en:"Welcome back! How's Los Angeles?",pt:'Bem-vindo de volta! Como foi Los Angeles?'},
+  {en:'The vacation was wonderful!',pt:'As férias foram maravilhosas!'},
+  {en:'Was your flight okay?',pt:'Seu voo foi tranquilo?'},
+  {en:'No, pretty bad actually. It was so bumpy. Very scary.',pt:'Não, bem ruim na verdade. Foi muito turbulento. Muito assustador.'},
+  {en:'Did you have nice weather?',pt:'O clima estava bom?'},
+  {en:'No, the weather was terrible. Very rainy. I never saw the sun.',pt:'Não, o clima estava terrível. Chuvoso demais. Nunca vi o sol.'},
+  {en:'So what did you do?',pt:'Então o que você fez?'},
+  {en:'I stayed inside.',pt:'Fiquei dentro do hotel.'},
+  {en:'Was the hotel room nice?',pt:'O quarto do hotel era bom?'},
+  {en:'The room was fine, but it was right next to the cafe and the music was very loud. I didn\'t sleep much.',pt:'O quarto era ok, mas ficava bem ao lado do café e a música estava muito alta. Não dormi muito.'},
+  {en:'I\'ll bet the food was great!',pt:'Aposto que a comida era ótima!'},
+  {en:'No, it was too salty, and the waiters were very unfriendly.',pt:'Não, estava muito salgada, e os garçons eram muito antipáticos.'},
+  {en:'Did you go shopping?',pt:'Você foi fazer compras?'},
+  {en:'A little. Until someone stole my wallet.',pt:'Um pouco. Até alguém roubar minha carteira.'},
+  {en:'Was the flight home okay?',pt:'O voo de volta foi tranquilo?'},
+  {en:'Actually, they cancelled my flight. I had to stay for two more days.',pt:'Na verdade, cancelaram meu voo. Tive que ficar mais dois dias.'},
+  {en:"That's terrible! But Mr. Rasheed... you said your vacation was wonderful!",pt:'Isso é terrível! Mas Sr. Rasheed... você disse que suas férias foram maravilhosas!'},
+  {en:'Ah, yes, I did. And it was wonderful!',pt:'Ah, sim, eu disse. E elas foram maravilhosas!'},
+  {en:'I met a very nice person. A woman. Her name is Bazar. She\'s from Lebanon, just like me. But she lives here.',pt:'Eu conheci uma pessoa muito legal. Uma mulher. O nome dela é Bazar. Ela é do Líbano, assim como eu. Mas ela mora aqui.'},
+  {en:"I'm seeing her tonight.",pt:'Vou encontrá-la hoje à noite.'},
+  {en:'So yes... it was a wonderful vacation.',pt:'Então sim... foram férias maravilhosas.'},
+ ],
+ vocab:[
+  {en:'bumpy',pt:'turbulento / com solavancos'},
+  {en:'scary',pt:'assustador'},
+  {en:'salty',pt:'salgado'},
+  {en:'unfriendly',pt:'antipático / grosseiro'},
+  {en:'stole my wallet',pt:'roubou minha carteira'},
+  {en:'cancelled',pt:'cancelado'},
+  {en:"I'm seeing her",pt:'estou saindo com ela / vou encontrá-la'},
+ ],
+ phrases:[
+  {en:'It was so bumpy.',pt:'Foi tão turbulento.'},
+  {en:'The weather was terrible.',pt:'O tempo estava terrível.'},
+  {en:"I didn't sleep much.",pt:'Não dormi muito.'},
+  {en:"I'll bet ___.",pt:'Aposto que ___.'},
+  {en:"I'm seeing her tonight.",pt:'Vou encontrá-la esta noite.'},
+ ],
+ extra:{title:'Lição da Cena',body:'Tudo de ruim pode ser compensado por algo especial. E como descrever uma viagem com adjetivos fortes: <b>terrible, wonderful, scary, unfriendly, salty</b>.'},
+},
+{id:14,level:'Intermediário',bucket:'intermediario',title:'A Safari Confusa',
+ situacao:'Cheryl planeja o safari da Sra. Batty no Botswana, com meios de transporte cada vez mais inusitados.',
+ lines:[
+  {en:'In Johannesburg, you should take a taxi or a limo to your hotel.',pt:'Em Joanesburgo, você deve pegar um táxi ou uma limusine até o hotel.'},
+  {en:'The next day you could fly or take a train to Francistown in Botswana.',pt:'No dia seguinte você pode voar ou pegar um trem até Francistown, em Botswana.'},
+  {en:'Is it an express train?',pt:'É um trem expresso?'},
+  {en:'Yes.',pt:'Sim.'},
+  {en:"I'll take the train. I'd like to see the country.",pt:'Vou pegar o trem. Gostaria de ver o país.'},
+  {en:'Then you can take a small plane or a bus to the Okavango Delta.',pt:'Depois você pode pegar um avião pequeno ou um ônibus até o Delta do Okavango.'},
+  {en:'How small is the airplane?',pt:'Quão pequeno é o avião?'},
+  {en:"It's pretty small.",pt:'É bem pequeno.'},
+  {en:"I'll take the bus. Is it an express bus?",pt:'Vou pegar o ônibus. É um ônibus expresso?'},
+  {en:'I think so.',pt:'Acho que sim.'},
+  {en:"When you get to Maun, you're going to be taking a boat to your hotel.",pt:'Quando você chegar em Maun, vai pegar um barco até o hotel.'},
+  {en:'A boat?',pt:'Um barco?'},
+  {en:'The hotel is on an island.',pt:'O hotel fica numa ilha.'},
+  {en:'When you get to the island, a man with a donkey can take your luggage to the hotel.',pt:'Quando você chegar na ilha, um homem com um burro pode levar sua bagagem até o hotel.'},
+  {en:'A donkey?',pt:'Um burro?'},
+  {en:'There are no cars on the island.',pt:'Não tem carros na ilha.'},
+  {en:'Is it an express donkey?',pt:'É um burro expresso?'},
+  {en:"I think it's probably a local donkey.",pt:'Acho que é provavelmente um burro local.'},
+  {en:"Of course, if you don't want the donkey, you could take a small plane. It goes straight to the hotel.",pt:'Claro, se você não quiser o burro, pode pegar um avião pequeno. Ele vai direto para o hotel.'},
+  {en:'I think I should take the donkey. Donkeys never have mechanical problems, right?',pt:'Acho que vou pegar o burro. Burros nunca têm problemas mecânicos, né?'},
+ ],
+ vocab:[
+  {en:'safari',pt:'safári'},
+  {en:'limo',pt:'limusine'},
+  {en:'express train',pt:'trem expresso'},
+  {en:'local bus',pt:'ônibus local (faz todas as paradas)'},
+  {en:'island',pt:'ilha'},
+  {en:'luggage',pt:'bagagem'},
+  {en:'donkey',pt:'burro / jumento'},
+  {en:'mechanical problems',pt:'problemas mecânicos'},
+ ],
+ phrases:[
+  {en:'You should take a taxi.',pt:'Você deveria pegar um táxi.'},
+  {en:'You could fly or take a train.',pt:'Você pode voar ou pegar um trem.'},
+  {en:'How small is the airplane?',pt:'Qual o tamanho do avião?'},
+  {en:'There are no cars on the island.',pt:'Não há carros na ilha.'},
+  {en:'It goes straight to the hotel.',pt:'Vai direto para o hotel.'},
+ ],
+ extra:{title:'Humor da Cena',body:'A progressão dos meios de transporte — avião → trem → barco → <b>burro</b> — é hilária. E a pergunta "Is it an express donkey?" é clássica!'},
+},
+{id:15,level:'Intermediário',bucket:'intermediario',title:'Problemas no Escritório com Tecnologia',
+ situacao:'Todos pedem ajuda de Bob com problemas de tecnologia.',
+ lines:[
+  {en:'Bob, can you help me with something?',pt:'Bob, pode me ajudar com uma coisa?'},
+  {en:'Sure.',pt:'Claro.'},
+  {en:"I'm trying to print a file but the printer won't work.",pt:'Estou tentando imprimir um arquivo mas a impressora não funciona.'},
+  {en:'Push the green button on the printer.',pt:'Aperta o botão verde na impressora.'},
+  {en:'Why?',pt:'Por quê?'},
+  {en:"To turn it on. It won't print unless it's on.",pt:'Para ligar ela. Não vai imprimir se não estiver ligada.'},
+  {en:'Oh right. Silly me. Thank you.',pt:'Ah, certo. Que bobagem minha. Obrigado.'},
+  {en:"[Next person] Hey Bob, my laptop crashed and I can't get it to do anything.",pt:'[Próxima pessoa] Ei Bob, meu laptop travou e não consigo fazer nada.'},
+  {en:'Stick this here.',pt:'Cola isso aqui.'},
+  {en:'Why?',pt:'Por quê?'},
+  {en:'To restart the computer.',pt:'Para reiniciar o computador.'},
+  {en:'Are you sure? Okay. Thanks.',pt:'Tem certeza? Tá bom. Obrigado.'},
+  {en:'[Next person] Bob, somebody sent me an email but I think it has a virus.',pt:'[Próxima pessoa] Bob, alguém me mandou um email mas acho que tem vírus.'},
+  {en:'Don\'t open the attachment. Click on the "No Virus" icon on the toolbar.',pt:'Não abre o anexo. Clica no ícone "No Virus" na barra de ferramentas.'},
+  {en:'Why?',pt:'Por quê?'},
+  {en:'To clean the computer and stop the virus.',pt:'Para limpar o computador e parar o vírus.'},
+  {en:'Thanks, Bob.',pt:'Obrigado, Bob.'},
+  {en:'[Last person] Bob, can I ask you another question?',pt:'[Última pessoa] Bob, posso te fazer outra pergunta?'},
+  {en:"I'm sorry, but I can't get any work done with all these questions! I have some very important stuff I need to finish right now.",pt:'Desculpa, mas eu não consigo trabalhar com todas essas perguntas! Tenho umas coisas muito importantes pra terminar agora.'},
+  {en:'[Game over sound] Game over?',pt:'[Som de game over] Game over?'},
+  {en:'Very important stuff.',pt:'Coisas muito importantes.'},
+  {en:'Game over?',pt:'Game over?'},
+  {en:'Game. How can I help?',pt:'Jogo. Como posso ajudar?'},
+ ],
+ vocab:[
+  {en:'printer',pt:'impressora'},
+  {en:'green button',pt:'botão verde'},
+  {en:'laptop crashed',pt:'laptop travou/quebrou'},
+  {en:'restart',pt:'reiniciar'},
+  {en:'attachment',pt:'anexo (de email)'},
+  {en:'virus',pt:'vírus'},
+  {en:'toolbar',pt:'barra de ferramentas'},
+  {en:'Silly me!',pt:'Que bobagem minha! / Que burrice!'},
+ ],
+ phrases:[
+  {en:'Can you help me with something?',pt:'Você pode me ajudar com algo?'},
+  {en:"The printer won't work.",pt:'A impressora não está funcionando.'},
+  {en:'My laptop crashed.',pt:'Meu laptop travou.'},
+  {en:"Don't open the attachment.",pt:'Não abra o anexo.'},
+  {en:'Silly me!',pt:'Que bobagem minha!'},
+ ],
+},
+{id:16,level:'Intermediário',bucket:'intermediario',title:'Dr. Cheer e o Blues da Marie',
+ situacao:'Marie está se sentindo para baixo e Paul tenta animá-la com seu método peculiar.',
+ lines:[
+  {en:"Marie, you've been so quiet. Are you okay?",pt:'Marie, você está tão quieta. Está tudo bem?'},
+  {en:"I'm just a little down in the dumps.",pt:'Estou só um pouco pra baixo.'},
+  {en:"Oh, I'm sorry. We've been arguing about colors and you're feeling blue.",pt:'Ah, desculpa. Estávamos discutindo sobre cores e você ficou triste.'},
+  {en:'Blue?',pt:'Triste?'},
+  {en:"What's wrong, Marie?",pt:'O que foi, Marie?'},
+  {en:"I don't know. I can't put my finger on it. I've just been feeling out of sorts.",pt:'Não sei. Não consigo identificar. Só tenho me sentido meio fora do ar.'},
+  {en:'Don\'t worry! Dr. Cheer is here!',pt:'Não se preocupe! O Dr. Alegria chegou!'},
+  {en:'Doctor who?',pt:'Doutor quem?'},
+  {en:'At school, people call me "Dr. Cheer" because I\'m always happy and I enjoy cheering people up!',pt:'Na escola, as pessoas me chamam de "Dr. Alegria" porque sou sempre feliz e adoro animar as pessoas!'},
+  {en:'How do you do that?',pt:'Como você faz isso?'},
+  {en:'I practice laughing every day!',pt:'Eu pratico rir todo dia!'},
+  {en:'Laughing at what?',pt:'Rir do quê?'},
+  {en:'Nothing! I just choose to laugh.',pt:'De nada! Eu simplesmente escolho rir.'},
+  {en:'You just decide to laugh?',pt:'Você simplesmente decide rir?'},
+  {en:"I can't do that. It's not in my nature.",pt:'Eu não consigo fazer isso. Não é da minha natureza.'},
+  {en:'How do you know? Just try. Let me hear you laugh.',pt:'Como você sabe? Só tenta. Deixa eu ouvir você rir.'},
+  {en:'Ha.',pt:'Rá.'},
+  {en:'Louder.',pt:'Mais alto.'},
+  {en:'Ha ha.',pt:'Rá rá.'},
+  {en:'Come on. Keep laughing.',pt:'Vamos lá. Continua rindo.'},
+  {en:"[laughter] You're right. It's not your personality.",pt:'[risada] Você tem razão. Não é a sua personalidade.'},
+  {en:'What now, Dr. Cheer?',pt:'E agora, Dr. Alegria?'},
+  {en:'Chocolate. Works every time.',pt:'Chocolate. Funciona sempre.'},
+ ],
+ vocab:[
+  {en:'down in the dumps',pt:'pra baixo / na fossa'},
+  {en:'feeling blue',pt:'se sentindo triste / com o blues'},
+  {en:"I can't put my finger on it",pt:'não consigo identificar / não sei explicar'},
+  {en:'out of sorts',pt:'indisposto / não estou bem'},
+  {en:'cheer people up',pt:'animar as pessoas'},
+  {en:"it's not in my nature",pt:'não é minha natureza'},
+  {en:'works every time',pt:'funciona sempre'},
+ ],
+ phrases:[
+  {en:"I'm feeling a little down in the dumps.",pt:'Estou me sentindo um pouco pra baixo.'},
+  {en:"I can't put my finger on it.",pt:'Não consigo identificar.'},
+  {en:"I've been feeling out of sorts.",pt:'Tenho me sentido fora do normal.'},
+  {en:'Choose to laugh.',pt:'Escolha rir.'},
+  {en:'Works every time!',pt:'Funciona sempre!'},
+ ],
+ extra:{title:'Expressões Idiomáticas desta Cena',body:'<b>down in the dumps</b> = triste, desanimado · <b>feeling blue</b> = triste (blue = azul = tristeza em inglês) · <b>out of sorts</b> = não se sentindo bem, irritado · <b>can\'t put my finger on it</b> = não consigo identificar o problema'},
+},
+{id:17,level:'Intermediário',bucket:'intermediario',title:'Arte no Escritório',
+ situacao:'Miss Novak traz obras de arte para decorar o escritório e revela o talento fotográfico de Bob.',
+ lines:[
+  {en:'Here\'s the painting. It was painted by a Russian artist. It\'s called "Sun on the Water."',pt:'Aqui está a pintura. Foi pintada por um artista russo. Se chama "Sol na Água".'},
+  {en:'The artist was inspired by looking at the sea.',pt:'O artista foi inspirado ao observar o mar.'},
+  {en:'What do you think?',pt:'O que você acha?'},
+  {en:'I think I could do that.',pt:'Acho que eu conseguiria fazer isso.'},
+  {en:"It's fantastic!",pt:'É fantástica!'},
+  {en:'How interesting.',pt:'Que interessante.'},
+  {en:"It's very blue.",pt:'É bem azul.'},
+  {en:"Yes, it's gorgeous.",pt:'Sim, é linda.'},
+  {en:'Here\'s the sculpture. It was made by a British sculptor. It\'s called "City of Gold."',pt:'Aqui está a escultura. Foi feita por um escultor britânico. Se chama "Cidade de Ouro".'},
+  {en:'Is it really gold?',pt:'É realmente ouro?'},
+  {en:"No, it's made of wood. It was painted gold.",pt:'Não, é feita de madeira. Foi pintada de dourado.'},
+  {en:'What do you think?',pt:'O que você acha?'},
+  {en:"It's cool!",pt:'É legal!'},
+  {en:'I think it would look good in your office.',pt:'Acho que ficaria bem no seu escritório.'},
+  {en:"I think I prefer the painting. I'm fascinated by it.",pt:'Acho que prefiro a pintura. Estou fascinado por ela.'},
+  {en:'And here\'s the photograph. It\'s called "Winter." It was photographed in Paris.',pt:'E aqui está a fotografia. Se chama "Inverno". Foi fotografada em Paris.'},
+  {en:"There's nothing there. It's a photograph of snow in a park.",pt:'Não tem nada ali. É uma foto de neve num parque.'},
+  {en:'[Bob shows his own photo] Hey, look! I\'m an artist! Here\'s my latest work. It\'s called "Office Wall."',pt:'[Bob mostra a própria foto] Ei, olha! Eu sou um artista! Aqui está meu trabalho mais recente. Se chama "Parede do Escritório".'},
+  {en:'I was inspired by looking at the walls of the office.',pt:'Fui inspirado observando as paredes do escritório.'},
+  {en:"I'm not so crazy about that one... but I do like what you've done here.",pt:'Não sou muito fã dessa... mas eu gosto do que você fez aqui.'},
+  {en:"I'm very moved by it, actually. It's a fascinating mixture of Eastern and Western traditions.",pt:'Estou muito emocionado com ela, na verdade. É uma mistura fascinante de tradições orientais e ocidentais.'},
+  {en:'You have talent.',pt:'Você tem talento.'},
+  {en:'I do?',pt:'Eu tenho?'},
+  {en:'I think I could sell this.',pt:'Acho que eu conseguiria vender isso.'},
+ ],
+ vocab:[
+  {en:'painting',pt:'pintura / quadro'},
+  {en:'sculpture',pt:'escultura'},
+  {en:'photographer',pt:'fotógrafo'},
+  {en:'inspired by',pt:'inspirado por'},
+  {en:'fascinated by',pt:'fascinado por'},
+  {en:"I'm moved by it",pt:'estou emocionado por isso'},
+  {en:"I'm crazy about",pt:'sou louco por / adoro'},
+  {en:'talent',pt:'talento'},
+ ],
+ phrases:[
+  {en:'What do you think?',pt:'O que você acha?'},
+  {en:"I'm fascinated by it.",pt:'Estou fascinado com isso.'},
+  {en:"I'm not so crazy about that one.",pt:'Não sou muito fã desse.'},
+  {en:"I'm very moved by it.",pt:'Estou muito emocionado com isso.'},
+  {en:'You have talent!',pt:'Você tem talento!'},
+ ],
+},
+{id:18,level:'Iniciante-Intermediário',bucket:'intermediario',title:'Exercício no Escritório',
+ situacao:'Bob tenta se exercitar no escritório durante o trabalho.',
+ lines:[
+  {en:'What are you doing?',pt:'O que você está fazendo?'},
+  {en:"I'm exercising.",pt:'Estou me exercitando.'},
+  {en:"Don't you have some work to do?",pt:'Você não tem trabalho para fazer?'},
+  {en:"I am working! I'm working and exercising.",pt:'Eu estou trabalhando! Estou trabalhando e me exercitando.'},
+  {en:'What work are you doing?',pt:'Que trabalho você está fazendo?'},
+  {en:"I'm thinking. About ideas for Mrs. Batty's vacation.",pt:'Estou pensando. Sobre ideias para as férias da Sra. Batty.'},
+  {en:'And what are you thinking?',pt:'E o que você está pensando?'},
+  {en:'Beach vacation.',pt:'Férias na praia.'},
+  {en:'I have to finish this. Can you go exercise somewhere else?',pt:'Eu preciso terminar isso. Você pode ir se exercitar em outro lugar?'},
+  {en:'No problem.',pt:'Sem problema.'},
+  {en:'[Later] What are you doing?',pt:'[Mais tarde] O que você está fazendo?'},
+  {en:"I'm getting in shape.",pt:'Estou ficando em forma.'},
+  {en:"Why are you doing that here? Why don't you go to a gym, or the park, or outside, or home?",pt:'Por que você está fazendo isso aqui? Por que você não vai a uma academia, ao parque, lá fora, ou pra casa?'},
+  {en:"I don't have time to go to the gym.",pt:'Eu não tenho tempo de ir à academia.'},
+  {en:"I can't work when you do that. Can you go over there?",pt:'Eu não consigo trabalhar quando você faz isso. Você pode ir pra lá?'},
+  {en:'No.',pt:'Não.'},
+  {en:'[Later — running in the office] Bob! What are you doing?',pt:'[Mais tarde — correndo no escritório] Bob! O que você está fazendo?'},
+  {en:"I'm working.",pt:'Estou trabalhando.'},
+  {en:'Then why are you running?',pt:'Então por que você está correndo?'},
+  {en:'To get in shape. Running burns a lot of calories.',pt:'Para ficar em forma. Correr queima muitas calorias.'},
+  {en:'Exercise later. Work now. Please.',pt:'Exercite-se depois. Trabalhe agora. Por favor.'},
+  {en:'Yes, sir.',pt:'Sim, senhor.'},
+ ],
+ vocab:[
+  {en:'getting in shape',pt:'ficando em forma'},
+  {en:'burn calories',pt:'queimar calorias'},
+  {en:'gym',pt:'academia'},
+  {en:'exercise',pt:'exercitar / exercício'},
+  {en:'work out',pt:'treinar'},
+  {en:"I don't have time",pt:'não tenho tempo'},
+ ],
+ phrases:[
+  {en:"I'm getting in shape.",pt:'Estou ficando em forma.'},
+  {en:'Running burns a lot of calories.',pt:'Correr queima muitas calorias.'},
+  {en:'Can you go somewhere else?',pt:'Você pode ir em outro lugar?'},
+  {en:'Exercise later. Work now.',pt:'Exercite depois. Trabalhe agora.'},
+  {en:"I don't have time to go to the gym.",pt:'Não tenho tempo de ir à academia.'},
+ ],
+},
+{id:19,level:'Intermediário',bucket:'intermediario',title:'A Festa de Aniversário do Mr. Evans',
+ situacao:'A equipe planeja a festa de aniversário do chefe de forma colaborativa.',
+ lines:[
+  {en:"I've asked Cheryl to plan a party for Mr. Wells's group next Friday.",pt:'Pedi para a Cheryl planejar uma festa para o grupo do Sr. Wells na próxima sexta.'},
+  {en:"Marie, I'd like you to choose the restaurant for the party.",pt:'Marie, quero que você escolha o restaurante para a festa.'},
+  {en:"I'd love to!",pt:'Eu adoraria!'},
+  {en:"Bob, I'll let you choose the... you will?",pt:'Bob, vou deixar você escolher o... você vai?'},
+  {en:'Paul, could you plan the music?',pt:'Paul, você poderia planejar a música?'},
+  {en:'Yes, good.',pt:'Sim, ótimo.'},
+  {en:'I called 10 restaurants and had them give us a price for a party room.',pt:'Eu liguei para 10 restaurantes e pedi um orçamento para um salão de festas.'},
+  {en:'These two had the best prices. The Green Room is a nice restaurant.',pt:'Esses dois tiveram os melhores preços. O Green Room é um restaurante legal.'},
+  {en:"That's my favorite too!",pt:'Esse também é o meu favorito!'},
+  {en:'Now, Bob. About the food. I was thinking steak and potatoes.',pt:'Agora, Bob. Sobre a comida. Eu estava pensando em bife com batatas.'},
+  {en:'Well, the client asked for fish or chicken, so I had the restaurant put together a menu.',pt:'Bem, o cliente pediu peixe ou frango, então pedi para o restaurante montar um cardápio.'},
+  {en:'Which do you like better?',pt:'Qual você prefere?'},
+  {en:'I like chicken more than fish, I guess.',pt:'Acho que gosto mais de frango do que de peixe.'},
+  {en:'Great! Chicken it is.',pt:'Ótimo! Frango, então.'},
+  {en:'Now, Paul. Let me guess — you have a list of music choices.',pt:'Agora, Paul. Deixa eu adivinhar — você tem uma lista de opções musicais.'},
+  {en:'Yes.',pt:'Sim.'},
+  {en:"These look fine. I think we're all done.",pt:'Essas estão boas. Acho que terminamos.'},
+  {en:'You see how easy it is to plan something when we do it all together?',pt:'Viu como é fácil planejar algo quando fazemos tudo juntos?'},
+ ],
+ vocab:[
+  {en:'plan a party',pt:'planejar uma festa'},
+  {en:'party room',pt:'salão para festas'},
+  {en:'put together a menu',pt:'montar um menu'},
+  {en:'Which do you like better?',pt:'Qual você prefere?'},
+  {en:'Chicken it is!',pt:'Frango então! / Decidido: frango!'},
+  {en:'work together',pt:'trabalhar juntos'},
+ ],
+ phrases:[
+  {en:"I'd like you to ___.",pt:'Quero que você ___.'},
+  {en:'Which do you like better?',pt:'Qual você prefere?'},
+  {en:'___ it is!',pt:'Decidido: ___! / ___ então!'},
+  {en:'How easy it is when we work together!',pt:'Como é fácil quando trabalhamos juntos!'},
+  {en:'Could you plan the music?',pt:'Você poderia planejar a música?'},
+ ],
+},
+{id:20,level:'Intermediário-Avançado',bucket:'avancado',title:'Planejando o Casamento',
+ situacao:'Bob e Cheryl não conseguem concordar em nada para o casamento deles.',
+ lines:[
+  {en:"I didn't know planning a wedding would be so hard.",pt:'Eu não sabia que planejar um casamento seria tão difícil.'},
+  {en:'How many people should we invite?',pt:'Quantas pessoas devemos convidar?'},
+  {en:'Bob wants a small wedding — 20 guests.',pt:'O Bob quer um casamento pequeno — 20 convidados.'},
+  {en:'I want a large wedding — about 300 people.',pt:'Eu quero um casamento grande — umas 300 pessoas.'},
+  {en:'Yesterday you said 200.',pt:'Ontem você disse 200.'},
+  {en:'I have a lot of relatives who want to come.',pt:'Eu tenho muitos parentes que querem vir.'},
+  {en:"Then there's the location.",pt:'Depois tem o local.'},
+  {en:"I always thought I'd get married in a park or at the beach.",pt:'Eu sempre pensei que me casaria num parque ou na praia.'},
+  {en:"I would like to get married indoors, where I won't get wet if it's raining.",pt:'Eu gostaria de me casar em local fechado, onde eu não me molhe se estiver chovendo.'},
+  {en:'I prefer traditional music in the ceremony.',pt:'Eu prefiro música tradicional na cerimônia.'},
+  {en:'Contemporary music!',pt:'Música contemporânea!'},
+  {en:"I'd like a long ceremony and a short reception.",pt:'Eu gostaria de uma cerimônia longa e uma recepção curta.'},
+  {en:'I want a short ceremony and a huge celebration afterwards!',pt:'Eu quero uma cerimônia curta e uma celebração enorme depois!'},
+  {en:'I want a white cake.',pt:'Eu quero um bolo branco.'},
+  {en:'And I want a chocolate cake!',pt:'E eu quero um bolo de chocolate!'},
+  {en:'How are we ever going to agree on this?',pt:'Como vamos chegar a um acordo sobre isso?'},
+  {en:"[Marie's solution] Plan a wedding that's big enough to include all of Cheryl's family.",pt:'[Solução da Marie] Planeje um casamento grande o bastante para incluir toda a família da Cheryl.'},
+  {en:'In the park on Oak Street — that has a building where you can go if it rains.',pt:'No parque da Oak Street — que tem um salão pra caso chova.'},
+  {en:'You can have traditional music in the ceremony and contemporary music at the party.',pt:'Vocês podem ter música tradicional na cerimônia e música contemporânea na festa.'},
+  {en:'And you could have two cakes at the reception — one white and one chocolate.',pt:'E vocês podem ter dois bolos na recepção — um branco e um de chocolate.'},
+  {en:'Sounds okay to me.',pt:'Parece bom pra mim.'},
+  {en:'Me too!',pt:'Pra mim também!'},
+  {en:'We did it!',pt:'Conseguimos!'},
+ ],
+ vocab:[
+  {en:'guests',pt:'convidados'},
+  {en:'relatives',pt:'parentes'},
+  {en:'ceremony',pt:'cerimônia'},
+  {en:'reception',pt:'recepção'},
+  {en:'indoors',pt:'em local fechado / interno'},
+  {en:'compromise',pt:'compromisso / meio-termo'},
+  {en:'agree',pt:'concordar'},
+ ],
+ phrases:[
+  {en:'How are we ever going to agree?',pt:'Como vamos chegar a um acordo?'},
+  {en:"I always thought I'd ___.",pt:'Sempre pensei que ia ___.'},
+  {en:"Where I won't get wet.",pt:'Onde não vou me molhar.'},
+  {en:'Sounds okay to me.',pt:'Parece bom pra mim.'},
+  {en:'We did it!',pt:'Conseguimos!'},
+ ],
+},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let current = 1;
+let activeFilter = 'todas';
+let studied = new Set(JSON.parse(localStorage.getItem('s4_cenas_estudadas') || '[]'));
+let bilingualMode = {};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function highlightKeyPhrases(line, phrases) {
+  let html = line;
+  phrases.forEach(p => {
+    const core = p.en.replace(/___\.?/g, '').replace(/["']/g,'').trim();
+    if (core.length < 4) return;
+    const escaped = core.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp('(' + escaped.split(' ').slice(0,4).join('\\s+') + ')', 'i');
+    if (re.test(html) && !html.includes('class="key"')) {
+      html = html.replace(re, '<span class="key">$1</span>');
+    }
+  });
+  return html;
+}
+
+// ── RENDER GRID ───────────────────────────────────────────────────────────────
+function renderGrid() {
+  const grid = document.getElementById('sceneGrid');
+  const visible = CENAS.filter(c => activeFilter === 'todas' || c.bucket === activeFilter);
+  grid.innerHTML = visible.map(c => `
+    <div class="mini-card ${c.id === current ? 'active' : ''}" onclick="selectScene(${c.id})">
+      ${studied.has(c.id) ? '<span class="mini-check">✓</span>' : ''}
+      <div class="mini-num">CENA ${String(c.id).padStart(2,'0')}</div>
+      <div class="mini-title">${c.title}</div>
+    </div>
+  `).join('');
+  document.getElementById('navCount').textContent = `${visible.length} cenas`;
+}
+
+function filterLevel(level, btn) {
+  activeFilter = level;
+  document.querySelectorAll('.filt-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
+
+// ── RENDER DETAIL ─────────────────────────────────────────────────────────────
+function renderDetail(animate) {
+  const c = CENAS.find(x => x.id === current);
+  const card = document.getElementById('sceneCard');
+  bilingualMode[c.id] = bilingualMode[c.id] || false;
+
+  const linesHTML = c.lines.map((l, i) => `
+    <div>
+      <div class="dlg-line" onclick="toggleLinePt(${c.id},${i})"><span class="dash">—</span>${highlightKeyPhrases(l.en, c.phrases)}</div>
+      <div class="dlg-pt ${bilingualMode[c.id] ? 'show' : ''}" id="pt-${c.id}-${i}">${l.pt}</div>
+    </div>
+  `).join('');
+
+  const vocabHTML = c.vocab.map((v,i) => `
+    <div class="vocab-chip" onclick="this.classList.toggle('open')">
+      <span class="vocab-en">${v.en}</span><span class="vocab-pt">${v.pt}</span>
+    </div>
+  `).join('');
+
+  const phrasesHTML = c.phrases.map((p,i) => `
+    <div class="phrase-item">
+      <div class="phrase-en"><span class="n">${i+1}.</span>"${p.en}"</div>
+      <div class="phrase-pt">→ ${p.pt}</div>
+    </div>
+  `).join('');
+
+  const learnHTML = c.learn ? `
+    <div class="note-section learn-box">
+      <div class="note-label">✅ O que aprender</div>
+      <ul class="learn-list">${c.learn.map(l => `<li>${l}</li>`).join('')}</ul>
+    </div>` : '';
+
+  const errorsHTML = c.errors ? `
+    <div class="note-section error-box">
+      <div class="note-label">⚠️ Erros clássicos do brasileiro</div>
+      ${c.errors.map(e => `<div class="error-row"><span class="err-wrong">❌ ${e.wrong}</span><span class="err-right">✓ ${e.right}</span></div>`).join('')}
+    </div>` : '';
+
+  const extraHTML = c.extra ? `
+    <div class="note-section extra-box">
+      <div class="note-label">💡 ${c.extra.title}</div>
+      <div class="extra-body">${c.extra.body}</div>
+    </div>` : '';
+
+  card.innerHTML = `
+    <div class="sc-header">
+      <div class="sc-top">
+        <span class="sc-tag">🎬 Cena ${String(c.id).padStart(2,'0')}</span>
+        <span class="sc-level">${c.level}</span>
+      </div>
+      <div class="sc-title">${c.title}</div>
+      <div class="sc-situacao">${c.situacao}</div>
+    </div>
+
+    <div class="dlg-section">
+      <div class="dlg-head">
+        <span class="dlg-label">Diálogo</span>
+        <button class="dlg-toggle ${bilingualMode[c.id] ? 'on' : ''}" onclick="toggleAllPt(${c.id})">🇧🇷 Ver tudo em PT</button>
+      </div>
+      <div class="dlg-box">${linesHTML}</div>
+      <div class="dlg-hint">Clique em qualquer fala para ver a tradução dela</div>
+    </div>
+
+    <div class="vocab-section">
+      <div class="sec-label">Vocabulário da Cena</div>
+      <div class="vocab-list">${vocabHTML}</div>
+    </div>
+
+    <div class="phrases-section">
+      <div class="sec-label">Frases-Chave (para usar no dia a dia)</div>
+      ${phrasesHTML}
+    </div>
+
+    ${learnHTML}
+    ${errorsHTML}
+    ${extraHTML}
+
+    <div class="actions">
+      <button class="study-btn ${studied.has(c.id) ? 'done' : ''}" onclick="toggleStudied(${c.id})">${studied.has(c.id) ? '✓ Estudei' : '☐ Marcar como estudei'}</button>
+      <button class="next-btn" onclick="nextScene()" ${c.id === 20 ? 'disabled' : ''}>${c.id === 20 ? 'Última cena' : '→ Próxima Cena'}</button>
+    </div>
+  `;
+
+  if (animate) {
+    card.classList.remove('anim');
+    void card.offsetWidth;
+    card.classList.add('anim');
+  }
+
+  renderGrid();
+  updateProgress();
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+function selectScene(id) {
+  current = id;
+  renderDetail(true);
+  document.querySelector('.card-area').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function nextScene() {
+  if (current < 20) {
+    current += 1;
+    renderDetail(true);
+    document.querySelector('.card-area').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+function toggleLinePt(id, i) {
+  const el = document.getElementById(`pt-${id}-${i}`);
+  el.classList.toggle('show');
+}
+
+function toggleAllPt(id) {
+  bilingualMode[id] = !bilingualMode[id];
+  renderDetail(false);
+}
+
+function toggleStudied(id) {
+  if (studied.has(id)) studied.delete(id);
+  else studied.add(id);
+  localStorage.setItem('s4_cenas_estudadas', JSON.stringify([...studied]));
+  renderDetail(false);
+}
+
+function updateProgress() {
+  const n = studied.size;
+  document.getElementById('progNum').textContent = `${n} de 20 cenas estudadas`;
+  document.getElementById('progFill').style.width = `${(n/20)*100}%`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderGrid();
+renderDetail(false);
+</script>
+</body>
+</html>

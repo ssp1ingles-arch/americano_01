@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 26 — WILL · SHALL | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#f87171;
+  --cw:#FBBF24;--cs:#A78BFA;--cn:#f87171;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(248,113,113,.12);color:var(--accent);border:1px solid rgba(248,113,113,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.5rem}
+.hero-mod-tag{display:inline-block;background:rgba(248,113,113,.1);color:var(--accent);border:1px solid rgba(248,113,113,.25);border-radius:999px;padding:.3rem .9rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;margin-bottom:1.25rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(3.5rem,12vw,8rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vw{color:var(--cw)}
+.hero-title .dot{color:var(--muted);font-size:.55em}
+.hero-title .vs{color:var(--cs)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.hp{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.35rem .9rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700}
+.hp-w{color:var(--cw);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.hp-s{color:var(--cs);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-n{color:var(--cn);background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS */
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+/* MODULE INTRO */
+.mod-intro{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.18);border-radius:1.25rem;padding:1.5rem;margin-bottom:3rem;max-width:860px;margin-left:auto;margin-right:auto}
+.mod-intro-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--accent);margin-bottom:.5rem}
+.mod-intro-desc{color:var(--muted);font-size:.92rem;line-height:1.6}
+.mod-modals{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem}
+.mm-pill{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18);border-radius:.4rem;padding:.2rem .6rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--accent)}
+
+/* RULE BOX */
+.rule-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:1.25rem;padding:1.5rem;margin-bottom:2rem}
+.rb-title{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--cw);margin-bottom:.85rem;text-transform:uppercase;letter-spacing:.07em}
+.rb-formula{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--text);text-align:center;padding:.75rem;background:rgba(0,0,0,.25);border-radius:.75rem;margin-bottom:.85rem}
+.rb-formula .modal-w{color:var(--cw)}
+.rb-formula .plus{color:var(--muted);margin:0 .4rem}
+.rb-formula .base{color:var(--tip)}
+.rb-subs{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.rb-sub{font-size:.83rem;padding:.45rem .65rem;border-radius:.5rem;background:rgba(0,0,0,.2)}
+.rb-sub .ok{color:var(--tip);font-weight:700;font-family:'Space Grotesk',sans-serif}
+.rb-sub .bad{color:var(--warn);font-weight:700;font-family:'Space Grotesk',sans-serif}
+
+/* USO BLOCKS */
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.5rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.uso-num-w{background:rgba(251,191,36,.15);color:var(--cw)}
+.uso-num-s{background:rgba(167,139,250,.15);color:var(--cs)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800}
+.uso-title-w{color:var(--cw)}
+.uso-title-s{color:var(--cs)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+/* EX TABLE */
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.ex-table th{padding:.55rem .9rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.65rem .9rem;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.83rem}
+.vbw{color:var(--cw)}
+.vbs{color:var(--cs)}
+
+/* WILL vs GOING TO */
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+.vs-card{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1.1rem}
+.vs-card h4{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:800;margin-bottom:.75rem}
+.vs-card .w-h{color:var(--cw)}
+.vs-card .g-h{color:var(--tip)}
+.vs-row{font-size:.83rem;padding:.3rem 0;border-bottom:1px solid var(--border);color:var(--muted)}
+.vs-row:last-child{border-bottom:none}
+.vs-row .en{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);font-size:.88rem}
+.vs-tip{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.18);border-radius:.7rem;padding:.85rem 1rem;font-size:.88rem;color:var(--cw)}
+
+/* WONT BOX */
+.wont-box{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.18);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1rem}
+.wont-box h5{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--cn);margin-bottom:.7rem}
+.wont-item{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.wont-item:last-child{margin-bottom:0}
+.wi-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.88rem}
+.wi-pt{font-size:.82rem;color:var(--muted)}
+
+/* SHALL BOX */
+.shall-box{background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.2);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1rem}
+.shall-box h5{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--cs);margin-bottom:.7rem}
+.shall-note{font-size:.83rem;color:var(--muted);margin-top:.65rem;padding-top:.65rem;border-top:1px solid var(--border)}
+
+/* NEG BOX */
+.neg-box{background:rgba(255,112,67,.05);border:1px solid rgba(255,112,67,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.neg-box h5{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--warn);margin-bottom:.6rem}
+.neg-pair{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.neg-w{background:rgba(255,112,67,.08);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--warn)}
+.neg-r{background:rgba(95,216,122,.06);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;color:var(--tip)}
+
+/* TIP */
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.tip-box p{color:var(--tip);font-size:.9rem}
+.tip-box strong{color:var(--tip)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(248,113,113,.06)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cw),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem;margin-bottom:1.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sw-h h4{color:var(--cw)}
+.ss-h h4{color:var(--cs)}
+.sn-h h4{color:var(--cn)}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(251,191,36,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:600;color:var(--cw)}
+
+/* FOOTER NAV */
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .vs-grid{grid-template-columns:1fr}
+  .rb-subs{grid-template-columns:1fr}
+  .neg-pair{grid-template-columns:1fr}
+  .wont-item{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 05 · Verbos Modais</span>
+  <span class="nav-badge">A1–A2 · Lição 26 · WILL · SHALL</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 05 · Lição 26</div>
+    <div class="hero-mod-tag">Verbos Modais — início</div>
+    <div class="hero-title">
+      <span class="vw">WILL</span>
+      <span class="dot"> · </span>
+      <span class="vs">SHALL</span>
+    </div>
+    <div class="hero-sub">Expresse futuro, decisões instantâneas, promessas e ofertas — os modais que mudam tudo</div>
+    <div class="hero-pills">
+      <span class="hp hp-w">WILL = vou (espontâneo)</span>
+      <span class="hp hp-n">WON'T = não vou</span>
+      <span class="hp hp-s">SHALL = vamos? (formal)</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- MODULE INTRO -->
+<div class="mod-intro" style="max-width:860px;margin-top:5rem">
+  <div class="mod-intro-title">Módulo 05 — Verbos Modais</div>
+  <div class="mod-intro-desc">Os modais são verbos auxiliares que expressam <strong style="color:var(--text)">intenção, possibilidade, obrigação ou capacidade</strong>. Eles nunca mudam de forma — sem -S, sem TO, sem -ED — e sempre vêm antes do verbo principal na forma base.</div>
+  <div class="mod-modals">
+    <span class="mm-pill">WILL</span>
+    <span class="mm-pill">SHALL</span>
+    <span class="mm-pill">CAN</span>
+    <span class="mm-pill">COULD</span>
+    <span class="mm-pill">MUST</span>
+    <span class="mm-pill">SHOULD</span>
+    <span class="mm-pill">MAY</span>
+    <span class="mm-pill">MIGHT</span>
+    <span class="mm-pill">WOULD</span>
+  </div>
+</div>
+
+<!-- REGRA DE OURO -->
+<section class="section" style="padding-top:2rem">
+  <div class="section-label">Regra fundamental</div>
+  <div class="section-title">A estrutura dos modais</div>
+
+  <div class="rule-box">
+    <div class="rb-title">Fórmula universal — todos os modais</div>
+    <div class="rb-formula">
+      <span class="modal-w">MODAL</span>
+      <span class="plus">+</span>
+      <span class="base">verbo base (sem TO)</span>
+    </div>
+    <div class="rb-subs">
+      <div class="rb-sub"><span class="ok">✓ I will go.</span></div>
+      <div class="rb-sub"><span class="bad">✗ I will to go.</span></div>
+      <div class="rb-sub"><span class="ok">✓ She will come.</span></div>
+      <div class="rb-sub"><span class="bad">✗ She wills come.</span></div>
+      <div class="rb-sub"><span class="ok">✓ He will work.</span></div>
+      <div class="rb-sub"><span class="bad">✗ He will works.</span></div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>WILL não muda jamais:</strong> I will · You will · He will · She will · We will · They will — igual para todos os pronomes. Nunca adicione -S.</p>
+  </div>
+</section>
+
+<!-- USO 1: WILL = FUTURO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--cw)">WILL — Futuro, Decisão, Promessa</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uso-num-w">1</div>
+      <div>
+        <div class="uso-title uso-title-w">WILL = decisão espontânea, promessa, previsão, oferta</div>
+        <div class="uso-sub">Formado no momento da fala — não planejado antes</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">decisão</td>
+          <td class="en">I <span class="vbw">will</span> call you tonight.</td>
+          <td class="pt">Vou te ligar esta noite.</td>
+        </tr>
+        <tr>
+          <td class="tipo">promessa</td>
+          <td class="en">I <span class="vbw">will</span> never forget you.</td>
+          <td class="pt">Nunca vou te esquecer.</td>
+        </tr>
+        <tr>
+          <td class="tipo">previsão</td>
+          <td class="en">It <span class="vbw">will</span> be cold tomorrow.</td>
+          <td class="pt">Vai fazer frio amanhã.</td>
+        </tr>
+        <tr>
+          <td class="tipo">oferta</td>
+          <td class="en">I <span class="vbw">will</span> help you with that.</td>
+          <td class="pt">Vou te ajudar com isso.</td>
+        </tr>
+        <tr>
+          <td class="tipo">recusa</td>
+          <td class="en">I <span class="vbw">won't</span> do that.</td>
+          <td class="pt">Não vou fazer isso.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>Contrações no dia a dia:</strong> I will → <strong>I'll</strong> · You will → <strong>You'll</strong> · He will → <strong>He'll</strong> · They will → <strong>They'll</strong>. Naturais na fala e escrita informal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: WILL vs GOING TO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2 — Distinção crucial</div>
+  <div class="section-title">WILL vs GOING TO</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uso-num-w">2</div>
+      <div>
+        <div class="uso-title uso-title-w">Espontâneo vs Planejado — dois futuros</div>
+        <div class="uso-sub">A diferença mais importante para soar natural em inglês</div>
+      </div>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card">
+        <h4 class="w-h">WILL — espontâneo</h4>
+        <div class="vs-row"><span class="en">I'll answer the phone.</span><br>Decidi agora, ao ouvir tocar.</div>
+        <div class="vs-row"><span class="en">I'll always love you.</span><br>Promessa feita no momento.</div>
+        <div class="vs-row"><span class="en">I think it will rain.</span><br>Previsão sem evidência visual.</div>
+      </div>
+      <div class="vs-card">
+        <h4 class="g-h">GOING TO — planejado</h4>
+        <div class="vs-row"><span class="en">I'm going to call him later.</span><br>Já estava nos planos.</div>
+        <div class="vs-row"><span class="en">We're going to travel in July.</span><br>Passagem já comprada.</div>
+        <div class="vs-row"><span class="en">Look! It's going to rain.</span><br>Vejo as nuvens — evidência.</div>
+      </div>
+    </div>
+
+    <div class="vs-tip">
+      <strong>Resumo:</strong> WILL = "decidi agora" · GOING TO = "já tinha planejado". Ambos são futuros corretos — o contexto define qual usar.
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: PERGUNTAS E WON'T -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3</div>
+  <div class="section-title" style="color:var(--cn)">WON'T — Negativa e Perguntas</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num" style="background:rgba(248,113,113,.15);color:var(--cn)">3</div>
+      <div>
+        <div class="uso-title" style="color:var(--cn)">WILL + perguntas · WON'T = will not</div>
+        <div class="uso-sub">WON'T é a contração mais usada para negar futuro espontâneo</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">pergunta</td>
+          <td class="en"><span class="vbw">Will</span> you come to the party?</td>
+          <td class="pt">Você vai vir à festa?</td>
+        </tr>
+        <tr>
+          <td class="tipo">pergunta</td>
+          <td class="en"><span class="vbw">Will</span> she be there?</td>
+          <td class="pt">Ela vai estar lá?</td>
+        </tr>
+        <tr>
+          <td class="tipo">negativa</td>
+          <td class="en">I <span class="vbw">won't</span> be able to come.</td>
+          <td class="pt">Não vou conseguir vir.</td>
+        </tr>
+        <tr>
+          <td class="tipo">negativa</td>
+          <td class="en">He <span class="vbw">won't</span> listen to me.</td>
+          <td class="pt">Ele não vai me ouvir.</td>
+        </tr>
+        <tr>
+          <td class="tipo">tag question</td>
+          <td class="en">You'll come, <span class="vbw">won't</span> you?</td>
+          <td class="pt">Você vai vir, né?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="neg-box">
+      <h5>⚠️ WON'T = will not — nunca "willn't"</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ I willn't do it.</div>
+        <div class="neg-r">✓ I won't do it.</div>
+        <div class="neg-w">✗ She will not to come.</div>
+        <div class="neg-r">✓ She won't come.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USO 4: SHALL -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4</div>
+  <div class="section-title" style="color:var(--cs)">SHALL — Oferta e Sugestão Formal</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num uso-num-s">4</div>
+      <div>
+        <div class="uso-title uso-title-s">SHALL = "Vamos?" / "Devo?" — tom britânico/formal</div>
+        <div class="uso-sub">No inglês americano, WILL substitui SHALL na maioria dos contextos</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Uso</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">sugestão</td>
+          <td class="en"><span class="vbs">Shall</span> we go?</td>
+          <td class="pt">Vamos? / Devemos ir?</td>
+        </tr>
+        <tr>
+          <td class="tipo">oferta</td>
+          <td class="en"><span class="vbs">Shall</span> I open the window?</td>
+          <td class="pt">Devo / Posso abrir a janela?</td>
+        </tr>
+        <tr>
+          <td class="tipo">formal</td>
+          <td class="en">The meeting <span class="vbs">shall</span> begin at 9am.</td>
+          <td class="pt">A reunião deverá começar às 9h.</td>
+        </tr>
+        <tr>
+          <td class="tipo">sugestão</td>
+          <td class="en"><span class="vbs">Shall</span> we start?</td>
+          <td class="pt">Vamos começar?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="shall-box">
+      <h5>Sobre SHALL</h5>
+      <div style="font-size:.88rem;color:var(--text);margin-bottom:.4rem">SHALL é mais comum no inglês britânico e em textos formais/legais. No inglês americano do dia a dia, "Shall we?" soa elegante — use à vontade!</div>
+      <div class="shall-note">Equivalente americano: "Shall we go?" → "Do you want to go?" / "Let's go?" / "Want to go?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — WILL · SHALL</div>
+  <div class="quiz-sub">12 questões sobre futuro espontâneo, promessas, negativas e perguntas.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS COMUNS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com WILL</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>WILL/SHALL + verbo base (sem TO, sem -S, igual para todos os pronomes)</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card sw-h">
+      <h4>WILL — 4 usos</h4>
+      <div class="sum-item"><span class="en">Decisão espontânea</span> — I'll do it now</div>
+      <div class="sum-item"><span class="en">Promessa</span> — I'll always be here</div>
+      <div class="sum-item"><span class="en">Previsão</span> — It will rain</div>
+      <div class="sum-item"><span class="en">Oferta</span> — I'll help you</div>
+    </div>
+    <div class="sum-card sn-h">
+      <h4>WON'T</h4>
+      <div class="sum-item"><span class="en">won't</span> = will not</div>
+      <div class="sum-item"><span class="en">I won't go</span> — não vou</div>
+      <div class="sum-item"><span class="en">She won't listen</span> — ela não vai</div>
+      <div class="sum-item"><span class="en">Will you come?</span> — pergunta</div>
+    </div>
+    <div class="sum-card ss-h">
+      <h4>SHALL</h4>
+      <div class="sum-item"><span class="en">Shall we go?</span> — Vamos?</div>
+      <div class="sum-item"><span class="en">Shall I help?</span> — Devo ajudar?</div>
+      <div class="sum-item"><span class="en">formal/britânico</span></div>
+      <div class="sum-item"><span class="en">WILL</span> substitui em inglês americano</div>
+    </div>
+  </div>
+
+  <div class="sum-rule">
+    <p>WILL = espontâneo agora &nbsp;·&nbsp; GOING TO = planejado antes</p>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <a class="fnav-btn" href="../25_call_use/index.html">← Lição 25</a>
+  <div class="fnav-center">Lição 26 de 89 · Módulo 05</div>
+  <a class="fnav-btn" href="../27_can_could/index.html">Lição 27 →</a>
+</div>
+
+<script>
+// THREE.JS HERO
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0x0a0a1a,2));
+  var dl1=new THREE.DirectionalLight(0xFBBF24,3);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xf87171,2);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xA78BFA,1.5);dl3.position.set(0,0,-6);scene.add(dl3);
+
+  // Central WILL sphere (gold)
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.3,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);
+  scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),new THREE.MeshBasicMaterial({color:0xFBBF24,wireframe:true,opacity:.06,transparent:true})));
+
+  // 4-use orbit (inner, coral)
+  var use4Grp=new THREE.Group();use4Grp.rotation.x=.3;scene.add(use4Grp);
+  var useMat=new THREE.MeshStandardMaterial({color:0xf87171,emissive:0xf87171,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){
+    var a=(i/4)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),useMat.clone());
+    m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);
+    use4Grp.add(m);
+  }
+  var rpts=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rpts.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  use4Grp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rpts),new THREE.LineBasicMaterial({color:0xf87171,opacity:.12,transparent:true})));
+
+  // SHALL orbit (outer, purple)
+  var shallGrp=new THREE.Group();shallGrp.rotation.x=-.3;shallGrp.rotation.z=.4;scene.add(shallGrp);
+  var shallMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<3;i++){
+    var a=(i/3)*Math.PI*2;
+    var m=new THREE.Mesh(new THREE.SphereGeometry(.28,12,12),shallMat.clone());
+    m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);
+    shallGrp.add(m);
+  }
+  var rpts2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rpts2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  shallGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rpts2),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.1,transparent:true})));
+
+  // Stars
+  var sPos=new Float32Array(1500);
+  for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    use4Grp.rotation.y+=.018;
+    shallGrp.rotation.y-=.012;
+    controls.update();
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',function(){
+    W=window.innerWidth;H=window.innerHeight;
+    renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();
+  });
+})();
+
+// QUIZ
+var QS=[
+  {s:'She ___ call you back tomorrow.',opts:['will','wills','will to','willing'],ans:'will',why:"WILL é igual para todos os pronomes — sem -S. 'She will call' é o correto."},
+  {s:'I ___ do that! (recusa firme)',opts:["won't","willn't","not will","don't will"],ans:"won't",why:"WON'T = will not. É a contração correta para negar WILL. 'Willn't' não existe."},
+  {s:'___ you help me with this?',opts:['Will','Shall','Won\'t','Does'],ans:'Will',why:"'Will you...?' = Você vai...? Pergunta com WILL — coloque no início da frase."},
+  {s:'"The phone is ringing!" → "I ___ answer it."',opts:["'ll / will","'m going to","going to","going"],ans:"'ll / will",why:'Decisão espontânea tomada no momento — use WILL (ou a contração \'ll). GOING TO seria para plano já feito.'},
+  {s:'___ we start the meeting now? (sugestão formal)',opts:['Shall','Will','Should','Can'],ans:'Shall',why:"'Shall we...?' = 'Vamos...?' — oferta/sugestão formal. Perfeitamente correto em inglês americano também."},
+  {s:'He ___ listen to anyone. (negativa)',opts:["won't","willn't","will not to","don't will"],ans:"won't",why:"WON'T = will not. Nunca 'willn't' — essa forma não existe em inglês."},
+  {s:'I ___ go to the party. (plano já decidido)',opts:['am going to','will','shall',"won't"],ans:'am going to',why:"Plano já decidido antes = GOING TO. WILL seria para decisão espontânea feita agora."},
+  {s:'It ___ be cold tomorrow. (previsão)',opts:['will','wills','will be going','going to will'],ans:'will',why:"Previsão sem evidência visual = WILL. 'It will be cold' — forma base BE depois de WILL."},
+  {s:'"I ___ always love you." (promessa)',opts:['will','am going to','shall','should'],ans:'will',why:"Promessa feita no momento da fala = WILL. 'I will always love you' — clássico de promessa."},
+  {s:'___ I open the window for you? (oferta formal)',opts:['Shall','Will','Should','Must'],ans:'Shall',why:"Oferta formal = 'Shall I...?' equivale a 'Devo / Posso...?'"},
+  {s:'You\'ll come to dinner, ___ you?',opts:["won't","will","shall","don't"],ans:"won't",why:"Tag question com WILL: frase afirmativa → tag negativa com WON'T. 'You'll come, won't you?' = 'Você vai vir, né?'"},
+  {s:'They ___ to arrive at 8. (qual está errado?)',opts:["will arrive","won't arrive","shall arrive","will to arrive"],ans:'will to arrive',why:"WILL nunca usa TO antes do verbo. O correto é 'They will arrive at 8' — sem TO."}
+];
+
+var ERRORS=[
+  {wrong:'I will to go now.',right:'I will go now.',why:"WILL nunca usa TO antes do verbo principal. Modal + verbo base, sempre."},
+  {wrong:'She wills come tomorrow.',right:'She will come tomorrow.',why:"WILL não muda forma para nenhum pronome — sem -S para He/She/It."},
+  {wrong:'He will goes home.',right:'He will go home.',why:"Depois de WILL: sempre verbo base sem -S. 'He will go', não 'goes'."},
+  {wrong:"I willn't do it.",right:"I won't do it.",why:"WON'T = will not. 'Willn't' não é uma palavra — não existe em inglês."},
+  {wrong:'Will he comes to the party?',right:'Will he come to the party?',why:"Em perguntas com WILL, o verbo fica na forma base. 'Come', não 'comes'."},
+  {wrong:'I will went yesterday.',right:'I went yesterday.',why:"WILL é para futuro, não passado. Para passado, use o Simple Past: 'I went'."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    var txt=q.s.replace('___','<span class="blank">___</span>');
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+txt+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      var letters=['A','B','C','D'];
+      btn.innerHTML='<span class="opt-letter">'+letters[j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  var btns=card.querySelectorAll('.opt-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    btns.forEach(function(b){if(b.textContent.trim().endsWith(q.ans)||b.textContent.includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    var msgs=['Continue praticando — releia as seções acima!','Bom progresso! Revise os erros.','Muito bem! Você domina WILL e SHALL.','Perfeito! Módulo 05 começa forte!'];
+    document.getElementById('score-msg').textContent=pct<.5?msgs[0]:pct<.75?msgs[1]:pct<1?msgs[2]:msgs[3];
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+// BUILD ERRORS
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML=
+      '<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div>'+
+      '<div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

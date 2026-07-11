@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L83 · BREAK · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#38bdf8;--cg:rgba(56,189,248,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,15vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+.irr-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;justify-content:center;}
+.rf{text-align:center;}
+.rf-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.rf-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--ca);}
+.rf-arr{color:var(--td);font-size:1rem;}
+.irr-badge{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:2rem;margin-left:.5rem;}
+
+.classic{background:var(--s2);border:1px solid var(--ca);border-radius:.85rem;padding:1.1rem 2rem;margin-bottom:.75rem;display:inline-block;}
+.cl-en{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--ca);margin-bottom:.25rem;}
+.cl-pt{font-size:.88rem;color:var(--tm);}
+
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* mnemônico */
+.mnemo{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.mn-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);margin-bottom:.45rem;}
+.mn-body{font-size:.85rem;color:var(--tm);}
+.fam-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.fc{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--rd);font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:.3rem;}
+
+/* 5 significados de BREAK */
+.meanings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.65rem;margin-bottom:.85rem;}
+.mg-item{background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.85rem .95rem;border-left:3px solid var(--ca);}
+.mg-n{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--td);margin-bottom:.2rem;}
+.mg-pt{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--ca);margin-bottom:.22rem;}
+.mg-ex{font-size:.77rem;color:var(--tm);font-style:italic;}
+
+/* BROKE = adj box */
+.broke-box{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.3);border-radius:.75rem;padding:.9rem 1.2rem;margin-bottom:.85rem;}
+.bb-t{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yl);margin-bottom:.45rem;}
+.bb-body{font-size:.84rem;color:var(--tm);}
+
+/* phrasal verbs */
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem;margin-bottom:.85rem;}
+.pv{background:var(--s2);border:1px solid var(--s3);border-radius:.65rem;padding:.75rem .9rem;border-left:3px solid var(--ca);}
+.pv-v{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--ca);margin-bottom:.18rem;}
+.pv-pt{font-size:.73rem;color:var(--td);margin-bottom:.3rem;}
+.pv-ex{font-size:.78rem;color:var(--tm);font-style:italic;}
+
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .ceg strong{color:var(--rd);}
+
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(56,189,248,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){.eg{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 13 · Verbos de Rotina Diária</div>
+  <h1 class="hero-title">BREAK</h1>
+  <p class="hero-pt">quebrar · romper · violar · fazer uma pausa · estourar</p>
+
+  <div class="irr-card">
+    <div class="rf"><div class="rf-label">base</div><div class="rf-word">BREAK</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">passado</div><div class="rf-word" style="color:var(--rd)">BROKE</div></div>
+    <div class="rf-arr">→</div>
+    <div class="rf"><div class="rf-label">particípio</div><div class="rf-word" style="color:var(--rd)">BROKEN</div></div>
+    <span class="irr-badge">✗ IRREGULAR</span>
+  </div>
+
+  <div class="classic">
+    <div class="cl-en">"I broke my phone — it's broken."</div>
+    <div class="cl-pt">Quebrei meu celular — está quebrado.</div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: MNEMÔNICO + 5 SIGNIFICADOS -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">BREAK — mnemônico e cinco significados principais</div>
+    <div class="sd">BREAK→BROKE→BROKEN · família: SPEAK→SPOKE→SPOKEN</div></div>
+  </div>
+
+  <div class="mnemo">
+    <div class="mn-t">Mnemônico — família EAK→OKE→OKEN</div>
+    <div class="mn-body">BREAK → BROKE → BROKEN: vogal muda EA→O no passado, ganha -EN no particípio.<br>Família irregular com o mesmo padrão:</div>
+    <div class="fam-chips">
+      <span class="fc">BREAK→BROKE→BROKEN</span>
+      <span class="fc">SPEAK→SPOKE→SPOKEN</span>
+      <span class="fc">STEAL→STOLE→STOLEN</span>
+      <span class="fc">FREEZE→FROZE→FROZEN</span>
+      <span class="fc">CHOOSE→CHOSE→CHOSEN</span>
+    </div>
+  </div>
+
+  <!-- 5 significados -->
+  <div class="meanings-grid">
+    <div class="mg-item">
+      <div class="mg-n">Significado 1</div>
+      <div class="mg-pt">quebrar objeto</div>
+      <div class="mg-ex">"I broke the glass." / "She broke her leg."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 2</div>
+      <div class="mg-pt">violar regra/lei/promessa</div>
+      <div class="mg-ex">"Don't break the rules." / "He broke his promise."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 3</div>
+      <div class="mg-pt">fazer uma pausa</div>
+      <div class="mg-ex">"Let's take a break." / "We broke for lunch."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 4</div>
+      <div class="mg-pt">romper / interromper</div>
+      <div class="mg-ex">"Break the silence." / "Break the ice."</div>
+    </div>
+    <div class="mg-item">
+      <div class="mg-n">Significado 5</div>
+      <div class="mg-pt">estourar / surgir (notícia)</div>
+      <div class="mg-ex">"War broke out." / "The news broke at noon."</div>
+    </div>
+  </div>
+
+  <!-- BROKE como adjetivo informal -->
+  <div class="broke-box">
+    <div class="bb-t">★ Bônus — I'M BROKE (adjetivo informal)</div>
+    <div class="bb-body">BROKE também é adjetivo informal = <strong>sem dinheiro / falido</strong>.<br>"I'm broke!" = Estou sem um centavo! (muito comum na fala)<br>"He went broke." = Ele faliu. / "I'm flat broke." = Não tenho nada mesmo.<br>Atenção: BROKEN = particípio (verbo) / BROKE = adjetivo (sem dinheiro).</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: PRESENTE -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">PRESENTE — break / breaks</div>
+    <div class="sd">HE / SHE / IT → BREAKS · regras · hábitos · recordes</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I always <strong>break</strong> my New Year's resolutions.</td><td class="cpt">Sempre quebro minhas resoluções de Ano Novo.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">Don't <strong>break</strong> the rules!</td><td class="cpt">Não quebre as regras!</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>breaks</strong> promises all the time.</td><td class="cpt">Ele quebra promessas o tempo todo.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>breaks</strong> records every season.</td><td class="cpt">Ela quebra recordes toda temporada.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">The news <strong>breaks</strong> at 8 PM every night.</td><td class="cpt">As notícias saem às 20h toda noite.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>break</strong> for lunch at noon.</td><td class="cpt">Fazemos pausa para almoço ao meio-dia.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They never <strong>break</strong> the law.</td><td class="cpt">Eles nunca violam a lei.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → BREAKS (com -S). "She break records." ✗ → "She BREAKS records." ✓ · "He break his promise." ✗ → "He BREAKS his promise." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: PASSADO + BROKEN como adjetivo -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PASSADO e BROKEN como adjetivo</div>
+    <div class="sd">BREAK → BROKE (passado) → BROKEN (particípio e adjetivo)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ceg">I <strong>broke</strong> my leg skiing.</td><td class="cpt">Quebrei minha perna esquiando.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ceg">Did you <strong>break</strong> your phone?</td><td class="cpt">Você quebrou seu celular?</td></tr>
+      <tr><td class="cp">HE</td><td class="ceg">He <strong>broke</strong> his promise again.</td><td class="cpt">Ele quebrou sua promessa de novo.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ceg">She <strong>broke</strong> the world record.</td><td class="cpt">Ela quebrou o recorde mundial.</td></tr>
+      <tr><td class="cp">IT</td><td class="ceg">The scandal <strong>broke</strong> the news last night.</td><td class="cpt">O escândalo veio à tona ontem à noite.</td></tr>
+      <tr><td class="cp">WE</td><td class="ceg">We <strong>broke</strong> the ice at the meeting.</td><td class="cpt">Quebramos o gelo na reunião.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ceg">They <strong>broke</strong> up after 5 years.</td><td class="cpt">Eles terminaram depois de 5 anos.</td></tr>
+    </table>
+    <div class="nt nt-tip">BROKEN como adjetivo: "My phone is BROKEN." = Meu celular está quebrado. / "A BROKEN heart." = Um coração partido. / "BROKEN English." = Inglês incerto/limitado. / "A BROKEN promise." = Uma promessa não cumprida.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PHRASAL VERBS -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">Phrasal verbs com BREAK</div>
+    <div class="sd">BREAK DOWN · BREAK UP · BREAK IN · BREAK OUT · BREAK EVEN · BREAK THROUGH</div></div>
+  </div>
+
+  <div class="pv-grid">
+    <div class="pv">
+      <div class="pv-v">BREAK DOWN</div>
+      <div class="pv-pt">(1) parar de funcionar (2) ter colapso emocional</div>
+      <div class="pv-ex">"The car broke down." / "She broke down crying."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BREAK UP</div>
+      <div class="pv-pt">terminar relacionamento / dissolver</div>
+      <div class="pv-ex">"They broke up." / "Break it up!" (parem com isso!)</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BREAK IN / INTO</div>
+      <div class="pv-pt">arrombar / entrar à força</div>
+      <div class="pv-ex">"They broke into the car." / "Sorry to break in..."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BREAK OUT</div>
+      <div class="pv-pt">estourar (guerra/incêndio) / fugir / aparecer (espinha)</div>
+      <div class="pv-ex">"War broke out." / "He broke out of jail." / "I broke out!"</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BREAK EVEN</div>
+      <div class="pv-pt">empatar financeiramente / cobrir custos</div>
+      <div class="pv-ex">"We broke even this quarter." / "Just break even."</div>
+    </div>
+    <div class="pv">
+      <div class="pv-v">BREAK THROUGH</div>
+      <div class="pv-pt">romper / conseguir avanço decisivo</div>
+      <div class="pv-ex">"Scientists broke through." / "Break through the barrier."</div>
+    </div>
+  </div>
+  <div class="nt nt-tip">BREAK DOWN tem dois sentidos completamente diferentes: máquina = parar de funcionar / pessoa = ter colapso emocional. "The car broke down." (carro parou) vs "She broke down in tears." (ela desabou em lágrimas).</div>
+</section>
+
+<!-- SEÇÃO 5: EXPRESSÕES -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Expressões com BREAK</div>
+    <div class="sd">TAKE A BREAK · BREAK THE ICE · BREAK A RECORD · BREAK SOMEONE'S HEART</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Expressões essenciais</div>
+    <table class="ct">
+      <tr><th>Expressão</th><th>Significado</th><th class="cpt">Exemplo</th></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">TAKE A BREAK</td><td style="font-size:.83rem">fazer uma pausa / descansar</td><td class="cpt">"Let's take a break — 10 minutes."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BREAK THE ICE</td><td style="font-size:.83rem">quebrar o gelo / iniciar conversa</td><td class="cpt">"A joke always breaks the ice."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BREAK A RECORD</td><td style="font-size:.83rem">quebrar um recorde</td><td class="cpt">"She broke the world record!"</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BREAK SOMEONE'S HEART</td><td style="font-size:.83rem">partir o coração de alguém</td><td class="cpt">"He broke her heart when he left."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">BREAK THE NEWS</td><td style="font-size:.83rem">dar uma notícia (especialmente ruim)</td><td class="cpt">"I have to break the news to them."</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">GIVE SOMEONE A BREAK</td><td style="font-size:.83rem">dar uma chance / parar de implicar</td><td class="cpt">"Give me a break!" = Vai com calma! / Me dá um tempo!</td></tr>
+      <tr><td style="color:var(--ca);font-weight:700;white-space:nowrap">LUCKY BREAK</td><td style="font-size:.83rem">golpe de sorte / oportunidade inesperada</td><td class="cpt">"That audition was my lucky break."</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com BREAK</div>
+    <div class="sd">Objetos · regras · relacionamentos · expressões</div></div>
+  </div>
+  <div class="ph-grid">
+    <div class="ph"><div class="ph-en">I <strong>broke</strong> my phone again!</div><div class="ph-pt">Quebrei meu celular de novo!</div></div>
+    <div class="ph"><div class="ph-en">Let's take a <strong>break</strong>!</div><div class="ph-pt">Vamos fazer uma pausa!</div></div>
+    <div class="ph"><div class="ph-en">Don't <strong>break</strong> your promise.</div><div class="ph-pt">Não quebre sua promessa.</div></div>
+    <div class="ph"><div class="ph-en">The car <strong>broke</strong> down on the highway.</div><div class="ph-pt">O carro parou na rodovia.</div></div>
+    <div class="ph"><div class="ph-en">She <strong>broke</strong> the world record!</div><div class="ph-pt">Ela quebrou o recorde mundial!</div></div>
+    <div class="ph"><div class="ph-en">They <strong>broke</strong> up last month.</div><div class="ph-pt">Eles terminaram no mês passado.</div></div>
+    <div class="ph"><div class="ph-en">I'm <strong>broke</strong>! (sem dinheiro)</div><div class="ph-pt">Estou sem um centavo!</div></div>
+    <div class="ph"><div class="ph-en">My phone is <strong>broken</strong>.</div><div class="ph-pt">Meu celular está quebrado.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I breaked the glass."</div>
+      <div class="ecr">✓ "I broke the glass."</div>
+      <div class="ecd">BREAK é irregular: BREAK → BROKE → BROKEN. "I BROKE the glass." ✓ — "breaked" não existe. Família: SPEAK→SPOKE / STEAL→STOLE / FREEZE→FROZE — mesmo padrão EA→O.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "The car is break." / "My phone is break."</div>
+      <div class="ecr">✓ "The car is broken." / "My phone is broken."</div>
+      <div class="ecd">BROKEN é o adjetivo (= o particípio). "My phone is BROKEN." ✓ — "is break" ✗ — depois de IS, usa-se o adjetivo BROKEN. Lembre: "I BROKE it." (ação passada) / "It IS BROKEN." (estado atual).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I didn't broke the rule."</div>
+      <div class="ecr">✓ "I didn't break the rule."</div>
+      <div class="ecd">DIDN'T + base. "I didn't BREAK the rule." ✓ — depois de DIDN'T, base BREAK (nunca BROKE). "I didn't broke" ✗ — dois passados na mesma frase negativa.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "The car broke. I need to fix." (sem objeto)</div>
+      <div class="ecr">✓ "The car broke down." / "I need to fix IT."</div>
+      <div class="ecd">BREAK DOWN = parar de funcionar (veículo/máquina). "The car BROKE DOWN." ✓ — não "the car broke" sozinho nesse sentido. FIX precisa de objeto: "I need to fix IT." ✓ / "fix the car" ✓.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She has broke her leg."</div>
+      <div class="ecr">✓ "She has broken her leg."</div>
+      <div class="ecd">HAVE + particípio BROKEN. "She has BROKEN her leg." ✓ — BROKE é passado simples, BROKEN é particípio. "Has broke" ✗ — depois de HAS, particípio BROKEN.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Give me a break" só significa "dar uma pausa".</div>
+      <div class="ecr">✓ "Give me a break!" também = "Vai com calma!" / "Que absurdo!"</div>
+      <div class="ecd">"GIVE ME A BREAK!" é uma expressão de exasperação/incredulidade muito comum. "You expect me to believe that? Give me a break!" = Você acha que vou acreditar nisso? Vai com calma! Não confundir com "take a break" = fazer uma pausa real.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — BREAK</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o particípio de BREAK?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">broke</button>
+      <button class="qo" onclick="ans(this,'q1',true)">broken</button>
+      <button class="qo" onclick="ans(this,'q1',false)">breaked</button>
+    </div>
+    <div class="qfb" id="q1fb">BREAK → BROKE → BROKEN. Particípio = BROKEN. "She has BROKEN the record." ✓ / "My phone is BROKEN." ✓ (adjetivo). BROKE = passado simples. "breaked" ✗ — não existe. Família: SPEAK→SPOKE→SPOKEN.</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">"Meu celular está quebrado." → BROKEN como adjetivo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">My phone is break.</button>
+      <button class="qo" onclick="ans(this,'q2',true)">My phone is broken.</button>
+      <button class="qo" onclick="ans(this,'q2',false)">My phone is broke.</button>
+    </div>
+    <div class="qfb" id="q2fb">"My phone is BROKEN." ✓ — BROKEN = adjetivo (estado). "is break" ✗ — BREAK é verbo. "is broke" ✗ — BROKE = informal "sem dinheiro" (não o estado do objeto). "I BROKE my phone." (ação) → "It IS BROKEN." (resultado).</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"O carro parou na rodovia." → BREAK DOWN.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',false)">The car broke on the highway.</button>
+      <button class="qo" onclick="ans(this,'q3',true)">The car broke down on the highway.</button>
+      <button class="qo" onclick="ans(this,'q3',false)">The car broken on the highway.</button>
+    </div>
+    <div class="qfb" id="q3fb">"The car BROKE DOWN on the highway." ✓ — BREAK DOWN = parar de funcionar (veículo/máquina). "The car broke" sozinho ✗ — precisa de DOWN para esse significado. "The car broken" ✗ — BROKEN é adjetivo, não forma verbal no passado.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Eles terminaram depois de 5 anos." → BREAK UP.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">They broke after 5 years.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">They broke up after 5 years.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">They breaked up after 5 years.</button>
+    </div>
+    <div class="qfb" id="q4fb">"They BROKE UP after 5 years." ✓ — BREAK UP = terminar relacionamento. "They broke" sozinho ✗ — sem UP não tem esse sentido. "breaked up" ✗ — BREAK → BROKE (irregular). BREAK UP também = dissolver grupo / separar pessoas que estão brigando.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"I'm broke!" significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">Eu quebraram algo.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">Estou sem dinheiro / falido! (adjetivo informal)</button>
+      <button class="qo" onclick="ans(this,'q5',false)">Fui quebrado / machucado.</button>
+    </div>
+    <div class="qfb" id="q5fb">"I'm BROKE!" = estou sem dinheiro / falido (adjetivo informal muito comum). "I BROKE the glass." = eu quebrei o copo (passado do verbo). "I'm BROKEN" = estou destruído emocionalmente (diferente de broke). BROKE como adjetivo = sem um centavo.</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">"She has ___ the world record." → Present perfect.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">broke</button>
+      <button class="qo" onclick="ans(this,'q6',true)">broken</button>
+      <button class="qo" onclick="ans(this,'q6',false)">break</button>
+    </div>
+    <div class="qfb" id="q6fb">"She has BROKEN the world record." ✓ — HAVE + particípio BROKEN. "has broke" ✗ — BROKE é passado simples, não particípio. "has break" ✗ — depois de HAS, particípio. BREAK → BROKE → BROKEN.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"I didn't ___ the rule." → Negação no passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't broke the rule.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">I didn't break the rule.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">I didn't broken the rule.</button>
+    </div>
+    <div class="qfb" id="q7fb">"I didn't BREAK the rule." ✓ — DIDN'T + base BREAK. "didn't broke" ✗ — dois passados na mesma negação. "didn't broken" ✗ — BROKEN é particípio, não base.</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"A guerra estourou." → BREAK OUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">War broke down.</button>
+      <button class="qo" onclick="ans(this,'q8',true)">War broke out.</button>
+      <button class="qo" onclick="ans(this,'q8',false)">War broke up.</button>
+    </div>
+    <div class="qfb" id="q8fb">"War BROKE OUT." ✓ — BREAK OUT = estourar / surgir repentinamente (guerra, incêndio, pandemia). BREAK DOWN = parar de funcionar / colapso emocional. BREAK UP = terminar / dissolver. Cada phrasal verb tem um significado específico!</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">O que significa "break the ice"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',false)">Quebrar objetos de gelo / fazer esculturas.</button>
+      <button class="qo" onclick="ans(this,'q9',true)">Quebrar o gelo / iniciar conversa em situação tensa.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">Parar de usar gelo nas bebidas.</button>
+    </div>
+    <div class="qfb" id="q9fb">"BREAK THE ICE" = quebrar o gelo — iniciar conversa / aliviar tensão em situação social nova. "A joke always breaks the ice." = Uma piada sempre quebra o gelo. Origem: navios que quebravam gelo para abrir rotas — hoje = remover barreiras sociais.</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Ela desabou em lágrimas na reunião." → BREAK DOWN (emocional).</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">She broke out in tears at the meeting.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">She broke down in tears at the meeting.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">She broke up in tears at the meeting.</button>
+    </div>
+    <div class="qfb" id="q10fb">"She BROKE DOWN in tears." ✓ — BREAK DOWN = ter colapso emocional / desabar. BREAK OUT = estourar repentinamente (guerra, incêndio) — menos apropriado aqui. BREAK UP = terminar relacionamento. "Broke down crying" = desabou chorando.</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">Qual verbo tem o mesmo padrão irregular de BREAK (EA→O, +EN)?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">BRING (bring→brought→brought)</button>
+      <button class="qo" onclick="ans(this,'q11',true)">SPEAK (speak→spoke→spoken)</button>
+      <button class="qo" onclick="ans(this,'q11',false)">FIND (find→found→found)</button>
+    </div>
+    <div class="qfb" id="q11fb">SPEAK → SPOKE → SPOKEN ✓ — mesmo padrão de BREAK→BROKE→BROKEN (EA→O no passado, +EN no particípio). Família: BREAK·SPEAK·STEAL·FREEZE·CHOOSE. BRING→BROUGHT (padrão -OUGHT). FIND→FOUND (padrão -IND→-OUND).</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Give me a break!" no sentido de exasperação significa…?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">Me dá um intervalo de trabalho por favor.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">Vai com calma! / Que absurdo! / Me poupe!</button>
+      <button class="qo" onclick="ans(this,'q12',false)">Me dá uma oportunidade (formal).</button>
+    </div>
+    <div class="qfb" id="q12fb">"GIVE ME A BREAK!" como exclamação = exasperação / incredulidade. "You expect me to work weekends? Give me a break!" = Você quer que eu trabalhe nos fins de semana? Me poupe! / Vai com calma! Diferente de "Take a break" = fazer uma pausa real.</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../82_win/index.html">← L82 WIN</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0x38bdf8;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frases Relâmpago — Shadowing · Sistema 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:var(--em);border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:var(--em);background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--em);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.nav-badges{margin-left:auto;display:flex;align-items:center;gap:.4rem;}
+.badge-mini{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:var(--sf);border:1px solid var(--bd);opacity:.3;filter:grayscale(1);transition:all .2s;}
+.badge-mini.unlocked{opacity:1;filter:none;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);box-shadow:0 0 8px rgba(16,185,129,.25);}
+.streak-pill{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;color:var(--am);background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.25);padding:.25rem .65rem;border-radius:2rem;white-space:nowrap;}
+
+.wrap{padding-top:186px;max-width:900px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:3rem;}
+
+/* TOP CONTROLS (fixed) */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:900px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;}
+.ctrl-group{display:flex;align-items:center;gap:.3rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;}
+.ctrl-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);padding:0 .5rem;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;padding:.35rem .7rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--em);color:#080c14;}
+.auto-btn{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:800;padding:.45rem 1rem;border-radius:.5rem;border:1px solid rgba(16,185,129,.4);background:rgba(16,185,129,.12);color:var(--em);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.4rem;}
+.auto-btn:hover{background:rgba(16,185,129,.22);}
+.auto-btn.playing{background:var(--em);color:#080c14;}
+
+.progress-row{display:flex;align-items:center;gap:.7rem;}
+.progress-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--em),#34d399);border-radius:3px;transition:width .4s ease;}
+.progress-text{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;color:var(--em);white-space:nowrap;}
+
+/* GROUP CHIPS */
+.groups-strip{display:flex;gap:.45rem;overflow-x:auto;padding:.65rem 1.1rem 0;max-width:900px;margin:0 auto;}
+.group-chip{flex-shrink:0;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.45rem .7rem;cursor:pointer;transition:all .18s;min-width:108px;}
+.group-chip:hover{border-color:var(--bdh);}
+.group-chip.on{border-color:var(--em);background:rgba(16,185,129,.1);box-shadow:0 0 10px rgba(16,185,129,.15);}
+.gc-top{display:flex;align-items:center;gap:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;color:var(--tx);white-space:nowrap;margin-bottom:.3rem;}
+.gc-n{font-size:.62rem;color:var(--td);margin-bottom:.15rem;}
+.gc-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.gc-fill{height:100%;background:var(--em);border-radius:2px;}
+
+/* MODE PANELS */
+.panel{margin-top:1.3rem;}
+.hidden{display:none!important;}
+
+/* SHADOWING CARD */
+.sw-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;position:relative;overflow:hidden;}
+.sw-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--em);text-align:center;margin-bottom:1.1rem;}
+.pt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.6rem 1.25rem;text-align:center;margin-bottom:1.1rem;}
+.pt-text{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;color:var(--tx);line-height:1.4;}
+.reveal-row{text-align:center;margin-bottom:1.1rem;}
+.reveal-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--em);color:#080c14;cursor:pointer;transition:all .2s;}
+.reveal-btn:hover{background:#34d399;transform:translateY(-1px);}
+.reveal-btn:disabled{opacity:.4;cursor:default;transform:none;}
+
+.en-box{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:.9rem;padding:1.6rem 1.25rem;text-align:center;margin-bottom:1.1rem;opacity:0;transform:translateY(8px);transition:all .35s ease;max-height:0;overflow:hidden;padding-top:0;padding-bottom:0;}
+.en-box.show{opacity:1;transform:translateY(0);max-height:400px;padding-top:1.6rem;padding-bottom:1.6rem;}
+.en-text{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--em);line-height:1.4;margin-bottom:1rem;}
+.rep-label{font-size:.72rem;color:var(--tm);margin-bottom:.6rem;}
+.rep-dots{display:flex;justify-content:center;gap:.6rem;}
+.rep-dot{width:38px;height:38px;border-radius:50%;border:2px solid var(--bd);background:var(--sf);color:var(--td);font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.rep-dot:hover{border-color:var(--em);}
+.rep-dot.done{background:var(--em);border-color:var(--em);color:#080c14;}
+.pause-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:1rem;}
+.pause-fill{height:100%;background:var(--am);border-radius:2px;width:0%;}
+
+.info-box{display:flex;flex-direction:column;gap:.5rem;background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.85rem 1.05rem;margin-bottom:1.2rem;font-size:.78rem;color:var(--tm);line-height:1.55;}
+.info-box b{color:var(--tx);}
+.info-title{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--em);}
+
+.sw-actions{display:flex;align-items:center;gap:.6rem;}
+.nav-btn{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;}
+.nav-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+.ready-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1rem;border-radius:.55rem;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.1);color:var(--em);cursor:pointer;transition:all .2s;}
+.ready-btn:hover{background:rgba(16,185,129,.2);}
+.ready-btn.done{background:var(--em);color:#080c14;}
+
+/* GROUP COMPLETE OVERLAY */
+.overlay{position:fixed;inset:0;z-index:500;background:rgba(8,12,20,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1.25rem;}
+.overlay.hidden{display:none;}
+.gc-card{background:var(--sf);border:1px solid rgba(16,185,129,.4);border-radius:1.2rem;max-width:460px;width:100%;padding:1.75rem 1.6rem;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.gc-icon{font-size:2.2rem;text-align:center;margin-bottom:.5rem;}
+.gc-title{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;text-align:center;color:var(--em);margin-bottom:1.2rem;}
+.gc-section{margin-bottom:1rem;}
+.gc-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.gc-pattern-line{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;}
+.gc-create{font-size:.8rem;color:var(--tm);line-height:1.6;}
+.gc-continue{width:100%;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:none;background:var(--em);color:#080c14;cursor:pointer;margin-top:.5rem;}
+.gc-continue:hover{background:#34d399;}
+
+/* LIST MODE */
+.list-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem;}
+.list-count{font-size:.78rem;color:var(--td);}
+.phrase-table{width:100%;border-collapse:collapse;background:var(--sf);border:1px solid var(--bd);border-radius:.8rem;overflow:hidden;}
+.phrase-table thead th{text-align:left;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);padding:.6rem .8rem;border-bottom:1px solid var(--bd);}
+.phrase-row{cursor:pointer;transition:background .15s;}
+.phrase-row:hover{background:rgba(255,255,255,.02);}
+.phrase-row td{padding:.6rem .8rem;font-size:.8rem;border-bottom:1px solid var(--bd);vertical-align:top;}
+.phrase-row .pt-cell{color:var(--tm);}
+.phrase-row .en-cell{color:var(--tx);font-weight:600;font-family:'Space Grotesk',sans-serif;}
+.grp-cell{font-size:.68rem;color:var(--td);white-space:nowrap;}
+.status-cell{text-align:center;width:36px;}
+.status-yes{color:var(--em);}
+.status-no{color:var(--td);}
+.expand-row td{padding:0;border-bottom:1px solid var(--bd);}
+.expand-row .info-box{margin:.6rem .8rem;}
+
+/* QUIZ MODE */
+.quiz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;text-align:center;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--em);margin-bottom:1rem;}
+.quiz-pt{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.2rem;}
+.quiz-input{width:100%;max-width:420px;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem 1rem;color:var(--tx);font-size:.95rem;font-family:'Inter',sans-serif;outline:none;text-align:center;margin-bottom:1rem;}
+.quiz-input:focus{border-color:rgba(16,185,129,.5);}
+.quiz-input.correct{border-color:var(--gn);background:rgba(95,216,122,.06);}
+.quiz-input.wrong{border-color:var(--rd);background:rgba(248,113,113,.06);}
+.quiz-result{font-size:.85rem;margin-bottom:1rem;min-height:1.4rem;}
+.quiz-result.ok{color:var(--gn);}
+.quiz-result.bad{color:var(--rd);}
+.quiz-actions{display:flex;justify-content:center;gap:.6rem;}
+.quiz-btn{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.65rem 1.2rem;border-radius:.55rem;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.1);color:var(--em);cursor:pointer;}
+.quiz-btn:hover{background:rgba(16,185,129,.2);}
+.quiz-btn.secondary{border-color:var(--bd);background:none;color:var(--tm);}
+
+@media(max-width:640px){
+  .wrap{padding-top:196px;}
+  .topbar{top:96px;}
+  .pt-text{font-size:1.1rem;}
+  .en-text{font-size:1.2rem;}
+  .phrase-table{font-size:.72rem;}
+  .grp-cell{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../index.html" class="gnav-btn gnav-s5 active">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 5</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">⚡ Frases Relâmpago — Shadowing</div>
+  <div class="nav-badges">
+    <span class="streak-pill" id="streakPill">🔥 0 dias</span>
+    <span class="badge-mini" id="badge1" title="⚡ Primeiro Relâmpago">⚡</span>
+    <span class="badge-mini" id="badge2" title="🎯 Grupo Completo">🎯</span>
+    <span class="badge-mini" id="badge3" title="💪 Meio Caminho">💪</span>
+    <span class="badge-mini" id="badge4" title="🏆 Mestre Relâmpago">🏆</span>
+  </div>
+</nav>
+
+<!-- TOP CONTROLS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row">
+      <div class="ctrl-group" id="modeGroup">
+        <span class="ctrl-label">Modo</span>
+        <button class="ctrl-btn on" data-mode="shadow" onclick="setMode('shadow')">Shadowing</button>
+        <button class="ctrl-btn" data-mode="list" onclick="setMode('list')">Lista</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">Quiz</button>
+      </div>
+      <div class="ctrl-group" id="speedGroup">
+        <span class="ctrl-label">Velocidade</span>
+        <button class="ctrl-btn" data-speed="slow" onclick="setSpeed('slow')">Lento</button>
+        <button class="ctrl-btn on" data-speed="normal" onclick="setSpeed('normal')">Normal</button>
+        <button class="ctrl-btn" data-speed="fast" onclick="setSpeed('fast')">Rápido</button>
+      </div>
+      <button class="auto-btn" id="autoBtn" onclick="toggleAuto()">▶ AUTO</button>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0/150 frases</span>
+    </div>
+  </div>
+</div>
+<div class="groups-strip" id="groupsStrip"></div>
+
+<div class="wrap">
+
+  <!-- SHADOWING PANEL -->
+  <div class="panel" id="panelShadow">
+    <div class="sw-card">
+      <div class="sw-tag" id="swTag">GRUPO 1 · FRASE 01/15</div>
+      <div class="pt-box"><div class="pt-text" id="ptText"></div></div>
+      <div class="reveal-row">
+        <button class="reveal-btn" id="revealBtn" onclick="revealCard()">👁 Revelar em inglês</button>
+      </div>
+      <div class="en-box" id="enBox">
+        <div class="en-text" id="enText"></div>
+        <div class="rep-label">🔁 Repita 3 vezes em voz alta</div>
+        <div class="rep-dots">
+          <button class="rep-dot" id="rep1" onclick="markRep(1)">①</button>
+          <button class="rep-dot" id="rep2" onclick="markRep(2)">②</button>
+          <button class="rep-dot" id="rep3" onclick="markRep(3)">③</button>
+        </div>
+        <div class="pause-track"><div class="pause-fill" id="pauseFill"></div></div>
+      </div>
+      <div class="info-box" id="infoBox"></div>
+      <div class="sw-actions">
+        <button class="nav-btn" id="prevBtn" onclick="goCard(-1)">← Anterior</button>
+        <button class="ready-btn" id="readyBtn" onclick="markReady()">✓ Pronto</button>
+        <button class="nav-btn" id="nextBtn" onclick="goCard(1)">Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST PANEL -->
+  <div class="panel hidden" id="panelList">
+    <div class="list-toolbar">
+      <span class="list-count" id="listCount">150 frases</span>
+    </div>
+    <table class="phrase-table">
+      <thead><tr><th>PT</th><th>EN</th><th class="grp-cell">Grupo</th><th class="status-cell">✓</th></tr></thead>
+      <tbody id="listBody"></tbody>
+    </table>
+  </div>
+
+  <!-- QUIZ PANEL -->
+  <div class="panel hidden" id="panelQuiz">
+    <div class="quiz-card">
+      <div class="quiz-score" id="quizScore">Pontuação: 0/150 acertos</div>
+      <div class="quiz-pt" id="quizPt"></div>
+      <input class="quiz-input" id="quizInput" type="text" placeholder="Digite em inglês...">
+      <div class="quiz-result" id="quizResult"></div>
+      <div class="quiz-actions">
+        <button class="quiz-btn secondary" id="quizPrevBtn" onclick="quizNav(-1)">← Anterior</button>
+        <button class="quiz-btn" id="quizCheckBtn" onclick="quizCheck()">Verificar</button>
+        <button class="quiz-btn secondary" id="quizNextBtn" onclick="quizNav(1)">Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- GROUP COMPLETE OVERLAY -->
+<div class="overlay hidden" id="overlay">
+  <div class="gc-card">
+    <div class="gc-icon">✅</div>
+    <div class="gc-title" id="gcTitle">GRUPO 1 COMPLETO!</div>
+    <div class="gc-section">
+      <div class="gc-label">Padrão Aprendido</div>
+      <div id="gcPattern"></div>
+    </div>
+    <div class="gc-section">
+      <div class="gc-label">Você Pode Criar</div>
+      <div class="gc-create" id="gcCreate"></div>
+    </div>
+    <button class="gc-continue" id="gcContinueBtn" onclick="continueFromOverlay()">Continuar →</button>
+  </div>
+</div>
+
+<script>
+// ── DATA: 10 GROUPS ─────────────────────────────────────────────────────────
+const GROUPS = [
+{id:1,icon:'⚡',name:'Estados',sub:'I feel...',
+ pattern:['I feel + [adjetivo] → estado permanente ou mais formal','I\'m feeling + [adjetivo] → estado no momento atual','I\'m doing + [adjetivo/advérbio] → como você está se saindo'],
+ macete:'"How are you?" → "I\'m doing great!" (não apenas "I\'m great"). "I\'m doing" soa mais natural e fluente.',
+ create:['I feel ready / calm / strong / confident','I\'m feeling great / tired / better','I\'m doing fine / okay / better / my best']},
+{id:2,icon:'🏃',name:'Movimento',sub:"I'm going...",
+ pattern:['I\'m going/leaving/coming/staying + [complemento]','"Running late" = estar atrasado (não "being late")','"On my way" = a caminho (expressão idiomática muito usada)'],
+ macete:'"I\'m running late" → literalmente "estou correndo atrasado". É a expressão padrão americana para "estou atrasado".',
+ create:['I\'m going outside / away','I\'m leaving now','I\'m coming back / soon','I\'m staying inside / here']},
+{id:3,icon:'🙏',name:'Necessidades',sub:'I need...',
+ pattern:['I need + [substantivo] → necessidade de algo','I need to + [verbo] → necessidade de fazer algo','"Some" antes de palavras incontáveis: some rest, some space, some water'],
+ macete:'"I need a break" = preciso de uma pausa (trabalho/estudo). "I need some space" = preciso de espaço (emocional/físico). O contexto muda o significado!',
+ create:['I need a minute / a break / some space','I need to focus / relax / think']},
+{id:4,icon:'💭',name:'Desejos',sub:'I want...',
+ pattern:['I want to + [verbo base]','Mais educado: "I\'d like to + [verbo]"','Ainda mais educado: "I\'d love to + [verbo]"'],
+ macete:'I want to → quero (direto). I\'d like to → gostaria de (educado). I\'d love to → adoraria (entusiasmado).',
+ create:['I want to learn / improve / try again','I\'d like to rest / stay','I\'d love to win / understand']},
+{id:5,icon:'🎯',name:'Possessivos',sub:'I have...',
+ pattern:['I have + a/an + [substantivo contável singular]','I have + some + [substantivo incontável]','MACETE: "I have an idea!" → sempre com "an" antes de vogal'],
+ macete:'ERRO CLÁSSICO: ❌ "I have a news" → news é incontável! ✓ "I have some news" / "I have a piece of news"',
+ create:['I have a plan / an idea / a goal','I have some time / some news']},
+{id:6,icon:'👁',name:'Observações IT',sub:'It looks...',
+ pattern:['It looks = parece (visualmente)','It sounds = soa / parece (auditivamente ou por informação)','It feels = parece (sensação / intuição)','It seems = parece (opinião / impressão geral)'],
+ macete:'OLHOS → looks ("It looks good", você vê) · OUVIDOS → sounds ("It sounds nice", você ouve) · TOQUE → feels ("It feels right", você sente) · MENTE → seems ("It seems hard", você acha)',
+ create:['It looks good / perfect / interesting','It sounds nice / great / familiar','It feels right','It seems easy / hard / important']},
+{id:7,icon:'👆',name:'Isso/This',sub:'This is...',
+ pattern:['This = isso/este (perto de você, específico)','That = aquilo/aquele (longe de você ou já mencionado)','"This is what I want" → This como sujeito complexo'],
+ macete:'This = aqui perto, agora. That = lá longe, antes, ou abstrato. "This coffee is great." (o café na sua mão) vs "That coffee we had yesterday was great." (o de ontem)',
+ create:['This is perfect / different / amazing','This feels good / right','This looks beautiful','This makes sense']},
+{id:8,icon:'👉',name:'Aquilo/That',sub:'That is...',
+ pattern:['This is good. → Isso (na sua mão) é bom.','That is good. → Aquilo (lá) é bom.','That was good. → Aquilo foi bom. (passado)','That sounds good. → Isso parece bom. (sobre ideia/plano)'],
+ macete:'"That sounds good!" → usado para concordar com planos. "That makes sense!" → usado para confirmar compreensão. "That\'s what I want!" → ênfase no desejo.',
+ create:['That is enough / perfect / simple','That was amazing / perfect','That sounds great','That makes sense']},
+{id:9,icon:'🤝',name:"Vamos/Let's",sub:"Let's...",
+ pattern:['Let\'s + [verbo base] = vamos + [verbo]','Let\'s = Let us (forma contraída)','Sempre seguido de verbo NO INFINITIVO SEM "to"'],
+ macete:'ERRO CLÁSSICO: ❌ "Let\'s to go" → ✓ "Let\'s go". ❌ "Let\'s to try" → ✓ "Let\'s try". "Let\'s move on" = vamos seguir. "Let\'s figure this out" = vamos resolver isso.',
+ create:['Let\'s try again / start now / go now','Let\'s stay calm / stay focused','Let\'s figure this out / work together']},
+{id:10,icon:'💪',name:'Compromisso',sub:'I will...',
+ pattern:['I will + [verbo base] = decisão / promessa / intenção','Forma contraída: I\'ll (muito mais natural na fala)','"I\'ll try again" soa mais natural que "I will try again"'],
+ macete:'WILL vs GOING TO: I will = decisão no momento / promessa. I\'m going to = plano já feito. "Oh, the phone\'s ringing — I\'ll get it!" (decisão agora) vs "I\'m going to call you tomorrow." (plano feito)',
+ create:['I\'ll try again / start now / do better','I\'ll stay calm / stay focused','I\'ll give my best / try harder']},
+];
+
+// ── DATA: 150 PHRASES (id 1-150, grupo = ceil(id/15)) ────────────────────────
+const PHRASES = [
+{pt:'Estou me sentindo pronto.',en:'I feel ready.'},
+{pt:'Estou me sentindo ótimo.',en:"I'm feeling great."},
+{pt:'Estou me sentindo calmo.',en:"I'm feeling calm."},
+{pt:'Estou me sentindo forte.',en:"I'm feeling strong."},
+{pt:'Estou me sentindo cansado.',en:"I'm feeling tired."},
+{pt:'Estou me sentindo bem.',en:"I'm feeling good."},
+{pt:'Estou me sentindo melhor.',en:"I'm feeling better."},
+{pt:'Estou me sentindo pronto agora.',en:'I feel ready now.'},
+{pt:'Estou bem.',en:"I'm doing fine."},
+{pt:'Estou indo bem.',en:"I'm doing okay."},
+{pt:'Estou melhorando.',en:"I'm doing better."},
+{pt:'Estou fazendo o meu melhor.',en:"I'm doing my best."},
+{pt:'Ainda não estou pronto.',en:"I'm not ready yet."},
+{pt:'Estou quase pronto.',en:"I'm almost ready."},
+{pt:'Estou me sentindo confiante.',en:"I'm feeling confident."},
+{pt:'Acordei cedo.',en:'I woke up early.'},
+{pt:'Estou saindo.',en:"I'm going outside."},
+{pt:'Estou ficando dentro.',en:"I'm staying inside."},
+{pt:'Estou saindo agora.',en:"I'm leaving now."},
+{pt:'Estou chegando em breve.',en:"I'm coming soon."},
+{pt:'Estou atrasado.',en:"I'm running late."},
+{pt:'Estou a caminho.',en:"I'm on my way."},
+{pt:'Estou voltando.',en:"I'm coming back."},
+{pt:'Estou indo para casa.',en:"I'm heading home."},
+{pt:'Estou quase lá.',en:"I'm almost there."},
+{pt:'Preciso me apressar.',en:'I need to hurry.'},
+{pt:'Estou indo agora.',en:"I'm leaving now."},
+{pt:'Estou chegando.',en:"I'm on my way."},
+{pt:'Estou ficando aqui.',en:"I'm staying here."},
+{pt:'Estou indo embora.',en:"I'm going away."},
+{pt:'Preciso de um minuto.',en:'I need a minute.'},
+{pt:'Preciso de descanso.',en:'I need some rest.'},
+{pt:'Preciso de mais tempo.',en:'I need more time.'},
+{pt:'Preciso me concentrar.',en:'I need to focus.'},
+{pt:'Preciso da sua ajuda.',en:'I need your help.'},
+{pt:'Preciso de uma pausa.',en:'I need a break.'},
+{pt:'Preciso de ar fresco.',en:'I need fresh air.'},
+{pt:'Preciso de espaço.',en:'I need some space.'},
+{pt:'Preciso pensar.',en:'I need to think.'},
+{pt:'Preciso relaxar.',en:'I need to relax.'},
+{pt:'Preciso dormir.',en:'I need to sleep.'},
+{pt:'Preciso comer.',en:'I need to eat.'},
+{pt:'Preciso de água.',en:'I need some water.'},
+{pt:'Preciso sair daqui.',en:'I need to get out of here.'},
+{pt:'Preciso de uma solução.',en:'I need a solution.'},
+{pt:'Quero aprender.',en:'I want to learn.'},
+{pt:'Quero crescer.',en:'I want to grow.'},
+{pt:'Quero melhorar.',en:'I want to improve.'},
+{pt:'Quero tentar.',en:'I want to try.'},
+{pt:'Quero vencer.',en:'I want to win.'},
+{pt:'Quero descansar.',en:'I want to rest.'},
+{pt:'Quero comer.',en:'I want to eat.'},
+{pt:'Quero dormir.',en:'I want to sleep.'},
+{pt:'Quero ir.',en:'I want to go.'},
+{pt:'Quero ficar.',en:'I want to stay.'},
+{pt:'Quero entender.',en:'I want to understand.'},
+{pt:'Quero tentar de novo.',en:'I want to try again.'},
+{pt:'Quero fazer melhor.',en:'I want to do better.'},
+{pt:'Quero saber mais.',en:'I want to know more.'},
+{pt:'Quero mudar.',en:'I want to change.'},
+{pt:'Eu tenho um plano.',en:'I have a plan.'},
+{pt:'Eu tenho uma ideia.',en:'I have an idea.'},
+{pt:'Eu tenho uma pergunta.',en:'I have a question.'},
+{pt:'Eu tenho algum tempo.',en:'I have some time.'},
+{pt:'Eu tenho um problema.',en:'I have a problem.'},
+{pt:'Eu tenho uma solução.',en:'I have a solution.'},
+{pt:'Eu tenho uma chance.',en:'I have a chance.'},
+{pt:'Eu tenho um objetivo.',en:'I have a goal.'},
+{pt:'Eu tenho energia.',en:'I have energy.'},
+{pt:'Eu tenho esperança.',en:'I have hope.'},
+{pt:'Eu tenho uma dúvida.',en:'I have a doubt.'},
+{pt:'Eu tenho uma sugestão.',en:'I have a suggestion.'},
+{pt:'Eu tenho uma promessa.',en:'I have a promise.'},
+{pt:'Eu tenho um recado.',en:'I have a message.'},
+{pt:'Eu tenho uma notícia.',en:'I have some news.'},
+{pt:'Parece bom.',en:'It looks good.'},
+{pt:'Soa bem.',en:'It sounds nice.'},
+{pt:'Parece certo.',en:'It feels right.'},
+{pt:'Parece fácil.',en:'It seems easy.'},
+{pt:'Parece difícil.',en:'It seems hard.'},
+{pt:'Parece melhor.',en:'It looks better.'},
+{pt:'Soa ótimo.',en:'It sounds great.'},
+{pt:'Parece estranho.',en:'It seems strange.'},
+{pt:'Parece claro.',en:"It's clear."},
+{pt:'Parece simples.',en:'It looks simple.'},
+{pt:'Parece perfeito.',en:'It looks perfect.'},
+{pt:'Soa familiar.',en:'It sounds familiar.'},
+{pt:'Parece importante.',en:'It seems important.'},
+{pt:'Parece interessante.',en:'It looks interesting.'},
+{pt:'Soa correto.',en:'It sounds right.'},
+{pt:'Isso parece bom.',en:'This feels good.'},
+{pt:'Isso parece bonito.',en:'This looks beautiful.'},
+{pt:'Isso soa ótimo.',en:'This sounds great.'},
+{pt:'Isso parece certo.',en:'This feels right.'},
+{pt:'Isso funciona bem.',en:'This works well.'},
+{pt:'Isso me ajuda.',en:'This helps me.'},
+{pt:'Isso é suficiente.',en:'This is enough.'},
+{pt:'Isso é perfeito.',en:'This is perfect.'},
+{pt:'Isso é melhor.',en:'This is better.'},
+{pt:'Isso é simples.',en:'This is simple.'},
+{pt:'Isso é diferente.',en:'This is different.'},
+{pt:'Isso faz sentido.',en:'This makes sense.'},
+{pt:'Isso é o que eu quero.',en:'This is what I want.'},
+{pt:'Isso é incrível.',en:'This is amazing.'},
+{pt:'Isso muda tudo.',en:'This changes everything.'},
+{pt:'Aquilo parece bom.',en:'That feels good.'},
+{pt:'Aquilo parece bonito.',en:'That looks beautiful.'},
+{pt:'Aquilo soa ótimo.',en:'That sounds great.'},
+{pt:'Aquilo parece certo.',en:'That feels right.'},
+{pt:'Aquilo funciona bem.',en:'That works well.'},
+{pt:'Aquilo me ajuda.',en:'That helps me.'},
+{pt:'Aquilo é suficiente.',en:'That is enough.'},
+{pt:'Aquilo é perfeito.',en:'That is perfect.'},
+{pt:'Aquilo é melhor.',en:'That is better.'},
+{pt:'Aquilo é simples.',en:'That is simple.'},
+{pt:'Aquilo foi incrível.',en:'That was amazing.'},
+{pt:'Aquilo faz sentido.',en:'That makes sense.'},
+{pt:'Aquilo é o que eu quero.',en:"That's what I want."},
+{pt:'Aquilo mudou tudo.',en:'That changed everything.'},
+{pt:'Aquilo foi perfeito.',en:'That was perfect.'},
+{pt:'Vamos tentar novamente.',en:"Let's try again."},
+{pt:'Vamos começar agora.',en:"Let's start now."},
+{pt:'Vamos seguir em frente.',en:"Let's move on."},
+{pt:'Vamos embora agora.',en:"Let's go now."},
+{pt:'Vamos continuar.',en:"Let's keep going."},
+{pt:'Vamos manter a calma.',en:"Let's stay calm."},
+{pt:'Vamos manter o foco.',en:"Let's stay focused."},
+{pt:'Vamos fazer uma pausa.',en:"Let's take a break."},
+{pt:'Vamos terminar isto.',en:"Let's finish this."},
+{pt:'Vamos fazer melhor.',en:"Let's do better."},
+{pt:'Vamos trabalhar juntos.',en:"Let's work together."},
+{pt:'Vamos pensar nisso.',en:"Let's think about this."},
+{pt:'Vamos resolver isso.',en:"Let's figure this out."},
+{pt:'Vamos ser honestos.',en:"Let's be honest."},
+{pt:'Vamos aproveitar.',en:"Let's enjoy this."},
+{pt:'Vou tentar novamente.',en:'I will try again.'},
+{pt:'Vou começar agora.',en:'I will start now.'},
+{pt:'Vou continuar.',en:'I will keep going.'},
+{pt:'Vou manter a calma.',en:'I will stay calm.'},
+{pt:'Vou manter o foco.',en:'I will stay focused.'},
+{pt:'Vou fazer uma pausa.',en:'I will take a break.'},
+{pt:'Vou terminar isto.',en:'I will finish this.'},
+{pt:'Vou fazer melhor.',en:'I will do better.'},
+{pt:'Vou aprender mais.',en:'I will learn more.'},
+{pt:'Vou voltar.',en:'I will come back.'},
+{pt:'Vou resolver isso.',en:'I will figure this out.'},
+{pt:'Vou me esforçar mais.',en:'I will try harder.'},
+{pt:'Vou ser mais cuidadoso.',en:'I will be more careful.'},
+{pt:'Vou fazer isso hoje.',en:'I will do this today.'},
+{pt:'Vou dar o meu melhor.',en:'I will give my best.'},
+].map((p,i) => ({id:i+1, group: Math.ceil((i+1)/15), pt:p.pt, en:p.en}));
+
+const SPEEDS = {
+  slow:{pt:4000,pause:6000},
+  normal:{pt:3000,pause:4000},
+  fast:{pt:2000,pause:3000},
+};
+
+// ── PROGRESS / STORAGE ────────────────────────────────────────────────────────
+function loadProgress() {
+  let p;
+  try { p = JSON.parse(localStorage.getItem('sistema5_progresso')); } catch(e) { p = null; }
+  if (!p || !Array.isArray(p.studied)) {
+    p = { studied: new Array(150).fill(false), quizCorrect: new Array(150).fill(false), groupCelebrated: new Array(11).fill(false), streak: 0, lastDate: null };
+  }
+  if (!p.quizCorrect) p.quizCorrect = new Array(150).fill(false);
+  if (!p.groupCelebrated) p.groupCelebrated = new Array(11).fill(false);
+  return p;
+}
+function saveProgress() { localStorage.setItem('sistema5_progresso', JSON.stringify(progress)); }
+
+function updateStreak() {
+  const today = new Date().toISOString().slice(0,10);
+  if (progress.lastDate !== today) {
+    if (progress.lastDate) {
+      const diff = Math.round((new Date(today) - new Date(progress.lastDate)) / 86400000);
+      progress.streak = diff === 1 ? progress.streak + 1 : 1;
+    } else {
+      progress.streak = 1;
+    }
+    progress.lastDate = today;
+    saveProgress();
+  }
+}
+
+let progress = loadProgress();
+updateStreak();
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let mode = 'shadow';
+let speed = 'normal';
+let groupFilter = 0; // 0 = todos
+let currentIndex = 0; // index within filtered list
+let revealed = false;
+let reps = 0;
+let autoPlaying = false;
+let autoTimers = [];
+let quizAnswered = false;
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function filteredPhrases() {
+  return groupFilter === 0 ? PHRASES : PHRASES.filter(p => p.group === groupFilter);
+}
+function groupOf(g) { return GROUPS.find(x => x.id === g); }
+function posInGroup(id) { return ((id - 1) % 15) + 1; }
+function clearAutoTimers() { autoTimers.forEach(t => clearTimeout(t)); autoTimers = []; }
+function normalize(s) {
+  return s.toLowerCase().trim().replace(/[.!?]+$/,'').replace(/[’']/g,"'").replace(/\s+/g,' ');
+}
+
+// ── GROUP STRIP ───────────────────────────────────────────────────────────────
+function renderGroupsStrip() {
+  const strip = document.getElementById('groupsStrip');
+  let html = `<div class="group-chip ${groupFilter===0?'on':''}" onclick="selectGroup(0)">
+      <div class="gc-top">🌐 Todos</div>
+      <div class="gc-n">${progress.studied.filter(Boolean).length}/150</div>
+    </div>`;
+  html += GROUPS.map(g => {
+    const ids = PHRASES.filter(p => p.group === g.id).map(p => p.id);
+    const done = ids.filter(id => progress.studied[id-1]).length;
+    return `<div class="group-chip ${groupFilter===g.id?'on':''}" onclick="selectGroup(${g.id})">
+      <div class="gc-top">${g.icon} G${g.id} ${g.name}</div>
+      <div class="gc-n">${done}/15</div>
+      <div class="gc-track"><div class="gc-fill" style="width:${(done/15)*100}%"></div></div>
+    </div>`;
+  }).join('');
+  strip.innerHTML = html;
+}
+
+function selectGroup(g) {
+  groupFilter = g;
+  currentIndex = 0;
+  revealed = false; reps = 0;
+  stopAuto();
+  renderGroupsStrip();
+  renderAll();
+}
+
+// ── TOP PROGRESS ──────────────────────────────────────────────────────────────
+function updateTopProgress() {
+  const n = progress.studied.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (n/150*100) + '%';
+  document.getElementById('progressText').textContent = `${n}/150 frases`;
+  document.getElementById('streakPill').textContent = `🔥 ${progress.streak} dia${progress.streak===1?'':'s'}`;
+
+  document.getElementById('badge1').classList.toggle('unlocked', n >= 1);
+  const anyGroupDone = GROUPS.some(g => PHRASES.filter(p=>p.group===g.id).every(p=>progress.studied[p.id-1]));
+  document.getElementById('badge2').classList.toggle('unlocked', anyGroupDone);
+  document.getElementById('badge3').classList.toggle('unlocked', n >= 75);
+  document.getElementById('badge4').classList.toggle('unlocked', n >= 150);
+}
+
+// ── SHADOWING MODE ────────────────────────────────────────────────────────────
+function currentPhrase() {
+  const list = filteredPhrases();
+  if (!list.length) return null;
+  if (currentIndex >= list.length) currentIndex = list.length - 1;
+  if (currentIndex < 0) currentIndex = 0;
+  return list[currentIndex];
+}
+
+function renderShadow() {
+  const p = currentPhrase();
+  if (!p) return;
+  const g = groupOf(p.group);
+  document.getElementById('swTag').textContent = `GRUPO ${p.group} · FRASE ${String(posInGroup(p.id)).padStart(2,'0')}/15`;
+  document.getElementById('ptText').textContent = p.pt;
+  document.getElementById('enText').textContent = p.en;
+  document.getElementById('enBox').classList.toggle('show', revealed);
+  document.getElementById('revealBtn').disabled = revealed;
+  document.getElementById('revealBtn').textContent = revealed ? '✓ Revelado' : '👁 Revelar em inglês';
+  document.getElementById('pauseFill').style.width = '0%';
+  document.getElementById('pauseFill').style.transition = 'none';
+
+  [1,2,3].forEach(n => document.getElementById('rep'+n).classList.toggle('done', reps >= n));
+
+  document.getElementById('infoBox').innerHTML = `
+    <div class="info-title">Padrão · Grupo ${g.id} — ${g.name}</div>
+    <div>${g.pattern[0]}</div>
+    <div class="info-title" style="margin-top:.3rem;">Macete</div>
+    <div>${g.macete}</div>
+  `;
+
+  const list = filteredPhrases();
+  document.getElementById('prevBtn').disabled = currentIndex === 0;
+  document.getElementById('nextBtn').disabled = currentIndex === list.length - 1;
+
+  const readyBtn = document.getElementById('readyBtn');
+  const isStudied = progress.studied[p.id-1];
+  readyBtn.classList.toggle('done', isStudied);
+  readyBtn.textContent = isStudied ? '✓ Pronto' : '✓ Marcar como pronto';
+}
+
+function revealCard() {
+  if (revealed) return;
+  revealed = true;
+  renderShadow();
+}
+
+function markRep(n) {
+  if (!revealed) return;
+  reps = Math.max(reps, n);
+  [1,2,3].forEach(i => document.getElementById('rep'+i).classList.toggle('done', reps >= i));
+  if (reps >= 3) markReady();
+}
+
+function markReady() {
+  const p = currentPhrase();
+  if (!p) return;
+  if (!progress.studied[p.id-1]) {
+    progress.studied[p.id-1] = true;
+    saveProgress();
+    renderGroupsStrip();
+    updateTopProgress();
+    checkGroupComplete(p.group);
+  }
+  renderShadow();
+}
+
+function goCard(dir) {
+  const list = filteredPhrases();
+  const next = currentIndex + dir;
+  if (next < 0 || next >= list.length) return;
+  currentIndex = next;
+  revealed = false; reps = 0;
+  renderShadow();
+}
+
+// ── GROUP COMPLETE OVERLAY ───────────────────────────────────────────────────
+function checkGroupComplete(groupId) {
+  const ids = PHRASES.filter(p => p.group === groupId).map(p => p.id);
+  const allDone = ids.every(id => progress.studied[id-1]);
+  if (allDone && !progress.groupCelebrated[groupId]) {
+    progress.groupCelebrated[groupId] = true;
+    saveProgress();
+    showGroupOverlay(groupId);
+  }
+}
+
+function showGroupOverlay(groupId) {
+  stopAuto();
+  const g = groupOf(groupId);
+  document.getElementById('gcTitle').textContent = `GRUPO ${g.id} COMPLETO!`;
+  document.getElementById('gcPattern').innerHTML = g.pattern.map(l => `<div class="gc-pattern-line">${l}</div>`).join('');
+  document.getElementById('gcCreate').innerHTML = g.create.map(l => `<div>${l}</div>`).join('');
+  document.getElementById('gcContinueBtn').textContent = groupId < 10 ? `Continuar para Grupo ${groupId+1} →` : '🏆 Ver todas as frases →';
+  document.getElementById('overlay').classList.remove('hidden');
+}
+
+function continueFromOverlay() {
+  document.getElementById('overlay').classList.add('hidden');
+  const p = currentPhrase();
+  const finishedGroup = p ? p.group : groupFilter;
+  if (finishedGroup < 10) {
+    selectGroup(finishedGroup + 1);
+  } else {
+    selectGroup(0);
+  }
+}
+
+// ── AUTO-PLAY ─────────────────────────────────────────────────────────────────
+function toggleAuto() {
+  if (autoPlaying) stopAuto();
+  else startAuto();
+}
+
+function startAuto() {
+  if (mode !== 'shadow') setMode('shadow');
+  autoPlaying = true;
+  document.getElementById('autoBtn').classList.add('playing');
+  document.getElementById('autoBtn').textContent = '⏸ Pausar';
+  revealed = false; reps = 0;
+  renderShadow();
+  autoStep();
+}
+
+function stopAuto() {
+  autoPlaying = false;
+  clearAutoTimers();
+  document.getElementById('autoBtn').classList.remove('playing');
+  document.getElementById('autoBtn').textContent = '▶ AUTO';
+  document.getElementById('pauseFill').style.transition = 'none';
+  document.getElementById('pauseFill').style.width = '0%';
+}
+
+function autoStep() {
+  if (!autoPlaying) return;
+  const cfg = SPEEDS[speed];
+  revealed = false; reps = 0;
+  renderShadow();
+
+  autoTimers.push(setTimeout(() => {
+    if (!autoPlaying) return;
+    revealCard();
+    const pf = document.getElementById('pauseFill');
+    pf.style.transition = 'none';
+    pf.style.width = '0%';
+    void pf.offsetWidth;
+    pf.style.transition = `width ${cfg.pause}ms linear`;
+    pf.style.width = '100%';
+
+    autoTimers.push(setTimeout(() => { if (autoPlaying) markRep(1); }, cfg.pause*0.33));
+    autoTimers.push(setTimeout(() => { if (autoPlaying) markRep(2); }, cfg.pause*0.66));
+    autoTimers.push(setTimeout(() => {
+      if (!autoPlaying) return;
+      markRep(3);
+      const list = filteredPhrases();
+      if (currentIndex >= list.length - 1) { stopAuto(); return; }
+      currentIndex += 1;
+      autoStep();
+    }, cfg.pause));
+  }, cfg.pt));
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  stopAuto();
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  document.getElementById('panelShadow').classList.toggle('hidden', m !== 'shadow');
+  document.getElementById('panelList').classList.toggle('hidden', m !== 'list');
+  document.getElementById('panelQuiz').classList.toggle('hidden', m !== 'quiz');
+  renderAll();
+}
+
+function setSpeed(s) {
+  speed = s;
+  document.querySelectorAll('#speedGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.speed === s));
+}
+
+// ── LIST MODE ─────────────────────────────────────────────────────────────────
+let expandedRow = null;
+function renderList() {
+  const list = filteredPhrases();
+  document.getElementById('listCount').textContent = `${list.length} frases`;
+  document.getElementById('listBody').innerHTML = list.map(p => {
+    const done = progress.studied[p.id-1];
+    const rows = [`<tr class="phrase-row" onclick="toggleExpand(${p.id})">
+      <td class="pt-cell">${p.pt}</td>
+      <td class="en-cell">${p.en}</td>
+      <td class="grp-cell">G${p.group} ${groupOf(p.group).name}</td>
+      <td class="status-cell ${done?'status-yes':'status-no'}">${done?'✓':'○'}</td>
+    </tr>`];
+    if (expandedRow === p.id) {
+      const g = groupOf(p.group);
+      rows.push(`<tr class="expand-row"><td colspan="4">
+        <div class="info-box">
+          <div class="info-title">Padrão · Grupo ${g.id} — ${g.name}</div>
+          <div>${g.pattern.join('<br>')}</div>
+          <div class="info-title" style="margin-top:.3rem;">Macete</div>
+          <div>${g.macete}</div>
+        </div>
+      </td></tr>`);
+    }
+    return rows.join('');
+  }).join('');
+}
+function toggleExpand(id) {
+  expandedRow = expandedRow === id ? null : id;
+  renderList();
+}
+
+// ── QUIZ MODE ─────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  const p = currentPhrase();
+  if (!p) return;
+  const n = progress.quizCorrect.filter(Boolean).length;
+  document.getElementById('quizScore').textContent = `Pontuação: ${n}/150 acertos`;
+  document.getElementById('quizPt').textContent = p.pt;
+  const input = document.getElementById('quizInput');
+  input.value = '';
+  input.classList.remove('correct','wrong');
+  document.getElementById('quizResult').textContent = '';
+  document.getElementById('quizResult').className = 'quiz-result';
+  quizAnswered = false;
+
+  const list = filteredPhrases();
+  document.getElementById('quizPrevBtn').disabled = currentIndex === 0;
+  document.getElementById('quizNextBtn').disabled = currentIndex === list.length - 1;
+  input.focus();
+}
+
+function quizCheck() {
+  const p = currentPhrase();
+  if (!p || quizAnswered) return;
+  const input = document.getElementById('quizInput');
+  const ok = normalize(input.value) === normalize(p.en);
+  quizAnswered = true;
+  const resultEl = document.getElementById('quizResult');
+  if (ok) {
+    input.classList.add('correct');
+    resultEl.textContent = '✓ Correto!';
+    resultEl.className = 'quiz-result ok';
+    if (!progress.quizCorrect[p.id-1]) { progress.quizCorrect[p.id-1] = true; }
+    if (!progress.studied[p.id-1]) { progress.studied[p.id-1] = true; checkGroupComplete(p.group); }
+    saveProgress();
+    renderGroupsStrip();
+    updateTopProgress();
+  } else {
+    input.classList.add('wrong');
+    resultEl.textContent = `✗ Errado — resposta correta: "${p.en}"`;
+    resultEl.className = 'quiz-result bad';
+  }
+}
+
+function quizNav(dir) {
+  const list = filteredPhrases();
+  const next = currentIndex + dir;
+  if (next < 0 || next >= list.length) return;
+  currentIndex = next;
+  renderQuiz();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('quizInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      if (!quizAnswered) quizCheck();
+      else quizNav(1);
+    }
+  });
+});
+
+// ── RENDER ALL ────────────────────────────────────────────────────────────────
+function renderAll() {
+  if (mode === 'shadow') renderShadow();
+  else if (mode === 'list') renderList();
+  else if (mode === 'quiz') renderQuiz();
+  updateTopProgress();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init() {
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  const grupoParam = parseInt(params.get('grupo'), 10);
+  if (grupoParam >= 1 && grupoParam <= 10) groupFilter = grupoParam;
+  renderGroupsStrip();
+  if (modoParam === 'lista') { setMode('list'); }
+  else if (modoParam === 'quiz') { setMode('quiz'); }
+  else { renderAll(); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronomes Sujeito | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F5C518;
+  --I:#7C6FFF;--YOU:#FF6B9D;--HE:#4FC3F7;--SHE:#FFD54F;--IT:#5FD87A;--WE:#FF8A65;--THEY:#C07DDA;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+/* HEADER */
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(245,197,24,.1);color:var(--accent);border:1px solid rgba(245,197,24,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:440px;margin:0 auto;}
+
+/* HERO */
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#0f1a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;background:rgba(8,12,20,.8);border:1px solid currentColor;border-radius:5px;padding:2px 9px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+/* NAV */
+.pnav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:22px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 18px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.05em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+/* DETAIL */
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:68px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:22px;color:var(--accent);font-weight:600;margin-bottom:14px;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(245,197,24,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+
+.tabs{display:flex;gap:6px;margin-bottom:14px;}
+.tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:19px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+/* USO SECTIONS */
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:2px 9px;border-radius:5px;display:inline-block;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:700;}
+.tpt{color:var(--muted);font-size:13px;}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+
+/* ERROR */
+.ecols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.ebox{border-radius:12px;padding:20px;text-align:center;}
+.ewrong{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.3);}
+.eright{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.3);}
+.elabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.esen{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;}
+
+/* SUMMARY */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sen2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;display:block;margin-bottom:3px;}
+.spt2{font-size:12px;color:var(--muted);}
+.snote{font-size:10px;color:rgba(255,255,255,.25);margin-top:4px;}
+
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.ecols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<header>
+  <div class="badge">A1–A2 · Lição 01</div>
+  <h1>
+    <span style="color:var(--I)">I</span>&nbsp;
+    <span style="color:var(--YOU)">YOU</span>&nbsp;
+    <span style="color:var(--HE)">HE</span>&nbsp;
+    <span style="color:var(--SHE)">SHE</span>&nbsp;
+    <span style="color:var(--IT)">IT</span>&nbsp;
+    <span style="color:var(--WE)">WE</span>&nbsp;
+    <span style="color:var(--THEY)">THEY</span>
+  </h1>
+  <p class="subtitle">Pronomes Sujeito — quem faz a ação. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="future">Futuro</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Frases similares para praticar</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- USO 1 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 1</span><h2 class="utitle">Pronomes no <em>presente</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t1"></tbody>
+  </table>
+  <div class="tip">⚠️ IT = ele/ela para coisas, animais e situações (clima, hora, distância). Nunca omita o sujeito em inglês!</div>
+</section>
+
+<!-- USO 2 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 2</span><h2 class="utitle">Pronomes no <em>passado</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t2"></tbody>
+  </table>
+  <div class="tip">💡 O pronome sujeito NUNCA muda no passado. Apenas o verbo muda de forma.</div>
+</section>
+
+<!-- USO 3 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 3</span><h2 class="utitle">Pronomes no <em>futuro</em></h2></div>
+  <table>
+    <thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody id="t3"></tbody>
+  </table>
+  <div class="tip">💡 Com WILL e GOING TO, o pronome sujeito vem sempre antes do auxiliar.</div>
+</section>
+
+<!-- USO 4 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 4</span><h2 class="utitle">Perguntas e <em>negativas</em></h2></div>
+  <table>
+    <thead><tr><th>Estrutura</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ptag" style="color:var(--YOU);background:rgba(255,107,157,.1)">perg. pres.</span></td><td class="ten">Do <strong>you</strong> like coffee?</td><td class="tpt">Você gosta de café?</td></tr>
+      <tr><td><span class="ptag" style="color:var(--SHE);background:rgba(255,213,79,.1)">perg. pres.</span></td><td class="ten">Does <strong>she</strong> work here?</td><td class="tpt">Ela trabalha aqui?</td></tr>
+      <tr><td><span class="ptag" style="color:var(--HE);background:rgba(79,195,247,.1)">perg. pass.</span></td><td class="ten">Did <strong>he</strong> call?</td><td class="tpt">Ele ligou?</td></tr>
+      <tr><td><span class="ptag" style="color:var(--I);background:rgba(124,111,255,.1)">neg. pres.</span></td><td class="ten"><strong>I</strong> don't understand.</td><td class="tpt">Eu não entendo.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">neg. pres.</span></td><td class="ten"><strong>It</strong> doesn't work.</td><td class="tpt">Não funciona.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--WE);background:rgba(255,138,101,.1)">neg. pass.</span></td><td class="ten"><strong>We</strong> didn't go.</td><td class="tpt">Nós não fomos.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--THEY);background:rgba(192,125,218,.1)">neg. fut.</span></td><td class="ten"><strong>They</strong> won't come.</td><td class="tpt">Eles não vão vir.</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">⚠️ Pergunta: <strong>auxiliar + pronome + verbo</strong> · Negativa: <strong>pronome + auxiliar + NOT + verbo</strong></div>
+</section>
+
+<!-- USO 5 -->
+<section class="uso">
+  <div class="uhead"><span class="unum">USO 5</span><h2 class="utitle"><em>IT</em> para clima, hora, distância e situação</h2></div>
+  <table>
+    <thead><tr><th>Contexto</th><th>Inglês</th><th>Português</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">☁ clima</span></td><td class="ten"><strong>It</strong> is sunny today.</td><td class="tpt">Está ensolarado hoje.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">🕒 hora</span></td><td class="ten"><strong>It</strong> is 3 o'clock.</td><td class="tpt">São 3 horas.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">📍 distância</span></td><td class="ten"><strong>It</strong> is far from here.</td><td class="tpt">É longe daqui.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">💡 situação</span></td><td class="ten"><strong>It</strong> is important to study.</td><td class="tpt">É importante estudar.</td></tr>
+      <tr><td><span class="ptag" style="color:var(--IT);background:rgba(95,216,122,.1)">👋 identificar</span></td><td class="ten"><strong>It</strong> is me!</td><td class="tpt">Sou eu!</td></tr>
+    </tbody>
+  </table>
+  <div class="tip">💡 IT impessoal não tem tradução direta — é obrigatório em inglês mesmo sem sujeito lógico.</div>
+</section>
+
+<!-- ERROR -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">ATENÇÃO</span><h2 class="utitle">Erro clássico do brasileiro</h2></div>
+  <p style="color:var(--muted);font-size:14px">Em português omitimos o sujeito naturalmente. Em inglês isso é um erro!</p>
+  <div class="ecols">
+    <div class="ebox ewrong">
+      <div class="elabel" style="color:var(--warn)">❌ ERRADO</div>
+      <div class="esen" style="color:var(--warn)">Is raining.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Sem sujeito = inglês inválido</p>
+    </div>
+    <div class="ebox eright">
+      <div class="elabel" style="color:var(--tip)">✓ CORRETO</div>
+      <div class="esen" style="color:var(--tip)">IT is raining.</div>
+      <p style="color:var(--muted);font-size:12px;margin-top:8px">Sujeito sempre obrigatório</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todos os pronomes sujeito</h2></div>
+  <div class="sgrid">
+    <div class="scard"><span class="sen2" style="color:var(--I)">I</span><div class="spt2">EU</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--YOU)">YOU</span><div class="spt2">VOCÊ / VOCÊS</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--HE)">HE</span><div class="spt2">ELE</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--SHE)">SHE</span><div class="spt2">ELA</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--IT)">IT</span><div class="spt2">ELE / ELA</div><div class="snote">coisas, clima, hora</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--WE)">WE</span><div class="spt2">NÓS</div></div>
+    <div class="scard"><span class="sen2" style="color:var(--THEY)">THEY</span><div class="spt2">ELES / ELAS</div></div>
+  </div>
+  <div class="warn" style="margin-top:20px">🔑 Regra de ouro: o sujeito em inglês é SEMPRE obrigatório. Nunca omita!</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1–A2 · Lição 01: Pronomes Sujeito</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const PD = {
+  I:{pt:'EU',hex:'#7C6FFF',col:0x7C6FFF,
+    desc:'Usado para falar de você mesmo. Sempre maiúsculo em inglês, não importa onde esteja na frase.',
+    rule:'⚡ I é sempre maiúsculo: "i study" é ERRADO. "I study" é CORRETO.',
+    s:{present:{en:'I study English every day.',pt:'Eu estudo inglês todo dia.',ctx:'💬 Hábito diário. Mostra comprometimento com o aprendizado.'},
+       past:{en:'I went to the market yesterday.',pt:'Eu fui ao mercado ontem.',ctx:'💬 Contando o que você fez. "went" = passado irregular de "go".'},
+       future:{en:'I will call you tomorrow.',pt:'Eu vou te ligar amanhã.',ctx:'💬 Promessa ou plano. "will" + verbo base = futuro simples.'}},
+    sim:[{en:'I work from home.',pt:'Eu trabalho em casa.'},{en:'I love Brazilian food.',pt:'Eu amo comida brasileira.'},{en:"I don't understand.",pt:'Eu não entendo.'}]},
+  YOU:{pt:'VOCÊ / VOCÊS',hex:'#FF6B9D',col:0xFF6B9D,
+    desc:'Usado para falar com a pessoa à sua frente, ou com um grupo. Em inglês, YOU serve para singular E plural!',
+    rule:'⚡ "You are my friend" (1 pessoa) = "You are my friends" (grupo) — só o restante muda.',
+    s:{present:{en:'You are my best friend.',pt:'Você é meu melhor amigo.',ctx:'💬 Expressão direta de afeto para alguém específico.'},
+       past:{en:'You called me last night.',pt:'Você me ligou ontem à noite.',ctx:'💬 Lembrando algo que a outra pessoa fez. "called" = passado regular.'},
+       future:{en:'You are going to love this.',pt:'Você vai adorar isso.',ctx:'💬 Previsão animada sobre a reação de alguém. "going to" = plano ou previsão.'}},
+    sim:[{en:'You speak very well.',pt:'Você fala muito bem.'},{en:'Do you like music?',pt:'Você gosta de música?'},{en:"You didn't tell me that.",pt:'Você não me disse isso.'}]},
+  HE:{pt:'ELE',hex:'#4FC3F7',col:0x4FC3F7,
+    desc:'Usado para falar de um homem ou menino que não está na conversa. Terceira pessoa masculina singular.',
+    rule:'⚡ Com HE, o verbo no presente ganha -s ou -es: "he works", "he goes", "he studies".',
+    s:{present:{en:'He works at a hospital.',pt:'Ele trabalha num hospital.',ctx:'💬 Descrevendo a profissão de alguém. Note o "-s" em "works"!'},
+       past:{en:'He forgot his keys.',pt:'Ele esqueceu as chaves.',ctx:'💬 Situação cotidiana. "forgot" = passado irregular de "forget".'},
+       future:{en:'He will be there at 8pm.',pt:'Ele vai estar lá às 20h.',ctx:'💬 Confirmando a presença de alguém num lugar e horário.'}},
+    sim:[{en:'He plays football.',pt:'Ele joga futebol.'},{en:'He lives near here.',pt:'Ele mora perto daqui.'},{en:"He doesn't know yet.",pt:'Ele ainda não sabe.'}]},
+  SHE:{pt:'ELA',hex:'#FFD54F',col:0xFFD54F,
+    desc:'Usado para falar de uma mulher ou menina que não está na conversa. Terceira pessoa feminina singular.',
+    rule:'⚡ Assim como HE, SHE também pede -s/-es no verbo presente: "she loves", "she goes", "she studies".',
+    s:{present:{en:'She loves to cook.',pt:'Ela adora cozinhar.',ctx:'💬 Descreve uma paixão ou hobby. "loves" = 3ª pessoa com -s.'},
+       past:{en:'She studied all weekend.',pt:'Ela estudou o fim de semana todo.',ctx:'💬 Mostra dedicação. "studied" = passado de "study" (y→ied).'},
+       future:{en:'She is going to travel next week.',pt:'Ela vai viajar semana que vem.',ctx:'💬 Plano já decidido. "going to" indica algo planejado com antecedência.'}},
+    sim:[{en:'She speaks three languages.',pt:'Ela fala três idiomas.'},{en:"She doesn't drink coffee.",pt:'Ela não bebe café.'},{en:'She called me this morning.',pt:'Ela me ligou essa manhã.'}]},
+  IT:{pt:'ELE / ELA (coisa)',hex:'#5FD87A',col:0x5FD87A,
+    desc:'Usado para coisas, animais (gênero desconhecido) e situações como clima, hora e distância. Sem equivalente direto em português!',
+    rule:'⚡ IT é OBRIGATÓRIO. "Is raining." está ERRADO. "IT is raining." está CORRETO.',
+    s:{present:{en:'It is raining outside.',pt:'Está chovendo lá fora.',ctx:'💬 Clima! Em português omitimos o sujeito, em inglês NUNCA.'},
+       past:{en:'It was a great movie.',pt:'Foi um ótimo filme.',ctx:'💬 Falando de uma coisa (o filme). "was" = passado de "is".'},
+       future:{en:'It will be cold tomorrow.',pt:'Vai estar frio amanhã.',ctx:'💬 Previsão do tempo no futuro. IT para clima sempre!'}},
+    sim:[{en:"It's 3 o'clock.",pt:'São 3 horas.'},{en:'It is far from here.',pt:'É longe daqui.'},{en:"It doesn't work.",pt:'Não funciona.'}]},
+  WE:{pt:'NÓS',hex:'#FF8A65',col:0xFF8A65,
+    desc:'Quando você e pelo menos mais uma pessoa fazem a ação juntos. Sempre inclui quem está falando.',
+    rule:'⚡ WE inclui você (quem fala) + outros. Não confunda com THEY, que exclui quem fala!',
+    s:{present:{en:'We live in Brazil.',pt:'Nós moramos no Brasil.',ctx:'💬 Você e outras pessoas compartilham o mesmo lugar. Identidade coletiva!'},
+       past:{en:'We traveled to São Paulo.',pt:'Nós viajamos para São Paulo.',ctx:'💬 Viagem em grupo. "traveled" = passado regular.'},
+       future:{en:'We will win this game.',pt:'Nós vamos ganhar esse jogo.',ctx:'💬 Confiança coletiva. "will" para decisão ou certeza no futuro.'}},
+    sim:[{en:'We need to talk.',pt:'Nós precisamos conversar.'},{en:"We didn't go yesterday.",pt:'Nós não fomos ontem.'},{en:"We're going to be late.",pt:'Nós vamos chegar tarde.'}]},
+  THEY:{pt:'ELES / ELAS',hex:'#C07DDA',col:0xC07DDA,
+    desc:'Para falar de um grupo de pessoas, coisas ou animais que não inclui quem está falando. Pode ser masculino, feminino ou misto.',
+    rule:'⚡ Com THEY não tem -s no verbo: "they work", "they go" (diferente de HE/SHE que pede -s).',
+    s:{present:{en:'They speak English very well.',pt:'Eles falam inglês muito bem.',ctx:'💬 Elogiando um grupo. Note: sem -s no verbo com THEY!'},
+       past:{en:'They arrived late.',pt:'Eles chegaram tarde.',ctx:'💬 Situação comum. "arrived" = passado regular de "arrive".'},
+       future:{en:'They are going to move soon.',pt:'Eles vão se mudar em breve.',ctx:'💬 Plano de um grupo para o futuro próximo.'}},
+    sim:[{en:"They don't know me.",pt:'Eles não me conhecem.'},{en:'They work together.',pt:'Eles trabalham juntos.'},{en:'They called yesterday.',pt:'Eles ligaram ontem.'}]}
+};
+
+// Table data
+const rows = {
+  t1:[['I','I study English every day.','Eu estudo inglês todo dia.'],['YOU','You are my best friend.','Você é meu melhor amigo.'],['HE','He works at a hospital.','Ele trabalha num hospital.'],['SHE','She loves to cook.','Ela adora cozinhar.'],['IT','It is raining outside.','Está chovendo lá fora.'],['WE','We live in Brazil.','Nós moramos no Brasil.'],['THEY','They speak English very well.','Eles falam inglês muito bem.']],
+  t2:[['I','I went to the market yesterday.','Eu fui ao mercado ontem.'],['YOU','You called me last night.','Você me ligou ontem à noite.'],['HE','He forgot his keys.','Ele esqueceu as chaves.'],['SHE','She studied all weekend.','Ela estudou o fim de semana todo.'],['IT','It was a great movie.','Foi um ótimo filme.'],['WE','We traveled to São Paulo.','Nós viajamos para São Paulo.'],['THEY','They arrived late.','Eles chegaram tarde.']],
+  t3:[['I','I will call you tomorrow.','Eu vou te ligar amanhã.'],['YOU','You are going to love this.','Você vai adorar isso.'],['HE','He will be there at 8pm.','Ele vai estar lá às 20h.'],['SHE','She is going to travel next week.','Ela vai viajar semana que vem.'],['IT','It will be cold tomorrow.','Vai estar frio amanhã.'],['WE','We will win this game.','Nós vamos ganhar esse jogo.'],['THEY','They are going to move soon.','Eles vão se mudar em breve.']]
+};
+
+function fillTable(id, data) {
+  const tbody = document.getElementById(id);
+  data.forEach(([p, en, pt]) => {
+    const d = PD[p], word = p === 'YOU' ? 'You' : p === 'THEY' ? 'They' : p === 'WE' ? 'We' : p[0] + p.slice(1).toLowerCase();
+    const highlighted = en.replace(word, `<strong>${word}</strong>`);
+    tbody.innerHTML += `<tr>
+      <td><span class="ptag" style="color:${d.hex};background:${d.hex}1a">${p}</span></td>
+      <td class="ten">${highlighted}</td>
+      <td class="tpt">${pt}</td>
+    </tr>`;
+  });
+}
+fillTable('t1', rows.t1);
+fillTable('t2', rows.t2);
+fillTable('t3', rows.t3);
+
+// ── HERO THREE.JS ──────────────────────────────────────────────────────────
+const hCanvas = document.getElementById('heroCanvas');
+const hScene = new THREE.Scene();
+const hCam = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+hCam.position.set(0, 2.8, 10);
+hCam.lookAt(0, 0.5, 0);
+const hRend = new THREE.WebGLRenderer({canvas: hCanvas, antialias: true, alpha: true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+hRend.setClearColor(0x000000, 0);
+
+function resizeHero() {
+  const w = hCanvas.parentElement.clientWidth, h = 440;
+  hRend.setSize(w, h);
+  hCam.aspect = w / h;
+  hCam.updateProjectionMatrix();
+}
+resizeHero();
+window.addEventListener('resize', resizeHero);
+
+const hCtrl = new THREE.OrbitControls(hCam, hRend.domElement);
+hCtrl.enableDamping = true; hCtrl.dampingFactor = 0.05;
+hCtrl.autoRotate = true; hCtrl.autoRotateSpeed = 0.4;
+hCtrl.minDistance = 6; hCtrl.maxDistance = 16; hCtrl.enablePan = false;
+
+hScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const hDir = new THREE.DirectionalLight(0xffffff, 0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+const grid = new THREE.GridHelper(20, 20, 0x182030, 0x182030); hScene.add(grid);
+
+function mkChar(color, scale=1) {
+  const g = new THREE.Group();
+  const m = c => new THREE.MeshPhongMaterial({color:c, emissive:c, emissiveIntensity:.22});
+  const head = new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16), m(color));
+  head.position.y = 1.48*scale; g.add(head);
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8), m(color));
+  body.position.y = .82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(([x,rz]) => {
+    const a = new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8), m(color));
+    a.rotation.z = rz; a.position.set(x*scale,.93*scale,0); g.add(a);
+  });
+  [-.16,.16].forEach(x => {
+    const l = new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8), m(color));
+    l.position.set(x*scale,.06*scale,0); g.add(l);
+  });
+  const pl = new THREE.PointLight(color, .5, 3*scale); pl.position.y = .5*scale; g.add(pl);
+  return g;
+}
+
+const keys = Object.keys(PD);
+const hChars = [], labelData = [];
+keys.forEach((k, i) => {
+  const a = (i/keys.length)*Math.PI*2 - Math.PI/2, r = 3.6;
+  const x = Math.cos(a)*r, z = Math.sin(a)*r;
+  const c = mkChar(PD[k].col);
+  c.position.set(x, 0, z);
+  c.lookAt(0, c.position.y, 0);
+  // ring under feet
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32), new THREE.MeshPhongMaterial({color:PD[k].col,emissive:PD[k].col,emissiveIntensity:.4}));
+  ring.rotation.x = Math.PI/2; ring.position.y = -.4; c.add(ring);
+  hScene.add(c);
+  hChars.push({mesh:c, key:k, base:0});
+  // HTML label
+  const el = document.createElement('div');
+  el.className = 'hlabel'; el.style.color = PD[k].hex; el.style.borderColor = PD[k].hex;
+  el.textContent = `${k} = ${PD[k].pt}`;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el, mesh:c});
+});
+
+// Build pronoun nav
+const nav = document.getElementById('pnav');
+keys.forEach(k => {
+  const d = PD[k];
+  const b = document.createElement('button');
+  b.className = 'pbtn'; b.dataset.p = k;
+  b.style.color = d.hex; b.style.borderColor = d.hex;
+  b.textContent = `${k} — ${d.pt}`;
+  b.addEventListener('click', () => openPronoun(k));
+  nav.appendChild(b);
+});
+
+function updateLabels() {
+  const w = hCanvas.clientWidth, h = 440;
+  labelData.forEach(({el, mesh}) => {
+    const pos = new THREE.Vector3(); mesh.getWorldPosition(pos);
+    pos.y += 2.1; pos.project(hCam);
+    const x = (pos.x*.5+.5)*w, y = (-pos.y*.5+.5)*h;
+    el.style.left = x+'px'; el.style.top = y+'px';
+    el.style.opacity = pos.z < 1 ? '1' : '0';
+  });
+}
+
+// Raycaster for hero clicks
+const ray = new THREE.Raycaster(), mPos = new THREE.Vector2();
+hCanvas.addEventListener('click', e => {
+  const r = hCanvas.getBoundingClientRect();
+  mPos.x = ((e.clientX-r.left)/r.width)*2-1;
+  mPos.y = -((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos, hCam);
+  hChars.forEach(c => {
+    const ch = []; c.mesh.traverse(m => { if(m.isMesh) ch.push(m); });
+    if(ray.intersectObjects(ch).length > 0) openPronoun(c.key);
+  });
+});
+
+let hT = 0;
+function animHero() {
+  requestAnimationFrame(animHero);
+  hT += .01; hCtrl.update();
+  hChars.forEach((c,i) => { c.mesh.position.y = Math.sin(hT + i*.9)*.12; });
+  updateLabels();
+  hRend.render(hScene, hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ────────────────────────────────────────────────────────
+const dCanvas = document.getElementById('dCanvas');
+const dScene = new THREE.Scene();
+const dCam = new THREE.PerspectiveCamera(52, 360/300, 0.1, 100);
+dCam.position.set(0, 2, 6.5); dCam.lookAt(0, .5, 0);
+const dRend = new THREE.WebGLRenderer({canvas:dCanvas, antialias:true, alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+dRend.setSize(360, 300); dRend.setClearColor(0x080c14, 1);
+const dCtrl = new THREE.OrbitControls(dCam, dRend.domElement);
+dCtrl.enableDamping = true; dCtrl.dampingFactor = .05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+
+let dAmb = new THREE.AmbientLight(0xffffff,.45), dDir2 = new THREE.DirectionalLight(0xffffff,.8), dPL = new THREE.PointLight(0xffffff,1.5,14);
+dDir2.position.set(5,8,5); dPL.position.set(0,3,0);
+dScene.add(dAmb, dDir2, dPL);
+
+let dObjs = [], dParts = null, curP = null, dT = 0;
+
+function clearD() {
+  while(dScene.children.length) dScene.remove(dScene.children[0]);
+  dScene.add(dAmb, dDir2, dPL); dObjs = []; dParts = null;
+}
+function floor(col=0x080c14) {
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(10,10), new THREE.MeshPhongMaterial({color:col}));
+  f.rotation.x = -Math.PI/2; f.position.y = -.5; dScene.add(f);
+}
+function box(w,h,d,col,x=0,y=0,z=0) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshPhongMaterial({color:col}));
+  m.position.set(x,y,z); dScene.add(m); return m;
+}
+function particles(col, count=60, spread=4, yRange=[.5,3.5]) {
+  const geo = new THREE.BufferGeometry(), pos=[], cols=[];
+  const c = new THREE.Color(col);
+  for(let i=0;i<count;i++) {
+    pos.push((Math.random()-.5)*spread, yRange[0]+Math.random()*(yRange[1]-yRange[0]), (Math.random()-.5)*spread);
+    cols.push(c.r,c.g,c.b);
+  }
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(cols,3));
+  dParts = new THREE.Points(geo, new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+
+function buildI() {
+  dPL.color.set(0x7C6FFF); floor();
+  // desk
+  box(2.4,.1,1.2,0x3d2b1f,0,.2,.5);
+  [[.9,.9],[.9,-.1],[-.9,.9],[-.9,-.1]].forEach(([x,z]) => box(.1,.7,.1,0x3d2b1f,x,-.15,z));
+  // book
+  box(.8,.06,.6,0xF5C518,.2,.28,.4);
+  box(.75,.04,.55,0xf0e8d0,.2,.32,.4);
+  // character
+  const ch = mkChar(0x7C6FFF); ch.position.set(-.3,-.5,0); ch.rotation.y=.3; dScene.add(ch);
+  dObjs.push({m:ch,type:'sway'});
+  particles(0x7C6FFF,60,4,[.5,3.5]);
+}
+function buildYOU() {
+  dPL.color.set(0xFF6B9D); floor();
+  const cA = mkChar(0x7C6FFF,-1.2,0,0); cA.position.set(-1.2,0,0); cA.rotation.y=Math.PI/2; dScene.add(cA); dObjs.push({m:cA,type:'sway',off:0});
+  const cB = mkChar(0xFF6B9D); cB.position.set(1.2,0,0); cB.rotation.y=-Math.PI/2; dScene.add(cB); dObjs.push({m:cB,type:'sway',off:.5});
+  // heart ring
+  const h = new THREE.Mesh(new THREE.TorusGeometry(.28,.09,8,32), new THREE.MeshPhongMaterial({color:0xff2255,emissive:0xff2255,emissiveIntensity:.5}));
+  h.position.set(0,2,0); dScene.add(h); dObjs.push({m:h,type:'pulse',baseY:2});
+  particles(0xFF6B9D,50,3,[.3,2.5]);
+}
+function buildHE() {
+  dPL.color.set(0x4FC3F7); floor();
+  // wall
+  box(3,3.5,.2,0x1a2a3a,0,1.2,-1.5);
+  // red cross
+  const mRed = new THREE.MeshPhongMaterial({color:0xff2222,emissive:0xff2222,emissiveIntensity:.6});
+  const cH = new THREE.Mesh(new THREE.BoxGeometry(.85,.2,.06),mRed); cH.position.set(0,2.2,-1.38); dScene.add(cH);
+  const cV = new THREE.Mesh(new THREE.BoxGeometry(.2,.85,.06),mRed.clone()); cV.position.set(0,2.2,-1.38); dScene.add(cV);
+  dObjs.push({m:cH,type:'glow'},{m:cV,type:'glow'});
+  // character + stethoscope
+  const ch = mkChar(0x4FC3F7); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sway'});
+  const st = new THREE.Mesh(new THREE.TorusGeometry(.28,.05,8,16), new THREE.MeshPhongMaterial({color:0x888888}));
+  st.position.set(0,1.2,0); ch.add(st);
+}
+function buildSHE() {
+  dPL.color.set(0xFFD54F); floor();
+  box(2,.1,.8,0x5c3d2e,0,.2,.5);
+  // pot
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(.3,.25,.42,16), new THREE.MeshPhongMaterial({color:0x444444}));
+  pot.position.set(.2,.44,.4); dScene.add(pot);
+  const lid = new THREE.Mesh(new THREE.CylinderGeometry(.32,.32,.05,16), new THREE.MeshPhongMaterial({color:0x333333}));
+  lid.position.set(.2,.67,.4); dScene.add(lid); dObjs.push({m:lid,type:'bounce',baseY:.67});
+  // steam
+  const sGeo = new THREE.BufferGeometry(), sp=[], sc=[];
+  for(let i=0;i<40;i++){sp.push(.2+(Math.random()-.5)*.3,.8+Math.random()*1.4,.4+(Math.random()-.5)*.3);sc.push(1,1,1);}
+  sGeo.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  sGeo.setAttribute('color',new THREE.Float32BufferAttribute(sc,3));
+  dParts = new THREE.Points(sGeo, new THREE.PointsMaterial({size:.07,vertexColors:true,transparent:true,opacity:.55}));
+  dScene.add(dParts);
+  const ch = mkChar(0xFFD54F); ch.position.set(-.7,-.5,0); ch.rotation.y=.5; dScene.add(ch); dObjs.push({m:ch,type:'sway'});
+}
+function buildIT() {
+  dPL.color.set(0x5FD87A);
+  floor(0x050a10);
+  // cloud
+  const cg = new THREE.Group(), cm = new THREE.MeshPhongMaterial({color:0x7aa8c4,transparent:true,opacity:.8});
+  [[0,2,0,.8],[-.9,1.7,0,.65],[.9,1.7,0,.65],[-.4,1.4,0,.52],[.5,1.3,0,.48]].forEach(([x,y,z,r]) => {
+    const s = new THREE.Mesh(new THREE.SphereGeometry(r,12,12),cm.clone()); s.position.set(x,y,z); cg.add(s);
+  });
+  dScene.add(cg); dObjs.push({m:cg,type:'float',baseY:0,off:0});
+  // rain
+  const rg = new THREE.BufferGeometry(), rp=[];
+  for(let i=0;i<90;i++) rp.push((Math.random()-.5)*4, (Math.random()-.5)*3, (Math.random()-.5)*2);
+  rg.setAttribute('position',new THREE.Float32BufferAttribute(rp,3));
+  dParts = new THREE.Points(rg, new THREE.PointsMaterial({color:0x4FC3F7,size:.055}));
+  dScene.add(dParts);
+}
+function buildWE() {
+  dPL.color.set(0xFF8A65); floor();
+  // earth
+  const earth = new THREE.Mesh(new THREE.SphereGeometry(.62,32,32), new THREE.MeshPhongMaterial({color:0x009c3b,emissive:0x009c3b,emissiveIntensity:.2}));
+  earth.position.set(0,.8,0); dScene.add(earth); dObjs.push({m:earth,type:'spinY'});
+  // ring
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(2.15,.025,8,64), new THREE.MeshPhongMaterial({color:0xFF8A65,emissive:0xFF8A65,emissiveIntensity:.4}));
+  ring.rotation.x = Math.PI/2; ring.position.y=.5; dScene.add(ring);
+  // 5 chars
+  [0xFF8A65,0x7C6FFF,0xFF6B9D,0x4FC3F7,0xFFD54F].forEach((c,i) => {
+    const a=(i/5)*Math.PI*2, r=2.15;
+    const ch = mkChar(c,.8); ch.position.set(Math.cos(a)*r,-.5,Math.sin(a)*r);
+    ch.lookAt(0,ch.position.y,0); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.8});
+  });
+}
+function buildTHEY() {
+  dPL.color.set(0xC07DDA); floor();
+  [{c:0xC07DDA,x:-1.5,z:.5,ry:.3},{c:0xB39DDB,x:-.3,z:-.3,ry:-.5},{c:0xE1BEE7,x:.8,z:.8,ry:.1},{c:0x9C27B0,x:1.4,z:-.5,ry:-.3}].forEach((d,i) => {
+    const ch = mkChar(d.c); ch.position.set(d.x,-.5,d.z); ch.rotation.y=d.ry; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.7});
+    const bub = new THREE.Mesh(new THREE.SphereGeometry(.22,16,16), new THREE.MeshPhongMaterial({color:0xC07DDA,emissive:0xC07DDA,emissiveIntensity:.4,transparent:true,opacity:.75}));
+    bub.position.set(d.x+.3,1.9,d.z); dScene.add(bub); dObjs.push({m:bub,type:'float',baseY:1.9,off:i*.5});
+  });
+  particles(0xC07DDA,60,5,[.3,3]);
+}
+
+const builders = {I:buildI, YOU:buildYOU, HE:buildHE, SHE:buildSHE, IT:buildIT, WE:buildWE, THEY:buildTHEY};
+
+function animDetail() {
+  requestAnimationFrame(animDetail);
+  dT += .016; dCtrl.update();
+  dObjs.forEach(o => {
+    const off = o.off||0, by = o.baseY||0;
+    switch(o.type) {
+      case 'sway': o.m.rotation.y = off + Math.sin(dT*.8+off)*.15; break;
+      case 'float': o.m.position.y = by + Math.sin(dT*1.2+off)*.11; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2)*.1); o.m.position.y=by+Math.sin(dT*1.5)*.1; break;
+      case 'bounce': o.m.position.y = by+Math.abs(Math.sin(dT*3))*.07; break;
+      case 'glow': o.m.material.emissiveIntensity=.4+Math.sin(dT*2)*.3; break;
+      case 'spinY': o.m.rotation.y+=.007; break;
+    }
+  });
+  if(dParts) {
+    dParts.rotation.y += .003;
+    if(curP==='IT') {
+      const pa = dParts.geometry.attributes.position;
+      for(let i=0;i<pa.count;i++){
+        pa.setY(i, pa.getY(i)-.04);
+        if(pa.getY(i)<-2) pa.setY(i,2.5);
+      }
+      pa.needsUpdate=true;
+    }
+    if(curP==='SHE') {
+      const pa = dParts.geometry.attributes.position;
+      for(let i=0;i<pa.count;i++){
+        pa.setY(i, pa.getY(i)+.025);
+        if(pa.getY(i)>2.3) pa.setY(i,.78);
+      }
+      pa.needsUpdate=true;
+    }
+  }
+  dRend.render(dScene, dCam);
+}
+animDetail();
+
+// ── UI ─────────────────────────────────────────────────────────────────────
+let selTense = 'present';
+
+function openPronoun(k) {
+  curP = k;
+  const d = PD[k];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent = k;
+  document.getElementById('dPron').style.color = d.hex;
+  document.getElementById('dPt').textContent = d.pt;
+  document.getElementById('dDesc').textContent = d.desc;
+  document.getElementById('dRule').textContent = d.rule;
+  updateSent(k, selTense);
+  const sl = document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(s => sl.innerHTML+=`<div class="simitem"><span class="simen">${s.en}</span><span class="simpt">${s.pt}</span></div>`);
+  // nav highlight
+  document.querySelectorAll('.pbtn').forEach(b => {
+    const isThis = b.dataset.p===k;
+    b.classList.toggle('active', isThis);
+    b.style.backgroundColor = isThis ? PD[b.dataset.p].hex : 'transparent';
+    b.style.color = isThis ? '#080c14' : PD[b.dataset.p].hex;
+  });
+  // rebuild 3D
+  clearD(); builders[k]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateSent(k, tense) {
+  const d = PD[k], s = d.s[tense], word = k==='YOU'?'You':k==='THEY'?'They':k==='WE'?'We':k[0]+k.slice(1).toLowerCase();
+  const hl = s.en.replace(new RegExp(`\\b${word}\\b`), `<span style="color:${d.hex};font-weight:800">${word}</span>`);
+  document.getElementById('sEn').innerHTML = hl;
+  document.getElementById('sPt').textContent = s.pt;
+  document.getElementById('sCtx').textContent = s.ctx;
+}
+
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); selTense = t.dataset.t;
+  if(curP) updateSent(curP, selTense);
+}));
+
+// Auto-open I after a beat
+setTimeout(() => openPronoun('I'), 600);
+</script>
+</body>
+</html>

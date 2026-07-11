@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lição 17 · GET – 3 Sentidos | Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#F59E0B;
+  --tip:#5FD87A;--warn:#FF7043;
+  --c1:#FB923C;--c2:#60A5FA;--c3:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* BACK NAV */
+.backnav{padding:1rem 2rem;display:flex;align-items:center;gap:.5rem;opacity:.7;font-size:.85rem}
+.backnav a{color:var(--accent);text-decoration:none}
+.backnav a:hover{text-decoration:underline}
+
+/* HEADER */
+header{text-align:center;padding:2rem 1rem 1rem;position:relative}
+.badge{display:inline-block;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif}
+header h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:.5rem}
+header h1 span{color:var(--accent)}
+header p.sub{color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto}
+
+/* HERO */
+#heroWrap{width:100%;height:420px;position:relative;margin:1.5rem 0}
+#heroWrap canvas{display:block;width:100%!important;height:100%!important}
+.hero-hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);letter-spacing:.05em;pointer-events:none}
+
+/* RULE BOX */
+.rule-wrap{max-width:900px;margin:0 auto 2rem;padding:0 1.5rem}
+.rule-box{background:var(--surface);border:1px solid rgba(245,158,11,.3);border-radius:16px;padding:1.8rem 2rem;position:relative;overflow:hidden}
+.rule-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3))}
+.rule-box h3{font-size:1rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.2rem}
+.conj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.conj-card{background:var(--surface2);border-radius:10px;padding:1rem;text-align:center}
+.conj-card .label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.conj-card .verb{font-size:1.6rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.conj-card .detail{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+.conj-card.present .verb{color:var(--c1)}
+.conj-card.present2 .verb{color:var(--c2)}
+.conj-card.past .verb{color:var(--accent)}
+
+.warn-box{margin-top:1.2rem;background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.25);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:flex-start;gap:.7rem}
+.warn-box .icon{font-size:1.1rem;margin-top:.05rem;flex-shrink:0}
+.warn-box p{font-size:.88rem;color:var(--text)}
+.warn-box code{font-family:'Space Grotesk',monospace;background:rgba(0,0,0,.25);padding:.1rem .35rem;border-radius:4px}
+.warn-box .bad{color:var(--warn);font-weight:700}
+.warn-box .good{color:var(--tip);font-weight:700}
+
+/* SECTIONS */
+.sec{max-width:900px;margin:0 auto 3rem;padding:0 1.5rem}
+.sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.sec-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;flex-shrink:0}
+.sec-title{font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.sec-pt{font-size:.85rem;color:var(--muted);font-weight:400}
+
+/* SENTIDO CARDS */
+.meaning-card{background:var(--surface);border-radius:14px;padding:1.5rem;margin-bottom:1.2rem;border-left:4px solid}
+.meaning-card h4{font-size:1rem;font-weight:700;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif}
+.examples-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.examples-list li{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;align-items:center;background:var(--surface2);border-radius:8px;padding:.65rem .9rem;font-size:.9rem}
+.examples-list li .en{font-weight:600}
+.examples-list li .pt{color:var(--muted)}
+
+/* ADJECTIVE PILLS */
+.pill-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}
+.pill{background:var(--surface2);border-radius:999px;padding:.4rem 1rem;font-size:.85rem;display:flex;align-items:center;gap:.5rem}
+.pill .en{font-weight:700}
+.pill .pt{color:var(--muted);font-size:.78rem}
+
+/* FORMULA BOX */
+.formula-box{background:var(--surface2);border-radius:12px;padding:1rem 1.4rem;margin-top:1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.formula-box .part{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}
+.formula-box .plus{color:var(--muted);font-size:1.1rem}
+.formula-box .equals{color:var(--muted);font-size:1rem}
+.formula-box .result{color:var(--accent);font-size:1rem;font-weight:600}
+
+/* HIGHLIGHT BOXES */
+.tip-box{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);border-radius:10px;padding:.9rem 1.2rem;margin-top:1rem;font-size:.88rem}
+.tip-box strong{color:var(--tip)}
+
+/* UNDERSTAND COMPARE */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.compare-card{background:var(--surface2);border-radius:12px;padding:1.2rem;text-align:center}
+.compare-card .tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;opacity:.7}
+.compare-card .phrase{font-size:1.1rem;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:.3rem}
+.compare-card .note{font-size:.78rem;color:var(--muted)}
+.compare-card.formal{border:1px solid rgba(255,255,255,.1)}
+.compare-card.natural{border:1px solid rgba(95,216,122,.3)}
+.compare-card.natural .phrase{color:var(--tip)}
+
+/* GOT IT TABLE */
+.got-table{width:100%;border-collapse:collapse;margin-top:.9rem}
+.got-table th{background:var(--surface2);padding:.55rem .9rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;font-weight:600}
+.got-table td{padding:.55rem .9rem;border-top:1px solid var(--border);font-size:.88rem}
+.got-table td:first-child{font-weight:700;font-family:'Space Grotesk',sans-serif}
+.got-table td:last-child{color:var(--muted)}
+
+/* QUIZ */
+.quiz-wrap{display:flex;flex-direction:column;gap:1.2rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color .3s}
+.q-card.correct{border-color:var(--tip)}
+.q-card.wrong{border-color:var(--warn)}
+.q-num{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.q-sent{font-size:1.05rem;font-weight:600;margin-bottom:.9rem;font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.q-blank{display:inline-block;min-width:70px;border-bottom:2px solid var(--accent);text-align:center;color:var(--accent)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.opt{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;cursor:pointer;font-size:.9rem;font-weight:500;text-align:center;transition:all .2s}
+.opt:hover{border-color:var(--accent);background:rgba(245,158,11,.07)}
+.opt.selected-correct{background:rgba(95,216,122,.12);border-color:var(--tip);color:var(--tip);font-weight:700}
+.opt.selected-wrong{background:rgba(255,112,67,.12);border-color:var(--warn);color:var(--warn)}
+.opt.reveal-correct{background:rgba(95,216,122,.08);border-color:rgba(95,216,122,.4);color:var(--tip)}
+.opt[disabled]{cursor:not-allowed;opacity:.7}
+.q-feedback{margin-top:.8rem;padding:.65rem .9rem;border-radius:8px;font-size:.85rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:rgba(95,216,122,.08);color:var(--tip)}
+.q-feedback.nope{background:rgba(255,112,67,.08);color:var(--warn)}
+.score-bar{text-align:center;margin-top:1.5rem;padding:1.2rem;background:var(--surface);border-radius:14px;border:1px solid var(--border)}
+.score-bar .score-num{font-size:2rem;font-weight:800;color:var(--accent);font-family:'Space Grotesk',sans-serif}
+.score-bar p{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:999px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.btn-reset{background:rgba(245,158,11,.12);color:var(--accent);border:1px solid rgba(245,158,11,.3);margin-top:.9rem}
+.btn-reset:hover{background:rgba(245,158,11,.2)}
+
+/* ERRORS */
+.errors-grid{display:flex;flex-direction:column;gap:.9rem}
+.err-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;background:var(--surface);border-radius:12px;padding:1.1rem 1.3rem}
+.err-wrong{color:var(--warn);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem;text-decoration:line-through;text-decoration-color:rgba(255,112,67,.5)}
+.err-arrow{color:var(--muted);font-size:1.2rem}
+.err-right{color:var(--tip);font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:.95rem}
+.err-why{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+
+/* MEGA SUMMARY */
+.mega{max-width:900px;margin:0 auto 4rem;padding:0 1.5rem}
+.mega-box{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid rgba(245,158,11,.2);border-radius:20px;padding:2.2rem;position:relative;overflow:hidden}
+.mega-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--accent),var(--c2),var(--c3))}
+.mega-box h2{font-size:1.4rem;color:var(--accent);margin-bottom:1.6rem}
+.mega-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.mega-col{background:var(--surface);border-radius:12px;padding:1.2rem}
+.mega-col h4{font-size:.85rem;font-weight:700;margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.06em;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.mega-col ul li{font-size:.83rem;padding-left:.9rem;position:relative;color:var(--muted)}
+.mega-col ul li::before{content:'→';position:absolute;left:0;color:inherit;opacity:.7}
+.mega-col ul li span{color:var(--text);font-weight:600}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem 1rem 3rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem}
+footer a{color:var(--accent);text-decoration:none}
+.progress-bar{max-width:300px;margin:.8rem auto 0;height:4px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:999px;width:68%}
+
+@media(max-width:600px){
+  .conj-grid{grid-template-columns:1fr}
+  .examples-list li{grid-template-columns:1fr}
+  .examples-list li .pt{padding-top:.2rem;border-top:1px solid var(--border)}
+  .opts{grid-template-columns:1fr}
+  .err-card{grid-template-columns:1fr}
+  .err-arrow{display:none}
+  .mega-cols{grid-template-columns:1fr}
+  .compare-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav class="backnav">
+  <a href="../index.html">← Início</a>
+  <span style="color:var(--muted)">/</span>
+  <span>Lição 17 · GET</span>
+</nav>
+
+<header>
+  <div class="badge">A1 · Lição 17 · Módulo 03 · Verbo GET</div>
+  <h1>Verbo <span>GET</span></h1>
+  <p class="sub">3 sentidos essenciais do verbo mais versátil do inglês americano</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="c"></canvas>
+  <div class="hero-hint">arraste para girar</div>
+</div>
+
+<!-- RULE BOX -->
+<div class="rule-wrap">
+  <div class="rule-box">
+    <h3>Conjugação · GET</h3>
+    <div class="conj-grid">
+      <div class="conj-card present">
+        <div class="label">Presente · Eu/Você/Nós/Eles</div>
+        <div class="verb">GET</div>
+        <div class="detail">I get / You get / We get / They get</div>
+      </div>
+      <div class="conj-card present2">
+        <div class="label">Presente · Ele/Ela/Isso</div>
+        <div class="verb">GETS</div>
+        <div class="detail">He gets / She gets / It gets</div>
+      </div>
+      <div class="conj-card past">
+        <div class="label">Passado · TODOS os pronomes</div>
+        <div class="verb">GOT</div>
+        <div class="detail">I got / He got / She got / They got</div>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:1.2rem">
+      <div class="icon">⚠️</div>
+      <p>
+        Passado irregular: <code>GET → GOT</code> para <em>todos</em> os pronomes.<br>
+        Na negação: <span class="good">"I didn't get it"</span> &nbsp;|&nbsp;
+        NUNCA <span class="bad">"I didn't got it" ✗</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SENTIDO 1: FICAR ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(251,146,60,.15);color:var(--c1)">1</div>
+    <div>
+      <div class="sec-title" style="color:var(--c1)">GET + adjetivo = FICAR</div>
+      <div class="sec-pt">mudança de estado ou condição</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c1)">
+    <h4 style="color:var(--c1)">Fórmula · GET + adjetivo</h4>
+    <div class="formula-box">
+      <span class="part" style="color:var(--c1)">GET</span>
+      <span class="plus">+</span>
+      <span class="part" style="color:var(--text)">adjetivo</span>
+      <span class="equals">=</span>
+      <span class="result">ficar + adjetivo (mudança de estado)</span>
+    </div>
+    <div class="pill-grid">
+      <div class="pill"><span class="en" style="color:var(--c1)">get tired</span><span class="pt">ficar cansado</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get nervous</span><span class="pt">ficar nervoso</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get angry</span><span class="pt">ficar bravo</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get cold</span><span class="pt">ficar com frio</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get dark</span><span class="pt">ficar escuro</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get hungry</span><span class="pt">ficar com fome</span></div>
+      <div class="pill"><span class="en" style="color:var(--c1)">get excited</span><span class="pt">ficar animado</span></div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(251,146,60,.4)">
+    <h4>Exemplos no presente e passado</h4>
+    <ul class="examples-list">
+      <li><span class="en">I <strong style="color:var(--c1)">get</strong> tired after work.</span><span class="pt">Fico cansado depois do trabalho.</span></li>
+      <li><span class="en">She <strong style="color:var(--c2)">gets</strong> nervous before tests.</span><span class="pt">Ela fica nervosa antes das provas.</span></li>
+      <li><span class="en">He <strong style="color:var(--c2)">gets</strong> angry easily.</span><span class="pt">Ele fica bravo facilmente.</span></li>
+      <li><span class="en">I <strong style="color:var(--accent)">got</strong> cold at the beach.</span><span class="pt">Fiquei com frio na praia.</span></li>
+      <li><span class="en">It <strong style="color:var(--accent)">got</strong> dark early.</span><span class="pt">Ficou escuro cedo.</span></li>
+      <li><span class="en">They <strong style="color:var(--accent)">got</strong> excited about the trip.</span><span class="pt">Eles ficaram animados com a viagem.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--c1)">get</strong> hungry.</span><span class="pt">Não fiquei com fome.</span></li>
+    </ul>
+    <div class="tip-box" style="margin-top:1rem">
+      <strong>Dica:</strong> "get + adjetivo" expressa uma <em>mudança</em> de estado — algo que acontece, não uma condição estável. "I'm tired" = estou cansado (estado). "I get tired" = fico cansado (começo a ficar).
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SENTIDO 2: BUSCAR / PEGAR ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(96,165,250,.15);color:var(--c2)">2</div>
+    <div>
+      <div class="sec-title" style="color:var(--c2)">GET + objeto = BUSCAR / PEGAR</div>
+      <div class="sec-pt">ir buscar ou pegar algo / alguém</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c2)">
+    <h4 style="color:var(--c2)">Situações do dia a dia</h4>
+    <ul class="examples-list">
+      <li><span class="en">She <strong style="color:var(--c2)">gets</strong> the kids from school.</span><span class="pt">Ela busca as crianças na escola.</span></li>
+      <li><span class="en">I'll <strong style="color:var(--c2)">get</strong> groceries on the way.</span><span class="pt">Vou pegar as compras no caminho.</span></li>
+      <li><span class="en">Can you <strong style="color:var(--c2)">get</strong> coffee from the cafe?</span><span class="pt">Você pode pegar café no café?</span></li>
+      <li><span class="en">He <strong style="color:var(--accent)">got</strong> the bread from the bakery.</span><span class="pt">Ele pegou o pão na padaria.</span></li>
+      <li><span class="en">She <strong style="color:var(--accent)">got</strong> the kids at 5 pm.</span><span class="pt">Ela buscou as crianças às 17h.</span></li>
+      <li><span class="en">I <strong style="color:var(--accent)">got</strong> lunch from the restaurant.</span><span class="pt">Peguei o almoço no restaurante.</span></li>
+      <li><span class="en">I didn't <strong style="color:var(--c2)">get</strong> the kids yet.</span><span class="pt">Ainda não busquei as crianças.</span></li>
+    </ul>
+    <div class="tip-box" style="margin-top:1rem">
+      <strong>Dica:</strong> Em inglês americano, "get" é muito mais natural que "pick up" ou "fetch" para falar de buscar pessoas e pegar coisas em estabelecimentos.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SENTIDO 3: ENTENDER ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--c3)">3</div>
+    <div>
+      <div class="sec-title" style="color:var(--c3)">GET = ENTENDER / SACAR</div>
+      <div class="sec-pt">compreender, captar o sentido — mais natural que "understand"</div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:var(--c3)">
+    <h4 style="color:var(--c3)">Formal vs. Natural</h4>
+    <div class="compare-grid">
+      <div class="compare-card formal">
+        <div class="tag" style="color:var(--muted)">Formal / Livro didático</div>
+        <div class="phrase">I understand it.</div>
+        <div class="note">correto, mas soa engessado</div>
+      </div>
+      <div class="compare-card natural">
+        <div class="tag" style="color:var(--tip)">Americano Natural</div>
+        <div class="phrase">I get it!</div>
+        <div class="note">o que os nativos realmente dizem</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meaning-card" style="border-color:rgba(167,139,250,.4)">
+    <h4>Exemplos com ENTENDER</h4>
+    <table class="got-table">
+      <thead>
+        <tr>
+          <th>Inglês</th>
+          <th>Português</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:var(--c3)">I <strong>get</strong> it!</td><td>Entendi! / Sacei!</td></tr>
+        <tr><td style="color:var(--c3)">He <strong>gets</strong> the joke.</td><td>Ele entende a piada.</td></tr>
+        <tr><td style="color:var(--c3)">She <strong>gets</strong> it faster than anyone.</td><td>Ela entende mais rápido que todo mundo.</td></tr>
+        <tr><td style="color:var(--accent)">I <strong>got</strong> it!</td><td>Entendi! (já passou)</td></tr>
+        <tr><td style="color:var(--accent)">He <strong>got</strong> the joke.</td><td>Ele entendeu a piada.</td></tr>
+        <tr><td style="color:var(--accent)">They never <strong>got</strong> it.</td><td>Eles nunca entenderam.</td></tr>
+        <tr><td>I didn't <strong style="color:var(--c3)">get</strong> it.</td><td>Não entendi. (nunca "didn't got")</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ QUIZ ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(245,158,11,.15);color:var(--accent)">✎</div>
+    <div>
+      <div class="sec-title" style="color:var(--accent)">Quiz · Pratique GET</div>
+      <div class="sec-pt">escolha a forma correta</div>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quiz"></div>
+  <div class="score-bar" id="scorebar" style="display:none">
+    <div class="score-num" id="scorenum"></div>
+    <p id="scoremsg"></p>
+    <button class="btn btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</section>
+
+<!-- ═══ ERROS CLÁSSICOS ═══ -->
+<section class="sec">
+  <div class="sec-header">
+    <div class="sec-num" style="background:rgba(255,112,67,.12);color:var(--warn)">!</div>
+    <div>
+      <div class="sec-title" style="color:var(--warn)">Erros Clássicos</div>
+      <div class="sec-pt">o que brasileiros erram mais com GET</div>
+    </div>
+  </div>
+  <div class="errors-grid">
+    <div class="err-card">
+      <div><div class="err-wrong">I didn't got it.</div><div class="err-why">Negação usa GET, não GOT</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I didn't get it.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">She geted angry.</div><div class="err-why">GET é irregular — passado = GOT</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">She got angry.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">He get tired easily.</div><div class="err-why">He/She/It → GETS no presente</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">He gets tired easily.</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">Did she got the kids?</div><div class="err-why">DID + base form: DID + GET</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">Did she get the kids?</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">I understand it. (falando informal)</div><div class="err-why">Em conversa casual, nativos usam GET</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">I get it!</div></div>
+    </div>
+    <div class="err-card">
+      <div><div class="err-wrong">They getted excited.</div><div class="err-why">GET não tem "-ed" — passado = GOT</div></div>
+      <div class="err-arrow">→</div>
+      <div><div class="err-right">They got excited.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEGA SUMMARY ═══ -->
+<div class="mega">
+  <div class="mega-box">
+    <h2>Resumão · Verbo GET</h2>
+    <div class="mega-cols">
+      <div class="mega-col">
+        <h4 style="color:var(--c1)">Sentido 1 · FICAR</h4>
+        <ul>
+          <li><span>GET + adjetivo</span> = mudança de estado</li>
+          <li><span>get tired</span> → ficar cansado</li>
+          <li><span>get nervous</span> → ficar nervoso</li>
+          <li><span>get angry</span> → ficar bravo</li>
+          <li><span>get cold</span> → ficar com frio</li>
+          <li><span>get hungry</span> → ficar com fome</li>
+          <li><span>got excited</span> → ficou animado</li>
+        </ul>
+      </div>
+      <div class="mega-col">
+        <h4 style="color:var(--c2)">Sentido 2 · BUSCAR</h4>
+        <ul>
+          <li><span>GET + objeto</span> = buscar / pegar</li>
+          <li><span>get the kids</span> → buscar as crianças</li>
+          <li><span>get groceries</span> → pegar as compras</li>
+          <li><span>get coffee</span> → pegar café</li>
+          <li><span>got the bread</span> → pegou o pão</li>
+          <li><span>gets</span> = He/She/It (presente)</li>
+          <li><span>got</span> = todos no passado</li>
+        </ul>
+      </div>
+      <div class="mega-col">
+        <h4 style="color:var(--c3)">Sentido 3 · ENTENDER</h4>
+        <ul>
+          <li><span>I get it!</span> = entendi! sacei!</li>
+          <li><span>He gets the joke</span> = entende</li>
+          <li><span>I got it</span> = entendi (passado)</li>
+          <li><span>They never got it</span> = nunca entenderam</li>
+          <li>Mais natural que "understand"</li>
+          <li><span>didn't get</span> → NUNCA "didn't got"</li>
+          <li><span>GOT</span> = passado irregular único</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><a href="../index.html">← Voltar ao início</a></p>
+  <p style="margin-top:.4rem">Lição 17 de 25 · Módulo 03 · Inglês Visual para Brasileiros</p>
+  <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+</footer>
+
+<!-- THREE.JS HERO -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  var W=document.getElementById('heroWrap'),canvas=document.getElementById('c');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W.clientWidth/W.clientHeight,.1,100);
+  camera.position.set(0,1.2,9);
+  var controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.enableZoom=false;controls.autoRotate=true;controls.autoRotateSpeed=.5;
+
+  function resize(){
+    var w=W.clientWidth,h=W.clientHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();window.addEventListener('resize',resize);
+
+  var amber=0xF59E0B,c1=0xFB923C,c2=0x60A5FA,c3=0xA78BFA;
+  var white=0xffffff,muted=0x3a4a5a;
+
+  function sphere(r,col,rough){
+    var geo=new THREE.SphereGeometry(r,32,32);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:rough||.45,metalness:.3,emissive:col,emissiveIntensity:.08});
+    return new THREE.Mesh(geo,mat);
+  }
+
+  function ring(r,col,tube){
+    var geo=new THREE.TorusGeometry(r,tube||.012,12,80);
+    var mat=new THREE.MeshStandardMaterial({color:col,roughness:.6,metalness:.1,transparent:true,opacity:.35});
+    return new THREE.Mesh(geo,mat);
+  }
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0xffffff,.35));
+  var dir=new THREE.DirectionalLight(0xffffff,.8);dir.position.set(5,8,5);scene.add(dir);
+  var pt1=new THREE.PointLight(amber,1.2,15);pt1.position.set(-3,2,3);scene.add(pt1);
+  var pt2=new THREE.PointLight(c2,.8,12);pt2.position.set(4,-1,2);scene.add(pt2);
+
+  // Central GET sphere
+  var core=sphere(1.1,amber,.35);scene.add(core);
+
+  // GET label glow ring
+  var gR=ring(1.55,amber,.018);scene.add(gR);
+
+  // Inner conjugation orbit: GET / GETS / GOT
+  var conjData=[
+    {lbl:'GET',col:c1,angle:0},
+    {lbl:'GETS',col:c2,angle:Math.PI*2/3},
+    {lbl:'GOT',col:amber,angle:Math.PI*4/3}
+  ];
+  var conjOrbit=new THREE.Object3D();scene.add(conjOrbit);
+  var conjMeshes=[];
+  conjData.forEach(function(d){
+    var m=sphere(.38,d.col,.4);
+    m.position.set(Math.cos(d.angle)*2.6,Math.sin(d.angle)*.4,Math.sin(d.angle)*2.6);
+    conjOrbit.add(m);conjMeshes.push(m);
+    // small ring around each
+    var sr=ring(.52,d.col,.01);
+    sr.rotation.x=Math.PI/2;
+    m.add(sr);
+  });
+
+  // Outer meaning orbit: 3 sentidos
+  var meaningData=[
+    {col:c1,angle:0,r:.55,y:.3},
+    {col:c2,angle:Math.PI*2/3,r:.55,y:-.2},
+    {col:c3,angle:Math.PI*4/3,r:.55,y:.1}
+  ];
+  var outerOrbit=new THREE.Object3D();scene.add(outerOrbit);
+  var outerMeshes=[];
+  meaningData.forEach(function(d){
+    var m=sphere(d.r,d.col,.5);
+    m.position.set(Math.cos(d.angle)*5.2,d.y,Math.sin(d.angle)*5.2);
+    outerOrbit.add(m);outerMeshes.push(m);
+    // connector line
+    var pts=[new THREE.Vector3(0,0,0),new THREE.Vector3(Math.cos(d.angle)*5.2,d.y,Math.sin(d.angle)*5.2)];
+    var lg=new THREE.BufferGeometry().setFromPoints(pts);
+    var lm=new THREE.LineBasicMaterial({color:d.col,transparent:true,opacity:.18});
+    scene.add(new THREE.Line(lg,lm));
+  });
+
+  // Outer rings for meaning nodes
+  [c1,c2,c3].forEach(function(col,i){
+    var ang=i*Math.PI*2/3;
+    var orb=ring(5.8,col,.01);
+    orb.rotation.x=Math.PI/2 - .15 + i*.08;
+    orb.rotation.z=ang*.2;
+    scene.add(orb);
+  });
+
+  // Mini satellites (adjective particles)
+  var miniCols=[c1,c2,c3,amber,0x34D399,0xFBBF24,0x38BDF8];
+  miniCols.forEach(function(col,i){
+    var ang=i*Math.PI*2/miniCols.length;
+    var m=sphere(.18,col,.6);
+    m.position.set(Math.cos(ang)*3.9,Math.sin(ang*.7+1)*.5,Math.sin(ang)*3.9);
+    scene.add(m);
+  });
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.005;
+    controls.update();
+    core.rotation.y+=.003;
+    conjOrbit.rotation.y=t*.4;
+    outerOrbit.rotation.y=-t*.22;
+    gR.rotation.z+=.008;
+    conjMeshes.forEach(function(m,i){m.rotation.y+=.01;});
+    outerMeshes.forEach(function(m,i){m.rotation.y-=.008;});
+    renderer.render(scene,camera);
+  }
+  animate();
+})();
+</script>
+
+<!-- QUIZ JS -->
+<script>
+var QS=[
+  {s:'He ___ angry very easily.',opts:['get','gets','got','geted'],ans:'gets',why:'He/She/It → GETS no presente'},
+  {s:'I ___ tired after the long meeting.',opts:['gets','geted','got','get'],ans:'got',why:'Passado de GET = GOT (irregular)'},
+  {s:'She always ___ the kids from school.',opts:['get','gots','gets','got'],ans:'gets',why:'She → GETS no presente'},
+  {s:'They ___ excited about the game last night.',opts:['get','gets','geted','got'],ans:'got',why:'Passado = GOT para todos os pronomes'},
+  {s:'I didn\'t ___ the joke.',opts:['got','gots','gets','get'],ans:'get',why:'"didn\'t" + verbo base → didn\'t GET (nunca didn\'t got)'},
+  {s:'He ___ the joke every time.',opts:['get','gots','got','gets'],ans:'gets',why:'He + presente → GETS'},
+  {s:'I ___ it! Now I understand!',opts:['gets','got','geted','get'],ans:'get',why:'"I get it!" = entendi/sacei — presente'},
+  {s:'We ___ groceries on Sunday mornings.',opts:['gets','geted','got','get'],ans:'get',why:'We/They/I/You → GET no presente'},
+  {s:'She ___ nervous before every test.',opts:['gets','get','got','geted'],ans:'gets',why:'She → GETS no presente'},
+  {s:'Did you ___ the bread from the bakery?',opts:['gets','geted','got','get'],ans:'get',why:'DID + verbo base → DID GET (não DID GOT)'},
+  {s:'I ___ it immediately when he explained.',opts:['gets','get','geted','got'],ans:'got',why:'"I got it" = entendi (passado de get = got)'},
+  {s:'They never ___ cold at the beach.',opts:['gets','got','geted','get'],ans:'get',why:'They → GET no presente (never = frequência presente)'}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');
+  qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';card.id='qc'+i;
+    var opts=q.opts.slice().sort(function(){return Math.random()-.5});
+    card.innerHTML='<div class="q-num">Pergunta '+(i+1)+' de '+QS.length+'</div>'+
+      '<div class="q-sent">'+q.s.replace('___','<span class="q-blank">___</span>')+'</div>'+
+      '<div class="opts" id="opts'+i+'">'+
+        opts.map(function(o){return '<button class="opt" data-v="'+o+'" onclick="pick('+i+',this,\''+q.ans+'\')">'+o+'</button>';}).join('')+
+      '</div>'+
+      '<div class="q-feedback" id="fb'+i+'"></div>';
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,ans){
+  var fb=document.getElementById('fb'+i);
+  var card=document.getElementById('qc'+i);
+  var opts=document.querySelectorAll('#opts'+i+' .opt');
+  opts.forEach(function(o){o.disabled=true;});
+  if(btn.dataset.v===ans){
+    btn.className='opt selected-correct';card.className='q-card correct';
+    fb.className='q-feedback ok show';fb.textContent='✓ '+QS[i].why;score++;
+  } else {
+    btn.className='opt selected-wrong';card.className='q-card wrong';
+    fb.className='q-feedback nope show';fb.textContent='✗ Correto: '+ans+' — '+QS[i].why;
+    opts.forEach(function(o){if(o.dataset.v===ans)o.className='opt reveal-correct';});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');
+    sb.style.display='block';
+    document.getElementById('scorenum').textContent=score+'/'+QS.length;
+    var msgs=['Continue praticando!','Bom trabalho!','Muito bem!','Excelente!','Perfeito!'];
+    document.getElementById('scoremsg').textContent=msgs[Math.min(4,Math.floor(score/QS.length*4))];
+  }
+}
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+</script>
+</body>
+</html>

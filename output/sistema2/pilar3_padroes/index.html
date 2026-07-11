@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 3 — Padrões · Sistema 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--sf3:#1c2a3e;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);border-color:rgba(100,223,223,.6);}
+.gnav-s1.active{color:#64DFDF;border-color:#64DFDF;background:rgba(100,223,223,.12);box-shadow:0 0 10px rgba(100,223,223,.2);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.55);}
+.gnav-s2.active{color:#F5C518;border-color:#F5C518;background:rgba(245,197,24,.1);box-shadow:0 0 10px rgba(245,197,24,.2);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.6);}
+.gnav-s3.active{color:#A78BFA;border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.p{position:absolute;border-radius:50%;opacity:0;}
+@keyframes fp{0%,100%{opacity:0;transform:translateY(0)}15%{opacity:.12}85%{opacity:.06}50%{transform:translateY(-30px)}}
+/* NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--cy);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.8;flex-shrink:0;}
+.nav-back:hover{opacity:1;}.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;transition:opacity .2s;}.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-info{flex:1;min-width:0;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-prog{margin-left:auto;display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
+.nav-bar{width:100px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.nav-fill{height:100%;background:var(--am);border-radius:3px;transition:width .5s;}
+.nav-pct{font-size:.72rem;color:var(--am);font-weight:700;white-space:nowrap;}
+/* LAYOUT */
+.layout{display:flex;min-height:100vh;padding-top:108px;position:relative;z-index:1;}
+/* SIDEBAR */
+.sidebar{width:260px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--bd);padding:1rem .75rem;overflow-y:auto;height:calc(100vh - 108px);position:sticky;top:108px;}
+.sb-title{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.75rem;padding:0 .25rem;}
+.pb{width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:.55rem;padding:.55rem .75rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:.6rem;margin-bottom:.25rem;}
+.pb:hover{background:var(--sf2);border-color:var(--bd);}
+.pb.active{background:rgba(245,197,24,.08);border-color:rgba(245,197,24,.3);}
+.pb.mastered{opacity:.65;}
+.pb-num{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:700;color:var(--td);min-width:2rem;}
+.pb-text{font-size:.78rem;color:var(--tx);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pb.active .pb-text{color:var(--am);}
+.pb-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--td);display:flex;align-items:center;justify-content:center;font-size:.55rem;flex-shrink:0;transition:all .2s;}
+.pb.mastered .pb-check{background:var(--gn);border-color:var(--gn);color:#000;}
+/* MAIN */
+.main{flex:1;padding:2rem 2rem 4rem;max-width:700px;}
+/* PATTERN HEADER */
+.pat-num-badge{display:inline-block;padding:.2rem .65rem;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);border-radius:2rem;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--am);margin-bottom:.85rem;}
+.pat-display{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:800;color:var(--cy);line-height:1.2;margin-bottom:.4rem;}
+.pat-pt{font-size:1rem;color:var(--tm);margin-bottom:.9rem;}
+.tip-box{background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.2);border-radius:.65rem;padding:.7rem 1rem;margin-bottom:1.75rem;display:flex;gap:.6rem;align-items:flex-start;}
+.tip-icon{font-size:.9rem;flex-shrink:0;margin-top:.05rem;}
+.tip-text{font-size:.8rem;color:var(--tm);line-height:1.55;}
+/* SENTENCES */
+.sent-grid{display:flex;flex-direction:column;gap:.5rem;margin-bottom:2rem;}
+.sent-card{background:var(--sf);border:1px solid var(--bd);border-radius:.65rem;padding:.8rem 1rem;cursor:pointer;transition:all .2s;position:relative;}
+.sent-card:hover{border-color:rgba(100,223,223,.25);}
+.sent-card.revealed{border-color:rgba(100,223,223,.2);background:rgba(100,223,223,.04);}
+.sc-en{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);line-height:1.45;}
+.sc-en mark{background:none;color:var(--cy);}
+.sc-pt{font-size:.82rem;color:var(--gn);margin-top:.35rem;display:none;line-height:1.4;}
+.sent-card.revealed .sc-pt{display:block;}
+.sc-hint{font-size:.65rem;color:var(--td);margin-top:.3rem;}
+.sent-card.revealed .sc-hint{display:none;}
+/* CONTROLS */
+.pat-controls{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.btn-master{background:var(--gn);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;border:none;padding:.65rem 1.4rem;border-radius:.55rem;cursor:pointer;transition:all .2s;}
+.btn-master:hover{opacity:.85;}
+.btn-master.is-mastered{background:rgba(95,216,122,.15);color:var(--gn);border:1px solid rgba(95,216,122,.3);}
+.btn-reveal-all{background:none;border:1px solid var(--bd);color:var(--tm);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;padding:.65rem 1.1rem;border-radius:.55rem;cursor:pointer;transition:all .15s;}
+.btn-reveal-all:hover{border-color:var(--bdh);color:var(--tx);}
+.btn-nav{background:var(--sf2);border:1px solid var(--bd);color:var(--tm);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;padding:.65rem 1.1rem;border-radius:.55rem;cursor:pointer;transition:all .15s;margin-left:auto;}
+.btn-nav:hover{border-color:var(--bdh);color:var(--tx);}
+/* PROGRESS RING */
+.prog-summary{margin-top:2.5rem;padding:1.25rem;background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;display:flex;align-items:center;gap:1.25rem;}
+.prog-ring{flex-shrink:0;}
+.prog-info{flex:1;}
+.prog-info-title{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:var(--tx);margin-bottom:.2rem;}
+.prog-info-sub{font-size:.75rem;color:var(--td);}
+/* MOBILE */
+@media(max-width:680px){
+  .layout{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:static;overflow-x:auto;white-space:nowrap;border-right:none;border-bottom:1px solid var(--bd);padding:.65rem .5rem;display:flex;gap:.3rem;}
+  .sb-title{display:none;}
+  .pb{display:inline-flex;width:auto;padding:.4rem .65rem;margin-bottom:0;}
+  .pb-num{display:none;}
+  .pb-check{display:none;}
+  .main{padding:1.25rem 1rem 3rem;}
+  .pat-display{font-size:1.6rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../index.html" class="gnav-btn gnav-s2 active">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+<div class="particles" id="particles"></div>
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 2</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-info">
+    <div class="nav-title">Pilar 3 — Padrões</div>
+    <div class="nav-sub">Sistema 2 · 30 estruturas que desbloqueiam tudo</div>
+  </div>
+  <div class="nav-prog">
+    <div class="nav-bar"><div class="nav-fill" id="navFill" style="width:0%"></div></div>
+    <span class="nav-pct" id="navPct">0 / 30</span>
+  </div>
+</nav>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main" id="mainArea"></main>
+</div>
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const PATS = [
+  {p:"I need to...",pt:"Eu preciso de / Eu preciso...",tip:"Use para necessidades, obrigações e coisas pendentes. A estrutura mais usada em inglês para expressar urgência ou necessidade.",
+   s:[["I need to go.","Preciso ir."],["I need to sleep.","Preciso dormir."],["I need to call you.","Preciso te ligar."],["I need to think about it.","Preciso pensar nisso."],["I need to talk to someone.","Preciso falar com alguém."],["I need to focus.","Preciso me concentrar."],["I need to stop procrastinating.","Preciso parar de procrastinar."],["I need to make a decision.","Preciso tomar uma decisão."]]},
+  {p:"I want to...",pt:"Eu quero...",tip:"Expressa desejo ou vontade. Mais direto que 'I would like to'. Use no cotidiano — em lojas, prefira 'I'd like' para soar mais educado.",
+   s:[["I want to help.","Quero ajudar."],["I want to learn English.","Quero aprender inglês."],["I want to travel.","Quero viajar."],["I want to change my life.","Quero mudar minha vida."],["I want to be happy.","Quero ser feliz."],["I want to talk to you.","Quero falar com você."],["I want to understand.","Quero entender."],["I want to make a difference.","Quero fazer a diferença."]]},
+  {p:"I'm trying to...",pt:"Estou tentando...",tip:"Indica esforço em andamento — você está no processo. Diferente de 'I want to' (desejo) ou 'I need to' (necessidade), 'I'm trying to' mostra ação real acontecendo.",
+   s:[["I'm trying to sleep.","Estou tentando dormir."],["I'm trying to focus.","Estou tentando me concentrar."],["I'm trying to understand.","Estou tentando entender."],["I'm trying to be patient.","Estou tentando ser paciente."],["I'm trying to save money.","Estou tentando economizar dinheiro."],["I'm trying to lose weight.","Estou tentando perder peso."],["I'm trying to be a better person.","Estou tentando ser uma pessoa melhor."],["I'm trying to figure this out.","Estou tentando entender isso."]]},
+  {p:"I'm going to...",pt:"Vou... (futuro próximo)",tip:"Futuro com intenção ou plano já decidido. Na fala rápida vira 'I'm gonna...' — a forma mais usada pelos nativos.",
+   s:[["I'm going to call you later.","Vou te ligar mais tarde."],["I'm going to study tonight.","Vou estudar hoje à noite."],["I'm going to fix this.","Vou consertar isso."],["I'm going to make it work.","Vou fazer funcionar."],["I'm going to be honest.","Vou ser honesto."],["I'm going to try something different.","Vou tentar algo diferente."],["I'm going to need your help.","Vou precisar da sua ajuda."],["I'm going to be fine.","Vou ficar bem."]]},
+  {p:"I can't...",pt:"Não consigo / Não posso...",tip:"Expressa impossibilidade ou incapacidade. 'Can't' é a contração de 'cannot' — sempre use a contração na fala. Na escrita formal, use 'cannot' (uma palavra só).",
+   s:[["I can't believe it.","Não acredito."],["I can't stop thinking about it.","Não consigo parar de pensar nisso."],["I can't find my keys.","Não consigo achar minhas chaves."],["I can't sleep.","Não consigo dormir."],["I can't make it tonight.","Não vou conseguir ir hoje à noite."],["I can't do this alone.","Não consigo fazer isso sozinho."],["I can't promise anything.","Não posso prometer nada."],["I can't thank you enough.","Não tenho como agradecer o suficiente."]]},
+  {p:"I don't want to...",pt:"Não quero...",tip:"Recusa gentil ou expressão de preferência negativa. Muito mais natural que 'I do not want to' — sempre use a contração 'don't' na fala.",
+   s:[["I don't want to go.","Não quero ir."],["I don't want to talk about it.","Não quero falar sobre isso."],["I don't want to fight.","Não quero brigar."],["I don't want to be late.","Não quero me atrasar."],["I don't want to lose you.","Não quero te perder."],["I don't want to make things worse.","Não quero piorar as coisas."],["I don't want to be a burden.","Não quero ser um fardo."],["I don't want to overreact.","Não quero exagerar na reação."]]},
+  {p:"I didn't...",pt:"Eu não... (passado simples)",tip:"Passado negativo regular. Funciona para TODOS os verbos no passado simples — 'didn't' + verbo na forma base. Nunca use 'didn't went' — correto é 'didn't go'.",
+   s:[["I didn't mean it.","Não quis dizer isso."],["I didn't know.","Não sabia."],["I didn't see that coming.","Não esperava por isso."],["I didn't have time.","Não tinha tempo."],["I didn't sleep well.","Não dormi bem."],["I didn't expect this.","Não esperava isso."],["I didn't think it would matter.","Não achei que importaria."],["I didn't want to say anything.","Não queria dizer nada."]]},
+  {p:"I should...",pt:"Eu deveria...",tip:"Obrigação moral ou conselho — não tão forte quanto 'must' (obrigação absoluta). Perfeito para reconhecer o que seria certo fazer: 'I should call my mom' (mas talvez não ligue).",
+   s:[["I should call my mom.","Deveria ligar para minha mãe."],["I should go to bed earlier.","Deveria ir dormir mais cedo."],["I should eat better.","Deveria comer melhor."],["I should stop complaining.","Deveria parar de reclamar."],["I should be more patient.","Deveria ser mais paciente."],["I should save more money.","Deveria economizar mais dinheiro."],["I should take breaks.","Deveria fazer pausas."],["I should be grateful.","Deveria ser grato."]]},
+  {p:"I should have...",pt:"Eu deveria ter...",tip:"Arrependimento pelo passado — algo que não foi feito mas deveria. 'Should have' + participio passado. Na fala: 'I shoulda...' ou 'I should've...' É o padrão do remorso em inglês.",
+   s:[["I should have called you sooner.","Deveria ter te ligado antes."],["I should have studied more.","Deveria ter estudado mais."],["I should have listened.","Deveria ter ouvido."],["I should have said something.","Deveria ter dito algo."],["I should have been more careful.","Deveria ter sido mais cuidadoso."],["I should have trusted my gut.","Deveria ter confiado no meu instinto."],["I should have left earlier.","Deveria ter saído mais cedo."],["I should have asked for help.","Deveria ter pedido ajuda."]]},
+  {p:"I've been...",pt:"Tenho estado / Tenho... (lately)",tip:"Present perfect contínuo — algo que começou no passado e continua agora ou foi recente. 'I've been thinking about you' = comecei a pensar e ainda estou pensando.",
+   s:[["I've been busy.","Tenho estado ocupado."],["I've been thinking about you.","Tenho pensado em você."],["I've been stressed lately.","Tenho estado estressado ultimamente."],["I've been trying to reach you.","Tenho tentado te contatar."],["I've been working on it.","Tenho trabalhado nisso."],["I've been feeling off lately.","Tenho me sentido estranho ultimamente."],["I've been meaning to call.","Tenho pensado em ligar."],["I've been waiting for this.","Estava esperando por isso."]]},
+  {p:"I feel like...",pt:"Sinto que / Tenho vontade de...",tip:"Dois usos importantes: (1) 'I feel like crying' = tenho vontade de chorar; (2) 'I feel like something's wrong' = sinto que algo está errado. Contexto define o significado.",
+   s:[["I feel like giving up.","Sinto vontade de desistir."],["I feel like nobody understands.","Sinto que ninguém entende."],["I feel like something's wrong.","Sinto que algo está errado."],["I feel like we need to talk.","Sinto que precisamos conversar."],["I feel like I'm missing something.","Sinto que está faltando algo."],["I feel like crying.","Estou com vontade de chorar."],["I feel like a new person.","Me sinto uma pessoa nova."],["I feel like this is the right thing.","Sinto que isso é a coisa certa."]]},
+  {p:"What if...?",pt:"E se...?",tip:"Hipótese ou especulação. Use para explorar possibilidades, propor alternativas, ou expressar preocupação. Tom varia: curioso ('What if we tried?') ou ansioso ('What if I fail?').",
+   s:[["What if it doesn't work?","E se não funcionar?"],["What if I'm wrong?","E se eu estiver errado?"],["What if we try something else?","E se tentarmos outra coisa?"],["What if I told you the truth?","E se eu te dissesse a verdade?"],["What if this is our only chance?","E se esta for nossa única chance?"],["What if everything is fine?","E se tudo estiver bem?"],["What if I'm overthinking it?","E se eu estiver pensando demais?"],["What if we just go for it?","E se simplesmente formos em frente?"]]},
+  {p:"Have you ever...?",pt:"Você já...? (na vida)",tip:"Present perfect para experiências de vida — sem tempo específico. 'Have you ever been to New York?' = Em algum momento da sua vida. Responda com 'Yes, I have' ou 'No, I haven't'.",
+   s:[["Have you ever been to the US?","Você já foi aos EUA?"],["Have you ever tried sushi?","Você já experimentou sushi?"],["Have you ever felt this way?","Você já se sentiu assim?"],["Have you ever made a big mistake?","Você já cometeu um grande erro?"],["Have you ever regretted something?","Você já se arrependeu de algo?"],["Have you ever fallen in love?","Você já se apaixonou?"],["Have you ever pulled an all-nighter?","Você já ficou acordado a noite toda?"],["Have you ever quit something you started?","Você já desistiu de algo que começou?"]]},
+  {p:"Can you...?",pt:"Você pode / consegue...?",tip:"Pedido de habilidade ou favor. Mais direto que 'Could you' (mais formal/educado). Em situações casuais, 'Can you...' é perfeito. Em situações formais, prefira 'Could you...'.",
+   s:[["Can you help me?","Você pode me ajudar?"],["Can you hear me?","Você consegue me ouvir?"],["Can you explain that again?","Você pode explicar de novo?"],["Can you keep a secret?","Você consegue guardar um segredo?"],["Can you believe this?","Você consegue acreditar nisso?"],["Can you cover for me?","Você pode me cobrir?"],["Can you come over?","Você pode vir aqui?"],["Can you do me a favor?","Você pode me fazer um favor?"]]},
+  {p:"Would you...?",pt:"Você...? / Você gostaria de...?",tip:"Mais educado e formal que 'Will you'. Use para convites, pedidos educados e perguntas hipotéticas. 'Would you like' é o padrão para oferecer algo educadamente.",
+   s:[["Would you like some help?","Você gostaria de ajuda?"],["Would you mind closing the door?","Você se importaria de fechar a porta?"],["Would you be interested in...?","Você teria interesse em...?"],["Would you do it again?","Você faria de novo?"],["Would you forgive me?","Você me perdoaria?"],["Would you like to go out sometime?","Você gostaria de sair algum dia?"],["Would you ever move abroad?","Você algum dia moraria no exterior?"],["Would you rather stay home or go out?","Você prefere ficar em casa ou sair?"]]},
+  {p:"It's not...",pt:"Não é...",tip:"Negação de algo que parece ser de uma forma. 'It's not a big deal' contradiz a percepção de que é um problema. Muito usado para minimizar, consolar ou corrigir impressões.",
+   s:[["It's not a big deal.","Não é um grande problema."],["It's not what I expected.","Não é o que eu esperava."],["It's not your fault.","Não é culpa sua."],["It's not too late.","Não é tarde demais."],["It's not easy for me.","Não é fácil para mim."],["It's not fair.","Não é justo."],["It's not about the money.","Não é sobre o dinheiro."],["It's not what it looks like.","Não é o que parece."]]},
+  {p:"There's no...",pt:"Não há... / Não existe...",tip:"Indica ausência ou inexistência. Mais enfático que 'There isn't'. 'There's no time' soa mais urgente que 'There isn't time'. Use para dar peso à declaração.",
+   s:[["There's no easy answer.","Não há resposta fácil."],["There's no time to waste.","Não há tempo a perder."],["There's no excuse.","Não há desculpa."],["There's no way back.","Não há caminho de volta."],["There's no need to worry.","Não há necessidade de se preocupar."],["There's no such thing as perfect.","Perfeição não existe."],["There's no one I trust more.","Não há ninguém em quem eu confie mais."],["There's no place like home.","Não há lugar como o lar."]]},
+  {p:"I'm not sure...",pt:"Não tenho certeza...",tip:"Incerteza elegante — melhor que 'I don't know' (que pode soar abrupto). 'I'm not sure about this' abre espaço para diálogo. Essencial para soar natural e humilde.",
+   s:[["I'm not sure what to do.","Não tenho certeza do que fazer."],["I'm not sure if that's right.","Não tenho certeza se está certo."],["I'm not sure I can make it.","Não tenho certeza se consigo ir."],["I'm not sure I understand.","Não tenho certeza se entendi."],["I'm not sure about this.","Não tenho certeza sobre isso."],["I'm not sure she knows.","Não tenho certeza se ela sabe."],["I'm not sure it's worth it.","Não tenho certeza se vale a pena."],["I'm not sure I'm ready.","Não tenho certeza se estou pronto."]]},
+  {p:"The thing is...",pt:"A questão é... / O ponto é...",tip:"Marcador conversacional para introduzir a informação principal — geralmente uma complicação ou verdade que explica tudo. Muito usado em inglês americano coloquial.",
+   s:[["The thing is, I don't know.","A questão é que eu não sei."],["The thing is, it's complicated.","A questão é que é complicado."],["The thing is, I was wrong.","A questão é que eu estava errado."],["The thing is, I care too much.","A questão é que me importo demais."],["The thing is, time is running out.","A questão é que o tempo está acabando."],["The thing is, I already tried.","A questão é que já tentei."],["The thing is, I'm scared.","A questão é que estou com medo."],["The thing is, I really need this.","A questão é que realmente preciso disso."]]},
+  {p:"I'm so...",pt:"Estou tão... / Sou tão...",tip:"Intensificador emocional — 'so' amplifica o adjetivo. 'I'm so tired' é muito mais expressivo que 'I'm tired'. Nativos usam 'so' constantemente para dar ênfase emocional.",
+   s:[["I'm so tired.","Estou tão cansado."],["I'm so happy for you.","Estou tão feliz por você."],["I'm so sorry.","Sinto muito. / Estou tão arrependido."],["I'm so done with this.","Estou tão farto disso."],["I'm so confused.","Estou tão confuso."],["I'm so proud of you.","Tenho tanto orgulho de você."],["I'm so grateful.","Sou tão grato."],["I'm so excited about this.","Estou tão animado com isso."]]},
+  {p:"Make sure you...",pt:"Certifique-se de... / Não esqueça de...",tip:"Instrução com ênfase — mais forte que 'remember to'. Usado para dar lembretes importantes ou instruções críticas. Tom pode ser cuidadoso (pais com filhos) ou urgente.",
+   s:[["Make sure you eat.","Não esqueça de comer."],["Make sure you rest.","Certifique-se de descansar."],["Make sure you call me.","Não esqueça de me ligar."],["Make sure you don't forget.","Certifique-se de não esquecer."],["Make sure you lock the door.","Não esqueça de trancar a porta."],["Make sure you stay hydrated.","Certifique-se de se manter hidratado."],["Make sure you're on time.","Certifique-se de chegar na hora."],["Make sure you bring your ID.","Não esqueça de trazer sua identidade."]]},
+  {p:"I'm thinking about...",pt:"Estou pensando em...",tip:"Ideia ainda em processo — não é uma decisão, é uma consideração. 'I'm thinking about quitting' ≠ 'I'm going to quit'. Abre espaço para conversa sem comprometimento.",
+   s:[["I'm thinking about quitting.","Estou pensando em desistir."],["I'm thinking about moving.","Estou pensando em me mudar."],["I'm thinking about you.","Estou pensando em você."],["I'm thinking about changing careers.","Estou pensando em mudar de carreira."],["I'm thinking about taking a break.","Estou pensando em fazer uma pausa."],["I'm thinking about going back to school.","Estou pensando em voltar à escola."],["I'm thinking about the future.","Estou pensando no futuro."],["I'm thinking about what you said.","Estou pensando no que você disse."]]},
+  {p:"It sounds like...",pt:"Parece que... / Pelo que parece...",tip:"Conclusão baseada no que você ouviu — não em evidência direta. 'It sounds like you had a rough day' = baseado no que você me contou. Perfeito para mostrar que está ouvindo.",
+   s:[["It sounds like a plan.","Parece um plano."],["It sounds like you need help.","Parece que você precisa de ajuda."],["It sounds like a good idea.","Parece uma boa ideia."],["It sounds like she's upset.","Parece que ela está chateada."],["It sounds like things are improving.","Parece que as coisas estão melhorando."],["It sounds like it was your fault.","Parece que foi culpa sua."],["It sounds like you made the right call.","Parece que você tomou a decisão certa."],["It sounds like you had a rough day.","Parece que você teve um dia difícil."]]},
+  {p:"I ended up...",pt:"Acabei... / No final...",tip:"Resultado final inesperado ou diferente do planejado. 'I ended up' + gerúndio (-ing). 'I ended up staying home' = meu plano era sair, mas no final fiquei em casa.",
+   s:[["I ended up staying home.","Acabei ficando em casa."],["I ended up calling him.","Acabei ligando para ele."],["I ended up being right.","No final, eu tinha razão."],["I ended up loving it.","Acabei adorando."],["I ended up losing everything.","Acabei perdendo tudo."],["I ended up asking for help.","Acabei pedindo ajuda."],["I ended up changing my mind.","Acabei mudando de ideia."],["I ended up missing the flight.","Acabei perdendo o voo."]]},
+  {p:"That's why...",pt:"É por isso que...",tip:"Conecta causa e efeito de forma enfática. 'That's why I'm here' deixa claro o motivo. Muito mais natural e enfático que 'Because of that' ou 'For this reason'.",
+   s:[["That's why I'm here.","É por isso que estou aqui."],["That's why I called.","É por isso que liguei."],["That's why it didn't work.","É por isso que não funcionou."],["That's why I didn't say anything.","É por isso que não disse nada."],["That's why people like you.","É por isso que as pessoas gostam de você."],["That's why I trust you.","É por isso que confio em você."],["That's why I need more time.","É por isso que preciso de mais tempo."],["That's why this matters.","É por isso que isso importa."]]},
+  {p:"I wish...",pt:"Eu gostaria... / Queria que...",tip:"Desejo sobre algo impossível ou improvável no presente/futuro. Use 'I wish + passado' para situações atuais: 'I wish I knew' (mas não sei). Para passado: 'I wish I had...'",
+   s:[["I wish I knew.","Eu gostaria de saber."],["I wish you were here.","Gostaria que você estivesse aqui."],["I wish things were different.","Gostaria que as coisas fossem diferentes."],["I wish I had more time.","Gostaria de ter mais tempo."],["I wish I could help.","Gostaria de poder ajudar."],["I wish I had said something.","Gostaria de ter dito algo."],["I wish it were that simple.","Gostaria que fosse tão simples."],["I wish you could see what I see.","Gostaria que você visse o que vejo."]]},
+  {p:"Let's...",pt:"Vamos...",tip:"Proposta ou sugestão para fazer algo juntos. 'Let's' = 'Let us' — sempre seguido de verbo na forma base. Tom casual e direto. 'Let's go!' é uma das frases mais usadas do inglês.",
+   s:[["Let's go.","Vamos."],["Let's talk.","Vamos conversar."],["Let's figure this out together.","Vamos resolver isso juntos."],["Let's not make it weird.","Vamos não deixar isso ficar estranho."],["Let's be honest.","Vamos ser honestos."],["Let's try again.","Vamos tentar de novo."],["Let's make the most of today.","Vamos aproveitar ao máximo hoje."],["Let's not waste this opportunity.","Vamos não desperdiçar esta oportunidade."]]},
+  {p:"Stop...",pt:"Para de...",tip:"Ordem direta para cessar uma ação. 'Stop' + gerúndio (-ing). Diferente de 'Stop to do' (parar para fazer algo). 'Stop eating' = pare de comer. 'Stop to eat' = pare para comer.",
+   s:[["Stop worrying.","Para de se preocupar."],["Stop making excuses.","Para de arranjar desculpas."],["Stop comparing yourself to others.","Para de se comparar aos outros."],["Stop overthinking.","Para de pensar demais."],["Stop being so hard on yourself.","Para de ser tão duro consigo mesmo."],["Stop pretending everything is fine.","Para de fingir que está tudo bem."],["Stop ignoring the problem.","Para de ignorar o problema."],["Stop waiting for the perfect moment.","Para de esperar o momento perfeito."]]},
+  {p:"I realize...",pt:"Percebo / Me dou conta...",tip:"Reconhecimento de algo que ficou claro — pode ser sobre o presente ou uma tomada de consciência sobre o passado. Mais reflexivo que 'I know'. 'I realize' implica uma descoberta.",
+   s:[["I realize I was wrong.","Percebo que estava errado."],["I realize how lucky I am.","Percebo o quão sortudo sou."],["I realize this is bigger than I thought.","Percebo que isso é maior do que pensei."],["I realize I haven't been fair.","Percebo que não fui justo."],["I realize I take things for granted.","Percebo que dou as coisas como garantidas."],["I realize I need to change.","Percebo que preciso mudar."],["I realize time is precious.","Percebo que o tempo é precioso."],["I realize I was overreacting.","Percebo que estava exagerando."]]},
+  {p:"All I want is...",pt:"Tudo que quero é...",tip:"Expressa um desejo singular e intenso — como se todo o resto fosse irrelevante. Tom pode ser emocionado, simples ou até irónico. Muito poderoso para expressar prioridade absoluta.",
+   s:[["All I want is to be happy.","Tudo que quero é ser feliz."],["All I want is some peace and quiet.","Tudo que quero é um pouco de paz e silêncio."],["All I want is for you to be okay.","Tudo que quero é que você esteja bem."],["All I want is honesty.","Tudo que quero é honestidade."],["All I want is a chance.","Tudo que quero é uma chance."],["All I want is to make things right.","Tudo que quero é consertar as coisas."],["All I want is to feel understood.","Tudo que quero é me sentir compreendido."],["All I want is a good night's sleep.","Tudo que quero é uma boa noite de sono."]]}
+];
+// ── STATE ──────────────────────────────────────────────────────────────────
+const LS_KEY='p3_mastered';
+let mastered=new Set(JSON.parse(localStorage.getItem(LS_KEY)||'[]'));
+let cur=0;
+function save(){localStorage.setItem(LS_KEY,JSON.stringify([...mastered]));}
+function highlightPattern(text, pattern){
+  const base = pattern.replace('...','').trim();
+  const esc = base.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp('^('+esc+')','i'), '<mark>$1</mark>');
+}
+// ── PARTICLES ─────────────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('particles');
+  [['#64DFDF',8],['#F5C518',7],['#5FD87A',5]].forEach(([col,n])=>{
+    for(let i=0;i<n;i++){
+      const d=document.createElement('div');d.className='p';
+      const sz=2+Math.random()*4,x=Math.random()*100,y=Math.random()*100,dur=8+Math.random()*10,del=Math.random()*9;
+      d.style.cssText=`width:${sz}px;height:${sz}px;left:${x}%;top:${y}%;background:${col};animation:fp ${dur}s ${del}s infinite ease-in-out`;
+      c.appendChild(d);
+    }
+  });
+})();
+// ── SIDEBAR ───────────────────────────────────────────────────────────────
+function buildSidebar(){
+  const sb=document.getElementById('sidebar');
+  const isMobile=window.innerWidth<=680;
+  if(!isMobile){
+    sb.innerHTML='<div class="sb-title">30 Padrões</div>';
+  } else {
+    sb.innerHTML='';
+  }
+  PATS.forEach((pat,i)=>{
+    const btn=document.createElement('button');
+    btn.className='pb'+(i===cur?' active':'')+(mastered.has(i)?' mastered':'');
+    btn.innerHTML=`<span class="pb-num">P${String(i+1).padStart(2,'0')}</span><span class="pb-text">${pat.p}</span><span class="pb-check">${mastered.has(i)?'✓':''}</span>`;
+    btn.onclick=()=>{cur=i;buildSidebar();renderMain();};
+    sb.appendChild(btn);
+  });
+}
+// ── NAV PROGRESS ──────────────────────────────────────────────────────────
+function updateNav(){
+  const n=mastered.size;
+  document.getElementById('navFill').style.width=(n/30*100)+'%';
+  document.getElementById('navPct').textContent=n+' / 30';
+}
+// ── MAIN ──────────────────────────────────────────────────────────────────
+function renderMain(){
+  const pat=PATS[cur];
+  const isMastered=mastered.has(cur);
+  const prev=cur>0?cur-1:null;
+  const next=cur<29?cur+1:null;
+  const main=document.getElementById('mainArea');
+  let sentHTML=pat.s.map((s,i)=>`
+    <div class="sent-card" id="sc${i}" onclick="toggleSent(${i})">
+      <div class="sc-en">${highlightPattern(s[0],pat.p)}</div>
+      <div class="sc-pt">${s[1]}</div>
+      <div class="sc-hint">Clique para ver a tradução</div>
+    </div>`).join('');
+  main.innerHTML=`
+    <div class="pat-num-badge">Padrão ${String(cur+1).padStart(2,'0')} de 30</div>
+    <div class="pat-display">${pat.p}</div>
+    <div class="pat-pt">${pat.pt}</div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <span class="tip-text">${pat.tip}</span>
+    </div>
+    <div class="sent-grid">${sentHTML}</div>
+    <div class="pat-controls">
+      <button class="btn-master ${isMastered?'is-mastered':''}" onclick="toggleMaster()">${isMastered?'✓ Dominado':'✓ Marcar como dominado'}</button>
+      <button class="btn-reveal-all" onclick="revealAll()">Ver todas as traduções</button>
+      ${next!==null?`<button class="btn-nav" onclick="goTo(${next})">Próximo →</button>`:''}
+    </div>
+    <div class="prog-summary">
+      <svg class="prog-ring" width="54" height="54" viewBox="0 0 54 54">
+        <circle cx="27" cy="27" r="22" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="5"/>
+        <circle cx="27" cy="27" r="22" fill="none" stroke="${mastered.size>0?'#F5C518':'#6a7390'}" stroke-width="5"
+          stroke-dasharray="138.2" stroke-dashoffset="${138.2-(138.2*mastered.size/30)}"
+          stroke-linecap="round" transform="rotate(-90 27 27)" style="transition:stroke-dashoffset .5s"/>
+        <text x="27" y="32" text-anchor="middle" font-size="13" font-weight="800" fill="#F5C518" font-family="Space Grotesk">${mastered.size}</text>
+      </svg>
+      <div class="prog-info">
+        <div class="prog-info-title">${mastered.size} de 30 padrões dominados</div>
+        <div class="prog-info-sub">Domine todos os 30 e você terá um repertório de 240 frases prontas para usar.</div>
+      </div>
+    </div>`;
+  // scroll to top on mobile
+  if(window.innerWidth<=680) window.scrollTo({top:60,behavior:'smooth'});
+  updateNav();
+}
+function toggleSent(i){
+  const el=document.getElementById('sc'+i);
+  el.classList.toggle('revealed');
+}
+function revealAll(){
+  document.querySelectorAll('.sent-card').forEach(c=>c.classList.add('revealed'));
+}
+function toggleMaster(){
+  if(mastered.has(cur))mastered.delete(cur);else mastered.add(cur);
+  save();buildSidebar();renderMain();updateNav();
+}
+function goTo(i){cur=i;buildSidebar();renderMain();}
+// ── INIT ──────────────────────────────────────────────────────────────────
+buildSidebar();renderMain();
+window.addEventListener('resize',()=>buildSidebar());
+</script>
+</body>
+</html>

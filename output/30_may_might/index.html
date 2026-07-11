@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 30 — MAY · MIGHT | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c12;--surface:#0d1520;--surface2:#111e2c;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#f87171;
+  --cm:#60A5FA;--cmt:#A78BFA;--cp:#FBBF24;--cph:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,12,18,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(248,113,113,.12);color:var(--accent);border:1px solid rgba(248,113,113,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.75rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,13vw,9rem);font-weight:800;line-height:.9;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-title .vm{color:var(--cm)}
+.hero-title .dot{color:var(--muted);font-size:.45em}
+.hero-title .vmt{color:var(--cmt)}
+.hero-sub{font-size:clamp(.85rem,2vw,1.05rem);color:var(--muted);margin-bottom:2rem;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.hp{padding:.3rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;border-radius:.5rem;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.hp-m{color:var(--cm);background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.hp-mt{color:var(--cmt);background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.2)}
+.hp-p{color:var(--cp);background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:1.75rem;line-height:1.15}
+
+.uso-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:1.5rem}
+.uso-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.uso-num{width:2.2rem;height:2.2rem;border-radius:.55rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.9rem;flex-shrink:0}
+.un-m{background:rgba(96,165,250,.15);color:var(--cm)}
+.un-mt{background:rgba(167,139,250,.15);color:var(--cmt)}
+.un-p{background:rgba(251,191,36,.15);color:var(--cp)}
+.un-ph{background:rgba(52,211,153,.15);color:var(--cph)}
+.uso-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800}
+.utm{color:var(--cm)}
+.utmt{color:var(--cmt)}
+.utp{color:var(--cp)}
+.utph{color:var(--cph)}
+.uso-sub{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+
+.ex-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.ex-table th{padding:.55rem .9rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.ex-table td{padding:.65rem .9rem;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table .tipo{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.ex-table .en{font-family:'Space Grotesk',sans-serif;font-weight:600}
+.ex-table .pt{color:var(--muted);font-size:.83rem}
+.vbm{color:var(--cm)}
+.vbmt{color:var(--cmt)}
+.vbp{color:var(--cp)}
+.vbph{color:var(--cph)}
+
+/* PROBABILITY METER */
+.prob-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:1.25rem}
+.prob-title{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--muted);text-align:center;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.07em}
+.prob-bar-bg{height:1rem;background:rgba(255,255,255,.06);border-radius:999px;margin-bottom:.75rem;position:relative;overflow:hidden}
+.prob-bar-fill{height:100%;border-radius:999px;position:absolute;top:0;left:0;transition:width 1s ease}
+.prob-bar-m{width:60%;background:linear-gradient(90deg,var(--cm),rgba(96,165,250,.5))}
+.prob-bar-mt{width:35%;background:linear-gradient(90deg,var(--cmt),rgba(167,139,250,.5))}
+.prob-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.prob-labels .pl{font-family:'Space Grotesk',sans-serif;font-weight:700}
+.prob-labels .pl-m{color:var(--cm)}
+.prob-labels .pl-mt{color:var(--cmt)}
+.prob-examples{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:1rem}
+.prob-ex{background:rgba(0,0,0,.2);border-radius:.65rem;padding:.75rem}
+.prob-ex .pe-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.prob-ex.m .pe-label{color:var(--cm)}
+.prob-ex.mt .pe-label{color:var(--cmt)}
+.prob-ex .pe-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.88rem}
+.prob-ex .pe-pt{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+
+/* PERMISSION TABLE */
+.perm-table{width:100%;border-collapse:collapse;margin-bottom:1rem}
+.perm-table th{padding:.55rem .9rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.perm-table td{padding:.65rem .9rem;border-bottom:1px solid var(--border);font-size:.9rem}
+.perm-table tr:last-child td{border-bottom:none}
+.pt-reg{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .55rem;border-radius:.35rem}
+.pt-reg.inf{background:rgba(96,165,250,.1);color:var(--cm)}
+.pt-reg.for{background:rgba(251,191,36,.1);color:var(--cp)}
+.pt-reg.pol{background:rgba(167,139,250,.1);color:var(--cmt)}
+
+/* MAY HAVE / MIGHT HAVE */
+.past-formula{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;text-align:center;padding:.85rem;background:rgba(0,0,0,.25);border-radius:.75rem;margin-bottom:1.1rem}
+.past-formula .pf-m{color:var(--cm)}
+.past-formula .pf-mt{color:var(--cmt)}
+.past-formula .pf-v{color:var(--cph)}
+.past-formula .pf-x{color:var(--muted)}
+
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.tip-box p{color:var(--tip);font-size:.9rem}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--cm);background:rgba(96,165,250,.05)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cm),var(--cmt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#fff;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.75rem;margin-bottom:1.75rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.1rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em}
+.sum-item{font-size:.83rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(96,165,250,.2);border-radius:1rem;padding:1.1rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:600;color:var(--cm)}
+
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .prob-examples{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 05 · Verbos Modais</span>
+  <span class="nav-badge">A1–A2 · Lição 30 · MAY · MIGHT</span>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 05 · Lição 30</div>
+    <div class="hero-title">
+      <span class="vm">MAY</span>
+      <span class="dot"> · </span>
+      <span class="vmt">MIGHT</span>
+    </div>
+    <div class="hero-sub">Possibilidade, incerteza e permissão formal — graus diferentes de certeza</div>
+    <div class="hero-pills">
+      <span class="hp hp-m">MAY ~60% de certeza</span>
+      <span class="hp hp-mt">MIGHT ~30% de certeza</span>
+      <span class="hp hp-p">MAY I = permissão formal</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- USO 1: MAY -->
+<section class="section">
+  <div class="section-label">Uso 1</div>
+  <div class="section-title" style="color:var(--cm)">MAY — Possibilidade mais provável + Permissão formal</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-m">1</div>
+      <div>
+        <div class="uso-title utm">MAY = talvez / pode ser — ~50-60% de probabilidade</div>
+        <div class="uso-sub">Também usado para permissão FORMAL — mais educado que CAN</div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">It <span class="vbm">may</span> rain today.</td>
+          <td class="pt">Talvez chova hoje. (mais provável)</td>
+        </tr>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">She <span class="vbm">may</span> be right.</td>
+          <td class="pt">Pode ser que ela esteja certa.</td>
+        </tr>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">I <span class="vbm">may</span> go to the party.</td>
+          <td class="pt">Talvez eu vá à festa.</td>
+        </tr>
+        <tr>
+          <td class="tipo">permissão</td>
+          <td class="en"><span class="vbm">May</span> I come in?</td>
+          <td class="pt">Posso entrar? (formal)</td>
+        </tr>
+        <tr>
+          <td class="tipo">permissão</td>
+          <td class="en">You <span class="vbm">may</span> leave now.</td>
+          <td class="pt">Você pode sair agora. (formal)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>MAY = ~50–60%</strong> de probabilidade. Você acha provável, mas não tem certeza. Também é o modal mais formal para pedir permissão — mais elegante que CAN.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 2: MIGHT -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 2</div>
+  <div class="section-title" style="color:var(--cmt)">MIGHT — Possibilidade menos provável</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-mt">2</div>
+      <div>
+        <div class="uso-title utmt">MIGHT = talvez — ~30-40% de probabilidade</div>
+        <div class="uso-sub">Mais incerto que MAY — a dúvida é maior</div>
+      </div>
+    </div>
+
+    <!-- PROBABILITY METER -->
+    <div class="prob-wrap">
+      <div class="prob-title">Escala de certeza</div>
+      <div style="margin-bottom:.5rem;font-size:.8rem;color:var(--cm);font-family:'Space Grotesk',sans-serif;font-weight:700">MAY &nbsp;≈&nbsp; 50–60%</div>
+      <div class="prob-bar-bg"><div class="prob-bar-fill prob-bar-m"></div></div>
+      <div class="prob-labels"><span class="pl">0% (impossível)</span><span class="pl pl-m">MAY ✓</span><span class="pl">100% (certeza)</span></div>
+      <div style="margin-top:1rem;margin-bottom:.5rem;font-size:.8rem;color:var(--cmt);font-family:'Space Grotesk',sans-serif;font-weight:700">MIGHT &nbsp;≈&nbsp; 30–40%</div>
+      <div class="prob-bar-bg"><div class="prob-bar-fill prob-bar-mt"></div></div>
+      <div class="prob-labels"><span class="pl">0% (impossível)</span><span class="pl pl-mt">MIGHT ✓</span><span class="pl">100% (certeza)</span></div>
+
+      <div class="prob-examples" style="margin-top:1.25rem">
+        <div class="prob-ex m">
+          <div class="pe-label">MAY — mais provável</div>
+          <div class="pe-en">It may rain today.</div>
+          <div class="pe-pt">Vi nuvens escuras — acho que vai chover.</div>
+        </div>
+        <div class="prob-ex mt">
+          <div class="pe-label">MIGHT — menos provável</div>
+          <div class="pe-en">It might rain today.</div>
+          <div class="pe-pt">Talvez chova — mas não tenho certeza alguma.</div>
+        </div>
+      </div>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">She <span class="vbmt">might</span> be there.</td>
+          <td class="pt">Ela pode estar lá (não tenho certeza).</td>
+        </tr>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">I <span class="vbmt">might</span> call you later.</td>
+          <td class="pt">Talvez eu te ligue mais tarde.</td>
+        </tr>
+        <tr>
+          <td class="tipo">possib.</td>
+          <td class="en">He <span class="vbmt">might</span> know the answer.</td>
+          <td class="pt">Pode ser que ele saiba a resposta.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <p><strong>MIGHT não é "mais correto" que MAY</strong> — apenas indica menor certeza. Os dois são corretos; a escolha depende de quão provável você acha a situação.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 3: PERMISSÃO -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 3 — Permissão</div>
+  <div class="section-title" style="color:var(--cp)">MAY vs CAN vs COULD — Pedindo Permissão</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-p">3</div>
+      <div>
+        <div class="uso-title utp">Três formas de pedir permissão — do informal ao formal</div>
+        <div class="uso-sub">O contexto decide qual usar</div>
+      </div>
+    </div>
+
+    <table class="perm-table">
+      <thead><tr><th>Forma</th><th>Registro</th><th>Exemplo</th><th>Tradução</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--cm)">CAN</strong></td>
+          <td><span class="pt-reg inf">informal</span></td>
+          <td class="en">Can I sit here?</td>
+          <td style="color:var(--muted);font-size:.83rem">Posso sentar aqui?</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--cmt)">COULD</strong></td>
+          <td><span class="pt-reg pol">educado</span></td>
+          <td class="en">Could I sit here?</td>
+          <td style="color:var(--muted);font-size:.83rem">Poderia sentar aqui?</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--cp)">MAY</strong></td>
+          <td><span class="pt-reg for">formal</span></td>
+          <td class="en">May I sit here?</td>
+          <td style="color:var(--muted);font-size:.83rem">Posso sentar aqui? (formal)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:1rem">
+      <div style="background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.15);border-radius:.75rem;padding:.9rem">
+        <div style="font-size:.75rem;font-weight:700;color:var(--cp);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">Formal</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600">"May I help you?"</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:.2rem">em loja, reunião, situação profissional</div>
+      </div>
+      <div style="background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.15);border-radius:.75rem;padding:.9rem">
+        <div style="font-size:.75rem;font-weight:700;color:var(--cm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">Casual</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600">"Can I help you?"</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:.2rem">entre amigos, família, dia a dia</div>
+      </div>
+    </div>
+
+    <div class="tip-box" style="margin-top:1rem">
+      <p><strong>Na fala do dia a dia, CAN e COULD são os mais usados.</strong> MAY para permissão aparece mais em situações formais — lojas, reuniões, contextos profissionais.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USO 4: MAY HAVE / MIGHT HAVE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Uso 4 — Passado</div>
+  <div class="section-title" style="color:var(--cph)">MAY HAVE · MIGHT HAVE — Possibilidade no Passado</div>
+
+  <div class="uso-block">
+    <div class="uso-header">
+      <div class="uso-num un-ph">4</div>
+      <div>
+        <div class="uso-title utph">MAY / MIGHT HAVE + particípio = pode ter acontecido</div>
+        <div class="uso-sub">Algo que PODE ter acontecido no passado — não temos certeza</div>
+      </div>
+    </div>
+
+    <div class="past-formula">
+      <span class="pf-m">MAY</span><span class="pf-x"> / </span><span class="pf-mt">MIGHT</span>
+      <span class="pf-x"> HAVE + </span>
+      <span class="pf-v">particípio passado</span>
+    </div>
+
+    <table class="ex-table">
+      <thead><tr><th>Tipo</th><th>Inglês</th><th>Português</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">She <span class="vbm">may have</span> left already.</td>
+          <td class="pt">Ela pode já ter saído.</td>
+        </tr>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">He <span class="vbmt">might have</span> forgotten.</td>
+          <td class="pt">Pode ser que ele tenha esquecido.</td>
+        </tr>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">They <span class="vbm">may have</span> arrived by now.</td>
+          <td class="pt">Eles podem já ter chegado.</td>
+        </tr>
+        <tr>
+          <td class="tipo">passado</td>
+          <td class="en">She <span class="vbmt">might have</span> seen the message.</td>
+          <td class="pt">Talvez ela tenha visto a mensagem.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem">
+      <p style="color:var(--cph);font-size:.9rem"><strong>Contraste com SHOULD HAVE:</strong> MIGHT HAVE = possibilidade (pode ter acontecido) · SHOULD HAVE = arrependimento (deveria ter acontecido mas não aconteceu). São coisas diferentes!</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-label">Pratique</div>
+  <div class="quiz-title">Quiz — MAY · MIGHT</div>
+  <div class="quiz-sub">12 questões sobre possibilidade, permissão e passado.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com MAY e MIGHT</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>MAY / MIGHT + verbo base (sem TO, sem -S)</p>
+  </div>
+
+  <div class="sum-grid">
+    <div class="sum-card" style="border-color:rgba(96,165,250,.25)">
+      <h4 style="color:var(--cm)">MAY (~60%)</h4>
+      <div class="sum-item"><span class="en">It may rain today</span></div>
+      <div class="sum-item"><span class="en">She may be right</span></div>
+      <div class="sum-item">mais provável, mais certo</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(167,139,250,.25)">
+      <h4 style="color:var(--cmt)">MIGHT (~30%)</h4>
+      <div class="sum-item"><span class="en">It might rain today</span></div>
+      <div class="sum-item"><span class="en">I might call later</span></div>
+      <div class="sum-item">menos provável, mais incerto</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(251,191,36,.2)">
+      <h4 style="color:var(--cp)">MAY (permissão)</h4>
+      <div class="sum-item"><span class="en">May I come in?</span></div>
+      <div class="sum-item"><span class="en">May I help you?</span></div>
+      <div class="sum-item">formal — reuniões, lojas</div>
+    </div>
+    <div class="sum-card" style="border-color:rgba(52,211,153,.2)">
+      <h4 style="color:var(--cph)">PAST</h4>
+      <div class="sum-item"><span class="en">She may have left</span></div>
+      <div class="sum-item"><span class="en">He might have forgotten</span></div>
+      <div class="sum-item">+ particípio passado</div>
+    </div>
+  </div>
+
+  <div class="sum-rule">
+    <p>MAY I = posso? (formal) · CAN I = posso? (casual)</p>
+  </div>
+</section>
+
+<div class="footer-nav">
+  <a class="fnav-btn" href="../29_should/index.html">← Lição 29</a>
+  <div class="fnav-center">Lição 30 de 89 · Módulo 05</div>
+  <a class="fnav-btn" href="../31_would/index.html">Lição 31 →</a>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,14);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping=true;controls.dampingFactor=.06;
+  controls.autoRotate=true;controls.autoRotateSpeed=.5;
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.minPolarAngle=Math.PI*.25;controls.maxPolarAngle=Math.PI*.72;
+
+  scene.add(new THREE.AmbientLight(0x080c18,2));
+  var dl1=new THREE.DirectionalLight(0x60A5FA,3);dl1.position.set(6,8,4);scene.add(dl1);
+  var dl2=new THREE.DirectionalLight(0xA78BFA,2);dl2.position.set(-6,-4,4);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0xFBBF24,1.5);dl3.position.set(0,0,-6);scene.add(dl3);
+
+  // MAY — blue central icosahedron
+  var cGeo=new THREE.IcosahedronGeometry(1.8,5);
+  var cMat=new THREE.MeshStandardMaterial({color:0x60A5FA,emissive:0x60A5FA,emissiveIntensity:.3,roughness:.3,metalness:.7});
+  var cMesh=new THREE.Mesh(cGeo,cMat);scene.add(cMesh);
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.85,3),new THREE.MeshBasicMaterial({color:0x60A5FA,wireframe:true,opacity:.07,transparent:true})));
+
+  // MIGHT — purple inner orbit
+  var mtGrp=new THREE.Group();mtGrp.rotation.x=.3;scene.add(mtGrp);
+  var mtMat=new THREE.MeshStandardMaterial({color:0xA78BFA,emissive:0xA78BFA,emissiveIntensity:.4,roughness:.3,metalness:.5});
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),mtMat.clone());m.position.set(Math.cos(a)*4,Math.sin(a)*4,0);mtGrp.add(m);}
+  var rp=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp.push(new THREE.Vector3(Math.cos(a)*4,Math.sin(a)*4,0));}
+  mtGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp),new THREE.LineBasicMaterial({color:0xA78BFA,opacity:.12,transparent:true})));
+
+  // MAY HAVE — gold outer orbit
+  var mhGrp=new THREE.Group();mhGrp.rotation.x=-.25;mhGrp.rotation.z=.35;scene.add(mhGrp);
+  var mhMat=new THREE.MeshStandardMaterial({color:0xFBBF24,emissive:0xFBBF24,emissiveIntensity:.35,roughness:.3,metalness:.5});
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.25,12,12),mhMat.clone());m.position.set(Math.cos(a)*6.5,Math.sin(a)*6.5,0);mhGrp.add(m);}
+  var rp2=[];for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;rp2.push(new THREE.Vector3(Math.cos(a)*6.5,Math.sin(a)*6.5,0));}
+  mhGrp.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rp2),new THREE.LineBasicMaterial({color:0xFBBF24,opacity:.1,transparent:true})));
+
+  var sPos=new Float32Array(1500);for(var i=0;i<1500;i++)sPos[i]=(Math.random()-.5)*80;
+  var sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+  scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0xffffff,size:.06,transparent:true,opacity:.4})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.01;
+    cMesh.rotation.y=t*.3;cMesh.rotation.x=t*.1;
+    cMat.emissiveIntensity=.25+Math.sin(t*1.8)*.15;
+    mtGrp.rotation.y+=.02;mhGrp.rotation.y-=.012;
+    controls.update();renderer.render(scene,camera);
+  }
+  animate();
+  window.addEventListener('resize',function(){W=window.innerWidth;H=window.innerHeight;renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();});
+})();
+
+var QS=[
+  {s:'It ___ rain today — there are dark clouds.',opts:['may','mays','may to','may be'],ans:'may',why:"MAY + verbo base, sem -S e sem TO. 'It may rain' = talvez chova (mais provável pois você viu as nuvens)."},
+  {s:'I\'m not sure about the party. I ___ go.',opts:['might','mights','might to','might be going'],ans:'might',why:"MIGHT = menor probabilidade. 'I might go' = talvez eu vá — mas não estou muito certo."},
+  {s:'___ I come in? (pergunta formal)',opts:['May','Can','Would','Should'],ans:'May',why:"MAY I...? = pedido de permissão formal e educado. É mais formal que 'Can I...?'"},
+  {s:'"Can I sit here?" vs "___ I sit here?" — qual é mais formal?',opts:['May','Should','Would','Might'],ans:'May',why:"MAY é o modal mais formal para permissão. CAN = informal, COULD = educado, MAY = formal."},
+  {s:'She ___ have left already. Try calling.',opts:['may have','may had','might','mays have'],ans:'may have',why:"MAY HAVE + particípio = possibilidade no passado. 'She may have left' = ela pode já ter saído."},
+  {s:'He ___ have forgotten the meeting.',opts:['might have','might had','might has','might of'],ans:'might have',why:"MIGHT HAVE + particípio = possibilidade no passado (menor certeza). 'Might of' é erro — sempre HAVE."},
+  {s:'MAY indica ___ certeza que MIGHT.',opts:['mais','menos','igual','nenhuma'],ans:'mais',why:"MAY = ~50-60% de probabilidade. MIGHT = ~30-40%. MAY indica MAIS certeza que MIGHT."},
+  {s:'"May I help you?" é usado em qual contexto?',opts:['formal','informal','casual','familiar'],ans:'formal',why:"'May I help you?' é formal — usado em lojas, escritórios, situações profissionais. No dia a dia: 'Can I help you?'"},
+  {s:'She ___ be right — I hadn\'t thought of that.',opts:['may','mays','may to','might be has'],ans:'may',why:"MAY + verbo base, sem -S e sem TO. 'She may be right' = pode ser que ela esteja certa."},
+  {s:'They ___ arrived by now. Let\'s check.',opts:['may have','might had','may to have','mays have'],ans:'may have',why:"MAY HAVE + particípio = possibilidade no passado. 'They may have arrived' = eles podem já ter chegado."},
+  {s:'MIGHT NOT é usado para expressar:',opts:['possibilidade negativa','proibição','incapacidade','permissão negada'],ans:'possibilidade negativa',why:"MIGHT NOT = talvez não. É possibilidade negativa — 'It might not rain' = talvez não chova. Para proibição use MUSTN'T."},
+  {s:'Qual é o uso DUPLO do MAY?',opts:['possibilidade + permissão formal','passado + futuro','conselho + obrigação','negação + afirmação'],ans:'possibilidade + permissão formal',why:"MAY tem dois usos: (1) possibilidade — 'It may rain'; (2) permissão formal — 'May I come in?'. Os outros modais não têm esse duplo uso."}
+];
+
+var ERRORS=[
+  {wrong:'She mays go to the party.',right:'She may go to the party.',why:"MAY é igual para todos os pronomes — nunca 'mays'. Verbos modais não recebem -S para He/She/It."},
+  {wrong:'I might to call you later.',right:'I might call you later.',why:"MIGHT + verbo base, sem TO. Modais nunca usam TO antes do verbo principal (exceto OUGHT TO)."},
+  {wrong:'He might have forget his keys.',right:'He might have forgotten his keys.',why:"MIGHT HAVE + particípio passado de FORGET = 'forgotten', não 'forget'. O particípio é obrigatório."},
+  {wrong:'May I can sit here?',right:'May I sit here?',why:"Nunca use dois modais juntos. Escolha um: 'May I...?' OU 'Can I...?' — não os dois ao mesmo tempo."},
+  {wrong:'They might arrived already.',right:'They might have arrived already.',why:"Para possibilidade no passado: MIGHT HAVE + particípio. O HAVE é obrigatório — não pule."},
+  {wrong:'Might I come in? (pedindo permissão formal)',right:'May I come in?',why:"MIGHT não é usado para pedir permissão formal. Use MAY para pedidos formais e CAN/COULD para o cotidiano."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  document.getElementById('quiz').innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+q.s.replace('___','<span class="blank">___</span>')+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      btn.innerHTML='<span class="opt-letter">'+['A','B','C','D'][j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.appendChild(fb);
+    document.getElementById('quiz').appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  card.querySelectorAll('.opt-btn').forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    card.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent.trim().includes(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    document.getElementById('score-msg').textContent=pct<.5?'Continue praticando — foque na diferença MAY vs MIGHT!':pct<.75?'Bom progresso! Revise a escala de probabilidade.':pct<1?'Muito bem! Quase perfeito.':'Perfeito! Lição 30 dominada!';
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML='<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div><div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

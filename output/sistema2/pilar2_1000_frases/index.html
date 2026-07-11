@@ -1,0 +1,1371 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 2 — 1000 Frases · Sistema 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--sf3:#1c2a3e;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;padding-top:48px;}
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);border-color:rgba(100,223,223,.6);}
+.gnav-s1.active{color:#64DFDF;border-color:#64DFDF;background:rgba(100,223,223,.12);box-shadow:0 0 10px rgba(100,223,223,.2);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.55);}
+.gnav-s2.active{color:#F5C518;border-color:#F5C518;background:rgba(245,197,24,.1);box-shadow:0 0 10px rgba(245,197,24,.2);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.6);}
+.gnav-s3.active{color:#A78BFA;border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.p{position:absolute;border-radius:50%;opacity:0;}
+@keyframes fp{0%,100%{opacity:0;transform:translateY(0)}15%{opacity:.12}85%{opacity:.06}50%{transform:translateY(-35px)}}
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--cy);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.8;}
+.nav-back:hover{opacity:1;}.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;transition:opacity .2s;}.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-info{flex:1;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;}
+.nav-sub{font-size:.72rem;color:var(--td);}
+.nav-stat{margin-left:auto;text-align:right;}
+.nav-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--cy);}
+.nav-stat-l{font-size:.68rem;color:var(--td);}
+.wrap{padding-top:112px;position:relative;z-index:1;}
+/* LEVEL TABS */
+.lvl-tabs{overflow-x:auto;border-bottom:1px solid var(--bd);background:var(--sf);scrollbar-width:none;}
+.lvl-tabs::-webkit-scrollbar{display:none;}
+.lvl-inner{display:flex;min-width:max-content;padding:0 1rem;}
+.ltab{background:none;border:none;border-bottom:3px solid transparent;padding:.75rem 1rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--td);white-space:nowrap;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:.15rem;}
+.ltab:hover{color:var(--tx);}
+.ltab.active{color:var(--cy);border-bottom-color:var(--cy);}
+.ltab-name{font-size:.72rem;}
+.ltab-prog{font-size:.6rem;font-weight:400;}
+/* TOOLBAR */
+.toolbar{padding:.85rem 1.2rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--bd);background:var(--sf);}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-wrap svg{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;}
+.search{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.5rem .75rem .5rem 2.1rem;color:var(--tx);font-size:.85rem;font-family:'Inter',sans-serif;}
+.search:focus{outline:none;border-color:var(--cy);}
+.filter-group{display:flex;gap:.3rem;}
+.fbtn{background:none;border:1px solid var(--bd);border-radius:.45rem;padding:.4rem .75rem;font-size:.75rem;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--td);cursor:pointer;transition:all .15s;}
+.fbtn:hover{color:var(--tx);border-color:var(--bdh);}
+.fbtn.on{background:rgba(100,223,223,.1);border-color:rgba(100,223,223,.35);color:var(--cy);}
+.mode-btn{background:var(--sf2);border:1px solid var(--bd);border-radius:.45rem;padding:.4rem .85rem;font-size:.75rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--tm);cursor:pointer;transition:all .15s;margin-left:auto;}
+.mode-btn:hover{color:var(--tx);}
+.mode-btn.flash{background:rgba(245,197,24,.08);border-color:rgba(245,197,24,.3);color:var(--am);}
+/* LEVEL HEADER */
+.lvl-hdr{padding:.9rem 1.2rem .4rem;display:flex;align-items:center;gap:.75rem;}
+.lvl-hdr-name{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--tx);}
+.lvl-hdr-desc{font-size:.75rem;color:var(--td);}
+.lvl-hdr-bar{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;min-width:60px;}
+.lvl-hdr-fill{height:100%;background:var(--cy);border-radius:2px;transition:width .4s;}
+.lvl-hdr-pct{font-size:.72rem;color:var(--cy);font-weight:700;white-space:nowrap;}
+/* LIST */
+.phrase-list{padding:.5rem 1rem 3rem;}
+.pcard{background:var(--sf);border:1px solid var(--bd);border-radius:.65rem;padding:.75rem 1rem;margin-bottom:.45rem;display:flex;align-items:flex-start;gap:.75rem;transition:border-color .15s;cursor:default;}
+.pcard:hover{border-color:var(--bdh);}
+.pcard.learned{opacity:.6;}
+.pcard.learned .pc-en{color:var(--td);}
+.pnum{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;color:var(--td);min-width:2.2rem;padding-top:.15rem;}
+.pc-body{flex:1;min-width:0;}
+.pc-en{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--cy);line-height:1.4;margin-bottom:.15rem;}
+.pc-pt{font-size:.82rem;color:var(--tm);line-height:1.4;}
+.pc-note{display:inline-flex;align-items:center;gap:.3rem;margin-top:.3rem;padding:.2rem .5rem;border-radius:.3rem;font-size:.68rem;font-weight:600;}
+.pc-note.F{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);color:var(--am);}
+.pc-note.M{background:rgba(100,223,223,.07);border:1px solid rgba(100,223,223,.2);color:var(--cy);}
+.star-btn{flex-shrink:0;background:none;border:none;cursor:pointer;font-size:1.15rem;opacity:.35;transition:all .15s;padding:.1rem;}
+.star-btn:hover{opacity:.7;}
+.star-btn.on{opacity:1;}
+/* FLASHCARD */
+.flash-area{padding:1.5rem 1.2rem;display:none;flex-direction:column;align-items:center;gap:1rem;min-height:60vh;}
+.flash-area.show{display:flex;}
+.fcard{background:var(--sf);border:1px solid var(--bd);border-radius:1.25rem;padding:2rem;width:100%;max-width:560px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.fcard::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(100,223,223,.04),transparent);pointer-events:none;}
+.fcard:hover{border-color:rgba(100,223,223,.3);}
+.fc-num{font-size:.7rem;color:var(--td);font-weight:700;margin-bottom:1rem;}
+.fc-en{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:800;color:var(--cy);text-align:center;line-height:1.45;}
+.fc-pt{font-size:1rem;color:var(--gn);text-align:center;margin-top:.75rem;display:none;}
+.fc-note{font-size:.75rem;color:var(--am);text-align:center;margin-top:.5rem;display:none;}
+.fc-hint{font-size:.72rem;color:var(--td);margin-top:1rem;}
+.flash-ctrl{display:flex;gap:.65rem;align-items:center;}
+.fc-btn{background:var(--sf2);border:1px solid var(--bd);border-radius:.55rem;padding:.55rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--tm);cursor:pointer;transition:all .15s;}
+.fc-btn:hover{color:var(--tx);border-color:var(--bdh);}
+.fc-pos{font-size:.78rem;color:var(--td);}
+.fc-mark-wrap{display:flex;gap:.5rem;}
+.fc-yes{background:rgba(95,216,122,.1);border:1px solid rgba(95,216,122,.3);color:var(--gn);}
+.fc-no{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);color:#f87171;}
+/* EMPTY */
+.empty{padding:3rem;text-align:center;color:var(--td);font-size:.88rem;}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../index.html" class="gnav-btn gnav-s2 active">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+<div class="particles" id="particles"></div>
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 2</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-info">
+    <div class="nav-title">Pilar 2 — 1000 Frases</div>
+    <div class="nav-sub">Sistema 2 · do básico à fluência</div>
+  </div>
+  <div class="nav-stat">
+    <div class="nav-stat-n" id="navLearned">0</div>
+    <div class="nav-stat-l">aprendidas</div>
+  </div>
+</nav>
+<div class="wrap">
+  <div class="lvl-tabs"><div class="lvl-inner" id="lvlTabs"></div></div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search" id="searchBox" placeholder="Buscar frase..." type="text">
+    </div>
+    <div class="filter-group">
+      <button class="fbtn on" data-f="all">Todas</button>
+      <button class="fbtn" data-f="todo">A aprender</button>
+      <button class="fbtn" data-f="done">Aprendidas</button>
+    </div>
+    <button class="mode-btn" id="modeBtn">⚡ Flashcard</button>
+  </div>
+  <div class="lvl-hdr" id="lvlHdr"></div>
+  <div class="phrase-list" id="phraseList"></div>
+  <div class="flash-area" id="flashArea">
+    <div class="fcard" id="fcard" onclick="fcReveal()">
+      <div class="fc-num" id="fcNum"></div>
+      <div class="fc-en" id="fcEn"></div>
+      <div class="fc-pt" id="fcPt"></div>
+      <div class="fc-note" id="fcNote"></div>
+      <div class="fc-hint" id="fcHint">Clique para revelar a tradução</div>
+    </div>
+    <div class="flash-ctrl">
+      <button class="fc-btn" onclick="fcPrev()">← Anterior</button>
+      <span class="fc-pos" id="fcPos"></span>
+      <button class="fc-btn" onclick="fcNext()">Próxima →</button>
+    </div>
+    <div class="fc-mark-wrap" id="fcMarkWrap" style="display:none">
+      <button class="fc-btn fc-yes" onclick="fcMark(true)">✓ Aprendi</button>
+      <button class="fc-btn fc-no" onclick="fcMark(false)">✗ Rever depois</button>
+    </div>
+  </div>
+</div>
+<script>
+// ── LEVELS ─────────────────────────────────────────────────────────────────
+const LVLS=[
+  {id:1,name:"N1 Sobrevivência",range:"1–100",desc:"Sim, Não, Pedidos, Apresentações, Cotidiano"},
+  {id:2,name:"N2 Presença",range:"101–200",desc:"Chegando, Contando, Resolvendo tarefas"},
+  {id:3,name:"N3 Rotina",range:"201–300",desc:"Hábitos, Trabalho, Casa, Saúde, Lazer"},
+  {id:4,name:"N4 Relação",range:"301–400",desc:"Amizade, Amor, Família, Conflito"},
+  {id:5,name:"N5 Opinião",range:"401–500",desc:"Argumentar, Crenças, Valores pessoais"},
+  {id:6,name:"N6 Negociação",range:"501–600",desc:"Pedir, Recusar, Combinar, Acordos"},
+  {id:7,name:"N7 Naturalidade",range:"601–700",desc:"Expressões idiomáticas, Fillers, Provérbios"},
+  {id:8,name:"N8 Série/Filme",range:"701–800",desc:"Contrações, Gírias, Reações de fã"},
+  {id:9,name:"N9 Emoção",range:"801–900",desc:"Alegria, Raiva, Medo, Gratidão, Amor"},
+  {id:10,name:"N10 Fluência",range:"901–1000",desc:"Insight, Sabedoria, Filosofia, Liderança"}
+];
+// ── PHRASES ────────────────────────────────────────────────────────────────
+// Format: [english, portuguese, noteType('F'|'M'|''), note]
+const P=[
+// N1 — Sobrevivência (1–100)
+["Yes. / Yeah. / Yep.","Sim. (formal → informal → muito informal)","F",'"yeah" e "yep" são os mais usados. "Yes" soa formal demais no dia a dia.'],
+["No. / Nope. / No way.","Não. / De jeito nenhum.","F",'"nope" é casual, "no way" é ênfase — "De forma alguma!"'],
+["I don't know. / I have no idea. / No clue.","Eu não sei. / Não faço ideia.","F",'"I dunno" = I don\'t know contraído'],
+["Maybe. / Probably. / I think so.","Talvez. / Provavelmente. / Acho que sim.","",""],
+["Of course. / Sure. / Absolutely.","Claro. / Com certeza.","F",'"sure" é o mais natural no dia a dia americano'],
+["I'm not sure. / I'm not sure about that.","Não tenho certeza.","",""],
+["It depends. / Depends on the situation.","Depende. / Depende da situação.","M",'Em inglês é "it depends", nunca só "depends" sem o "it"'],
+["Really? / Are you serious? / No way!","Sério? / Não acredito!","",""],
+["Exactly. / That's right. / Correct.","Exatamente. / Isso mesmo.","",""],
+["Not really. / Not exactly. / Kind of.","Na verdade não. / Mais ou menos.","F",'"kinda" = kind of'],
+["I guess so. / I suppose so.","Suponho que sim. / Acho que sim.","",""],
+["We'll see. / Let's see.","A gente vê. / Vamos ver.","",""],
+["Who knows? / Hard to say.","Quem sabe? / Difícil dizer.","",""],
+["Fine. / Okay. / Alright.","Tudo bem. / Ok.","F",'"alright" → "aight" em fala muito informal'],
+["Whatever. / Doesn't matter.","Tanto faz. / Não importa.","",""],
+["Can I have...? / I'd like...","Posso ter...? / Eu gostaria de...","",""],
+["Can you help me? / I need help.","Você pode me ajudar? / Preciso de ajuda.","",""],
+["Where is the bathroom? / Where's the restroom?","Onde fica o banheiro?","M",'"restroom" é mais educado que "bathroom" em público'],
+["How much does it cost? / How much is it?","Quanto custa?","",""],
+["I need... / I want... / I'd like...","Preciso de... / Quero... / Gostaria de...","M",'"I\'d like" é mais educado que "I want" em lojas e restaurantes'],
+["Can I get...? / Let me get...","Posso pegar...?","F",'"Let me get a coffee" — fala natural nos EUA'],
+["Do you have...? / Is there...?","Vocês têm...? / Tem...?","",""],
+["I'm looking for...","Estou procurando...","",""],
+["Can you repeat that? / Sorry?","Pode repetir? / Como?","F",'"Sorry?" com entonação de pergunta = "Como?" em inglês britânico'],
+["Can you speak slowly, please?","Pode falar devagar, por favor?","",""],
+["I don't understand. / I didn't catch that.","Não entendi. / Não peguei.","",""],
+["What does ___ mean?","O que significa ___?","",""],
+["How do you say ___ in English?","Como se diz ___ em inglês?","",""],
+["I'm lost. / Can you show me on the map?","Estou perdido. / Pode me mostrar no mapa?","",""],
+["Call the police! / Call an ambulance!","Chame a polícia! / Chame uma ambulância!","",""],
+["Hi! / Hey! / Hello!","Oi! / Olá!","F",'"hey" é o mais comum entre amigos'],
+["How are you? / How's it going? / What's up?","Como você está? / E aí?","F",'"what\'s up?" = "wassup?" — resposta natural: "not much"'],
+["I'm fine, thanks. / Pretty good. / Not bad.","Estou bem, obrigado. / Muito bem. / Nada mal.","",""],
+["My name is ___. / I'm ___.","Meu nome é ___. / Eu sou ___.","F",'"I\'m Tom" é mais natural que "My name is Tom"'],
+["Nice to meet you. / Good to meet you.","Prazer em conhecer você.","",""],
+["Where are you from? / I'm from Brazil.","De onde você é? / Sou do Brasil.","",""],
+["What do you do? / I'm a ___.","O que você faz? / Sou ___.","M",'"What do you do?" = profissão, não atividade no momento'],
+["How old are you? / I'm ___ years old.","Quantos anos você tem?","",""],
+["Do you speak English? / A little.","Você fala inglês? / Um pouco.","",""],
+["I'm learning English.","Estou aprendendo inglês.","",""],
+["My English isn't perfect.","Meu inglês não é perfeito.","",""],
+["Please be patient with me.","Por favor tenha paciência comigo.","",""],
+["See you later. / See you tomorrow. / Bye!","Até mais. / Até amanhã. / Tchau!","F",'"see ya" = see you'],
+["Take care. / Have a good one.","Cuida-se. / Tenha um bom dia.","",""],
+["Good morning / afternoon / evening / night.","Bom dia / boa tarde / boa noite (chegando) / boa noite (saindo)","",""],
+["Welcome! / Come in!","Bem-vindo! / Entre!","",""],
+["Make yourself at home.","Fique à vontade.","",""],
+["Can I introduce you to ___?","Posso te apresentar a ___?","",""],
+["We've met before, right?","Já nos conhecemos, certo?","",""],
+["I've heard a lot about you.","Já ouvi muito sobre você.","",""],
+["I'm hungry. / I'm starving.","Estou com fome. / Estou morrendo de fome.","",""],
+["I'm thirsty. / Can I get some water?","Estou com sede. / Pode me dar água?","",""],
+["I'm tired. / I'm exhausted.","Estou cansado. / Estou exausto.","F",'"I\'m beat" = estou destruído de cansaço'],
+["I'm late. / I'm running late.","Estou atrasado. / Estou me atrasando.","M",'"running late" soa mais natural que apenas "late"'],
+["I'm on my way. / I'll be there in 10 minutes.","Estou a caminho. / Estarei aí em 10 minutos.","",""],
+["Traffic is bad today.","O trânsito está ruim hoje.","",""],
+["I'm stuck in traffic.","Estou preso no trânsito.","",""],
+["I'll be right back.","Já volto. / Volto já.","",""],
+["Give me a minute. / Just a second.","Me dá um minuto. / Um segundo.","",""],
+["Hold on. / Wait a moment.","Espera. / Aguarda um momento.","",""],
+["I forgot. / It slipped my mind.","Esqueci. / Saiu da minha cabeça.","",""],
+["I remember now. / It just hit me.","Lembrei agora. / Acabou de me ocorrer.","",""],
+["I have to go. / I gotta go.","Tenho que ir.","F",'"gotta" = got to / have to'],
+["I'm in a hurry. / I don't have time.","Estou com pressa. / Não tenho tempo.","",""],
+["No problem. / Don't worry about it.","Sem problema. / Não se preocupe.","",""],
+["It's fine. / Everything is okay.","Tudo bem. / Está tudo certo.","",""],
+["That's great! / Awesome! / Amazing!","Que ótimo! / Incrível!","",""],
+["That's too bad. / I'm sorry to hear that.","Que pena. / Sinto muito ouvir isso.","",""],
+["Congratulations! / Well done!","Parabéns!","",""],
+["Good luck! / You've got this!","Boa sorte! / Você consegue!","",""],
+["What time is it? / Do you have the time?","Que horas são?","",""],
+["I'll be back at ___.","Estarei de volta às ___.","",""],
+["Can we meet at ___?","Podemos nos encontrar às ___?","",""],
+["Let me check my schedule.","Deixa eu verificar minha agenda.","",""],
+["I have plans. / I'm busy that day.","Tenho planos. / Estou ocupado nesse dia.","",""],
+["Can we reschedule?","Podemos remarcar?","",""],
+["That works for me. / That doesn't work for me.","Isso funciona / não funciona para mim.","",""],
+["I'm free on ___.","Estou livre na/no ___.","",""],
+["What are you doing this weekend?","O que você vai fazer neste fim de semana?","",""],
+["Are you free tonight?","Você está livre hoje à noite?","",""],
+["Let's hang out. / Want to grab a coffee?","Vamos sair. / Quer tomar um café?","",""],
+["That sounds good. / I'm in!","Parece bom. / Tô dentro!","",""],
+["Where do you want to go?","Onde você quer ir?","",""],
+["It's up to you. / You decide.","É com você. / Você decide.","",""],
+["I don't mind. / Either way is fine.","Não me importo. / Qualquer um dos dois tá bom.","",""],
+["What do you feel like eating?","O que você está com vontade de comer?","",""],
+["I could go for pizza right now.","Eu comeria uma pizza agora.","M",'"I could go for..." = "Eu comeria/beberia/faria..." com vontade'],
+["Let's order in. / Let's eat out.","Vamos pedir delivery. / Vamos comer fora.","",""],
+["The check, please. / Can we get the bill?","A conta, por favor.","",""],
+["Let's split it. / It's on me.","Vamos rachar. / Eu pago.","",""],
+["Keep the change.","Pode ficar com o troco.","",""],
+["Excuse me. / Pardon me. / Sorry!","Com licença. / Perdão. / Desculpe!","M",'"excuse me" para passar / "sorry" para erros / "pardon?" para não entender'],
+["That's okay. / No worries.","Tudo bem. / Sem problema.","",""],
+["My mistake. / My bad.","Foi erro meu. / Culpa minha.","F",'"my bad" é muito informal mas super usado'],
+["I owe you one. / You saved me.","Te devo uma. / Você me salvou.","",""],
+["Thank you so much. / I really appreciate it.","Muito obrigado. / Agradeço de verdade.","",""],
+["You're welcome. / No problem. / Anytime.","De nada. / Sem problema. / Quando quiser.","",""],
+["I can't thank you enough.","Não tenho como agradecer o suficiente.","",""],
+["That means a lot to me.","Isso significa muito para mim.","",""],
+["I'm so grateful.","Sou muito grato.","",""],
+// N2 — Presença (101–200)
+["I'm here. / I made it. / I arrived.","Cheguei. / Consegui chegar.","",""],
+["I'm home. / I'm finally home.","Estou em casa. / Finalmente em casa.","",""],
+["I'm at work. / I'm at the office.","Estou no trabalho. / Estou no escritório.","",""],
+["I'm on my break. / I'm on lunch.","Estou no meu intervalo. / Estou no almoço.","",""],
+["I just got here. / I just arrived.","Acabei de chegar.","F",'"just" = "acabei de" — muito usado para passado recente'],
+["I've been here for an hour.","Estou aqui há uma hora.","",""],
+["I'm waiting for someone.","Estou esperando alguém.","",""],
+["They're running late.","Eles estão atrasados.","",""],
+["I've been waiting for 20 minutes.","Estou esperando há 20 minutos.","",""],
+["Are you ready? / Almost ready.","Está pronto? / Quase pronto.","",""],
+["Let's go! / Let's get going.","Vamos! / Vamos indo.","",""],
+["After you. / Go ahead.","Depois de você. / Pode ir.","",""],
+["Follow me. / This way, please.","Me siga. / Por aqui, por favor.","",""],
+["Watch out! / Be careful!","Cuidado!","",""],
+["Are you okay? / You alright?","Você está bem?","",""],
+["I'm okay. / I'm fine. / Just tired.","Estou bem. / Só cansado.","",""],
+["I don't feel well. / I feel sick.","Não estou me sentindo bem. / Estou me sentindo mal.","",""],
+["I have a cold. / I have a headache.","Estou resfriado. / Estou com dor de cabeça.","",""],
+["I need some rest. / I need to lie down.","Preciso descansar. / Preciso me deitar.","",""],
+["I'll be fine. / I just need some sleep.","Vou ficar bem. / Só preciso dormir.","",""],
+["What happened? / What's going on?","O que aconteceu? / O que está acontecendo?","",""],
+["Tell me what happened.","Me conta o que aconteceu.","",""],
+["Long story. / It's complicated.","É uma longa história. / É complicado.","",""],
+["To make a long story short...","Resumindo...","M","Frase clássica para resumir algo longo"],
+["Basically... / The thing is...","Basicamente... / A questão é...","",""],
+["Anyway... / So...","Enfim... / Então...","",""],
+["You know what I mean? / Know what I'm saying?","Entende o que estou dizendo?","F",'"you know what I mean?" ao final de frases é muito comum'],
+["That makes sense. / It makes sense now.","Faz sentido. / Agora faz sentido.","",""],
+["That doesn't make sense.","Isso não faz sentido.","",""],
+["I get it. / I got it. / Got it.","Entendi.","F",'"got it" é super comum e soa natural'],
+["Now I understand. / Now I see.","Agora entendo. / Agora vejo.","",""],
+["I had no idea. / I didn't know that.","Não sabia disso.","",""],
+["That's news to me.","Isso é novidade para mim.","",""],
+["Are you sure? / Are you certain?","Tem certeza?","",""],
+["I'm positive. / I'm 100% sure.","Tenho certeza. / Tenho 100% de certeza.","",""],
+["I think so. / I believe so.","Acho que sim. / Acredito que sim.","",""],
+["I doubt it. / I don't think so.","Duvido. / Não acho.","",""],
+["Trust me. / Believe me.","Confia em mim. / Acredita em mim.","",""],
+["Seriously? / You're kidding!","Sério? / Você está brincando!","",""],
+["I'm not kidding. / I'm dead serious.","Não estou brincando. / Estou falando sério.","",""],
+["That's funny. / That's hilarious.","Isso é engraçado. / Isso é hilário.","",""],
+["I can't stop laughing.","Não consigo parar de rir.","",""],
+["That's not funny. / It's not a joke.","Isso não tem graça. / Não é brincadeira.","",""],
+["You have a point. / Good point.","Você tem razão nisso. / Bom ponto.","",""],
+["I disagree. / I don't agree with that.","Discordo. / Não concordo com isso.","",""],
+["We can agree to disagree.","Podemos discordar respeitosamente.","",""],
+["Let me think about it.","Deixa eu pensar nisso.","",""],
+["I'll let you know. / I'll get back to you.","Te aviso. / Te respondo em breve.","",""],
+["Keep me posted. / Keep me updated.","Me mantém informado. / Me atualiza.","",""],
+["Any news? / What's the update?","Alguma novidade? / Qual é a atualização?","",""],
+["Nothing new. / Same as always.","Nada de novo. / Igual sempre.","",""],
+["A lot has changed. / Things are different now.","Muita coisa mudou. / As coisas são diferentes agora.","",""],
+["Time flies. / It goes by so fast.","O tempo voa. / Passa muito rápido.","",""],
+["I can't believe it's already ___.","Não acredito que já é ___.","",""],
+["Where did the time go?","Para onde foi o tempo?","",""],
+["It feels like yesterday.","Parece que foi ontem.","",""],
+["Those were the days.","Aqueles eram os bons tempos.","",""],
+["I miss those times.","Sinto falta daqueles tempos.","",""],
+["Let's not talk about the past.","Não vamos falar sobre o passado.","",""],
+["Let's focus on the future.","Vamos focar no futuro.","",""],
+["One step at a time.","Um passo de cada vez.","",""],
+["Take it easy. / Slow down.","Vai devagar. / Relaxa.","",""],
+["Don't rush. / There's no hurry.","Não se apresse. / Não tem pressa.","",""],
+["We have time. / We're not late.","Temos tempo. / Não estamos atrasados.","",""],
+["It's now or never.","É agora ou nunca.","",""],
+["Better late than never.","Melhor tarde do que nunca.","",""],
+["It's better this way.","É melhor assim.","",""],
+["Could be worse.","Poderia ser pior.","",""],
+["It could be better.","Poderia ser melhor.","",""],
+["What can I say?","O que posso dizer?","",""],
+["What can you do? / That's life.","O que fazer? / É a vida.","",""],
+["Life goes on.","A vida continua.","",""],
+["Everything happens for a reason.","Tudo acontece por uma razão.","",""],
+["Things will get better.","As coisas vão melhorar.","",""],
+["I'm doing my best.","Estou fazendo o meu melhor.","",""],
+["That's all I can do.","É tudo que posso fazer.","",""],
+["I'll try. / I'll do my best.","Vou tentar. / Vou fazer meu melhor.","",""],
+["I'll figure it out.","Vou descobrir. / Vou resolver.","",""],
+["I'll manage. / I'll handle it.","Vou me virar. / Vou cuidar disso.","",""],
+["Leave it to me. / I've got this.","Deixa comigo. / Eu resolvo.","",""],
+["Can you handle it? / Can you take care of it?","Você consegue resolver? / Você cuida disso?","",""],
+["I'll take care of it.","Vou cuidar disso.","",""],
+["Consider it done.","Pode considerar feito.","",""],
+["It's done. / I finished it. / All done.","Está feito. / Terminei. / Tudo pronto.","",""],
+["Almost done. / Just a few more minutes.","Quase pronto. / Mais alguns minutos.","",""],
+["I'm working on it.","Estou trabalhando nisso.","",""],
+["I haven't started yet.","Ainda não comecei.","",""],
+["I'll start right away.","Vou começar agora mesmo.","",""],
+["I'll do it later. / I'll do it tomorrow.","Vou fazer depois. / Vou fazer amanhã.","",""],
+["Stop procrastinating!","Para de procrastinar!","",""],
+["I've been putting it off.","Tenho adiado isso.","",""],
+["I need to get it done.","Preciso terminar isso.","",""],
+["Let's get it done. / Let's get to work.","Vamos terminar isso. / Vamos trabalhar.","",""],
+["We're almost there.","Estamos quase lá.","",""],
+["We did it! / We made it!","Conseguimos!","",""],
+["I'm proud of you. / You should be proud.","Tenho orgulho de você. / Você deveria ter orgulho.","",""],
+["I'm proud of myself.","Tenho orgulho de mim mesmo.","",""],
+["You deserve it.","Você merece.","",""],
+["I worked hard for this.","Trabalhei muito por isso.","",""],
+["It was worth it.","Valeu a pena.","",""],
+// N3 — Rotina (201–300)
+["I wake up early. / I'm a morning person.","Acordo cedo. / Sou pessoa da manhã.","",""],
+["I hit the snooze button every morning.","Aperto o soneca toda manhã.","",""],
+["I can't function without coffee.","Não consigo funcionar sem café.","",""],
+["I'm not a morning person.","Não sou pessoa da manhã.","",""],
+["I shower every morning.","Tomo banho toda manhã.","",""],
+["I get dressed quickly.","Me visto rápido.","",""],
+["I skip breakfast sometimes.","Pulo o café da manhã às vezes.","",""],
+["I eat breakfast at home / on the go.","Tomo café em casa / no caminho.","",""],
+["My commute takes about ___ minutes.","Meu deslocamento leva cerca de ___ minutos.","",""],
+["I take the bus / subway / Uber.","Pego o ônibus / metrô / Uber.","",""],
+["I drive to work.","Vou de carro para o trabalho.","",""],
+["Traffic is terrible in the morning.","O trânsito é terrível de manhã.","",""],
+["I get to work around 9am.","Chego ao trabalho por volta das 9h.","",""],
+["I start my day by checking emails.","Começo meu dia verificando e-mails.","",""],
+["I have a lot of meetings today.","Tenho muitas reuniões hoje.","",""],
+["I eat lunch at my desk.","Almoço na minha mesa.","",""],
+["I take a lunch break at noon.","Faço pausa para almoço ao meio-dia.","",""],
+["I finish work at 6pm.","Termino o trabalho às 18h.","",""],
+["I work overtime sometimes.","Faço hora extra às vezes.","",""],
+["I'm exhausted by the end of the day.","Estou exausto no final do dia.","",""],
+["I go straight home after work.","Vou direto para casa depois do trabalho.","",""],
+["I stop at the market on the way home.","Paro no mercado no caminho para casa.","",""],
+["I cook dinner / order food.","Cozinho o jantar / peço comida.","",""],
+["I watch TV after dinner.","Assisto TV depois do jantar.","",""],
+["I scroll through my phone before sleeping.","Fico no celular antes de dormir.","",""],
+["I try to sleep by 11pm.","Tento dormir antes das 23h.","",""],
+["I get about 7 hours of sleep.","Durmo cerca de 7 horas.","",""],
+["I wake up feeling refreshed / groggy.","Acordo me sentindo descansado / grogue.","",""],
+["It's the same routine every day.","É a mesma rotina todo dia.","",""],
+["I need to change my routine.","Preciso mudar minha rotina.","",""],
+["I work out in the morning / evening.","Me exercito de manhã / à noite.","",""],
+["I go for a walk every day.","Vou caminhar todo dia.","",""],
+["I try to eat healthy.","Tento comer saudável.","",""],
+["I drink a lot of water.","Bebo muita água.","",""],
+["I cut back on sugar.","Reduzi o açúcar.","",""],
+["I've been eating out too much.","Tenho comido fora demais.","",""],
+["I need to cook more at home.","Preciso cozinhar mais em casa.","",""],
+["I'm trying to save money.","Estou tentando economizar dinheiro.","",""],
+["I spend too much on food delivery.","Gasto muito com delivery.","",""],
+["I'm on a budget.","Estou com orçamento limitado.","",""],
+["I pay my bills on time.","Pago minhas contas em dia.","",""],
+["I check my bank account regularly.","Verifico minha conta bancária regularmente.","",""],
+["I set a monthly budget.","Defino um orçamento mensal.","",""],
+["I'm saving up for ___.","Estou juntando dinheiro para ___.","",""],
+["I'm paying off my credit card.","Estou pagando meu cartão de crédito.","",""],
+["I clean the house on weekends.","Limpo a casa nos fins de semana.","",""],
+["I do laundry once a week.","Lavo roupa uma vez por semana.","",""],
+["I hate doing the dishes.","Odeio lavar a louça.","",""],
+["I take out the trash every night.","Levo o lixo todo dia à noite.","",""],
+["I walk the dog twice a day.","Levo o cachorro para passear duas vezes ao dia.","",""],
+["I'm a creature of habit.","Sou uma pessoa de hábitos.","",""],
+["I need my alone time.","Preciso do meu tempo a sós.","",""],
+["I recharge by staying home.","Me recarrego ficando em casa.","",""],
+["I'm an introvert / extrovert.","Sou introvertido / extrovertido.","",""],
+["I love meeting new people.","Adoro conhecer novas pessoas.","",""],
+["I prefer small gatherings.","Prefiro encontros pequenos.","",""],
+["I go to bed early on weekdays.","Vou dormir cedo nos dias de semana.","",""],
+["I stay up late on weekends.","Fico acordado até tarde nos fins de semana.","",""],
+["I sleep in on Sundays.","Durmo até tarde nos domingos.","",""],
+["I feel guilty for sleeping too much.","Me sinto culpado por dormir demais.","",""],
+["I've been stressed lately.","Tenho estado estressado ultimamente.","",""],
+["I need to relax more.","Preciso relaxar mais.","",""],
+["I've been working too hard.","Tenho trabalhado demais.","",""],
+["I need a vacation.","Preciso de férias.","",""],
+["I'm burning out.","Estou esgotando.","",""],
+["I need to find a balance.","Preciso encontrar um equilíbrio.","",""],
+["Work-life balance is important.","Equilíbrio entre vida e trabalho é importante.","",""],
+["I'm trying to be more productive.","Estou tentando ser mais produtivo.","",""],
+["I make to-do lists every day.","Faço listas de tarefas todo dia.","",""],
+["I prioritize my tasks.","Priorizo minhas tarefas.","",""],
+["I focus better in the morning.","Foco melhor de manhã.","",""],
+["I get distracted easily.","Me distraio facilmente.","",""],
+["I put my phone on silent when I'm working.","Coloco meu celular no silencioso quando trabalho.","",""],
+["I use a timer to stay focused.","Uso um cronômetro para manter o foco.","",""],
+["I take breaks every hour.","Faço pausas a cada hora.","",""],
+["I work from home sometimes.","Trabalho de casa às vezes.","",""],
+["Working from home has its pros and cons.","Trabalhar de casa tem prós e contras.","",""],
+["I miss having coworkers around.","Sinto falta de ter colegas por perto.","",""],
+["I prefer working in silence.","Prefiro trabalhar em silêncio.","",""],
+["I listen to music while I work.","Ouço música enquanto trabalho.","",""],
+["I watch series on Netflix in my free time.","Assisto séries na Netflix no meu tempo livre.","",""],
+["I've been binge-watching ___.","Tenho maratonado ___.","F",'"binge-watching" = maratonar série'],
+["I'm addicted to my phone.","Sou viciado no celular.","",""],
+["I'm trying to use my phone less.","Estou tentando usar menos o celular.","",""],
+["I deleted social media for a while.","Deletei as redes sociais por um tempo.","",""],
+["I feel better without social media.","Me sinto melhor sem redes sociais.","",""],
+["I read before bed.","Leio antes de dormir.","",""],
+["I'm reading a really good book right now.","Estou lendo um livro muito bom agora.","",""],
+["I can't put this book down.","Não consigo largar esse livro.","",""],
+["I work out to clear my head.","Me exercito para limpar a cabeça.","",""],
+["I feel amazing after a workout.","Me sinto incrível após um treino.","",""],
+["I've been skipping the gym lately.","Tenho faltado à academia ultimamente.","",""],
+["I need to get back on track.","Preciso voltar aos trilhos.","",""],
+["I set goals for myself.","Estabeleço metas para mim mesmo.","",""],
+["I'm working toward my goals.","Estou trabalhando em direção às minhas metas.","",""],
+["I celebrate small victories.","Celebro pequenas vitórias.","",""],
+["I learn from my mistakes.","Aprendo com meus erros.","",""],
+["I'm constantly growing.","Estou constantemente crescendo.","",""],
+["I'm not where I want to be yet.","Ainda não estou onde quero estar.","",""],
+["But I'm getting there.","Mas estou chegando lá.","",""],
+// N4 — Relação (301–400)
+["I miss you. / I've missed you.","Sinto sua falta.","",""],
+["I've been thinking about you.","Tenho pensado em você.","",""],
+["How have you been? / I haven't seen you in ages.","Como você tem estado? / Faz séculos que não te vejo.","",""],
+["We need to catch up.","Precisamos nos atualizar / nos ver.","",""],
+["Let's grab a coffee sometime.","Vamos tomar um café algum dia.","",""],
+["We should do this more often.","Deveríamos fazer isso com mais frequência.","",""],
+["I'm glad we did this.","Fico feliz que fizemos isso.","",""],
+["This was fun. / I had a great time.","Foi divertido. / Me diverti muito.","",""],
+["We should plan something.","Deveríamos planejar algo.","",""],
+["I'll text you later.","Te mando mensagem depois.","",""],
+["I'll call you tonight.","Te ligo hoje à noite.","",""],
+["Don't forget to text me.","Não esquece de me mandar mensagem.","",""],
+["I was just thinking about you.","Estava só pensando em você.","",""],
+["That's so funny you texted — I was about to text you.","Que engraçado você ter mandado mensagem — estava prestes a te mandar.","",""],
+["Are you free this weekend?","Você está livre este fim de semana?","",""],
+["What are your plans?","Quais são seus planos?","",""],
+["I have something to tell you.","Tenho algo a te contar.","",""],
+["Can you keep a secret?","Você consegue guardar um segredo?","",""],
+["I trust you.","Confio em você.","",""],
+["You can always count on me.","Pode sempre contar comigo.","",""],
+["I'll always be here for you.","Sempre estarei aqui por você.","",""],
+["I've got your back.","Estou do seu lado. / Cubro você.","",""],
+["You're not alone in this.","Você não está sozinho nisso.","",""],
+["I'm here if you need me.","Estou aqui se precisar de mim.","",""],
+["Talk to me. / You can talk to me.","Fala comigo. / Pode falar comigo.","",""],
+["I'm listening. / I'm all ears.","Estou ouvindo. / Todo ouvidos.","",""],
+["Go on. / Continue.","Continue. / Pode falar.","",""],
+["I understand how you feel.","Entendo como você se sente.","",""],
+["That must be hard. / That's tough.","Deve ser difícil. / É pesado.","",""],
+["I'm sorry you're going through this.","Sinto muito que você está passando por isso.","",""],
+["It will get better. / Hang in there.","Vai melhorar. / Aguenta firme.","",""],
+["You're stronger than you think.","Você é mais forte do que pensa.","",""],
+["I believe in you.","Acredito em você.","",""],
+["You've got this. / You can do it.","Você consegue.","",""],
+["I'm so proud of you.","Tenho muito orgulho de você.","",""],
+["You did great. / You crushed it.","Você se saiu muito bem. / Arrasou.","",""],
+["I love you. / I love you so much.","Eu te amo. / Te amo muito.","",""],
+["I care about you.","Me importo com você.","",""],
+["You mean a lot to me.","Você significa muito para mim.","",""],
+["I appreciate you.","Sou grato por você.","",""],
+["I don't know what I'd do without you.","Não sei o que faria sem você.","",""],
+["You make me happy.","Você me faz feliz.","",""],
+["I feel comfortable around you.","Me sinto confortável perto de você.","",""],
+["I feel like I can be myself with you.","Sinto que posso ser eu mesmo com você.","",""],
+["We make a good team.","Somos uma boa equipe.","",""],
+["I'm lucky to have you.","Tenho sorte de ter você.","",""],
+["Let's not fight about this.","Não vamos brigar por isso.","",""],
+["Can we talk about this calmly?","Podemos conversar sobre isso com calma?","",""],
+["I'm sorry. / I was wrong.","Me desculpe. / Eu estava errado.","",""],
+["I shouldn't have said that.","Não deveria ter dito isso.","",""],
+["I didn't mean to hurt you.","Não quis te machucar.","",""],
+["Please forgive me.","Por favor me perdoe.","",""],
+["I forgive you. / It's okay. / We're good.","Perdoo você. / Tudo bem. / Estamos bem.","",""],
+["Let's move on. / Let's put this behind us.","Vamos seguir em frente.","",""],
+["I don't want to lose you.","Não quero te perder.","",""],
+["We need to talk. / Can we talk?","Precisamos conversar.","",""],
+["I feel like something is off between us.","Sinto que algo está estranho entre nós.","",""],
+["Are we okay? / Is everything alright?","Estamos bem? / Está tudo certo?","",""],
+["I need some space.","Preciso de espaço.","",""],
+["I need time to think.","Preciso de tempo para pensar.","",""],
+["Give me some time. / Let me process this.","Me dê um tempo. / Deixa eu processar isso.","",""],
+["Can we talk later when we've both calmed down?","Podemos conversar mais tarde quando tivermos mais calmos?","",""],
+["I hate fighting with you.","Odeio brigar com você.","",""],
+["This is not what I wanted.","Não era isso que eu queria.","",""],
+["I just want us to be happy.","Só quero que sejamos felizes.","",""],
+["I miss the way things used to be.","Sinto falta de como as coisas eram antes.","",""],
+["Let's make new memories.","Vamos criar novas memórias.","",""],
+["I love spending time with you.","Adoro passar tempo com você.","",""],
+["You always know how to make me smile.","Você sempre sabe como me fazer sorrir.","",""],
+["You know me better than anyone.","Você me conhece melhor do que ninguém.","",""],
+["My family loves you.","Minha família adora você.","",""],
+["I want you to meet my friends.","Quero que você conheça meus amigos.","",""],
+["You're like family to me.","Você é como família para mim.","",""],
+["I've known him/her for years.","Conheço ele/ela há anos.","",""],
+["We grew up together.","Crescemos juntos.","",""],
+["We go way back.","Nos conhecemos há muito tempo.","",""],
+["She's my best friend.","Ela é minha melhor amiga.","",""],
+["He always has my back.","Ele sempre está do meu lado.","",""],
+["Real friends are hard to find.","Amigos de verdade são difíceis de encontrar.","",""],
+["Quality over quantity — few good friends.","Qualidade sobre quantidade — poucos bons amigos.","",""],
+["How is your family?","Como está sua família?","",""],
+["How are the kids?","Como estão os filhos?","",""],
+["Is your mom feeling better?","Sua mãe está se sentindo melhor?","",""],
+["Send my regards to your family.","Dê lembranças para sua família.","",""],
+["My family means everything to me.","Minha família significa tudo para mim.","",""],
+["Family comes first.","Família em primeiro lugar.","",""],
+["I'd do anything for my family.","Faria qualquer coisa pela minha família.","",""],
+["My parents are getting older.","Meus pais estão envelhecendo.","",""],
+["I try to visit them as often as I can.","Tento visitá-los o mais frequente possível.","",""],
+["I call them every week.","Ligo para eles toda semana.","",""],
+["I'm close with my siblings.","Sou próximo dos meus irmãos.","",""],
+["We don't always agree but we love each other.","Nem sempre concordamos mas nos amamos.","",""],
+["That's what families are for.","É para isso que serve a família.","",""],
+["I grew up in a big family.","Cresci em uma família grande.","",""],
+["I'm an only child.","Sou filho único.","",""],
+["My kids are my everything.","Meus filhos são tudo para mim.","",""],
+["Being a parent changes everything.","Ser pai/mãe muda tudo.","",""],
+["I want the best for my kids.","Quero o melhor para meus filhos.","",""],
+["They grow up so fast.","Eles crescem tão rápido.","",""],
+["I'm just trying to be a good parent.","Estou apenas tentando ser um bom pai/mãe.","",""],
+// N5 — Opinião (401–500)
+["I think... / I feel like... / In my opinion...","Acho que... / Sinto que... / Na minha opinião...","",""],
+["To be honest... / Honestly... / To be frank...","Sendo honesto... / Francamente...","F",'"to be honest" → "tbh" em texto'],
+["If you ask me... / Personally...","Se você me perguntar... / Pessoalmente...","",""],
+["I'm not an expert but...","Não sou especialista mas...","",""],
+["Don't quote me on this but...","Não me cite nisso mas...","",""],
+["I could be wrong but...","Posso estar errado mas...","",""],
+["That's just my opinion.","É só minha opinião.","",""],
+["You might not agree but...","Você pode não concordar mas...","",""],
+["I strongly believe that...","Acredito fortemente que...","",""],
+["I'm convinced that...","Estou convicto de que...","",""],
+["There's no doubt in my mind.","Não tenho dúvida.","",""],
+["I'm on the fence about that.","Estou em cima do muro sobre isso.","M",'"on the fence" = indeciso, sem posição definida'],
+["I see both sides.","Vejo os dois lados.","",""],
+["It's not black and white.","Não é preto no branco.","",""],
+["There are pros and cons.","Há prós e contras.","",""],
+["It depends on how you look at it.","Depende de como você vê.","",""],
+["From my perspective...","Da minha perspectiva...","",""],
+["The way I see it...","Da maneira que vejo...","",""],
+["I respectfully disagree.","Discordo respeitosamente.","",""],
+["I see your point, but...","Entendo seu ponto, mas...","",""],
+["That's a good point. However...","É um bom ponto. Porém...","",""],
+["I hadn't thought of it that way.","Não tinha pensado dessa forma.","",""],
+["You changed my mind.","Você mudou minha opinião.","",""],
+["I'm open to other opinions.","Estou aberto a outras opiniões.","",""],
+["Let's agree to disagree.","Vamos concordar em discordar.","",""],
+["I'm not going to argue about this.","Não vou discutir sobre isso.","",""],
+["It's not worth arguing about.","Não vale a pena discutir.","",""],
+["I think we're saying the same thing.","Acho que estamos dizendo a mesma coisa.","",""],
+["At the end of the day...","No final das contas...","F","Expressão muito usada para concluir argumentos"],
+["The bottom line is...","O que importa é... / Em suma...","",""],
+["Long story short...","Resumindo...","",""],
+["The point is...","O ponto é...","",""],
+["What I'm trying to say is...","O que estou tentando dizer é...","",""],
+["What I mean is...","O que quero dizer é...","",""],
+["In other words...","Em outras palavras...","",""],
+["For example... / For instance...","Por exemplo...","",""],
+["Such as... / Like...","Como... / Tipo...","",""],
+["Let me give you an example.","Deixa eu te dar um exemplo.","",""],
+["Take ___ for example.","Veja ___ como exemplo.","",""],
+["That proves my point.","Isso prova meu ponto.","",""],
+["Based on my experience...","Com base na minha experiência...","",""],
+["In my experience...","Na minha experiência...","",""],
+["I've seen this happen before.","Já vi isso acontecer antes.","",""],
+["History tends to repeat itself.","A história tende a se repetir.","",""],
+["I learned this the hard way.","Aprendi isso do jeito difícil.","",""],
+["It's easier said than done.","É mais fácil falar do que fazer.","",""],
+["Actions speak louder than words.","Ações falam mais alto que palavras.","",""],
+["Practice what you preach.","Pratique o que você prega.","",""],
+["I try to lead by example.","Tento dar o exemplo.","",""],
+["I walk the talk.","Faço o que falo.","",""],
+["That doesn't add up.","Isso não faz sentido. / Não bate.","",""],
+["Something doesn't feel right.","Algo não parece certo.","",""],
+["I smell something fishy.","Estou sentindo algo suspeito.","M",'"something fishy" = algo suspeito'],
+["I have a bad feeling about this.","Tenho um mau pressentimento sobre isso.","",""],
+["Trust your gut. / Go with your instinct.","Confie no seu instinto.","",""],
+["My gut says no.","Meu instinto diz não.","",""],
+["I just know. / I can feel it.","Simplesmente sei. / Consigo sentir.","",""],
+["Call it intuition.","Chame de intuição.","",""],
+["I could be overthinking this.","Posso estar pensando demais.","",""],
+["I tend to overthink things.","Tendo a pensar demais.","",""],
+["I'm my own worst critic.","Sou meu próprio pior crítico.","",""],
+["I'm too hard on myself sometimes.","Sou muito duro comigo às vezes.","",""],
+["Nobody's perfect.","Ninguém é perfeito.","",""],
+["We all make mistakes.","Todos cometemos erros.","",""],
+["That's human nature.","É da natureza humana.","",""],
+["You can't please everyone.","Não dá para agradar a todos.","",""],
+["Not everyone will understand.","Nem todos vão entender.","",""],
+["And that's okay.","E tudo bem com isso.","",""],
+["You don't need everyone's approval.","Você não precisa da aprovação de todos.","",""],
+["Do what makes you happy.","Faça o que te faz feliz.","",""],
+["Don't let others define you.","Não deixe os outros te definir.","",""],
+["Stay true to yourself.","Seja fiel a si mesmo.","",""],
+["Know your worth.","Conheça seu valor.","",""],
+["Don't sell yourself short.","Não se subestime.","",""],
+["Believe in yourself.","Acredite em você mesmo.","",""],
+["You're more capable than you think.","Você é mais capaz do que pensa.","",""],
+["Stop doubting yourself.","Para de duvidar de si mesmo.","",""],
+["Take a chance. / Go for it.","Arrisque. / Vai em frente.","",""],
+["The worst they can say is no.","O pior que podem dizer é não.","",""],
+["You'll never know if you don't try.","Nunca saberá se não tentar.","",""],
+["What's the worst that could happen?","O que é o pior que pode acontecer?","",""],
+["It's a calculated risk.","É um risco calculado.","",""],
+["Nothing ventured, nothing gained.","Quem não arrisca não petisca.","",""],
+["Fortune favors the bold.","A fortuna favorece os audazes.","",""],
+["Sometimes you have to take a leap of faith.","Às vezes você tem que dar um salto de fé.","",""],
+["I'd rather regret trying than not trying.","Prefiro me arrepender de ter tentado do que não tentar.","",""],
+["No regrets.","Sem arrependimentos.","",""],
+["I live by that motto.","Vivo por esse lema.","",""],
+["That's my philosophy.","Essa é minha filosofia.","",""],
+["I value honesty above all.","Valorizo honestidade acima de tudo.","",""],
+["Integrity is everything.","Integridade é tudo.","",""],
+["I don't compromise my values.","Não comprometo meus valores.","",""],
+["Respect is earned, not given.","Respeito é conquistado, não dado.","",""],
+["Kindness costs nothing.","Gentileza não custa nada.","",""],
+["Small acts of kindness go a long way.","Pequenos atos de gentileza fazem uma grande diferença.","",""],
+["Treat others how you want to be treated.","Trate os outros como quer ser tratado.","",""],
+["I try to see the good in people.","Tento ver o bem nas pessoas.","",""],
+["Everyone has a story.","Todos têm uma história.","",""],
+["Don't judge a book by its cover.","Não julgue um livro pela capa.","",""],
+["Give people the benefit of the doubt.","Dê às pessoas o benefício da dúvida.","",""],
+// N6 — Negociação (501–600)
+["Could you...? / Would you mind...?","Você poderia...? / Você se importaria...?","",""],
+["I was wondering if you could...","Estava me perguntando se você poderia...","",""],
+["Would it be possible to...?","Seria possível...?","",""],
+["Is there any chance you could...?","Tem alguma chance de você poder...?","",""],
+["I hate to ask but...","Odeio pedir mas...","",""],
+["I have a favor to ask.","Tenho um favor a pedir.","",""],
+["Can I ask you something?","Posso te perguntar algo?","",""],
+["I need your help with something.","Preciso da sua ajuda com algo.","",""],
+["I'd appreciate your help.","Agradeceria sua ajuda.","",""],
+["Any chance you could cover for me?","Tem chance de você me cobrir?","",""],
+["I'll return the favor.","Devolverei o favor.","",""],
+["I owe you one. / I owe you big time.","Te devo uma. / Te devo muito.","",""],
+["That would be great. / That would be perfect.","Seria ótimo. / Seria perfeito.","",""],
+["That's very kind of you.","Que gentileza sua.","",""],
+["I really appreciate it.","Realmente aprecio isso.","",""],
+["I don't want to impose.","Não quero me impor.","",""],
+["If it's not too much trouble.","Se não for muito problema.","",""],
+["Only if you have time.","Só se você tiver tempo.","",""],
+["No pressure.","Sem pressão.","",""],
+["Feel free to say no.","Fique à vontade para dizer não.","",""],
+["I'll understand if you can't.","Entenderei se você não puder.","",""],
+["Take your time.","Não tem pressa. / Pode levar o tempo que precisar.","",""],
+["Whenever you get a chance.","Quando você tiver chance.","",""],
+["There's no rush.","Não tem pressa.","",""],
+["Let me know when you're ready.","Me avisa quando estiver pronto.","",""],
+["Can we negotiate?","Podemos negociar?","",""],
+["Is there any flexibility on that?","Tem alguma flexibilidade nisso?","",""],
+["Can we meet in the middle?","Podemos chegar a um meio-termo?","",""],
+["What if we...? / How about...?","E se nós...? / Que tal...?","",""],
+["Let's find a solution that works for both of us.","Vamos encontrar uma solução que funcione para os dois.","",""],
+["I'm willing to compromise.","Estou disposto a ceder.","",""],
+["What are your terms?","Quais são seus termos?","",""],
+["That's my final offer.","Essa é minha oferta final.","",""],
+["I need to think about it.","Preciso pensar sobre isso.","",""],
+["Give me some time to consider.","Me dê tempo para considerar.","",""],
+["I'll get back to you by end of day.","Te respondo até o final do dia.","",""],
+["I need to check with my team.","Preciso verificar com minha equipe.","",""],
+["I can't make that decision alone.","Não posso tomar essa decisão sozinho.","",""],
+["Let me run it by my manager.","Deixa eu passar isso pelo meu gerente.","",""],
+["I'll see what I can do.","Verei o que posso fazer.","",""],
+["I can't promise anything but I'll try.","Não posso prometer nada mas tentarei.","",""],
+["I'll do my best.","Farei meu melhor.","",""],
+["That might be doable.","Isso pode ser viável.","",""],
+["That's going to be difficult.","Isso vai ser difícil.","",""],
+["That's a stretch.","Isso é forçado / difícil de conseguir.","",""],
+["That's out of my hands.","Isso está fora do meu controle.","",""],
+["I wish I could help.","Gostaria de poder ajudar.","",""],
+["I'm afraid I can't help with that.","Receio que não posso ajudar com isso.","",""],
+["I have to say no this time.","Tenho que dizer não desta vez.","",""],
+["I hope you understand.","Espero que entenda.","",""],
+["No hard feelings.","Sem rancor.","",""],
+["We can try again next time.","Podemos tentar de novo na próxima.","",""],
+["Let's keep the lines of communication open.","Vamos manter a comunicação aberta.","",""],
+["Let's stay in touch.","Vamos manter contato.","",""],
+["Reach out if you need anything.","Entre em contato se precisar de algo.","",""],
+["My door is always open.","Minha porta está sempre aberta.","",""],
+["Don't hesitate to ask.","Não hesite em perguntar.","",""],
+["I'm here if you need me.","Estou aqui se precisar de mim.","",""],
+["We'll figure something out.","Vamos descobrir algo.","",""],
+["There's always a way.","Sempre há um caminho.","",""],
+["Where there's a will, there's a way.","Onde há vontade, há um caminho.","",""],
+["Let's not give up yet.","Não vamos desistir ainda.","",""],
+["We'll cross that bridge when we come to it.","Resolveremos isso quando chegar a hora.","",""],
+["One thing at a time.","Uma coisa de cada vez.","",""],
+["Let's start with the basics.","Vamos começar pelo básico.","",""],
+["Let's take it step by step.","Vamos fazer passo a passo.","",""],
+["Can we break this down?","Podemos detalhar isso?","",""],
+["Let me clarify something.","Deixa eu esclarecer algo.","",""],
+["Just to make sure I understand...","Só para garantir que entendi...","",""],
+["Let me summarize what we agreed on.","Deixa eu resumir o que concordamos.","",""],
+["So we're on the same page?","Então estamos na mesma página?","",""],
+["We're in agreement, then?","Estamos de acordo, então?","",""],
+["Let's shake on it.","Vamos fechar o acordo.","",""],
+["Deal! / You've got a deal.","Fechado! / Temos um acordo.","",""],
+["Looking forward to working with you.","Ansioso para trabalhar com você.","",""],
+["I think this is the beginning of something great.","Acho que este é o começo de algo grande.","",""],
+["I'm excited about this.","Estou animado com isso.","",""],
+["Let's make it happen.","Vamos fazer acontecer.","",""],
+["We've got a lot of work to do.","Temos muito trabalho a fazer.","",""],
+["Let's hit the ground running.","Vamos começar a todo vapor.","",""],
+["Time is of the essence.","O tempo é crucial.","",""],
+["Every minute counts.","Cada minuto conta.","",""],
+["Let's not waste time.","Não vamos perder tempo.","",""],
+["Let's get down to business.","Vamos ao que interessa.","",""],
+["Shall we begin?","Vamos começar?","",""],
+["Are we ready to start?","Estamos prontos para começar?","",""],
+["Let's get the ball rolling.","Vamos dar início.","",""],
+["I'll take the lead on this.","Vou liderar isso.","",""],
+["I'll need your support.","Vou precisar do seu apoio.","",""],
+["We're a team. We do this together.","Somos uma equipe. Fazemos isso juntos.","",""],
+["No one is more important than the team.","Ninguém é mais importante que a equipe.","",""],
+["Let's celebrate when we're done.","Vamos comemorar quando terminarmos.","",""],
+["Hard work pays off.","Trabalho duro compensa.","",""],
+["The results speak for themselves.","Os resultados falam por si mesmos.","",""],
+["I couldn't have done it without you.","Não teria conseguido sem você.","",""],
+["Thank you for your trust.","Obrigado pela sua confiança.","",""],
+["It's been a pleasure.","Foi um prazer.","",""],
+["Looking forward to next time.","Ansioso para a próxima vez.","",""],
+["Until next time.","Até a próxima.","",""],
+["Keep up the good work.","Continue com o bom trabalho.","",""],
+// N7 — Naturalidade (601–700)
+["You know... / I mean...","Sabe... / Quer dizer...","M","Fillers naturais — todo nativo usa"],
+["Like... / So... / Basically...","Tipo... / Então... / Basicamente...","",""],
+["Right? / Yeah? / You know what I mean?","Né? / Entende?","",""],
+["Anyway... / So yeah...","Enfim... / Então...","",""],
+["I mean, at the end of the day...","Quer dizer, no final das contas...","",""],
+["To be fair...","Para ser justo...","",""],
+["Having said that...","Dito isso...","",""],
+["That being said...","Dito isso... / Com isso em mente...","",""],
+["If anything...","Se algo... / Na verdade...","",""],
+["If anything, it made things worse.","Se algo, piorou as coisas.","",""],
+["Not to mention...","Sem mencionar...","",""],
+["On top of that...","Além disso...","",""],
+["And to make matters worse...","E para piorar...","",""],
+["Believe it or not...","Acredite ou não...","",""],
+["As luck would have it...","Como a sorte quis...","",""],
+["Of all the things...","De todas as coisas...","",""],
+["Of all people...","De todas as pessoas...","",""],
+["Go figure.","Vai entender. / Quem diria.","",""],
+["Funny how that works.","Engraçado como isso funciona.","",""],
+["What are the odds?","Quais são as chances?","",""],
+["Small world!","O mundo é pequeno!","",""],
+["What a coincidence!","Que coincidência!","",""],
+["Speak of the devil!","Falando no diabo!","",""],
+["It's a sign.","É um sinal.","",""],
+["Everything happens for a reason.","Tudo acontece por uma razão.","",""],
+["It is what it is.","É o que é.","F","Expressão super comum para aceitar situações"],
+["What's done is done.","O que foi feito está feito.","",""],
+["There's nothing I can do about it.","Não há nada que eu possa fazer a respeito.","",""],
+["I'll deal with it.","Vou lidar com isso.","",""],
+["I'll cross that bridge when I come to it.","Resolverei quando chegar a hora.","",""],
+["I'll figure it out as I go.","Vou descobrindo no caminho.","",""],
+["I'm winging it.","Estou improvisando.","M",'"wing it" = fazer na improvização, sem preparação'],
+["I'm playing it by ear.","Estou jogando de acordo com o que aparecer.","",""],
+["Let's see how it goes.","Vamos ver como vai.","",""],
+["We'll see.","A gente vê.","",""],
+["Only time will tell.","Só o tempo dirá.","",""],
+["I have a gut feeling.","Tenho um pressentimento.","",""],
+["Something tells me...","Algo me diz que...","",""],
+["Call it a hunch.","Chame de intuição.","",""],
+["I have a feeling this will work out.","Tenho a sensação de que vai dar certo.","",""],
+["Keep your fingers crossed.","Cruza os dedos.","M","Equivalente de 'torça' em inglês"],
+["Knock on wood.","Bate na madeira. (para não azarar)","",""],
+["Fingers crossed it works.","Torçamos para que funcione.","",""],
+["I'm hoping for the best.","Estou esperando o melhor.","",""],
+["Hope for the best, prepare for the worst.","Espere o melhor, prepare-se para o pior.","",""],
+["Better safe than sorry.","Melhor prevenir do que remediar.","",""],
+["I'd rather be safe.","Prefiro ser precavido.","",""],
+["Just in case.","Só por precaução.","",""],
+["You never know.","Nunca se sabe.","",""],
+["It can't hurt to try.","Não custa tentar.","",""],
+["No harm in asking.","Não tem mal em perguntar.","",""],
+["The worst they can say is no.","O pior que podem dizer é não.","",""],
+["What do you have to lose?","O que você tem a perder?","",""],
+["Nothing to lose.","Nada a perder.","",""],
+["Everything to gain.","Tudo a ganhar.","",""],
+["Go big or go home.","Vai tudo ou vai pra casa.","M","Expressão para encorajar ir com tudo"],
+["All in!","Tudo dentro! / Total!","",""],
+["No half measures.","Sem meias medidas.","",""],
+["Give it your all.","Dê tudo de si.","",""],
+["Hold nothing back.","Não guarde nada.","",""],
+["Leave it all on the field.","Deixe tudo em campo.","",""],
+["I gave it my best shot.","Dei minha melhor tentativa.","",""],
+["I have no regrets.","Não tenho arrependimentos.","",""],
+["I did what I could.","Fiz o que pude.","",""],
+["I tried my hardest.","Tentei ao máximo.","",""],
+["It wasn't meant to be.","Não era para ser.","",""],
+["Maybe next time.","Talvez na próxima.","",""],
+["There's always tomorrow.","Sempre há amanhã.","",""],
+["Don't dwell on it.","Não fique remoendo.","M",'"dwell on" = ficar pensando demais em algo negativo'],
+["Let it go.","Deixa pra lá.","",""],
+["Move on.","Segue em frente.","",""],
+["Turn the page.","Vire a página.","",""],
+["Start fresh.","Comece do zero. / Comece de novo.","",""],
+["Clean slate.","Página em branco.","",""],
+["New day, new chances.","Novo dia, novas chances.","",""],
+["Every day is a new beginning.","Todo dia é um novo começo.","",""],
+["Make the most of every day.","Aproveite ao máximo cada dia.","",""],
+["Live in the moment.","Viva o momento.","",""],
+["Be present.","Seja presente.","",""],
+["Stop and smell the roses.","Pare e aprecie o que tem.","",""],
+["Appreciate the little things.","Aprecie as pequenas coisas.","",""],
+["Count your blessings.","Seja grato pelo que tem.","",""],
+["Be grateful for what you have.","Seja grato pelo que tem.","",""],
+["It could always be worse.","Sempre poderia ser pior.","",""],
+["Look on the bright side.","Olhe pelo lado positivo.","",""],
+["Every cloud has a silver lining.","Todo mal tem um bem.","",""],
+["Things always work out in the end.","As coisas sempre se resolvem no final.","",""],
+["This too shall pass.","Isso também vai passar.","",""],
+["Keep your chin up.","Mantém a cabeça erguida. / Não desanima.","",""],
+["Don't lose hope.","Não perca a esperança.","",""],
+["Better days are coming.","Dias melhores estão por vir.","",""],
+["The best is yet to come.","O melhor ainda está por vir.","",""],
+["I can feel it.","Consigo sentir.","",""],
+["Things are starting to look up.","As coisas estão começando a melhorar.","",""],
+["The tide is turning.","A maré está virando.","",""],
+["I see the light at the end of the tunnel.","Vejo a luz no fim do túnel.","",""],
+["We're almost there.","Estamos quase lá.","",""],
+["So close!","Tão perto!","",""],
+["Just a little more.","Só um pouco mais.","",""],
+["We made it!","Conseguimos!","",""],
+// N8 — Série/Filme (701–800)
+["I'm gonna... / I'm going to...","Vou...","",""],
+["Wanna...? / Do you want to...?","Quer...?","",""],
+["Gotta... / I've got to...","Tenho que...","",""],
+["Kinda / Kind of","Meio que / Tipo","",""],
+["Sorta / Sort of","Mais ou menos","",""],
+["Gimme / Give me","Me dá","",""],
+["Lemme / Let me","Deixa eu","",""],
+["Dunno / I don't know","Sei lá / Não sei","",""],
+["Whatcha doing? / What are you doing?","O que você está fazendo?","",""],
+["Whatcha gonna do?","O que você vai fazer?","",""],
+["Come on! / C'mon!","Vai lá! / Vamos!","",""],
+["No way! / No freaking way!","De jeito nenhum!","",""],
+["Are you kidding me?","Você está me zoando?","",""],
+["Get out of here! / Shut up!","Vai embora! / Cala a boca! (de surpresa)","M",'"shut up!" em tom de surpresa = "não acredito!"'],
+["For real? / Seriously?","De verdade? / Sério?","",""],
+["That's insane. / That's crazy.","Isso é insano. / Que loucura.","",""],
+["That's wild.","Isso é doido. / Que absurdo.","",""],
+["Mind-blowing.","De explodir a cabeça.","",""],
+["I'm blown away.","Estou de queixo caído.","",""],
+["I can't even...","Eu nem... (sem palavras)","",""],
+["I'm speechless.","Estou sem palavras.","",""],
+["I have no words.","Não tenho palavras.","",""],
+["This is everything.","Isso é tudo. (aprovação máxima)","",""],
+["I'm obsessed with this.","Estou obcecado com isso.","",""],
+["I'm hooked.","Estou fisgado. / Estou viciado.","",""],
+["I can't stop watching.","Não consigo parar de assistir.","",""],
+["I stayed up all night watching.","Fiquei acordado a noite toda assistindo.","",""],
+["I binge-watched the whole season.","Maratonei a temporada inteira.","",""],
+["No spoilers!","Sem spoilers!","",""],
+["Don't ruin it for me.","Não estrague para mim.","",""],
+["I just started watching it.","Acabei de começar a assistir.","",""],
+["I'm only on episode 3.","Estou apenas no episódio 3.","",""],
+["Is it worth watching?","Vale a pena assistir?","",""],
+["You have to watch it.","Você tem que assistir.","",""],
+["Trust me, it gets better.","Confia em mim, vai melhorar.","",""],
+["The ending is insane.","O final é insano.","",""],
+["I did not see that coming.","Não esperava por isso.","",""],
+["Plot twist!","Reviravolta na trama!","",""],
+["I called it.","Eu sabia! / Previ isso!","",""],
+["I knew it from the beginning.","Sabia desde o começo.","",""],
+["The soundtrack is amazing.","A trilha sonora é incrível.","",""],
+["I've been listening to it nonstop.","Tenho ouvido sem parar.","",""],
+["It's stuck in my head.","Ficou na minha cabeça.","",""],
+["I can't get this song out of my head.","Não consigo tirar essa música da cabeça.","",""],
+["That song gives me chills.","Essa música me dá arrepios.","",""],
+["The acting is incredible.","A atuação é incrível.","",""],
+["The cast is perfect.","O elenco é perfeito.","",""],
+["The writing is brilliant.","O roteiro é brilhante.","",""],
+["I relate to that character so much.","Me identifico muito com aquele personagem.","",""],
+["That line is so good.","Aquela fala é muito boa.","",""],
+["I quote that movie all the time.","Cito esse filme o tempo todo.","",""],
+["That's iconic.","Isso é icônico.","",""],
+["Classic.","Clássico.","",""],
+["Old but gold.","Velho mas valioso.","",""],
+["A masterpiece.","Uma obra-prima.","",""],
+["Overrated.","Superestimado.","",""],
+["Underrated.","Subestimado.","",""],
+["It's not for everyone.","Não é para todo mundo.","",""],
+["It's an acquired taste.","É um gosto adquirido.","",""],
+["You either love it or hate it.","Ou você ama ou odeia.","",""],
+["It's not my cup of tea.","Não é minha praia. / Não é para mim.","M",'"not my cup of tea" = não gosta / não é seu estilo'],
+["It's right up my alley.","É exatamente minha praia.","",""],
+["That's totally my vibe.","Isso é totalmente meu estilo.","",""],
+["I'm all about that.","Sou tudo sobre isso. / Adoro esse estilo.","",""],
+["That's so me.","Isso é tão eu.","",""],
+["That's so you!","Isso é tão você!","",""],
+["That screams ___.","Isso tem cara de ___.","",""],
+["I'm not really into that.","Não sou muito fã disso.","",""],
+["It's not really my thing.","Não é muito minha praia.","",""],
+["I used to be into that.","Costumava curtir isso.","",""],
+["I grew out of it.","Cresci e deixei isso para trás.","",""],
+["I got into it recently.","Comecei a curtir isso recentemente.","",""],
+["I'm going through a phase.","Estou passando por uma fase.","",""],
+["Don't judge me.","Não me julgue.","",""],
+["It's a guilty pleasure.","É um prazer culposo.","",""],
+["I know it's bad but I love it.","Sei que é ruim mas adoro.","",""],
+["It's so bad it's good.","É tão ruim que é bom.","",""],
+["That's cringe.","Isso é constrangedor. / Isso é cringe.","",""],
+["I'm embarrassed for them.","Estou envergonhado por eles.","",""],
+["I can't watch. / I can't look.","Não consigo assistir. / Não consigo olhar.","",""],
+["I'm covering my eyes.","Estou cobrindo meus olhos.","",""],
+["That was intense.","Isso foi intenso.","",""],
+["That gave me anxiety.","Isso me deu ansiedade.","",""],
+["I was on the edge of my seat.","Estava na ponta da cadeira.","",""],
+["I was holding my breath.","Estava segurando a respiração.","",""],
+["My heart was racing.","Meu coração estava acelerado.","",""],
+["I was so invested.","Estava tão envolvido.","",""],
+["I care too much about fictional characters.","Me importo demais com personagens fictícios.","",""],
+["That character deserved better.","Aquele personagem merecia mais.","",""],
+["I cried like a baby.","Chorei como um bebê.","",""],
+["I'm not crying, you're crying.","Não sou eu que estou chorando, é você.","M","Frase irônica clássica quando alguém está chorando"],
+["That hit different.","Isso tocou de um jeito diferente.","M",'"hit different" = impactou de forma especial, tocou fundo'],
+["That one hurt.","Essa doeu.","",""],
+["Right in the feels.","Direto no coração.","",""],
+["The feels are real.","Os sentimentos são reais.","",""],
+["I'm emotionally destroyed.","Estou emocionalmente destruído.","",""],
+["I need a moment.","Preciso de um momento.","",""],
+["I need to process this.","Preciso processar isso.","",""],
+["I'm not okay.","Não estou bem. (reação emocional, geralmente irônica)","",""],
+["Why would they do that to us?","Por que fariam isso com a gente? (reação a drama de série)","",""],
+// N9 — Emoção (801–900)
+["I'm so happy right now.","Estou tão feliz agora.","",""],
+["I'm over the moon.","Estou nas nuvens de felicidade.","",""],
+["I'm on top of the world.","Estou no topo do mundo.","",""],
+["This made my day.","Isso fez meu dia.","",""],
+["I'm so excited I can't contain it.","Estou tão animado que não consigo conter.","",""],
+["I'm jumping for joy.","Estou pulando de alegria.","",""],
+["I've never been happier.","Nunca estive tão feliz.","",""],
+["Life is good.","A vida é boa.","",""],
+["I'm at peace.","Estou em paz.","",""],
+["I feel light.","Me sinto leve.","",""],
+["I'm so grateful for everything.","Sou muito grato por tudo.","",""],
+["I'm frustrated. / I'm so frustrated.","Estou frustrado.","",""],
+["This is so annoying.","Isso é tão irritante.","",""],
+["I'm fed up.","Estou farto. / Estou cheio disso.","",""],
+["I've had enough.","Já chega. / Tive o suficiente.","",""],
+["This is driving me crazy.","Isso está me deixando louco.","",""],
+["I'm at my limit.","Estou no meu limite.","",""],
+["I can't take it anymore.","Não aguento mais.","",""],
+["I need to vent.","Preciso desabafar.","",""],
+["Can I vent to you for a sec?","Posso desabafar com você por um segundo?","",""],
+["I just need to get this off my chest.","Só preciso tirar isso do peito.","",""],
+["I'm so angry right now.","Estou tão com raiva agora.","",""],
+["I'm furious.","Estou furioso.","",""],
+["I'm livid.","Estou irado / furibundo.","",""],
+["That really got under my skin.","Isso realmente me irritou.","M",'"get under your skin" = irritar profundamente'],
+["They crossed the line.","Eles ultrapassaram os limites.","",""],
+["That was out of line.","Isso foi fora dos limites.","",""],
+["How could they do that?","Como puderam fazer isso?","",""],
+["I'm so disappointed.","Estou tão decepcionado.","",""],
+["I expected better.","Esperava mais.","",""],
+["I thought you were different.","Pensei que você era diferente.","",""],
+["You let me down.","Você me decepcionou.","",""],
+["I'm heartbroken.","Estou com o coração partido.","",""],
+["I never saw this coming.","Nunca vi isso vir.","",""],
+["I trusted you.","Eu confiava em você.","",""],
+["I feel betrayed.","Me sinto traído.","",""],
+["That hurt more than you know.","Isso doeu mais do que você sabe.","",""],
+["I'm scared. / I'm terrified.","Estou com medo. / Estou aterrorizado.","",""],
+["I'm nervous. / I have butterflies.","Estou nervoso. / Estou com frio na barriga.","",""],
+["I'm anxious about it.","Estou ansioso com isso.","",""],
+["I can't stop worrying.","Não consigo parar de me preocupar.","",""],
+["My mind won't stop.","Minha mente não para.","",""],
+["I'm overthinking everything.","Estou pensando demais em tudo.","",""],
+["I need to calm down.","Preciso me acalmar.","",""],
+["Take a deep breath.","Respire fundo.","",""],
+["Everything will be okay.","Tudo vai ficar bem.","",""],
+["I'm proud of myself.","Tenho orgulho de mim mesmo.","",""],
+["I did something I didn't think I could.","Fiz algo que não achava que conseguiria.","",""],
+["I surprised myself.","Me surpreendi.","",""],
+["I'm stronger than I thought.","Sou mais forte do que pensava.","",""],
+["I feel accomplished.","Me sinto realizado.","",""],
+["I feel empty.","Me sinto vazio.","",""],
+["Something is missing.","Algo está faltando.","",""],
+["I don't know what I want.","Não sei o que quero.","",""],
+["I feel lost.","Me sinto perdido.","",""],
+["I'm going through a tough time.","Estou passando por um momento difícil.","",""],
+["I'm not in a good place right now.","Não estou num bom momento agora.","",""],
+["I'm struggling.","Estou lutando. / Estou passando por dificuldades.","",""],
+["I'm barely keeping it together.","Mal estou me segurando.","",""],
+["I'm hanging by a thread.","Estou por um fio.","",""],
+["I need support right now.","Preciso de apoio agora.","",""],
+["I need someone to talk to.","Preciso de alguém para conversar.","",""],
+["I don't want to be alone.","Não quero ficar sozinho.","",""],
+["Just be here with me.","Só fica aqui comigo.","",""],
+["I don't need advice, I just need to be heard.","Não preciso de conselho, só preciso ser ouvido.","",""],
+["Thank you for listening.","Obrigado por ouvir.","",""],
+["You have no idea how much that helps.","Você não tem ideia de quanto isso ajuda.","",""],
+["I feel better just talking about it.","Me sinto melhor só de falar sobre isso.","",""],
+["I needed this.","Eu precisava disso.","",""],
+["You always know what to say.","Você sempre sabe o que dizer.","",""],
+["You always make me feel better.","Você sempre me faz sentir melhor.","",""],
+["I don't know what I'd do without you.","Não sei o que faria sem você.","",""],
+["You're a lifesaver.","Você é um salva-vidas.","",""],
+["I owe you so much.","Te devo muito.","",""],
+["I'll never forget this.","Nunca vou esquecer isso.","",""],
+["This means the world to me.","Isso significa o mundo para mim.","",""],
+["I'm so lucky to have you.","Tenho muita sorte de ter você.","",""],
+["You're one of a kind.","Você é único.","",""],
+["There's no one like you.","Não tem ninguém como você.","",""],
+["I love you to the moon and back.","Te amo até a lua e de volta.","",""],
+["Words can't express how I feel.","Palavras não conseguem expressar como me sinto.","",""],
+["I'm overwhelmed — in a good way.","Estou sobrecarregado — de um jeito bom.","",""],
+["I didn't expect this.","Não esperava isso.","",""],
+["You didn't have to do this.","Você não precisava fazer isso.","",""],
+["But I'm so glad you did.","Mas fico muito feliz que tenha feito.","",""],
+["This is the best surprise.","Essa é a melhor surpresa.","",""],
+["I'm at a loss for words.","Estou sem palavras.","",""],
+["I don't know how to thank you.","Não sei como te agradecer.","",""],
+["From the bottom of my heart.","Do fundo do meu coração.","",""],
+["I mean every word.","Digo cada palavra com sinceridade.","",""],
+["I'm not just saying that.","Não estou só dizendo isso.","",""],
+["I genuinely mean it.","Digo isso genuinamente.","",""],
+["You deserve all the happiness.","Você merece toda a felicidade.","",""],
+["I want nothing but the best for you.","Não quero nada além do melhor para você.","",""],
+["I'll always be in your corner.","Sempre estarei do seu lado.","",""],
+["No matter what.","Não importa o quê.","",""],
+["Through thick and thin.","Nas boas e nas más.","",""],
+["That's what love is.","É isso que é o amor.","",""],
+["I wouldn't have it any other way.","Não teria de outra forma.","",""],
+["This is exactly where I want to be.","É exatamente onde quero estar.","",""],
+// N10 — Fluência (901–1000)
+["I see what you're getting at.","Entendo onde você quer chegar.","",""],
+["I hear you.","Estou ouvindo. / Entendo.","",""],
+["I feel you.","Entendo o que você sente.","",""],
+["I get where you're coming from.","Entendo de onde você vem.","",""],
+["That resonates with me.","Isso ressoa comigo.","",""],
+["You're preaching to the choir.","Você está pregando para o convertido.","M","Dizer a alguém algo que eles já sabem/concordam"],
+["Tell me about it!","Nem me fale! / Pode crer!","M","NÃO é 'me conta sobre isso' — é concordância intensa"],
+["You're telling me!","Pode crer! / Com certeza!","",""],
+["You took the words right out of my mouth.","Tirou as palavras da minha boca.","",""],
+["My thoughts exactly.","Exatamente o que pensei.","",""],
+["Great minds think alike.","Grandes mentes pensam igual.","",""],
+["We're on the same wavelength.","Estamos na mesma frequência.","",""],
+["We click.","A gente se entende. / Há uma conexão.","",""],
+["It clicked.","Encaixou. / Fez sentido.","",""],
+["It all makes sense now.","Agora tudo faz sentido.","",""],
+["The pieces are falling into place.","As peças estão se encaixando.","",""],
+["I had an epiphany.","Tive uma epifania.","",""],
+["It dawned on me.","Me ocorreu. / Caiu a ficha.","",""],
+["The penny dropped.","Caiu a ficha.","M","Expressão britânica para quando algo finalmente faz sentido"],
+["I was blind to it before.","Era cego a isso antes.","",""],
+["How did I not see this sooner?","Como não vi isso antes?","",""],
+["I've been overthinking it.","Estive pensando demais nisso.","",""],
+["The answer was right in front of me.","A resposta estava bem na minha frente.","",""],
+["Sometimes we miss the obvious.","Às vezes perdemos o óbvio.","",""],
+["I was barking up the wrong tree.","Estava no caminho errado.","M",'"barking up the wrong tree" = buscar no lugar errado'],
+["I was chasing the wrong thing.","Estava perseguindo a coisa errada.","",""],
+["I need to rethink my approach.","Preciso repensar minha abordagem.","",""],
+["Let me take a different angle.","Deixa eu tentar um ângulo diferente.","",""],
+["What if I looked at it this way?","E se eu olhasse dessa forma?","",""],
+["Flip it and reverse it.","Inverte e reverte. (pensar ao contrário)","",""],
+["Think outside the box.","Pense fora da caixa.","",""],
+["There's more than one way to skin a cat.","Há mais de uma maneira de resolver um problema.","",""],
+["Play devil's advocate.","Defender o lado oposto para estimular debate.","",""],
+["Let's brainstorm.","Vamos fazer um brainstorming.","",""],
+["Throw everything at the wall and see what sticks.","Tente de tudo e veja o que funciona.","",""],
+["Trial and error.","Tentativa e erro.","",""],
+["You live and learn.","A gente vive e aprende.","",""],
+["Hindsight is 20/20.","É fácil ver com clareza depois do fato.","M","Expressão para dizer que é fácil criticar depois que aconteceu"],
+["If I knew then what I know now...","Se eu soubesse então o que sei agora...","",""],
+["I'd do things differently.","Faria as coisas de forma diferente.","",""],
+["But that's part of the journey.","Mas faz parte da jornada.","",""],
+["No pain, no gain.","Sem dor, sem ganho.","",""],
+["What doesn't kill you makes you stronger.","O que não te mata te fortalece.","",""],
+["I came out stronger.","Saí mais forte.","",""],
+["It shaped who I am.","Moldou quem eu sou.","",""],
+["I wouldn't change a thing.","Não mudaria nada.","",""],
+["Everything led me here.","Tudo me trouxe até aqui.","",""],
+["I'm exactly where I'm supposed to be.","Estou exatamente onde deveria estar.","",""],
+["Things have a way of working out.","As coisas têm um jeito de se resolver.","",""],
+["Trust the process.","Confie no processo.","",""],
+["Good things take time.","Coisas boas levam tempo.","",""],
+["Rome wasn't built in a day.","Roma não foi construída em um dia.","",""],
+["Slow and steady wins the race.","Devagar e sempre se chega lá.","",""],
+["Patience is a virtue.","Paciência é uma virtude.","",""],
+["Good things come to those who wait.","As boas coisas vêm para quem espera.","",""],
+["But you also have to make things happen.","Mas você também tem que fazer as coisas acontecerem.","",""],
+["You can't just wait for luck.","Você não pode só esperar pela sorte.","",""],
+["Create your own luck.","Crie sua própria sorte.","",""],
+["Opportunity doesn't knock twice.","A oportunidade não bate duas vezes.","",""],
+["Seize the day.","Aproveite o dia.","",""],
+["YOLO — You only live once.","Você só vive uma vez.","",""],
+["Make it count.","Faça valer.","",""],
+["Leave a mark.","Deixe sua marca.","",""],
+["Make a difference.","Faça a diferença.","",""],
+["Be the change you want to see.","Seja a mudança que quer ver.","",""],
+["Lead by example.","Lidere pelo exemplo.","",""],
+["Actions speak louder than words.","Ações falam mais alto que palavras.","",""],
+["Put your money where your mouth is.","Prove com ações o que diz com palavras.","",""],
+["Walk the talk.","Faça o que fala.","",""],
+["Practice what you preach.","Pratique o que prega.","",""],
+["Mean what you say.","Diga o que quer dizer.","",""],
+["Say what you mean.","Queira dizer o que diz.","",""],
+["Be direct. / Get to the point.","Seja direto. / Vá ao ponto.","",""],
+["Don't beat around the bush.","Não rodeie o assunto.","M",'"beat around the bush" = ficar enrolando sem chegar ao ponto'],
+["I'll be straight with you.","Serei direto com você.","",""],
+["Let me be real with you.","Deixa eu ser honesto com você.","",""],
+["No sugarcoating.","Sem dourar a pílula.","",""],
+["The truth is...","A verdade é...","",""],
+["Whether you like it or not.","Quer você goste ou não.","",""],
+["That's the reality.","Essa é a realidade.","",""],
+["Face the facts.","Enfrente os fatos.","",""],
+["Get real.","Seja realista. / Acorde para a realidade.","",""],
+["Wake up.","Acorde. / Abra os olhos.","",""],
+["Read the room.","Leia o ambiente. / Leia a situação.","M",'"read the room" = entender o clima/ambiente social'],
+["Know your audience.","Conheça seu público.","",""],
+["Pick your battles.","Escolha suas batalhas.","",""],
+["Not every battle is worth fighting.","Nem toda batalha vale a pena lutar.","",""],
+["Let the small things go.","Deixa as pequenas coisas irem.","",""],
+["Focus on what matters.","Foque no que importa.","",""],
+["Keep your eyes on the prize.","Mantenha os olhos no prêmio.","",""],
+["Stay focused. / Stay on track.","Mantenha o foco. / Mantenha-se no caminho.","",""],
+["Don't get distracted.","Não se distraia.","",""],
+["You're almost there. Keep going.","Você está quase lá. Continue.","",""],
+["Don't stop now.","Não pare agora.","",""],
+["The finish line is in sight.","A linha de chegada está à vista.","",""],
+["Give it everything you've got.","Dê tudo o que tem.","",""],
+["This is your moment.","Esse é o seu momento.","",""],
+["You were made for this.","Você foi feito para isso.","",""],
+["Now go out there and show them what you've got.","Agora vai lá e mostra do que você é capaz.","",""],
+["The world is yours.","O mundo é seu.","",""]
+];
+// ── STATE ──────────────────────────────────────────────────────────────────
+const LS_KEY='p2_learned';
+let learned=new Set(JSON.parse(localStorage.getItem(LS_KEY)||'[]'));
+let curLvl=1, curFilter='all', searchQ='', flashMode=false, flashIdx=0, flashRevealed=false;
+let flashList=[];
+function saveLearned(){localStorage.setItem(LS_KEY,JSON.stringify([...learned]));}
+function phraseIdx(id){return id-1;}
+function phrasesForLevel(lvl){const s=(lvl-1)*100;return P.slice(s,s+100);}
+function learnedCountForLevel(lvl){let c=0;const s=(lvl-1)*100;for(let i=s;i<s+100;i++)if(learned.has(i))c++;return c;}
+// ── PARTICLES ─────────────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('particles');
+  ['#64DFDF','#F5C518','#5FD87A'].forEach(col=>{
+    for(let i=0;i<7;i++){
+      const d=document.createElement('div');d.className='p';
+      const sz=2+Math.random()*4,x=Math.random()*100,y=Math.random()*100,dur=9+Math.random()*10,del=Math.random()*8;
+      d.style.cssText=`width:${sz}px;height:${sz}px;left:${x}%;top:${y}%;background:${col};animation:fp ${dur}s ${del}s infinite ease-in-out`;
+      c.appendChild(d);
+    }
+  });
+})();
+// ── LEVEL TABS ─────────────────────────────────────────────────────────────
+function buildTabs(){
+  const el=document.getElementById('lvlTabs');
+  el.innerHTML='';
+  LVLS.forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='ltab'+(l.id===curLvl?' active':'');
+    const lc=learnedCountForLevel(l.id);
+    btn.innerHTML=`<span class="ltab-name">${l.name}</span><span class="ltab-prog">${lc}/100</span>`;
+    btn.onclick=()=>{curLvl=l.id;flashIdx=0;flashRevealed=false;buildTabs();buildHdr();render();};
+    el.appendChild(btn);
+  });
+}
+function buildHdr(){
+  const l=LVLS[curLvl-1];
+  const lc=learnedCountForLevel(curLvl);
+  const pct=lc;
+  document.getElementById('lvlHdr').innerHTML=`
+    <div class="lvl-hdr-name">${l.name}</div>
+    <span class="lvl-hdr-desc">${l.desc}</span>
+    <div class="lvl-hdr-bar"><div class="lvl-hdr-fill" style="width:${pct}%"></div></div>
+    <span class="lvl-hdr-pct">${lc}/100</span>`;
+  const total=[...learned].length;
+  document.getElementById('navLearned').textContent=total;
+}
+// ── RENDER LIST ────────────────────────────────────────────────────────────
+function render(){
+  document.getElementById('phraseList').style.display=flashMode?'none':'block';
+  document.getElementById('flashArea').className='flash-area'+(flashMode?' show':'');
+  if(flashMode){renderFlash();return;}
+  const phrases=phrasesForLevel(curLvl);
+  const q=searchQ.toLowerCase();
+  const list=document.getElementById('phraseList');
+  list.innerHTML='';
+  let count=0;
+  phrases.forEach((ph,i)=>{
+    const gid=(curLvl-1)*100+i;
+    const isL=learned.has(gid);
+    if(curFilter==='todo'&&isL)return;
+    if(curFilter==='done'&&!isL)return;
+    if(q&&!ph[0].toLowerCase().includes(q)&&!ph[1].toLowerCase().includes(q))return;
+    count++;
+    const card=document.createElement('div');
+    card.className='pcard'+(isL?' learned':'');
+    const noteHtml=ph[2]?`<div class="pc-note ${ph[2]}">${ph[2]==='F'?'🔊 Falado':'💡 Macete'}: ${ph[3]}</div>`:'';
+    card.innerHTML=`
+      <span class="pnum">${gid+1}</span>
+      <div class="pc-body">
+        <div class="pc-en">${ph[0]}</div>
+        <div class="pc-pt">${ph[1]}</div>
+        ${noteHtml}
+      </div>
+      <button class="star-btn ${isL?'on':''}" title="${isL?'Remover':'Marcar como aprendida'}" data-gid="${gid}">${isL?'★':'☆'}</button>`;
+    card.querySelector('.star-btn').onclick=function(e){
+      e.stopPropagation();
+      const g=parseInt(this.dataset.gid);
+      if(learned.has(g))learned.delete(g);else learned.add(g);
+      saveLearned();buildTabs();buildHdr();render();
+    };
+    list.appendChild(card);
+  });
+  if(count===0)list.innerHTML='<div class="empty">Nenhuma frase encontrada.</div>';
+}
+// ── FLASHCARD ─────────────────────────────────────────────────────────────
+function buildFlashList(){
+  const phrases=phrasesForLevel(curLvl);
+  flashList=[];
+  phrases.forEach((ph,i)=>{
+    const gid=(curLvl-1)*100+i;
+    if(curFilter==='todo'&&learned.has(gid))return;
+    if(curFilter==='done'&&!learned.has(gid))return;
+    flashList.push({ph,gid});
+  });
+}
+function renderFlash(){
+  buildFlashList();
+  if(flashList.length===0){
+    document.getElementById('fcard').innerHTML='<div style="color:var(--td);font-size:.9rem">Nenhuma frase neste filtro.</div>';
+    document.getElementById('fcMarkWrap').style.display='none';
+    return;
+  }
+  if(flashIdx>=flashList.length)flashIdx=0;
+  const {ph,gid}=flashList[flashIdx];
+  flashRevealed=false;
+  document.getElementById('fcNum').textContent=(gid+1)+' — '+LVLS[curLvl-1].name;
+  document.getElementById('fcEn').textContent=ph[0];
+  document.getElementById('fcPt').style.display='none';
+  document.getElementById('fcPt').textContent=ph[1];
+  document.getElementById('fcNote').style.display='none';
+  document.getElementById('fcNote').textContent=ph[2]?(ph[2]==='F'?'🔊 ':''+'💡 ')+ph[3]:'';
+  document.getElementById('fcHint').style.display='block';
+  document.getElementById('fcPos').textContent=(flashIdx+1)+' / '+flashList.length;
+  document.getElementById('fcMarkWrap').style.display='none';
+}
+function fcReveal(){
+  if(flashRevealed)return;
+  flashRevealed=true;
+  document.getElementById('fcPt').style.display='block';
+  const {ph}=flashList[flashIdx];
+  if(ph[2]){document.getElementById('fcNote').style.display='block';}
+  document.getElementById('fcHint').style.display='none';
+  document.getElementById('fcMarkWrap').style.display='flex';
+}
+function fcNext(){if(!flashList.length)return;flashIdx=(flashIdx+1)%flashList.length;renderFlash();}
+function fcPrev(){if(!flashList.length)return;flashIdx=(flashIdx-1+flashList.length)%flashList.length;renderFlash();}
+function fcMark(yes){
+  if(!flashList.length)return;
+  const {gid}=flashList[flashIdx];
+  if(yes)learned.add(gid);else learned.delete(gid);
+  saveLearned();buildTabs();buildHdr();
+  fcNext();
+}
+// ── EVENTS ─────────────────────────────────────────────────────────────────
+document.querySelectorAll('.fbtn').forEach(btn=>{
+  btn.onclick=function(){
+    curFilter=this.dataset.f;
+    document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+    this.classList.add('on');
+    flashIdx=0;render();
+  };
+});
+document.getElementById('searchBox').oninput=function(){searchQ=this.value;render();};
+document.getElementById('modeBtn').onclick=function(){
+  flashMode=!flashMode;
+  flashIdx=0;flashRevealed=false;
+  this.textContent=flashMode?'📋 Lista':'⚡ Flashcard';
+  this.className='mode-btn'+(flashMode?' flash':'');
+  render();
+};
+// ── INIT ──────────────────────────────────────────────────────────────────
+buildTabs();buildHdr();render();
+</script>
+</body>
+</html>

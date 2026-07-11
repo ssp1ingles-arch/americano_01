@@ -1,0 +1,1687 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 1 — Base Completa · Inglês para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:    #080c14;
+  --bg2:   #0d1421;
+  --bg3:   #111827;
+  --border: rgba(255,255,255,0.07);
+  --text:  #e2e8f0;
+  --muted: #64748b;
+  --c-pronouns: #00d4ff;
+  --c-be:       #818cf8;
+  --c-articles: #a78bfa;
+  --c-verbs1:   #f59e0b;
+  --c-modals:   #f87171;
+  --c-connect:  #818cf8;
+  --c-prep:     #22d3ee;
+  --c-quant:    #34d399;
+  --c-chunks:   #fb923c;
+  --c-phrasal:  #c084fc;
+  --c-fluency:  #4ade80;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-top: 48px;
+}
+
+/* ── GLOBAL NAV ── */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);border-color:rgba(100,223,223,.6);}
+.gnav-s1.active{color:#64DFDF;border-color:#64DFDF;background:rgba(100,223,223,.12);box-shadow:0 0 10px rgba(100,223,223,.2);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.55);}
+.gnav-s2.active{color:#F5C518;border-color:#F5C518;background:rgba(245,197,24,.1);box-shadow:0 0 10px rgba(245,197,24,.2);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.6);}
+.gnav-s3.active{color:#A78BFA;border-color:#A78BFA;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.2);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s4.active{color:#FF6B6B;border-color:#FF6B6B;background:rgba(255,107,107,.12);box-shadow:0 0 10px rgba(255,107,107,.2);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s5.active{border-color:#10B981;background:rgba(16,185,129,.16);box-shadow:0 0 10px rgba(16,185,129,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* ── BREADCRUMB ── */
+.crumb{padding:.45rem 1.5rem;display:flex;align-items:center;gap:.45rem;border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(8,12,20,.9);}
+.crumb-link{color:#64DFDF;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.75;transition:opacity .2s;}
+.crumb-link:hover{opacity:1;}
+.crumb-sep{color:var(--muted);font-size:.75rem;}
+.crumb-cur{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;color:var(--muted);}
+
+/* ── HERO ── */
+#hero {
+  position: relative;
+  height: 340px;
+  min-height: 300px;
+  overflow: hidden;
+}
+#hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .6rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--c-pronouns);
+  background: rgba(0,212,255,.1);
+  border: 1px solid rgba(0,212,255,.25);
+  padding: .3rem .9rem;
+  border-radius: 2rem;
+  margin-bottom: .85rem;
+  pointer-events: none;
+}
+#hero-dot{width:7px;height:7px;border-radius:50%;background:var(--c-pronouns);flex-shrink:0;animation:hdot 2s ease-in-out infinite;}
+@keyframes hdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#labels-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.word-label {
+  position: absolute;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  white-space: nowrap;
+  text-shadow: 0 0 12px currentColor;
+  transform: translate(-50%, -50%);
+}
+
+#hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+  padding: 2rem;
+}
+
+#hero-content h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--c-pronouns);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+#hero-content .tagline {
+  font-size: 0.88rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  margin-bottom: 1.4rem;
+  line-height: 1.5;
+}
+
+#progress-pill {
+  pointer-events: auto;
+  background: rgba(13, 20, 33, 0.8);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  backdrop-filter: blur(16px);
+  min-width: 240px;
+}
+
+#progress-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  color: var(--c-pronouns);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.bar-outer {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.bar-inner {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--c-pronouns), var(--c-articles));
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+#scroll-cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: bob 2.2s ease-in-out infinite;
+}
+
+#scroll-cue svg { width: 18px; height: 18px; }
+
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(7px); }
+}
+
+/* ── MAIN ── */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem 7rem;
+}
+
+/* ── MODULE SECTION ── */
+.mod-section { margin-bottom: 3.5rem; }
+
+.mod-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mod-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mod-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mod-badge {
+  margin-left: auto;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.7rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* ── LESSON GRID ── */
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.9rem;
+}
+
+/* ── LESSON CARD ── */
+.lesson-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.lesson-card.active {
+  border-color: var(--cc);
+  box-shadow: 0 0 22px var(--cg);
+}
+
+.lesson-card.active:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 36px var(--cg);
+}
+
+.lesson-card.soon {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.card-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--cc, transparent);
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+
+.lesson-card.active:hover .card-accent { opacity: 1; }
+
+.card-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cc, var(--muted));
+  margin-bottom: 0.6rem;
+}
+
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+}
+
+.card-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+  line-height: 1.4;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lvl-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  border-radius: 100px;
+  border: 1px solid var(--cc, var(--muted));
+  color: var(--cc, var(--muted));
+}
+
+.status-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.status-badge.done { color: var(--cc, var(--c-pronouns)); }
+
+/* ── PHASE DIVIDER ── */
+.phase-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3.5rem 0 2.5rem;
+}
+
+.phase-divider::before,
+.phase-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.phase-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── FUTURE MODULE CARDS ── */
+.future-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.75rem;
+}
+
+.future-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.15rem 1.15rem 1.15rem 1.3rem;
+  opacity: 0.32;
+  position: relative;
+  overflow: hidden;
+}
+
+.future-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--cc, var(--muted));
+  border-radius: 3px 0 0 3px;
+}
+
+.future-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cc, var(--muted));
+  margin-bottom: 0.4rem;
+}
+
+.future-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  padding-right: 1.5rem;
+}
+
+.future-desc {
+  font-size: 0.73rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.lock-ico {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 14px;
+  height: 14px;
+  opacity: 0.35;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .lessons-grid  { grid-template-columns: 1fr; }
+  .future-grid   { grid-template-columns: 1fr; }
+  main { padding: 3rem 1.25rem 5rem; }
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- ═══════════ GLOBAL NAV ═══════════ -->
+<nav class="gnav">
+  <a href="../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="./index.html" class="gnav-btn gnav-s1 active">S1</a>
+  <a href="../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- ═══════════ BREADCRUMB ═══════════ -->
+<div class="crumb">
+  <a href="../index.html" class="crumb-link">← Menu Principal</a>
+  <span class="crumb-sep">/</span>
+  <span class="crumb-cur">Sistema 1 — Base Completa</span>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div id="labels-overlay"></div>
+
+  <div id="hero-content">
+    <div id="hero-badge"><div id="hero-dot"></div> Sistema 1 — Base Completa</div>
+    <h1>Base Completa</h1>
+    <p class="tagline">Pronomes, verbos, artigos e estrutura — 89 lições</p>
+
+    <div id="progress-pill">
+      <div id="progress-label">1 de 25 lições concluídas</div>
+      <div class="bar-outer">
+        <div class="bar-inner" id="bar-fill" style="width:4%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="scroll-cue">
+    <span>Ver currículo</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--c-pronouns)" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════ CURRÍCULO ═══════════ -->
+<main>
+
+  <!-- ── MÓDULO 01 — Pronomes ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#00d4ff;box-shadow:0 0 8px #00d4ff"></div>
+      <h2>Módulo 01 — Pronomes</h2>
+      <span class="mod-badge">A1 · 4 lições</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../01_pronomes_sujeito/index.html" class="lesson-card active"
+         style="--cc:#00d4ff;--cg:rgba(0,212,255,0.18)">
+        <div class="card-num">Lição 01</div>
+        <div class="card-title">Pronomes Sujeito</div>
+        <div class="card-sub">I, You, He, She, It, We, They</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../02_pronomes_objeto/index.html" class="lesson-card active"
+         style="--cc:#00d4ff;--cg:rgba(0,212,255,0.18)">
+        <div class="card-num">Lição 02</div>
+        <div class="card-title">Pronomes Objeto</div>
+        <div class="card-sub">Me, You, Him, Her, It, Us, Them</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../03_pronomes_possessivos/index.html" class="lesson-card active"
+         style="--cc:#00d4ff;--cg:rgba(0,212,255,0.18)">
+        <div class="card-num">Lição 03</div>
+        <div class="card-title">Pronomes Possessivos</div>
+        <div class="card-sub">My, Your, His, Her, Its, Our, Their</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../04_pronomes_reflexivos/index.html" class="lesson-card active" style="--cc:#9C8FFF;--cg:#9C8FFF33">
+        <div class="card-num">Lição 04</div>
+        <div class="card-title">Pronomes Reflexivos</div>
+        <div class="card-sub">Myself, Yourself, Himself, Herself...</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done-badge">Disponível</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 01 (cont.) — BE ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#818cf8;box-shadow:0 0 8px #818cf8"></div>
+      <h2>Módulo 01 — Verbo BE (6 sentidos)</h2>
+      <span class="mod-badge">A1 · 6 lições</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../05_be_ser/index.html" class="lesson-card active" style="--cc:#818cf8;--cg:#818cf833">
+        <div class="card-num">Lição 05</div>
+        <div class="card-title">BE — Ser</div>
+        <div class="card-sub">I am · is · are · was · were · will be</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge">✓ Disponível</span>
+        </div>
+      </a>
+
+      <a href="../06_be_estar/index.html" class="lesson-card active" style="--cc:#4FC3F7;--cg:#4FC3F733">
+        <div class="card-num">Lição 06</div>
+        <div class="card-title">BE — Estar</div>
+        <div class="card-sub">She is tired. He is at home. It is cold.</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge">✓ Disponível</span>
+        </div>
+      </a>
+
+      <a href="../07_be_ficar/index.html" class="lesson-card active" style="--cc:#FFB74D;--cg:#FFB74D33">
+        <div class="card-num">Lição 07</div>
+        <div class="card-title">BE — Ficar</div>
+        <div class="card-sub">I am nervous. She was angry. It will be hot.</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge">✓ Disponível</span>
+        </div>
+      </a>
+
+      <a href="../08_be_ha_tem/index.html" class="lesson-card active" style="--cc:#66BB6A;--cg:#66BB6A33">
+        <div class="card-num">Lição 08</div>
+        <div class="card-title">BE — Há / Tem / Existe</div>
+        <div class="card-sub">There is a dog. There are many people here.</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge">✓ Disponível</span>
+        </div>
+      </a>
+
+      <a href="../09_be_ing/index.html" class="lesson-card active" style="--cc:#FF6D00;--cg:#FF6D0033">
+        <div class="card-num">Lição 09</div>
+        <div class="card-title">BE — Ação Contínua (-ing)</div>
+        <div class="card-sub">I am working. It is raining. She was studying.</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge">✓ Disponível</span>
+        </div>
+      </a>
+
+      <a href="../10_be_been/index.html" class="lesson-card active" style="--cc:#EC407A;--cg:#EC407A33">
+        <div class="card-num">Lição 10</div>
+        <div class="card-title">BE — Já Esteve / Tem Estado</div>
+        <div class="card-sub">I have been here. She has been busy. Had been.</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 02 — Artigos ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#a78bfa;box-shadow:0 0 8px #a78bfa"></div>
+      <h2>Módulo 02 — Artigos</h2>
+      <span class="mod-badge">A1 · 3 lições</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../11_artigo_a_an/index.html" class="lesson-card active" style="--cc:#29B6F6;--cg:#29B6F633">
+        <div class="card-num">Lição 11</div>
+        <div class="card-title">Artigo Indefinido — A / AN</div>
+        <div class="card-sub">Um, Uma — regra do som + casos especiais + quiz</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../12_artigo_the/index.html" class="lesson-card active" style="--cc:#AB47BC;--cg:#AB47BC33">
+        <div class="card-num">Lição 12</div>
+        <div class="card-title">Artigo Definido — THE</div>
+        <div class="card-sub">O, A, Os, As — específico, único, superlativo, geográfico</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../13_sem_artigo/index.html" class="lesson-card active" style="--cc:#26A69A;--cg:#26A69A33">
+        <div class="card-num">Lição 13</div>
+        <div class="card-title">Zero Article — Sem Artigo</div>
+        <div class="card-sub">Quando o inglês omite onde o português usa o/a/de + Quiz A/AN/THE/∅</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── DIVIDER ── -->
+  <div class="phase-divider">
+    <span class="phase-label">Próximas fases do currículo</span>
+  </div>
+
+  <!-- ── MÓDULO 03 — Verbos Top 10 ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#f59e0b;box-shadow:0 0 8px #f59e0b"></div>
+      <h2>Módulo 03 — Verbos Top 10</h2>
+      <span class="mod-badge">A1–A2 · completo</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../14_have_ter/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 14</div>
+        <div class="card-title">HAVE — 8 Sentidos</div>
+        <div class="card-sub">TER, POSSUIR, COMER, BEBER, TOMAR, SENTIR, PRECISAR, TER QUE</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../15_do_fazer/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 15</div>
+        <div class="card-title">DO — 2 Sentidos</div>
+        <div class="card-sub">FAZER (tarefas e ações) + AUXILIAR (perguntas, negações e ênfases)</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../16_go_ir/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 16</div>
+        <div class="card-title">GO — 3 Sentidos</div>
+        <div class="card-sub">IR (lugar) · FICAR (go crazy) · IR DE (go by bus) + passado WENT</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../17_get_ficar/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 17</div>
+        <div class="card-title">GET — 3 Sentidos</div>
+        <div class="card-sub">FICAR (get tired) · BUSCAR/PEGAR (get the kids) · ENTENDER (I get it!)</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../18_make_fazer/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 18</div>
+        <div class="card-title">MAKE — 2 Sentidos</div>
+        <div class="card-sub">FAZER/CRIAR (make coffee) · CAUSAR/DEIXAR (makes me happy)</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../19_come_vir/index.html" class="lesson-card active"
+         style="--cc:#f59e0b;--cg:rgba(245,158,11,0.18)">
+        <div class="card-num">Lição 19</div>
+        <div class="card-title">COME — 2 Sentidos</div>
+        <div class="card-sub">VIR (em direção a você) · CHEGAR (come on time, the package came)</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 04 — Verbos do Dia a Dia ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#22d3ee;box-shadow:0 0 8px #22d3ee"></div>
+      <h2>Módulo 04 — Verbos do Dia a Dia</h2>
+      <span class="mod-badge">A2 · completo</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../20_know_saber/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 20</div>
+        <div class="card-title">KNOW — 2 Sentidos</div>
+        <div class="card-sub">SABER (fatos e habilidades) · CONHECER (pessoas e lugares) — um verbo para os dois!</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../21_see_ver/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 21</div>
+        <div class="card-title">SEE — VER</div>
+        <div class="card-sub">Passado irregular SAW · SEE vs LOOK vs WATCH — três verbos que brasileiros confundem</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../22_need_like_love_feel/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 22</div>
+        <div class="card-title">NEED · LIKE · LOVE · FEEL</div>
+        <div class="card-sub">PRECISAR · GOSTAR · AMAR/ADORAR · SENTIR — 3 regulares + FEEL irregular (FELT)</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../23_take_pegar_levar/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 23</div>
+        <div class="card-title">TAKE — 2 Sentidos</div>
+        <div class="card-sub">PEGAR/LEVAR + TOMAR/TIRAR/FAZER — irregular (TOOK) e expressões fixas</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../24_give_find_work/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 24</div>
+        <div class="card-title">GIVE · FIND · WORK</div>
+        <div class="card-sub">DAR · ENCONTRAR · TRABALHAR/FUNCIONAR — 2 irregulares (GAVE, FOUND) + 1 regular</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../25_call_use/index.html" class="lesson-card active"
+         style="--cc:#22d3ee;--cg:rgba(34,211,238,0.18)">
+        <div class="card-num">Lição 25</div>
+        <div class="card-title">CALL · USE</div>
+        <div class="card-sub">LIGAR/CHAMAR · USAR — ambos regulares, encerrando o Módulo 04</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 05 — Modais ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#f87171;box-shadow:0 0 8px #f87171"></div>
+      <h2>Módulo 05 — Verbos Modais</h2>
+      <span class="mod-badge">A1–A2 · em andamento</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../26_will_shall/index.html" class="lesson-card active"
+         style="--cc:#f87171;--cg:rgba(248,113,113,0.18)">
+        <div class="card-num">Lição 26</div>
+        <div class="card-title">WILL · SHALL</div>
+        <div class="card-sub">Futuro espontâneo, promessas, previsões — WON'T · decisão vs GOING TO</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../27_can_could/index.html" class="lesson-card active"
+         style="--cc:#f87171;--cg:rgba(248,113,113,0.18)">
+        <div class="card-num">Lição 27</div>
+        <div class="card-title">CAN · COULD</div>
+        <div class="card-sub">Habilidade, permissão, pedidos — CAN'T e COULD educado · BE ABLE TO</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../28_must_have_to/index.html" class="lesson-card active"
+         style="--cc:#f87171;--cg:rgba(248,113,113,0.18)">
+        <div class="card-num">Lição 28</div>
+        <div class="card-title">MUST · HAVE TO · NEED TO</div>
+        <div class="card-sub">Obrigação pessoal vs regra externa · MUSTN'T ≠ DON'T HAVE TO</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../29_should/index.html" class="lesson-card active"
+         style="--cc:#34D399;--cg:rgba(52,211,153,0.15)">
+        <div class="card-num">Lição 29</div>
+        <div class="card-title">SHOULD · OUGHT TO</div>
+        <div class="card-sub">Conselho, perguntas de orientação e arrependimento do passado</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      </div>
+
+      <a href="../30_may_might/index.html" class="lesson-card active"
+         style="--cc:#60A5FA;--cg:rgba(96,165,250,0.15)">
+        <div class="card-num">Lição 30</div>
+        <div class="card-title">MAY · MIGHT</div>
+        <div class="card-sub">Escala de probabilidade · MAY I = permissão formal · passado com HAVE</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../31_would/index.html" class="lesson-card active"
+         style="--cc:#FBBF24;--cg:rgba(251,191,36,0.15)">
+        <div class="card-num">Lição 31</div>
+        <div class="card-title">WOULD</div>
+        <div class="card-sub">Gostaria · Costumava · Condicional · Would rather/prefer</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 06 — Conectivos Essenciais ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#818cf8;box-shadow:0 0 8px #818cf8"></div>
+      <h2>Módulo 06 — Conectivos Essenciais</h2>
+      <span class="mod-badge">A2 · em andamento</span>
+    </div>
+    <div class="lessons-grid">
+
+      <a href="../32_and_but_or/index.html" class="lesson-card active"
+         style="--cc:#818cf8;--cg:rgba(129,140,248,0.15)">
+        <div class="card-num">Lição 32</div>
+        <div class="card-title">AND · BUT · OR</div>
+        <div class="card-sub">Adição, contraste e alternativa · EITHER...OR · NEITHER...NOR</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../33_so_because/index.html" class="lesson-card active"
+         style="--cc:#818cf8;--cg:rgba(129,140,248,0.15)">
+        <div class="card-num">Lição 33</div>
+        <div class="card-title">SO · BECAUSE</div>
+        <div class="card-sub">Dois lados da mesma situação · SO THAT · BECAUSE OF · So am I</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+
+      <a href="../34_if/index.html" class="lesson-card active"
+         style="--cc:#818cf8;--cg:rgba(129,140,248,0.15)">
+        <div class="card-num">Lição 34</div>
+        <div class="card-title">IF</div>
+        <div class="card-sub">Condição real · IF + presente → WILL · IF = WHETHER · Perguntas indiretas</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      </div>
+
+      <a href="../35_before_after/index.html" class="lesson-card active"
+         style="--cc:#818cf8;--cg:rgba(129,140,248,0.15)">
+        <div class="card-num">Lição 35</div>
+        <div class="card-title">BEFORE · AFTER</div>
+        <div class="card-sub">Sequência temporal · oração / noun / gerund · right after · just before</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      </div>
+
+      <a href="../36_however_although/index.html" class="lesson-card active"
+         style="--cc:#818cf8;--cg:rgba(129,140,248,0.15)">
+        <div class="card-num">Lição 36</div>
+        <div class="card-title">HOWEVER · ALTHOUGH · ALSO · TOO</div>
+        <div class="card-sub">Contraste formal · Concessão · EITHER em negativas · Módulo 06 completo</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 07 — Question Words ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#38bdf8"></div>
+      <h2>Módulo 07 — Question Words</h2>
+      <span class="mod-badge">A2</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../37_who/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 37</div>
+        <div class="card-title">WHO · WHOM · WHOSE</div>
+        <div class="card-sub">Quem · De quem · Sujeito vs objeto · WHOEVER</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../38_what/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 38</div>
+        <div class="card-title">WHAT</div>
+        <div class="card-sub">O que · Que · Qual · Exclamação · Relativo · WHATEVER</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../39_when/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 39</div>
+        <div class="card-title">WHEN</div>
+        <div class="card-sub">Quando · Conjunção temporal · Sem WILL · WHENEVER</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../40_where/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 40</div>
+        <div class="card-title">WHERE</div>
+        <div class="card-sub">Onde · Aonde · De onde · WHERE...FROM · WHEREVER</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../41_why/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 41</div>
+        <div class="card-title">WHY</div>
+        <div class="card-sub">Por quê · BECAUSE · WHY NOT · WHY + negação</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../42_how/index.html" class="lesson-card active"
+         style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 42</div>
+        <div class="card-title">HOW</div>
+        <div class="card-sub">Como · HOW MUCH/MANY · HOW OFTEN · HOW LONG · HOW COME</div>
+        <div class="card-footer">
+          <span class="lvl-badge">A1–A2</span>
+          <span class="status-badge done">✓ Disponível</span>
+        </div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../43_which/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 43</div>
+        <div class="card-title">WHICH</div>
+        <div class="card-sub">Qual · Quais · Opções limitadas · WHICH relativo · WHAT vs WHICH</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 08 — Preposições de Tempo ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#22d3ee"></div>
+      <h2>Módulo 08 — Preposições de Tempo</h2>
+      <span class="mod-badge">A1–A2</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../44_at/index.html" class="lesson-card active" style="--cc:#22d3ee;--cg:rgba(34,211,238,0.15)">
+        <div class="card-num">Lição 44</div>
+        <div class="card-title">AT</div>
+        <div class="card-sub">Horas · Momentos · Eventos · AT vs ON vs IN</div>
+        <div class="card-footer"><span class="lvl-badge">A1</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../45_on/index.html" class="lesson-card active" style="--cc:#22d3ee;--cg:rgba(34,211,238,0.15)">
+        <div class="card-num">Lição 45</div>
+        <div class="card-title">ON</div>
+        <div class="card-sub">Dias · Datas · Ocasiões · Dia+Parte = ON</div>
+        <div class="card-footer"><span class="lvl-badge">A1</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../46_in/index.html" class="lesson-card active" style="--cc:#22d3ee;--cg:rgba(34,211,238,0.15)">
+        <div class="card-num">Lição 46</div>
+        <div class="card-title">IN</div>
+        <div class="card-sub">Meses · Anos · Estações · Partes do dia · Daqui a</div>
+        <div class="card-footer"><span class="lvl-badge">A1</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 09 — Preposições de Lugar ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#22d3ee"></div>
+      <h2>Módulo 09 — Preposições de Lugar</h2>
+      <span class="mod-badge">A2</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../47_lugar/index.html" class="lesson-card active" style="--cc:#22d3ee;--cg:rgba(34,211,238,0.15)">
+        <div class="card-num">Lição 47</div>
+        <div class="card-title">IN / ON / AT</div>
+        <div class="card-sub">Dentro · Superfície · Ponto · Transporte · Endereço</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 11 — Chunks ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#34d399"></div>
+      <h2>Módulo 11 — Estruturas Fixas · Chunks</h2>
+      <span class="mod-badge">A2 · B1</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../48_chunks/index.html" class="lesson-card active" style="--cc:#34d399;--cg:rgba(52,211,153,0.15)">
+        <div class="card-num">Lição 48</div>
+        <div class="card-title">Chunks Essenciais</div>
+        <div class="card-sub">IT IS · THERE IS · HOW + MEDIDAS · WHAT + CHUNKS · AS…AS · THAT'S WHY · EVEN IF</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 12 — Verbos de Comunicação ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#fb923c"></div>
+      <h2>Módulo 12 — Verbos de Comunicação</h2>
+      <span class="mod-badge">A2 · B1</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../49_speak/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 49</div>
+        <div class="card-title">SPEAK</div>
+        <div class="card-sub">Falar · Formal · Idiomas · speak → spoke → spoken</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../50_talk/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 50</div>
+        <div class="card-title">TALK</div>
+        <div class="card-sub">Conversar · Informal · talk → talked (regular) · TALK TO / ABOUT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../51_hear/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 51</div>
+        <div class="card-title">HEAR</div>
+        <div class="card-sub">Ouvir · hear → heard · pronúncia: HEARD rima com BIRD · HEAR FROM</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../52_show/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 52</div>
+        <div class="card-title">SHOW</div>
+        <div class="card-sub">Mostrar · show → showed (regular) · SHOW UP · SHOW OFF</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../53_meet/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 53</div>
+        <div class="card-title">MEET</div>
+        <div class="card-sub">Encontrar · Conhecer (1ª vez) · meet → met (irregular) · NICE TO MEET YOU</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../54_help/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 54</div>
+        <div class="card-title">HELP</div>
+        <div class="card-sub">Ajudar · help → helped (regular) · HELP + BASE · CAN'T HELP + ING · HELP YOURSELF</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../55_try/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 55</div>
+        <div class="card-title">TRY</div>
+        <div class="card-sub">Tentar · Experimentar · try → tried (Y→IED) · TRY TO vs TRY -ING · TRY ON · TRY OUT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../56_understand/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 56</div>
+        <div class="card-title">UNDERSTAND</div>
+        <div class="card-sub">Entender · understand → understood (irregular) · Verbo de estado · MAKE YOURSELF UNDERSTOOD</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../57_remember/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 57</div>
+        <div class="card-title">REMEMBER</div>
+        <div class="card-sub">Lembrar · remember → remembered (regular) · REMEMBER + ING (passado) vs + TO (futuro)</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../58_forget/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 58</div>
+        <div class="card-title">FORGET</div>
+        <div class="card-sub">Esquecer · forget → forgot → forgotten (irregular) · DON'T FORGET · FORGET ABOUT IT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../59_learn/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 59</div>
+        <div class="card-title">LEARN</div>
+        <div class="card-sub">Aprender · learn → learned (regular) · LEARN TO · LEARN HOW TO · LEARN FROM</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../60_mean/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 60</div>
+        <div class="card-title">MEAN</div>
+        <div class="card-sub">Significar · mean → meant (irregular) · WHAT DOES X MEAN? · MEAN TO · I MEAN</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../61_seem/index.html" class="lesson-card active" style="--cc:#fb923c;--cg:rgba(251,146,60,0.15)">
+        <div class="card-num">Lição 61</div>
+        <div class="card-title">SEEM</div>
+        <div class="card-sub">Parecer · seem → seemed (regular) · SEEM TO · IT SEEMS THAT · SEEM vs LOOK</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 13 — Verbos de Rotina Diária ── -->
+  <div class="mod-section">
+    <div class="mod-header">
+      <div class="mod-dot" style="background:#38bdf8"></div>
+      <h2>Módulo 13 — Verbos de Rotina Diária</h2>
+      <span class="mod-badge">A2</span>
+    </div>
+    <div class="lessons-grid">
+      <a href="../62_wake/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 62</div>
+        <div class="card-title">WAKE</div>
+        <div class="card-sub">Acordar · wake → woke → woken (irregular) · WAKE UP · WAKE someone UP</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../63_sleep/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 63</div>
+        <div class="card-title">SLEEP</div>
+        <div class="card-sub">Dormir · sleep → slept (irregular) · SLEEP IN · SLEEP OVER · FALL ASLEEP · SLEEP ON IT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../64_cook/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 64</div>
+        <div class="card-title">COOK</div>
+        <div class="card-sub">Cozinhar · cook → cooked (regular) · COOK FOR · FROM SCRATCH · métodos: fry, bake, grill…</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../65_watch/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 65</div>
+        <div class="card-title">WATCH</div>
+        <div class="card-sub">Assistir · watch → watched (regular) · WATCH vs SEE vs LOOK AT · WATCH OUT · WATCH OVER</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../66_play/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 66</div>
+        <div class="card-title">PLAY</div>
+        <div class="card-sub">Jogar · tocar · play → played (regular) · PLAY + esporte (sem THE) · PLAY THE + instrumento</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../67_drive/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 67</div>
+        <div class="card-title">DRIVE</div>
+        <div class="card-sub">Dirigir · levar de carro · drive → drove → driven (irregular) · DRIVE someone CRAZY · DRIVE-THROUGH</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../68_start/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 68</div>
+        <div class="card-title">START</div>
+        <div class="card-sub">Começar · iniciar · start → started (regular) · START + -ING vs START TO · GET STARTED · START OVER</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../69_stop/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 69</div>
+        <div class="card-title">STOP</div>
+        <div class="card-sub">Parar · parar de · stop → stopped (regular +PP) · STOP + -ING vs STOP TO · STOP BY · NON-STOP</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../70_decide/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 70</div>
+        <div class="card-title">DECIDE</div>
+        <div class="card-sub">Decidir · decide → decided (regular +D) · DECIDE TO · DECIDE ON · DECIDE AGAINST · MAKE A DECISION</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../71_keep/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 71</div>
+        <div class="card-title">KEEP</div>
+        <div class="card-sub">Manter · guardar · continuar · keep → kept (irregular) · KEEP + -ING · KEEP IN TOUCH · KEEP IT UP</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../72_let/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 72</div>
+        <div class="card-title">LET</div>
+        <div class="card-sub">Deixar · permitir · let → let → let (invariável) · LET + BASE (sem TO) · LET'S · LET DOWN · LET ME KNOW</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../73_become/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 73</div>
+        <div class="card-title">BECOME</div>
+        <div class="card-sub">Tornar-se · ficar · become → became → become (irregular) · BECOME vs GET vs GO vs TURN · WHAT BECAME OF?</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../74_feel/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 74</div>
+        <div class="card-title">FEEL</div>
+        <div class="card-sub">Sentir · sentir-se · feel → felt → felt (irregular) · FEEL LIKE + -ING · FEEL FREE TO · verbo de ligação</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../75_hear/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 75</div>
+        <div class="card-title">HEAR</div>
+        <div class="card-sub">Ouvir · hear → heard → heard (irregular) · HEAR vs LISTEN · HEAR ABOUT/FROM/OF · I HEARD THAT · HEAR ME OUT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../76_think/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 76</div>
+        <div class="card-title">THINK</div>
+        <div class="card-sub">Pensar · achar · think → thought → thought (irregular) · THINK ABOUT/OF · I THINK SO · THINK TWICE</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../77_find/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 77</div>
+        <div class="card-title">FIND</div>
+        <div class="card-sub">Encontrar · achar · find → found → found (irregular) · FIND vs FIND OUT · FIND IT + adj. · FIND YOURSELF + -ING</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../78_give/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 78</div>
+        <div class="card-title">GIVE</div>
+        <div class="card-sub">Dar · oferecer · give → gave → given (irregular) · Duplo objeto · GIVE UP · GIVE BACK · GIVE A CALL</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../79_take/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 79</div>
+        <div class="card-title">TAKE</div>
+        <div class="card-sub">Pegar · levar · demorar · take → took → taken (irregular) · TAKE vs BRING · IT TAKES · TAKE OFF · TAKE CARE OF</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../80_leave/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 80</div>
+        <div class="card-title">LEAVE</div>
+        <div class="card-sub">Deixar · sair · partir · leave → left → left (irregular) · LEAVE vs FORGET · LEAVE OUT · LEAVE ALONE · TAKE IT OR LEAVE IT</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../81_lose/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 81</div>
+        <div class="card-title">LOSE</div>
+        <div class="card-sub">Perder · derrotar · lose → lost → lost (irregular) · LOSE vs LOOSE vs LOSS · LOSE WEIGHT · LOSE TRACK · AT A LOSS</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../82_win/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 82</div>
+        <div class="card-title">WIN</div>
+        <div class="card-sub">Ganhar · vencer · win → won → won (irregular) · WIN vs BEAT vs EARN · WIN OVER · WIN HANDS DOWN · WIN-WIN</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../83_break/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 83</div>
+        <div class="card-title">BREAK</div>
+        <div class="card-sub">Quebrar · romper · break → broke → broken (irregular) · BREAK DOWN · BREAK UP · BREAK OUT · BREAK THE ICE · I'M BROKE</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../84_buy/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 84</div>
+        <div class="card-title">BUY</div>
+        <div class="card-sub">Comprar · buy → bought → bought (irregular) · double object · BUY TIME · BUY OUT · BUY vs PURCHASE · BUYER'S REMORSE</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../85_sell/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 85</div>
+        <div class="card-title">SELL</div>
+        <div class="card-sub">Vender · sell → sold → sold (irregular) · SELL OUT · SOLD! · SELL YOURSELF SHORT · SELL LIKE HOT CAKES · HARD/SOFT SELL</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../86_meet/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 86</div>
+        <div class="card-title">MEET</div>
+        <div class="card-sub">Conhecer · encontrar · meet → met → met (irregular) · MEET vs KNOW vs SEE · NICE TO MEET YOU · MEET THE DEADLINE · MAKE ENDS MEET</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../87_send/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 87</div>
+        <div class="card-title">SEND</div>
+        <div class="card-sub">Enviar · mandar · send → sent → sent (irregular) · SEND vs GIVE · SEND OUT · SEND BACK · SEND FOR · SEND MY REGARDS</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../88_bring/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 88</div>
+        <div class="card-title">BRING</div>
+        <div class="card-sub">Trazer · causar · bring → brought → brought (irregular) · BRING vs TAKE · BRING UP · BRING BACK · BRING TO THE TABLE</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+      <a href="../89_make/index.html" class="lesson-card active" style="--cc:#38bdf8;--cg:rgba(56,189,248,0.15)">
+        <div class="card-num">Lição 89</div>
+        <div class="card-title">MAKE</div>
+        <div class="card-sub">Fazer · produzir · make → made → made (irregular) · MAKE vs DO · MAKE causativo · MAKE UP · MAKE SENSE · MAKE A DIFFERENCE</div>
+        <div class="card-footer"><span class="lvl-badge">A2</span><span class="status-badge done">✓ Disponível</span></div>
+        <div class="card-accent"></div>
+      </a>
+    </div>
+  </div>
+
+
+</main>
+
+<footer>
+  Sistema 1 — Base Completa &mdash; 89 lições
+</footer>
+
+<!-- ═══════════ THREE.JS HERO ═══════════ -->
+<script>
+(function () {
+  'use strict';
+
+  const canvas   = document.getElementById('hero-canvas');
+  const overlay  = document.getElementById('labels-overlay');
+
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x080c14, 1);
+
+  const scene  = new THREE.Scene();
+  scene.fog    = new THREE.Fog(0x080c14, 30, 75);
+
+  const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+  camera.position.set(0, 2, 22);
+
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping    = true;
+  controls.dampingFactor    = 0.06;
+  controls.autoRotate       = true;
+  controls.autoRotateSpeed  = 0.35;
+  controls.enableZoom       = false;
+  controls.enablePan        = false;
+  controls.minPolarAngle    = Math.PI * 0.25;
+  controls.maxPolarAngle    = Math.PI * 0.72;
+
+  // ── lights ──
+  scene.add(new THREE.AmbientLight(0x0d1a33, 3));
+  var dl = new THREE.DirectionalLight(0x00d4ff, 2.5);
+  dl.position.set(6, 10, 6);
+  scene.add(dl);
+  var dl2 = new THREE.DirectionalLight(0xa78bfa, 1.2);
+  dl2.position.set(-8, 4, -5);
+  scene.add(dl2);
+
+  // ── stars ──
+  var starPos = new Float32Array(2000 * 3);
+  for (var i = 0; i < starPos.length; i++) { starPos[i] = (Math.random() - 0.5) * 120; }
+  var starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  scene.add(new THREE.Points(starGeo,
+    new THREE.PointsMaterial({ color: 0xffffff, size: 0.07, transparent: true, opacity: 0.5 })));
+
+  // ── orbit rings ──
+  var rings = [
+    { color: 0x00d4ff, n: 7,  r: 5,    speed:  0.40, sz: 0.17, tilt: [0.3, 0,   0.2] },
+    { color: 0x818cf8, n: 6,  r: 7.5,  speed: -0.28, sz: 0.19, tilt: [0.5, 0,  -0.3] },
+    { color: 0xa78bfa, n: 3,  r: 10,   speed:  0.22, sz: 0.21, tilt: [0.2, 0.3, 0.4] },
+    { color: 0xf59e0b, n: 9,  r: 12.5, speed: -0.17, sz: 0.17, tilt: [0.4, 0,  -0.5] },
+    { color: 0xf87171, n: 6,  r: 14.5, speed:  0.13, sz: 0.17, tilt: [0.6, 0.2, 0.1] },
+    { color: 0x34d399, n: 4,  r: 16,   speed: -0.10, sz: 0.17, tilt: [0.1, 0,   0.6] },
+  ];
+
+  var orbitGroups = [];
+
+  rings.forEach(function (cfg) {
+    var grp = new THREE.Group();
+    grp.rotation.x = cfg.tilt[0];
+    grp.rotation.y = cfg.tilt[1];
+    grp.rotation.z = cfg.tilt[2];
+    scene.add(grp);
+
+    for (var i = 0; i < cfg.n; i++) {
+      var angle = (i / cfg.n) * Math.PI * 2;
+      var geo   = new THREE.SphereGeometry(cfg.sz, 14, 14);
+      var mat   = new THREE.MeshPhongMaterial({
+        color:            cfg.color,
+        emissive:         cfg.color,
+        emissiveIntensity: 0.35,
+        transparent:      true,
+        opacity:          0.88,
+      });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.position.x = Math.cos(angle) * cfg.r;
+      mesh.position.z = Math.sin(angle) * cfg.r;
+      grp.add(mesh);
+    }
+
+    orbitGroups.push({ grp: grp, speed: cfg.speed });
+  });
+
+  // ── center star ──
+  var centerMat = new THREE.MeshPhongMaterial({
+    color:             0x00d4ff,
+    emissive:          0x00d4ff,
+    emissiveIntensity: 0.6,
+    transparent:       true,
+    opacity:           0.92,
+  });
+  var center = new THREE.Mesh(new THREE.SphereGeometry(0.75, 32, 32), centerMat);
+  scene.add(center);
+
+  // ── word labels ──
+  var words = [
+    { t: 'I',     c: '#00d4ff', p: [5,   0.5, 0   ], s: '1.1rem' },
+    { t: 'YOU',   c: '#00d4ff', p: [-5,  0,   1   ], s: '0.9rem' },
+    { t: 'HE',   c: '#00d4ff', p: [0,   1,   5   ], s: '1rem'   },
+    { t: 'SHE',   c: '#00d4ff', p: [3,  -1,  -5   ], s: '0.9rem' },
+    { t: 'IS',    c: '#818cf8', p: [7.5, 1,   3   ], s: '1.1rem' },
+    { t: 'ARE',   c: '#818cf8', p: [-7,  0,  -4   ], s: '0.9rem' },
+    { t: 'THE',   c: '#a78bfa', p: [9,   2,  -4.5 ], s: '0.9rem' },
+    { t: 'HAVE',  c: '#f59e0b', p: [8,  -2,   8   ], s: '0.8rem' },
+    { t: 'GET',   c: '#f59e0b', p: [-9,  1,  -8   ], s: '0.8rem' },
+    { t: 'CAN',   c: '#f87171', p: [-12, 0,   5   ], s: '0.8rem' },
+    { t: 'A',     c: '#a78bfa', p: [-9,  2,   7   ], s: '1.2rem' },
+  ];
+
+  var labelDefs = words.map(function (w) {
+    var el     = document.createElement('div');
+    el.className     = 'word-label';
+    el.textContent   = w.t;
+    el.style.color   = w.c;
+    el.style.fontSize = w.s;
+    overlay.appendChild(el);
+    return { el: el, v3: new THREE.Vector3(w.p[0], w.p[1], w.p[2]) };
+  });
+
+  // ── resize ──
+  function resize () {
+    var w = canvas.parentElement.clientWidth;
+    var h = canvas.parentElement.clientHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── animate ──
+  var clock = { t: 0 };
+  function animate () {
+    requestAnimationFrame(animate);
+    clock.t += 0.016;
+
+    orbitGroups.forEach(function (o) {
+      o.grp.rotation.y += o.speed * 0.01;
+    });
+
+    var pulse = 0.88 + Math.sin(clock.t * 1.6) * 0.12;
+    center.scale.setScalar(pulse);
+    centerMat.emissiveIntensity = 0.45 + Math.sin(clock.t * 2.2) * 0.18;
+
+    camera.updateMatrixWorld();
+    var cw = canvas.clientWidth;
+    var ch = canvas.clientHeight;
+
+    labelDefs.forEach(function (ld) {
+      var proj = ld.v3.clone().project(camera);
+      var sx   = ( proj.x * 0.5 + 0.5) * cw;
+      var sy   = (-proj.y * 0.5 + 0.5) * ch;
+      var vis  = proj.z < 1 && sx > -60 && sx < cw + 60 && sy > -40 && sy < ch + 40;
+      ld.el.style.left    = sx + 'px';
+      ld.el.style.top     = sy + 'px';
+      ld.el.style.opacity = vis ? Math.max(0, Math.min(1, (1 - proj.z) * 2.5)) : '0';
+    });
+
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+
+<!-- ── progress bar animation on load ── -->
+<script>
+(function () {
+  var total = 89;
+  var done  = 89;
+  var pct   = Math.max(3, Math.round(done / total * 100));
+  document.getElementById('progress-label').textContent =
+    done + ' de ' + total + ' lições concluídas';
+  setTimeout(function () {
+    document.getElementById('bar-fill').style.width = pct + '%';
+  }, 400);
+})();
+</script>
+
+</body>
+</html>

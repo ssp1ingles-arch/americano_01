@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE — ESTAR | Inglês Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --bg:#080c14;--surface:#0f1621;--surface2:#162030;
+  --border:rgba(255,255,255,0.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#4FC3F7;
+  --I:#9C8FFF;--Y:#FF8EC4;--H:#81D4FA;--S:#FFE082;--IT:#A5D6A7;--W:#FFAB91;--T:#D1A8E8;
+  --pres:#4FC3F7;--past:#64B5F6;--will:#CE93D8;--go:#80CBC4;
+  --tip:#5FD87A;--warn:#FF7043;--en:#64DFDF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;}
+
+header{padding:52px 24px 36px;text-align:center;border-bottom:1px solid var(--border);}
+.badge{display:inline-block;background:rgba(79,195,247,.1);color:var(--accent);border:1px solid rgba(79,195,247,.25);padding:3px 14px;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,3.2vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+.subtitle{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto;}
+
+#heroWrap{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at center,#081a2e 0%,var(--bg) 70%);}
+#heroCanvas{width:100%;height:440px;display:block;cursor:grab;}
+#heroCanvas:active{cursor:grabbing;}
+#heroOverlay{position:absolute;inset:0;pointer-events:none;}
+.hlabel{position:absolute;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(8,12,20,.82);border:1px solid currentColor;border-radius:5px;padding:2px 8px;white-space:nowrap;transition:opacity .3s;}
+.hero-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:.04em;}
+
+.pnav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.pbtn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:7px 14px;border-radius:8px;border:1.5px solid;background:transparent;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.pbtn:hover,.pbtn.active{color:#080c14 !important;}
+
+#detail{display:none;max-width:1080px;margin:0 auto;padding:40px 24px;gap:28px;align-items:flex-start;flex-wrap:wrap;}
+#detail.on{display:flex;}
+#dCanvas{width:360px;height:300px;border-radius:16px;border:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.dinfo{flex:1;min-width:260px;}
+.big{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:2px;}
+.dpt{font-size:18px;color:var(--accent);font-weight:600;margin-bottom:14px;}
+.ddesc{color:var(--muted);margin-bottom:18px;font-size:14px;}
+.drule{background:rgba(79,195,247,.07);border-left:2.5px solid var(--accent);padding:11px 16px;border-radius:0 8px 8px 0;font-size:13px;margin-bottom:22px;}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.tab{font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.12);}
+.mode-tabs{display:flex;gap:5px;margin-bottom:10px;}
+.mtab{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.mtab.on{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,.15);}
+.mtab[data-m="aff"].on{border-color:var(--tip);color:var(--tip);}
+.mtab[data-m="neg"].on{border-color:var(--warn);color:var(--warn);}
+.mtab[data-m="q"].on{border-color:#64DFDF;color:#64DFDF;}
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.sen{font-size:18px;font-weight:600;color:var(--en);margin-bottom:5px;}
+.spt{color:var(--muted);font-size:13px;margin-bottom:10px;}
+.sctx{font-size:12px;font-style:italic;color:rgba(255,255,255,.35);}
+.simlabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+.simitem{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;flex-wrap:wrap;}
+.simen{color:var(--en);font-weight:500;}
+.simpt{color:var(--muted);}
+
+/* FORMULA */
+.formula-wrap{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.formula-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.slots{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.slot{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;padding:8px 16px;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;}
+.slot-verb{background:rgba(79,195,247,.12);color:var(--accent);border:1px solid rgba(79,195,247,.3);}
+.slot-what{background:rgba(100,223,223,.1);color:#64DFDF;border:1px solid rgba(100,223,223,.25);}
+.slot-with{background:rgba(156,143,255,.1);color:var(--I);border:1px solid rgba(156,143,255,.25);}
+.slot-where{background:rgba(129,212,250,.1);color:var(--H);border:1px solid rgba(129,212,250,.25);}
+.slot-when{background:rgba(255,171,145,.1);color:var(--W);border:1px solid rgba(255,171,145,.25);}
+.slot-opt{opacity:.45;}
+.fex{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;}
+.fex-en{font-size:17px;font-weight:600;color:var(--en);margin-bottom:6px;}
+.fex-pt{color:var(--muted);font-size:13px;margin-bottom:12px;}
+.fex-blocks{display:flex;gap:7px;flex-wrap:wrap;}
+.fb{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:.04em;}
+
+/* SER VS ESTAR */
+.vsbox{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.vs-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.vs-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:#FF7043;background:rgba(255,112,67,.1);border:1px solid rgba(255,112,67,.25);padding:3px 9px;border-radius:4px;}
+.vs-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.vs-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.vs-col{background:var(--surface);border-radius:12px;padding:18px;}
+.vs-col-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;padding:4px 10px;border-radius:6px;display:inline-block;}
+.vs-ser-label{color:#F5C518;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);}
+.vs-est-label{color:var(--accent);background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.25);}
+.vs-row{padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.vs-row:last-child{border-bottom:none;}
+.vs-en{color:var(--en);font-weight:600;margin-bottom:2px;}
+.vs-en strong{font-weight:800;}
+.vs-pt{color:var(--muted);font-size:12px;}
+.vs-key{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-bottom:4px;}
+.vs-key-ser{color:#F5C518;background:rgba(245,197,24,.1);}
+.vs-key-est{color:var(--accent);background:rgba(79,195,247,.1);}
+
+/* SECTION TABS */
+.uso{max-width:860px;margin:0 auto;padding:36px 24px;border-bottom:1px solid var(--border);}
+.uhead{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.unum{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--accent);background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.2);padding:3px 9px;border-radius:4px;}
+.utitle{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+.utitle em{font-style:italic;color:var(--accent);}
+.stabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.stab{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+.stab.on{color:#080c14;}
+.tpanel{display:none;}
+.tpanel.on{display:block;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 14px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.015);}
+.ptag{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;padding:2px 8px;border-radius:5px;display:inline-block;white-space:nowrap;}
+.ten{color:var(--en);font-size:14px;}
+.ten strong{font-weight:800;}
+.tpt{color:var(--muted);font-size:13px;}
+.tpt strong{font-weight:700;color:var(--text);}
+.tip{background:rgba(95,216,122,.07);border-left:2.5px solid var(--tip);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--tip);margin-top:14px;}
+.warn{background:rgba(255,112,67,.09);border-left:2.5px solid var(--warn);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--warn);margin-top:14px;}
+.info{background:rgba(79,195,247,.07);border-left:2.5px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;color:var(--accent);margin-top:14px;}
+
+/* CONTRAÇÕES */
+.contr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:18px;}
+.contr-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.contr-from{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--muted);margin-bottom:3px;}
+.contr-to{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;}
+
+/* RESUMO */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:22px;}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;transition:transform .2s;}
+.scard:hover{transform:translateY(-2px);}
+.sc-pron{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;margin-bottom:6px;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.sc-row:last-child{border-bottom:none;}
+.sc-tense{color:var(--muted);font-size:10px;letter-spacing:.04em;}
+.sc-form{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;}
+
+.backnav{text-align:center;padding:14px 24px;}
+.backnav a{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:6px 16px;transition:all .2s;display:inline-block;}
+.backnav a:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+footer{text-align:center;padding:22px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;}
+@media(max-width:680px){#detail.on{flex-direction:column;}#dCanvas{width:100%;height:260px;}.vs-cols{grid-template-columns:1fr;}.slots{gap:5px;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<div class="backnav"><a href="../index.html">← Voltar ao currículo</a></div>
+
+<header>
+  <div class="badge">A1 · Lição 06</div>
+  <h1>
+    <span style="color:var(--I)">AM</span> ·
+    <span style="color:var(--H)">IS</span> ·
+    <span style="color:var(--Y)">ARE</span> ·
+    <span style="color:var(--past)">WAS</span> ·
+    <span style="color:#90CAF9">WERE</span> ·
+    <span style="color:var(--will)">WILL BE</span>
+  </h1>
+  <p class="subtitle">Verbo BE — sentido ESTAR. Estado temporário, localização, condição momentânea. Clique num personagem para explorar.</p>
+</header>
+
+<div id="heroWrap">
+  <canvas id="heroCanvas"></canvas>
+  <div id="heroOverlay"></div>
+  <div class="hero-hint">↺ Arraste para girar · Clique num personagem para abrir</div>
+</div>
+
+<nav class="pnav" id="pnav"></nav>
+
+<section id="detail">
+  <canvas id="dCanvas" width="360" height="300"></canvas>
+  <div class="dinfo">
+    <div class="big" id="dPron"></div>
+    <div class="dpt" id="dPt"></div>
+    <p class="ddesc" id="dDesc"></p>
+    <div class="drule" id="dRule"></div>
+    <div class="tabs" id="tenseTabs">
+      <button class="tab on" data-t="present">Presente</button>
+      <button class="tab" data-t="past">Passado</button>
+      <button class="tab" data-t="will">Futuro WILL</button>
+      <button class="tab" data-t="goingto">Going to</button>
+    </div>
+    <div class="mode-tabs">
+      <button class="mtab on" data-m="aff">(+) Afirmativa</button>
+      <button class="mtab" data-m="neg">(−) Negação</button>
+      <button class="mtab" data-m="q">(?) Pergunta</button>
+    </div>
+    <div class="sbox">
+      <div class="sen" id="sEn"></div>
+      <div class="spt" id="sPt"></div>
+      <div class="sctx" id="sCtx"></div>
+    </div>
+    <div class="simlabel">Outras frases com este pronome</div>
+    <div id="simList"></div>
+  </div>
+</section>
+
+<!-- FÓRMULA -->
+<div class="formula-wrap">
+  <div class="formula-label">Fórmula de construção</div>
+  <div class="slots">
+    <div class="slot slot-verb">VERBO</div>
+    <div class="slot slot-what">O QUÊ</div>
+    <span style="color:var(--muted);font-size:18px">·</span>
+    <div class="slot slot-with slot-opt">COM QUEM</div>
+    <span style="color:var(--muted);font-size:18px">·</span>
+    <div class="slot slot-where slot-opt">ONDE</div>
+    <span style="color:var(--muted);font-size:18px">·</span>
+    <div class="slot slot-when slot-opt">QUANDO</div>
+  </div>
+  <div class="fex">
+    <div class="fex-en"><span style="color:var(--accent);font-weight:800">I am</span> <span style="color:#64DFDF">tired</span> <span style="color:var(--H)">at home</span> <span style="color:var(--W)">today</span>.</div>
+    <div class="fex-pt">Eu <strong style="color:var(--accent)">estou</strong> <span style="color:#64DFDF">cansado</span> <span style="color:var(--H)">em casa</span> <span style="color:var(--W)">hoje</span>.</div>
+    <div class="fex-blocks">
+      <span class="fb slot-verb">VERBO: am</span>
+      <span class="fb slot-what">O QUÊ: tired</span>
+      <span class="fb slot-where">ONDE: at home</span>
+      <span class="fb slot-when">QUANDO: today</span>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:14px">💡 O "O QUÊ" é o que define ESTAR: adjetivos de estado (tired, happy, ready) ou localizações (at home, at work). SER usa identidade (a doctor, Brazilian).</div>
+</div>
+
+<!-- SER VS ESTAR — SEÇÃO EXCLUSIVA DESTA LIÇÃO -->
+<div class="vsbox">
+  <div class="vs-head">
+    <span class="vs-label">ATENÇÃO</span>
+    <h2 class="vs-title">A maior confusão para brasileiros — <em style="color:var(--accent)">SER vs ESTAR</em></h2>
+  </div>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:20px">Em inglês, <strong style="color:var(--text)">SER e ESTAR usam o mesmo verbo BE</strong>. Não existe verbo separado para ESTAR. É o complemento (O QUÊ) que define qual dos dois você está dizendo.</p>
+  <div class="vs-cols">
+    <div class="vs-col" style="border:1px solid rgba(245,197,24,.2)">
+      <div class="vs-col-label vs-ser-label">SER — identidade permanente</div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-ser">SER</div>
+        <div class="vs-en">She <strong style="color:#F5C518">is</strong> a nurse.</div>
+        <div class="vs-pt">Ela <strong>é</strong> enfermeira. — profissão</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-ser">SER</div>
+        <div class="vs-en">I <strong style="color:#F5C518">am</strong> Brazilian.</div>
+        <div class="vs-pt">Eu <strong>sou</strong> brasileiro. — nacionalidade</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-ser">SER</div>
+        <div class="vs-en">He <strong style="color:#F5C518">is</strong> a doctor.</div>
+        <div class="vs-pt">Ele <strong>é</strong> médico. — identidade</div>
+      </div>
+    </div>
+    <div class="vs-col" style="border:1px solid rgba(79,195,247,.2)">
+      <div class="vs-col-label vs-est-label">ESTAR — estado temporário</div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-est">ESTAR</div>
+        <div class="vs-en">She <strong style="color:var(--accent)">is</strong> tired.</div>
+        <div class="vs-pt">Ela <strong>está</strong> cansada. — condição</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-est">ESTAR</div>
+        <div class="vs-en">I <strong style="color:var(--accent)">am</strong> at home.</div>
+        <div class="vs-pt">Eu <strong>estou</strong> em casa. — localização</div>
+      </div>
+      <div class="vs-row">
+        <div class="vs-key vs-key-est">ESTAR</div>
+        <div class="vs-en">He <strong style="color:var(--accent)">is</strong> hungry.</div>
+        <div class="vs-pt">Ele <strong>está</strong> com fome. — estado</div>
+      </div>
+    </div>
+  </div>
+  <div class="warn">⚠️ <strong>"She is tired"</strong> e <strong>"She is a nurse"</strong> usam o mesmo "is". O inglês não distingue SER de ESTAR no verbo — distingue no complemento. Pense: <em>complemento permanente = SER · complemento temporário = ESTAR</em>.</div>
+</div>
+
+<!-- AFIRMATIVA -->
+<section class="uso">
+  <div class="uhead"><span class="unum">AFIRMATIVA</span><h2 class="utitle">ESTAR — <em>am · is · are · was · were · will be</em></h2></div>
+  <div class="stabs" id="affTabs">
+    <button class="stab on" data-group="aff" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(79,195,247,.08)">Presente</button>
+    <button class="stab" data-group="aff" data-t="past">Passado</button>
+    <button class="stab" data-group="aff" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="aff" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="aff-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-present"></tbody></table><div class="tip" id="tip-aff-present"></div></div>
+  <div class="tpanel" id="aff-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-past"></tbody></table><div class="tip" id="tip-aff-past"></div></div>
+  <div class="tpanel" id="aff-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-will"></tbody></table><div class="tip" id="tip-aff-will"></div></div>
+  <div class="tpanel" id="aff-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-aff-goingto"></tbody></table><div class="tip" id="tip-aff-goingto"></div></div>
+</section>
+
+<!-- NEGAÇÃO -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:var(--warn);background:rgba(255,112,67,.1);border-color:rgba(255,112,67,.25)">NEGAÇÃO</span><h2 class="utitle">NÃO ESTAR — <em>not · isn't · weren't · won't</em></h2></div>
+  <div class="stabs" id="negTabs">
+    <button class="stab on" data-group="neg" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(79,195,247,.08)">Presente</button>
+    <button class="stab" data-group="neg" data-t="past">Passado</button>
+    <button class="stab" data-group="neg" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="neg" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="neg-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-present"></tbody></table><div class="tip" id="tip-neg-present"></div></div>
+  <div class="tpanel" id="neg-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-past"></tbody></table><div class="tip" id="tip-neg-past"></div></div>
+  <div class="tpanel" id="neg-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-will"></tbody></table><div class="tip" id="tip-neg-will"></div></div>
+  <div class="tpanel" id="neg-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-neg-goingto"></tbody></table><div class="tip" id="tip-neg-goingto"></div></div>
+</section>
+
+<!-- PERGUNTA -->
+<section class="uso">
+  <div class="uhead"><span class="unum" style="color:#64DFDF;background:rgba(100,223,223,.08);border-color:rgba(100,223,223,.2)">PERGUNTA</span><h2 class="utitle">ESTAR? — <em>Am · Is · Are · Was · Were · Will</em></h2></div>
+  <div class="stabs" id="qTabs">
+    <button class="stab on" data-group="q" data-t="present" style="border-color:var(--pres);color:var(--pres);background:rgba(79,195,247,.08)">Presente</button>
+    <button class="stab" data-group="q" data-t="past">Passado</button>
+    <button class="stab" data-group="q" data-t="will">Futuro WILL</button>
+    <button class="stab" data-group="q" data-t="goingto">Going to</button>
+  </div>
+  <div class="tpanel on" id="q-present"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-present"></tbody></table><div class="info" id="tip-q-present"></div></div>
+  <div class="tpanel" id="q-past"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-past"></tbody></table><div class="info" id="tip-q-past"></div></div>
+  <div class="tpanel" id="q-will"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-will"></tbody></table><div class="info" id="tip-q-will"></div></div>
+  <div class="tpanel" id="q-goingto"><table><thead><tr><th>Pronome</th><th>Inglês</th><th>Português</th></tr></thead><tbody id="tb-q-goingto"></tbody></table><div class="info" id="tip-q-goingto"></div></div>
+  <div class="warn" style="margin-top:18px">⚠️ BE é especial — para fazer pergunta <strong>não usa DO/DOES/DID</strong>. Basta inverter: <em>"She is tired"</em> → <em>"Is she tired?"</em></div>
+</section>
+
+<!-- CONTRAÇÕES -->
+<section class="uso">
+  <div class="uhead"><span class="unum">CONTRAÇÕES</span><h2 class="utitle">Formas <em>curtas e informais</em></h2></div>
+  <div class="contr-grid" id="contrGrid"></div>
+  <div class="tip" style="margin-top:18px">💡 Na fala informal, contrações são muito mais naturais: "I'm tired" soa muito melhor que "I am tired". "Isn't it cold?" é mais comum que "Is it not cold?"</div>
+</section>
+
+<!-- RESUMO -->
+<section class="uso" style="border-bottom:none;">
+  <div class="uhead"><span class="unum">RESUMO</span><h2 class="utitle">Todas as formas do BE — ESTAR</h2></div>
+  <div class="sgrid" id="resumoGrid"></div>
+  <div class="tip" style="margin-top:20px">🔑 As formas do BE são idênticas para SER e ESTAR. O que muda é só o complemento: <em>a doctor</em> (identidade permanente = SER) · <em>tired</em> (estado temporário = ESTAR) · <em>at home</em> (localização = ESTAR).</div>
+</section>
+
+<footer>Inglês para Brasileiros · A1 · Lição 06: BE — ESTAR</footer>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+var PRONS=['I','YOU','HE','SHE','IT','WE','THEY'];
+var COLS={I:'#9C8FFF',YOU:'#FF8EC4',HE:'#81D4FA',SHE:'#FFE082',IT:'#A5D6A7',WE:'#FFAB91',THEY:'#D1A8E8'};
+var HEXN={I:0x9C8FFF,YOU:0xFF8EC4,HE:0x81D4FA,SHE:0xFFE082,IT:0xA5D6A7,WE:0xFFAB91,THEY:0xD1A8E8};
+var PT={I:'EU',YOU:'VOCÊ',HE:'ELE',SHE:'ELA',IT:'ELA / ISSO',WE:'NÓS',THEY:'ELES / ELAS'};
+
+var PDESC={
+  I:   {desc:"I + AM para ESTAR: estados temporários meus. Hoje cansado, amanhã bem. Localização, humor, condição — tudo o que pode mudar.",       rule:"⚡ I AM + adjetivo de estado (tired, happy, ready) ou localizaçao (at home, here). O contexto MUDA, o verbo não.", sim:[{en:"I'm at the office.",pt:'Estou no escritório.'},{en:'I was late.',pt:'Eu estava atrasado.'},{en:"I'm not okay today.",pt:'Não estou bem hoje.'}]},
+  YOU: {desc:"YOU + ARE para ESTAR: condição ou localização de quem estou falando. Temporário — pode mudar a qualquer momento.",                    rule:"⚡ YOU + ARE + estado/local. 'You are happy' hoje não significa que você será sempre feliz — é temporário!", sim:[{en:"You're late!",pt:'Você está atrasado!'},{en:'Were you busy?',pt:'Você estava ocupado?'},{en:'You will be okay.',pt:'Você vai ficar bem.'}]},
+  HE:  {desc:"HE + IS para ESTAR: onde ele está ou como ele está no momento. Localização e estado temporal masculino.",                             rule:"⚡ HE IS + local (at home, at school) ou estado (sick, tired, happy). Temporário — não é quem ele é!", sim:[{en:"He's at school.",pt:'Ele está na escola.'},{en:'He was sick.',pt:'Ele estava doente.'},{en:"He'll be ready soon.",pt:'Ele estará pronto em breve.'}]},
+  SHE: {desc:"SHE + IS para ESTAR: condição e localização feminina no momento. O mesmo IS do SER, mas com complemento temporário.",                  rule:"⚡ 'She is a nurse' (SER) vs 'She is tired' (ESTAR) — mesmo IS, complementos opostos: identidade × estado!", sim:[{en:"She's not ready.",pt:'Ela não está pronta.'},{en:'She was tired.',pt:'Ela estava cansada.'},{en:"She'll be at home.",pt:'Ela estará em casa.'}]},
+  IT:  {desc:"IT + IS para ESTAR: clima, temperatura, condições ambientais. 'It is cold' descreve o estado do ambiente — temporário!",               rule:"⚡ IT IS para clima e condições: cold, hot, rainy, sunny, late, early. Tudo temporário — muda o tempo muda!", sim:[{en:"It's hot today.",pt:'Está quente hoje.'},{en:'It was cloudy.',pt:'Estava nublado.'},{en:"It'll be sunny tomorrow.",pt:'Vai estar ensolarado amanhã.'}]},
+  WE:  {desc:"WE + ARE para ESTAR: estado do grupo que inclui quem fala. Localização, condição coletiva — temporária.",                              rule:"⚡ WE ARE + estado/local. 'We are ready' = estamos prontos agora. 'We are here' = estamos aqui (localização).", sim:[{en:"We're here!",pt:'Estamos aqui!'},{en:'We were lost.',pt:'Estávamos perdidos.'},{en:"We'll be ready.",pt:'Estaremos prontos.'}]},
+  THEY:{desc:"THEY + ARE para ESTAR: localização e estado de um grupo externo. Temporário — agora com fome, depois satisfeitos.",                    rule:"⚡ THEY ARE + estado/local. 'They are hungry' = estão com fome agora. 'They are at work' = estão no trabalho.", sim:[{en:"They're not home.",pt:'Eles não estão em casa.'},{en:'They were busy.',pt:'Eles estavam ocupados.'},{en:"They'll be okay.",pt:'Eles estarão bem.'}]}
+};
+
+var T={
+  present:{label:'Presente',color:'#4FC3F7',
+    forms:{I:'am',YOU:'are',HE:'is',SHE:'is',IT:'is',WE:'are',THEY:'are'},
+    aff:{I:['I am tired.','Eu estou cansado.'],YOU:['You are happy.','Você está feliz.'],HE:['He is at home.','Ele está em casa.'],SHE:['She is at work.','Ela está no trabalho.'],IT:['It is cold.','Está frio.'],WE:['We are ready.','Nós estamos prontos.'],THEY:['They are hungry.','Eles estão com fome.']},
+    neg:{I:['I am not tired.','Eu não estou cansado.'],YOU:['You are not happy.','Você não está feliz.'],HE:['He is not at home.','Ele não está em casa.'],SHE:['She is not at work.','Ela não está no trabalho.'],IT:['It is not cold.','Não está frio.'],WE:['We are not ready.','Nós não estamos prontos.'],THEY:['They are not hungry.','Eles não estão com fome.']},
+    q:{I:['Am I ready?','Eu estou pronto?'],YOU:['Are you happy?','Você está feliz?'],HE:['Is he at home?','Ele está em casa?'],SHE:['Is she at work?','Ela está no trabalho?'],IT:['Is it cold?','Está frio?'],WE:['Are we ready?','Nós estamos prontos?'],THEY:['Are they hungry?','Eles estão com fome?']},
+    tip:'⚡ SER e ESTAR usam as mesmas formas: am/is/are. O complemento é que define: "tired/at home" = ESTAR · "a doctor/Brazilian" = SER.',
+    qtip:'🔄 Pergunta com ESTAR no presente: AM/IS/ARE antes do pronome. Sem DO/DOES!'},
+  past:{label:'Passado',color:'#64B5F6',
+    forms:{I:'was',YOU:'were',HE:'was',SHE:'was',IT:'was',WE:'were',THEY:'were'},
+    aff:{I:['I was tired.','Eu estava cansado.'],YOU:['You were happy.','Você estava feliz.'],HE:['He was at home.','Ele estava em casa.'],SHE:['She was at work.','Ela estava no trabalho.'],IT:['It was cold.','Estava frio.'],WE:['We were ready.','Nós estávamos prontos.'],THEY:['They were hungry.','Eles estavam com fome.']},
+    neg:{I:['I was not tired.','Eu não estava cansado.'],YOU:['You were not happy.','Você não estava feliz.'],HE:['He was not at home.','Ele não estava em casa.'],SHE:['She was not at work.','Ela não estava no trabalho.'],IT:['It was not cold.','Não estava frio.'],WE:['We were not ready.','Nós não estávamos prontos.'],THEY:['They were not hungry.','Eles não estavam com fome.']},
+    q:{I:['Was I right?','Eu estava certo?'],YOU:['Were you happy?','Você estava feliz?'],HE:['Was he at home?','Ele estava em casa?'],SHE:['Was she at work?','Ela estava no trabalho?'],IT:['Was it cold?','Estava frio?'],WE:['Were we ready?','Nós estávamos prontos?'],THEY:['Were they hungry?','Eles estavam com fome?']},
+    tip:'⚡ Passado do ESTAR = passado do SER. Was (I/HE/SHE/IT) · Were (YOU/WE/THEY). Só 2 formas!',
+    qtip:'🔄 Pergunta no passado: WAS/WERE antes do pronome. Sem DID!'},
+  will:{label:'Futuro WILL',color:'#CE93D8',
+    forms:{I:'will be',YOU:'will be',HE:'will be',SHE:'will be',IT:'will be',WE:'will be',THEY:'will be'},
+    aff:{I:['I will be tired tomorrow.','Eu estarei / vou estar cansado amanhã.'],YOU:['You will be happy.','Você estará feliz.'],HE:['He will be at home.','Ele estará em casa.'],SHE:['She will be at work.','Ela estará no trabalho.'],IT:['It will be cold.','Vai estar frio.'],WE:['We will be ready.','Nós estaremos prontos.'],THEY:['They will be hungry.','Eles estarão com fome.']},
+    neg:{I:["I won't be tired.",'Eu não estarei cansado.'],YOU:["You won't be happy.",'Você não estará feliz.'],HE:["He won't be at home.",'Ele não estará em casa.'],SHE:["She won't be at work.",'Ela não estará no trabalho.'],IT:["It won't be cold.",'Não estará frio.'],WE:["We won't be ready.",'Nós não estaremos prontos.'],THEY:["They won't be hungry.",'Eles não estarão com fome.']},
+    q:{I:['Will I be okay?','Eu estarei bem?'],YOU:['Will you be happy?','Você estará feliz?'],HE:['Will he be at home?','Ele estará em casa?'],SHE:['Will she be okay?','Ela estará bem?'],IT:['Will it be cold?','Estará frio?'],WE:['Will we be ready?','Nós estaremos prontos?'],THEY:['Will they be okay?','Eles estarão bem?']},
+    tip:'⚡ WILL BE é igual para todos — sem exceção. Mais simples para estados temporários futuros.',
+    qtip:'🔄 Pergunta com WILL: WILL + pronome + BE + estado/local. Ex: Will it be cold?'},
+  goingto:{label:'Going to',color:'#80CBC4',
+    forms:{I:'am going to be',YOU:'are going to be',HE:'is going to be',SHE:'is going to be',IT:'is going to be',WE:'are going to be',THEY:'are going to be'},
+    aff:{I:['I am going to be tired.','Eu vou estar cansado.'],YOU:['You are going to be happy.','Você vai estar feliz.'],HE:['He is going to be at home.','Ele vai estar em casa.'],SHE:['She is going to be at work.','Ela vai estar no trabalho.'],IT:['It is going to be cold.','Vai estar frio.'],WE:['We are going to be ready.','Nós vamos estar prontos.'],THEY:['They are going to be hungry.','Eles vão estar com fome.']},
+    neg:{I:['I am not going to be tired.','Eu não vou estar cansado.'],YOU:['You are not going to be happy.','Você não vai estar feliz.'],HE:['He is not going to be at home.','Ele não vai estar em casa.'],SHE:['She is not going to be at work.','Ela não vai estar no trabalho.'],IT:['It is not going to be cold.','Não vai estar frio.'],WE:['We are not going to be ready.','Nós não vamos estar prontos.'],THEY:['They are not going to be hungry.','Eles não vão estar com fome.']},
+    q:{I:['Am I going to be okay?','Eu vou estar bem?'],YOU:['Are you going to be happy?','Você vai estar feliz?'],HE:['Is he going to be at home?','Ele vai estar em casa?'],SHE:['Is she going to be okay?','Ela vai estar bem?'],IT:['Is it going to be cold?','Vai estar frio?'],WE:['Are we going to be ready?','Nós vamos estar prontos?'],THEY:['Are they going to be okay?','Eles vão estar bem?']},
+    tip:'⚡ GOING TO usa AM/IS/ARE como auxiliar. I = am going to · HE/SHE/IT = is going to · YOU/WE/THEY = are going to.',
+    qtip:'🔄 Pergunta com GOING TO: inverta AM/IS/ARE com pronome. Ex: Is it going to be cold?'}
+};
+
+var TKEYS=['present','past','will','goingto'];
+var MODES=['aff','neg','q'];
+var TENSE_COLORS={present:'#4FC3F7',past:'#64B5F6',will:'#CE93D8',goingto:'#80CBC4'};
+
+// ── HIGHLIGHT BE FORM ─────────────────────────────────────────────────────────
+function hlBE(text, form, pronColor, tenseColor){
+  var tc=tenseColor||pronColor;
+  var escaped=form.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp(escaped,'gi'),function(m){return '<strong style="color:'+tc+'">'+m+'</strong>';});
+}
+
+// ── BUILD TABLES ──────────────────────────────────────────────────────────────
+function buildTable(mode, tenseKey){
+  var tbody=document.getElementById('tb-'+mode+'-'+tenseKey);
+  if(!tbody||tbody.innerHTML) return;
+  var tense=T[tenseKey];
+  PRONS.forEach(function(p){
+    var pair=tense[mode][p], col=COLS[p], bg=col+'1a';
+    var hl=hlBE(pair[0], tense.forms[p], col, tense.color);
+    var pthl=pair[1].replace(/\b(estou|está|estamos|estão|estava|estávamos|estavam|estarei|estará|estaremos|estarão|vou estar|vai estar|vamos estar|vão estar|não estou|não está|não estamos|não estão|não estava|não estávamos|não estavam|não estarei|não estará|não estaremos|não estarão|não vou|não vai|não vamos|não vão)\b/gi,function(m){return '<strong>'+m+'</strong>';});
+    tbody.innerHTML+='<tr><td><span class="ptag" style="color:'+col+';background:'+bg+'">'+p+'</span></td><td class="ten">'+hl+'</td><td class="tpt">'+pthl+'</td></tr>';
+  });
+  var tipEl=document.getElementById('tip-'+mode+'-'+tenseKey);
+  if(tipEl) tipEl.textContent=(mode==='q'?tense.qtip:tense.tip);
+}
+TKEYS.forEach(function(tk){MODES.forEach(function(m){buildTable(m,tk);});});
+
+// ── SECTION TABS ──────────────────────────────────────────────────────────────
+function setupSectionTabs(groupId,panelPrefix){
+  var tabs=document.querySelectorAll('.stab[data-group="'+groupId+'"]');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var tKey=tab.dataset.t;
+      tabs.forEach(function(t){t.classList.remove('on');t.style.borderColor='';t.style.color='';t.style.background='';});
+      tab.classList.add('on');
+      var tc=TENSE_COLORS[tKey];
+      tab.style.borderColor=tc; tab.style.color=tc; tab.style.background=tc+'14';
+      TKEYS.forEach(function(k){
+        var p=document.getElementById(panelPrefix+'-'+k);
+        if(p) p.classList.toggle('on',k===tKey);
+      });
+    });
+  });
+}
+setupSectionTabs('aff','aff');
+setupSectionTabs('neg','neg');
+setupSectionTabs('q','q');
+
+// ── CONTRAÇÕES ────────────────────────────────────────────────────────────────
+var CONTRS=[
+  {from:'I am',to:"I'm"},{from:'you are',to:"you're"},{from:'he is',to:"he's"},
+  {from:'she is',to:"she's"},{from:'it is',to:"it's"},{from:'we are',to:"we're"},
+  {from:'they are',to:"they're"},{from:'is not',to:"isn't"},{from:'are not',to:"aren't"},
+  {from:'was not',to:"wasn't"},{from:'were not',to:"weren't"},{from:'will not be',to:"won't be"}
+];
+var cg=document.getElementById('contrGrid');
+CONTRS.forEach(function(c){
+  cg.innerHTML+='<div class="contr-card"><div class="contr-from">'+c.from+'</div><div class="contr-to"><span style="color:var(--muted)">→</span> <span style="color:var(--accent)">'+c.to+'</span></div></div>';
+});
+
+// ── RESUMO GRID ───────────────────────────────────────────────────────────────
+var tLabels={present:'Presente',past:'Passado',will:'Futuro WILL',goingto:'Going to'};
+var rg=document.getElementById('resumoGrid');
+PRONS.forEach(function(p){
+  var col=COLS[p];
+  var rows='';
+  TKEYS.forEach(function(tk){
+    rows+='<div class="sc-row"><span class="sc-tense">'+tLabels[tk]+'</span><span class="sc-form" style="color:'+TENSE_COLORS[tk]+'">'+T[tk].forms[p]+'</span></div>';
+  });
+  rg.innerHTML+='<div class="scard" style="border-color:'+col+'33"><div class="sc-pron" style="color:'+col+'">'+p+'</div>'+rows+'</div>';
+});
+
+// ── HERO THREE.JS ──────────────────────────────────────────────────────────────
+var hCanvas=document.getElementById('heroCanvas');
+var hScene=new THREE.Scene();
+var hCam=new THREE.PerspectiveCamera(58,1,0.1,100);
+hCam.position.set(0,3.2,12); hCam.lookAt(0,0.5,0);
+var hRend=new THREE.WebGLRenderer({canvas:hCanvas,antialias:true,alpha:true});
+hRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+hRend.setClearColor(0x000000,0);
+function resizeHero(){var w=hCanvas.parentElement.clientWidth,h=440;hRend.setSize(w,h);hCam.aspect=w/h;hCam.updateProjectionMatrix();}
+resizeHero(); window.addEventListener('resize',resizeHero);
+var hCtrl=new THREE.OrbitControls(hCam,hRend.domElement);
+hCtrl.enableDamping=true; hCtrl.dampingFactor=.05;
+hCtrl.autoRotate=true; hCtrl.autoRotateSpeed=0.35;
+hCtrl.minDistance=8; hCtrl.maxDistance=18; hCtrl.enablePan=false;
+hScene.add(new THREE.AmbientLight(0xffffff,0.5));
+var hDir=new THREE.DirectionalLight(0xffffff,0.9); hDir.position.set(4,10,6); hScene.add(hDir);
+hScene.add(new THREE.GridHelper(24,24,0x182030,0x182030));
+
+function mkChar(color,scale){
+  scale=scale||1;
+  var g=new THREE.Group();
+  var m=function(c){return new THREE.MeshPhongMaterial({color:c,emissive:c,emissiveIntensity:.22});};
+  var head=new THREE.Mesh(new THREE.SphereGeometry(.32*scale,16,16),m(color)); head.position.y=1.48*scale; g.add(head);
+  var body=new THREE.Mesh(new THREE.CylinderGeometry(.19*scale,.26*scale,.9*scale,8),m(color)); body.position.y=.82*scale; g.add(body);
+  [[-.38,.2],[.38,-.2]].forEach(function(p){var a=new THREE.Mesh(new THREE.CylinderGeometry(.07*scale,.07*scale,.6*scale,8),m(color));a.rotation.z=p[1];a.position.set(p[0]*scale,.93*scale,0);g.add(a);});
+  [-.16,.16].forEach(function(x){var l=new THREE.Mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.72*scale,8),m(color));l.position.set(x*scale,.06*scale,0);g.add(l);});
+  var pl=new THREE.PointLight(color,.5,3*scale); pl.position.y=.5*scale; g.add(pl);
+  return g;
+}
+
+// Central BE sphere — teal for ESTAR
+var beSphere=new THREE.Mesh(new THREE.SphereGeometry(.7,32,32),new THREE.MeshPhongMaterial({color:0x4FC3F7,emissive:0x4FC3F7,emissiveIntensity:.3,transparent:true,opacity:.85}));
+beSphere.position.set(0,1.2,0); hScene.add(beSphere);
+var beGlow=new THREE.PointLight(0x4FC3F7,1.5,6); beGlow.position.set(0,1.2,0); hScene.add(beGlow);
+[.9,1.05].forEach(function(r){
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,48),new THREE.MeshPhongMaterial({color:0x4FC3F7,emissive:0x4FC3F7,emissiveIntensity:.5,transparent:true,opacity:.35}));
+  ring.rotation.x=Math.PI/2; ring.position.y=1.2; hScene.add(ring);
+});
+
+var hChars=[],labelData=[],beArcs=[];
+PRONS.forEach(function(p,i){
+  var a=(i/PRONS.length)*Math.PI*2-Math.PI/2, r=4.2;
+  var x=Math.cos(a)*r,z=Math.sin(a)*r;
+  var c=mkChar(HEXN[p]); c.position.set(x,0,z); c.lookAt(0,c.position.y,0);
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(.5,.05,8,32),new THREE.MeshPhongMaterial({color:HEXN[p],emissive:HEXN[p],emissiveIntensity:.4}));
+  ring.rotation.x=Math.PI/2; ring.position.y=-.4; c.add(ring);
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.28,.03,8,32),new THREE.MeshPhongMaterial({color:HEXN[p],emissive:HEXN[p],emissiveIntensity:.6}));
+  arc.position.y=2.05; arc.rotation.x=Math.PI/4; c.add(arc);
+  beArcs.push({m:arc,off:i*.8});
+  hScene.add(c);
+  hChars.push({mesh:c,key:p});
+  var el=document.createElement('div');
+  el.className='hlabel'; el.style.color=COLS[p]; el.style.borderColor=COLS[p];
+  el.textContent=p;
+  document.getElementById('heroOverlay').appendChild(el);
+  labelData.push({el:el,mesh:c});
+});
+
+var navEl=document.getElementById('pnav');
+PRONS.forEach(function(p){
+  var b=document.createElement('button');
+  b.className='pbtn'; b.dataset.p=p;
+  b.style.color=COLS[p]; b.style.borderColor=COLS[p];
+  b.textContent=p;
+  b.addEventListener('click',function(){openPronoun(p);});
+  navEl.appendChild(b);
+});
+
+function updateLabels(){
+  var w=hCanvas.clientWidth,h=440;
+  labelData.forEach(function(ld){
+    var pos=new THREE.Vector3(); ld.mesh.getWorldPosition(pos);
+    pos.y+=2.4; pos.project(hCam);
+    var x=(pos.x*.5+.5)*w,y=(-pos.y*.5+.5)*h;
+    ld.el.style.left=x+'px'; ld.el.style.top=y+'px';
+    ld.el.style.opacity=pos.z<1?'1':'0';
+  });
+}
+
+var ray=new THREE.Raycaster(),mPos=new THREE.Vector2();
+hCanvas.addEventListener('click',function(e){
+  var r=hCanvas.getBoundingClientRect();
+  mPos.x=((e.clientX-r.left)/r.width)*2-1;
+  mPos.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mPos,hCam);
+  hChars.forEach(function(c){
+    var ch=[]; c.mesh.traverse(function(m){if(m.isMesh)ch.push(m);});
+    if(ray.intersectObjects(ch).length>0) openPronoun(c.key);
+  });
+});
+
+var hT=0;
+function animHero(){
+  requestAnimationFrame(animHero); hT+=.01; hCtrl.update();
+  hChars.forEach(function(c,i){c.mesh.position.y=Math.sin(hT+i*.9)*.12;});
+  beArcs.forEach(function(a){a.m.rotation.y+=.018;});
+  beSphere.rotation.y+=.004;
+  beGlow.intensity=1.2+Math.sin(hT*1.8)*.4;
+  updateLabels(); hRend.render(hScene,hCam);
+}
+animHero();
+
+// ── DETAIL THREE.JS ───────────────────────────────────────────────────────────
+var dCanvas=document.getElementById('dCanvas');
+var dScene=new THREE.Scene();
+var dCam=new THREE.PerspectiveCamera(52,360/300,0.1,100);
+dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+var dRend=new THREE.WebGLRenderer({canvas:dCanvas,antialias:true,alpha:true});
+dRend.setPixelRatio(Math.min(window.devicePixelRatio,2));
+dRend.setSize(360,300); dRend.setClearColor(0x080c14,1);
+var dCtrl=new THREE.OrbitControls(dCam,dRend.domElement);
+dCtrl.enableDamping=true; dCtrl.dampingFactor=.05;
+dCtrl.target.set(0,.5,0); dCtrl.update();
+var dAmb=new THREE.AmbientLight(0xffffff,.45);
+var dDir2=new THREE.DirectionalLight(0xffffff,.8); dDir2.position.set(5,8,5);
+var dPL=new THREE.PointLight(0xffffff,1.5,14);
+dScene.add(dAmb,dDir2,dPL);
+var dObjs=[],dParts=null,dT=0;
+
+function clearD(){while(dScene.children.length)dScene.remove(dScene.children[0]);dScene.add(dAmb,dDir2,dPL);dObjs=[];dParts=null;}
+function dFloor(){var f=new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.MeshPhongMaterial({color:0x080c14}));f.rotation.x=-Math.PI/2;f.position.y=-.5;dScene.add(f);}
+function dPart(col,n){
+  n=n||50; var geo=new THREE.BufferGeometry(),pos=[],cols=[];var c=new THREE.Color(col);
+  for(var i=0;i<n;i++){pos.push((Math.random()-.5)*5,Math.random()*3.5,(Math.random()-.5)*5);cols.push(c.r,c.g,c.b);}
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+  dParts=new THREE.Points(geo,new THREE.PointsMaterial({size:.06,vertexColors:true}));
+  dScene.add(dParts);
+}
+
+// I — tired: character slouching with zzz spheres
+function buildI(){
+  dPL.color.set(0x9C8FFF); dFloor();
+  var ch=mkChar(0x9C8FFF); ch.position.set(0,-.5,0); ch.rotation.z=.08; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // zzz spheres
+  [[.5,1.8,0],[.7,2.15,.1],[.9,2.45,.15]].forEach(function(p,i){
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.1-.02*i,8,8),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.5,transparent:true,opacity:.7}));
+    s.position.set(p[0],p[1],p[2]); dScene.add(s); dObjs.push({m:s,type:'float',baseY:p[1],off:i*.4});
+  });
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.35,.04,8,32),new THREE.MeshPhongMaterial({color:0x9C8FFF,emissive:0x9C8FFF,emissiveIntensity:.55}));
+  arc.position.set(0,2.5,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dPart(0x9C8FFF);
+}
+// YOU — happy: character with floating hearts
+function buildYOU(){
+  dPL.color.set(0xFF8EC4); dFloor();
+  var ch=mkChar(0xFF8EC4); ch.position.set(0,-.5,0); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  [0,.8,1.6,2.4,3.2].forEach(function(a,i){
+    var heart=new THREE.Mesh(new THREE.SphereGeometry(.1,8,8),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.7}));
+    heart.position.set(Math.cos(a)*1.5,1.6+Math.sin(a)*.3,Math.sin(a)*1.5); dScene.add(heart); dObjs.push({m:heart,type:'float',baseY:1.6+Math.sin(a)*.3,off:i*.4});
+  });
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.38,.04,8,32),new THREE.MeshPhongMaterial({color:0xFF8EC4,emissive:0xFF8EC4,emissiveIntensity:.55}));
+  arc.position.set(0,2.5,0); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dPart(0xFF8EC4);
+}
+// HE — at home: character + house cube
+function buildHE(){
+  dPL.color.set(0x81D4FA); dFloor();
+  var ch=mkChar(0x81D4FA,.85); ch.position.set(-.7,-.5,.2); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  // house walls
+  var wall=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.2,1.2),new THREE.MeshPhongMaterial({color:0x1a3050,emissive:0x1a3050,emissiveIntensity:.1,transparent:true,opacity:.8}));
+  wall.position.set(.6,.1,0); dScene.add(wall);
+  // roof
+  var roof=new THREE.Mesh(new THREE.ConeGeometry(.98,.5,4),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.25}));
+  roof.position.set(.6,.95,0); roof.rotation.y=Math.PI/4; dScene.add(roof); dObjs.push({m:roof,type:'glow'});
+  // window glow
+  var win=new THREE.Mesh(new THREE.BoxGeometry(.35,.35,.05),new THREE.MeshPhongMaterial({color:0x81D4FA,emissive:0x81D4FA,emissiveIntensity:.7,transparent:true,opacity:.6}));
+  win.position.set(.6,.2,.61); dScene.add(win); dObjs.push({m:win,type:'glow'});
+  dPart(0x81D4FA);
+}
+// SHE — at work: character + desk
+function buildSHE(){
+  dPL.color.set(0xFFE082); dFloor();
+  var desk=new THREE.Mesh(new THREE.BoxGeometry(1.8,.08,.9),new THREE.MeshPhongMaterial({color:0x3d2b1f}));
+  desk.position.set(.3,.15,.3); dScene.add(desk);
+  // monitor
+  var mon=new THREE.Mesh(new THREE.BoxGeometry(.55,.4,.04),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.3,transparent:true,opacity:.8}));
+  mon.position.set(.4,.45,.28); dScene.add(mon); dObjs.push({m:mon,type:'glow'});
+  var ch=mkChar(0xFFE082,.9); ch.position.set(-.5,-.5,.3); ch.rotation.y=.35; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:0});
+  var arc=new THREE.Mesh(new THREE.TorusGeometry(.38,.04,8,32),new THREE.MeshPhongMaterial({color:0xFFE082,emissive:0xFFE082,emissiveIntensity:.55}));
+  arc.position.set(-.5,2.4,.3); arc.rotation.x=Math.PI/3; dScene.add(arc); dObjs.push({m:arc,type:'spinY'});
+  dPart(0xFFE082);
+}
+// IT — cold: snowflake/ice particles
+function buildIT(){
+  dPL.color.set(0xA5D6A7); dFloor();
+  // snow particles (many small spheres)
+  for(var i=0;i<18;i++){
+    var s=new THREE.Mesh(new THREE.SphereGeometry(.07,6,6),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.5,transparent:true,opacity:.7}));
+    var bx=(Math.random()-.5)*4, by=Math.random()*3, bz=(Math.random()-.5)*3;
+    s.position.set(bx,by,bz); dScene.add(s);
+    dObjs.push({m:s,type:'snow',baseX:bx,baseY:by,baseZ:bz,off:Math.random()*Math.PI*2,spd:.3+Math.random()*.4});
+  }
+  // ice crystal (icosahedron)
+  var ice=new THREE.Mesh(new THREE.IcosahedronGeometry(.55,0),new THREE.MeshPhongMaterial({color:0xA5D6A7,emissive:0xA5D6A7,emissiveIntensity:.35,transparent:true,opacity:.65,wireframe:false}));
+  ice.position.set(0,.8,0); dScene.add(ice); dObjs.push({m:ice,type:'spinY'});
+  dPart(0xA5D6A7,60);
+}
+// WE — ready: 3 characters in formation
+function buildWE(){
+  dPL.color.set(0xFFAB91); dFloor();
+  var cc=[0xFFAB91,0xFF8A65,0xFFCCBC];
+  [[-.8,-.5,.4],[.1,-.5,-.4],[.9,-.5,.3]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.9); ch.position.set(p[0],p[1],p[2]); ch.rotation.y=(i-.5)*.3; dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.4});
+    var badge=new THREE.Mesh(new THREE.SphereGeometry(.11,8,8),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.7}));
+    badge.position.set(p[0],2.0,p[2]); dScene.add(badge); dObjs.push({m:badge,type:'float',baseY:2.0,off:i*.4});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(1.5,.04,8,48),new THREE.MeshPhongMaterial({color:0xFFAB91,emissive:0xFFAB91,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:0});
+  dPart(0xFFAB91,55);
+}
+// THEY — hungry: 4 characters
+function buildTHEY(){
+  dPL.color.set(0xD1A8E8); dFloor();
+  var cc=[0xD1A8E8,0xAB47BC,0xCE93D8,0xB39DDB];
+  [[-1.2,-.5,.4],[-.3,-.5,-.4],[.5,-.5,.5],[1.2,-.5,-.3]].forEach(function(p,i){
+    var ch=mkChar(cc[i],.88); ch.position.set(p[0],p[1],p[2]); dScene.add(ch); dObjs.push({m:ch,type:'sway',off:i*.45});
+    var bub=new THREE.Mesh(new THREE.SphereGeometry(.1,10,10),new THREE.MeshPhongMaterial({color:cc[i],emissive:cc[i],emissiveIntensity:.45,transparent:true,opacity:.7}));
+    bub.position.set(p[0]+.2,2.0,p[2]); dScene.add(bub); dObjs.push({m:bub,type:'float',baseY:2.0,off:i*.4});
+  });
+  var bigArc=new THREE.Mesh(new THREE.TorusGeometry(2.0,.04,8,56),new THREE.MeshPhongMaterial({color:0xD1A8E8,emissive:0xD1A8E8,emissiveIntensity:.35}));
+  bigArc.rotation.x=Math.PI/2; bigArc.position.y=-.48; dScene.add(bigArc); dObjs.push({m:bigArc,type:'pulse',baseY:-.48,off:.2});
+  dPart(0xD1A8E8,60);
+}
+
+var BUILDERS={I:buildI,YOU:buildYOU,HE:buildHE,SHE:buildSHE,IT:buildIT,WE:buildWE,THEY:buildTHEY};
+
+function animDetail(){
+  requestAnimationFrame(animDetail); dT+=.016; dCtrl.update();
+  dObjs.forEach(function(o){
+    var off=o.off||0,by=o.baseY||0;
+    switch(o.type){
+      case 'sway':  o.m.rotation.y=Math.sin(dT*.8+off)*.2; break;
+      case 'float': o.m.position.y=by+Math.sin(dT*1.2+off)*.13; break;
+      case 'pulse': o.m.scale.setScalar(1+Math.sin(dT*2+off)*.08); o.m.position.y=by+Math.sin(dT*1.5)*.05; break;
+      case 'spinY': o.m.rotation.y+=.014; break;
+      case 'glow':  o.m.material.emissiveIntensity=.4+Math.sin(dT*2+off)*.25; break;
+      case 'snow':  o.m.position.y=by+Math.sin(dT*o.spd+off)*.3; o.m.position.x=o.baseX+Math.sin(dT*.4+off)*.15; break;
+    }
+  });
+  if(dParts) dParts.rotation.y+=.003;
+  dRend.render(dScene,dCam);
+}
+animDetail();
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+var selTense='present',selMode='aff',curP=null;
+
+function getSentence(pron,tense,mode){
+  var pair=T[tense][mode][pron];
+  var form=T[tense].forms[pron];
+  var tc=T[tense].color, pc=COLS[pron];
+  var hl=hlBE(pair[0],form,pc,tc);
+  var ctx='';
+  if(mode==='aff') ctx='✅ Afirmativa — estado temporário no '+T[tense].label.toLowerCase()+'. Verbo BE: '+form;
+  if(mode==='neg') ctx='❌ Negação — NOT após o verbo BE: '+form+' not';
+  if(mode==='q')   ctx='❓ Pergunta — verbo BE vem primeiro. Sem DO/DOES/DID!';
+  return {en:hl,pt:pair[1],ctx:ctx};
+}
+
+function openPronoun(p){
+  curP=p;
+  var d=PDESC[p];
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('dPron').textContent=p;
+  document.getElementById('dPron').style.color=COLS[p];
+  document.getElementById('dPt').textContent=PT[p];
+  document.getElementById('dPt').style.color=COLS[p];
+  document.getElementById('dDesc').textContent=d.desc;
+  document.getElementById('dRule').textContent=d.rule;
+  updateDetail();
+  var sl=document.getElementById('simList'); sl.innerHTML='';
+  d.sim.forEach(function(s){sl.innerHTML+='<div class="simitem"><span class="simen">'+s.en+'</span><span class="simpt">'+s.pt+'</span></div>';});
+  document.querySelectorAll('.pbtn').forEach(function(b){
+    var isThis=b.dataset.p===p;
+    b.classList.toggle('active',isThis);
+    b.style.backgroundColor=isThis?COLS[p]:'transparent';
+    b.style.color=isThis?'#080c14':COLS[p];
+  });
+  clearD(); BUILDERS[p]();
+  dCam.position.set(0,2,6.5); dCam.lookAt(0,.5,0);
+  dCtrl.target.set(0,.5,0); dCtrl.update();
+  document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateDetail(){
+  if(!curP) return;
+  var s=getSentence(curP,selTense,selMode);
+  document.getElementById('sEn').innerHTML=s.en;
+  document.getElementById('sPt').textContent=s.pt;
+  document.getElementById('sCtx').innerHTML=s.ctx;
+}
+
+document.querySelectorAll('#tenseTabs .tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('#tenseTabs .tab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selTense=tab.dataset.t; updateDetail();
+  });
+});
+document.querySelectorAll('.mtab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.mtab').forEach(function(x){x.classList.remove('on');});
+    tab.classList.add('on'); selMode=tab.dataset.m; updateDetail();
+  });
+});
+
+setTimeout(function(){openPronoun('I');},600);
+</script>
+</body>
+</html>

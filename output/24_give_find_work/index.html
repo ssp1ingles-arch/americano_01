@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lição 24 — GIVE · FIND · WORK | Inglês Visual para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070d0d;--surface:#0d1a1a;--surface2:#112020;
+  --border:rgba(255,255,255,.07);--text:#e4ddd4;--muted:#6a7390;
+  --accent:#22D3EE;
+  --cg:#FB923C;--cf:#A78BFA;--cw:#34D399;
+  --tip:#5FD87A;--warn:#FF7043;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,13,13,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;opacity:.8;transition:opacity .2s}
+.nav-back:hover{opacity:1}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);opacity:.9}
+.nav-badge{margin-left:auto;background:rgba(34,211,238,.12);color:var(--accent);border:1px solid rgba(34,211,238,.25);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;font-weight:700;letter-spacing:.04em}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+#hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:1;text-align:center;padding:0 1.5rem}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:1rem}
+.hero-verbs{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,9vw,6.5rem);font-weight:800;line-height:.95;letter-spacing:-.03em;margin-bottom:.75rem}
+.hero-verbs .vg{color:var(--cg)}
+.hero-verbs .vf{color:var(--cf)}
+.hero-verbs .vw{color:var(--cw)}
+.hero-verbs .dot{color:var(--muted);font-size:.6em}
+.hero-sub{font-size:clamp(.85rem,2vw,1.1rem);color:var(--muted);margin-bottom:2rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+.hero-sub .chunk{display:flex;align-items:center;gap:.4rem}
+.hero-sub .chunk span{font-weight:600}
+.hero-sub .chunk .cg{color:var(--cg)}
+.hero-sub .chunk .cf{color:var(--cf)}
+.hero-sub .chunk .cw{color:var(--cw)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* SECTIONS */
+.section{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:2rem;line-height:1.15}
+
+/* SUMMARY TABLE */
+.sum-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;overflow:hidden;margin-bottom:2rem}
+.sum-table{width:100%;border-collapse:collapse}
+.sum-table th{padding:.75rem 1rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.sum-table td{padding:.75rem 1rem;border-bottom:1px solid var(--border);font-size:.92rem}
+.sum-table tr:last-child td{border-bottom:none}
+.sum-table .vname{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem}
+.sum-table .vg-name{color:var(--cg)}
+.sum-table .vf-name{color:var(--cf)}
+.sum-table .vw-name{color:var(--cw)}
+.sum-table .vpt{color:var(--muted);font-size:.85rem}
+.sum-table .past-form{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--accent)}
+.tag-reg{display:inline-block;background:rgba(52,211,153,.1);color:var(--cw);border:1px solid rgba(52,211,153,.25);border-radius:4px;font-size:.68rem;font-weight:700;padding:.1rem .4rem;margin-left:.35rem;vertical-align:middle}
+.tag-irreg{display:inline-block;background:rgba(251,146,60,.1);color:var(--cg);border:1px solid rgba(251,146,60,.25);border-radius:4px;font-size:.68rem;font-weight:700;padding:.1rem .4rem;margin-left:.35rem;vertical-align:middle}
+
+/* VERB BLOCKS */
+.verb-block{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;margin-bottom:2rem}
+.vb-header{display:flex;align-items:center;gap:.85rem;margin-bottom:1.5rem}
+.vb-icon{width:2.5rem;height:2.5rem;border-radius:.65rem;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1rem;flex-shrink:0}
+.vb-icon-g{background:rgba(251,146,60,.15);color:var(--cg)}
+.vb-icon-f{background:rgba(167,139,250,.15);color:var(--cf)}
+.vb-icon-w{background:rgba(52,211,153,.15);color:var(--cw)}
+.vb-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800}
+.vb-title-g{color:var(--cg)}
+.vb-title-f{color:var(--cf)}
+.vb-title-w{color:var(--cw)}
+.vb-sub{color:var(--muted);font-size:.85rem;margin-top:.1rem}
+.conj-strip{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.cs-pill{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:.5rem;padding:.35rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600}
+.cs-pill .pn{color:var(--muted);font-size:.75rem;margin-right:.25rem}
+
+/* EXAMPLES */
+.ex-grid{display:grid;gap:.65rem}
+.ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:.75rem;padding:.8rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.25rem .75rem}
+.ex-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem}
+.ex-pt{color:var(--muted);font-size:.84rem}
+.ex-en .vbg{color:var(--cg)}
+.ex-en .vbf{color:var(--cf)}
+.ex-en .vbw{color:var(--cw)}
+.ex-en .past-g{color:var(--cg)}
+.ex-en .past-f{color:var(--cf)}
+.ex-en .past-w{color:var(--cw)}
+.past-badge{font-size:.68rem;font-weight:700;background:rgba(34,211,238,.08);color:var(--accent);border-radius:4px;padding:.05rem .3rem;margin-left:.25rem;vertical-align:middle}
+
+/* SPECIAL PATTERNS */
+.pattern-box{background:rgba(34,211,238,.04);border:1px solid rgba(34,211,238,.15);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1.25rem}
+.pattern-box h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.06em}
+.pattern-row{display:flex;align-items:center;gap:.6rem;padding:.3rem 0;border-bottom:1px solid var(--border)}
+.pattern-row:last-child{border-bottom:none}
+.pattern-en{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;min-width:180px}
+.pattern-pt{color:var(--muted);font-size:.84rem}
+
+/* GIVE UP callout */
+.callout{background:rgba(251,146,60,.06);border:1px solid rgba(251,146,60,.2);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1.25rem;display:flex;gap:.85rem;align-items:flex-start}
+.callout-icon{font-size:1.5rem;flex-shrink:0}
+.callout h4{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--cg);margin-bottom:.3rem}
+.callout p{font-size:.88rem;color:var(--muted);line-height:1.5}
+.callout .en-ex{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);margin-top:.35rem}
+
+/* WORK 2 SENTIDOS */
+.work-sentidos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.ws-card{background:var(--surface2);border:1px solid var(--border);border-radius:.85rem;padding:1rem}
+.ws-num{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cw);margin-bottom:.4rem}
+.ws-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.ws-ex{font-size:.85rem;color:var(--muted);line-height:1.5}
+.ws-ex .en{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);display:block}
+
+/* NEG BOX */
+.neg-box{background:rgba(255,112,67,.06);border:1px solid rgba(255,112,67,.2);border-radius:.85rem;padding:1.1rem 1.25rem;margin-top:1rem}
+.neg-box h5{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--warn);margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem}
+.neg-pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.neg-w{background:rgba(255,112,67,.08);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;color:var(--warn)}
+.neg-r{background:rgba(95,216,122,.06);border-radius:.5rem;padding:.5rem .75rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;color:var(--tip)}
+
+/* TIP */
+.tip-box{background:rgba(95,216,122,.05);border:1px solid rgba(95,216,122,.18);border-radius:.85rem;padding:1rem 1.25rem;margin-top:1rem}
+.tip-box p{color:var(--tip);font-size:.9rem}
+.tip-box strong{color:var(--tip)}
+
+/* QUIZ */
+.quiz-wrap{max-width:860px;margin:0 auto;padding:5rem 1.5rem}
+.quiz-section-label{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;opacity:.7}
+.quiz-section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;margin-bottom:.75rem}
+.quiz-section-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;margin-bottom:1.25rem}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.q-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;line-height:1.4}
+.q-text .blank{display:inline-block;min-width:3rem;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.opt-btn{background:var(--surface2);border:1px solid var(--border);border-radius:.6rem;padding:.7rem .9rem;text-align:left;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:.55rem}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(34,211,238,.06)}
+.opt-letter{width:1.4rem;height:1.4rem;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .2s}
+.opt-btn.correct{border-color:var(--tip);background:rgba(95,216,122,.08)}
+.opt-btn.correct .opt-letter{background:var(--tip);border-color:var(--tip);color:#070d0d}
+.opt-btn.wrong{border-color:var(--warn);background:rgba(255,112,67,.08)}
+.opt-btn.wrong .opt-letter{background:var(--warn);border-color:var(--warn);color:#fff}
+.opt-btn:disabled{cursor:default;opacity:.8}
+.feedback{margin-top:1rem;padding:.85rem 1.1rem;border-radius:.6rem;font-size:.88rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.2);color:var(--tip)}
+.feedback.err{background:rgba(255,112,67,.08);border:1px solid rgba(255,112,67,.2);color:var(--warn)}
+.scorebar{background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2rem;text-align:center;margin-top:2rem;display:none}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:800;background:linear-gradient(135deg,var(--cg),var(--accent),var(--cw));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.score-msg{color:var(--muted);font-size:.95rem;margin:.5rem 0 1.25rem}
+.btn-reset{background:var(--accent);color:#070d0d;border:none;border-radius:.75rem;padding:.75rem 2rem;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:opacity .2s}
+.btn-reset:hover{opacity:.85}
+
+/* ERRORS */
+.errors-section{max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+.err-grid{display:grid;gap:1rem}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;overflow:hidden}
+.err-wrong-row{background:rgba(255,112,67,.06);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-right-row{background:rgba(95,216,122,.04);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem}
+.err-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.err-sentence{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+.err-why{font-size:.83rem;color:var(--muted);margin-top:.25rem}
+.err-wrong-row .err-sentence{color:var(--warn)}
+.err-right-row .err-sentence{color:var(--tip)}
+
+/* SUMMARY */
+.summary-section{max-width:860px;margin:0 auto;padding:0 1.5rem 7rem}
+.sum-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem}
+.sum-card h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.07em}
+.sg-h h4{color:var(--cg)}
+.sf-h h4{color:var(--cf)}
+.sw-h h4{color:var(--cw)}
+.sum-item{font-size:.85rem;color:var(--muted);padding:.2rem 0;border-bottom:1px solid var(--border)}
+.sum-item:last-child{border-bottom:none}
+.sum-item .en{font-weight:600;color:var(--text)}
+.sum-rule{background:var(--surface);border:1px solid rgba(34,211,238,.2);border-radius:1rem;padding:1.25rem;text-align:center;margin-bottom:1rem}
+.sum-rule p{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:600;color:var(--accent)}
+
+/* FOOTER NAV */
+.footer-nav{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;border-top:1px solid var(--border)}
+.fnav-btn{display:flex;align-items:center;gap:.5rem;color:var(--accent);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;opacity:.8;transition:opacity .2s}
+.fnav-btn:hover{opacity:1}
+.fnav-center{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media(max-width:640px){
+  .opts{grid-template-columns:1fr}
+  .work-sentidos{grid-template-columns:1fr}
+  .sum-grid3{grid-template-columns:1fr}
+  .ex-card{grid-template-columns:1fr}
+  .neg-pair{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Índice</a>
+  <span class="nav-title">Módulo 04 · Verbos Essenciais</span>
+  <span class="nav-badge">A1 · Lição 24 · GIVE · FIND · WORK</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Módulo 04 · Lição 24</div>
+    <div class="hero-verbs">
+      <span class="vg">GIVE</span>
+      <span class="dot"> · </span>
+      <span class="vf">FIND</span>
+      <span class="dot"> · </span>
+      <span class="vw">WORK</span>
+    </div>
+    <div class="hero-sub">
+      <div class="chunk"><span class="cg">DAR</span></div>
+      <div class="chunk"><span class="cf">ENCONTRAR · ACHAR</span></div>
+      <div class="chunk"><span class="cw">TRABALHAR · FUNCIONAR</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    role para baixo
+  </div>
+</section>
+
+<!-- OVERVIEW TABLE -->
+<section class="section">
+  <div class="section-label">Visão geral</div>
+  <div class="section-title">3 verbos, 2 irregulares e 1 regular</div>
+
+  <div class="sum-table-wrap">
+    <table class="sum-table">
+      <thead>
+        <tr><th>Verbo</th><th>Significado</th><th>Presente (He/She)</th><th>Passado</th><th>Tipo</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="vname vg-name">GIVE</span></td>
+          <td><span class="vpt">DAR · entregar · oferecer</span></td>
+          <td><span class="past-form">GIVES</span></td>
+          <td><span class="past-form">GAVE</span></td>
+          <td><span class="tag-irreg">irregular</span></td>
+        </tr>
+        <tr>
+          <td><span class="vname vf-name">FIND</span></td>
+          <td><span class="vpt">ENCONTRAR · ACHAR</span></td>
+          <td><span class="past-form">FINDS</span></td>
+          <td><span class="past-form">FOUND</span></td>
+          <td><span class="tag-irreg">irregular</span></td>
+        </tr>
+        <tr>
+          <td><span class="vname vw-name">WORK</span></td>
+          <td><span class="vpt">TRABALHAR · FUNCIONAR</span></td>
+          <td><span class="past-form">WORKS</span></td>
+          <td><span class="past-form">WORKED</span></td>
+          <td><span class="tag-reg">regular</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    <p><strong>WORK é o único regular dos três</strong> — basta adicionar -ED: work → worked. GIVE e FIND têm passados irregulares que parecem palavras diferentes: GAVE e FOUND.</p>
+  </div>
+</section>
+
+<!-- GIVE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Verbo 1</div>
+  <div class="section-title" style="color:var(--cg)">GIVE — DAR</div>
+
+  <div class="verb-block">
+    <div class="vb-header">
+      <div class="vb-icon vb-icon-g">G</div>
+      <div>
+        <div class="vb-title vb-title-g">GIVE / GIVES → GAVE</div>
+        <div class="vb-sub">dar, entregar, oferecer, presentear</div>
+      </div>
+    </div>
+
+    <div class="conj-strip">
+      <div class="cs-pill"><span class="pn">I/You/We/They</span><span style="color:var(--cg)">give</span></div>
+      <div class="cs-pill"><span class="pn">He/She/It</span><span style="color:var(--cg)">gives</span></div>
+      <div class="cs-pill"><span class="pn">passado</span><span style="color:var(--cg)">gave</span> <span class="tag-irreg">irregular</span></div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbg">give</span> my son a hug every morning.</div>
+        <div class="ex-pt">Eu dou um abraço no meu filho toda manhã.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbg">gives</span> money to charity.</div>
+        <div class="ex-pt">Ele doa dinheiro para caridade.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vbg">gives</span> her students a lot of homework.</div>
+        <div class="ex-pt">Ela passa muito dever para os alunos.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">It <span class="vbg">gives</span> me energy.</div>
+        <div class="ex-pt">Ele/Ela me dá energia.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">They <span class="vbg">give</span> free meals on Sundays.</div>
+        <div class="ex-pt">Eles dão refeições grátis aos domingos.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--cg);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em">No passado — GAVE (irregular)</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="past-g">gave</span> my son a hug. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eu dei um abraço no meu filho.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="past-g">gave</span> her students homework. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ela passou dever para os alunos.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">He <span class="past-g">gave</span> money to charity. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ele doou dinheiro para caridade.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">They <span class="past-g">gave</span> free meals. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eles deram refeições grátis.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">💡</div>
+      <div>
+        <h4>GIVE UP = DESISTIR</h4>
+        <p>Uma das expressões mais importantes do inglês. GIVE sozinho = dar. GIVE UP = desistir, parar de tentar.</p>
+        <div class="en-ex">I don't give up easily. — Eu não desisto facilmente.</div>
+        <div class="en-ex" style="margin-top:.25rem">She didn't give up. — Ela não desistiu.</div>
+      </div>
+    </div>
+
+    <div class="neg-box">
+      <h5>⚠️ Negação e perguntas</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ I didn't gave money.</div>
+        <div class="neg-r">✓ I didn't give money.</div>
+        <div class="neg-w">✗ Did she gave a speech?</div>
+        <div class="neg-r">✓ Did she give a speech?</div>
+      </div>
+      <p style="font-size:.83rem;color:var(--muted);margin-top:.7rem">Depois de <strong style="color:var(--warn)">didn't</strong> e <strong style="color:var(--warn)">did</strong>: sempre a forma base GIVE.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIND -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Verbo 2</div>
+  <div class="section-title" style="color:var(--cf)">FIND — ENCONTRAR / ACHAR</div>
+
+  <div class="verb-block">
+    <div class="vb-header">
+      <div class="vb-icon vb-icon-f">F</div>
+      <div>
+        <div class="vb-title vb-title-f">FIND / FINDS → FOUND</div>
+        <div class="vb-sub">achar algo ou alguém — físico ou abstrato</div>
+      </div>
+    </div>
+
+    <div class="conj-strip">
+      <div class="cs-pill"><span class="pn">I/You/We/They</span><span style="color:var(--cf)">find</span></div>
+      <div class="cs-pill"><span class="pn">He/She/It</span><span style="color:var(--cf)">finds</span></div>
+      <div class="cs-pill"><span class="pn">passado</span><span style="color:var(--cf)">found</span> <span class="tag-irreg">irregular</span></div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbf">find</span> it interesting.</div>
+        <div class="ex-pt">Eu acho interessante.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbf">finds</span> it easy.</div>
+        <div class="ex-pt">Ele acha fácil.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">She <span class="vbf">finds</span> solutions quickly.</div>
+        <div class="ex-pt">Ela encontra soluções rapidamente.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">You <span class="vbf">find</span> the best deals.</div>
+        <div class="ex-pt">Você encontra as melhores ofertas.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">They <span class="vbf">find</span> everything online.</div>
+        <div class="ex-pt">Eles encontram tudo online.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--cf);margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.07em">No passado — FOUND (irregular)</div>
+      <div class="ex-grid">
+        <div class="ex-card">
+          <div class="ex-en">I <span class="past-f">found</span> my keys. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Eu encontrei minhas chaves.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">She <span class="past-f">found</span> a solution. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ela encontrou uma solução.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">We <span class="past-f">found</span> a great restaurant. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Nós encontramos um restaurante ótimo.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-en">He <span class="past-f">found</span> it easy. <span class="past-badge">passado</span></div>
+          <div class="ex-pt">Ele achou fácil.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pattern-box" style="border-color:rgba(167,139,250,.2);background:rgba(167,139,250,.04)">
+      <h4 style="color:var(--cf)">Padrão especial: FIND IT + adjetivo</h4>
+      <div class="pattern-row">
+        <div class="pattern-en" style="color:var(--cf)">I find it interesting.</div>
+        <div class="pattern-pt">Eu acho interessante.</div>
+      </div>
+      <div class="pattern-row">
+        <div class="pattern-en" style="color:var(--cf)">She finds it easy.</div>
+        <div class="pattern-pt">Ela acha fácil.</div>
+      </div>
+      <div class="pattern-row">
+        <div class="pattern-en" style="color:var(--cf)">We found it difficult.</div>
+        <div class="pattern-pt">Nós achamos difícil.</div>
+      </div>
+      <div class="pattern-row">
+        <div class="pattern-en" style="color:var(--cf)">Do you find it useful?</div>
+        <div class="pattern-pt">Você acha útil?</div>
+      </div>
+    </div>
+
+    <div class="neg-box">
+      <h5>⚠️ Negação e perguntas</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ I didn't found my keys.</div>
+        <div class="neg-r">✓ I didn't find my keys.</div>
+        <div class="neg-w">✗ Did she finded a solution?</div>
+        <div class="neg-r">✓ Did she find a solution?</div>
+      </div>
+      <p style="font-size:.83rem;color:var(--muted);margin-top:.7rem">Depois de <strong style="color:var(--warn)">didn't</strong> e <strong style="color:var(--warn)">did</strong>: sempre a forma base FIND.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Verbo 3</div>
+  <div class="section-title" style="color:var(--cw)">WORK — TRABALHAR · FUNCIONAR</div>
+
+  <div class="verb-block">
+    <div class="vb-header">
+      <div class="vb-icon vb-icon-w">W</div>
+      <div>
+        <div class="vb-title vb-title-w">WORK / WORKS → WORKED</div>
+        <div class="vb-sub">verbo regular — basta adicionar -ED</div>
+      </div>
+    </div>
+
+    <div class="conj-strip">
+      <div class="cs-pill"><span class="pn">I/You/We/They</span><span style="color:var(--cw)">work</span></div>
+      <div class="cs-pill"><span class="pn">He/She/It</span><span style="color:var(--cw)">works</span></div>
+      <div class="cs-pill"><span class="pn">passado</span><span style="color:var(--cw)">worked</span> <span class="tag-reg">regular</span></div>
+    </div>
+
+    <div class="work-sentidos">
+      <div class="ws-card">
+        <div class="ws-num">Sentido 1</div>
+        <div class="ws-title">TRABALHAR</div>
+        <div class="ws-ex">
+          <span class="en">She works at a hospital.</span> Ela trabalha num hospital.
+          <span class="en" style="margin-top:.35rem">I work from home.</span> Eu trabalho em casa.
+          <span class="en" style="margin-top:.35rem">We work as a team.</span> Nós trabalhamos em equipe.
+        </div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-num">Sentido 2</div>
+        <div class="ws-title">FUNCIONAR</div>
+        <div class="ws-ex">
+          <span class="en">Does it work?</span> Funciona?
+          <span class="en" style="margin-top:.35rem">It doesn't work.</span> Não funciona.
+          <span class="en" style="margin-top:.35rem">The plan worked!</span> O plano funcionou!
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-grid">
+      <div class="ex-card">
+        <div class="ex-en">I <span class="vbw">work</span> from home every day.</div>
+        <div class="ex-pt">Eu trabalho em casa todo dia.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">He <span class="vbw">works</span> at a hospital.</div>
+        <div class="ex-pt">Ele trabalha num hospital.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">It <span class="vbw">works</span> perfectly.</div>
+        <div class="ex-pt">Funciona perfeitamente.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">I <span class="past-w">worked</span> from home yesterday. <span class="past-badge">passado</span></div>
+        <div class="ex-pt">Eu trabalhei em casa ontem.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">The plan <span class="past-w">worked</span>. <span class="past-badge">passado</span></div>
+        <div class="ex-pt">O plano funcionou.</div>
+      </div>
+      <div class="ex-card">
+        <div class="ex-en">His idea <span class="past-w">worked</span>. <span class="past-badge">passado</span></div>
+        <div class="ex-pt">A ideia dele funcionou.</div>
+      </div>
+    </div>
+
+    <div class="neg-box">
+      <h5>⚠️ Negação e perguntas</h5>
+      <div class="neg-pair">
+        <div class="neg-w">✗ It didn't worked.</div>
+        <div class="neg-r">✓ It didn't work.</div>
+        <div class="neg-w">✗ She doesn't works here.</div>
+        <div class="neg-r">✓ She doesn't work here.</div>
+      </div>
+      <p style="font-size:.83rem;color:var(--muted);margin-top:.7rem">WORK é regular, mas a negação ainda usa a forma base: <strong style="color:var(--tip)">didn't work</strong> — nunca "didn't worked".</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div class="quiz-section-label">Pratique</div>
+  <div class="quiz-section-title">Quiz — GIVE · FIND · WORK</div>
+  <div class="quiz-section-sub">12 questões. Complete as frases com a forma correta do verbo.</div>
+  <div id="quiz"></div>
+  <div class="scorebar" id="scorebar">
+    <div class="score-num" id="score-num"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="btn-reset" onclick="resetQuiz()">Tentar novamente</button>
+  </div>
+</div>
+
+<!-- ERROS COMUNS -->
+<section class="errors-section">
+  <div class="section-label" style="margin-bottom:.5rem">Cuidado</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">6 erros clássicos com GIVE · FIND · WORK</h2>
+  <div class="err-grid" id="errors-grid"></div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary-section">
+  <div class="section-label" style="margin-bottom:.5rem">Resumo</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">O que você aprendeu</h2>
+
+  <div class="sum-rule">
+    <p>GIVE → GAVE (irregular) &nbsp;·&nbsp; FIND → FOUND (irregular) &nbsp;·&nbsp; WORK → WORKED (regular)</p>
+  </div>
+
+  <div class="sum-grid3">
+    <div class="sum-card sg-h">
+      <h4>GIVE — DAR</h4>
+      <div class="sum-item"><span class="en">give money</span> — dar dinheiro</div>
+      <div class="sum-item"><span class="en">give advice</span> — dar conselhos</div>
+      <div class="sum-item"><span class="en">give a speech</span> — dar um discurso</div>
+      <div class="sum-item"><span class="en">give a chance</span> — dar uma chance</div>
+      <div class="sum-item"><span class="en">give up</span> — desistir</div>
+    </div>
+    <div class="sum-card sf-h">
+      <h4>FIND — ENCONTRAR</h4>
+      <div class="sum-item"><span class="en">find a solution</span> — encontrar solução</div>
+      <div class="sum-item"><span class="en">find it easy</span> — achar fácil</div>
+      <div class="sum-item"><span class="en">find a deal</span> — encontrar oferta</div>
+      <div class="sum-item"><span class="en">find my keys</span> — encontrar chaves</div>
+      <div class="sum-item"><span class="en">find a way</span> — encontrar um jeito</div>
+    </div>
+    <div class="sum-card sw-h">
+      <h4>WORK — TRABALHAR</h4>
+      <div class="sum-item"><span class="en">work from home</span> — trabalhar em casa</div>
+      <div class="sum-item"><span class="en">work as a team</span> — trabalhar em equipe</div>
+      <div class="sum-item"><span class="en">it works</span> — funciona</div>
+      <div class="sum-item"><span class="en">it worked</span> — funcionou</div>
+      <div class="sum-item"><span class="en">it doesn't work</span> — não funciona</div>
+    </div>
+  </div>
+
+  <div class="sum-rule">
+    <p>Depois de <strong>didn't</strong> e <strong>did</strong>: sempre a forma base — give, find, work</p>
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div class="footer-nav">
+  <a class="fnav-btn" href="../23_take_pegar_levar/index.html">← Lição 23</a>
+  <div class="fnav-center">Lição 24 de 25 · Módulo 04</div>
+  <a class="fnav-btn" href="../index.html">Índice →</a>
+</div>
+
+<script>
+// THREE.JS HERO
+(function(){
+  var canvas=document.getElementById('hero-canvas');
+  var W=window.innerWidth,H=window.innerHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(55,W/H,.1,200);
+  camera.position.set(0,0,13);
+
+  // Central sphere
+  var cGeo=new THREE.IcosahedronGeometry(1.6,4);
+  var cMat=new THREE.MeshStandardMaterial({color:0x22D3EE,emissive:0x22D3EE,emissiveIntensity:.2,roughness:.4,metalness:.6});
+  var cMesh=new THREE.Mesh(cGeo,cMat);
+  scene.add(cMesh);
+  var wMat=new THREE.MeshBasicMaterial({color:0x22D3EE,wireframe:true,opacity:.1,transparent:true});
+  scene.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.65,2),wMat));
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0x112020,2));
+  var dl=new THREE.DirectionalLight(0x22D3EE,3);dl.position.set(5,8,5);scene.add(dl);
+  var dl2=new THREE.DirectionalLight(0xFB923C,1.8);dl2.position.set(-6,-4,3);scene.add(dl2);
+  var dl3=new THREE.DirectionalLight(0x34D399,1.5);dl3.position.set(0,6,-5);scene.add(dl3);
+
+  // 3 planet clusters
+  var clusters=[
+    {color:0xFB923C,r:4.5,speed:.6,count:3},  // GIVE orange
+    {color:0xA78BFA,r:6.5,speed:-.45,count:3}, // FIND purple
+    {color:0x34D399,r:8.5,speed:.35,count:3}   // WORK green
+  ];
+  var groups=[];
+  clusters.forEach(function(c){
+    var grp=new THREE.Group();
+    var tilt=Math.random()*.5+.2;
+    grp.rotation.x=tilt;grp.rotation.z=tilt*.5;
+    scene.add(grp);
+    var mats=[];
+    for(var i=0;i<c.count;i++){
+      var sz=.25+Math.random()*.1;
+      var m=new THREE.Mesh(new THREE.SphereGeometry(sz,12,12),
+        new THREE.MeshStandardMaterial({color:c.color,emissive:c.color,emissiveIntensity:.45,roughness:.3,metalness:.5}));
+      var a=(i/c.count)*Math.PI*2;
+      m.position.set(Math.cos(a)*c.r,Math.sin(a)*c.r,0);
+      grp.add(m);
+    }
+    groups.push({grp:grp,speed:c.speed});
+
+    // orbit ring
+    var pts=[];
+    for(var j=0;j<=64;j++){var a=(j/64)*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*c.r,Math.sin(a)*c.r,0));}
+    var rg=new THREE.BufferGeometry().setFromPoints(pts);
+    var rm=new THREE.Line(rg,new THREE.LineBasicMaterial({color:c.color,opacity:.12,transparent:true}));
+    grp.add(rm);
+  });
+
+  // Particles
+  var pPos=new Float32Array(300);
+  for(var i=0;i<300;i++)pPos[i]=(Math.random()-.5)*45;
+  var pGeo=new THREE.BufferGeometry();pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0x22D3EE,size:.06,transparent:true,opacity:.3})));
+
+  var t=0;
+  function animate(){
+    requestAnimationFrame(animate);t+=.008;
+    cMesh.rotation.y=t*.35;cMesh.rotation.x=t*.12;
+    groups.forEach(function(g){g.grp.rotation.y+=g.speed*.012;});
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',function(){
+    W=window.innerWidth;H=window.innerHeight;
+    renderer.setSize(W,H);camera.aspect=W/H;camera.updateProjectionMatrix();
+  });
+})();
+
+// QUIZ
+var QS=[
+  {s:'She ___ money to charity every month.',opts:['give','gives','gave','gived'],ans:'gives',why:'She → GIVES no presente'},
+  {s:'I ___ my keys under the couch yesterday.',opts:['find','finds','found','finded'],ans:'found',why:'Yesterday = passado. FIND irregular → FOUND'},
+  {s:'He ___ from home every day.',opts:['work','works','worked','workes'],ans:'works',why:'He → WORKS no presente (regular com -S)'},
+  {s:'The plan ___. It was perfect!',opts:['work','works','worked','workes'],ans:'worked',why:'Passado de WORK = WORKED (regular, adiciona -ED)'},
+  {s:'They didn\'t ___ up after the first problem.',opts:['give','gives','gave','gived'],ans:'give',why:'Depois de didn\'t: sempre a forma base GIVE. Nunca "didn\'t gave"'},
+  {s:'Does the new app ___?',opts:['work','works','worked','workes'],ans:'work',why:'Depois de Does: forma base WORK sem -S'},
+  {s:'She ___ it very interesting.',opts:['find','finds','found','finded'],ans:'finds',why:'She → FINDS no presente. "finds it interesting" = acha interessante'},
+  {s:'He ___ a speech at the conference last week.',opts:['give','gives','gave','gived'],ans:'gave',why:'Last week = passado. GIVE irregular → GAVE'},
+  {s:'We ___ a great restaurant near our office.',opts:['find','finds','found','finded'],ans:'found',why:'Passado de FIND = FOUND. FIND irregular → FOUND'},
+  {s:'She didn\'t ___ her students homework yesterday.',opts:['give','gives','gave','gived'],ans:'give',why:'Depois de didn\'t: sempre a forma base GIVE'},
+  {s:'I ___ as a team with my colleagues every day.',opts:['work','works','worked','workes'],ans:'work',why:'I → WORK no presente'},
+  {s:'Their strategy didn\'t ___.',opts:['work','works','worked','workes'],ans:'work',why:'Depois de didn\'t: sempre a forma base WORK. Nunca "didn\'t worked"'}
+];
+
+var ERRORS=[
+  {wrong:'She gived money to charity.',right:'She gave money to charity.',why:'GIVE é irregular. O passado é GAVE, nunca "gived".'},
+  {wrong:"I didn't found my keys.",right:"I didn't find my keys.",why:"Depois de 'didn't', o verbo volta para a forma base: FIND. Nunca 'didn't found'."},
+  {wrong:'He work at a hospital.',right:'He works at a hospital.',why:'Com He/She/It no presente, sempre adicione -S: WORKS.'},
+  {wrong:'Did she gave a speech?',right:'Did she give a speech?',why:"Depois de 'Did', o verbo vai para a forma base: GIVE. Nunca 'did gave'."},
+  {wrong:"The plan didn't worked.",right:"The plan didn't work.",why:"Depois de 'didn't', o verbo volta para a forma base: WORK. Mesmo sendo regular, nunca use 'didn't worked'."},
+  {wrong:'She finded a solution.',right:'She found a solution.',why:"FIND é irregular. O passado é FOUND, nunca 'finded'."}
+];
+
+var score=0,answered=0;
+function buildQuiz(){
+  score=0;answered=0;
+  var qw=document.getElementById('quiz');qw.innerHTML='';
+  document.getElementById('scorebar').style.display='none';
+  QS.forEach(function(q,i){
+    var card=document.createElement('div');card.className='q-card';
+    var txt=q.s.replace('___','<span class="blank">___</span>');
+    card.innerHTML='<div class="q-num">Questão '+(i+1)+' de '+QS.length+'</div><div class="q-text">'+txt+'</div>';
+    var opts=document.createElement('div');opts.className='opts';
+    q.opts.forEach(function(o,j){
+      var btn=document.createElement('button');btn.className='opt-btn';
+      var letters=['A','B','C','D'];
+      btn.innerHTML='<span class="opt-letter">'+letters[j]+'</span>'+o;
+      btn.onclick=function(){pick(i,btn,o,card,q);};
+      opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;
+    card.appendChild(fb);
+    qw.appendChild(card);
+  });
+}
+function pick(i,btn,chosen,card,q){
+  var btns=card.querySelectorAll('.opt-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb'+i);
+  if(chosen===q.ans){
+    btn.classList.add('correct');score++;
+    fb.className='feedback show ok';fb.innerHTML='<strong>Correto!</strong> '+q.why;
+  } else {
+    btn.classList.add('wrong');
+    fb.className='feedback show err';fb.innerHTML='<strong>Quase!</strong> A resposta é <strong>'+q.ans+'</strong>. '+q.why;
+    btns.forEach(function(b){if(b.textContent.trim().endsWith(q.ans))b.classList.add('correct');});
+  }
+  answered++;
+  if(answered===QS.length){
+    var sb=document.getElementById('scorebar');sb.style.display='block';
+    document.getElementById('score-num').textContent=score+'/'+QS.length;
+    var pct=score/QS.length;
+    var msgs=['Continue praticando — releia as seções acima!','Bom começo! Revise os erros e tente de novo.','Muito bem! Você está dominando estes verbos.','Excelente! Você domina GIVE, FIND e WORK!'];
+    document.getElementById('score-msg').textContent=pct<.5?msgs[0]:pct<.75?msgs[1]:pct<1?msgs[2]:msgs[3];
+    sb.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){buildQuiz();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+buildQuiz();
+
+// BUILD ERRORS
+(function(){
+  var g=document.getElementById('errors-grid');
+  ERRORS.forEach(function(e){
+    var card=document.createElement('div');card.className='err-card';
+    card.innerHTML=
+      '<div class="err-wrong-row"><span class="err-icon">✗</span><div><div class="err-sentence">'+e.wrong+'</div></div></div>'+
+      '<div class="err-right-row"><span class="err-icon">✓</span><div><div class="err-sentence">'+e.right+'</div><div class="err-why">'+e.why+'</div></div></div>';
+    g.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>

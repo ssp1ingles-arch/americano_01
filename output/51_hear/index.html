@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L51 · HEAR · Inglês Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root{
+  --ca:#fb923c;--cg:rgba(251,146,60,0.13);
+  --bg:#0a0a0f;--s1:#12121a;--s2:#1a1a26;--s3:#222232;
+  --tx:#e8e8f0;--tm:#a0a0b8;--td:#606078;
+  --rd:#f87171;--gn:#4ade80;--yl:#fbbf24;--cy:#22d3ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;}
+#canvas-bg{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+.mod-badge{display:inline-block;background:var(--cg);border:1px solid var(--ca);color:var(--ca);font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:2rem;margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(4rem,14vw,8rem);font-weight:800;line-height:1;color:var(--ca);margin-bottom:.5rem;}
+.hero-pt{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:var(--tm);margin-bottom:1.75rem;}
+
+/* Irregular card */
+.irreg-card{display:flex;align-items:center;gap:.6rem;background:var(--s2);border:1px solid var(--s3);border-radius:.75rem;padding:.9rem 1.5rem;margin-bottom:1.5rem;flex-wrap:wrap;justify-content:center;}
+.if{text-align:center;}
+.if-label{font-size:.63rem;color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;}
+.if-word{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;}
+.if-arr{color:var(--td);font-size:1rem;}
+
+/* PRONÚNCIA cards — HERO centerpiece */
+.pron-wrap{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;justify-content:center;}
+.pron-card{background:var(--s1);border:1px solid var(--s3);border-radius:.9rem;padding:1rem 1.5rem;min-width:180px;text-align:center;}
+.pron-word{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:.25rem;}
+.pron-phon{font-family:monospace;font-size:1rem;color:var(--yl);margin-bottom:.35rem;}
+.pron-rhyme{font-size:.75rem;color:var(--td);}
+.pron-rhyme span{color:var(--tm);}
+
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec{margin-bottom:3.5rem;}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.7rem;border-bottom:1px solid var(--s3);}
+.sn{width:2rem;height:2rem;background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.st{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ca);}
+.sd{font-size:.82rem;color:var(--td);margin-top:.12rem;}
+
+.uso{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.3rem;margin-bottom:.85rem;}
+.ul{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ca);margin-bottom:.85rem;}
+
+/* HEAR patterns */
+.hear-patt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;margin-bottom:.85rem;}
+.hp{background:var(--s2);border:1px solid var(--s3);border-radius:.7rem;padding:1rem 1.1rem;border-left:3px solid var(--ca);}
+.hp-key{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--ca);margin-bottom:.35rem;}
+.hp-pt{font-size:.75rem;color:var(--td);margin-bottom:.55rem;}
+.hp-ex{font-size:.82rem;color:var(--tm);font-style:italic;}
+
+/* Big pron section */
+.pron-big{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.pb{background:var(--s2);border:1px solid var(--s3);border-radius:.85rem;padding:1.2rem;text-align:center;}
+.pb-word{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;margin-bottom:.3rem;}
+.pb-phon{font-family:monospace;font-size:1.1rem;color:var(--yl);margin-bottom:.5rem;}
+.pb-like{font-size:.78rem;color:var(--td);margin-bottom:.25rem;}
+.pb-like span{color:var(--tx);font-weight:600;}
+.pb-tip{font-size:.75rem;color:var(--tm);margin-top:.5rem;font-style:italic;}
+
+/* Conj table */
+.ct{width:100%;border-collapse:collapse;font-size:.87rem;}
+.ct th{text-align:left;color:var(--td);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.38rem .52rem;border-bottom:1px solid var(--s3);}
+.ct td{padding:.5rem .52rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.ct tr:last-child td{border-bottom:none;}
+.ct .cp{color:var(--td);font-size:.76rem;width:55px;font-weight:600;}
+.ct .ce strong{color:var(--ca);}
+.ct .cpt{color:var(--tm);font-size:.83rem;}
+.ct .cey strong{color:var(--yl);}
+.ct .ceg strong{color:var(--gn);}
+
+/* Two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.tl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:.55rem;}
+
+/* QF formula */
+.qf{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.85rem 1.05rem;margin-bottom:.7rem;}
+.qft{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ca);margin-bottom:.45rem;}
+.qff{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:600;color:var(--tx);margin-bottom:.35rem;}
+.qff span{color:var(--ca);}
+.qfe{font-size:.82rem;color:var(--tm);}
+
+/* Notes */
+.nt{display:flex;gap:.5rem;align-items:flex-start;padding:.68rem .88rem;border-radius:.5rem;margin-top:.75rem;font-size:.82rem;line-height:1.5;}
+.nt-tip{background:rgba(251,146,60,.07);border-left:3px solid var(--ca);color:var(--tm);}
+.nt-wrn{background:rgba(251,191,36,.07);border-left:3px solid var(--yl);color:var(--tm);}
+.nt-err{background:rgba(248,113,113,.07);border-left:3px solid var(--rd);color:var(--tm);}
+.nt-info{background:rgba(34,211,238,.07);border-left:3px solid var(--cy);color:var(--tm);}
+
+/* Phrases */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.55rem;}
+.ph{background:var(--s2);border:1px solid var(--s3);border-radius:.6rem;padding:.75rem .95rem;}
+.ph-en{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:.12rem;}
+.ph-en strong{color:var(--ca);}
+.ph-pt{font-size:.77rem;color:var(--tm);}
+
+/* Errors */
+.err-sec{margin-bottom:3rem;}
+.err-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--rd);margin-bottom:.85rem;}
+.eg{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:.65rem;}
+.ec{background:var(--s1);border:1px solid rgba(248,113,113,.2);border-radius:.75rem;padding:.9rem 1.1rem;}
+.ecw{color:var(--rd);font-size:.86rem;margin-bottom:.25rem;}
+.ecr{color:var(--gn);font-size:.86rem;margin-bottom:.4rem;}
+.ecd{font-size:.77rem;color:var(--tm);}
+
+/* Quiz */
+.qz-sec{margin-bottom:3rem;}
+.qz-t{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ca);margin-bottom:1.1rem;}
+.qz-score{background:var(--cg);border:1px solid var(--ca);border-radius:.6rem;padding:.65rem 1.1rem;margin-bottom:1.1rem;display:none;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--ca);}
+.qc{background:var(--s1);border:1px solid var(--s3);border-radius:.75rem;padding:1.1rem;margin-bottom:.75rem;}
+.qn{font-size:.7rem;color:var(--td);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.qt{font-size:.9rem;color:var(--tx);margin-bottom:.7rem;font-weight:500;}
+.qo-wrap{display:grid;gap:.3rem;}
+.qo{background:var(--s2);border:1px solid var(--s3);border-radius:.4rem;padding:.5rem .85rem;cursor:pointer;font-size:.82rem;color:var(--tx);transition:all .12s;text-align:left;width:100%;}
+.qo:hover:not(:disabled){border-color:var(--ca);color:var(--ca);}
+.qo.ok{background:rgba(74,222,128,.1);border-color:var(--gn);color:var(--gn);}
+.qo.no{background:rgba(248,113,113,.1);border-color:var(--rd);color:var(--rd);}
+.qo:disabled{cursor:default;}
+.qfb{font-size:.77rem;color:var(--tm);margin-top:.45rem;display:none;}
+.qz-btn{background:var(--ca);color:#000;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;border:none;padding:.65rem 1.8rem;border-radius:.5rem;cursor:pointer;margin-top:1.1rem;display:block;}
+.qz-btn:hover{opacity:.88;}
+
+/* Nav */
+.lnav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;border-top:1px solid var(--s3);margin-top:1.5rem;}
+.nl{color:var(--ca);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;transition:opacity .18s;}
+.nl:hover{opacity:.7;}
+
+@media(max-width:600px){
+  .two{grid-template-columns:1fr;}
+  .eg{grid-template-columns:1fr;}
+  .pron-big{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1||a.textContent.indexOf('Inicio')!==-1||a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+<canvas id="canvas-bg"></canvas>
+<div class="content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mod-badge">Módulo 12 · Verbos de Comunicação</div>
+  <h1 class="hero-title">HEAR</h1>
+  <p class="hero-pt">ouvir · perceber sons · ter notícias</p>
+
+  <div class="irreg-card">
+    <div class="if"><div class="if-label">base</div><div class="if-word" style="color:var(--ca)">HEAR</div></div>
+    <div class="if-arr">→</div>
+    <div class="if"><div class="if-label">passado</div><div class="if-word" style="color:var(--yl)">HEARD</div></div>
+    <div class="if-arr">→</div>
+    <div class="if"><div class="if-label">particípio</div><div class="if-word" style="color:var(--yl)">HEARD</div></div>
+  </div>
+
+  <!-- Pronúncia no hero -->
+  <div class="pron-wrap">
+    <div class="pron-card">
+      <div class="pron-word" style="color:var(--ca)">HEAR</div>
+      <div class="pron-phon">/hɪər/</div>
+      <div class="pron-rhyme">rima: <span>FEAR · YEAR · CLEAR</span></div>
+    </div>
+    <div class="pron-card">
+      <div class="pron-word" style="color:var(--yl)">HEARD</div>
+      <div class="pron-phon">/hɜːrd/</div>
+      <div class="pron-rhyme">rima: <span>BIRD · WORD · THIRD</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+<!-- SEÇÃO 1: A ARMADILHA DE PRONÚNCIA -->
+<section class="sec" id="s1">
+  <div class="sh">
+    <div class="sn">1</div>
+    <div><div class="st">A Armadilha da Pronúncia</div>
+    <div class="sd">HEAR e HEARD têm escrita parecida — mas sons completamente diferentes!</div></div>
+  </div>
+
+  <div class="pron-big">
+    <div class="pb">
+      <div class="pb-word" style="color:var(--ca)">HEAR</div>
+      <div class="pb-phon">/hɪər/</div>
+      <div class="pb-like">Soa como: <span>h + IER</span></div>
+      <div class="pb-like">Rima com: <span>FEAR · YEAR · DEAR · CLEAR</span></div>
+      <div class="pb-tip">"Can you HEAR me?" — o -EAR soa "ier" como em YEAR</div>
+    </div>
+    <div class="pb">
+      <div class="pb-word" style="color:var(--yl)">HEARD</div>
+      <div class="pb-phon">/hɜːrd/</div>
+      <div class="pb-like">Soa como: <span>h + URD</span></div>
+      <div class="pb-like">Rima com: <span>BIRD · WORD · THIRD · NERD</span></div>
+      <div class="pb-tip">"I HEARD a noise." — o -EARD soa como BIRD</div>
+    </div>
+  </div>
+
+  <div class="nt nt-wrn">A escrita mudou só um D — mas a pronúncia mudou completamente. Estude as rimas: HEAR/YEAR vs HEARD/BIRD. São sons radicalmente diferentes em inglês.</div>
+</section>
+
+<!-- SEÇÃO 2: DOIS SIGNIFICADOS -->
+<section class="sec" id="s2">
+  <div class="sh">
+    <div class="sn">2</div>
+    <div><div class="st">HEAR — dois significados + padrões</div>
+    <div class="sd">ouvir (som físico) · ter notícias de · ouvir falar de</div></div>
+  </div>
+
+  <div class="hear-patt">
+    <div class="hp">
+      <div class="hp-key">HEAR + som</div>
+      <div class="hp-pt">ouvir (perceber com os ouvidos)</div>
+      <div class="hp-ex">"I hear birds every morning."</div>
+    </div>
+    <div class="hp">
+      <div class="hp-key">HEAR FROM</div>
+      <div class="hp-pt">ter notícias de (alguém)</div>
+      <div class="hp-ex">"I heard from him yesterday."</div>
+    </div>
+    <div class="hp">
+      <div class="hp-key">HEAR ABOUT</div>
+      <div class="hp-pt">ouvir falar de / saber sobre</div>
+      <div class="hp-ex">"Did you hear about the news?"</div>
+    </div>
+    <div class="hp">
+      <div class="hp-key">HEAR + pergunta</div>
+      <div class="hp-pt">ouvir o que alguém disse</div>
+      <div class="hp-ex">"I didn't hear what you said."</div>
+    </div>
+  </div>
+
+  <div class="nt nt-info">HEAR FROM = ter notícias de alguém (carta, e-mail, ligação). "I will hear from you soon." = Vou ter notícias suas em breve. Muito comum em e-mails e cartas em inglês!</div>
+</section>
+
+<!-- SEÇÃO 3: PRESENTE -->
+<section class="sec" id="s3">
+  <div class="sh">
+    <div class="sn">3</div>
+    <div><div class="st">PRESENTE — hear / hears</div>
+    <div class="sd">HE / SHE / IT → HEARS (com -S)</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Presente</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="ce">I <strong>hear</strong> birds every morning.</td><td class="cpt">Eu ouço pássaros toda manhã.</td></tr>
+      <tr><td class="cp">YOU</td><td class="ce">You <strong>hear</strong> everything from your room.</td><td class="cpt">Você ouve tudo do seu quarto.</td></tr>
+      <tr><td class="cp">HE</td><td class="ce">He <strong>hears</strong> well without hearing aids.</td><td class="cpt">Ele ouve bem sem aparelho.</td></tr>
+      <tr><td class="cp">SHE</td><td class="ce">She <strong>hears</strong> music everywhere she goes.</td><td class="cpt">Ela ouve música em todo lugar que vai.</td></tr>
+      <tr><td class="cp">IT</td><td class="ce">It <strong>hears</strong> voice commands.</td><td class="cpt">Ele/Ela ouve comandos de voz.</td></tr>
+      <tr><td class="cp">WE</td><td class="ce">We <strong>hear</strong> great things about you.</td><td class="cpt">Nós ouvimos coisas ótimas sobre você.</td></tr>
+      <tr><td class="cp">THEY</td><td class="ce">They <strong>hear</strong> the news before anyone.</td><td class="cpt">Eles ouvem as notícias antes de todo mundo.</td></tr>
+    </table>
+    <div class="nt nt-wrn">HE / SHE / IT → HEARS (com -S). "He hear well." ✗ → "He HEARS well." ✓</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: PASSADO -->
+<section class="sec" id="s4">
+  <div class="sh">
+    <div class="sn">4</div>
+    <div><div class="st">PASSADO — heard (irregular!)</div>
+    <div class="sd">Não é "heared" — é HEARD · pronúncia: /hɜːrd/ · rima com BIRD</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Conjugação — Passado</div>
+    <table class="ct">
+      <tr><th class="cp">Pronome</th><th>Inglês</th><th class="cpt">Português</th></tr>
+      <tr><td class="cp">I</td><td class="cey">I <strong>heard</strong> birds this morning.</td><td class="cpt">Eu ouvi pássaros hoje de manhã.</td></tr>
+      <tr><td class="cp">YOU</td><td class="cey">You <strong>heard</strong> everything.</td><td class="cpt">Você ouviu tudo.</td></tr>
+      <tr><td class="cp">HE</td><td class="cey">He <strong>heard</strong> the news yesterday.</td><td class="cpt">Ele ouviu as notícias ontem.</td></tr>
+      <tr><td class="cp">SHE</td><td class="cey">She <strong>heard</strong> a strange noise.</td><td class="cpt">Ela ouviu um barulho estranho.</td></tr>
+      <tr><td class="cp">IT</td><td class="cey">It <strong>heard</strong> the command.</td><td class="cpt">Ele/Ela ouviu o comando.</td></tr>
+      <tr><td class="cp">WE</td><td class="cey">We <strong>heard</strong> great things about you.</td><td class="cpt">Nós ouvimos coisas ótimas sobre você.</td></tr>
+      <tr><td class="cp">THEY</td><td class="cey">They <strong>heard</strong> the news first.</td><td class="cpt">Eles ouviram as notícias primeiro.</td></tr>
+    </table>
+    <div class="nt nt-err">NUNCA "heared" — o passado de HEAR é HEARD. E a pronúncia é /hɜːrd/ (como BIRD), não "hi-erd". Na negação: "I didn't HEAR" (base!), nunca "I didn't HEARD".</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: PERGUNTAS E NEGAÇÃO -->
+<section class="sec" id="s5">
+  <div class="sh">
+    <div class="sn">5</div>
+    <div><div class="st">Perguntas e Negação</div>
+    <div class="sd">DO / DOES / DID + base HEAR</div></div>
+  </div>
+
+  <div class="uso">
+    <div class="ul">Como fazer perguntas com HEAR</div>
+    <div class="qf">
+      <div class="qft">Presente</div>
+      <div class="qff"><span>DO</span> you / we / they + <span>hear</span>? &nbsp;|&nbsp; <span>DOES</span> he / she / it + <span>hear</span>?</div>
+      <div class="qfe">"Do you hear me?" / "Does he hear well?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Passado</div>
+      <div class="qff"><span>DID</span> + sujeito + <span>hear</span>?</div>
+      <div class="qfe">"Did you hear that?" / "Did she hear the noise?"</div>
+    </div>
+    <div class="qf">
+      <div class="qft">Futuro</div>
+      <div class="qff"><span>WILL</span> + sujeito + <span>hear</span>? &nbsp;|&nbsp; <span>AM/IS/ARE</span> + sujeito + going to + <span>hear</span>?</div>
+      <div class="qfe">"Will I hear from you?" / "Are you going to hear about it?"</div>
+    </div>
+  </div>
+
+  <div class="uso" style="margin-top:1rem">
+    <div class="ul">Negação</div>
+    <div class="two">
+      <div>
+        <div class="tl">Presente</div>
+        <table class="ct">
+          <tr><td class="cp">I/YOU/WE/THEY</td><td class="ce"><strong>don't hear</strong></td><td class="cpt">não ouço/e</td></tr>
+          <tr><td class="cp">HE/SHE/IT</td><td class="ce"><strong>doesn't hear</strong></td><td class="cpt">não ouve</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="tl">Passado / Futuro</div>
+        <table class="ct">
+          <tr><td class="cp">todos</td><td class="ce"><strong>didn't hear</strong></td><td class="cpt">não ouviu</td></tr>
+          <tr><td class="cp">todos</td><td class="ce"><strong>won't hear</strong></td><td class="cpt">não vai ouvir</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="nt nt-err">"I didn't <u>heard</u> you." ✗ → "I didn't <u>hear</u> you." ✓ — DIDN'T já marca o passado, o verbo volta à BASE.</div>
+  </div>
+</section>
+
+<!-- SEÇÃO 6: FRASES-CHAVE -->
+<section class="sec" id="s6">
+  <div class="sh">
+    <div class="sn">6</div>
+    <div><div class="st">Frases-chave com HEAR</div>
+    <div class="sd">Do you hear me? · Have you heard? · I'll hear from you...</div></div>
+  </div>
+  <div class="pg">
+    <div class="ph"><div class="ph-en">Can you <strong>hear</strong> me?</div><div class="ph-pt">Você me ouve? (telefone / microfone)</div></div>
+    <div class="ph"><div class="ph-en">Did you <strong>hear</strong> that?</div><div class="ph-pt">Você ouviu isso?</div></div>
+    <div class="ph"><div class="ph-en">I <strong>heard</strong> a strange noise.</div><div class="ph-pt">Eu ouvi um barulho estranho.</div></div>
+    <div class="ph"><div class="ph-en">Have you <strong>heard</strong> about this?</div><div class="ph-pt">Você ouviu falar disso?</div></div>
+    <div class="ph"><div class="ph-en">I'll <strong>hear</strong> from you soon.</div><div class="ph-pt">Vou ter notícias suas em breve.</div></div>
+    <div class="ph"><div class="ph-en">I <strong>heard</strong> from him yesterday.</div><div class="ph-pt">Tive notícias dele ontem.</div></div>
+    <div class="ph"><div class="ph-en">We <strong>heard</strong> great things about you.</div><div class="ph-pt">Ouvimos coisas ótimas sobre você.</div></div>
+    <div class="ph"><div class="ph-en">I didn't <strong>hear</strong> what you said.</div><div class="ph-pt">Não ouvi o que você disse.</div></div>
+  </div>
+</section>
+
+<!-- ERROS CLÁSSICOS -->
+<div class="err-sec">
+  <div class="err-t">⬤ Erros Clássicos dos Brasileiros</div>
+  <div class="eg">
+    <div class="ec">
+      <div class="ecw">✗ "I didn't heard you."</div>
+      <div class="ecr">✓ "I didn't hear you."</div>
+      <div class="ecd">DIDN'T + BASE (hear). Nunca coloque -D/HEARD depois de DIDN'T. DIDN'T já marca passado.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "She hear well."</div>
+      <div class="ecr">✓ "She hears well."</div>
+      <div class="ecd">HE / SHE / IT no presente = sempre HEARS (com -S obrigatório).</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I heared a noise." (passado)</div>
+      <div class="ecr">✓ "I heard a noise."</div>
+      <div class="ecd">HEAR é IRREGULAR. O passado é HEARD — nunca "heared". E soa como BIRD, não "hi-erd".</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "Did you heard the news?"</div>
+      <div class="ecr">✓ "Did you hear the news?"</div>
+      <div class="ecd">DID + BASE. "Did you HEAR?" ✓ | "Did you HEARD?" ✗ — DID já é o passado do auxiliar.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "He doesn't hears well."</div>
+      <div class="ecr">✓ "He doesn't hear well."</div>
+      <div class="ecd">DOESN'T já marca 3ª pessoa → verbo principal volta à BASE sem -S.</div>
+    </div>
+    <div class="ec">
+      <div class="ecw">✗ "I heard from him about yesterday."</div>
+      <div class="ecr">✓ "I heard from him yesterday."</div>
+      <div class="ecd">HEAR FROM + pessoa + quando. Não precisa de "about" quando WHEN é o contexto — "I heard from him yesterday." ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qz-sec">
+  <div class="qz-t">◈ Quiz — HEAR</div>
+  <div class="qz-score" id="qscore"></div>
+
+  <div class="qc" id="q1">
+    <div class="qn">Pergunta 1 de 12</div>
+    <div class="qt">Qual é o passado correto de HEAR?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q1',false)">heared</button>
+      <button class="qo" onclick="ans(this,'q1',true)">heard</button>
+      <button class="qo" onclick="ans(this,'q1',false)">have hear</button>
+    </div>
+    <div class="qfb" id="q1fb">HEAR é IRREGULAR → HEARD. Nunca "heared". E pronúncia: /hɜːrd/ — rima com BIRD!</div>
+  </div>
+
+  <div class="qc" id="q2">
+    <div class="qn">Pergunta 2 de 12</div>
+    <div class="qt">HEARD rima com qual palavra?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q2',false)">FEAR</button>
+      <button class="qo" onclick="ans(this,'q2',false)">YEAR</button>
+      <button class="qo" onclick="ans(this,'q2',true)">BIRD</button>
+    </div>
+    <div class="qfb" id="q2fb">HEARD = /hɜːrd/ — rima com BIRD, WORD, THIRD, NERD. Não com FEAR/YEAR (que rima com HEAR).</div>
+  </div>
+
+  <div class="qc" id="q3">
+    <div class="qn">Pergunta 3 de 12</div>
+    <div class="qt">"Você me ouve?" (presente) → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q3',true)">Do you hear me?</button>
+      <button class="qo" onclick="ans(this,'q3',false)">Do you heard me?</button>
+      <button class="qo" onclick="ans(this,'q3',false)">Did you hear me?</button>
+    </div>
+    <div class="qfb" id="q3fb">"Do you HEAR me?" ✓ — presente com DO + base. "Did" seria passado.</div>
+  </div>
+
+  <div class="qc" id="q4">
+    <div class="qn">Pergunta 4 de 12</div>
+    <div class="qt">"Eu não ouvi você." → Qual é correto?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q4',false)">I didn't heard you.</button>
+      <button class="qo" onclick="ans(this,'q4',true)">I didn't hear you.</button>
+      <button class="qo" onclick="ans(this,'q4',false)">I not hear you.</button>
+    </div>
+    <div class="qfb" id="q4fb">DIDN'T + BASE. "I didn't HEAR you." ✓ | "I didn't HEARD" ✗ — DIDN'T já é o passado.</div>
+  </div>
+
+  <div class="qc" id="q5">
+    <div class="qn">Pergunta 5 de 12</div>
+    <div class="qt">"Ela ouve música em todo lugar." → 3ª pessoa do singular.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q5',false)">She hear music everywhere.</button>
+      <button class="qo" onclick="ans(this,'q5',true)">She hears music everywhere.</button>
+      <button class="qo" onclick="ans(this,'q5',false)">She heard music everywhere.</button>
+    </div>
+    <div class="qfb" id="q5fb">HE / SHE / IT no presente → HEARS (com -S). "She HEARS music everywhere she goes." ✓</div>
+  </div>
+
+  <div class="qc" id="q6">
+    <div class="qn">Pergunta 6 de 12</div>
+    <div class="qt">O que significa "I heard from him yesterday"?</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q6',false)">Eu ouvi sobre ele ontem.</button>
+      <button class="qo" onclick="ans(this,'q6',true)">Tive notícias dele ontem.</button>
+      <button class="qo" onclick="ans(this,'q6',false)">Eu o escutei ontem.</button>
+    </div>
+    <div class="qfb" id="q6fb">HEAR FROM + pessoa = ter notícias de alguém (mensagem, ligação, e-mail). Diferente de HEAR ABOUT = ouvir falar de.</div>
+  </div>
+
+  <div class="qc" id="q7">
+    <div class="qn">Pergunta 7 de 12</div>
+    <div class="qt">"Ele não ouviu as notícias." → Passado negativo.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q7',false)">He don't hear the news.</button>
+      <button class="qo" onclick="ans(this,'q7',false)">He didn't heard the news.</button>
+      <button class="qo" onclick="ans(this,'q7',true)">He didn't hear the news.</button>
+    </div>
+    <div class="qfb" id="q7fb">Passado negativo: DIDN'T + BASE. "He didn't HEAR the news." ✓</div>
+  </div>
+
+  <div class="qc" id="q8">
+    <div class="qn">Pergunta 8 de 12</div>
+    <div class="qt">"Você ouviu falar do novo restaurante?" → HEAR ABOUT.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q8',false)">Did you hear from the new restaurant?</button>
+      <button class="qo" onclick="ans(this,'q8',true)">Did you hear about the new restaurant?</button>
+      <button class="qo" onclick="ans(this,'q8',false)">Did you heard about the new restaurant?</button>
+    </div>
+    <div class="qfb" id="q8fb">HEAR ABOUT = ouvir falar de. "Did you HEAR about...?" ✓ | "Did you HEARD" ✗ — DID + base.</div>
+  </div>
+
+  <div class="qc" id="q9">
+    <div class="qn">Pergunta 9 de 12</div>
+    <div class="qt">"Eu vou ter notícias suas em breve." → Com WILL.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q9',true)">I will hear from you soon.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I will hear about you soon.</button>
+      <button class="qo" onclick="ans(this,'q9',false)">I will heard from you soon.</button>
+    </div>
+    <div class="qfb" id="q9fb">"I will HEAR FROM you soon." ✓ — HEAR FROM = ter notícias de. WILL + BASE (hear, não heard).</div>
+  </div>
+
+  <div class="qc" id="q10">
+    <div class="qn">Pergunta 10 de 12</div>
+    <div class="qt">"Eu ouvi um barulho estranho ontem à noite." → Passado.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q10',false)">I hear a strange noise last night.</button>
+      <button class="qo" onclick="ans(this,'q10',false)">I heared a strange noise last night.</button>
+      <button class="qo" onclick="ans(this,'q10',true)">I heard a strange noise last night.</button>
+    </div>
+    <div class="qfb" id="q10fb">"I HEARD a strange noise last night." ✓ — passado afirmativo: HEARD diretamente (sem DID).</div>
+  </div>
+
+  <div class="qc" id="q11">
+    <div class="qn">Pergunta 11 de 12</div>
+    <div class="qt">"Ele não ouve bem." → Presente com HE.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q11',false)">He don't hear well.</button>
+      <button class="qo" onclick="ans(this,'q11',true)">He doesn't hear well.</button>
+      <button class="qo" onclick="ans(this,'q11',false)">He doesn't hears well.</button>
+    </div>
+    <div class="qfb" id="q11fb">HE → DOESN'T (não DON'T). Depois de DOESN'T: base sem -S (hear, não hears).</div>
+  </div>
+
+  <div class="qc" id="q12">
+    <div class="qn">Pergunta 12 de 12</div>
+    <div class="qt">"Eles vão ouvir os resultados." → Com GOING TO.</div>
+    <div class="qo-wrap">
+      <button class="qo" onclick="ans(this,'q12',false)">They is going to hear the results.</button>
+      <button class="qo" onclick="ans(this,'q12',true)">They are going to hear the results.</button>
+      <button class="qo" onclick="ans(this,'q12',false)">They are going to heard the results.</button>
+    </div>
+    <div class="qfb" id="q12fb">THEY → ARE going to + BASE. "They ARE going to HEAR the results." ✓</div>
+  </div>
+
+  <button class="qz-btn" id="qbtn" onclick="submitQ()">Ver Resultado</button>
+</div>
+
+<!-- NAV -->
+<nav class="lnav">
+  <a class="nl" href="../50_talk/index.html">← L50 TALK</a>
+  <a class="nl" href="../index.html">⌂ Índice</a>
+  <a class="nl" href="../52_show/index.html">L52 SHOW →</a>
+</nav>
+
+</main>
+</div>
+
+<!-- THREE.JS -->
+<script>
+(function(){
+  var canvas=document.getElementById('canvas-bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.set(0,0,12);
+  var controls=new THREE.OrbitControls(camera,canvas);
+  controls.enableZoom=false;controls.enablePan=false;
+  controls.autoRotate=true;controls.autoRotateSpeed=0.4;controls.enableDamping=true;
+  var CA=0xfb923c;
+  var geo=new THREE.IcosahedronGeometry(1.7,1);
+  scene.add(new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:CA,wireframe:true,opacity:.28,transparent:true})));
+  var inner=new THREE.Group();
+  for(var i=0;i<4;i++){var a=(i/4)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.22,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.7,transparent:true}));m.position.set(Math.cos(a)*3.4,Math.sin(a)*3.4*.5,0);inner.add(m);}
+  scene.add(inner);
+  var outer=new THREE.Group();
+  for(var i=0;i<5;i++){var a=(i/5)*Math.PI*2;var m=new THREE.Mesh(new THREE.SphereGeometry(.13,8,8),new THREE.MeshStandardMaterial({color:CA,opacity:.4,transparent:true}));m.position.set(Math.cos(a)*5.5,Math.sin(a)*5.5*.4,Math.sin(a)*1.5);outer.add(m);}
+  scene.add(outer);
+  var sg=new THREE.BufferGeometry(),sp=[];
+  for(var i=0;i<1500;i++)sp.push((Math.random()-.5)*200,(Math.random()-.5)*200,(Math.random()-.5)*200);
+  sg.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.12,transparent:true,opacity:.5})));
+  scene.add(new THREE.AmbientLight(0xffffff,.4));
+  var pl=new THREE.PointLight(CA,2,20);pl.position.set(3,3,3);scene.add(pl);
+  var cent=scene.children[0];
+  function animate(){requestAnimationFrame(animate);inner.rotation.z+=.005;outer.rotation.z-=.003;cent.rotation.y+=.003;controls.update();renderer.render(scene,camera);}
+  animate();
+  window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+})();
+</script>
+<script>
+var qA={};
+function ans(btn,qid,correct){
+  var card=document.getElementById(qid);
+  if(card.dataset.done)return;
+  card.dataset.done='1';
+  card.querySelectorAll('.qo').forEach(function(o){o.disabled=true;});
+  btn.classList.add(correct?'ok':'no');
+  if(!correct){card.querySelectorAll('.qo').forEach(function(o){if(o.getAttribute('onclick')&&o.getAttribute('onclick').indexOf(',true)')>-1)o.classList.add('ok');});}
+  qA[qid]=correct;
+  var fb=document.getElementById(qid+'fb');if(fb)fb.style.display='block';
+}
+function submitQ(){
+  var c=Object.values(qA).filter(function(v){return v;}).length;
+  var s=document.getElementById('qscore');s.style.display='block';
+  var msg=c===12?'Perfeito!':c>=10?'Excelente!':c>=8?'Muito bem!':c>=6?'Bom!':'Continue praticando!';
+  s.textContent='Resultado: '+c+' / 12 — '+msg;
+  document.getElementById('qbtn').style.display='none';
+  s.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

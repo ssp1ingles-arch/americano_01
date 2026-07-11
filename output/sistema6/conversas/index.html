@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversas do Dia a Dia · Sistema 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s6.active{border-color:var(--s6);background:rgba(14,165,233,.16);box-shadow:0 0 10px rgba(14,165,233,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s6);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+.wrap{padding-top:186px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:3rem;}
+
+/* TOP CONTROLS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.35rem .65rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s6);color:#080c14;}
+
+.progress-row{display:flex;align-items:center;gap:.7rem;}
+.progress-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--s6),#38bdf8);border-radius:3px;transition:width .4s ease;}
+.progress-text{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;color:var(--s6);white-space:nowrap;}
+
+/* THEME CHIPS */
+.themes-strip{display:flex;gap:.45rem;overflow-x:auto;padding:.65rem 1.1rem 0;max-width:920px;margin:0 auto;}
+.theme-chip{flex-shrink:0;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.45rem .7rem;cursor:pointer;transition:all .18s;min-width:120px;}
+.theme-chip:hover{border-color:var(--bdh);}
+.theme-chip.on{border-color:var(--s6);background:rgba(14,165,233,.1);box-shadow:0 0 10px rgba(14,165,233,.15);}
+.tc-top{display:flex;align-items:center;gap:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;color:var(--tx);white-space:nowrap;margin-bottom:.3rem;}
+.tc-n{font-size:.6rem;color:var(--td);margin-bottom:.15rem;}
+.tc-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.tc-fill{height:100%;background:var(--s6);border-radius:2px;}
+
+.panel{margin-top:1.3rem;}
+.hidden{display:none!important;}
+
+/* CONVERSATION CARD (MODO 1) */
+.conv-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;margin-bottom:1.1rem;}
+.conv-header{padding:1.25rem 1.4rem 1rem;border-bottom:1px solid var(--bd);}
+.conv-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;margin-bottom:.4rem;}
+.conv-title .n{color:var(--s6);}
+.conv-meta{font-size:.78rem;color:var(--tm);margin-bottom:.6rem;}
+.qw-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.qw-tag{font-size:.62rem;font-weight:800;padding:.2rem .55rem;border-radius:2rem;border:1px solid;}
+
+.pairs-area{padding:1.1rem 1.4rem;display:flex;flex-direction:column;gap:.8rem;}
+.pair-block{border-radius:.8rem;overflow:hidden;border:1px solid var(--bd);}
+.q-bubble{background:var(--s6);color:#fff;padding:.7rem 1rem;font-size:.88rem;line-height:1.5;display:flex;gap:.5rem;}
+.q-bubble .qmark{flex-shrink:0;}
+.q-bubble b{font-weight:800;text-decoration:underline;text-decoration-color:rgba(255,255,255,.5);}
+.a-bubble{background:var(--bg);color:var(--cy);padding:.7rem 1rem;font-size:.88rem;line-height:1.5;display:flex;gap:.5rem;}
+.a-bubble .amark{flex-shrink:0;}
+
+.accordion-toggle{width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--bd);padding:.85rem 1.4rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s6);cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
+.accordion-toggle:hover{background:rgba(14,165,233,.05);}
+.accordion-arrow{transition:transform .2s;}
+.accordion-toggle.open .accordion-arrow{transform:rotate(180deg);}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.accordion-body.open{max-height:3000px;}
+.accordion-inner{padding:0 1.4rem 1.3rem;}
+
+.sec-block{margin-top:1rem;}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.55rem;}
+.vocab-list{display:flex;flex-wrap:wrap;gap:.45rem;}
+.vocab-chip{background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.35rem .65rem;font-size:.75rem;}
+.vocab-en{font-weight:700;color:var(--tx);}
+.vocab-pt{color:var(--s6);}
+.phrase-item{padding:.4rem 0;border-bottom:1px dashed var(--bd);font-size:.8rem;}
+.phrase-item:last-child{border-bottom:none;}
+.phrase-en{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);}
+.phrase-pt{color:var(--td);margin-top:.15rem;}
+.practice-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;}
+.practice-list li{font-size:.8rem;color:var(--tm);padding-left:1rem;position:relative;}
+.practice-list li::before{content:'→';position:absolute;left:0;color:var(--s6);}
+.extra-box{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .9rem;font-size:.78rem;color:var(--tm);line-height:1.6;}
+.extra-title{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--am);margin-bottom:.35rem;}
+.error-row{font-size:.78rem;margin-bottom:.3rem;}
+.err-wrong{color:var(--rd);}
+.err-right{color:var(--gn);}
+
+/* PRACTICE MODES (2 & 3) */
+.pr-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.pr-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s6);text-align:center;margin-bottom:.3rem;}
+.pr-sub{text-align:center;font-size:.72rem;color:var(--td);margin-bottom:1.1rem;}
+.pr-label{font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;}
+.pr-given-box{border-radius:.9rem;padding:1.3rem 1.25rem;margin-bottom:1rem;font-size:1.05rem;font-weight:700;font-family:'Space Grotesk',sans-serif;line-height:1.5;}
+.pr-given-box.q{background:var(--s6);color:#fff;}
+.pr-given-box.a{background:var(--bg);border:1px solid var(--bd);color:var(--cy);}
+.pr-prompt{text-align:center;font-size:.85rem;color:var(--tm);margin-bottom:.5rem;}
+.pr-hint{text-align:center;font-size:.75rem;color:var(--am);background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.2);border-radius:.5rem;padding:.5rem .8rem;margin-bottom:1rem;}
+.pr-reveal-row{text-align:center;margin-bottom:1rem;}
+.pr-reveal-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s6);color:#080c14;cursor:pointer;}
+.pr-reveal-btn:hover{background:#38bdf8;}
+.pr-answer-box{border-radius:.9rem;padding:1.3rem 1.25rem;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.5;opacity:0;transform:translateY(6px);transition:all .3s;max-height:0;overflow:hidden;padding-top:0;padding-bottom:0;}
+.pr-answer-box.show{opacity:1;transform:translateY(0);max-height:300px;padding-top:1.3rem;padding-bottom:1.3rem;}
+.pr-answer-box.q{background:var(--s6);color:#fff;}
+.pr-answer-box.a{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.3);color:var(--cy);}
+.pr-tip{font-size:.8rem;color:var(--tm);background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.65rem .9rem;margin-bottom:1rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.pr-tip.show{opacity:1;max-height:200px;}
+.pr-tip b{color:var(--am);}
+.pr-actions{display:flex;gap:.6rem;flex-wrap:wrap;}
+.pr-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;min-width:100px;}
+.pr-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.pr-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.pr-btn.ok:hover{background:rgba(95,216,122,.1);}
+.pr-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.pr-btn.bad:hover{background:rgba(248,113,113,.1);}
+.pr-btn.next{background:var(--s6);color:#080c14;border:none;}
+.pr-btn.next:hover{background:#38bdf8;}
+
+/* ROLE-PLAY MODE */
+.rp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.rp-top{padding:1.1rem 1.4rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.rp-role-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.4rem .85rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--bg);color:var(--tm);cursor:pointer;}
+.rp-role-btn.on{background:rgba(14,165,233,.14);border-color:var(--s6);color:var(--s6);}
+.rp-info{font-size:.75rem;color:var(--td);margin-left:auto;}
+.rp-body{padding:1.4rem 1.5rem;}
+.rp-bubble{max-width:85%;padding:.8rem 1.05rem;border-radius:.9rem;font-size:.95rem;line-height:1.5;margin-bottom:1.1rem;font-family:'Space Grotesk',sans-serif;font-weight:600;}
+.rp-bubble.them{background:var(--bg);border:1px solid var(--bd);border-bottom-left-radius:.2rem;}
+.rp-bubble .who{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;opacity:.8;}
+.rp-input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem 1rem;color:var(--tx);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;margin-bottom:.8rem;}
+.rp-input:focus{border-color:rgba(14,165,233,.5);}
+.rp-sugg{background:rgba(95,216,122,.08);border:1px solid rgba(95,216,122,.25);border-radius:.6rem;padding:.75rem 1rem;margin-bottom:1rem;display:none;}
+.rp-sugg.show{display:block;}
+.rp-sugg-label{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gn);margin-bottom:.3rem;}
+.rp-sugg-text{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);}
+.rp-actions{display:flex;gap:.6rem;}
+
+/* QUIZ MODE */
+.quiz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:1.75rem 1.5rem;}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s6);}
+.timer-toggle{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:.4rem;border:1px solid var(--bd);background:none;color:var(--td);cursor:pointer;}
+.timer-toggle.on{border-color:var(--am);color:var(--am);background:rgba(245,197,24,.08);}
+.timer-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:1rem;display:none;}
+.timer-track.show{display:block;}
+.timer-fill{height:100%;background:var(--am);border-radius:2px;width:100%;}
+.quiz-prompt-label{font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;text-align:center;}
+.quiz-prompt-box{border-radius:.9rem;padding:1.2rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;text-align:center;line-height:1.5;}
+.quiz-prompt-box.q{background:var(--s6);color:#fff;}
+.quiz-prompt-box.a{background:var(--bg);border:1px solid var(--bd);color:var(--cy);}
+.quiz-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem;}
+.quiz-opt{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem .95rem;font-size:.85rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.quiz-opt:hover{border-color:var(--bdh);}
+.quiz-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.quiz-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-next-row{text-align:center;}
+.quiz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s6);color:#080c14;cursor:pointer;}
+.quiz-next-btn:hover{background:#38bdf8;}
+.quiz-next-btn:disabled{opacity:.4;cursor:default;}
+
+@media(max-width:640px){
+  .wrap{padding-top:220px;}
+  .topbar{top:96px;}
+  .pr-given-box,.pr-answer-box{font-size:.92rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../index.html" class="gnav-btn gnav-s6 active">💬 S6</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 6</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💬 Conversas do Dia a Dia</div>
+</nav>
+
+<!-- TOP CONTROLS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row">
+      <div class="ctrl-group" id="modeGroup">
+        <button class="ctrl-btn on" data-mode="conversa" onclick="setMode('conversa')">Conversa</button>
+        <button class="ctrl-btn" data-mode="praticaQ" onclick="setMode('praticaQ')">Praticar Q</button>
+        <button class="ctrl-btn" data-mode="praticaA" onclick="setMode('praticaA')">Praticar A</button>
+        <button class="ctrl-btn" data-mode="roleplay" onclick="setMode('roleplay')">Role-Play</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">Quiz</button>
+      </div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0/98 pares</span>
+    </div>
+  </div>
+</div>
+<div class="themes-strip" id="themesStrip"></div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — CONVERSA -->
+  <div class="panel" id="panelConversa"></div>
+
+  <!-- MODO 2 — PRATICAR PERGUNTAS -->
+  <div class="panel hidden" id="panelPraticaQ">
+    <div class="pr-card">
+      <div class="pr-tag">Praticar Perguntas</div>
+      <div class="pr-sub" id="pqSub">Conversa 01 · Par 1 de 7</div>
+      <div class="pr-label">Resposta</div>
+      <div class="pr-given-box a" id="pqAnswer"></div>
+      <div class="pr-prompt">Qual foi a pergunta?</div>
+      <div class="pr-hint" id="pqHint"></div>
+      <div class="pr-reveal-row"><button class="pr-reveal-btn" id="pqRevealBtn" onclick="pqReveal()">👁 Revelar pergunta</button></div>
+      <div class="pr-answer-box q" id="pqQuestion"></div>
+      <div class="pr-actions">
+        <button class="pr-btn ok" onclick="pqMark(true)">✓ Acertei</button>
+        <button class="pr-btn bad" onclick="pqMark(false)">✗ Errei</button>
+        <button class="pr-btn next" onclick="pqNext()">→ Próximo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO 3 — PRATICAR RESPOSTAS -->
+  <div class="panel hidden" id="panelPraticaA">
+    <div class="pr-card">
+      <div class="pr-tag">Praticar Respostas</div>
+      <div class="pr-sub" id="paSub">Conversa 01 · Par 1 de 7</div>
+      <div class="pr-label">Pergunta</div>
+      <div class="pr-given-box q" id="paQuestion"></div>
+      <div class="pr-prompt">Sua resposta (em voz alta ou mentalmente)...</div>
+      <div class="pr-reveal-row"><button class="pr-reveal-btn" id="paRevealBtn" onclick="paReveal()">👁 Ver resposta modelo</button></div>
+      <div class="pr-answer-box a" id="paAnswer"></div>
+      <div class="pr-tip" id="paTip"></div>
+      <div class="pr-actions">
+        <button class="pr-btn ok" onclick="paMark()">✓ Entendi</button>
+        <button class="pr-btn next" onclick="paNext()">→ Próximo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO 4 — ROLE-PLAY -->
+  <div class="panel hidden" id="panelRoleplay">
+    <div class="rp-card">
+      <div class="rp-top">
+        <button class="rp-role-btn on" id="roleAnswerBtn" onclick="setRPRole('answer')">🎤 Respondendo</button>
+        <button class="rp-role-btn" id="roleAskBtn" onclick="setRPRole('ask')">🎙 Perguntando</button>
+        <span class="rp-info" id="rpInfo">Conversa 01 · 1/7</span>
+      </div>
+      <div class="rp-body">
+        <div class="rp-bubble them">
+          <div class="who" id="rpWho">Personagem</div>
+          <div id="rpGiven"></div>
+        </div>
+        <input class="rp-input" id="rpInput" type="text" placeholder="Digite sua resposta em inglês...">
+        <div class="rp-sugg" id="rpSugg">
+          <div class="rp-sugg-label">Sugestão</div>
+          <div class="rp-sugg-text" id="rpSuggText"></div>
+        </div>
+        <div class="rp-actions">
+          <button class="pr-btn" onclick="rpShowSugg()">Ver sugestão</button>
+          <button class="pr-btn next" onclick="rpNext()">→ Próxima</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO 5 — QUIZ -->
+  <div class="panel hidden" id="panelQuiz">
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <span class="quiz-score" id="quizScore">Pontuação: 0/98 corretas</span>
+        <button class="timer-toggle" id="timerToggleBtn" onclick="toggleTimer()">⏱ Timer 10s</button>
+      </div>
+      <div class="timer-track" id="timerTrack"><div class="timer-fill" id="timerFill"></div></div>
+      <div class="quiz-prompt-label" id="quizPromptLabel">Pergunta</div>
+      <div class="quiz-prompt-box q" id="quizPromptBox"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-next-row"><button class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── QUESTION WORD COLORS ──────────────────────────────────────────────────────
+const QW_COLORS = {WHAT:'#3b82f6',HOW:'#5FD87A',WHERE:'#fb923c',WHEN:'#A78BFA',WHY:'#f472b6',WHO:'#F5C518',CAN:'#64DFDF',WILL:'#5FD87A',DID:'#FF6B6B',OTHER:'#6a7390'};
+const QW_PATTERNS = [
+  [/^how long/i,'HOW LONG','HOW'],[/^how often/i,'HOW OFTEN','HOW'],[/^how much/i,'HOW MUCH','HOW'],
+  [/^how's/i,"HOW'S",'HOW'],[/^how can/i,'HOW CAN','HOW'],[/^how will/i,'HOW WILL','HOW'],[/^how cold/i,'HOW COLD','HOW'],
+  [/^how/i,'HOW','HOW'],
+  [/^what if/i,'WHAT IF','WHAT'],[/^what time/i,'WHAT TIME','WHAT'],[/^what/i,'WHAT','WHAT'],
+  [/^where should/i,'WHERE SHOULD','WHERE'],[/^where/i,'WHERE','WHERE'],
+  [/^when/i,'WHEN','WHEN'],[/^why/i,'WHY','WHY'],[/^who/i,'WHO','WHO'],
+  [/^can we/i,'CAN WE','CAN'],[/^can i/i,'CAN I','CAN'],[/^can/i,'CAN','CAN'],
+  [/^will there/i,'WILL THERE','WILL'],[/^will/i,'WILL','WILL'],
+  [/^did/i,'DID','DID'],[/^was/i,'WAS','DID'],
+  [/^would/i,'WOULD','WILL'],[/^should/i,'SHOULD','OTHER'],
+  [/^is there/i,'IS THERE','OTHER'],[/^is/i,'IS','OTHER'],
+  [/^do /i,'DO','OTHER'],[/^have/i,'HAVE','OTHER'],
+];
+function detectQW(text) {
+  for (const [re,label,colorKey] of QW_PATTERNS) { if (re.test(text)) return {label, color: QW_COLORS[colorKey]}; }
+  return {label:'', color:QW_COLORS.OTHER};
+}
+function highlightQ(text) {
+  for (const [re] of QW_PATTERNS) {
+    const m = text.match(re);
+    if (m) {
+      const lead = text.slice(0, m[0].length);
+      const rest = text.slice(m[0].length);
+      return `<b>${lead}</b>${rest}`;
+    }
+  }
+  return text;
+}
+
+// ── DATA: 14 CONVERSATIONS × 7 PAIRS ─────────────────────────────────────────
+const CONVERSATIONS = [
+{id:1,icon:'⏰',title:'Rotina Diária de Trabalho',tema:'Trabalho, horários, rotina',nivel:'Iniciante',qwords:['What','How','When'],
+ pairs:[
+  {q:'What time do you get up?',a:'I get up at around 6 a.m.',blank:'I get up at around ___ a.m.'},
+  {q:'How do you get to work?',a:'I usually walk to work.',blank:'I usually walk to ___.'},
+  {q:'When does your work day start?',a:'It starts at 9:00 a.m.',blank:'It starts at ___.'},
+  {q:'What do you do during lunch?',a:'I eat at the office cafeteria.',blank:'I eat at ___.'},
+  {q:'How long is your lunch break?',a:"It's about 1 hour long.",blank:"It's about ___ long."},
+  {q:'When do you finish work?',a:'I finish at 5:00 p.m.',blank:'I finish at ___.'},
+  {q:'What do you do in the evening?',a:'I watch YouTube videos and relax.',blank:'I ___ in the evening.'},
+ ],
+ vocab:[{en:'get up',pt:'acordar / levantar'},{en:'walk to work',pt:'ir ao trabalho a pé'},{en:'work day',pt:'dia de trabalho'},{en:'lunch break',pt:'pausa para almoço'},{en:'cafeteria',pt:'cantina / refeitório'},{en:'in the evening',pt:'à noite / no período da tarde/noite'}],
+ phrases:[{en:'I get up at around ___.',pt:'Acordo por volta das ___.'},{en:'I usually walk to ___.',pt:'Geralmente vou a pé para ___.'},{en:'It starts at ___.',pt:'Começa às ___.'},{en:"It's about ___ long.",pt:'Dura cerca de ___.'}],
+ practiceTitle:'Pratique Falando sobre Você',
+ practice:['What time do you get up? → I get up at ___.','How do you get to work/school? → I ___ to ___.','What do you do in the evening? → I ___.'],
+ extra:{title:'Análise de Question Words',body:'<b>WHAT</b> = o quê / qual (objeto, atividade) · <b>HOW</b> = como (maneira, modo) · <b>WHEN</b> = quando (tempo) · <b>HOW LONG</b> = quanto tempo (duração)'},
+},
+{id:2,icon:'🏘️',title:'Cidade Natal',tema:'Origem, cidade natal, saudades',nivel:'Iniciante',qwords:['Where','How','What','Do','Will'],
+ pairs:[
+  {q:'Where are you from originally?',a:"I'm from a small town in Mexico.",blank:"I'm from a small town in ___."},
+  {q:'How big is your hometown?',a:'It has about 50,000 people.',blank:'It has about ___ people.'},
+  {q:'What is your hometown known for?',a:"It's known for its colorful festivals.",blank:"It's known for its ___."},
+  {q:'How is it different from this city?',a:"It's much quieter and slower paced.",blank:"It's much ___ and ___."},
+  {q:'What do people do there for fun?',a:'They go to the plaza on weekends.',blank:'They go to ___ on weekends.'},
+  {q:'Do you miss your hometown?',a:'Yes, I miss it very much.',blank:'Yes, I miss it very much.'},
+  {q:'Will you go back someday?',a:'Yes, I hope to go back soon.',blank:'Yes, I hope to go back soon.'},
+ ],
+ vocab:[{en:'originally',pt:'originalmente / de origem'},{en:'hometown',pt:'cidade natal'},{en:'known for',pt:'conhecido por / famoso por'},{en:'slower paced',pt:'ritmo mais lento'},{en:'plaza',pt:'praça / centro'},{en:'miss',pt:'sentir falta de'},{en:'someday',pt:'algum dia'}],
+ phrases:[{en:"I'm from a small town in ___.",pt:'Sou de uma cidade pequena em ___.'},{en:"It's known for its ___.",pt:'É conhecida por seu/sua ___.'},{en:"It's much quieter and slower paced.",pt:'É muito mais quieto e com ritmo mais lento.'},{en:'I miss it very much.',pt:'Sinto muita falta.'},{en:'I hope to go back soon.',pt:'Espero voltar em breve.'}],
+ errors:[{wrong:'"I miss my city." (correto mas incompleto)',right:'"I miss it very much." (mais natural — usa pronome) / "I really miss my hometown." (mais expressivo)'}],
+ practiceTitle:'Pratique com Sua Própria História',
+ practice:['Where are you from originally? → I\'m from ___ in ___.','What is your hometown known for? → It\'s known for its ___.','Do you miss your hometown? → Yes, I miss ___ / Not really, because ___.'],
+},
+{id:3,icon:'🎬',title:'Filmes e Cinema',tema:'Filmes, preferências, recomendações',nivel:'Iniciante-Intermediário',qwords:['What','Why','Who','How often','Was','Would'],
+ pairs:[
+  {q:'What kind of movies do you like?',a:'I love thrillers and science fiction.',blank:'I love ___ and ___.'},
+  {q:'Why do you like science fiction?',a:'I love imagining life in the future.',blank:'I love imagining ___.'},
+  {q:'Who is your favorite actor?',a:"I really like Cate Blanchett's work.",blank:"I really like ___'s work."},
+  {q:'How often do you go to the cinema?',a:'I go about twice a month.',blank:'I go about ___ a month.'},
+  {q:'What was the last movie you saw?',a:'I saw an action film last weekend.',blank:'I saw ___ last weekend.'},
+  {q:'Was it good?',a:'It was okay. Not the best.',blank:'It was okay. Not the best.'},
+  {q:'What would you recommend watching?',a:'You should watch that new Spanish series.',blank:'You should watch ___.'},
+ ],
+ vocab:[{en:'thrillers',pt:'filmes de suspense'},{en:'science fiction',pt:'ficção científica'},{en:'imagining',pt:'imaginando'},{en:'favorite actor',pt:'ator favorito'},{en:'cinema',pt:'cinema (o local)'},{en:'action film',pt:'filme de ação'},{en:'recommend',pt:'recomendar'},{en:'series',pt:'série'}],
+ phrases:[{en:'What kind of movies do you like?',pt:'Que tipo de filme você gosta?'},{en:'I love imagining ___.',pt:'Adoro imaginar ___.'},{en:'I go about ___ times a month.',pt:'Vou cerca de ___ vezes por mês.'},{en:'It was okay. Not the best.',pt:'Estava ok. Não o melhor.'},{en:'You should watch ___.',pt:'Você deveria assistir ___.'}],
+ extra:{title:'Como Recomendar em Inglês',body:'<b>"You should watch ___."</b> → Você deveria assistir ___. · <b>"I highly recommend ___."</b> → Recomendo muito ___. · <b>"You\'d love ___."</b> → Você adoraria ___. · <b>"Don\'t miss ___."</b> → Não perca ___.'},
+},
+{id:4,icon:'🎮',title:'Video Games',tema:'Hobbies, jogos, lazer',nivel:'Iniciante',qwords:['What','How often','Where','Who','Why','When','Would'],
+ pairs:[
+  {q:'What do you do for fun?',a:'I like to play video games.',blank:'I like to ___.'},
+  {q:'How often do you play them?',a:'I play them every weekend.',blank:'I play them every ___.'},
+  {q:'Where do you play them?',a:'I play them in my bedroom.',blank:'I play them in my ___.'},
+  {q:'Who do you play with?',a:'I play with my older brother.',blank:'I play with my ___.'},
+  {q:'Why do you like this game?',a:'Because it has an amazing story.',blank:'Because it has an amazing ___.'},
+  {q:'When did you buy it?',a:'I bought it last Tuesday afternoon.',blank:'I bought it ___.'},
+  {q:'Would you recommend it to me?',a:'Yes, you would love it completely.',blank:'Yes, you would love it.'},
+ ],
+ vocab:[{en:'video games',pt:'videogames / jogos eletrônicos'},{en:'every weekend',pt:'todo fim de semana'},{en:'bedroom',pt:'quarto'},{en:'older brother',pt:'irmão mais velho'},{en:'amazing story',pt:'história incrível'},{en:'completely',pt:'completamente'}],
+ phrases:[{en:'What do you do for fun?',pt:'O que você faz para se divertir?'},{en:'I like to ___.',pt:'Gosto de ___.'},{en:'I play with my ___.',pt:'Jogo com meu/minha ___.'},{en:'Because it has an amazing ___.',pt:'Porque tem um/uma ___ incrível.'},{en:'You would love it.',pt:'Você adoraria.'}],
+ practiceTitle:'Pratique',
+ practice:['What do you do for fun? → I like to ___.','How often do you ___? → I ___ every ___.','Why do you like ___? → Because it ___.'],
+},
+{id:5,icon:'🍔',title:'Restaurante',tema:'Pedir comida, pagar, serviços',nivel:'Iniciante',qwords:['Can','Do','How about','When','Where','Can we'],
+ pairs:[
+  {q:'Can I have a cheeseburger and fries?',a:'Sure. Anything else?',blank:'Sure. Anything else?'},
+  {q:'Do you serve sushi here?',a:"Sorry, we don't have sushi.",blank:"Sorry, we don't have ___."},
+  {q:'How about steak?',a:'Yes, we do serve steaks.',blank:'Yes, we do serve ___.'},
+  {q:'When will our food arrive?',a:'It will arrive in 15 minutes.',blank:'It will arrive in ___ minutes.'},
+  {q:'Where is the restroom located?',a:'It is down the hallway.',blank:'It is down the hallway.'},
+  {q:'Can we have the bill, please?',a:'Right. Yes, I will bring it now.',blank:'Yes, I will bring it now.'},
+  {q:'Can we pay by card?',a:'Sorry, we only accept cash.',blank:'Sorry, we only accept cash.'},
+ ],
+ vocab:[{en:'cheeseburger',pt:'hambúrguer com queijo'},{en:'fries',pt:'batatas fritas'},{en:'Anything else?',pt:'Mais alguma coisa?'},{en:'serve',pt:'servir / ter no cardápio'},{en:'restroom',pt:'banheiro (americano)'},{en:'located',pt:'localizado'},{en:'hallway',pt:'corredor'},{en:'bill',pt:'conta'},{en:'accept cash',pt:'aceitar dinheiro'}],
+ phrases:[{en:'Can I have ___?',pt:'Posso ter ___? / Me traz ___.'},{en:'Do you serve ___ here?',pt:'Vocês servem ___ aqui?'},{en:'It will arrive in ___ minutes.',pt:'Chegará em ___ minutos.'},{en:'It is down the hallway.',pt:'É pelo corredor.'},{en:'We only accept cash.',pt:'Só aceitamos dinheiro.'}],
+ extra:{title:'No Restaurante — Frases Essenciais',body:'<b>"Can I see the menu?"</b> → Posso ver o cardápio? · <b>"What do you recommend?"</b> → O que você recomenda? · <b>"Can we have the bill?"</b> → Pode trazer a conta? · <b>"Is service included?"</b> → A gorjeta está incluída?'},
+ errors:[{wrong:'"Give me a cheeseburger." (rude)',right:'"Can I have a cheeseburger, please?" (educado) / "I\'d like a cheeseburger, please." (mais formal)'}],
+},
+{id:6,icon:'📱',title:'Celular e Tecnologia',tema:'Smartphones, tecnologia, compras online',nivel:'Iniciante-Intermediário',qwords:['What','How long','Where','Why','How often','Can','When'],
+ pairs:[
+  {q:'What phone do you have?',a:'I have the latest iPhone model.',blank:'I have the latest ___.'},
+  {q:'How long does the battery last?',a:'It lasts for a whole day.',blank:'It lasts for a whole day.'},
+  {q:'Where did you buy it?',a:'I bought it online last week.',blank:'I bought it online.'},
+  {q:'Why is it so expensive?',a:'It has an excellent camera system.',blank:'It has an excellent ___.'},
+  {q:'How often do you change phones?',a:'I change them every 2 years.',blank:'I change them every ___ years.'},
+  {q:'Can it take photos underwater?',a:'Yes, it is fully waterproof.',blank:'Yes, it is fully waterproof.'},
+  {q:'When will you upgrade it again?',a:'Probably in two or 3 years.',blank:'Probably in ___ years.'},
+ ],
+ vocab:[{en:'latest model',pt:'modelo mais recente'},{en:'battery',pt:'bateria'},{en:'last',pt:'durar (tempo)'},{en:'whole day',pt:'dia inteiro'},{en:'camera system',pt:'sistema de câmera'},{en:'waterproof',pt:'à prova d\'água'},{en:'upgrade',pt:'atualizar / trocar por modelo melhor'}],
+ phrases:[{en:'I have the latest ___.',pt:'Tenho o/a ___ mais recente.'},{en:'It lasts for a whole day.',pt:'Dura o dia inteiro.'},{en:'I bought it online.',pt:'Comprei online.'},{en:'It is fully waterproof.',pt:'É totalmente à prova d\'água.'},{en:'Probably in ___ years.',pt:'Provavelmente em ___ anos.'}],
+ extra:{title:'Como Falar de Tecnologia',body:'<b>"It has great features."</b> → Tem ótimos recursos. · <b>"The battery life is excellent."</b> → A duração da bateria é excelente. · <b>"It\'s worth the price."</b> → Vale o preço. · <b>"I\'d highly recommend it."</b> → Recomendo muito.'},
+},
+{id:7,icon:'🧹',title:'Limpeza da Casa',tema:'Casa, limpeza, tarefas domésticas',nivel:'Iniciante',qwords:['Why','When','Where','How can','Should','What','How long'],
+ pairs:[
+  {q:'Why is the kitchen so messy?',a:'We cooked a big dinner yesterday.',blank:'We cooked a big dinner yesterday.'},
+  {q:'When will you clean it up?',a:'I will clean it right now.',blank:'I will clean it right now.'},
+  {q:'Where is the vacuum cleaner?',a:'It is in the hall closet.',blank:'It is in the ___.'},
+  {q:'How can I help you clean?',a:'You can wash the dirty dishes.',blank:'You can ___.'},
+  {q:'Should we wash the windows today?',a:'No, it will rain this afternoon.',blank:'No, it will rain this afternoon.'},
+  {q:'What did you do with the trash?',a:'I put it outside already.',blank:'I put it outside already.'},
+  {q:'How long will this take?',a:'It will take 30 minutes.',blank:'It will take ___ minutes.'},
+ ],
+ vocab:[{en:'messy',pt:'bagunçado / sujo'},{en:'clean up',pt:'limpar / arrumar'},{en:'vacuum cleaner',pt:'aspirador de pó'},{en:'hall closet',pt:'armário do corredor'},{en:'dirty dishes',pt:'louça suja'},{en:'trash',pt:'lixo'},{en:'take (tempo)',pt:'levar (tempo)'}],
+ phrases:[{en:'Why is ___ so messy?',pt:'Por que ___ está tão bagunçado?'},{en:'I will clean it right now.',pt:'Vou limpar agora mesmo.'},{en:'How can I help?',pt:'Como posso ajudar?'},{en:'You can ___.',pt:'Você pode ___.'},{en:'It will take ___ minutes.',pt:'Vai levar ___ minutos.'}],
+ extra:{title:'Tarefas Domésticas em Inglês',body:'<b>do the dishes</b> = lavar a louça · <b>vacuum the floor</b> = aspirar o chão · <b>take out the trash</b> = levar o lixo · <b>do the laundry</b> = lavar a roupa · <b>make the bed</b> = fazer a cama · <b>clean the bathroom</b> = limpar o banheiro'},
+},
+{id:8,icon:'🏨',title:'Hotel',tema:'Hospedagem, check-in, regras do hotel',nivel:'Iniciante-Intermediário',qwords:['Where','How much','What','When','How','Can','What time'],
+ pairs:[
+  {q:'Where is the hotel located?',a:'It is right next to the beach.',blank:'It is right next to ___.'},
+  {q:'How much does a night cost?',a:'It costs $80 per night.',blank:'It costs $___ per night.'},
+  {q:'What does the price include?',a:'It includes breakfast and free Wi-Fi.',blank:'It includes ___.'},
+  {q:'When can we check in?',a:'You can check in at 2:00 p.m.',blank:'You can check in at ___.'},
+  {q:'How can I pay for it?',a:'You can pay in cash or by credit card.',blank:'You can pay in ___ or by ___.'},
+  {q:'Can we bring our dog?',a:'No, pets are not allowed here.',blank:'No, pets are not allowed here.'},
+  {q:'What time is checkout?',a:'Checkout is at 11 a.m.',blank:'Checkout is at ___.'},
+ ],
+ vocab:[{en:'located',pt:'localizado / situado'},{en:'right next to',pt:'bem ao lado de / pertinho de'},{en:'per night',pt:'por noite'},{en:'includes',pt:'inclui'},{en:'check in',pt:'fazer check-in / se hospedar'},{en:'pets',pt:'animais de estimação'},{en:'allowed',pt:'permitido'},{en:'checkout',pt:'check-out / saída'}],
+ phrases:[{en:'It is right next to ___.',pt:'Fica bem ao lado de ___.'},{en:'How much does it cost per night?',pt:'Quanto custa por noite?'},{en:'What does the price include?',pt:'O que o preço inclui?'},{en:'Pets are not allowed.',pt:'Animais não são permitidos.'},{en:'Checkout is at ___.',pt:'O checkout é às ___.'}],
+ extra:{title:'No Hotel — Frases Essenciais',body:'<b>"I have a reservation."</b> → Tenho uma reserva. · <b>"Can I get a room with a sea view?"</b> → Posso ter um quarto com vista para o mar? · <b>"Is breakfast included?"</b> → O café da manhã está incluído? · <b>"Can I have a late checkout?"</b> → Posso fazer checkout mais tarde?'},
+},
+{id:9,icon:'🍝',title:'Cozinhando',tema:'Cozinha, receitas, culinária',nivel:'Iniciante',qwords:['What','How','Why','When','Where','Can','Is'],
+ pairs:[
+  {q:'What are you making for dinner?',a:'I am making chicken pasta.',blank:'I am making ___.'},
+  {q:'How do you cook the chicken?',a:'I fry it with some oil.',blank:'I fry it with some oil.'},
+  {q:'Why do you add so much garlic?',a:'Because garlic adds a great flavor.',blank:'Because garlic adds a great flavor.'},
+  {q:'When should I boil the pasta?',a:'Boil it when the water is hot.',blank:'Boil it when the water is hot.'},
+  {q:'Where did you find this recipe?',a:'I found it on the internet.',blank:'I found it on ___.'},
+  {q:'Can you bake bread, too?',a:'Yes, but it takes more time.',blank:'Yes, but it takes more time.'},
+  {q:'Is the food ready yet?',a:"Yes, let's eat right now.",blank:"Yes, let's eat right now."},
+ ],
+ vocab:[{en:'chicken pasta',pt:'macarrão com frango'},{en:'fry',pt:'fritar'},{en:'garlic',pt:'alho'},{en:'flavor',pt:'sabor'},{en:'boil',pt:'ferver / cozinhar em água'},{en:'recipe',pt:'receita'},{en:'bake',pt:'assar (no forno)'},{en:'yet',pt:'ainda / já'}],
+ phrases:[{en:'What are you making?',pt:'O que você está fazendo/cozinhando?'},{en:'I fry it with some oil.',pt:'Frijo com um pouco de óleo.'},{en:'Garlic adds a great flavor.',pt:'O alho dá um ótimo sabor.'},{en:'It takes more time.',pt:'Leva mais tempo.'},{en:'Let\'s eat right now.',pt:'Vamos comer agora mesmo.'}],
+ extra:{title:'Métodos de Cozimento e Ingredientes',body:'<b>fry</b> = fritar · <b>bake</b> = assar (forno) · <b>boil</b> = ferver · <b>grill</b> = grelhar · <b>steam</b> = cozinhar no vapor · <b>roast</b> = assar (carne)<br><br><b>garlic</b> = alho · <b>olive oil</b> = azeite · <b>salt and pepper</b> = sal e pimenta · <b>onion</b> = cebola · <b>herbs</b> = ervas · <b>spices</b> = temperos'},
+},
+{id:10,icon:'🚌',title:'Transporte e Direções',tema:'Metrô, ônibus, como chegar a algum lugar',nivel:'Iniciante',qwords:['Where','How','Can','How long','Where should','Is there','How often'],
+ pairs:[
+  {q:'Where is the nearest metro station?',a:"It's on Park Avenue.",blank:"It's on ___."},
+  {q:'How do I get there?',a:'Turn left and go straight ahead.',blank:'Turn left and go straight.'},
+  {q:'Can I walk there from here?',a:"Yes, it's 30 minutes on foot.",blank:"Yes, it's ___ minutes on foot."},
+  {q:'How long will it take by bus?',a:'It should take just around 7 minutes.',blank:'It should take around ___ minutes.'},
+  {q:'Where should I get off?',a:'Get off at the Central Park stop.',blank:'Get off at ___.'},
+  {q:'Is there a bus stop nearby?',a:"Yes, there's one on the next street.",blank:"Yes, there's one on the next street."},
+  {q:'How often do the buses come?',a:'They come every 15 minutes or so.',blank:'They come every ___ minutes.'},
+ ],
+ vocab:[{en:'nearest',pt:'mais próximo'},{en:'metro station',pt:'estação de metrô'},{en:'go straight ahead',pt:'siga em frente'},{en:'on foot',pt:'a pé'},{en:'get off',pt:'descer (ônibus/metrô)'},{en:'stop',pt:'parada / ponto'},{en:'nearby',pt:'perto / nas proximidades'}],
+ phrases:[{en:'Where is the nearest ___?',pt:'Onde fica o/a ___ mais próximo/a?'},{en:'Turn left and go straight.',pt:'Vire à esquerda e siga em frente.'},{en:"It's ___ minutes on foot.",pt:'São ___ minutos a pé.'},{en:'Get off at ___.',pt:'Desça em ___.'},{en:'They come every ___ minutes.',pt:'Passam a cada ___ minutos.'}],
+ extra:{title:'Direções — Vocabulário Essencial',body:'<b>turn left</b> = vire à esquerda · <b>turn right</b> = vire à direita · <b>go straight</b> = siga em frente · <b>at the corner</b> = na esquina · <b>next to</b> = ao lado de · <b>across from</b> = em frente a · <b>between</b> = entre'},
+},
+{id:11,icon:'☁️',title:'Tempo e Clima',tema:'Clima, previsão do tempo, o que vestir',nivel:'Iniciante-Intermediário',qwords:["How's",'How cold','Should','Will there','How will','How can','What should'],
+ pairs:[
+  {q:"How's the weather?",a:"It's cold and a bit cloudy.",blank:"It's cold and a bit cloudy."},
+  {q:'How cold is it there?',a:"It's about 8 degrees.",blank:"It's about ___ degrees."},
+  {q:'Should I bring an umbrella?',a:'Yes, it might rain any time.',blank:'Yes, it might rain any time.'},
+  {q:'Will there be thunder and lightning?',a:'I can already hear the thunder.',blank:'I can already hear the thunder.'},
+  {q:'How will the weather be tomorrow?',a:'It will probably be sunny and warm.',blank:'It will probably be ___.'},
+  {q:'How can you be sure?',a:"I'm not sure. Just guessing.",blank:"I'm not sure. Just guessing."},
+  {q:'What should I wear tomorrow?',a:'A light jacket should be enough.',blank:'A ___ should be enough.'},
+ ],
+ vocab:[{en:'cloudy',pt:'nublado'},{en:'umbrella',pt:'guarda-chuva'},{en:'thunder',pt:'trovão'},{en:'lightning',pt:'relâmpago'},{en:'probably',pt:'provavelmente'},{en:'sunny',pt:'ensolarado'},{en:'light jacket',pt:'jaqueta leve'}],
+ phrases:[{en:"It's cold and a bit cloudy.",pt:'Está frio e um pouco nublado.'},{en:'It might rain any time.',pt:'Pode chover a qualquer momento.'},{en:'It will probably be ___.',pt:'Provavelmente vai estar ___.'},{en:"I'm not sure. Just guessing.",pt:'Não tenho certeza. Só chutando.'},{en:'A ___ should be enough.',pt:'Um/Uma ___ deveria ser suficiente.'}],
+ extra:{title:'Descrevendo o Clima',body:'<b>hot</b> = quente · <b>sunny</b> = ensolarado · <b>warm</b> = morno · <b>cloudy</b> = nublado · <b>cool</b> = fresquinho · <b>windy</b> = ventoso · <b>cold</b> = frio · <b>rainy</b> = chuvoso · <b>freezing</b> = congelando · <b>snowy</b> = nevando · <b>humid</b> = úmido · <b>dry</b> = seco'},
+},
+{id:12,icon:'✈️',title:'Viagem e Férias',tema:'Destinos, experiências de viagem',nivel:'Iniciante-Intermediário',qwords:['Where','How long','How','What','Was','Did','Would'],
+ pairs:[
+  {q:'Where did you go last summer?',a:'I went to Thailand.',blank:'I went to ___.'},
+  {q:'How long were you there?',a:'I was there for two weeks.',blank:'I was there for ___ weeks.'},
+  {q:'How did you get there?',a:'I flew from New York.',blank:'I flew from ___.'},
+  {q:'What did you do there?',a:'I visited temples and beaches.',blank:'I visited ___ and ___.'},
+  {q:'What was the food like?',a:'It was spicy but really delicious.',blank:'It was ___ but really delicious.'},
+  {q:'Did you have any problems there?',a:'Yes, I lost my phone once.',blank:'Yes, I lost my ___ once.'},
+  {q:'Would you go back again?',a:'Yes, absolutely. I loved it.',blank:'Yes, absolutely. I loved it.'},
+ ],
+ vocab:[{en:'last summer',pt:'no verão passado'},{en:'flew',pt:'voei (passado de fly)'},{en:'temples',pt:'templos'},{en:'spicy',pt:'picante / apimentado'},{en:'delicious',pt:'delicioso'},{en:'lost my phone',pt:'perdi meu celular'},{en:'absolutely',pt:'com certeza / absolutamente'}],
+ phrases:[{en:'Where did you go last summer?',pt:'Onde você foi no verão passado?'},{en:'I was there for ___ weeks.',pt:'Fiquei lá por ___ semanas.'},{en:'I flew from ___.',pt:'Voei de ___.'},{en:'What was the food like?',pt:'Como era a comida?'},{en:'Would you go back again?',pt:'Você voltaria?'},{en:'Yes, absolutely. I loved it.',pt:'Sim, com certeza. Amei.'}],
+ extra:{title:'Falando de Viagem + Pergunta Especial',body:'<b>"The trip was amazing."</b> → A viagem foi incrível. · <b>"I\'d highly recommend it."</b> → Recomendo muito. · <b>"The people were very friendly."</b> → O povo era muito simpático. · <b>"It\'s worth the trip."</b> → Vale a viagem.<br><br><b>"What was ___ like?"</b> → Como era ___? Estrutura muito usada e pouco ensinada! "What was the food like?" / "What was the hotel like?" / "What was he like?"'},
+},
+{id:13,icon:'📚',title:'Aprendendo Inglês',tema:'Estudo de idiomas, dificuldades, progresso',nivel:'Intermediário',qwords:['Why','How long','How often','What','How','Can','Have'],
+ pairs:[
+  {q:'Why do you want to learn English?',a:'I need it for my job.',blank:'I need it for ___.'},
+  {q:'How long have you been studying?',a:"I've been studying for 2 years.",blank:"I've been studying for ___."},
+  {q:'How often do you practice?',a:'I practice every day for an hour.',blank:'I practice every day for ___.'},
+  {q:'What do you find most difficult?',a:'I find speaking the most difficult.',blank:'I find ___ the most difficult.'},
+  {q:'How do you practice speaking?',a:'I watch English shows without subtitles.',blank:'I watch English shows without subtitles.'},
+  {q:'Can you speak well now?',a:'I can speak fairly well.',blank:'I can speak fairly well.'},
+  {q:'Have you taken any English tests?',a:'Yes, I took the IELTS last year.',blank:'Yes, I took ___.'},
+ ],
+ vocab:[{en:'need it for my job',pt:'preciso para o meu trabalho'},{en:'been studying',pt:'tenho estudado'},{en:'practice',pt:'praticar'},{en:'find ___ difficult',pt:'achar ___ difícil'},{en:'subtitles',pt:'legendas'},{en:'fairly well',pt:'razoavelmente bem'},{en:'IELTS',pt:'exame internacional de inglês'}],
+ phrases:[{en:'I need it for my job.',pt:'Preciso para o meu trabalho.'},{en:"I've been studying for ___.",pt:'Estudo há ___.'},{en:'I practice every day for ___.',pt:'Pratico todo dia por ___.'},{en:'I find ___ the most difficult.',pt:'Acho ___ o mais difícil.'},{en:'I can speak fairly well.',pt:'Consigo falar razoavelmente bem.'}],
+ practiceTitle:'Fale Sobre Seu Inglês',
+ practice:['Why do you want to learn English? → I want to ___ / I need it for ___.','How long have you been studying? → I\'ve been studying for ___.','What do you find most difficult? → I find ___ the most difficult.','How do you practice? → I ___.'],
+ extra:{title:'Advérbios de Grau (para descrever seu nível)',body:'<b>fluently</b> = fluentemente · <b>fairly well</b> = razoavelmente bem · <b>a little / a bit</b> = um pouco · <b>not very well</b> = não muito bem · <b>barely</b> = mal / quase não'},
+},
+{id:14,icon:'⏰',title:'Chegando Atrasado',tema:'Atraso, desculpas, trânsito, comprometimento',nivel:'Iniciante-Intermediário',qwords:['Why','When','How','Will','How can','How','What if'],
+ pairs:[
+  {q:'Why are you late?',a:'I got stuck in traffic.',blank:'I got stuck in traffic.'},
+  {q:'When did you leave home?',a:'I left home at 9 a.m.',blank:'I left home at ___.'},
+  {q:'How did you come here?',a:'I took the bus.',blank:'I took the bus.'},
+  {q:'Will you be late again?',a:"No, I won't be late ever again.",blank:"No, I won't ___ ever again."},
+  {q:'How can you assure me?',a:"Well, I'll leave from home early.",blank:"I'll leave from home early."},
+  {q:'How early?',a:'About 30 minutes early.',blank:'About ___ minutes early.'},
+  {q:"What if you're late again?",a:'You can punish me.',blank:'You can punish me.'},
+ ],
+ vocab:[{en:'got stuck in traffic',pt:'fiquei preso no trânsito'},{en:'leave home',pt:'sair de casa'},{en:'took the bus',pt:'peguei o ônibus'},{en:'ever again',pt:'nunca mais'},{en:'assure',pt:'assegurar / garantir'},{en:'punish',pt:'punir / castigar'}],
+ phrases:[{en:'I got stuck in traffic.',pt:'Fiquei preso no trânsito.'},{en:'I took the bus.',pt:'Peguei o ônibus.'},{en:"I won't ___ ever again.",pt:'Nunca mais vou ___.'},{en:"I'll leave from home early.",pt:'Vou sair de casa cedo.'},{en:'What if ___?',pt:'E se ___?'}],
+ extra:{title:'Desculpas em Inglês + Expressão Especial',body:'<b>"I\'m so sorry I\'m late."</b> → Sinto muito por estar atrasado. · <b>"I got stuck in traffic."</b> → Fiquei preso no trânsito. · <b>"My bus was delayed."</b> → Meu ônibus atrasou. · <b>"I overslept."</b> → Eu dormi demais. · <b>"It won\'t happen again."</b> → Não vai acontecer de novo.<br><br><b>"I got stuck in ___."</b> → stuck in traffic / stuck in a meeting / stuck at work / stuck in an elevator'},
+},
+];
+
+// ── FLATTEN PAIRS (id 1-98) ───────────────────────────────────────────────────
+const ALL_PAIRS = [];
+CONVERSATIONS.forEach(c => {
+  c.pairs.forEach((p, idx) => {
+    ALL_PAIRS.push({id: ALL_PAIRS.length + 1, conv: c.id, idx, q: p.q, a: p.a, blank: p.blank});
+  });
+});
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function loadProgress() {
+  let p;
+  try { p = JSON.parse(localStorage.getItem('sistema6_progresso')); } catch(e) { p = null; }
+  if (!p || !Array.isArray(p.pairs)) p = { pairs: new Array(98).fill(false), quizCorrect: new Array(98).fill(false) };
+  if (!p.quizCorrect) p.quizCorrect = new Array(98).fill(false);
+  return p;
+}
+function saveProgress() { localStorage.setItem('sistema6_progresso', JSON.stringify(progress)); }
+let progress = loadProgress();
+
+function markPair(id, val) {
+  if (progress.pairs[id-1] !== val) { progress.pairs[id-1] = val; saveProgress(); renderThemesStrip(); updateTopProgress(); }
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let mode = 'conversa';
+let themeFilter = 0;
+let openAccordion = {};
+let prIndex = 0; // shared index within filtered pairs for practice modes
+let prRevealed = false;
+let rpRole = 'answer';
+let rpIndex = 0;
+let rpRevealed = false;
+let quizTimerEnabled = false;
+let quizTimerInterval = null;
+let quizCurrent = null;
+let quizAnswered = false;
+
+function filteredConvs() { return themeFilter === 0 ? CONVERSATIONS : CONVERSATIONS.filter(c => c.id === themeFilter); }
+function filteredPairs() { return themeFilter === 0 ? ALL_PAIRS : ALL_PAIRS.filter(p => p.conv === themeFilter); }
+function convOf(id) { return CONVERSATIONS.find(c => c.id === id); }
+
+// ── THEMES STRIP ──────────────────────────────────────────────────────────────
+function renderThemesStrip() {
+  const strip = document.getElementById('themesStrip');
+  let html = `<div class="theme-chip ${themeFilter===0?'on':''}" onclick="selectTheme(0)">
+    <div class="tc-top">🌐 Todos</div>
+    <div class="tc-n">${progress.pairs.filter(Boolean).length}/98</div>
+  </div>`;
+  html += CONVERSATIONS.map(c => {
+    const ids = ALL_PAIRS.filter(p => p.conv === c.id).map(p => p.id);
+    const done = ids.filter(id => progress.pairs[id-1]).length;
+    return `<div class="theme-chip ${themeFilter===c.id?'on':''}" onclick="selectTheme(${c.id})">
+      <div class="tc-top">${c.icon} ${String(c.id).padStart(2,'0')} ${c.title}</div>
+      <div class="tc-n">${done}/7</div>
+      <div class="tc-track"><div class="tc-fill" style="width:${(done/7)*100}%"></div></div>
+    </div>`;
+  }).join('');
+  strip.innerHTML = html;
+}
+
+function selectTheme(id) {
+  themeFilter = id;
+  prIndex = 0; prRevealed = false;
+  rpIndex = 0; rpRevealed = false;
+  renderThemesStrip();
+  renderAll();
+}
+
+function updateTopProgress() {
+  const n = progress.pairs.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (n/98*100) + '%';
+  document.getElementById('progressText').textContent = `${n}/98 pares`;
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  stopQuizTimer();
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  ['Conversa','PraticaQ','PraticaA','Roleplay','Quiz'].forEach(p => {
+    document.getElementById('panel'+p).classList.toggle('hidden', ('panel'+p) !== ('panel' + m.charAt(0).toUpperCase() + m.slice(1)));
+  });
+  renderAll();
+}
+
+// ── MODO 1: CONVERSA ─────────────────────────────────────────────────────────
+function renderConversa() {
+  const convs = filteredConvs();
+  document.getElementById('panelConversa').innerHTML = convs.map(c => renderConvCard(c)).join('');
+}
+
+function renderConvCard(c) {
+  const qwTags = c.qwords.map(w => {
+    const {color} = detectQW(w + ' ');
+    return `<span class="qw-tag" style="color:${color};border-color:${color}55;background:${color}15">${w}</span>`;
+  }).join('');
+
+  const pairsHTML = c.pairs.map(p => `
+    <div class="pair-block">
+      <div class="q-bubble"><span class="qmark">❓</span><span>${highlightQ(p.q)}</span></div>
+      <div class="a-bubble"><span class="amark">💬</span><span>${p.a}</span></div>
+    </div>
+  `).join('');
+
+  const vocabHTML = c.vocab.map(v => `<div class="vocab-chip"><span class="vocab-en">${v.en}</span> = <span class="vocab-pt">${v.pt}</span></div>`).join('');
+  const phrasesHTML = c.phrases.map(p => `<div class="phrase-item"><div class="phrase-en">"${p.en}"</div><div class="phrase-pt">→ ${p.pt}</div></div>`).join('');
+  const practiceHTML = c.practice ? `<div class="sec-block"><div class="sec-label">${c.practiceTitle || 'Pratique'}</div><ul class="practice-list">${c.practice.map(l=>`<li>${l}</li>`).join('')}</ul></div>` : '';
+  const errorsHTML = c.errors ? `<div class="sec-block"><div class="sec-label">⚠️ Erro Clássico</div>${c.errors.map(e=>`<div class="error-row"><span class="err-wrong">❌ ${e.wrong}</span><br><span class="err-right">✓ ${e.right}</span></div>`).join('')}</div>` : '';
+  const extraHTML = c.extra ? `<div class="sec-block"><div class="sec-label">💡 ${c.extra.title}</div><div class="extra-box">${c.extra.body}</div></div>` : '';
+
+  const isOpen = !!openAccordion[c.id];
+
+  return `
+  <div class="conv-card">
+    <div class="conv-header">
+      <div class="conv-title">${c.icon} <span class="n">CONVERSA ${String(c.id).padStart(2,'0')}</span> — ${c.title.toUpperCase()}</div>
+      <div class="conv-meta">${c.nivel} · ${c.tema}</div>
+      <div class="qw-tags">${qwTags}</div>
+    </div>
+    <div class="pairs-area">${pairsHTML}</div>
+    <button class="accordion-toggle ${isOpen?'open':''}" onclick="toggleAccordion(${c.id})">
+      <span>Vocabulário · Frases-Chave · Pratique</span>
+      <span class="accordion-arrow">▾</span>
+    </button>
+    <div class="accordion-body ${isOpen?'open':''}">
+      <div class="accordion-inner">
+        <div class="sec-block"><div class="sec-label">Vocabulário</div><div class="vocab-list">${vocabHTML}</div></div>
+        <div class="sec-block"><div class="sec-label">Frases-Chave</div>${phrasesHTML}</div>
+        ${practiceHTML}
+        ${errorsHTML}
+        ${extraHTML}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleAccordion(id) {
+  openAccordion[id] = !openAccordion[id];
+  renderConversa();
+}
+
+// ── MODO 2: PRATICAR PERGUNTAS ───────────────────────────────────────────────
+function currentPrPair() {
+  const list = filteredPairs();
+  if (!list.length) return null;
+  if (prIndex >= list.length) prIndex = list.length - 1;
+  if (prIndex < 0) prIndex = 0;
+  return list[prIndex];
+}
+
+function renderPraticaQ() {
+  const p = currentPrPair();
+  if (!p) return;
+  const c = convOf(p.conv);
+  document.getElementById('pqSub').textContent = `Conversa ${String(c.id).padStart(2,'0')} · Par ${p.idx+1} de 7`;
+  document.getElementById('pqAnswer').innerHTML = `💬 ${p.a}`;
+  const hintWords = p.q.split(' ').slice(0, 2).join(' ');
+  document.getElementById('pqHint').textContent = `DICA: começa com "${hintWords}..."`;
+  document.getElementById('pqQuestion').innerHTML = `❓ ${highlightQ(p.q)}`;
+  document.getElementById('pqQuestion').classList.toggle('show', prRevealed);
+  document.getElementById('pqRevealBtn').disabled = prRevealed;
+  document.getElementById('pqRevealBtn').textContent = prRevealed ? '✓ Revelado' : '👁 Revelar pergunta';
+}
+function pqReveal() { prRevealed = true; renderPraticaQ(); }
+function pqMark(correct) { const p = currentPrPair(); if (p) markPair(p.id, correct); }
+function pqNext() {
+  const list = filteredPairs();
+  prIndex = (prIndex + 1) % list.length;
+  prRevealed = false;
+  renderPraticaQ();
+}
+
+// ── MODO 3: PRATICAR RESPOSTAS ───────────────────────────────────────────────
+function renderPraticaA() {
+  const p = currentPrPair();
+  if (!p) return;
+  const c = convOf(p.conv);
+  document.getElementById('paSub').textContent = `Conversa ${String(c.id).padStart(2,'0')} · Par ${p.idx+1} de 7`;
+  document.getElementById('paQuestion').innerHTML = `❓ ${highlightQ(p.q)}`;
+  document.getElementById('paAnswer').innerHTML = `💬 ${p.a}`;
+  document.getElementById('paAnswer').classList.toggle('show', prRevealed);
+  const showTip = prRevealed && p.blank && p.blank !== p.a;
+  document.getElementById('paTip').innerHTML = showTip ? `Mas você pode dizer sobre <b>SI MESMO</b>:<br>💡 ${p.blank}` : '';
+  document.getElementById('paTip').classList.toggle('show', showTip);
+  document.getElementById('paRevealBtn').disabled = prRevealed;
+  document.getElementById('paRevealBtn').textContent = prRevealed ? '✓ Revelado' : '👁 Ver resposta modelo';
+}
+function paReveal() { prRevealed = true; renderPraticaA(); }
+function paMark() { const p = currentPrPair(); if (p) markPair(p.id, true); }
+function paNext() {
+  const list = filteredPairs();
+  prIndex = (prIndex + 1) % list.length;
+  prRevealed = false;
+  renderPraticaA();
+}
+
+// ── MODO 4: ROLE-PLAY ─────────────────────────────────────────────────────────
+function rpPairsPool() {
+  return themeFilter === 0 ? ALL_PAIRS.filter(p => p.conv === 1) : filteredPairs();
+}
+function renderRoleplay() {
+  const pool = rpPairsPool();
+  if (rpIndex >= pool.length) rpIndex = 0;
+  const p = pool[rpIndex];
+  if (!p) return;
+  const c = convOf(p.conv);
+  document.getElementById('rpInfo').textContent = `Conversa ${String(c.id).padStart(2,'0')} · ${p.idx+1}/7`;
+  document.getElementById('rpInput').value = '';
+  document.getElementById('rpSugg').classList.remove('show');
+  rpRevealed = false;
+
+  if (rpRole === 'answer') {
+    document.getElementById('rpWho').textContent = 'Personagem pergunta';
+    document.getElementById('rpGiven').innerHTML = `"${p.q}"`;
+    document.getElementById('rpInput').placeholder = 'Digite sua resposta em inglês...';
+    document.getElementById('rpSuggText').textContent = p.a;
+  } else {
+    document.getElementById('rpWho').textContent = 'Personagem responde';
+    document.getElementById('rpGiven').innerHTML = `"${p.a}"`;
+    document.getElementById('rpInput').placeholder = 'Digite a pergunta que causaria essa resposta...';
+    document.getElementById('rpSuggText').textContent = p.q;
+  }
+}
+function setRPRole(role) {
+  rpRole = role;
+  document.getElementById('roleAnswerBtn').classList.toggle('on', role === 'answer');
+  document.getElementById('roleAskBtn').classList.toggle('on', role === 'ask');
+  rpIndex = 0;
+  renderRoleplay();
+}
+function rpShowSugg() { document.getElementById('rpSugg').classList.add('show'); }
+function rpNext() {
+  const pool = rpPairsPool();
+  rpIndex = (rpIndex + 1) % pool.length;
+  renderRoleplay();
+}
+
+// ── MODO 5: QUIZ ──────────────────────────────────────────────────────────────
+function shuffle(arr) { const a = arr.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function generateQuiz() {
+  const pool = filteredPairs();
+  if (!pool.length) return;
+  const pair = pool[Math.floor(Math.random()*pool.length)];
+  const direction = Math.random() < 0.5 ? 'q2a' : 'a2q';
+  const correct = direction === 'q2a' ? pair.a : pair.q;
+  const sameConv = pool.filter(p => p.conv === pair.conv && p.id !== pair.id);
+  const distractorSource = sameConv.length >= 3 ? sameConv : ALL_PAIRS.filter(p => p.id !== pair.id);
+  const distractorTexts = shuffle(distractorSource.map(p => direction === 'q2a' ? p.a : p.q).filter(t => t !== correct));
+  const uniqueDistractors = [...new Set(distractorTexts)].slice(0,3);
+  const options = shuffle([correct, ...uniqueDistractors]);
+
+  quizCurrent = {pair, direction, correct, options};
+  quizAnswered = false;
+  renderQuiz();
+  if (quizTimerEnabled) startQuizTimer();
+}
+
+function renderQuiz() {
+  if (!quizCurrent) { generateQuiz(); return; }
+  const n = progress.quizCorrect.filter(Boolean).length;
+  document.getElementById('quizScore').textContent = `Pontuação: ${n}/98 corretas`;
+
+  const {pair, direction, options} = quizCurrent;
+  const promptBox = document.getElementById('quizPromptBox');
+  const promptLabel = document.getElementById('quizPromptLabel');
+  if (direction === 'q2a') {
+    promptLabel.textContent = 'Pergunta — escolha a resposta certa';
+    promptBox.className = 'quiz-prompt-box q';
+    promptBox.innerHTML = `❓ ${pair.q}`;
+  } else {
+    promptLabel.textContent = 'Resposta — escolha a pergunta certa';
+    promptBox.className = 'quiz-prompt-box a';
+    promptBox.innerHTML = `💬 ${pair.a}`;
+  }
+
+  document.getElementById('quizOptions').innerHTML = options.map((opt,i) => `<button class="quiz-opt" onclick="quizSelect(${i})" id="quizOpt${i}">${opt}</button>`).join('');
+  document.getElementById('quizNextBtn').disabled = true;
+}
+
+function quizSelect(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  stopQuizTimer();
+  const {correct, options, pair} = quizCurrent;
+  const chosen = options[i];
+  document.querySelectorAll('.quiz-opt').forEach((btn, idx) => {
+    btn.disabled = true;
+    if (options[idx] === correct) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('wrong');
+  });
+  if (chosen === correct) {
+    if (!progress.quizCorrect[pair.id-1]) { progress.quizCorrect[pair.id-1] = true; saveProgress(); }
+    markPair(pair.id, true);
+  }
+  document.getElementById('quizNextBtn').disabled = false;
+  document.getElementById('quizScore').textContent = `Pontuação: ${progress.quizCorrect.filter(Boolean).length}/98 corretas`;
+}
+
+function quizNext() { generateQuiz(); }
+
+function toggleTimer() {
+  quizTimerEnabled = !quizTimerEnabled;
+  document.getElementById('timerToggleBtn').classList.toggle('on', quizTimerEnabled);
+  document.getElementById('timerTrack').classList.toggle('show', quizTimerEnabled);
+  if (quizTimerEnabled && quizCurrent && !quizAnswered) startQuizTimer();
+  else stopQuizTimer();
+}
+
+function startQuizTimer() {
+  stopQuizTimer();
+  const fill = document.getElementById('timerFill');
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  void fill.offsetWidth;
+  fill.style.transition = 'width 10s linear';
+  fill.style.width = '0%';
+  quizTimerInterval = setTimeout(() => {
+    if (!quizAnswered) {
+      quizAnswered = true;
+      const {correct} = quizCurrent;
+      document.querySelectorAll('.quiz-opt').forEach((btn) => {
+        btn.disabled = true;
+        if (btn.textContent === correct) btn.classList.add('correct');
+      });
+      document.getElementById('quizNextBtn').disabled = false;
+    }
+  }, 10000);
+}
+function stopQuizTimer() {
+  if (quizTimerInterval) { clearTimeout(quizTimerInterval); quizTimerInterval = null; }
+  const fill = document.getElementById('timerFill');
+  if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
+}
+
+// ── RENDER ALL ────────────────────────────────────────────────────────────────
+function renderAll() {
+  if (mode === 'conversa') renderConversa();
+  else if (mode === 'praticaQ') renderPraticaQ();
+  else if (mode === 'praticaA') renderPraticaA();
+  else if (mode === 'roleplay') renderRoleplay();
+  else if (mode === 'quiz') { quizCurrent = null; generateQuiz(); }
+  updateTopProgress();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init() {
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  const temaParam = parseInt(params.get('tema'), 10);
+  if (temaParam >= 1 && temaParam <= 14) themeFilter = temaParam;
+  renderThemesStrip();
+  if (modoParam === 'roleplay') { setMode('roleplay'); }
+  else if (modoParam === 'quiz') { setMode('quiz'); }
+  else { renderAll(); }
+})();
+</script>
+</body>
+</html>
