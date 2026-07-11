@@ -165,7 +165,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
     <span class="hl-am"> Fluência.</span>
     <span class="hl-vl"> Gramática.</span>
   </h1>
-  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 9 sistemas, uma jornada completa.</p>
+  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 10 sistemas, uma jornada completa.</p>
 </div>
 
 <!-- CHOOSE -->
@@ -475,6 +475,11 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
         <span class="prog-n" id="p10n">0 / 4</span>
       </div>
       <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s10)">Sistema 10</span>
+        <div class="prog-track"><div class="prog-fill" id="p11fill" style="background:var(--s10);width:0%"></div></div>
+        <span class="prog-n" id="p11n">— / 30</span>
+      </div>
+      <div class="prog-row">
         <span class="prog-row-label" style="background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Jornada</span>
         <div class="prog-track"><div class="prog-fill" id="p4fill" style="background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);width:0%"></div></div>
         <span class="prog-n" id="p4n">0 / 120</span>
@@ -484,7 +489,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 </div>
 
 <!-- FOOTER -->
-<div class="footer">9 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 unidades · 120 etapas · inglês do real ao fluente</div>
+<div class="footer">10 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 unidades · 120 etapas · inglês do real ao fluente</div>
 
 <script>
 // ── PARTICLES ─────────────────────────────────────────────────────────────────
@@ -571,6 +576,19 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
     const p10pct = Math.round(s9Done / 4 * 100);
     document.getElementById('p10fill').style.width = p10pct + '%';
     document.getElementById('p10n').textContent = s9Done + ' / 4';
+
+    // Sistema 10 — último resultado do teste (localStorage key: s10_ultimo_resultado.score / .total)
+    const s10 = localStorage.getItem('s10_ultimo_resultado');
+    if (s10) {
+      try {
+        const s10r = JSON.parse(s10);
+        if (typeof s10r.score === 'number' && typeof s10r.total === 'number') {
+          const p11pct = Math.round(s10r.score / s10r.total * 100);
+          document.getElementById('p11fill').style.width = p11pct + '%';
+          document.getElementById('p11n').textContent = s10r.score + ' / ' + s10r.total;
+        }
+      } catch(e) {}
+    }
 
     // Jornada Completa — localStorage key: jornada_progresso (array of 120 booleans)
     let jDone = 0;
