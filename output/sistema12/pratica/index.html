@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rotina da Noite · Sistema 12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s8{color:var(--s8);border-color:rgba(249,115,22,.4);background:rgba(249,115,22,.1);}
+.gnav-s8:hover{background:rgba(249,115,22,.18);}
+.gnav-s9{color:var(--s9);border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.1);}
+.gnav-s9:hover{background:rgba(6,182,212,.18);}
+.gnav-s10{color:var(--s10);border-color:rgba(132,204,22,.4);background:rgba(132,204,22,.1);}
+.gnav-s10:hover{background:rgba(132,204,22,.18);}
+.gnav-s11{color:var(--s11);border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.1);}
+.gnav-s11:hover{background:rgba(251,146,60,.18);}
+.gnav-s12{color:var(--s12);border-color:rgba(129,140,248,.4);background:rgba(129,140,248,.1);}
+.gnav-s12:hover{background:rgba(129,140,248,.18);}
+.gnav-s12.active{border-color:var(--s12);background:rgba(129,140,248,.16);box-shadow:0 0 10px rgba(129,140,248,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s12);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:1.6rem 1.25rem 1rem;text-align:center;max-width:760px;margin:96px auto 0;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s12);background:rgba(129,140,248,.1);border:1px solid rgba(129,140,248,.25);padding:.32rem .95rem;border-radius:2rem;margin-bottom:.9rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.35rem,3.4vw,1.85rem);font-weight:800;line-height:1.25;margin-bottom:.4rem;}
+.hero-sub{font-size:.85rem;color:var(--tm);line-height:1.55;max-width:540px;margin:0 auto;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:96px;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;margin-top:.5rem;}
+.topbar-inner{max-width:980px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;justify-content:center;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;padding:.42rem .85rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s12);color:#080c14;}
+
+/* THEME STRIP */
+.theme-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;max-width:980px;margin:0 auto;}
+.theme-tab{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.55rem .4rem;cursor:pointer;transition:all .18s;text-align:center;}
+.theme-tab:hover{border-color:var(--bdh);}
+.theme-tab.on{border-color:var(--s12);background:rgba(129,140,248,.12);box-shadow:0 0 12px rgba(129,140,248,.2);}
+.theme-tab-icon{font-size:.95rem;}
+.theme-tab-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;color:var(--tm);line-height:1.25;margin-top:.15rem;}
+.theme-tab.on .theme-tab-label{color:var(--s12);}
+.theme-strip.quiz-active .theme-tab{opacity:.4;pointer-events:none;}
+
+.wrap{max-width:760px;margin:0 auto;padding:1.4rem 1.1rem 5rem;}
+.hidden{display:none!important;}
+
+/* MAIN CARD */
+.p-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.p-head{padding:1.1rem 1.4rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);gap:.5rem;flex-wrap:wrap;}
+.p-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s12);}
+.p-count{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--td);}
+.p-body{padding:1.6rem 1.5rem;}
+
+/* APRENDER MODE */
+.q-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.q-big{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--tx);line-height:1.4;margin-bottom:1.3rem;}
+.a-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.a-big{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--s12);line-height:1.4;margin-bottom:1.3rem;}
+.pt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1rem;font-size:.85rem;color:var(--tm);line-height:1.7;margin-bottom:1.2rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.pt-box.show{opacity:1;max-height:200px;padding:.9rem 1rem;}
+.pt-box b{color:var(--tx);}
+
+/* PRATICAR MODE */
+.prac-input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1rem;font-size:1rem;color:var(--tx);font-family:'Inter',sans-serif;margin-bottom:1rem;}
+.prac-input:focus{outline:none;border-color:var(--s12);}
+.model-answer{background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.3);border-radius:.7rem;padding:1rem 1.1rem;margin-bottom:1.2rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.model-answer.show{opacity:1;max-height:200px;padding:1rem 1.1rem;}
+.model-answer-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--s12);margin-bottom:.4rem;}
+.model-answer-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--tx);}
+.model-answer-pt{font-size:.82rem;color:var(--tm);margin-top:.4rem;}
+
+/* ACTIONS */
+.p-actions{display:flex;gap:.6rem;flex-wrap:wrap;}
+.act-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;min-width:120px;}
+.act-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.act-btn:disabled{opacity:.35;cursor:default;}
+.act-btn.primary{background:var(--s12);color:#080c14;border:none;}
+.act-btn.primary:hover{filter:brightness(1.1);}
+
+/* QUIZ MODE */
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s12);}
+.quiz-qn{text-align:center;font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;}
+.quiz-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;text-align:center;line-height:1.5;color:var(--tx);}
+.quiz-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem;}
+.quiz-opt{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.85rem 1rem;font-size:.88rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.quiz-opt:hover{border-color:var(--bdh);}
+.quiz-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.quiz-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-next-row{text-align:center;}
+.quiz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s12);color:#080c14;cursor:pointer;}
+.quiz-next-btn:hover{filter:brightness(1.1);}
+.quiz-next-btn:disabled{opacity:.4;cursor:default;}
+.quiz-result{text-align:center;padding:1.5rem .5rem;}
+.quiz-result-score{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--s12);margin-bottom:.5rem;}
+.quiz-result-label{font-size:.85rem;color:var(--tm);margin-bottom:1.5rem;}
+.quiz-restart-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.quiz-restart-btn:hover{border-color:var(--bdh);}
+
+/* MOBILE FLOATING BUTTONS */
+.fab{display:none;position:fixed;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--sf);border:1px solid var(--bdh);color:var(--tx);align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.4);cursor:pointer;}
+.fab-back{left:1rem;bottom:1rem;}
+.fab-top{right:1rem;bottom:1rem;background:var(--s12);color:#080c14;border:none;}
+
+@media(max-width:820px){
+  .theme-strip{grid-template-columns:repeat(5,1fr);}
+}
+@media(max-width:640px){
+  .fab{display:flex;}
+  .hero{margin-top:96px;}
+  .theme-strip{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../../sistema7/index.html" class="gnav-btn gnav-s7">🔗 S7</a>
+  <a href="../../sistema8/index.html" class="gnav-btn gnav-s8">🧱 S8</a>
+  <a href="../../sistema9/index.html" class="gnav-btn gnav-s9">⏱️ S9</a>
+  <a href="../../sistema10/index.html" class="gnav-btn gnav-s10">📊 S10</a>
+  <a href="../../sistema11/index.html" class="gnav-btn gnav-s11">🧭 S11</a>
+  <a href="../index.html" class="gnav-btn gnav-s12 active">🌙 S12</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 12 — Rotina da Noite</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🌙 Prática</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">🌙 Rotina da Noite</div>
+  <h1 class="hero-title">Pratique inglês com perguntas e respostas do dia a dia</h1>
+  <p class="hero-sub">Frases curtas, reais e repetitivas — o jeito mais rápido de ganhar confiança.</p>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row" id="modeGroup">
+      <div class="ctrl-group">
+        <button class="ctrl-btn on" data-mode="aprender" onclick="setMode('aprender')">📖 Aprender</button>
+        <button class="ctrl-btn" data-mode="praticar" onclick="setMode('praticar')">✍️ Praticar</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">🎯 Quiz Aleatório</button>
+      </div>
+    </div>
+    <div class="theme-strip" id="themeStrip"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="panel" id="panelAprender"></div>
+  <div class="panel hidden" id="panelPraticar"></div>
+  <div class="panel hidden" id="panelQuiz"></div>
+</div>
+
+<!-- MOBILE FLOATING BUTTONS -->
+<a href="../../index.html" class="fab fab-back" aria-label="Menu Principal">←</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Topo">↑</button>
+
+<script>
+// ── DATA: 10 TEMAS · 146 PERGUNTAS E RESPOSTAS ────────────────────────────────
+const THEMES = [
+{id:'chegada', icon:'🏠', label:'Chegada', title:'Chegada em Casa', items:[
+ {q:'When starts your evening routine?', a:'My evening starts daily.', pq:'Quando começa sua rotina noturna?', pa:'Minha noite começa diariamente.'},
+ {q:'What time return home?', a:'I return home early.', pq:'A que horas você volta para casa?', pa:'Eu volto para casa cedo.'},
+ {q:'Do you wash hands?', a:'Yes, I wash thoroughly.', pq:'Você lava as mãos?', pa:'Sim, eu lavo bem.'},
+ {q:'Do you change clothes?', a:'Yes, I change immediately.', pq:'Você troca de roupa?', pa:'Sim, eu troco imediatamente.'},
+ {q:'What do you drink?', a:'I drink warm tea.', pq:'O que você bebe?', pa:'Eu bebo chá quente.'},
+ {q:'Do you eat snacks?', a:'Yes, I eat biscuits.', pq:'Você come lanches?', pa:'Sim, eu como biscoitos.'},
+ {q:'Where sit every evening?', a:'I sit near windows.', pq:'Onde você senta toda noite?', pa:'Eu sento perto das janelas.'},
+]},
+{id:'relaxamento', icon:'😌', label:'Relaxamento', title:'Relaxamento', items:[
+ {q:'Do you watch television?', a:'Yes, I watch news.', pq:'Você assiste televisão?', pa:'Sim, eu assisto notícias.'},
+ {q:'What program watch usually?', a:'I watch documentaries often.', pq:'Que programa você assiste normalmente?', pa:'Eu assisto documentários com frequência.'},
+ {q:'Do you listen music?', a:'Yes, I listen regularly.', pq:'Você escuta música?', pa:'Sim, eu escuto regularmente.'},
+ {q:'What songs hear mostly?', a:'I hear soft melodies.', pq:'Que músicas você ouve mais?', pa:'Eu ouço melodias suaves.'},
+ {q:'Do you exercise evenings?', a:'Yes, I exercise daily.', pq:'Você se exercita à noite?', pa:'Sim, eu me exercito diariamente.'},
+ {q:'What exercise do you perform?', a:'I perform simple stretches.', pq:'Que exercício você faz?', pa:'Eu faço alongamentos simples.'},
+ {q:'Do you enjoy evenings?', a:'Yes, I enjoy evenings.', pq:'Você gosta das noites?', pa:'Sim, eu gosto das noites.'},
+ {q:'Do you enjoy solitude?', a:'Yes, I enjoy solitude.', pq:'Você gosta de ficar sozinho?', pa:'Sim, eu gosto de solidão.'},
+ {q:'What calms your thoughts?', a:'Prayer calms my thoughts.', pq:'O que acalma seus pensamentos?', pa:'A oração acalma meus pensamentos.'},
+ {q:'What sounds enjoy evenings?', a:'Bird songs soothe me.', pq:'Que sons você gosta à noite?', pa:'O canto dos pássaros me acalma.'},
+ {q:'What music prefer evenings?', a:'Soft melodies soothe me.', pq:'Que música você prefere à noite?', pa:'Melodias suaves me acalmam.'},
+ {q:'What relaxes your mind?', a:'Soft music relaxes me.', pq:'O que relaxa sua mente?', pa:'Música suave me relaxa.'},
+]},
+{id:'estudos', icon:'📚', label:'Estudos', title:'Estudos', items:[
+ {q:'Do you complete homework?', a:'Yes, I complete homework.', pq:'Você termina o dever de casa?', pa:'Sim, eu termino o dever de casa.'},
+ {q:'When finish your studies?', a:'I finish studies nightly.', pq:'Quando você termina os estudos?', pa:'Eu termino os estudos toda noite.'},
+ {q:'Do you use computer?', a:'Yes, I use computers.', pq:'Você usa computador?', pa:'Sim, eu uso computadores.'},
+ {q:'What do online evenings?', a:'I watch learning videos.', pq:'O que você faz online à noite?', pa:'Eu assisto vídeos educativos.'},
+ {q:'Do you practice English?', a:'Yes, I practice daily.', pq:'Você pratica inglês?', pa:'Sim, eu pratico diariamente.'},
+ {q:'What English skill practice?', a:'I practice spoken English.', pq:'Que habilidade de inglês você pratica?', pa:'Eu pratico o inglês falado.'},
+ {q:'Do you learn online?', a:'Yes, I learn daily.', pq:'Você aprende online?', pa:'Sim, eu aprendo diariamente.'},
+ {q:'What lessons watch tonight?', a:'I watch English lessons.', pq:'Que aulas você assiste hoje à noite?', pa:'Eu assisto aulas de inglês.'},
+ {q:'Do you revise studies?', a:'Yes, I revise thoroughly.', pq:'Você revisa os estudos?', pa:'Sim, eu revejo cuidadosamente.'},
+ {q:'What subject revise tonight?', a:'I revise English grammar.', pq:'Que matéria você revisa hoje?', pa:'Eu revejo gramática inglesa.'},
+ {q:'Do you memorize vocabulary?', a:'Yes, I memorize regularly.', pq:'Você memoriza vocabulário?', pa:'Sim, eu memorizo regularmente.'},
+ {q:'What words learn today?', a:'I learn useful expressions.', pq:'Que palavras você aprende hoje?', pa:'Eu aprendo expressões úteis.'},
+ {q:'Do you practice speaking?', a:'Yes, I practice daily.', pq:'Você pratica speaking?', pa:'Sim, eu pratico diariamente.'},
+ {q:'What language speak evenings?', a:'I speak English regularly.', pq:'Que idioma você fala à noite?', pa:'Eu falo inglês regularmente.'},
+]},
+{id:'familia', icon:'👨‍👩‍👧', label:'Família', title:'Família', items:[
+ {q:'Do you help family?', a:'Yes, I help regularly.', pq:'Você ajuda a família?', pa:'Sim, eu ajudo regularmente.'},
+ {q:'What chores do you perform?', a:'I clean household items.', pq:'Que tarefas você faz?', pa:'Eu limpo itens da casa.'},
+ {q:'Do you play games?', a:'Yes, I play chess.', pq:'Você joga jogos?', pa:'Sim, eu jogo xadrez.'},
+ {q:'What game enjoy mostly?', a:'I enjoy board games.', pq:'Que jogo você mais gosta?', pa:'Eu gosto de jogos de tabuleiro.'},
+ {q:'Do you practice hobbies?', a:'Yes, I practice regularly.', pq:'Você pratica hobbies?', pa:'Sim, eu pratico regularmente.'},
+ {q:'What hobby continue evenings?', a:'I continue reading books.', pq:'Que hobby você continua à noite?', pa:'Eu continuo lendo livros.'},
+ {q:'What activities share together?', a:'We share funny stories.', pq:'Que atividades vocês compartilham juntos?', pa:'Nós compartilhamos histórias engraçadas.'},
+ {q:'Do you help siblings?', a:'Yes, I help regularly.', pq:'Você ajuda os irmãos?', pa:'Sim, eu ajudo regularmente.'},
+ {q:'What homework helped tonight?', a:'I help mathematics homework.', pq:'Com que dever de casa você ajudou hoje?', pa:'Eu ajudo com o dever de matemática.'},
+ {q:'Do you spend family time?', a:'Yes, I spend happily.', pq:'Você passa tempo com a família?', pa:'Sim, eu passo feliz.'},
+ {q:'What creates evening happiness?', a:'Family time creates happiness.', pq:'O que cria felicidade à noite?', pa:'O tempo em família cria felicidade.'},
+ {q:'What makes evenings memorable?', a:'Family conversations create memories.', pq:'O que torna as noites memoráveis?', pa:'As conversas em família criam memórias.'},
+ {q:'What makes evenings special?', a:'Family togetherness feels special.', pq:'O que torna as noites especiais?', pa:'Estar junto da família parece especial.'},
+]},
+{id:'jantar', icon:'🍽️', label:'Jantar', title:'Refeição Noturna', items:[
+ {q:'What time eat dinner?', a:'I eat dinner early.', pq:'A que horas você janta?', pa:'Eu janto cedo.'},
+ {q:'Who prepares evening meals?', a:'My mother prepares meals.', pq:'Quem prepara as refeições da noite?', pa:'Minha mãe prepara as refeições.'},
+ {q:'What dinner eat usually?', a:'I eat homemade food.', pq:'Que jantar você come normalmente?', pa:'Eu como comida caseira.'},
+ {q:'Do you help cooking?', a:'Yes, I help sometimes.', pq:'Você ajuda a cozinhar?', pa:'Sim, eu ajudo às vezes.'},
+ {q:'What kitchen task perform?', a:'I wash cooking utensils.', pq:'Que tarefa da cozinha você faz?', pa:'Eu lavo os utensílios de cozinha.'},
+ {q:'Do you set tables?', a:'Yes, I arrange tables.', pq:'Você põe a mesa?', pa:'Sim, eu arrumo a mesa.'},
+ {q:'Do you eat slowly?', a:'Yes, I eat mindfully.', pq:'Você come devagar?', pa:'Sim, eu como com atenção.'},
+ {q:'What drink after dinner?', a:'I drink warm milk.', pq:'O que você bebe depois do jantar?', pa:'Eu bebo leite quente.'},
+ {q:'Do you wash dishes?', a:'Yes, I wash dishes.', pq:'Você lava a louça?', pa:'Sim, eu lavo a louça.'},
+ {q:'When finish household chores?', a:'I finish chores nightly.', pq:'Quando você termina as tarefas de casa?', pa:'Eu termino as tarefas toda noite.'},
+ {q:'Do you drink tea?', a:'Yes, I drink tea.', pq:'Você bebe chá?', pa:'Sim, eu bebo chá.'},
+ {q:'What flavor prefer mostly?', a:'I prefer lemon tea.', pq:'Que sabor você mais prefere?', pa:'Eu prefiro chá de limão.'},
+]},
+{id:'arlivre', icon:'🌳', label:'Ao ar livre', title:'Ao Ar Livre', items:[
+ {q:'Do you take walks?', a:'Yes, I walk nightly.', pq:'Você faz caminhadas?', pa:'Sim, eu caminho toda noite.'},
+ {q:'What route walk evenings?', a:'I walk neighborhood roads.', pq:'Que caminho você percorre à noite?', pa:'Eu caminho pelas ruas do bairro.'},
+ {q:'Do you greet neighbors?', a:'Yes, I greet warmly.', pq:'Você cumprimenta os vizinhos?', pa:'Sim, eu cumprimento com carinho.'},
+ {q:'Do you visit neighbors?', a:'Yes, I visit occasionally.', pq:'Você visita os vizinhos?', pa:'Sim, eu visito ocasionalmente.'},
+ {q:'What discussed during evenings?', a:'We discuss family matters.', pq:'Sobre o que vocês conversam à noite?', pa:'Nós conversamos sobre assuntos de família.'},
+ {q:'Do you enjoy sunsets?', a:'Yes, I enjoy sunsets.', pq:'Você gosta do pôr do sol?', pa:'Sim, eu gosto do pôr do sol.'},
+ {q:'Where watch evening sunsets?', a:'I watch rooftop sunsets.', pq:'Onde você vê o pôr do sol?', pa:'Eu vejo o pôr do sol do telhado.'},
+ {q:'Do you watch stars?', a:'Yes, I watch nightly.', pq:'Você observa as estrelas?', pa:'Sim, eu observo toda noite.'},
+ {q:'Where observe evening skies?', a:'I observe rooftop skies.', pq:'Onde você observa o céu à noite?', pa:'Eu observo o céu do telhado.'},
+ {q:'Do you enjoy moonlight?', a:'Yes, I enjoy moonlight.', pq:'Você gosta do luar?', pa:'Sim, eu gosto do luar.'},
+ {q:'What season prefer evenings?', a:'I prefer winter evenings.', pq:'Que estação você prefere à noite?', pa:'Eu prefiro noites de inverno.'},
+ {q:'Do you feel peaceful?', a:'Yes, I feel peaceful.', pq:'Você se sente em paz?', pa:'Sim, eu me sinto em paz.'},
+]},
+{id:'organizacao', icon:'📋', label:'Organização', title:'Organização', items:[
+ {q:'Do you clean room?', a:'Yes, I clean regularly.', pq:'Você limpa o quarto?', pa:'Sim, eu limpo regularmente.'},
+ {q:'When organize study table?', a:'I organize tables nightly.', pq:'Quando você organiza a mesa de estudos?', pa:'Eu organizo a mesa toda noite.'},
+ {q:'Do you read newspapers?', a:'Yes, I read daily.', pq:'Você lê jornal?', pa:'Sim, eu leio diariamente.'},
+ {q:'What news interests you?', a:'Sports news interests me.', pq:'Que notícia te interessa?', pa:'Notícias de esportes me interessam.'},
+ {q:'Do you check emails?', a:'Yes, I check regularly.', pq:'Você confere e-mails?', pa:'Sim, eu confiro regularmente.'},
+ {q:'What apps use evenings?', a:'I use educational apps.', pq:'Que aplicativos você usa à noite?', pa:'Eu uso aplicativos educacionais.'},
+ {q:'Do you arrange books?', a:'Yes, I arrange carefully.', pq:'Você organiza os livros?', pa:'Sim, eu organizo com cuidado.'},
+ {q:'What shelf use tonight?', a:'I use wooden shelves.', pq:'Que prateleira você usa hoje?', pa:'Eu uso prateleiras de madeira.'},
+ {q:'Do you read books?', a:'Yes, I read novels.', pq:'Você lê livros?', pa:'Sim, eu leio romances.'},
+ {q:'What book read tonight?', a:'I read mystery stories.', pq:'Que livro você lê hoje?', pa:'Eu leio histórias de mistério.'},
+]},
+{id:'reflexao', icon:'📓', label:'Reflexão', title:'Reflexão', items:[
+ {q:'Do you write journals?', a:'Yes, I write regularly.', pq:'Você escreve um diário?', pa:'Sim, eu escrevo regularmente.'},
+ {q:'What write every evening?', a:'I write daily reflections.', pq:'O que você escreve toda noite?', pa:'Eu escrevo reflexões diárias.'},
+ {q:'Do you review goals?', a:'Yes, I review regularly.', pq:'Você revisa suas metas?', pa:'Sim, eu revejo regularmente.'},
+ {q:'What goals matter most?', a:'Education goals matter greatly.', pq:'Que metas são mais importantes?', pa:'Metas de educação importam muito.'},
+ {q:'Do you stay focused?', a:'Yes, I remain focused.', pq:'Você fica focado?', pa:'Sim, eu permaneço focado.'},
+ {q:'What motivates evening efforts?', a:'Future dreams motivate me.', pq:'O que motiva seus esforços à noite?', pa:'Os sonhos futuros me motivam.'},
+ {q:'Do you avoid distractions?', a:'Yes, I avoid distractions.', pq:'Você evita distrações?', pa:'Sim, eu evito distrações.'},
+ {q:'What distracts you sometimes?', a:'Mobile games distract me.', pq:'O que te distrai às vezes?', pa:'Jogos de celular me distraem.'},
+ {q:'Do you limit screen time?', a:'Yes, I limit carefully.', pq:'Você limita o tempo de tela?', pa:'Sim, eu limito com cuidado.'},
+ {q:'What improves evening productivity?', a:'Good planning improves productivity.', pq:'O que melhora a produtividade à noite?', pa:'Um bom planejamento melhora a produtividade.'},
+ {q:'Do you feel grateful?', a:'Yes, I feel grateful.', pq:'Você se sente grato?', pa:'Sim, eu me sinto grato.'},
+ {q:'What brings evening joy?', a:'Family moments bring joy.', pq:'O que traz alegria à noite?', pa:'Momentos em família trazem alegria.'},
+ {q:'Do you pray evenings?', a:'Yes, I pray regularly.', pq:'Você reza à noite?', pa:'Sim, eu rezo regularmente.'},
+ {q:'Do you thank God?', a:'Yes, I thank sincerely.', pq:'Você agradece a Deus?', pa:'Sim, eu agradeço sinceramente.'},
+ {q:'What blessings appreciate daily?', a:'I appreciate family blessings.', pq:'Que bênçãos você aprecia todos os dias?', pa:'Eu aprecio as bênçãos da família.'},
+ {q:'Do you meditate nightly?', a:'Yes, I meditate peacefully.', pq:'Você medita à noite?', pa:'Sim, eu medito com calma.'},
+ {q:'What thoughts guide evenings?', a:'Positive thoughts guide me.', pq:'Que pensamentos guiam suas noites?', pa:'Pensamentos positivos me guiam.'},
+ {q:'Do you avoid arguments?', a:'Yes, I avoid arguments.', pq:'Você evita discussões?', pa:'Sim, eu evito discussões.'},
+ {q:'What creates peaceful evenings?', a:'Mutual respect creates peace.', pq:'O que cria noites tranquilas?', pa:'O respeito mútuo cria paz.'},
+]},
+{id:'amanha', icon:'👕', label:'Amanhã', title:'Preparação para Amanhã', items:[
+ {q:'Do you plan tomorrow?', a:'Yes, I plan carefully.', pq:'Você planeja o amanhã?', pa:'Sim, eu planejo com cuidado.'},
+ {q:"What tasks plan tonight?", a:"I plan tomorrow's activities.", pq:'Que tarefas você planeja hoje à noite?', pa:'Eu planejo as atividades de amanhã.'},
+ {q:'Do you prepare clothes?', a:'Yes, I prepare nightly.', pq:'Você prepara as roupas?', pa:'Sim, eu preparo toda noite.'},
+ {q:'What outfit choose tomorrow?', a:'I choose casual clothes.', pq:'Que roupa você escolhe para amanhã?', pa:'Eu escolho roupas casuais.'},
+ {q:'Do you polish shoes?', a:'Yes, I polish regularly.', pq:'Você engraxa os sapatos?', pa:'Sim, eu engraxo regularmente.'},
+ {q:'When pack school bag?', a:'I pack bags early.', pq:'Quando você arruma a mochila?', pa:'Eu arrumo a mochila cedo.'},
+ {q:'Do you check schedules?', a:'Yes, I check daily.', pq:'Você confere os horários?', pa:'Sim, eu confiro diariamente.'},
+ {q:'What plans follow tomorrow?', a:'I follow plan routines.', pq:'Que planos você segue amanhã?', pa:'Eu sigo rotinas planejadas.'},
+ {q:'Do you charge phone?', a:'Yes, I charge nightly.', pq:'Você carrega o celular?', pa:'Sim, eu carrego toda noite.'},
+ {q:'When silence your phone?', a:'I silence phones nightly.', pq:'Quando você deixa o celular no silencioso?', pa:'Eu deixo no silencioso toda noite.'},
+ {q:'Do you lock doors?', a:'Yes, I lock securely.', pq:'Você tranca as portas?', pa:'Sim, eu tranco com segurança.'},
+ {q:'When finish evening routine?', a:'I finish around 10:00.', pq:'Quando termina sua rotina noturna?', pa:'Eu termino por volta das 22h.'},
+ {q:'Do you set alarms?', a:'Yes, I set alarms.', pq:'Você programa o despertador?', pa:'Sim, eu programo o despertador.'},
+ {q:'What alarm time tomorrow?', a:'6:00 alarms ring.', pq:'A que horas o despertador toca amanhã?', pa:'O despertador toca às 6h.'},
+]},
+{id:'dormir', icon:'😴', label:'Dormir', title:'Dormir', items:[
+ {q:'Do you brush teeth?', a:'Yes, I brush thoroughly.', pq:'Você escova os dentes?', pa:'Sim, eu escovo bem.'},
+ {q:'What toothpaste use nightly?', a:'I use mint toothpaste.', pq:'Que pasta de dente você usa à noite?', pa:'Eu uso pasta de menta.'},
+ {q:'Do you wash face?', a:'Yes, I wash carefully.', pq:'Você lava o rosto?', pa:'Sim, eu lavo com cuidado.'},
+ {q:'What skincare follow nightly?', a:'I follow simple routines.', pq:'Que cuidado com a pele você segue à noite?', pa:'Eu sigo rotinas simples.'},
+ {q:'Do you wear pajamas?', a:'Yes, I wear pajamas.', pq:'Você usa pijama?', pa:'Sim, eu uso pijama.'},
+ {q:'What color pajamas prefer?', a:'I prefer blue pajamas.', pq:'Que cor de pijama você prefere?', pa:'Eu prefiro pijama azul.'},
+ {q:'Do you read bedtime?', a:'Yes, I read nightly.', pq:'Você lê antes de dormir?', pa:'Sim, eu leio toda noite.'},
+ {q:'What story read tonight?', a:'I read adventure stories.', pq:'Que história você lê hoje?', pa:'Eu leio histórias de aventura.'},
+ {q:'Do you sleep early?', a:'Yes, I sleep early.', pq:'Você dorme cedo?', pa:'Sim, eu durmo cedo.'},
+ {q:'What time sleep nightly?', a:'I sleep before 11.', pq:'A que horas você dorme?', pa:'Eu durmo antes das 23h.'},
+ {q:'Do you sleep peacefully?', a:'Yes, I sleep peacefully.', pq:'Você dorme tranquilo?', pa:'Sim, eu durmo tranquilo.'},
+ {q:'Why enjoy evening routines?', a:'They bring inner peace.', pq:'Por que você gosta da rotina noturna?', pa:'Ela traz paz interior.'},
+ {q:'Do you enjoy routines?', a:'Yes, routines help greatly.', pq:'Você gosta de rotinas?', pa:'Sim, as rotinas ajudam muito.'},
+ {q:'What routine matters most?', a:'Healthy routines matter greatly.', pq:'Que rotina importa mais?', pa:'Rotinas saudáveis importam muito.'},
+ {q:'Do you stay organized?', a:'Yes, I stay organized.', pq:'Você se mantém organizado?', pa:'Sim, eu me mantenho organizado.'},
+ {q:'What improves daily habits?', a:'Consistency improves daily habits.', pq:'O que melhora os hábitos diários?', pa:'A consistência melhora os hábitos diários.'},
+ {q:'Do you love evenings?', a:'Yes, I love evenings.', pq:'Você ama as noites?', pa:'Sim, eu amo as noites.'},
+ {q:'Do you feel peaceful?', a:'Yes, I feel peaceful.', pq:'Você se sente em paz?', pa:'Sim, eu me sinto em paz.'},
+ {q:'Do you spend quietly?', a:'Yes, I relax peacefully.', pq:'Você passa a noite tranquilamente?', pa:'Sim, eu relaxo com calma.'},
+ {q:'Do you water plants?', a:'Yes, I water plants.', pq:'Você rega as plantas?', pa:'Sim, eu rego as plantas.'},
+ {q:'When water garden plants?', a:'I water plants nightly.', pq:'Quando você rega as plantas do jardim?', pa:'Eu rego as plantas toda noite.'},
+ {q:'Do you feed pets?', a:'Yes, I feed cats.', pq:'Você alimenta os animais de estimação?', pa:'Sim, eu alimento os gatos.'},
+ {q:'What do pets eat?', a:'They eat healthy food.', pq:'O que os animais comem?', pa:'Eles comem comida saudável.'},
+ {q:'Do you call friends?', a:'Yes, I call sometimes.', pq:'Você liga para amigos?', pa:'Sim, eu ligo às vezes.'},
+ {q:'What discuss with friends?', a:'We discuss daily events.', pq:'Sobre o que vocês conversam?', pa:'Nós conversamos sobre eventos do dia.'},
+ {q:'Do you do finish assignments?', a:'Yes, I finish assignments.', pq:'Você termina as tarefas?', pa:'Sim, eu termino as tarefas.'},
+ {q:'What snack eat evenings?', a:'I eat light snacks.', pq:'Que lanche você come à noite?', pa:'Eu como lanches leves.'},
+ {q:'Do you smile often?', a:'Yes, I smile frequently.', pq:'Você sorri com frequência?', pa:'Sim, eu sorrio frequentemente.'},
+ {q:'Do you enjoy silence?', a:'Yes, silence comforts me.', pq:'Você gosta do silêncio?', pa:'Sim, o silêncio me acalma.'},
+ {q:'Do you write goals?', a:'Yes, I write goals.', pq:'Você escreve suas metas?', pa:'Sim, eu escrevo minhas metas.'},
+ {q:'What dream pursue diligently?', a:'I pursue educational dreams.', pq:'Que sonho você persegue com dedicação?', pa:'Eu persigo sonhos de educação.'},
+ {q:'Do you remember blessings?', a:'Yes, I remember gratefully.', pq:'Você se lembra das bênçãos?', pa:'Sim, eu me lembro com gratidão.'},
+ {q:'What memory cherish deeply?', a:'Family memories inspire me.', pq:'Que memória você guarda com carinho?', pa:'Memórias em família me inspiram.'},
+]},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let themeIdx = 0;
+let mode = 'aprender';
+let learnIdx = {}; THEMES.forEach((t,i) => learnIdx[i] = 0);
+let ptShown = false;
+let pracIdx = {}; THEMES.forEach((t,i) => pracIdx[i] = 0);
+let pracRevealed = false;
+let quizPool = [];
+THEMES.forEach(t => t.items.forEach(it => quizPool.push({q:it.q, a:it.a, theme:t.label})));
+const QUIZ_LEN = 15;
+let quizQuestions = [], quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function currentTheme(){ return THEMES[themeIdx]; }
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function saveThemeProgress(){
+  try {
+    let temasEstudados = [];
+    try { temasEstudados = JSON.parse(localStorage.getItem('s12_progresso')).temasEstudados || []; } catch(e) { temasEstudados = []; }
+    const id = currentTheme().id;
+    if (temasEstudados.indexOf(id) === -1) temasEstudados.push(id);
+    localStorage.setItem('s12_progresso', JSON.stringify({temasEstudados}));
+  } catch(e) {}
+}
+
+// ── THEME STRIP ───────────────────────────────────────────────────────────────
+function renderThemeStrip(){
+  const strip = document.getElementById('themeStrip');
+  strip.className = 'theme-strip' + (mode==='quiz' ? ' quiz-active' : '');
+  strip.innerHTML = THEMES.map((t,i) => `
+    <div class="theme-tab ${i===themeIdx && mode!=='quiz' ?'on':''}" onclick="selectTheme(${i})">
+      <span class="theme-tab-icon">${t.icon}</span>
+      <div class="theme-tab-label">${t.label}</div>
+    </div>`).join('');
+}
+function selectTheme(i){
+  if (mode === 'quiz') return;
+  themeIdx = i;
+  ptShown = false;
+  pracRevealed = false;
+  renderThemeStrip();
+  renderAll();
+  saveThemeProgress();
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m){
+  mode = m;
+  ptShown = false;
+  pracRevealed = false;
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  const panelMap = {aprender:'panelAprender', praticar:'panelPraticar', quiz:'panelQuiz'};
+  Object.values(panelMap).forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(panelMap[m]).classList.remove('hidden');
+  renderThemeStrip();
+  if (m === 'quiz' && quizQuestions.length === 0) startQuiz();
+  renderAll();
+}
+function renderAll(){
+  if (mode === 'aprender') renderAprender();
+  else if (mode === 'praticar') renderPraticar();
+  else if (mode === 'quiz') renderQuiz();
+}
+
+// ── MODO APRENDER ──────────────────────────────────────────────────────────────
+function renderAprender(){
+  const t = currentTheme();
+  const idx = learnIdx[themeIdx];
+  const item = t.items[idx];
+  document.getElementById('panelAprender').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">${t.icon} ${t.title}</span>
+        <span class="p-count">Pergunta ${idx+1} de ${t.items.length}</span>
+      </div>
+      <div class="p-body">
+        <div class="q-label">Pergunta</div>
+        <div class="q-big">${item.q}</div>
+        <div class="a-label">Resposta</div>
+        <div class="a-big">${item.a}</div>
+        <div class="pt-box ${ptShown?'show':''}" id="ptBox"><b>P:</b> ${item.pq}<br><b>R:</b> ${item.pa}</div>
+        <div class="p-actions">
+          <button class="act-btn" onclick="toggleTranslation()">${ptShown?'Ocultar tradução':'Ver tradução'}</button>
+          <button class="act-btn primary" onclick="nextLearn()">Próxima →</button>
+        </div>
+      </div>
+    </div>`;
+}
+function toggleTranslation(){
+  ptShown = !ptShown;
+  renderAprender();
+}
+function nextLearn(){
+  const t = currentTheme();
+  learnIdx[themeIdx] = (learnIdx[themeIdx] + 1) % t.items.length;
+  ptShown = false;
+  renderAprender();
+}
+
+// ── MODO PRATICAR ──────────────────────────────────────────────────────────────
+function renderPraticar(){
+  const t = currentTheme();
+  const idx = pracIdx[themeIdx];
+  const item = t.items[idx];
+  document.getElementById('panelPraticar').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">${t.icon} ${t.title}</span>
+        <span class="p-count">Pergunta ${idx+1} de ${t.items.length}</span>
+      </div>
+      <div class="p-body">
+        <div class="q-label">Pergunta</div>
+        <div class="q-big">${item.q}</div>
+        <input type="text" class="prac-input" id="pracInput" placeholder="Digite sua resposta em inglês..." autocomplete="off">
+        <div class="model-answer ${pracRevealed?'show':''}" id="modelAnswer">
+          <div class="model-answer-label">Resposta modelo</div>
+          <div class="model-answer-text">${item.a}</div>
+          <div class="model-answer-pt">${item.pa}</div>
+        </div>
+        <div class="p-actions">
+          <button class="act-btn" onclick="revealAnswer()">Ver resposta</button>
+          <button class="act-btn primary" onclick="nextPratice()">Próxima →</button>
+        </div>
+      </div>
+    </div>`;
+}
+function revealAnswer(){
+  pracRevealed = true;
+  renderPraticar();
+  const input = document.getElementById('pracInput');
+  if (input) input.focus();
+}
+function nextPratice(){
+  const t = currentTheme();
+  pracIdx[themeIdx] = (pracIdx[themeIdx] + 1) % t.items.length;
+  pracRevealed = false;
+  renderPraticar();
+}
+
+// ── MODO QUIZ ALEATÓRIO ─────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function startQuiz(){
+  quizQuestions = shuffle(quizPool).slice(0, QUIZ_LEN).map(item => {
+    const distractorPool = quizPool.filter(p => p.a !== item.a);
+    const distractors = shuffle(distractorPool).slice(0, 3).map(d => d.a);
+    const options = shuffle([item.a, ...distractors]);
+    return {q: item.q, a: item.a, theme: item.theme, options};
+  });
+  quizIdx = 0;
+  quizScore = 0;
+  quizAnswered = false;
+}
+function renderQuiz(){
+  if (quizQuestions.length === 0) { startQuiz(); }
+  if (quizIdx >= quizQuestions.length) { renderQuizResult(); return; }
+  quizAnswered = false;
+  const q = quizQuestions[quizIdx];
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-top">
+          <span class="quiz-score">Pontuação: ${quizScore}/${quizQuestions.length}</span>
+          <span class="p-count">🌙 Quiz Aleatório</span>
+        </div>
+        <div class="quiz-qn">Questão ${quizIdx+1} de ${quizQuestions.length}</div>
+        <div class="quiz-prompt-box">${q.q}</div>
+        <div class="quiz-options" id="quizOptions">${q.options.map(o => `<button class="quiz-opt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+        <div class="quiz-next-row"><button class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+      </div>
+    </div>`;
+}
+function quizAnswer(btn, v){
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIdx];
+  const correct = (v === q.a);
+  if (correct) quizScore++;
+  document.querySelectorAll('#quizOptions .quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.a) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  document.querySelector('.quiz-score').textContent = `Pontuação: ${quizScore}/${quizQuestions.length}`;
+  document.getElementById('quizNextBtn').disabled = false;
+}
+function quizNext(){ quizIdx++; renderQuiz(); }
+function renderQuizResult(){
+  const pct = Math.round((quizScore/quizQuestions.length)*100);
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-result">
+          <div class="quiz-result-score">${quizScore}/${quizQuestions.length}</div>
+          <div class="quiz-result-label">${pct}% de acerto ${pct>=80?'— Excelente! 🎉':pct>=50?'— Bom trabalho, continue praticando.':'— Revise os temas e tente de novo.'}</div>
+          <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Novo Quiz</button>
+        </div>
+      </div>
+    </div>`;
+}
+function restartQuiz(){ startQuiz(); renderQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  const temaParam = params.get('tema');
+  if (temaParam) {
+    const found = THEMES.findIndex(t => t.id === temaParam);
+    if (found !== -1) themeIdx = found;
+  }
+  renderThemeStrip();
+  if (modoParam && ['aprender','praticar','quiz'].includes(modoParam)) setMode(modoParam);
+  else renderAll();
+  if (mode !== 'quiz') saveThemeProgress();
+})();
+</script>
+</body>
+</html>

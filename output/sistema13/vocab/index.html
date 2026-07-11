@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulário A1 · Sistema 13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s8{color:var(--s8);border-color:rgba(249,115,22,.4);background:rgba(249,115,22,.1);}
+.gnav-s8:hover{background:rgba(249,115,22,.18);}
+.gnav-s9{color:var(--s9);border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.1);}
+.gnav-s9:hover{background:rgba(6,182,212,.18);}
+.gnav-s10{color:var(--s10);border-color:rgba(132,204,22,.4);background:rgba(132,204,22,.1);}
+.gnav-s10:hover{background:rgba(132,204,22,.18);}
+.gnav-s11{color:var(--s11);border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.1);}
+.gnav-s11:hover{background:rgba(251,146,60,.18);}
+.gnav-s12{color:var(--s12);border-color:rgba(129,140,248,.4);background:rgba(129,140,248,.1);}
+.gnav-s12:hover{background:rgba(129,140,248,.18);}
+.gnav-s13{color:var(--s13);border-color:rgba(45,212,191,.4);background:rgba(45,212,191,.1);}
+.gnav-s13:hover{background:rgba(45,212,191,.18);}
+.gnav-s13.active{border-color:var(--s13);background:rgba(45,212,191,.16);box-shadow:0 0 10px rgba(45,212,191,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s13);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:1.6rem 1.25rem 1rem;text-align:center;max-width:760px;margin:96px auto 0;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s13);background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.25);padding:.32rem .95rem;border-radius:2rem;margin-bottom:.9rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.35rem,3.4vw,1.85rem);font-weight:800;line-height:1.25;margin-bottom:.4rem;}
+.hero-sub{font-size:.85rem;color:var(--tm);line-height:1.55;max-width:540px;margin:0 auto;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:96px;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;margin-top:.5rem;}
+.topbar-inner{max-width:980px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;justify-content:center;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;padding:.42rem .85rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s13);color:#080c14;}
+
+/* CATEGORY STRIP */
+.cat-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;max-width:980px;margin:0 auto;}
+.cat-tab{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.55rem .4rem;cursor:pointer;transition:all .18s;text-align:center;}
+.cat-tab:hover{border-color:var(--bdh);}
+.cat-tab.on{border-color:var(--s13);background:rgba(45,212,191,.12);box-shadow:0 0 12px rgba(45,212,191,.2);}
+.cat-tab-icon{font-size:.95rem;}
+.cat-tab-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;color:var(--tm);line-height:1.25;margin-top:.15rem;}
+.cat-tab.on .cat-tab-label{color:var(--s13);}
+.cat-strip.disabled .cat-tab{opacity:.4;pointer-events:none;}
+
+.wrap{max-width:900px;margin:0 auto;padding:1.4rem 1.1rem 5rem;}
+.hidden{display:none!important;}
+
+/* MAIN CARD */
+.p-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.p-head{padding:1.1rem 1.4rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);gap:.5rem;flex-wrap:wrap;}
+.p-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s13);}
+.p-count{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--td);}
+.p-body{padding:1.6rem 1.5rem;}
+
+/* FLASHCARD MODE */
+.fc-wrap{max-width:520px;margin:0 auto;}
+.fc-card{background:var(--bg);border:1px solid var(--bd);border-radius:1rem;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.fc-card:hover{border-color:var(--bdh);}
+.fc-word{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:800;color:var(--s13);line-height:1.2;}
+.fc-hint{font-size:.72rem;color:var(--td);margin-top:1rem;}
+.fc-sentence{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:var(--tx);line-height:1.5;margin-bottom:.8rem;}
+.fc-sentence .hl{color:var(--s13);}
+.fc-pt{font-size:.95rem;color:var(--tm);}
+.fc-nav{display:flex;gap:.6rem;margin-top:1.2rem;}
+.fc-nav-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;}
+.fc-nav-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.fc-nav-btn.primary{background:var(--s13);color:#080c14;border:none;}
+.fc-nav-btn.primary:hover{filter:brightness(1.1);}
+
+/* LISTA MODE */
+.lst-controls{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;}
+.lst-select,.lst-search{background:var(--bg);border:1px solid var(--bd);border-radius:.55rem;padding:.6rem .8rem;font-size:.85rem;color:var(--tx);font-family:'Inter',sans-serif;}
+.lst-select{flex:0 0 auto;}
+.lst-search{flex:1;min-width:160px;}
+.lst-select:focus,.lst-search:focus{outline:none;border-color:var(--s13);}
+.tbl-wrap{overflow-x:auto;border-radius:.7rem;border:1px solid var(--bd);}
+table.dtbl{width:100%;border-collapse:collapse;font-size:.85rem;min-width:520px;}
+table.dtbl th{text-align:left;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);background:var(--bg);padding:.6rem .8rem;border-bottom:1px solid var(--bd);position:sticky;top:0;}
+table.dtbl td{padding:.6rem .8rem;border-bottom:1px solid var(--bd);vertical-align:top;}
+table.dtbl tr:last-child td{border-bottom:none;}
+table.dtbl td.w{color:var(--s13);font-weight:700;font-family:'Space Grotesk',sans-serif;white-space:nowrap;}
+table.dtbl td.s{color:var(--tx);}
+table.dtbl td.t{color:var(--tm);}
+.lst-empty{padding:1.5rem;text-align:center;color:var(--td);font-size:.85rem;}
+.lst-count{font-size:.72rem;color:var(--td);margin-bottom:.6rem;}
+
+/* PRATICAR / QUIZ MODE (shared) */
+.q-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s13);text-align:center;margin-bottom:.3rem;}
+.q-sub{text-align:center;font-size:.72rem;color:var(--td);margin-bottom:1.2rem;}
+.q-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.3rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;text-align:center;line-height:1.5;color:var(--tx);}
+.q-prompt-box .bk{color:var(--s13);}
+.q-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem;}
+.q-opt{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.85rem 1rem;font-size:.9rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.q-opt:hover{border-color:var(--bdh);}
+.q-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.q-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.q-opt:disabled{cursor:default;}
+.q-feedback{text-align:center;font-size:.85rem;color:var(--tm);background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem .9rem;margin-bottom:1rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.q-feedback.show{opacity:1;max-height:200px;padding:.75rem .9rem;}
+.q-feedback b{color:var(--s13);}
+.q-next-row{text-align:center;}
+.q-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s13);color:#080c14;cursor:pointer;}
+.q-next-btn:hover{filter:brightness(1.1);}
+.q-next-btn:disabled{opacity:.4;cursor:default;}
+
+/* QUIZ RESULT */
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s13);}
+.quiz-qn{text-align:center;font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;}
+.quiz-result{text-align:center;padding:1.5rem .5rem;}
+.quiz-result-score{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--s13);margin-bottom:.5rem;}
+.quiz-result-label{font-size:.85rem;color:var(--tm);margin-bottom:1.5rem;}
+.quiz-restart-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.quiz-restart-btn:hover{border-color:var(--bdh);}
+
+/* MOBILE FLOATING BUTTONS */
+.fab{display:none;position:fixed;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--sf);border:1px solid var(--bdh);color:var(--tx);align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.4);cursor:pointer;}
+.fab-back{left:1rem;bottom:1rem;}
+.fab-top{right:1rem;bottom:1rem;background:var(--s13);color:#080c14;border:none;}
+
+@media(max-width:640px){
+  .fab{display:flex;}
+  .hero{margin-top:96px;}
+  .cat-strip{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../../sistema7/index.html" class="gnav-btn gnav-s7">🔗 S7</a>
+  <a href="../../sistema8/index.html" class="gnav-btn gnav-s8">🧱 S8</a>
+  <a href="../../sistema9/index.html" class="gnav-btn gnav-s9">⏱️ S9</a>
+  <a href="../../sistema10/index.html" class="gnav-btn gnav-s10">📊 S10</a>
+  <a href="../../sistema11/index.html" class="gnav-btn gnav-s11">🧭 S11</a>
+  <a href="../../sistema12/index.html" class="gnav-btn gnav-s12">🌙 S12</a>
+  <a href="../index.html" class="gnav-btn gnav-s13 active">📝 S13</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 13 — Vocabulário A1</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📝 Vocab</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">📝 Vocabulário A1</div>
+  <h1 class="hero-title">200+ palavras essenciais em frases simples</h1>
+  <p class="hero-sub">Aprenda cada palavra dentro de uma frase real — não apenas listas!</p>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row" id="modeGroup">
+      <div class="ctrl-group">
+        <button class="ctrl-btn on" data-mode="flashcard" onclick="setMode('flashcard')">🗂️ Flashcard</button>
+        <button class="ctrl-btn" data-mode="lista" onclick="setMode('lista')">📋 Lista</button>
+        <button class="ctrl-btn" data-mode="praticar" onclick="setMode('praticar')">✍️ Praticar</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">🎯 Quiz</button>
+      </div>
+    </div>
+    <div class="cat-strip" id="catStrip"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="panel" id="panelFlashcard"></div>
+  <div class="panel hidden" id="panelLista"></div>
+  <div class="panel hidden" id="panelPraticar"></div>
+  <div class="panel hidden" id="panelQuiz"></div>
+</div>
+
+<!-- MOBILE FLOATING BUTTONS -->
+<a href="../../index.html" class="fab fab-back" aria-label="Menu Principal">←</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Topo">↑</button>
+
+<script>
+// ── DATA: 6 CATEGORIAS · 204 PALAVRAS ─────────────────────────────────────────
+const CATEGORIES = [
+{id:'comida', icon:'🍎', label:'Comida & Bebida', title:'Comida & Bebida', words:[
+ {w:'food', pt:'comida', s:'I eat food.'},
+ {w:'water', pt:'água', s:'I drink water.'},
+ {w:'bread', pt:'pão', s:'I eat bread.'},
+ {w:'rice', pt:'arroz', s:'We eat rice.'},
+ {w:'egg', pt:'ovo', s:'I eat an egg.'},
+ {w:'apple', pt:'maçã', s:'I eat an apple.'},
+ {w:'banana', pt:'banana', s:'I eat a banana.'},
+ {w:'orange', pt:'laranja', s:'I eat an orange.'},
+ {w:'mango', pt:'manga', s:'I like mango.'},
+ {w:'fruit', pt:'fruta', s:'I eat fruit.'},
+ {w:'meat', pt:'carne', s:'I eat meat.'},
+ {w:'fish', pt:'peixe', s:'I eat fish.'},
+ {w:'soup', pt:'sopa', s:'I eat soup.'},
+ {w:'sugar', pt:'açúcar', s:'I like sugar.'},
+ {w:'salt', pt:'sal', s:'I add salt.'},
+ {w:'oil', pt:'óleo', s:'I use oil.'},
+ {w:'juice', pt:'suco', s:'I drink juice.'},
+ {w:'milk', pt:'leite', s:'I drink milk.'},
+ {w:'tea', pt:'chá', s:'I drink tea.'},
+ {w:'coffee', pt:'café', s:'I drink coffee.'},
+ {w:'breakfast', pt:'café da manhã', s:'I eat breakfast.'},
+ {w:'lunch', pt:'almoço', s:'I eat lunch.'},
+ {w:'dinner', pt:'jantar', s:'I eat dinner.'},
+ {w:'plate', pt:'prato', s:'The plate is full.'},
+ {w:'cup', pt:'xícara', s:'I drink from a cup.'},
+ {w:'spoon', pt:'colher', s:'I use a spoon.'},
+ {w:'fork', pt:'garfo', s:'I eat with a fork.'},
+ {w:'knife', pt:'faca', s:'I cut with a knife.'},
+ {w:'market', pt:'mercado', s:'I go to the market.'},
+ {w:'price', pt:'preço', s:'The price is low.'},
+ {w:'cheap', pt:'barato', s:'It is cheap.'},
+ {w:'expensive', pt:'caro', s:'It is expensive.'},
+ {w:'shop', pt:'loja', s:'I go to a shop.'},
+ {w:'buy', pt:'comprar', s:'I buy food.'},
+ {w:'sell', pt:'vender', s:'They sell fruit.'},
+ {w:'hungry', pt:'com fome', s:'I am hungry.'},
+ {w:'thirsty', pt:'com sede', s:'I am thirsty.'},
+ {w:'full', pt:'cheio', s:'The bag is full.'},
+]},
+{id:'objetos', icon:'🏠', label:'Objetos & Casa', title:'Objetos & Casa', words:[
+ {w:'chair', pt:'cadeira', s:'I have a chair.'},
+ {w:'table', pt:'mesa', s:'This is a table.'},
+ {w:'book', pt:'livro', s:'I read a book.'},
+ {w:'pen', pt:'caneta', s:'I use a pen.'},
+ {w:'bag', pt:'bolsa', s:'She has a bag.'},
+ {w:'phone', pt:'telefone', s:'I have a phone.'},
+ {w:'house', pt:'casa', s:'This is my house.'},
+ {w:'car', pt:'carro', s:'He has a car.'},
+ {w:'door', pt:'porta', s:'The door is open.'},
+ {w:'window', pt:'janela', s:'I open the window.'},
+ {w:'bed', pt:'cama', s:'I sleep on a bed.'},
+ {w:'room', pt:'quarto', s:'My room is small.'},
+ {w:'key', pt:'chave', s:'I have a key.'},
+ {w:'lock', pt:'fechadura', s:'The door has a lock.'},
+ {w:'light', pt:'luz', s:'Turn on the light.'},
+ {w:'fan', pt:'ventilador', s:'The fan is on.'},
+ {w:'mirror', pt:'espelho', s:'I look in the mirror.'},
+ {w:'towel', pt:'toalha', s:'I use a towel.'},
+ {w:'soap', pt:'sabonete', s:'I use soap.'},
+ {w:'brush', pt:'escova', s:'I brush my hair.'},
+ {w:'toothbrush', pt:'escova de dente', s:'I use a toothbrush.'},
+ {w:'box', pt:'caixa', s:'The box is big.'},
+ {w:'paper', pt:'papel', s:'I write on paper.'},
+ {w:'notebook', pt:'caderno', s:'I have a notebook.'},
+ {w:'desk', pt:'escrivaninha', s:'I sit at a desk.'},
+ {w:'clock', pt:'relógio de parede', s:'The clock is big.'},
+ {w:'watch', pt:'relógio de pulso', s:'I have a watch.'},
+ {w:'camera', pt:'câmera', s:'I have a camera.'},
+ {w:'screen', pt:'tela', s:'The screen is bright.'},
+ {w:'computer', pt:'computador', s:'I use a computer.'},
+ {w:'laptop', pt:'notebook (computador)', s:'I have a laptop.'},
+ {w:'mouse', pt:'mouse', s:'I use a mouse.'},
+ {w:'keyboard', pt:'teclado', s:'I type on a keyboard.'},
+ {w:'map', pt:'mapa', s:'I look at a map.'},
+ {w:'ticket', pt:'bilhete / ingresso', s:'I buy a ticket.'},
+ {w:'doorbell', pt:'campainha', s:'I hear the doorbell.'},
+ {w:'gate', pt:'portão', s:'The gate is open.'},
+ {w:'fence', pt:'cerca', s:'The fence is high.'},
+ {w:'roof', pt:'telhado', s:'The roof is strong.'},
+ {w:'wall', pt:'parede', s:'The wall is white.'},
+ {w:'floor', pt:'chão', s:'The floor is clean.'},
+ {w:'ceiling', pt:'teto', s:'The ceiling is high.'},
+ {w:'picture', pt:'foto / imagem', s:'I see a picture.'},
+ {w:'empty', pt:'vazio', s:'The box is empty.'},
+ {w:'good', pt:'bom', s:'The food is good.'},
+ {w:'sharp', pt:'afiado', s:'The knife is sharp.'},
+ {w:'big', pt:'grande', s:'The box is big.'},
+ {w:'clean', pt:'limpo', s:'The plate is clean.'},
+]},
+{id:'pessoas', icon:'👨‍👩‍👧', label:'Pessoas & Família', title:'Pessoas & Família', words:[
+ {w:'man', pt:'homem', s:'He is a man.'},
+ {w:'woman', pt:'mulher', s:'She is a woman.'},
+ {w:'child', pt:'criança', s:'The child is happy.'},
+ {w:'baby', pt:'bebê', s:'The baby is small.'},
+ {w:'people', pt:'pessoas', s:'Many people are here.'},
+ {w:'teacher', pt:'professor(a)', s:'My teacher is nice.'},
+ {w:'student', pt:'aluno(a)', s:'I am a student.'},
+ {w:'friend', pt:'amigo(a)', s:'He is my friend.'},
+ {w:'family', pt:'família', s:'I love my family.'},
+ {w:'seller', pt:'vendedor(a)', s:'The seller is kind.'},
+ {w:'buyer', pt:'comprador(a)', s:'The buyer pays.'},
+ {w:'person', pt:'pessoa', s:'I see a person.'},
+ {w:'name', pt:'nome', s:'My name is Ally.'},
+ {w:'age', pt:'idade', s:'My age is 20.'},
+ {w:'country', pt:'país', s:'I live in a country.'},
+ {w:'language', pt:'idioma', s:'I learn a language.'},
+ {w:'word', pt:'palavra', s:'This is a word.'},
+ {w:'job', pt:'emprego', s:'He has a job.'},
+ {w:'work', pt:'trabalho', s:'I go to work.'},
+ {w:'office', pt:'escritório', s:'I work in an office.'},
+ {w:'class', pt:'aula / turma', s:'I have a class.'},
+ {w:'lesson', pt:'lição', s:'This lesson is easy.'},
+ {w:'chairman', pt:'presidente (de empresa/comitê)', s:'He is a chairman.'},
+ {w:'father', pt:'pai', s:'He is my father.'},
+]},
+{id:'adjetivos', icon:'📊', label:'Adjetivos', title:'Adjetivos & Palavras Básicas', words:[
+ {w:'big', pt:'grande', s:'It is big.'},
+ {w:'small', pt:'pequeno', s:'It is small.'},
+ {w:'hot', pt:'quente', s:'It is hot.'},
+ {w:'cold', pt:'frio', s:'It is cold.'},
+ {w:'good', pt:'bom', s:'This is good.'},
+ {w:'bad', pt:'ruim', s:'This is bad.'},
+ {w:'new', pt:'novo', s:'It is new.'},
+ {w:'old', pt:'velho / antigo', s:'It is old.'},
+ {w:'fast', pt:'rápido', s:'He runs fast.'},
+ {w:'slow', pt:'lento', s:'The car is slow.'},
+ {w:'easy', pt:'fácil', s:'This is easy.'},
+ {w:'hard', pt:'difícil', s:'This is hard.'},
+ {w:'near', pt:'perto', s:'The shop is near.'},
+ {w:'far', pt:'longe', s:'The school is far.'},
+ {w:'inside', pt:'dentro', s:'I am inside.'},
+ {w:'outside', pt:'fora', s:'They are outside.'},
+ {w:'up', pt:'para cima', s:'Look up.'},
+ {w:'down', pt:'para baixo', s:'Sit down.'},
+ {w:'before', pt:'antes', s:'I eat before school.'},
+ {w:'after', pt:'depois', s:'I sleep after work.'},
+ {w:'always', pt:'sempre', s:'I always smile.'},
+ {w:'sometimes', pt:'às vezes', s:'I sometimes run.'},
+ {w:'never', pt:'nunca', s:'I never smoke.'},
+ {w:'today', pt:'hoje', s:'Today is good.'},
+ {w:'tomorrow', pt:'amanhã', s:'I go tomorrow.'},
+ {w:'yesterday', pt:'ontem', s:'I worked yesterday.'},
+ {w:'again', pt:'de novo', s:'Say it again.'},
+ {w:'together', pt:'juntos', s:'We learn together.'},
+ {w:'first', pt:'primeiro', s:'I am first.'},
+ {w:'second', pt:'segundo', s:'He is second.'},
+ {w:'third', pt:'terceiro', s:'She is third.'},
+ {w:'last', pt:'último', s:'I am last.'},
+ {w:'next', pt:'próximo', s:'You are next.'},
+ {w:'left', pt:'esquerda', s:'Turn left.'},
+ {w:'right', pt:'direita', s:'Turn right.'},
+ {w:'straight', pt:'reto / em frente', s:'Go straight.'},
+ {w:'busy', pt:'ocupado', s:'The street is busy.'},
+ {w:'clean', pt:'limpo', s:'My hands are clean.'},
+ {w:'dirty', pt:'sujo', s:'My shoes are dirty.'},
+ {w:'strong', pt:'forte', s:'He is strong.'},
+ {w:'weak', pt:'fraco', s:'I feel weak.'},
+ {w:'same', pt:'mesmo / igual', s:'We wear the same shoes.'},
+ {w:'different', pt:'diferente', s:'Our ideas are different.'},
+ {w:'more', pt:'mais', s:'I need more time.'},
+]},
+{id:'frases', icon:'💬', label:'Frases Funcionais', title:'Frases Funcionais', words:[
+ {w:'please', pt:'por favor', s:'Please help me.'},
+ {w:'thank you', pt:'obrigado(a)', s:'Thank you for your help.'},
+ {w:'sorry', pt:'desculpe', s:'Sorry I am late.'},
+ {w:'welcome', pt:'bem-vindo', s:'You are welcome here.'},
+ {w:'yes', pt:'sim', s:'Yes, I understand.'},
+ {w:'no', pt:'não', s:'No, I do not know.'},
+ {w:'maybe', pt:'talvez', s:'Maybe I will come later.'},
+ {w:'usually', pt:'geralmente', s:'She usually walks to school.'},
+ {w:'often', pt:'frequentemente', s:'He often visits his uncle.'},
+ {w:'soon', pt:'em breve', s:'I will see you soon.'},
+ {w:'late', pt:'atrasado / tarde', s:'The bus is late today.'},
+ {w:'early', pt:'cedo', s:'I wake up early.'},
+ {w:'now', pt:'agora', s:'I am busy now.'},
+ {w:'less', pt:'menos', s:'Drink less sugar.'},
+ {w:'enough', pt:'suficiente', s:'I have enough money.'},
+ {w:'problem', pt:'problema', s:'I have a small problem.'},
+ {w:'idea', pt:'ideia', s:'That is a good idea.'},
+ {w:'plan', pt:'plano', s:'We have a plan for tomorrow.'},
+ {w:'dream', pt:'sonho', s:'I have a dream to travel.'},
+ {w:'hope', pt:'esperança', s:'I hope you are well.'},
+ {w:'future', pt:'futuro', s:'The future is important.'},
+ {w:'past', pt:'passado', s:'We learn from the past.'},
+ {w:'present', pt:'presente', s:'Today is a gift, a present.'},
+ {w:'change', pt:'mudança', s:'I want to change my job.'},
+ {w:'chance', pt:'chance', s:'This is a good chance.'},
+ {w:'truth', pt:'verdade', s:'Please tell the truth.'},
+ {w:'lie', pt:'mentira', s:'Do not tell a lie.'},
+ {w:'safe', pt:'seguro', s:'This place is safe.'},
+ {w:'danger', pt:'perigo', s:'Fire is a danger.'},
+ {w:'ready', pt:'pronto', s:'I am ready to go.'},
+]},
+{id:'corpo', icon:'🫀', label:'Corpo Humano', title:'Corpo Humano', words:[
+ {w:'head', pt:'cabeça', s:'My head hurts.'},
+ {w:'hair', pt:'cabelo', s:'Her hair is long.'},
+ {w:'face', pt:'rosto', s:'Wash your face.'},
+ {w:'eye', pt:'olho', s:'I have two eyes.'},
+ {w:'nose', pt:'nariz', s:'My nose is small.'},
+ {w:'mouth', pt:'boca', s:'Open your mouth.'},
+ {w:'ear', pt:'orelha', s:'My ear is cold.'},
+ {w:'neck', pt:'pescoço', s:'My neck hurts today.'},
+ {w:'shoulder', pt:'ombro', s:'His shoulder is strong.'},
+ {w:'arm', pt:'braço', s:'Raise your arm.'},
+ {w:'hand', pt:'mão', s:'My hand is clean.'},
+ {w:'finger', pt:'dedo (da mão)', s:'I hurt my finger.'},
+ {w:'leg', pt:'perna', s:'My leg is tired.'},
+ {w:'knee', pt:'joelho', s:'Her knee hurts.'},
+ {w:'foot', pt:'pé', s:'My foot is big.'},
+ {w:'toe', pt:'dedo do pé', s:'I hurt my toe.'},
+ {w:'back', pt:'costas', s:'My back hurts.'},
+ {w:'stomach', pt:'estômago / barriga', s:'My stomach is full.'},
+ {w:'heart', pt:'coração', s:'My heart is happy.'},
+ {w:'teeth', pt:'dentes', s:'Brush your teeth.'},
+]},
+];
+
+// ── FLAT POOL (para busca, quiz e distratores) ────────────────────────────────
+let allWords = [];
+CATEGORIES.forEach(c => c.words.forEach(w => allWords.push({...w, cat:c.id, catLabel:c.label})));
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let catIdx = 0;
+let mode = 'flashcard';
+let fcIdx = {}; CATEGORIES.forEach((c,i) => fcIdx[i] = 0);
+let fcRevealed = false;
+let pracIdx = {}; CATEGORIES.forEach((c,i) => pracIdx[i] = 0);
+let pracAnswered = false;
+let lstFilter = 'all';
+let lstSearch = '';
+const QUIZ_LEN = 15;
+let quizQuestions = [], quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function currentCat(){ return CATEGORIES[catIdx]; }
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function saveCatProgress(){
+  try {
+    let categoriasEstudadas = [];
+    try { categoriasEstudadas = JSON.parse(localStorage.getItem('s13_progresso')).categoriasEstudadas || []; } catch(e) { categoriasEstudadas = []; }
+    const id = currentCat().id;
+    if (categoriasEstudadas.indexOf(id) === -1) categoriasEstudadas.push(id);
+    localStorage.setItem('s13_progresso', JSON.stringify({categoriasEstudadas}));
+  } catch(e) {}
+}
+
+// ── CATEGORY STRIP ──────────────────────────────────────────────────────────
+function renderCatStrip(){
+  const strip = document.getElementById('catStrip');
+  strip.className = 'cat-strip' + ((mode==='quiz' || mode==='lista') ? ' disabled' : '');
+  strip.innerHTML = CATEGORIES.map((c,i) => `
+    <div class="cat-tab ${i===catIdx?'on':''}" onclick="selectCat(${i})">
+      <span class="cat-tab-icon">${c.icon}</span>
+      <div class="cat-tab-label">${c.label}</div>
+    </div>`).join('');
+}
+function selectCat(i){
+  if (mode === 'quiz' || mode === 'lista') return;
+  catIdx = i;
+  fcRevealed = false;
+  pracAnswered = false;
+  renderCatStrip();
+  renderAll();
+  saveCatProgress();
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m){
+  mode = m;
+  fcRevealed = false;
+  pracAnswered = false;
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  const panelMap = {flashcard:'panelFlashcard', lista:'panelLista', praticar:'panelPraticar', quiz:'panelQuiz'};
+  Object.values(panelMap).forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(panelMap[m]).classList.remove('hidden');
+  renderCatStrip();
+  if (m === 'quiz' && quizQuestions.length === 0) startQuiz();
+  renderAll();
+}
+function renderAll(){
+  if (mode === 'flashcard') renderFlashcard();
+  else if (mode === 'lista') renderLista();
+  else if (mode === 'praticar') renderPraticar();
+  else if (mode === 'quiz') renderQuiz();
+}
+
+// ── MODO FLASHCARD ──────────────────────────────────────────────────────────
+function highlightWord(sentence, word){
+  const re = new RegExp('\\b'+word.split(' ')[0]+'\\w*\\b', 'i');
+  return sentence.replace(re, '<span class="hl">$&</span>');
+}
+function renderFlashcard(){
+  const c = currentCat();
+  const idx = fcIdx[catIdx];
+  const item = c.words[idx];
+  const back = fcRevealed ? `
+      <div class="fc-sentence">${highlightWord(item.s, item.w)}</div>
+      <div class="fc-pt">${item.pt}</div>` : `
+      <div class="fc-word">${item.w}</div>
+      <div class="fc-hint">Clique para revelar a frase e a tradução</div>`;
+  document.getElementById('panelFlashcard').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">${c.icon} ${c.title}</span>
+        <span class="p-count">${idx+1} de ${c.words.length}</span>
+      </div>
+      <div class="p-body">
+        <div class="fc-wrap">
+          <div class="fc-card" onclick="toggleFlip()">${back}</div>
+          <div class="fc-nav">
+            <button class="fc-nav-btn" onclick="fcPrev()">← Anterior</button>
+            <button class="fc-nav-btn primary" onclick="fcNext()">Próxima →</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+function toggleFlip(){ fcRevealed = !fcRevealed; renderFlashcard(); }
+function fcNext(){
+  const c = currentCat();
+  fcIdx[catIdx] = (fcIdx[catIdx] + 1) % c.words.length;
+  fcRevealed = false;
+  renderFlashcard();
+}
+function fcPrev(){
+  const c = currentCat();
+  fcIdx[catIdx] = (fcIdx[catIdx] - 1 + c.words.length) % c.words.length;
+  fcRevealed = false;
+  renderFlashcard();
+}
+
+// ── MODO LISTA ────────────────────────────────────────────────────────────────
+function renderLista(){
+  const catOptions = CATEGORIES.map(c => `<option value="${c.id}" ${lstFilter===c.id?'selected':''}>${c.icon} ${c.label}</option>`).join('');
+  document.getElementById('panelLista').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">📋 Lista Completa</span>
+        <span class="p-count">${allWords.length} palavras</span>
+      </div>
+      <div class="p-body">
+        <div class="lst-controls">
+          <select class="lst-select" id="lstSelect" onchange="onLstFilter(this.value)">
+            <option value="all" ${lstFilter==='all'?'selected':''}>Todas as categorias</option>
+            ${catOptions}
+          </select>
+          <input type="text" class="lst-search" id="lstSearchInput" placeholder="Buscar palavra..." value="${lstSearch}" oninput="onLstSearch(this.value)">
+        </div>
+        <div id="lstTableArea"></div>
+      </div>
+    </div>`;
+  renderLstTable();
+}
+function onLstFilter(v){ lstFilter = v; renderLstTable(); }
+function onLstSearch(v){ lstSearch = v; renderLstTable(); }
+function renderLstTable(){
+  let rows = allWords;
+  if (lstFilter !== 'all') rows = rows.filter(w => w.cat === lstFilter);
+  if (lstSearch.trim()) {
+    const q = lstSearch.trim().toLowerCase();
+    rows = rows.filter(w => w.w.toLowerCase().includes(q) || w.pt.toLowerCase().includes(q));
+  }
+  const area = document.getElementById('lstTableArea');
+  if (!area) return;
+  if (rows.length === 0) {
+    area.innerHTML = `<div class="lst-empty">Nenhuma palavra encontrada.</div>`;
+    return;
+  }
+  const trs = rows.map(w => `<tr><td class="w">${w.w}</td><td class="s">${w.s}</td><td class="t">${w.pt}</td></tr>`).join('');
+  area.innerHTML = `
+    <div class="lst-count">${rows.length} palavra${rows.length===1?'':'s'}</div>
+    <div class="tbl-wrap"><table class="dtbl"><thead><tr><th>Palavra EN</th><th>Frase EN</th><th>Tradução PT</th></tr></thead><tbody>${trs}</tbody></table></div>`;
+}
+
+// ── MODO PRATICAR ──────────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function blankSentence(item){
+  const re = new RegExp('\\b'+item.w.split(' ')[0]+'\\w*\\b', 'i');
+  return item.s.replace(re, '___');
+}
+function renderPraticar(){
+  const c = currentCat();
+  const idx = pracIdx[catIdx];
+  const item = c.words[idx];
+  const distractorPool = c.words.filter(w => w.w !== item.w);
+  const distractors = shuffle(distractorPool).slice(0, 3).map(d => d.w);
+  const options = pracAnswered ? window.__pracOptions : shuffle([item.w, ...distractors]);
+  window.__pracOptions = options;
+  const display = blankSentence(item).replace('___', '<span class="bk">___</span>');
+
+  document.getElementById('panelPraticar').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="q-tag">${c.icon} ${c.title}</div>
+        <div class="q-sub">Palavra ${idx+1} de ${c.words.length}</div>
+        <div class="q-prompt-box">${display}</div>
+        <div class="q-options" id="pracOptions">${options.map(o => `<button class="q-opt" onclick="pracAnswer(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+        <div class="q-feedback" id="pracFeedback"></div>
+        <div class="q-next-row"><button class="q-next-btn" id="pracNextBtn" onclick="pracNext()" disabled>→ Próxima</button></div>
+      </div>
+    </div>`;
+}
+function pracAnswer(btn, v){
+  if (pracAnswered) return;
+  pracAnswered = true;
+  const c = currentCat();
+  const item = c.words[pracIdx[catIdx]];
+  const correct = (v === item.w);
+  document.querySelectorAll('#pracOptions .q-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === item.w) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('pracFeedback');
+  fb.innerHTML = (correct ? '✓ Correto! ' : '✗ Quase! ') + `<b>${item.w}</b> = ${item.pt}. "${item.s}"`;
+  fb.classList.add('show');
+  document.getElementById('pracNextBtn').disabled = false;
+}
+function pracNext(){
+  const c = currentCat();
+  pracIdx[catIdx] = (pracIdx[catIdx] + 1) % c.words.length;
+  pracAnswered = false;
+  window.__pracOptions = null;
+  renderPraticar();
+}
+
+// ── MODO QUIZ (global, todas as categorias) ─────────────────────────────────────
+function startQuiz(){
+  quizQuestions = shuffle(allWords).slice(0, QUIZ_LEN).map(item => {
+    const distractorPool = allWords.filter(w => w.w !== item.w);
+    const distractors = shuffle(distractorPool).slice(0, 3).map(d => d.w);
+    const options = shuffle([item.w, ...distractors]);
+    return {pt: item.pt, w: item.w, s: item.s, options};
+  });
+  quizIdx = 0;
+  quizScore = 0;
+  quizAnswered = false;
+}
+function renderQuiz(){
+  if (quizQuestions.length === 0) { startQuiz(); }
+  if (quizIdx >= quizQuestions.length) { renderQuizResult(); return; }
+  quizAnswered = false;
+  const q = quizQuestions[quizIdx];
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-top">
+          <span class="quiz-score">Pontuação: ${quizScore}/${quizQuestions.length}</span>
+          <span class="p-count">🎯 Quiz</span>
+        </div>
+        <div class="quiz-qn">Questão ${quizIdx+1} de ${quizQuestions.length}</div>
+        <div class="q-sub">Como se diz em inglês?</div>
+        <div class="q-prompt-box">${q.pt}</div>
+        <div class="q-options" id="quizOptions">${q.options.map(o => `<button class="q-opt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+        <div class="q-next-row"><button class="q-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+      </div>
+    </div>`;
+}
+function quizAnswer(btn, v){
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIdx];
+  const correct = (v === q.w);
+  if (correct) quizScore++;
+  document.querySelectorAll('#quizOptions .q-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.w) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  document.querySelector('.quiz-score').textContent = `Pontuação: ${quizScore}/${quizQuestions.length}`;
+  document.getElementById('quizNextBtn').disabled = false;
+}
+function quizNext(){ quizIdx++; renderQuiz(); }
+function renderQuizResult(){
+  const pct = Math.round((quizScore/quizQuestions.length)*100);
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-result">
+          <div class="quiz-result-score">${quizScore}/${quizQuestions.length}</div>
+          <div class="quiz-result-label">${pct}% de acerto ${pct>=80?'— Excelente! 🎉':pct>=50?'— Bom trabalho, continue praticando.':'— Revise as categorias e tente de novo.'}</div>
+          <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Novo Quiz</button>
+        </div>
+      </div>
+    </div>`;
+}
+function restartQuiz(){ startQuiz(); renderQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  const catParam = params.get('categoria');
+  if (catParam) {
+    const found = CATEGORIES.findIndex(c => c.id === catParam);
+    if (found !== -1) catIdx = found;
+  }
+  renderCatStrip();
+  if (modoParam && ['flashcard','lista','praticar','quiz'].includes(modoParam)) setMode(modoParam);
+  else renderAll();
+  if (mode !== 'quiz' && mode !== 'lista') saveCatProgress();
+})();
+</script>
+</body>
+</html>

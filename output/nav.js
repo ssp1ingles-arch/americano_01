@@ -17,6 +17,9 @@
     {id: 's9', href: base + 'sistema9/index.html', icon: '⏱️', label: 'Sistema 9 — Went ou Gone?', color: '#06B6D4'},
     {id: 's10', href: base + 'sistema10/index.html', icon: '📊', label: 'Sistema 10 — Teste seu Nível', color: '#84CC16'},
     {id: 's11', href: base + 'sistema11/index.html', icon: '🧭', label: 'Sistema 11 — Como Aprender Inglês', color: '#FB923C'},
+    {id: 's12', href: base + 'sistema12/index.html', icon: '🌙', label: 'Sistema 12 — Rotina da Noite', color: '#818CF8'},
+    {id: 's13', href: base + 'sistema13/index.html', icon: '📝', label: 'Sistema 13 — Vocabulário A1', color: '#2DD4BF'},
+    {id: 's14', href: base + 'sistema14/index.html', icon: '💪', label: 'Sistema 14 — Vida Saudável', color: '#34D399'},
   ];
 
   var path = window.location.pathname;

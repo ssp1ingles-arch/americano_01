@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{height:100%;}
 body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
@@ -109,6 +109,21 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 .c-s9 .card-bar{background:linear-gradient(90deg,var(--s9),transparent);}
 .c-s9 .card-sys,.c-s9 .card-title,.c-s9 .card-cta{color:var(--s9);}
 
+/* CARD — SISTEMA 14 (EMERALD LIGHT) */
+.c-s14:hover{border-color:rgba(52,211,153,.4);box-shadow:0 12px 40px rgba(52,211,153,.12);}
+.c-s14 .card-bar{background:linear-gradient(90deg,var(--s14),transparent);}
+.c-s14 .card-sys,.c-s14 .card-title,.c-s14 .card-cta{color:var(--s14);}
+
+/* CARD — SISTEMA 13 (TEAL) */
+.c-s13:hover{border-color:rgba(45,212,191,.4);box-shadow:0 12px 40px rgba(45,212,191,.12);}
+.c-s13 .card-bar{background:linear-gradient(90deg,var(--s13),transparent);}
+.c-s13 .card-sys,.c-s13 .card-title,.c-s13 .card-cta{color:var(--s13);}
+
+/* CARD — SISTEMA 12 (INDIGO) */
+.c-s12:hover{border-color:rgba(129,140,248,.4);box-shadow:0 12px 40px rgba(129,140,248,.12);}
+.c-s12 .card-bar{background:linear-gradient(90deg,var(--s12),transparent);}
+.c-s12 .card-sys,.c-s12 .card-title,.c-s12 .card-cta{color:var(--s12);}
+
 /* CARD — SISTEMA 11 (ORANGE LIGHT) */
 .c-s11{grid-column:1 / -1;}
 .c-s11:hover{border-color:rgba(251,146,60,.4);box-shadow:0 12px 40px rgba(251,146,60,.12);}
@@ -171,7 +186,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
     <span class="hl-am"> Fluência.</span>
     <span class="hl-vl"> Gramática.</span>
   </h1>
-  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 11 sistemas, uma jornada completa.</p>
+  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 14 sistemas, uma jornada completa.</p>
 </div>
 
 <!-- CHOOSE -->
@@ -352,6 +367,25 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
       </div>
     </a>
 
+    <a class="card c-s13" href="./sistema13/index.html">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-sys">Sistema 13</div>
+        <span class="card-icon">📝</span>
+        <div class="card-title">Vocabulário A1</div>
+        <div class="card-desc">200+ palavras essenciais em frases simples. Aprenda cada palavra dentro de uma frase real — não apenas listas!</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--s13);border-color:rgba(45,212,191,.3)">204 palavras</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">6 categorias</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cta">Acessar Sistema 13</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
   </div>
 </div>
 
@@ -394,6 +428,44 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
       </div>
       <div class="card-footer">
         <span class="card-cta">Acessar Sistema 6</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card c-s12" href="./sistema12/index.html">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-sys">Sistema 12</div>
+        <span class="card-icon">🌙</span>
+        <div class="card-title">Rotina da Noite</div>
+        <div class="card-desc">Pratique inglês com perguntas e respostas do dia a dia. Frases curtas, reais e repetitivas — o jeito mais rápido de ganhar confiança.</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--s12);border-color:rgba(129,140,248,.3)">146 perguntas</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 temas</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cta">Acessar Sistema 12</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card c-s14" href="./sistema14/index.html">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-sys">Sistema 14</div>
+        <span class="card-icon">💪</span>
+        <div class="card-title">Vida Saudável</div>
+        <div class="card-desc">Pratique inglês falando sobre saúde e hábitos. 150 perguntas e respostas reais sobre alimentação, exercício, sono e bem-estar.</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--s14);border-color:rgba(52,211,153,.3)">150 perguntas</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 temas</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cta">Acessar Sistema 14</span>
         <span class="card-arrow">→</span>
       </div>
     </a>
@@ -518,6 +590,21 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
         <span class="prog-n" id="p12n">0 / 8</span>
       </div>
       <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s12)">Sistema 12</span>
+        <div class="prog-track"><div class="prog-fill" id="p13fill" style="background:var(--s12);width:0%"></div></div>
+        <span class="prog-n" id="p13n">0 / 10</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s13)">Sistema 13</span>
+        <div class="prog-track"><div class="prog-fill" id="p14fill" style="background:var(--s13);width:0%"></div></div>
+        <span class="prog-n" id="p14n">0 / 6</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s14)">Sistema 14</span>
+        <div class="prog-track"><div class="prog-fill" id="p15fill" style="background:var(--s14);width:0%"></div></div>
+        <span class="prog-n" id="p15n">0 / 8</span>
+      </div>
+      <div class="prog-row">
         <span class="prog-row-label" style="background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Jornada</span>
         <div class="prog-track"><div class="prog-fill" id="p4fill" style="background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);width:0%"></div></div>
         <span class="prog-n" id="p4n">0 / 120</span>
@@ -527,7 +614,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 </div>
 
 <!-- FOOTER -->
-<div class="footer">11 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 unidades · 120 etapas · inglês do real ao fluente</div>
+<div class="footer">14 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 + 146 + 204 + 150 unidades · 120 etapas · inglês do real ao fluente</div>
 
 <script>
 // ── PARTICLES ─────────────────────────────────────────────────────────────────
@@ -637,6 +724,42 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
         const p12pct = Math.round(s11Done / 8 * 100);
         document.getElementById('p12fill').style.width = p12pct + '%';
         document.getElementById('p12n').textContent = s11Done + ' / 8';
+      } catch(e) {}
+    }
+
+    // Sistema 12 — temas estudados (localStorage key: s12_progresso.temasEstudados, array of theme ids)
+    const s12 = localStorage.getItem('s12_progresso');
+    if (s12) {
+      try {
+        const s12p = JSON.parse(s12);
+        const s12Done = Array.isArray(s12p.temasEstudados) ? s12p.temasEstudados.length : 0;
+        const p13pct = Math.round(s12Done / 10 * 100);
+        document.getElementById('p13fill').style.width = p13pct + '%';
+        document.getElementById('p13n').textContent = s12Done + ' / 10';
+      } catch(e) {}
+    }
+
+    // Sistema 13 — categorias estudadas (localStorage key: s13_progresso.categoriasEstudadas, array of category ids)
+    const s13 = localStorage.getItem('s13_progresso');
+    if (s13) {
+      try {
+        const s13p = JSON.parse(s13);
+        const s13Done = Array.isArray(s13p.categoriasEstudadas) ? s13p.categoriasEstudadas.length : 0;
+        const p14pct = Math.round(s13Done / 6 * 100);
+        document.getElementById('p14fill').style.width = p14pct + '%';
+        document.getElementById('p14n').textContent = s13Done + ' / 6';
+      } catch(e) {}
+    }
+
+    // Sistema 14 — temas estudados (localStorage key: s14_progresso.temasEstudados, array of theme ids)
+    const s14 = localStorage.getItem('s14_progresso');
+    if (s14) {
+      try {
+        const s14p = JSON.parse(s14);
+        const s14Done = Array.isArray(s14p.temasEstudados) ? s14p.temasEstudados.length : 0;
+        const p15pct = Math.round(s14Done / 8 * 100);
+        document.getElementById('p15fill').style.width = p15pct + '%';
+        document.getElementById('p15n').textContent = s14Done + ' / 8';
       } catch(e) {}
     }
 

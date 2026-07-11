@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vida Saudável · Sistema 14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--vl:#A78BFA;--gn:#5FD87A;--am:#F5C518;--rd:#f87171;--cy:#64DFDF;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* GLOBAL NAV */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;overflow-x:auto;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;flex-shrink:0;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .75rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;flex-shrink:0;}
+.gnav-s1{color:#64DFDF;border-color:rgba(100,223,223,.35);background:rgba(100,223,223,.08);}
+.gnav-s1:hover{background:rgba(100,223,223,.15);}
+.gnav-s2{color:#F5C518;border-color:rgba(245,197,24,.3);background:rgba(245,197,24,.06);}
+.gnav-s2:hover{background:rgba(245,197,24,.12);}
+.gnav-s3{color:#A78BFA;border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);}
+.gnav-s3:hover{background:rgba(167,139,250,.15);}
+.gnav-s4{color:#FF6B6B;border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08);}
+.gnav-s4:hover{background:rgba(255,107,107,.15);}
+.gnav-s5{color:#10B981;border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
+.gnav-s5:hover{background:rgba(16,185,129,.18);}
+.gnav-s6{color:var(--s6);border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.1);}
+.gnav-s6:hover{background:rgba(14,165,233,.18);}
+.gnav-s7{color:var(--s7);border-color:rgba(217,70,239,.4);background:rgba(217,70,239,.1);}
+.gnav-s7:hover{background:rgba(217,70,239,.18);}
+.gnav-s8{color:var(--s8);border-color:rgba(249,115,22,.4);background:rgba(249,115,22,.1);}
+.gnav-s8:hover{background:rgba(249,115,22,.18);}
+.gnav-s9{color:var(--s9);border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.1);}
+.gnav-s9:hover{background:rgba(6,182,212,.18);}
+.gnav-s10{color:var(--s10);border-color:rgba(132,204,22,.4);background:rgba(132,204,22,.1);}
+.gnav-s10:hover{background:rgba(132,204,22,.18);}
+.gnav-s11{color:var(--s11);border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.1);}
+.gnav-s11:hover{background:rgba(251,146,60,.18);}
+.gnav-s12{color:var(--s12);border-color:rgba(129,140,248,.4);background:rgba(129,140,248,.1);}
+.gnav-s12:hover{background:rgba(129,140,248,.18);}
+.gnav-s13{color:var(--s13);border-color:rgba(45,212,191,.4);background:rgba(45,212,191,.1);}
+.gnav-s13:hover{background:rgba(45,212,191,.18);}
+.gnav-s14{color:var(--s14);border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1);}
+.gnav-s14:hover{background:rgba(52,211,153,.18);}
+.gnav-s14.active{border-color:var(--s14);background:rgba(52,211,153,.16);box-shadow:0 0 10px rgba(52,211,153,.25);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+.gnav-jornada:hover{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}
+
+/* LOCAL NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s14);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.85;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:1.6rem 1.25rem 1rem;text-align:center;max-width:760px;margin:96px auto 0;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--s14);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);padding:.32rem .95rem;border-radius:2rem;margin-bottom:.9rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.35rem,3.4vw,1.85rem);font-weight:800;line-height:1.25;margin-bottom:.4rem;}
+.hero-sub{font-size:.85rem;color:var(--tm);line-height:1.55;max-width:540px;margin:0 auto;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:96px;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;margin-top:.5rem;}
+.topbar-inner{max-width:980px;margin:0 auto;}
+.controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.55rem;justify-content:center;}
+.ctrl-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.5rem;padding:.2rem;flex-wrap:wrap;}
+.ctrl-btn{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;padding:.42rem .85rem;border-radius:.4rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ctrl-btn:hover{color:var(--tx);}
+.ctrl-btn.on{background:var(--s14);color:#080c14;}
+
+/* THEME STRIP */
+.theme-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:.5rem;max-width:980px;margin:0 auto;}
+.theme-tab{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.55rem .4rem;cursor:pointer;transition:all .18s;text-align:center;}
+.theme-tab:hover{border-color:var(--bdh);}
+.theme-tab.on{border-color:var(--s14);background:rgba(52,211,153,.12);box-shadow:0 0 12px rgba(52,211,153,.2);}
+.theme-tab-icon{font-size:.95rem;}
+.theme-tab-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:700;color:var(--tm);line-height:1.25;margin-top:.15rem;}
+.theme-tab.on .theme-tab-label{color:var(--s14);}
+.theme-strip.quiz-active .theme-tab{opacity:.4;pointer-events:none;}
+
+.wrap{max-width:760px;margin:0 auto;padding:1.4rem 1.1rem 5rem;}
+.hidden{display:none!important;}
+
+/* MAIN CARD */
+.p-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.p-head{padding:1.1rem 1.4rem .8rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);gap:.5rem;flex-wrap:wrap;}
+.p-tag{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s14);}
+.p-count{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--td);}
+.p-body{padding:1.6rem 1.5rem;}
+
+/* APRENDER MODE */
+.q-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.q-big{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--tx);line-height:1.4;margin-bottom:1.3rem;}
+.a-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.a-big{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--s14);line-height:1.4;margin-bottom:1.3rem;}
+.pt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1rem;font-size:.85rem;color:var(--tm);line-height:1.7;margin-bottom:1.2rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.pt-box.show{opacity:1;max-height:200px;padding:.9rem 1rem;}
+.pt-box b{color:var(--tx);}
+
+/* PRATICAR MODE */
+.prac-input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1rem;font-size:1rem;color:var(--tx);font-family:'Inter',sans-serif;margin-bottom:1rem;}
+.prac-input:focus{outline:none;border-color:var(--s14);}
+.model-answer{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);border-radius:.7rem;padding:1rem 1.1rem;margin-bottom:1.2rem;opacity:0;max-height:0;overflow:hidden;transition:all .3s;}
+.model-answer.show{opacity:1;max-height:200px;padding:1rem 1.1rem;}
+.model-answer-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--s14);margin-bottom:.4rem;}
+.model-answer-text{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--tx);}
+.model-answer-pt{font-size:.82rem;color:var(--tm);margin-top:.4rem;}
+
+/* ACTIONS */
+.p-actions{display:flex;gap:.6rem;flex-wrap:wrap;}
+.act-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;transition:all .18s;min-width:120px;}
+.act-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.act-btn:disabled{opacity:.35;cursor:default;}
+.act-btn.primary{background:var(--s14);color:#080c14;border:none;}
+.act-btn.primary:hover{filter:brightness(1.1);}
+
+/* QUIZ MODE */
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;}
+.quiz-score{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s14);}
+.quiz-qn{text-align:center;font-size:.68rem;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;}
+.quiz-prompt-box{background:var(--bg);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.25rem;margin-bottom:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;text-align:center;line-height:1.5;color:var(--tx);}
+.quiz-options{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem;}
+.quiz-opt{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.85rem 1rem;font-size:.88rem;color:var(--tx);cursor:pointer;transition:all .15s;}
+.quiz-opt:hover{border-color:var(--bdh);}
+.quiz-opt.correct{border-color:var(--gn);background:rgba(95,216,122,.1);color:var(--gn);}
+.quiz-opt.wrong{border-color:var(--rd);background:rgba(248,113,113,.1);color:var(--rd);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-next-row{text-align:center;}
+.quiz-next-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:none;background:var(--s14);color:#080c14;cursor:pointer;}
+.quiz-next-btn:hover{filter:brightness(1.1);}
+.quiz-next-btn:disabled{opacity:.4;cursor:default;}
+.quiz-result{text-align:center;padding:1.5rem .5rem;}
+.quiz-result-score{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--s14);margin-bottom:.5rem;}
+.quiz-result-label{font-size:.85rem;color:var(--tm);margin-bottom:1.5rem;}
+.quiz-restart-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.7rem 1.4rem;border-radius:.6rem;border:1px solid var(--bd);background:none;color:var(--tx);cursor:pointer;}
+.quiz-restart-btn:hover{border-color:var(--bdh);}
+
+/* MOBILE FLOATING BUTTONS */
+.fab{display:none;position:fixed;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--sf);border:1px solid var(--bdh);color:var(--tx);align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.4);cursor:pointer;}
+.fab-back{left:1rem;bottom:1rem;}
+.fab-top{right:1rem;bottom:1rem;background:var(--s14);color:#080c14;border:none;}
+
+@media(max-width:820px){
+  .theme-strip{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:640px){
+  .fab{display:flex;}
+  .hero{margin-top:96px;}
+  .theme-strip{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../../sistema1/index.html" class="gnav-btn gnav-s1">S1</a>
+  <a href="../../sistema2/index.html" class="gnav-btn gnav-s2">S2</a>
+  <a href="../../sistema3/index.html" class="gnav-btn gnav-s3">S3</a>
+  <a href="../../sistema4/index.html" class="gnav-btn gnav-s4">S4</a>
+  <a href="../../sistema5/index.html" class="gnav-btn gnav-s5">⚡ S5</a>
+  <a href="../../sistema6/index.html" class="gnav-btn gnav-s6">💬 S6</a>
+  <a href="../../sistema7/index.html" class="gnav-btn gnav-s7">🔗 S7</a>
+  <a href="../../sistema8/index.html" class="gnav-btn gnav-s8">🧱 S8</a>
+  <a href="../../sistema9/index.html" class="gnav-btn gnav-s9">⏱️ S9</a>
+  <a href="../../sistema10/index.html" class="gnav-btn gnav-s10">📊 S10</a>
+  <a href="../../sistema11/index.html" class="gnav-btn gnav-s11">🧭 S11</a>
+  <a href="../../sistema12/index.html" class="gnav-btn gnav-s12">🌙 S12</a>
+  <a href="../../sistema13/index.html" class="gnav-btn gnav-s13">📝 S13</a>
+  <a href="../index.html" class="gnav-btn gnav-s14 active">💪 S14</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- LOCAL NAV -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 14 — Vida Saudável</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💪 Prática</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">💪 Vida Saudável</div>
+  <h1 class="hero-title">Pratique inglês falando sobre saúde e hábitos</h1>
+  <p class="hero-sub">150 perguntas e respostas reais sobre alimentação, exercício, sono e bem-estar.</p>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="controls-row" id="modeGroup">
+      <div class="ctrl-group">
+        <button class="ctrl-btn on" data-mode="aprender" onclick="setMode('aprender')">📖 Aprender</button>
+        <button class="ctrl-btn" data-mode="praticar" onclick="setMode('praticar')">✍️ Praticar</button>
+        <button class="ctrl-btn" data-mode="quiz" onclick="setMode('quiz')">🎯 Quiz Aleatório</button>
+      </div>
+    </div>
+    <div class="theme-strip" id="themeStrip"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="panel" id="panelAprender"></div>
+  <div class="panel hidden" id="panelPraticar"></div>
+  <div class="panel hidden" id="panelQuiz"></div>
+</div>
+
+<!-- MOBILE FLOATING BUTTONS -->
+<a href="../../index.html" class="fab fab-back" aria-label="Menu Principal">←</a>
+<button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Topo">↑</button>
+
+<script>
+// ── DATA: 8 TEMAS · 150 PERGUNTAS E RESPOSTAS ─────────────────────────────────
+const THEMES = [
+{id:'exercicio', icon:'🏃', label:'Exercício', title:'Exercício e Movimento', items:[
+ {q:'What is a healthy lifestyle?', a:'A healthy lifestyle means good habits.', pq:'O que é um estilo de vida saudável?', pa:'Um estilo de vida saudável significa bons hábitos.'},
+ {q:'Do you live healthfully?', a:'Yes, I try every day.', pq:'Você vive de forma saudável?', pa:'Sim, eu tento todos os dias.'},
+ {q:'Why stay healthy?', a:'Health is very important.', pq:'Por que manter a saúde?', pa:'A saúde é muito importante.'},
+ {q:'Do you exercise daily?', a:'Yes, every morning.', pq:'Você se exercita diariamente?', pa:'Sim, toda manhã.'},
+ {q:'What exercise do you do?', a:'I walk and stretch.', pq:'Que exercício você faz?', pa:'Eu caminho e me alongo.'},
+ {q:'How long do you exercise?', a:'30 minutes every day.', pq:'Por quanto tempo você se exercita?', pa:'30 minutos todos os dias.'},
+ {q:'Do you walk regularly?', a:'Yes, every evening.', pq:'Você caminha regularmente?', pa:'Sim, toda noite.'},
+ {q:'Where do you walk?', a:'I walk in parks.', pq:'Onde você caminha?', pa:'Eu caminho em parques.'},
+ {q:'Do you run sometimes?', a:'Yes, on weekends.', pq:'Você corre às vezes?', pa:'Sim, nos fins de semana.'},
+ {q:'Do you play sports?', a:'Yes, I play football.', pq:'Você pratica esportes?', pa:'Sim, eu jogo futebol.'},
+ {q:'Why play sports?', a:'Sports keep me active.', pq:'Por que praticar esportes?', pa:'Esportes me mantêm ativo.'},
+ {q:'Do you ride bicycles?', a:'Yes, sometimes.', pq:'Você anda de bicicleta?', pa:'Sim, às vezes.'},
+ {q:'Do you enjoy swimming?', a:'Yes, very much.', pq:'Você gosta de nadar?', pa:'Sim, muito.'},
+ {q:'Can you swim well?', a:'Yes, I can.', pq:'Você sabe nadar bem?', pa:'Sim, eu sei.'},
+ {q:'Do you practice yoga?', a:'Yes, occasionally.', pq:'Você pratica ioga?', pa:'Sim, ocasionalmente.'},
+ {q:'Why practice yoga?', a:'It relaxes my mind.', pq:'Por que praticar ioga?', pa:'Ela relaxa minha mente.'},
+ {q:'Do you stretch regularly?', a:'Yes, every day.', pq:'Você se alonga regularmente?', pa:'Sim, todos os dias.'},
+]},
+{id:'alimentacao', icon:'🥗', label:'Alimentação', title:'Alimentação Saudável', items:[
+ {q:'Do you wake up early?', a:'Yes, at 6:00.', pq:'Você acorda cedo?', pa:'Sim, às 6h.'},
+ {q:'Why wake up early?', a:'It gives me energy.', pq:'Por que acordar cedo?', pa:'Isso me dá energia.'},
+ {q:'Do you drink water?', a:'Yes, many times daily.', pq:'Você bebe água?', pa:'Sim, muitas vezes por dia.'},
+ {q:'How much water drink?', a:'About eight glasses daily.', pq:'Quanta água você bebe?', pa:'Cerca de oito copos por dia.'},
+ {q:'Do you eat breakfast?', a:'Yes, every morning.', pq:'Você toma café da manhã?', pa:'Sim, toda manhã.'},
+ {q:'What eat for breakfast?', a:'Bread, eggs, and milk.', pq:'O que você come no café da manhã?', pa:'Pão, ovos e leite.'},
+ {q:'Do you eat healthy food?', a:'Yes, most of the time.', pq:'Você come comida saudável?', pa:'Sim, na maior parte do tempo.'},
+ {q:'What food like most?', a:'Fresh fruits and vegetables.', pq:'Que comida você mais gosta?', pa:'Frutas e vegetais frescos.'},
+ {q:'Do you eat fruits daily?', a:'Yes, every day.', pq:'Você come frutas diariamente?', pa:'Sim, todos os dias.'},
+ {q:'What fruit like most?', a:'I like mangoes most.', pq:'Que fruta você mais gosta?', pa:'Eu gosto mais de manga.'},
+ {q:'Do you eat vegetables?', a:'Yes, with every meal.', pq:'Você come vegetais?', pa:'Sim, em toda refeição.'},
+ {q:'What vegetable prefer?', a:'I prefer carrots and spinach.', pq:'Que vegetal você prefere?', pa:'Eu prefiro cenoura e espinafre.'},
+ {q:'Do you drink milk?', a:'Yes, every morning.', pq:'Você bebe leite?', pa:'Sim, toda manhã.'},
+ {q:'Do you avoid junk food?', a:'Yes, as much possible.', pq:'Você evita comida industrializada?', pa:'Sim, o máximo possível.'},
+ {q:'How often eat fast food?', a:'Only once a month.', pq:'Com que frequência você come fast food?', pa:'Só uma vez por mês.'},
+ {q:'Do you eat sweets?', a:'Yes, sometimes.', pq:'Você come doces?', pa:'Sim, às vezes.'},
+ {q:'Do you control sugar?', a:'Yes, very carefully.', pq:'Você controla o açúcar?', pa:'Sim, com muito cuidado.'},
+ {q:'Do you drink soft drinks?', a:'No, rarely.', pq:'Você bebe refrigerante?', pa:'Não, raramente.'},
+ {q:'What healthy drink prefer?', a:'Fresh fruit juice.', pq:'Que bebida saudável você prefere?', pa:'Suco de fruta fresco.'},
+ {q:'Do you eat nuts?', a:'Yes, sometimes.', pq:'Você come castanhas?', pa:'Sim, às vezes.'},
+ {q:'What nuts like most?', a:'I like almonds most.', pq:'Que castanha você mais gosta?', pa:'Eu gosto mais de amêndoas.'},
+ {q:'Do you eat fish?', a:'Yes, every week.', pq:'Você come peixe?', pa:'Sim, toda semana.'},
+ {q:'Do you eat eggs?', a:'Yes, regularly.', pq:'Você come ovos?', pa:'Sim, regularmente.'},
+ {q:'Do you eat on time?', a:'Yes, every day.', pq:'Você come nos horários certos?', pa:'Sim, todos os dias.'},
+ {q:'Why eat on time?', a:'It helps digestion.', pq:'Por que comer nos horários certos?', pa:'Isso ajuda a digestão.'},
+ {q:'Do you skip meals?', a:'No, never.', pq:'Você pula refeições?', pa:'Não, nunca.'},
+ {q:'Do you avoid oily food?', a:'Yes, usually.', pq:'Você evita comida gordurosa?', pa:'Sim, geralmente.'},
+ {q:'What oil use home?', a:'We use healthy oils.', pq:'Que óleo vocês usam em casa?', pa:'Nós usamos óleos saudáveis.'},
+ {q:'Do you eat slowly?', a:'Yes, always.', pq:'Você come devagar?', pa:'Sim, sempre.'},
+ {q:'Why eat slowly?', a:'It aids digestion.', pq:'Por que comer devagar?', pa:'Isso auxilia a digestão.'},
+ {q:'Do you avoid overeating?', a:'Yes, always.', pq:'Você evita comer demais?', pa:'Sim, sempre.'},
+ {q:'Why eat moderate amounts?', a:'It improves digestion.', pq:'Por que comer porções moderadas?', pa:'Isso melhora a digestão.'},
+ {q:'Do you avoid late dinners?', a:'Yes, usually.', pq:'Você evita jantar tarde?', pa:'Sim, geralmente.'},
+ {q:'Do you eat less salt?', a:'Yes, I do.', pq:'Você come menos sal?', pa:'Sim, eu como.'},
+ {q:'Why reduce salt?', a:'Too much is harmful.', pq:'Por que reduzir o sal?', pa:'Muito sal é prejudicial.'},
+ {q:'Do you enjoy healthy snacks?', a:'Yes, very much.', pq:'Você gosta de lanches saudáveis?', pa:'Sim, muito.'},
+ {q:'What snack prefer?', a:'Fruits and nuts.', pq:'Que lanche você prefere?', pa:'Frutas e castanhas.'},
+]},
+{id:'sono', icon:'😴', label:'Sono', title:'Sono e Descanso', items:[
+ {q:'Do you sleep early?', a:'Yes, every night.', pq:'Você dorme cedo?', pa:'Sim, toda noite.'},
+ {q:'What time sleep usually?', a:'Around 10:00.', pq:'A que horas você costuma dormir?', pa:'Por volta das 22h.'},
+ {q:'How many hours sleep?', a:'I sleep 8 hours.', pq:'Quantas horas você dorme?', pa:'Eu durmo 8 horas.'},
+ {q:'Why is sleep important?', a:'It helps body recover.', pq:'Por que o sono é importante?', pa:'Ele ajuda o corpo a se recuperar.'},
+ {q:'Do you feel energetic?', a:'Yes, most days.', pq:'Você se sente cheio de energia?', pa:'Sim, na maioria dos dias.'},
+ {q:'Do you read before sleeping?', a:'Yes, sometimes.', pq:'Você lê antes de dormir?', pa:'Sim, às vezes.'},
+ {q:'What books read?', a:'Health and motivational books.', pq:'Que livros você lê?', pa:'Livros de saúde e motivação.'},
+ {q:'Do you sit long hours?', a:'No, I take breaks.', pq:'Você fica sentado por muitas horas?', pa:'Não, eu faço pausas.'},
+ {q:'Why take breaks?', a:'To stay active.', pq:'Por que fazer pausas?', pa:'Para se manter ativo.'},
+ {q:'Do you rest when sick?', a:'Yes, immediately.', pq:'Você descansa quando está doente?', pa:'Sim, imediatamente.'},
+]},
+{id:'higiene', icon:'🧼', label:'Higiene', title:'Higiene Pessoal', items:[
+ {q:'Do you wash hands?', a:'Yes, many times daily.', pq:'Você lava as mãos?', pa:'Sim, muitas vezes por dia.'},
+ {q:'Do you brush teeth?', a:'Yes, twice daily.', pq:'Você escova os dentes?', pa:'Sim, duas vezes por dia.'},
+ {q:'Do you visit dentists?', a:'Yes, every year.', pq:'Você vai ao dentista?', pa:'Sim, todo ano.'},
+ {q:'Do you take showers daily?', a:'Yes, every morning.', pq:'Você toma banho diariamente?', pa:'Sim, toda manhã.'},
+ {q:'Do you keep room clean?', a:'Yes, always.', pq:'Você mantém o quarto limpo?', pa:'Sim, sempre.'},
+ {q:'Why keep surroundings clean?', a:'Cleanliness prevents diseases.', pq:'Por que manter o ambiente limpo?', pa:'A limpeza previne doenças.'},
+ {q:'Do you check health regularly?', a:'Yes, every year.', pq:'Você faz check-up regularmente?', pa:'Sim, todo ano.'},
+ {q:'Do you visit doctors?', a:'Yes, when necessary.', pq:'Você vai ao médico?', pa:'Sim, quando necessário.'},
+ {q:'Do you follow medical advice?', a:'Yes, always.', pq:'Você segue as orientações médicas?', pa:'Sim, sempre.'},
+ {q:'Do you read food labels?', a:'Yes, carefully.', pq:'Você lê os rótulos dos alimentos?', pa:'Sim, com cuidado.'},
+ {q:'Do you take vitamins?', a:'Yes, sometimes.', pq:'Você toma vitaminas?', pa:'Sim, às vezes.'},
+]},
+{id:'mental', icon:'🧠', label:'Saúde Mental', title:'Saúde Mental', items:[
+ {q:'Do you meditate daily?', a:'Yes, every morning.', pq:'Você medita diariamente?', pa:'Sim, toda manhã.'},
+ {q:'Does meditation help you?', a:'Yes, very much.', pq:'A meditação ajuda você?', pa:'Sim, muito.'},
+ {q:'Do you feel less stressed?', a:'Yes, most times.', pq:'Você se sente menos estressado?', pa:'Sim, na maioria das vezes.'},
+ {q:'How reduce stress?', a:'Exercise and meditation help.', pq:'Como reduzir o estresse?', pa:'Exercício e meditação ajudam.'},
+ {q:'Do you keep positive mindset?', a:'Yes, always.', pq:'Você mantém uma mentalidade positiva?', pa:'Sim, sempre.'},
+ {q:'Why think positively?', a:'It improves mental health.', pq:'Por que pensar positivamente?', pa:'Isso melhora a saúde mental.'},
+ {q:'Do you laugh often?', a:'Yes, every day.', pq:'Você ri com frequência?', pa:'Sim, todos os dias.'},
+ {q:'Does happiness help health?', a:'Yes, very much.', pq:'A felicidade ajuda a saúde?', pa:'Sim, muito.'},
+ {q:'Do you practice gratitude?', a:'Yes, every day.', pq:'Você pratica gratidão?', pa:'Sim, todos os dias.'},
+ {q:'Why be grateful?', a:'It brings happiness.', pq:'Por que ser grato?', pa:'Isso traz felicidade.'},
+ {q:'Do you smile often?', a:'Yes, every day.', pq:'Você sorri com frequência?', pa:'Sim, todos os dias.'},
+ {q:'Does smiling help health?', a:'Yes, it improves mood.', pq:'Sorrir ajuda a saúde?', pa:'Sim, melhora o humor.'},
+ {q:'Do you avoid negativity?', a:'Yes, as much possible.', pq:'Você evita negatividade?', pa:'Sim, o máximo possível.'},
+ {q:'Do you use mobile less?', a:'Yes, I try.', pq:'Você usa menos o celular?', pa:'Sim, eu tento.'},
+ {q:'Why limit screen time?', a:'It protects my eyes.', pq:'Por que limitar o tempo de tela?', pa:'Isso protege meus olhos.'},
+ {q:'Do you enjoy simple living?', a:'Yes, very much.', pq:'Você gosta de uma vida simples?', pa:'Sim, muito.'},
+ {q:'Does simplicity help health?', a:'Yes, it does.', pq:'A simplicidade ajuda a saúde?', pa:'Sim, ajuda.'},
+]},
+{id:'social', icon:'👨‍👩‍👧', label:'Social', title:'Família e Social', items:[
+ {q:'Do you spend family time?', a:'Yes, every evening.', pq:'Você passa tempo com a família?', pa:'Sim, toda noite.'},
+ {q:'Does family support health?', a:'Yes, greatly.', pq:'A família apoia a saúde?', pa:'Sim, muito.'},
+ {q:'Do you help others?', a:'Yes, whenever possible.', pq:'Você ajuda os outros?', pa:'Sim, sempre que possível.'},
+ {q:'Do you encourage others?', a:'Yes, always.', pq:'Você incentiva os outros?', pa:'Sim, sempre.'},
+ {q:'Why inspire healthy habits?', a:'Everyone deserves good health.', pq:'Por que inspirar hábitos saudáveis?', pa:'Todos merecem boa saúde.'},
+ {q:'Do you encourage children?', a:'Yes, to stay healthy.', pq:'Você incentiva as crianças?', pa:'Sim, a se manterem saudáveis.'},
+ {q:'What advice give children?', a:'Eat healthy and exercise.', pq:'Que conselho você dá às crianças?', pa:'Comer saudável e se exercitar.'},
+ {q:'Who advises health habits?', a:'My parents and doctors.', pq:'Quem te orienta sobre hábitos de saúde?', pa:'Meus pais e médicos.'},
+ {q:'Do friends exercise together?', a:'Yes, sometimes.', pq:'Os amigos se exercitam juntos?', pa:'Sim, às vezes.'},
+]},
+{id:'rotinas', icon:'📋', label:'Rotinas', title:'Rotinas e Hábitos', items:[
+ {q:'Do you eat home food?', a:'Yes, mostly.', pq:'Você come comida caseira?', pa:'Sim, na maior parte do tempo.'},
+ {q:'Why prefer home food?', a:'It is healthier.', pq:'Por que preferir comida caseira?', pa:'Ela é mais saudável.'},
+ {q:'Do you help cooking?', a:'Yes, sometimes.', pq:'Você ajuda a cozinhar?', pa:'Sim, às vezes.'},
+ {q:'Do you cook healthy meals?', a:'Yes, sometimes.', pq:'Você cozinha refeições saudáveis?', pa:'Sim, às vezes.'},
+ {q:'What healthy meal prefer?', a:'Rice, fish, vegetables.', pq:'Que refeição saudável você prefere?', pa:'Arroz, peixe, vegetais.'},
+ {q:'Do you maintain routine?', a:'Yes, every day.', pq:'Você mantém uma rotina?', pa:'Sim, todos os dias.'},
+ {q:'Does routine help health?', a:'Yes, very much.', pq:'A rotina ajuda a saúde?', pa:'Sim, muito.'},
+ {q:'Do you stay hydrated?', a:'Yes, every day.', pq:'Você se mantém hidratado?', pa:'Sim, todos os dias.'},
+ {q:'Do you balance work life?', a:'Yes, carefully.', pq:'Você equilibra vida e trabalho?', pa:'Sim, com cuidado.'},
+ {q:'Why need balance?', a:'It reduces stress.', pq:'Por que precisa de equilíbrio?', pa:'Isso reduz o estresse.'},
+ {q:'Do you spend time outside?', a:'Yes, every day.', pq:'Você passa tempo ao ar livre?', pa:'Sim, todos os dias.'},
+ {q:'Does sunshine help health?', a:'Yes, it does.', pq:'O sol ajuda a saúde?', pa:'Sim, ajuda.'},
+ {q:'Do you breathe fresh air?', a:'Yes, every morning.', pq:'Você respira ar fresco?', pa:'Sim, toda manhã.'},
+ {q:'Why need fresh air?', a:'It keeps lungs healthy.', pq:'Por que precisa de ar fresco?', pa:'Isso mantém os pulmões saudáveis.'},
+ {q:'Do you enjoy outdoor activities?', a:'Yes, very much.', pq:'Você gosta de atividades ao ar livre?', pa:'Sim, muito.'},
+ {q:'What outdoor activity prefer?', a:'Walking in nature.', pq:'Que atividade ao ar livre você prefere?', pa:'Caminhar na natureza.'},
+ {q:'Do you enjoy gardening?', a:'Yes, very much.', pq:'Você gosta de jardinagem?', pa:'Sim, muito.'},
+ {q:'Does gardening reduce stress?', a:'Yes, it helps.', pq:'A jardinagem reduz o estresse?', pa:'Sim, ajuda.'},
+ {q:'Do you listen music?', a:'Yes, relaxing music.', pq:'Você escuta música?', pa:'Sim, música relaxante.'},
+ {q:'Does music improve mood?', a:'Yes, absolutely.', pq:'A música melhora o humor?', pa:'Sim, com certeza.'},
+ {q:'Do you travel for relaxation?', a:'Yes, sometimes.', pq:'Você viaja para relaxar?', pa:'Sim, às vezes.'},
+ {q:'Where like traveling?', a:'Mountains and villages.', pq:'Para onde você gosta de viajar?', pa:'Montanhas e vilarejos.'},
+ {q:'Do you drink herbal tea?', a:'Yes, occasionally.', pq:'Você bebe chá de ervas?', pa:'Sim, ocasionalmente.'},
+]},
+{id:'motivacao', icon:'🎯', label:'Motivação', title:'Motivação e Metas', items:[
+ {q:'Do you read health books?', a:'Yes, sometimes.', pq:'Você lê livros sobre saúde?', pa:'Sim, às vezes.'},
+ {q:'What health topic like?', a:'Nutrition and fitness.', pq:'Que tema de saúde você gosta?', pa:'Nutrição e condicionamento físico.'},
+ {q:'Do you watch health videos?', a:'Yes, online.', pq:'Você assiste vídeos sobre saúde?', pa:'Sim, online.'},
+ {q:'What learn from videos?', a:'Healthy habits and exercises.', pq:'O que você aprende com os vídeos?', pa:'Hábitos saudáveis e exercícios.'},
+ {q:'Do you avoid smoking?', a:'Yes, completely.', pq:'Você evita fumar?', pa:'Sim, completamente.'},
+ {q:'Do you avoid alcohol?', a:'Yes, always.', pq:'Você evita álcool?', pa:'Sim, sempre.'},
+ {q:'Why avoid bad habits?', a:'They harm our health.', pq:'Por que evitar maus hábitos?', pa:'Eles prejudicam nossa saúde.'},
+ {q:'Do you join fitness groups?', a:'No, not yet.', pq:'Você participa de grupos de fitness?', pa:'Não, ainda não.'},
+ {q:'Do you set fitness goals?', a:'Yes, every month.', pq:'Você define metas de fitness?', pa:'Sim, todo mês.'},
+ {q:'Do you track progress?', a:'Yes, carefully.', pq:'Você acompanha seu progresso?', pa:'Sim, com cuidado.'},
+ {q:'Do you enjoy healthy living?', a:'Yes, very much.', pq:'Você gosta de viver de forma saudável?', pa:'Sim, muito.'},
+ {q:'What motivates healthy habits?', a:'My future goals.', pq:'O que motiva seus hábitos saudáveis?', pa:'Minhas metas futuras.'},
+ {q:'What keeps you motivated?', a:'My health and family.', pq:'O que te mantém motivado?', pa:'Minha saúde e minha família.'},
+ {q:'Will continue healthy habits?', a:'Yes, forever.', pq:'Você vai continuar com hábitos saudáveis?', pa:'Sim, para sempre.'},
+ {q:'What is best health habit?', a:'Regular exercise daily.', pq:'Qual é o melhor hábito de saúde?', pa:'Exercício regular diário.'},
+ {q:'What is worst habit?', a:'Eating too much junk.', pq:'Qual é o pior hábito?', pa:'Comer muita besteira.'},
+ {q:'Do you avoid that habit?', a:'Yes, completely.', pq:'Você evita esse hábito?', pa:'Sim, completamente.'},
+ {q:'What message about health?', a:'Health is real wealth.', pq:'Que mensagem sobre saúde?', pa:'Saúde é a verdadeira riqueza.'},
+ {q:'Why protect your health?', a:'A healthy life matters.', pq:'Por que proteger sua saúde?', pa:'Uma vida saudável importa.'},
+ {q:'Do you love healthy living?', a:'Yes, very much.', pq:'Você ama viver de forma saudável?', pa:'Sim, muito.'},
+ {q:'What is your lifestyle?', a:'Simple and healthy.', pq:'Qual é o seu estilo de vida?', pa:'Simples e saudável.'},
+ {q:'What brings good health?', a:'Good food and exercise.', pq:'O que traz boa saúde?', pa:'Boa comida e exercício.'},
+ {q:'What is healthy lifestyle?', a:'Healthy habits for life.', pq:'O que é um estilo de vida saudável?', pa:'Hábitos saudáveis para a vida toda.'},
+ {q:'Do you believe prevention matters?', a:'Yes, absolutely.', pq:'Você acredita que a prevenção importa?', pa:'Sim, com certeza.'},
+ {q:'Why prevent diseases early?', a:'Prevention saves lives.', pq:'Por que prevenir doenças cedo?', pa:'Prevenção salva vidas.'},
+ {q:'Do you enjoy healthy routines?', a:'Yes, every day.', pq:'Você gosta de rotinas saudáveis?', pa:'Sim, todos os dias.'},
+]},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let themeIdx = 0;
+let mode = 'aprender';
+let learnIdx = {}; THEMES.forEach((t,i) => learnIdx[i] = 0);
+let ptShown = false;
+let pracIdx = {}; THEMES.forEach((t,i) => pracIdx[i] = 0);
+let pracRevealed = false;
+let quizPool = [];
+THEMES.forEach(t => t.items.forEach(it => quizPool.push({q:it.q, a:it.a, theme:t.label})));
+const QUIZ_LEN = 15;
+let quizQuestions = [], quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function currentTheme(){ return THEMES[themeIdx]; }
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function saveThemeProgress(){
+  try {
+    let temasEstudados = [];
+    try { temasEstudados = JSON.parse(localStorage.getItem('s14_progresso')).temasEstudados || []; } catch(e) { temasEstudados = []; }
+    const id = currentTheme().id;
+    if (temasEstudados.indexOf(id) === -1) temasEstudados.push(id);
+    localStorage.setItem('s14_progresso', JSON.stringify({temasEstudados}));
+  } catch(e) {}
+}
+
+// ── THEME STRIP ───────────────────────────────────────────────────────────────
+function renderThemeStrip(){
+  const strip = document.getElementById('themeStrip');
+  strip.className = 'theme-strip' + (mode==='quiz' ? ' quiz-active' : '');
+  strip.innerHTML = THEMES.map((t,i) => `
+    <div class="theme-tab ${i===themeIdx && mode!=='quiz' ?'on':''}" onclick="selectTheme(${i})">
+      <span class="theme-tab-icon">${t.icon}</span>
+      <div class="theme-tab-label">${t.label}</div>
+    </div>`).join('');
+}
+function selectTheme(i){
+  if (mode === 'quiz') return;
+  themeIdx = i;
+  ptShown = false;
+  pracRevealed = false;
+  renderThemeStrip();
+  renderAll();
+  saveThemeProgress();
+}
+
+// ── MODE SWITCH ───────────────────────────────────────────────────────────────
+function setMode(m){
+  mode = m;
+  ptShown = false;
+  pracRevealed = false;
+  document.querySelectorAll('#modeGroup .ctrl-btn').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  const panelMap = {aprender:'panelAprender', praticar:'panelPraticar', quiz:'panelQuiz'};
+  Object.values(panelMap).forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(panelMap[m]).classList.remove('hidden');
+  renderThemeStrip();
+  if (m === 'quiz' && quizQuestions.length === 0) startQuiz();
+  renderAll();
+}
+function renderAll(){
+  if (mode === 'aprender') renderAprender();
+  else if (mode === 'praticar') renderPraticar();
+  else if (mode === 'quiz') renderQuiz();
+}
+
+// ── MODO APRENDER ──────────────────────────────────────────────────────────────
+function renderAprender(){
+  const t = currentTheme();
+  const idx = learnIdx[themeIdx];
+  const item = t.items[idx];
+  document.getElementById('panelAprender').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">${t.icon} ${t.title}</span>
+        <span class="p-count">Pergunta ${idx+1} de ${t.items.length}</span>
+      </div>
+      <div class="p-body">
+        <div class="q-label">Pergunta</div>
+        <div class="q-big">${item.q}</div>
+        <div class="a-label">Resposta</div>
+        <div class="a-big">${item.a}</div>
+        <div class="pt-box ${ptShown?'show':''}" id="ptBox"><b>P:</b> ${item.pq}<br><b>R:</b> ${item.pa}</div>
+        <div class="p-actions">
+          <button class="act-btn" onclick="toggleTranslation()">${ptShown?'Ocultar tradução':'Ver tradução'}</button>
+          <button class="act-btn primary" onclick="nextLearn()">Próxima →</button>
+        </div>
+      </div>
+    </div>`;
+}
+function toggleTranslation(){
+  ptShown = !ptShown;
+  renderAprender();
+}
+function nextLearn(){
+  const t = currentTheme();
+  learnIdx[themeIdx] = (learnIdx[themeIdx] + 1) % t.items.length;
+  ptShown = false;
+  renderAprender();
+}
+
+// ── MODO PRATICAR ──────────────────────────────────────────────────────────────
+function renderPraticar(){
+  const t = currentTheme();
+  const idx = pracIdx[themeIdx];
+  const item = t.items[idx];
+  document.getElementById('panelPraticar').innerHTML = `
+    <div class="p-card">
+      <div class="p-head">
+        <span class="p-tag">${t.icon} ${t.title}</span>
+        <span class="p-count">Pergunta ${idx+1} de ${t.items.length}</span>
+      </div>
+      <div class="p-body">
+        <div class="q-label">Pergunta</div>
+        <div class="q-big">${item.q}</div>
+        <input type="text" class="prac-input" id="pracInput" placeholder="Digite sua resposta em inglês..." autocomplete="off">
+        <div class="model-answer ${pracRevealed?'show':''}" id="modelAnswer">
+          <div class="model-answer-label">Resposta modelo</div>
+          <div class="model-answer-text">${item.a}</div>
+          <div class="model-answer-pt">${item.pa}</div>
+        </div>
+        <div class="p-actions">
+          <button class="act-btn" onclick="revealAnswer()">Ver resposta</button>
+          <button class="act-btn primary" onclick="nextPratice()">Próxima →</button>
+        </div>
+      </div>
+    </div>`;
+}
+function revealAnswer(){
+  pracRevealed = true;
+  renderPraticar();
+  const input = document.getElementById('pracInput');
+  if (input) input.focus();
+}
+function nextPratice(){
+  const t = currentTheme();
+  pracIdx[themeIdx] = (pracIdx[themeIdx] + 1) % t.items.length;
+  pracRevealed = false;
+  renderPraticar();
+}
+
+// ── MODO QUIZ ALEATÓRIO ─────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function startQuiz(){
+  quizQuestions = shuffle(quizPool).slice(0, QUIZ_LEN).map(item => {
+    const distractorPool = quizPool.filter(p => p.a !== item.a);
+    const distractors = shuffle(distractorPool).slice(0, 3).map(d => d.a);
+    const options = shuffle([item.a, ...distractors]);
+    return {q: item.q, a: item.a, theme: item.theme, options};
+  });
+  quizIdx = 0;
+  quizScore = 0;
+  quizAnswered = false;
+}
+function renderQuiz(){
+  if (quizQuestions.length === 0) { startQuiz(); }
+  if (quizIdx >= quizQuestions.length) { renderQuizResult(); return; }
+  quizAnswered = false;
+  const q = quizQuestions[quizIdx];
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-top">
+          <span class="quiz-score">Pontuação: ${quizScore}/${quizQuestions.length}</span>
+          <span class="p-count">🎯 Quiz</span>
+        </div>
+        <div class="quiz-qn">Questão ${quizIdx+1} de ${quizQuestions.length}</div>
+        <div class="quiz-prompt-box">${q.q}</div>
+        <div class="quiz-options" id="quizOptions">${q.options.map(o => `<button class="quiz-opt" onclick="quizAnswer(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>
+        <div class="quiz-next-row"><button class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()" disabled>→ Próxima Questão</button></div>
+      </div>
+    </div>`;
+}
+function quizAnswer(btn, v){
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIdx];
+  const correct = (v === q.a);
+  if (correct) quizScore++;
+  document.querySelectorAll('#quizOptions .quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.a) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  document.querySelector('.quiz-score').textContent = `Pontuação: ${quizScore}/${quizQuestions.length}`;
+  document.getElementById('quizNextBtn').disabled = false;
+}
+function quizNext(){ quizIdx++; renderQuiz(); }
+function renderQuizResult(){
+  const pct = Math.round((quizScore/quizQuestions.length)*100);
+  document.getElementById('panelQuiz').innerHTML = `
+    <div class="p-card">
+      <div class="p-body">
+        <div class="quiz-result">
+          <div class="quiz-result-score">${quizScore}/${quizQuestions.length}</div>
+          <div class="quiz-result-label">${pct}% de acerto ${pct>=80?'— Excelente! 🎉':pct>=50?'— Bom trabalho, continue praticando.':'— Revise os temas e tente de novo.'}</div>
+          <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Novo Quiz</button>
+        </div>
+      </div>
+    </div>`;
+}
+function restartQuiz(){ startQuiz(); renderQuiz(); }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  const modoParam = params.get('modo');
+  const temaParam = params.get('tema');
+  if (temaParam) {
+    const found = THEMES.findIndex(t => t.id === temaParam);
+    if (found !== -1) themeIdx = found;
+  }
+  renderThemeStrip();
+  if (modoParam && ['aprender','praticar','quiz'].includes(modoParam)) setMode(modoParam);
+  else renderAll();
+  if (mode !== 'quiz') saveThemeProgress();
+})();
+</script>
+</body>
+</html>
