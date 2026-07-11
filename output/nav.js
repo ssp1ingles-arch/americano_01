@@ -16,6 +16,7 @@
     {id: 's8', href: base + 'sistema8/index.html', icon: '🧱', label: 'Sistema 8 — Estruturas Fixas', color: '#F97316'},
     {id: 's9', href: base + 'sistema9/index.html', icon: '⏱️', label: 'Sistema 9 — Went ou Gone?', color: '#06B6D4'},
     {id: 's10', href: base + 'sistema10/index.html', icon: '📊', label: 'Sistema 10 — Teste seu Nível', color: '#84CC16'},
+    {id: 's11', href: base + 'sistema11/index.html', icon: '🧭', label: 'Sistema 11 — Como Aprender Inglês', color: '#FB923C'},
   ];
 
   var path = window.location.pathname;
