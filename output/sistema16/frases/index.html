@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frases de Filmes · Sistema 16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s16:#7C3AED;--s16d:#4C1D95;--s16l:#EDE9FE;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s16);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s16);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — APRENDER ===== */
+.cat-strip{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.6rem;margin-bottom:1.1rem;}
+.cat-tab{flex-shrink:0;background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.6rem .9rem;cursor:pointer;transition:all .18s;text-align:center;font-family:'Space Grotesk',sans-serif;}
+.cat-tab:hover{border-color:var(--bdh);}
+.cat-tab.on{border-color:var(--s16);background:rgba(124,58,237,.12);box-shadow:0 0 12px rgba(124,58,237,.2);}
+.cat-tab-icon{font-size:1.15rem;display:block;margin-bottom:.2rem;}
+.cat-tab-label{font-size:.62rem;font-weight:700;color:var(--tm);white-space:nowrap;}
+.cat-tab.on .cat-tab-label{color:var(--s16);}
+.cat-tab-n{font-size:.56rem;color:var(--td);margin-top:.1rem;}
+
+.cat-header{margin-bottom:1rem;}
+.cat-header-title{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;color:var(--s16);display:flex;align-items:center;gap:.5rem;}
+.cat-header-desc{font-size:.85rem;color:var(--tm);margin-top:.3rem;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.freq-table{width:100%;min-width:600px;border-collapse:collapse;}
+.freq-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.freq-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.freq-table tr:last-child td{border-bottom:none;}
+.freq-table tr:hover td{background:rgba(255,255,255,.02);}
+.frase-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s16);min-width:170px;}
+.uso-cell{color:var(--tx);min-width:180px;}
+.traducao-cell{color:var(--tm);min-width:150px;}
+.nuance-cell{min-width:150px;}
+.nuance-text{max-height:1.5em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:220px;color:var(--td);font-size:.8rem;}
+.nuance-text.expanded{max-height:400px;white-space:normal;overflow:visible;text-overflow:clip;max-width:280px;color:var(--tm);}
+.nuance-btn{margin-top:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;color:var(--s16);background:none;border:none;cursor:pointer;padding:0;}
+.nuance-btn:hover{text-decoration:underline;}
+
+.learn-nav{display:flex;gap:.6rem;margin-top:1.2rem;}
+.nav-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.nav-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+.nav-btn.primary{background:var(--s16);color:#fff;border:none;}
+.nav-btn.primary:hover{filter:brightness(1.1);}
+
+@media(max-width:620px){
+  .learn-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  .wrap{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 2 — PRATICAR (FLASHCARD REVERSO) ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front{font-size:1.2rem;line-height:1.6;color:var(--tx);font-weight:600;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-expr{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--s16);margin-bottom:.6rem;line-height:1.4;}
+.flash-cat{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--s16);background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);padding:.25rem .7rem;border-radius:2rem;margin-bottom:.6rem;}
+.flash-expl{font-size:.85rem;color:var(--tm);line-height:1.55;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover{background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover{background:rgba(95,216,122,.1);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s16);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s16);color:#fff;cursor:pointer;}
+
+/* ===== MODO 3 — ARMADILHAS ===== */
+.armadilhas-intro{text-align:center;margin-bottom:1.4rem;}
+.armadilhas-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--rd);margin-bottom:.4rem;}
+.armadilhas-sub{font-size:.85rem;color:var(--tm);}
+
+.arm-list{display:flex;flex-direction:column;gap:.85rem;}
+.arm-card{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.2);border-left:4px solid var(--rd);border-radius:.7rem;padding:1.1rem 1.25rem;}
+.arm-en{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--tx);margin-bottom:.7rem;}
+.arm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;}
+.arm-block{background:var(--bg);border:1px solid var(--bd);border-radius:.55rem;padding:.6rem .8rem;}
+.arm-block-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;}
+.arm-block.parece .arm-block-label{color:var(--rd);}
+.arm-block.verdade .arm-block-label{color:var(--gn);}
+.arm-block-text{font-size:.85rem;color:var(--tx);line-height:1.5;}
+.arm-warn{display:flex;gap:.5rem;font-size:.82rem;color:var(--tm);line-height:1.6;background:rgba(0,0,0,.15);border-radius:.5rem;padding:.65rem .85rem;}
+.arm-warn-icon{flex-shrink:0;}
+
+@media(max-width:560px){
+  .arm-grid{grid-template-columns:1fr;}
+}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 16</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🎬 Frases de Filmes</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="aprender" onclick="setModo('aprender')">Aprender</button>
+        <button class="tab-btn" data-modo="praticar" onclick="setModo('praticar')">Praticar</button>
+        <button class="tab-btn" data-modo="armadilhas" onclick="setModo('armadilhas')">Armadilhas</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — APRENDER -->
+  <div class="panel" id="panelAprender">
+    <div class="cat-strip" id="catStrip"></div>
+    <div class="cat-header" id="catHeader"></div>
+    <div class="table-wrap">
+      <table class="freq-table">
+        <thead>
+          <tr><th>Frase</th><th>Uso / Intenção</th><th>Tradução BR</th><th>Nuance</th></tr>
+        </thead>
+        <tbody id="freqTableBody"></tbody>
+      </table>
+    </div>
+    <div class="learn-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevCat()">← Categoria anterior</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="nextCat()">Próxima categoria →</button>
+    </div>
+  </div>
+
+  <!-- MODO 2 — PRATICAR -->
+  <div class="panel hidden" id="panelPraticar">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s16)">1/35</div><div class="flash-stat-l">Cartão</div></div>
+    </div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- MODO 3 — ARMADILHAS -->
+  <div class="panel hidden" id="panelArmadilhas">
+    <div class="armadilhas-intro">
+      <div class="armadilhas-title">⚠️ Armadilhas para Brasileiros</div>
+      <div class="armadilhas-sub">Frases que parecem uma coisa, mas significam outra completamente diferente</div>
+    </div>
+    <div class="arm-list" id="armList"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 8 CATEGORIAS × 35 FRASES ────────────────────────────────────────────
+const CATEGORIAS = [
+  {icon:'⚡', nome:'Urgência & Ação', desc:'Frases para mover, agir, reagir rápido', frases:[
+    {frase:"You better hurry up.", uso:"Urge alguém a se mover mais rápido", traducao:'"É melhor você se apressar" / "Corre!"', nuance:'"You better" = conselho forte / quase ameaça amigável'},
+    {frase:"Here's what we're going to do.", uso:"Introduz um plano de ação", traducao:'"Aqui está o que vamos fazer"', nuance:'Sinaliza que alguém está assumindo o controle da situação'},
+    {frase:"We've got some work to do.", uso:"Indica que há tarefas à frente", traducao:'"Temos trabalho pela frente"', nuance:'Tom motivador ou levemente preocupado'},
+    {frase:"I'm taking charge.", uso:"Declara que está assumindo o controle", traducao:'"Estou assumindo o comando"', nuance:'Usado em momentos de crise ou liderança'},
+    {frase:"Show me what you've got.", uso:"Desafio — mostre sua capacidade", traducao:'"Me mostre do que você é capaz"', nuance:'Tom de desafio amistoso ou teste'}
+  ]},
+  {icon:'🤝', nome:'Concordância & Discordância', desc:'Concordar, discordar, questionar', frases:[
+    {frase:"I agree completely.", uso:"Concordância total e entusiasmada", traducao:'"Concordo totalmente"', nuance:'Mais formal/enfático que "I agree" simples'},
+    {frase:"That's not good enough.", uso:"Rejeitar algo que não atinge o padrão esperado", traducao:'"Isso não é suficiente" / "Não me satisfaz"', nuance:'Pode soar exigente — comum em filmes de negócios/drama'},
+    {frase:"That's absurd.", uso:"Algo é completamente ridículo", traducao:'"Que absurdo" / "Que ridículo"', nuance:'Mais formal que "That\'s crazy"'},
+    {frase:"That's logical.", uso:"Concordar com um raciocínio", traducao:'"Faz sentido" / "É lógico"', nuance:'Neutro e direto'},
+    {frase:"I don't see how that's relevant.", uso:"Afastar algo que está fora do assunto", traducao:'"Não vejo como isso é relevante"', nuance:'Usado para encerrar tangentes'}
+  ]},
+  {icon:'❤️', nome:'Situações Pessoais', desc:'Relacionamentos, sentimentos, estado', frases:[
+    {frase:"I'm feeling much better now.", uso:"Reportar melhora de saúde ou estado emocional", traducao:'"Estou me sentindo muito melhor agora"', nuance:'Resposta comum depois de doença ou crise'},
+    {frase:"I got a bad feeling about this.", uso:"Expressar pressentimento negativo", traducao:'"Tenho um mau pressentimento sobre isso"', nuance:'Star Wars quote — agora é expressão cultural'},
+    {frase:"I'm not dating anyone.", uso:"Declarar que está solteiro", traducao:'"Não estou namorando ninguém"', nuance:'Mais natural que "I\'m single" em conversa'},
+    {frase:"I didn't want to hurt your feelings.", uso:"Explicar/desculpar algo sensível", traducao:'"Não queria ferir seus sentimentos"', nuance:'Usado ao revelar algo que foi omitido por delicadeza'},
+    {frase:"I'd do it again.", uso:"Sem arrependimentos — faria de novo", traducao:'"Faria de novo"', nuance:'Tom de convicção — comum em falas dramáticas'}
+  ]},
+  {icon:'🚫', nome:'Comunicação Difícil', desc:'Recusa, segredo, desconforto', frases:[
+    {frase:"I don't want to hear it.", uso:"Recusar-se a ouvir mais explicações", traducao:'"Não quero ouvir"', nuance:'Tom de impaciência ou resolução'},
+    {frase:"I have nothing to say to you.", uso:"Encerrar completamente a comunicação", traducao:'"Não tenho nada a dizer para você"', nuance:'Mais definitivo e frio que "I don\'t want to talk"'},
+    {frase:"You're twisting my words.", uso:"Quando alguém distorce o que você disse", traducao:'"Você está torcendo minhas palavras"', nuance:'Muito comum em discussões/debates'},
+    {frase:"Thanks, but no thanks.", uso:"Recusa educada mas firme", traducao:'"Obrigado, mas não"', nuance:'Tom levemente irônico, é uma recusa gentil mas definitiva'},
+    {frase:"She doesn't want anyone to know.", uso:"Sobre guardar segredo de terceiros", traducao:'"Ela não quer que ninguém saiba"', nuance:'Fórmula padrão para segredo em narrativa'}
+  ]},
+  {icon:'🎯', nome:'Planos & Controle', desc:'Assumir controle, explicar plano', frases:[
+    {frase:"What do I get out of this?", uso:"Perguntar sobre benefício pessoal", traducao:'"O que eu ganho com isso?" / "O que tem pra mim?"', nuance:'= "What\'s in it for me?"'},
+    {frase:"Is now a good time to talk?", uso:"Pedir permissão antes de iniciar conversa", traducao:'"É um bom momento para conversar?"', nuance:'Mais educado que simplesmente começar a falar'},
+    {frase:"You're no better.", uso:"Apontar que alguém é igualmente culpado/igual", traducao:'"Você não é melhor que ninguém" / "Você não tem moral"', nuance:'Frase de defesa em discussão'},
+    {frase:"Don't fail me now.", uso:"Pedir confiabilidade em momento crítico", traducao:'"Não me decepcione agora"', nuance:'Dito a uma pessoa, objeto ou ao próprio corpo'}
+  ]},
+  {icon:'😮', nome:'Surpresa & Confusão', desc:'Reagir ao inesperado', frases:[
+    {frase:"Where did that come from?", uso:"Surpreso com ação ou comentário repentino", traducao:'"De onde isso saiu?" / "Que foi isso?"', nuance:'Reação a algo inesperado — físico ou verbal'},
+    {frase:"What am I looking at?", uso:"Confusão ao ver algo difícil de entender", traducao:'"O que é isso?" / "O que estou vendo?"', nuance:'Tom de confusão genuína'},
+    {frase:"That's your problem.", uso:"Indicar que o problema pertence ao outro", traducao:'"Isso é problema seu"', nuance:'Tom indiferente, pode ser rude dependendo do contexto'},
+    {frase:"I knew you would say something like that.", uso:"Antecipar o comportamento do outro", traducao:'"Sabia que você ia falar isso"', nuance:'Pode ser dito com carinho ou com ironia'}
+  ]},
+  {icon:'⭐', nome:'Elogios & Apoio', desc:'Encorajar, apoiar, reconhecer', frases:[
+    {frase:"You look amazing.", uso:"Elogio de aparência", traducao:'"Você está incrível"', nuance:'Muito natural e comum — mais forte que "you look good"'},
+    {frase:"You succeeded.", uso:"Parabenizar por conquista", traducao:'"Você conseguiu"', nuance:'Mais formal — no dia a dia usam "You did it!" ou "You made it!"'},
+    {frase:"I'm here for them.", uso:"Declarar apoio emocional", traducao:'"Estou aqui por eles" / "Conto com eles"', nuance:'Frase de solidariedade e lealdade'},
+    {frase:"I'm glad you're with us.", uso:"Bem-vindo / feliz com a presença", traducao:'"Fico feliz que você está com a gente"', nuance:'Tom de acolhimento — reunião, grupo, time'}
+  ]},
+  {icon:'👋', nome:'Despedidas & Transições', desc:'Encerrar conversa, marcar próximo encontro', frases:[
+    {frase:"Have a good night.", uso:"Despedida noturna", traducao:'"Boa noite" / "Tenha uma boa noite"', nuance:'Mais caloroso que "goodbye"'},
+    {frase:"Until next week.", uso:"Marcar próximo encontro programado", traducao:'"Até a semana que vem"', nuance:'Comum em podcasts, shows, reuniões recorrentes'},
+    {frase:"I'll see you all next week.", uso:"Despedida para um grupo", traducao:'"Vejo todos vocês na semana que vem"', nuance:'Variante mais pessoal e direta'}
+  ]}
+];
+
+// ── DATA: ARMADILHAS PARA BRASILEIROS ─────────────────────────────────────────
+const ARMADILHAS = [
+  {ingles:"You better [do sth]", parece:'"Você melhor faz"', verdade:'Conselho forte: "É melhor você fazer"', armadilha:'"Better" aqui é modal, não comparativo'},
+  {ingles:"I got a bad feeling", parece:"erro gramatical", verdade:"expressão nativa coloquial", armadilha:'"I got" = "I have" no spoken English informal'},
+  {ingles:"Thanks, but no thanks", parece:"confuso", verdade:"recusa educada mas firme", armadilha:'A repetição de "thanks" é intencional — soa irônico'},
+  {ingles:"Indifferent", parece:'"diferente"', verdade:"indiferente, sem interesse", armadilha:'Falsa cognata! "Different" = diferente; "indifferent" = indiferente'},
+  {ingles:"You're no better", parece:'"você é nenhum melhor"', verdade:'"você não é melhor do que ninguém"', armadilha:"Estrutura negativa de comparação"},
+  {ingles:"What do I get out of this?", parece:"confuso", verdade:'"O que eu ganho com isso?"', armadilha:'"get out of" = extrair benefício de algo'},
+  {ingles:"Available", parece:'"ável" (sufixo BR)', verdade:"disponível / acessível", armadilha:'"He\'s not available" = ele não está disponível (não "não é capaz")'},
+  {ingles:"I'd do it again", parece:'"Eu faria isso de novo"', verdade:"SEM ARREPENDIMENTOS", armadilha:'O "I\'d" (I would) aqui marca hipotético-afirmativo'}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's16_progresso';
+let state = {
+  modo: 'aprender',
+  categoriaAtual: 0,
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── ALL PHRASES FLATTENED (for flashcards) ──────────────────────────────────
+const ALL_PHRASES = [];
+CATEGORIAS.forEach(cat => {
+  cat.frases.forEach(f => ALL_PHRASES.push({ ...f, categoria: cat.nome, icon: cat.icon }));
+});
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelAprender').classList.toggle('hidden', modo !== 'aprender');
+  document.getElementById('panelPraticar').classList.toggle('hidden', modo !== 'praticar');
+  document.getElementById('panelArmadilhas').classList.toggle('hidden', modo !== 'armadilhas');
+  if (modo === 'aprender') renderAprender();
+  if (modo === 'praticar') renderFlash();
+  if (modo === 'armadilhas') renderArmadilhas();
+}
+
+// ── MODO 1 — APRENDER ────────────────────────────────────────────────────────
+function renderCatStrip() {
+  document.getElementById('catStrip').innerHTML = CATEGORIAS.map((cat, i) => `
+    <div class="cat-tab ${i === state.categoriaAtual ? 'on' : ''}" onclick="selectCat(${i})">
+      <span class="cat-tab-icon">${cat.icon}</span>
+      <div class="cat-tab-label">${cat.nome}</div>
+      <div class="cat-tab-n">${cat.frases.length} frases</div>
+    </div>
+  `).join('');
+}
+
+function selectCat(i) {
+  state.categoriaAtual = i;
+  saveState();
+  renderAprender();
+}
+
+function renderAprender() {
+  renderCatStrip();
+  const cat = CATEGORIAS[state.categoriaAtual];
+
+  document.getElementById('catHeader').innerHTML = `
+    <div class="cat-header-title">${cat.icon} ${cat.nome}</div>
+    <div class="cat-header-desc">${cat.desc}</div>
+  `;
+
+  document.getElementById('freqTableBody').innerHTML = cat.frases.map((f, idx) => {
+    const nid = `nuance-${state.categoriaAtual}-${idx}`;
+    return `
+      <tr>
+        <td class="frase-cell">${f.frase}</td>
+        <td class="uso-cell">${f.uso}</td>
+        <td class="traducao-cell">${f.traducao}</td>
+        <td class="nuance-cell">
+          <div class="nuance-text" id="${nid}">${f.nuance}</div>
+          <button class="nuance-btn" onclick="toggleNuance('${nid}', this)">ver +</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  document.getElementById('prevBtn').disabled = state.categoriaAtual === 0;
+  document.getElementById('nextBtn').textContent = state.categoriaAtual === CATEGORIAS.length - 1 ? 'Concluir ✓' : 'Próxima categoria →';
+}
+
+function toggleNuance(id, btn) {
+  const el = document.getElementById(id);
+  const expanded = el.classList.toggle('expanded');
+  btn.textContent = expanded ? 'ver −' : 'ver +';
+}
+
+function prevCat() {
+  if (state.categoriaAtual > 0) { state.categoriaAtual--; saveState(); renderAprender(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function nextCat() {
+  if (state.categoriaAtual < CATEGORIAS.length - 1) { state.categoriaAtual++; saveState(); renderAprender(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ── MODO 2 — PRATICAR (FLASHCARD REVERSO) ───────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== ALL_PHRASES.length) {
+    state.flashOrder = shuffle(ALL_PHRASES.map((_, i) => i));
+    saveState();
+  }
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🎬 Você revisou as 35 frases!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${ALL_PHRASES.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const f = ALL_PHRASES[state.flashOrder[state.flashIndex]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Como se diz em inglês?</div>
+      <div class="flash-front">${f.traducao}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-cat">${f.icon} ${f.categoria}</div>
+        <div class="flash-expr">${f.frase}</div>
+        <div class="flash-expl">${f.nuance}</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashOrder = shuffle(ALL_PHRASES.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, ALL_PHRASES.length) + '/' + ALL_PHRASES.length;
+}
+
+// ── MODO 3 — ARMADILHAS ──────────────────────────────────────────────────────
+function renderArmadilhas() {
+  document.getElementById('armList').innerHTML = ARMADILHAS.map(a => `
+    <div class="arm-card">
+      <div class="arm-en">${a.ingles}</div>
+      <div class="arm-grid">
+        <div class="arm-block parece">
+          <div class="arm-block-label">Parece ser</div>
+          <div class="arm-block-text">${a.parece}</div>
+        </div>
+        <div class="arm-block verdade">
+          <div class="arm-block-label">É na verdade</div>
+          <div class="arm-block-text">${a.verdade}</div>
+        </div>
+      </div>
+      <div class="arm-warn"><span class="arm-warn-icon">⚠️</span><span>${a.armadilha}</span></div>
+    </div>
+  `).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

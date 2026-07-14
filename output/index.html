@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{height:100%;}
 body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
@@ -114,6 +114,16 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 .c-s14 .card-bar{background:linear-gradient(90deg,var(--s14),transparent);}
 .c-s14 .card-sys,.c-s14 .card-title,.c-s14 .card-cta{color:var(--s14);}
 
+/* CARD — SISTEMA 16 (VIOLET) */
+.c-s16:hover{border-color:rgba(124,58,237,.4);box-shadow:0 12px 40px rgba(124,58,237,.14);}
+.c-s16 .card-bar{background:linear-gradient(90deg,var(--s16),transparent);}
+.c-s16 .card-sys,.c-s16 .card-title,.c-s16 .card-cta{color:var(--s16);}
+
+/* CARD — SISTEMA 15 (AMBER) */
+.c-s15:hover{border-color:rgba(245,158,11,.4);box-shadow:0 12px 40px rgba(245,158,11,.12);}
+.c-s15 .card-bar{background:linear-gradient(90deg,var(--s15),transparent);}
+.c-s15 .card-sys,.c-s15 .card-title,.c-s15 .card-cta{color:var(--s15);}
+
 /* CARD — SISTEMA 13 (TEAL) */
 .c-s13:hover{border-color:rgba(45,212,191,.4);box-shadow:0 12px 40px rgba(45,212,191,.12);}
 .c-s13 .card-bar{background:linear-gradient(90deg,var(--s13),transparent);}
@@ -186,7 +196,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
     <span class="hl-am"> Fluência.</span>
     <span class="hl-vl"> Gramática.</span>
   </h1>
-  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 14 sistemas, uma jornada completa.</p>
+  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 16 sistemas, uma jornada completa.</p>
 </div>
 
 <!-- CHOOSE -->
@@ -382,6 +392,52 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
       </div>
       <div class="card-footer">
         <span class="card-cta">Acessar Sistema 13</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card c-s16" href="./sistema16/index.html">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-sys">Sistema 16</div>
+        <span class="card-icon">🎬</span>
+        <div class="card-title">Inglês com Filmes</div>
+        <div class="card-desc">Frases nativas extraídas de filmes e séries, organizadas por função comunicativa — urgência, recusa, surpresa, plano e mais.</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--s16);border-color:rgba(124,58,237,.3)">35 frases</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 categorias</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cta">Acessar Sistema 16</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- SEÇÃO: EXPRESSÕES -->
+<div class="section-block">
+  <div class="section-title">Expressões</div>
+  <div class="cards">
+
+    <a class="card c-s15" href="./sistema15/index.html">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-sys">Sistema 15</div>
+        <span class="card-icon">💬</span>
+        <div class="card-title">Expressões Idiomáticas</div>
+        <div class="card-desc">Não leve ao pé da letra — o que os americanos realmente querem dizer. 7 expressões com contexto real, exemplos nativos e roleplays autênticos.</div>
+        <div class="card-tags">
+          <span class="ctag" style="color:var(--s15);border-color:rgba(245,158,11,.3)">7 expressões</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">2 grupos</span>
+          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-cta">Acessar Sistema 15</span>
         <span class="card-arrow">→</span>
       </div>
     </a>
@@ -605,6 +661,16 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
         <span class="prog-n" id="p15n">0 / 8</span>
       </div>
       <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s15)">Sistema 15</span>
+        <div class="prog-track"><div class="prog-fill" id="p16fill" style="background:var(--s15);width:0%"></div></div>
+        <span class="prog-n" id="p16n">0 / 7</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s16)">Sistema 16</span>
+        <div class="prog-track"><div class="prog-fill" id="p17fill" style="background:var(--s16);width:0%"></div></div>
+        <span class="prog-n" id="p17n">0 / 35</span>
+      </div>
+      <div class="prog-row">
         <span class="prog-row-label" style="background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Jornada</span>
         <div class="prog-track"><div class="prog-fill" id="p4fill" style="background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);width:0%"></div></div>
         <span class="prog-n" id="p4n">0 / 120</span>
@@ -614,7 +680,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 </div>
 
 <!-- FOOTER -->
-<div class="footer">14 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 + 146 + 204 + 150 unidades · 120 etapas · inglês do real ao fluente</div>
+<div class="footer">16 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 + 146 + 204 + 150 + 7 + 35 unidades · 120 etapas · inglês do real ao fluente</div>
 
 <script>
 // ── PARTICLES ─────────────────────────────────────────────────────────────────
@@ -760,6 +826,30 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
         const p15pct = Math.round(s14Done / 8 * 100);
         document.getElementById('p15fill').style.width = p15pct + '%';
         document.getElementById('p15n').textContent = s14Done + ' / 8';
+      } catch(e) {}
+    }
+
+    // Sistema 15 — expressões vistas (localStorage key: s15_progresso.expressoesVistas, array of indices)
+    const s15 = localStorage.getItem('s15_progresso');
+    if (s15) {
+      try {
+        const s15p = JSON.parse(s15);
+        const s15Done = Array.isArray(s15p.expressoesVistas) ? s15p.expressoesVistas.length : 0;
+        const p16pct = Math.round(s15Done / 7 * 100);
+        document.getElementById('p16fill').style.width = p16pct + '%';
+        document.getElementById('p16n').textContent = s15Done + ' / 7';
+      } catch(e) {}
+    }
+
+    // Sistema 16 — frases revisadas no flashcard (localStorage key: s16_progresso.flashIndex, out of 35)
+    const s16 = localStorage.getItem('s16_progresso');
+    if (s16) {
+      try {
+        const s16p = JSON.parse(s16);
+        const s16Done = Math.min(35, typeof s16p.flashIndex === 'number' ? s16p.flashIndex : 0);
+        const p17pct = Math.round(s16Done / 35 * 100);
+        document.getElementById('p17fill').style.width = p17pct + '%';
+        document.getElementById('p17n').textContent = s16Done + ' / 35';
       } catch(e) {}
     }
 

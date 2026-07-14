@@ -20,6 +20,8 @@
     {id: 's12', href: base + 'sistema12/index.html', icon: '🌙', label: 'Sistema 12 — Rotina da Noite', color: '#818CF8'},
     {id: 's13', href: base + 'sistema13/index.html', icon: '📝', label: 'Sistema 13 — Vocabulário A1', color: '#2DD4BF'},
     {id: 's14', href: base + 'sistema14/index.html', icon: '💪', label: 'Sistema 14 — Vida Saudável', color: '#34D399'},
+    {id: 's15', href: base + 'sistema15/index.html', icon: '💬', label: 'Sistema 15 — Expressões Idiomáticas', color: '#F59E0B'},
+    {id: 's16', href: base + 'sistema16/index.html', icon: '🎬', label: 'Sistema 16 — Inglês com Filmes', color: '#7C3AED'},
   ];
 
   var path = window.location.pathname;

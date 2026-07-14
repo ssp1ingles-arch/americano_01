@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expressões Idiomáticas · Sistema 15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--vl:#A78BFA;--s15:#F59E0B;--s15d:#92400E;--s15l:#FEF3C7;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s15);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:820px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s15);color:#1a1206;}
+
+.wrap{padding-top:170px;max-width:820px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — APRENDER ===== */
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.85rem 1.1rem;margin-bottom:1.2rem;}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}
+.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:800;color:var(--s15);}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s15),#fbbf24);border-radius:3px;transition:width .5s ease;}
+
+.learn-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.learn-head{padding:1.5rem 1.5rem 1.1rem;text-align:center;border-bottom:1px solid var(--bd);}
+.learn-badges{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.badge{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.28rem .7rem;border-radius:2rem;border:1px solid;}
+.badge-grupo1{color:var(--s15);border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.1);}
+.badge-grupo2{color:var(--vl);border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.1);}
+.badge-informal{color:var(--tm);border-color:var(--bd);background:rgba(255,255,255,.04);}
+.badge-muitoinformal{color:var(--rd);border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.1);}
+.learn-expressao{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.6rem,5vw,2.3rem);font-weight:800;color:var(--s15);line-height:1.25;}
+
+.learn-body{padding:1.4rem 1.5rem;}
+.lsec{margin-bottom:1.2rem;}
+.lsec-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.lsec-text{font-size:.92rem;line-height:1.65;color:var(--tx);}
+.lsec-estrutura{font-family:'Space Grotesk',sans-serif;font-size:.85rem;line-height:1.7;color:var(--tm);background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.75rem .9rem;}
+
+.armadilha-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);border-radius:.7rem;padding:.85rem 1rem;font-size:.85rem;line-height:1.6;color:var(--tx);}
+.armadilha-box b{color:var(--rd);}
+
+.exemplos-toggle{width:100%;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--s15);cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.exemplos-toggle:hover{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.06);}
+.exemplos-arrow{transition:transform .2s;}
+.exemplos-toggle.open .exemplos-arrow{transform:rotate(180deg);}
+.exemplos-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.exemplos-body.open{max-height:900px;margin-top:.9rem;}
+.exemplo-item{background:var(--bg);border:1px solid var(--bd);border-radius:.65rem;padding:.8rem .95rem;margin-bottom:.6rem;}
+.exemplo-item:last-child{margin-bottom:0;}
+.exemplo-en{font-size:.88rem;line-height:1.6;color:var(--tx);margin-bottom:.35rem;}
+.exemplo-pt{font-size:.82rem;line-height:1.6;color:var(--td);}
+
+.traducao-footer{padding:1rem 1.5rem 1.3rem;border-top:1px dashed var(--bd);text-align:center;}
+.traducao-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.4rem;}
+.traducao-text{font-size:.85rem;color:var(--s15);font-weight:600;}
+
+.learn-nav{display:flex;gap:.6rem;margin-top:1.2rem;}
+.nav-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.nav-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+.nav-btn.primary{background:var(--s15);color:#1a1206;border:none;}
+.nav-btn.primary:hover{filter:brightness(1.1);}
+
+@media(max-width:620px){
+  .learn-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  .wrap{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 2 — PRATICAR (FLASHCARD) ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front{font-size:1.15rem;line-height:1.6;color:var(--tx);font-weight:600;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-expr{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s15);margin-bottom:.55rem;}
+.flash-expl{font-size:.9rem;color:var(--tm);}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover{background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover{background:rgba(95,216,122,.1);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s15);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s15);color:#1a1206;cursor:pointer;}
+
+/* ===== MODO 3 — ROLEPLAY ===== */
+.rp-toggle-row{text-align:center;margin-bottom:1.3rem;}
+.rp-toggle-btn{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.6rem 1.2rem;border-radius:.55rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.rp-toggle-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.rp-toggle-btn.on{border-color:var(--s15);color:var(--s15);background:rgba(245,158,11,.08);}
+
+.rp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;margin-bottom:1.3rem;}
+.rp-head{padding:1.1rem 1.4rem;border-bottom:1px solid var(--bd);}
+.rp-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:.25rem;}
+.rp-fonte{font-size:.72rem;color:var(--td);font-style:italic;}
+.rp-body{padding:1.3rem 1.4rem;display:flex;flex-direction:column;gap:.8rem;}
+.rp-row{display:flex;flex-direction:column;max-width:82%;}
+.rp-row.left{align-self:flex-start;align-items:flex-start;}
+.rp-row.right{align-self:flex-end;align-items:flex-end;}
+.rp-who{font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;padding:0 .3rem;}
+.rp-bubble{padding:.7rem 1rem;border-radius:.9rem;font-size:.9rem;line-height:1.55;font-family:'Space Grotesk',sans-serif;font-weight:600;}
+.rp-row.left .rp-bubble{background:var(--bg);border:1px solid var(--bd);border-bottom-left-radius:.2rem;color:var(--tx);}
+.rp-row.right .rp-bubble{background:var(--s15);color:#1a1206;border-bottom-right-radius:.2rem;}
+.rp-bubble .hl{font-weight:800;text-decoration:underline;text-decoration-thickness:2px;}
+.rp-row.left .rp-bubble .hl{color:var(--s15);}
+.rp-row.right .rp-bubble .hl{color:#1a1206;text-decoration-color:#1a1206;}
+.rp-body.no-hl .hl{font-weight:600;text-decoration:none;}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+  .rp-row{max-width:92%;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 15</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💬 Expressões</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="aprender" onclick="setModo('aprender')">Aprender</button>
+        <button class="tab-btn" data-modo="praticar" onclick="setModo('praticar')">Praticar</button>
+        <button class="tab-btn" data-modo="roleplay" onclick="setModo('roleplay')">Roleplay</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — APRENDER -->
+  <div class="panel" id="panelAprender">
+    <div class="prog-card">
+      <div class="prog-header">
+        <span class="prog-title">Progresso</span>
+        <span class="prog-num" id="progNum">1 de 7 expressões</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:14%"></div></div>
+    </div>
+    <div class="learn-card" id="learnCard"></div>
+    <div class="learn-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevExpr()">← Anterior</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="nextExpr()">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- MODO 2 — PRATICAR -->
+  <div class="panel hidden" id="panelPraticar">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s15)">1/7</div><div class="flash-stat-l">Cartão</div></div>
+    </div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- MODO 3 — ROLEPLAY -->
+  <div class="panel hidden" id="panelRoleplay">
+    <div class="rp-toggle-row">
+      <button class="rp-toggle-btn" id="rpToggleBtn" onclick="toggleHighlight()">🙈 Esconder expressões</button>
+    </div>
+    <div id="rpArea"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 7 EXPRESSÕES ────────────────────────────────────────────────────────
+const EXPRESSOES = [
+  {
+    expressao:"a headscratcher", grupo:1, grupoLabel:"Grupo 1 — Confusão & Comunicação", registro:"INFORMAL",
+    significado:"Algo confuso, difícil de entender — algo que faz você \"coçar a cabeça\" tentando decifrar.",
+    estrutura:"It's a headscratcher. · It's a real headscratcher. (mais enfático) · That's kind of a headscratcher.",
+    armadilha:"Não é sobre coceira na cabeça com piolho 😅 — é uma metáfora para confusão mental, não física.",
+    traducao:'"Isso é um enigma" / "Não tô entendendo nada" / "Que coisa estranha"',
+    exemplos:[
+      {en:"I want to build my own furniture, but the directions are a real headscratcher.", pt:"Quero montar meus próprios móveis, mas as instruções são um baita enigma."},
+      {en:"She explained the situation to me, but honestly, it was a headscratcher.", pt:"Ela me explicou a situação, mas sinceramente, não fez sentido nenhum."},
+      {en:"The outfit she chose is kind of a headscratcher — I don't think she took the weather into consideration.", pt:"A roupa que ela escolheu é meio estranha — acho que ela não levou o clima em consideração."}
+    ]
+  },
+  {
+    expressao:"hit me", grupo:1, grupoLabel:"Grupo 1 — Confusão & Comunicação", registro:"INFORMAL",
+    significado:'"Pode falar" / "Tô pronto pra ouvir" — mesmo que seja algo difícil de escutar.',
+    estrutura:"Hit me. · Hit me with it. (forma mais extensa)",
+    armadilha:'A mesma palavra "hit" existe em muitos contextos (hit a ball, hit someone, hit the road). Em conversa informal, "hit me" é quase sempre um convite pra pessoa falar — não tem nada a ver com bater em alguém.',
+    traducao:'"Pode falar" / "Tô pronto" / "Me diz"',
+    exemplos:[
+      {en:'"Hey, I have a story to tell you, but you might not like it." — "All right. Hit me."', pt:'"Ei, tenho uma história pra te contar, mas você pode não gostar." — "Tudo bem. Pode falar."'},
+      {en:'"Do we have to start over?" — "Hit me."', pt:'"A gente precisa recomeçar?" — "Pode falar."'},
+      {en:'"I have some news for you." — "Okay, hit me with it, I\'m ready."', pt:'"Tenho uma notícia pra você." — "Ok, pode falar, tô pronta."'}
+    ]
+  },
+  {
+    expressao:"drop it", grupo:1, grupoLabel:"Grupo 1 — Confusão & Comunicação", registro:"INFORMAL",
+    significado:"Deixar pra lá / parar de falar sobre um assunto / não insistir mais nele.",
+    estrutura:"Drop it! (pedido/comando) · I'm going to drop it. (decisão própria)",
+    armadilha:"Não é sobre largar algo físico no chão — é sobre abandonar um assunto ou discussão.",
+    traducao:'"Deixa pra lá" / "Esquece" / "Chega desse assunto"',
+    exemplos:[
+      {en:"I really wanted to ask him about a raise, but I'm going to drop it until next year.", pt:"Eu realmente queria falar com ele sobre um aumento, mas vou deixar pra lá até o ano que vem."},
+      {en:"I'm still a little upset, but I'm going to drop it. It's too much negativity for me.", pt:"Ainda estou um pouco chateada, mas vou deixar pra lá. É negatividade demais pra mim."},
+      {en:"I wish you would just drop it.", pt:"Eu queria que você simplesmente deixasse isso pra lá."}
+    ]
+  },
+  {
+    expressao:"spit it out", grupo:1, grupoLabel:"Grupo 1 — Confusão & Comunicação", registro:"MUITO INFORMAL",
+    significado:"Fala logo / para de enrolar / diz duma vez o que você tem pra dizer.",
+    estrutura:"Just spit it out! — quase sempre usado no imperativo, com certa impaciência.",
+    armadilha:"Não é sobre cuspir literalmente. Muito casual — NÃO usar em contexto profissional formal, pode soar brusco.",
+    traducao:'"Fala logo" / "Para de enrolar" / "Cospe"',
+    exemplos:[
+      {en:'"I don\'t know how to say this..." — "Oh, come on, Lindsay. Just spit it out."', pt:'"Não sei como dizer isso..." — "Ah, qual é, Lindsay. Fala logo."'},
+      {en:'"So, what do we do now?" — "Michelle, spit it out."', pt:'"Então, o que a gente faz agora?" — "Michelle, fala logo."'},
+      {en:"Come on, just spit it out — what did the doctor say?", pt:"Vai, fala logo — o que o médico disse?"}
+    ]
+  },
+  {
+    expressao:"I don't have the heart to [do sth]", grupo:2, grupoLabel:"Grupo 2 — Coragem & Energia Emocional", registro:"INFORMAL",
+    significado:"Não tenho coragem emocional / não consigo fazer algo por empatia com a outra pessoa ou situação.",
+    estrutura:"I don't have the heart to <b>+ infinitivo</b><br>Ex: I don't have the heart to throw it away. / I don't have the heart to say no. / I don't have the heart to tell her.",
+    armadilha:"É sobre empatia com o outro (ou com a situação), não sobre falta de coragem física. É a mais emotiva das três expressões do Grupo 2.",
+    traducao:'"Não tive coragem" / "Não tive coração para" / "Não consegui fazer isso com [a pessoa]"',
+    exemplos:[
+      {en:"I didn't have the heart to unfollow him just yet.", pt:"Ainda não tive coragem de deixar de seguir ele (após o término)."},
+      {en:"I didn't have the heart to say no.", pt:"Não tive coragem de dizer não (aceitou um convite que não queria)."},
+      {en:"I don't have the heart to throw it away.", pt:"Não tenho coragem de jogar fora (falando de um desenho do filho)."}
+    ]
+  },
+  {
+    expressao:"I can't bring myself to [do sth]", grupo:2, grupoLabel:"Grupo 2 — Coragem & Energia Emocional", registro:"INFORMAL",
+    significado:"Algo dentro de você resiste — você não consegue se forçar a agir.",
+    estrutura:"I can't bring myself to <b>+ infinitivo</b><br>Ex: I can't bring myself to ask him about it. / I can't bring myself to watch it.",
+    armadilha:"Diferente de \"I don't have the heart to\": aqui é menos sobre empatia com o outro e mais sobre resistência interna sua — pode ser até sobre você mesmo.",
+    traducao:'"Não consigo me forçar a" / "Não consigo fazer isso" / "Algo em mim não deixa"',
+    exemplos:[
+      {en:"I can't bring myself to ask him about the money he owes me.", pt:"Não consigo me forçar a pedir pra ele o dinheiro que ele me deve."},
+      {en:"I can't bring myself to mute him.", pt:"Não consigo me forçar a silenciar ele (após o término, sobre o ex nas redes)."},
+      {en:"I can't bring myself to watch the last episode.", pt:"Não consigo me forçar a assistir o último episódio (de uma série favorita)."}
+    ]
+  },
+  {
+    expressao:"I don't have it in me", grupo:2, grupoLabel:"Grupo 2 — Coragem & Energia Emocional", registro:"INFORMAL",
+    significado:"Não tenho energia — física ou emocional — para fazer isso agora.",
+    estrutura:"I just don't have it in me. (sozinha) · I don't have it in me to argue anymore. (com verbo)",
+    armadilha:"Diferente das outras duas: não é sobre empatia nem resistência, é sobre esgotamento. Pode ser usada sozinha, como resposta completa.",
+    traducao:'"Não tenho pique pra isso" / "Não tenho energia" / "Tô sem forças"',
+    exemplos:[
+      {en:'"Will you make the final decision today?" — "Definitely not today. I don\'t have it in me."', pt:'"Você vai tomar a decisão final hoje?" — "Definitivamente não hoje. Não tenho energia pra isso."'},
+      {en:'"Do you want to talk about it more?" — "Honestly, I don\'t have it in me right now."', pt:'"Você quer falar mais sobre isso?" — "Sinceramente, não tenho energia agora."'},
+      {en:"I don't have it in me to go out in this weather.", pt:"Não tenho pique pra sair com esse tempo."}
+    ]
+  }
+];
+
+// ── DATA: 7 FLASHCARDS ────────────────────────────────────────────────────────
+const FLASHCARDS = [
+  {situacao:"Algo não faz sentido nenhum para você. O que você diz sobre a situação?", expressao:"a headscratcher", explicacao:"It's a headscratcher! → Isso é um enigma / Não faz sentido nenhum"},
+  {situacao:"Alguém hesita em te contar uma notícia difícil. Você diz que está pronto pra ouvir.", expressao:"Hit me!", explicacao:"Hit me! → Pode falar / Tô pronto pra ouvir"},
+  {situacao:"Você quer encerrar um assunto chato de vez.", expressao:"Drop it.", explicacao:"Drop it. → Deixa pra lá / Esquece isso"},
+  {situacao:"Seu amigo está demorando para te contar uma notícia ruim. O que você diz?", expressao:"Spit it out!", explicacao:"Spit it out! → Fala logo / Para de enrolar"},
+  {situacao:"Você não consegue jogar fora um presente antigo que ganhou.", expressao:"I don't have the heart to throw it away.", explicacao:"I don't have the heart to throw it away. → Não tenho coragem de jogar fora"},
+  {situacao:"Você não consegue pedir de volta o dinheiro que alguém te deve.", expressao:"I can't bring myself to ask.", explicacao:"I can't bring myself to ask. → Não consigo me forçar a pedir"},
+  {situacao:"Você está exausto após um dia difícil e não quer mais conversar sobre isso.", expressao:"I don't have it in me.", explicacao:"I don't have it in me. → Não tenho energia pra isso / Tô sem forças"}
+];
+
+// ── DATA: 2 ROLEPLAYS ─────────────────────────────────────────────────────────
+const ROLEPLAYS = [
+  {
+    titulo:"Montando Móvel Juntos", fonte:"All Ears English — ep. 2519",
+    linhas:[
+      {who:"Michelle", side:"left", text:"So, what do we do now?"},
+      {who:"Lindsay", side:"right", text:"Michelle, [[spit it out]]."},
+      {who:"Michelle", side:"left", text:"Lindsay, we made a big mistake. The piece should go here."},
+      {who:"Lindsay", side:"right", text:"Let me see that. I wish these directions were easier to understand. They are a [[headscratcher]] for sure. Okay, so what do we do?"},
+      {who:"Michelle", side:"left", text:"(hesita) ..."},
+      {who:"Lindsay", side:"right", text:"[[Hit me]]."},
+      {who:"Michelle", side:"left", text:"Do we have to start over? I would ask Hazel to help, but she's still mad at me."},
+      {who:"Lindsay", side:"right", text:"I wish you would just [[drop it]]."}
+    ]
+  },
+  {
+    titulo:"Após um Término", fonte:"All Ears English — ep. 2630",
+    linhas:[
+      {who:"Amiga A", side:"left", text:"Hey, how are you feeling about the breakup?"},
+      {who:"Amiga B", side:"right", text:"Well, I'm taking it day by day, but I keep seeing his stories online..."},
+      {who:"Amiga A", side:"left", text:"That makes sense. Why don't you just unfollow him?"},
+      {who:"Amiga B", side:"right", text:"Well, [[I don't have the heart to]] do that just yet."},
+      {who:"Amiga A", side:"left", text:"Can't you just mute him then?"},
+      {who:"Amiga B", side:"right", text:"I should, but [[I can't even bring myself to]] mute him. I'm definitely still attached."},
+      {who:"Amiga A", side:"left", text:"Do you want to talk about it more?"},
+      {who:"Amiga B", side:"right", text:"Honestly, [[I don't have it in me]] right now. Maybe tomorrow."}
+    ]
+  }
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's15_progresso';
+let state = {
+  modo: 'aprender',
+  expressaoAtual: 0,
+  expressoesVistas: [],
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0,
+  flashSabidas: [],
+  exemplosOpen: false,
+  highlightOn: true
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelAprender').classList.toggle('hidden', modo !== 'aprender');
+  document.getElementById('panelPraticar').classList.toggle('hidden', modo !== 'praticar');
+  document.getElementById('panelRoleplay').classList.toggle('hidden', modo !== 'roleplay');
+  if (modo === 'aprender') renderAprender();
+  if (modo === 'praticar') renderFlash();
+  if (modo === 'roleplay') renderRoleplay();
+}
+
+// ── MODO 1 — APRENDER ────────────────────────────────────────────────────────
+function renderAprender() {
+  const i = state.expressaoAtual;
+  const e = EXPRESSOES[i];
+  if (!state.expressoesVistas.includes(i)) { state.expressoesVistas.push(i); saveState(); }
+
+  const grupoBadgeCls = e.grupo === 1 ? 'badge-grupo1' : 'badge-grupo2';
+  const registroBadgeCls = e.registro === 'MUITO INFORMAL' ? 'badge-muitoinformal' : 'badge-informal';
+
+  document.getElementById('learnCard').innerHTML = `
+    <div class="learn-head">
+      <div class="learn-badges">
+        <span class="badge ${grupoBadgeCls}">${e.grupoLabel}</span>
+        <span class="badge ${registroBadgeCls}">${e.registro}</span>
+      </div>
+      <div class="learn-expressao">${e.expressao}</div>
+    </div>
+    <div class="learn-body">
+      <div class="lsec">
+        <div class="lsec-label">Significado Real</div>
+        <div class="lsec-text">${e.significado}</div>
+      </div>
+      <div class="lsec">
+        <div class="lsec-label">Estrutura Gramatical</div>
+        <div class="lsec-estrutura">${e.estrutura}</div>
+      </div>
+      <div class="lsec">
+        <div class="lsec-label">⚠️ Armadilha para Brasileiros</div>
+        <div class="armadilha-box">${e.armadilha}</div>
+      </div>
+      <button class="exemplos-toggle" id="exemplosToggle" onclick="toggleExemplos()">
+        <span>Ver Exemplos</span><span class="exemplos-arrow">▾</span>
+      </button>
+      <div class="exemplos-body" id="exemplosBody">
+        ${e.exemplos.map(ex => `
+          <div class="exemplo-item">
+            <div class="exemplo-en">${ex.en}</div>
+            <div class="exemplo-pt">${ex.pt}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="traducao-footer">
+      <div class="traducao-label">Tradução Aproximada BR</div>
+      <div class="traducao-text">${e.traducao}</div>
+    </div>
+  `;
+
+  document.getElementById('progNum').textContent = `${state.expressoesVistas.length} de ${EXPRESSOES.length} expressões`;
+  document.getElementById('progFill').style.width = (state.expressoesVistas.length / EXPRESSOES.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').textContent = i === EXPRESSOES.length - 1 ? 'Concluir ✓' : 'Próxima →';
+}
+
+function toggleExemplos() {
+  const btn = document.getElementById('exemplosToggle');
+  const body = document.getElementById('exemplosBody');
+  const open = !body.classList.contains('open');
+  body.classList.toggle('open', open);
+  btn.classList.toggle('open', open);
+  btn.querySelector('span').textContent = open ? 'Esconder Exemplos' : 'Ver Exemplos';
+}
+
+function prevExpr() {
+  if (state.expressaoAtual > 0) { state.expressaoAtual--; saveState(); renderAprender(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function nextExpr() {
+  if (state.expressaoAtual < EXPRESSOES.length - 1) { state.expressaoAtual++; saveState(); renderAprender(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ── MODO 2 — PRATICAR (FLASHCARD) ───────────────────────────────────────────
+let flashFlipped = false;
+
+function renderFlash() {
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= FLASHCARDS.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🎉 Você revisou todas as 7 expressões!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${FLASHCARDS.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const f = FLASHCARDS[state.flashIndex];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Situação</div>
+      <div class="flash-front">${f.situacao}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-expr">${f.expressao}</div>
+        <div class="flash-expl">${f.explicacao}</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sei</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, FLASHCARDS.length) + '/' + FLASHCARDS.length;
+}
+
+// ── MODO 3 — ROLEPLAY ────────────────────────────────────────────────────────
+function renderRoleplay() {
+  document.getElementById('rpArea').innerHTML = ROLEPLAYS.map(rp => `
+    <div class="rp-card">
+      <div class="rp-head">
+        <div class="rp-title">${rp.titulo}</div>
+        <div class="rp-fonte">${rp.fonte}</div>
+      </div>
+      <div class="rp-body ${state.highlightOn ? '' : 'no-hl'}">
+        ${rp.linhas.map(l => `
+          <div class="rp-row ${l.side}">
+            <div class="rp-who">${l.who}</div>
+            <div class="rp-bubble">${formatHighlight(l.text)}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('rpToggleBtn').classList.toggle('on', !state.highlightOn);
+  document.getElementById('rpToggleBtn').textContent = state.highlightOn ? '🙈 Esconder expressões' : '👁 Mostrar expressões';
+}
+
+function formatHighlight(text) {
+  return text.replace(/\[\[(.+?)\]\]/g, '<span class="hl">$1</span>');
+}
+
+function toggleHighlight() {
+  state.highlightOn = !state.highlightOn;
+  saveState();
+  renderRoleplay();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>
