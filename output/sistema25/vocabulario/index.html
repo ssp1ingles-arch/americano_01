@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulário &amp; Expressões · Sistema 25</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s25:#1E40AF;--s25d:#1E3A8A;--s25l:#DBEAFE;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s25);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s25);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== ABA 1 — POR TEMA ===== */
+.tema-section{margin-bottom:1.8rem;}
+.tema-header{display:flex;align-items:center;gap:.6rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.8rem;padding:.6rem .9rem;border-radius:.6rem;}
+.tema-count{font-size:.68rem;font-weight:700;color:var(--td);margin-left:auto;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:480px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr.expand-row{cursor:pointer;transition:background .15s;}
+.v-table tr.expand-row:hover td{background:rgba(255,255,255,.03);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;min-width:180px;}
+.def-cell{color:var(--tx);min-width:170px;}
+.expand-arrow{float:right;font-size:.7rem;color:var(--td);transition:transform .18s;}
+.expand-row.open .expand-arrow{transform:rotate(180deg);}
+.detail-row td{background:rgba(0,0,0,.15);color:var(--tm);font-style:italic;font-size:.83rem;}
+.detail-row.hidden{display:none;}
+
+.connor-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--s25);letter-spacing:.06em;text-transform:uppercase;margin:1.8rem 0 .9rem;}
+.ctx-cell{color:var(--tm);min-width:220px;}
+
+/* ===== ABA 2 — FLASHCARD ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s25),#3B5FDB);border-radius:3px;transition:width .5s ease;}
+
+.flash-toolbar{display:flex;justify-content:center;margin-bottom:1rem;}
+.shuffle-btn{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.5rem 1rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;}
+.shuffle-btn:hover{border-color:var(--bdh);color:var(--tx);}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-word{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--s25);line-height:1.35;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-back-ep{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s25d);background:var(--s25l);padding:.15rem .5rem;border-radius:2rem;margin-bottom:.5rem;}
+.flash-back-sig{font-size:.95rem;color:var(--tx);line-height:1.55;margin-bottom:.6rem;}
+.flash-back-ex{font-size:.83rem;color:var(--tm);line-height:1.55;font-style:italic;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s25);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s25);color:#fff;cursor:pointer;}
+
+@media(max-width:620px){
+  #panelFlashcard .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+
+/* ===== ABA 3 — POR HISTÓRIA (ACCORDION) ===== */
+.acc-item{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;margin-bottom:.7rem;overflow:hidden;}
+.acc-head{display:flex;align-items:center;gap:.7rem;padding:.9rem 1.1rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;transition:background .15s;}
+.acc-head:hover{background:rgba(255,255,255,.03);}
+.acc-ep{font-size:.64rem;font-weight:800;color:var(--s25);background:var(--s25l);padding:.2rem .55rem;border-radius:2rem;flex-shrink:0;}
+.acc-arrow{margin-left:auto;font-size:.7rem;color:var(--td);transition:transform .2s;}
+.acc-item.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 1.1rem 1rem 1.1rem;}
+.acc-item.open .acc-body{display:block;}
+.acc-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.acc-list li{font-size:.85rem;color:var(--tm);line-height:1.5;padding-left:1rem;position:relative;}
+.acc-list li::before{content:'—';position:absolute;left:0;color:var(--s25);}
+.acc-list li b{color:var(--tx);font-family:'Space Grotesk',sans-serif;}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1 || a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 25</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📘 Vocabulário</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="tema" onclick="setModo('tema')">Por Tema</button>
+        <button class="tab-btn" data-modo="flashcard" onclick="setModo('flashcard')">Flashcard</button>
+        <button class="tab-btn" data-modo="historia" onclick="setModo('historia')">Por História</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ABA 1 — POR TEMA -->
+  <div class="panel" id="panelTema">
+    <div id="temaArea"></div>
+  </div>
+
+  <!-- ABA 2 — FLASHCARD -->
+  <div class="panel hidden" id="panelFlashcard">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s25)">1/88</div><div class="flash-stat-l">Expressão</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div class="flash-toolbar"><button class="shuffle-btn" onclick="restartFlash()">↻ Embaralhar novamente</button></div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- ABA 3 — POR HISTÓRIA -->
+  <div class="panel hidden" id="panelHistoria">
+    <div id="accordionArea"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: OS 10 NÍVEIS POR EPISÓDIO — usados para extrair exemplos ────────────
+const EP_FINAIS = {
+  ep3: { ep:3, curto:'Noivado Surpresa', niveis:[
+    "A woman shares exciting news.",
+    "A happy woman shares exciting news.",
+    "A happy woman shares exciting news with her family.",
+    "A happy woman shares exciting news with her family about her recent engagement.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her, until her sister announces she just got a promotion.",
+    "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her, until her sister announces she just got a promotion — stealing the spotlight."
+  ]},
+  ep4: { ep:4, curto:'Bilhete da Loteria', niveis:[
+    "A man buys a lottery ticket.",
+    "A hopeful man buys a lottery ticket.",
+    "A hopeful man buys a lottery ticket at his local store.",
+    "A hopeful man buys a lottery ticket at his local store on a whim.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot and that his life is about to change.",
+    "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot and that his life is about to change forever."
+  ]},
+  ep6: { ep:6, curto:'Pintando a Casa', niveis:[
+    "A man decided to paint his house.",
+    "A tired but determined man decided to paint his house.",
+    "A tired but determined man decided to paint his house by himself over the weekend.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe and had barely made any progress.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe, had barely made any progress, and was seriously considering calling it a day.",
+    "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help — as he was now covered in paint from head to toe, had barely made any progress, and was seriously considering calling it a day."
+  ]},
+  ep7: { ep:7, curto:'O Cara no Sebo', niveis:[
+    "A guy sees a cute girl at the bookstore.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended, and she laughs anyway.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended — and she laughs anyway, which breaks the ice.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended — and she laughs anyway, which breaks the ice and they end up talking for an hour.",
+    "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather — she laughs anyway, they break the ice, and they end up talking for an hour, finding out they have a lot in common."
+  ]},
+  ep8: { ep:8, curto:'Compra Impulsiva', niveis:[
+    "A man makes an impulse buy online.",
+    "A man makes an impulse buy online while doom scrolling before bed.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal and waits 2 weeks for delivery.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make — but when it arrives, it doesn't even turn on.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make — but when it arrives, it doesn't even turn on and he realizes there's no return policy.",
+    "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal — he waits 2 weeks for delivery imagining all the fancy smoothies he'll make, but when it arrives it's dead on arrival, and there's no return policy."
+  ]},
+  ep9: { ep:9, curto:'Onde Estão os Óculos?', niveis:[
+    "A man looks for his glasses.",
+    "A man looks for his glasses in the living room.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps back to the bedroom to see if he left them by the bed.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps back to the bedroom to see if he left them by the bed, growing more frustrated as he searches.",
+    "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, then retraces his steps to the bedroom — growing more frustrated — only to find them right where he left them, on top of his head."
+  ]},
+  ep10: { ep:10, curto:'Sem Redes Sociais', niveis:[
+    "Anna gives up social media for a month.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years, finding it surprisingly relaxing.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years, finding it surprisingly relaxing and her stress levels start to drop.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, and her stress levels start to drop.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, her stress levels drop, and she notices she's sleeping better.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, her stress levels drop, and she notices she's sleeping better without the constant notifications.",
+    "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, her stress levels drop, and she notices she's sleeping better without the constant notifications buzzing all night."
+  ]},
+  ep11: { ep:11, curto:'O Vídeo do Chefe', niveis:[
+    "A man watches a hilarious video.",
+    "A man watches a hilarious video of his boss dancing on TikTok.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues nearby.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues nearby who crowd around to watch the video.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues who crowd around to watch the video, creating a bit of a commotion.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues who crowd around — creating a commotion just as the boss walks in.",
+    "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing his colleagues who crowd around the video — creating a scene just as the boss walks in.",
+    "A man watches a hilarious video of his boss dancing on TikTok, tries to hold back his laughter — a chuckle escapes, colleagues crowd around, and a scene is created just as the boss walks in and sees the whole thing."
+  ]},
+  ep12: { ep:12, curto:'Quem É Você Mesmo?', niveis:[
+    "Tom forgets someone's name.",
+    "Tom forgets someone's name at a party.",
+    "Tom forgets someone's name at a party and tries to avoid saying it.",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy.\"",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward.",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks: \"Do you even remember my name?\"",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks, \"Do you even remember my name?\" — to which Tom stammers, blurting out \"Chris.\"",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks, \"Do you even remember my name?\" — Tom blurts out \"Chris,\" and the other person says \"Close, but no cigar — it's Pat.\"",
+    "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy,\" until Pat asks \"Do you even know my name?\" — Tom blurts out \"Chris,\" and Pat laughs saying \"Close, but no cigar — it's Pat,\" before sheepishly adding \"Wait, what's your name again?\"",
+    "Tom forgets someone's name at a party and tries to avoid saying it — he keeps calling him \"buddy,\" gets caught, blurts out the wrong name, and discovers the other person doesn't remember his name either, so they both laugh it off."
+  ]},
+  ep13: { ep:13, curto:'Melhorando o Inglês', niveis:[
+    "Anna decides to improve her English.",
+    "Anna decides to improve her English and starts practicing every day.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially ones that seem tricky.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially ones that seem tricky, like idioms and phrasal verbs.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially tricky ones like idioms and phrasal verbs, which she tries to use in conversations with her friends.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, repeating new phrases aloud, and using tricky idioms and phrasal verbs in real conversations with her friends.",
+    "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, repeating new phrases aloud, and incorporating tricky idioms and phrasal verbs into real conversations — making what she learns her own."
+  ]}
+};
+
+const STOP_WORDS = new Set(['a','an','the','to','of','in','on','your','her','his','it','out','up','my','and','but','for']);
+function normWord(w) {
+  w = w.toLowerCase().replace(/[^a-z']/g, '');
+  if (w.length > 5 && w.endsWith('ing')) w = w.slice(0, -3);
+  else if (w.length > 4 && w.endsWith('ed')) w = w.slice(0, -2);
+  else if (w.length > 3 && w.endsWith('s') && !w.endsWith('ss')) w = w.slice(0, -1);
+  return w;
+}
+function contentWords(s) {
+  return s.replace(/[(),]/g, '').toLowerCase().split(/\s+/).map(normWord).filter(w => w && !STOP_WORDS.has(w));
+}
+function bestClauseIn(text, expr) {
+  const primary = expr.split('/')[0].split('(')[0].trim().toLowerCase();
+  const clauses = text.split(/(?<=[,.])\s+|\s+—\s+/);
+  for (const c of clauses) { if (c.toLowerCase().indexOf(primary) !== -1) return { clause: c.trim(), literal: true }; }
+  const need = contentWords(primary);
+  if (!need.length) return null;
+  let best = null, bestScore = 0;
+  for (const c of clauses) {
+    const cWords = new Set(c.replace(/[.,]/g, '').toLowerCase().split(/\s+/).map(normWord));
+    const hits = need.filter(w => cWords.has(w)).length;
+    const score = hits / need.length;
+    if (score > bestScore) { bestScore = score; best = c; }
+  }
+  return best && bestScore >= 0.6 ? { clause: best.trim(), literal: false } : null;
+}
+function getExemplo(epId, expr) {
+  const niveis = EP_FINAIS[epId].niveis;
+  const order = [...niveis.keys()].sort((a, b) => niveis[a].length - niveis[b].length);
+  for (const idx of order) { const r = bestClauseIn(niveis[idx], expr); if (r && r.literal) return r.clause; }
+  for (const idx of order) { const r = bestClauseIn(niveis[idx], expr); if (r) return r.clause; }
+  return niveis[9];
+}
+
+// ── DATA: VOCABULÁRIO POR HISTÓRIA (11 EPISÓDIOS) ─────────────────────────────
+const PER_HISTORIA = [
+  { id:'ep3', ep:3, curto:'Noivado Surpresa', emoji:'📢', itens:[
+    {expr:'shares exciting news', pt:'compartilha uma novidade animadora'},
+    {expr:'engagement', pt:'noivado (decisão de se casar)'},
+    {expr:'smiling from ear to ear', pt:'sorrindo de orelha a orelha (sorriso enorme)'},
+    {expr:'show off', pt:'exibir com orgulho, mostrar algo que você está orgulhoso'},
+    {expr:'stunning', pt:'deslumbrante, impressionante'},
+    {expr:'congratulate', pt:'parabenizar, felicitar'},
+    {expr:'steal the spotlight', pt:'roubar a cena, tirar a atenção de alguém'}
+  ]},
+  { id:'ep4', ep:4, curto:'Bilhete da Loteria', emoji:'🎰', itens:[
+    {expr:'hopeful', pt:'esperançoso, cheio de esperança'},
+    {expr:'on a whim', pt:'por impulso, sem pensar muito'},
+    {expr:'not expecting much', pt:'sem esperar muito'},
+    {expr:'dream about winning', pt:'sonhar com ganhar'},
+    {expr:'to his surprise', pt:'para surpresa dele'},
+    {expr:'hit the jackpot', pt:'acertar o jackpot / ganhar a sorte grande'},
+    {expr:'life-changing', pt:'que muda a vida'},
+    {expr:'strike it rich', pt:'enriquecer de repente'},
+    {expr:'slim chances', pt:'chances mínimas / as probabilidades não te favorecem'}
+  ]},
+  { id:'ep6', ep:6, curto:'Pintando a Casa', emoji:'🖌️', itens:[
+    {expr:'determined', pt:'determinado, focado em um objetivo, não vai desistir'},
+    {expr:'by himself', pt:'sozinho, sem ajuda'},
+    {expr:'nothing but', pt:'apenas, somente (nada mais que)'},
+    {expr:'halfway through', pt:'no meio do caminho, na metade'},
+    {expr:'should have hired help', pt:'deveria ter contratado ajuda (arrependimento)'},
+    {expr:'from head to toe', pt:'da cabeça aos pés, completamente coberto'},
+    {expr:'barely made any progress', pt:'mal tinha avançado / quase não tinha progredido'},
+    {expr:'call it a day', pt:'parar por hoje, encerrar por hoje'},
+    {expr:'a touchup', pt:'um retoque, fazer algo parecer novo novamente'},
+    {expr:'tackle a project', pt:'enfrentar / dar conta de um projeto'}
+  ]},
+  { id:'ep7', ep:7, curto:'O Cara no Sebo', emoji:'📚', itens:[
+    {expr:'work up the nerve', pt:'juntar coragem / criar coragem'},
+    {expr:'heart racing', pt:'coração acelerado / disparado'},
+    {expr:'on the edge of my seat', pt:'na ponta da cadeira, muito ansioso/empolgado'},
+    {expr:'lame', pt:'sem graça, fraco, que não impressiona'},
+    {expr:'end up doing', pt:'acabar fazendo (resultado inesperado)'},
+    {expr:'way more awkward', pt:'muito mais constrangedor do que'},
+    {expr:'break the ice', pt:'quebrar o gelo'},
+    {expr:'hit it off', pt:'se dar muito bem (ter química logo de início)'},
+    {expr:'have a lot in common', pt:'ter muita coisa em comum'},
+    {expr:'over the moon', pt:'nas nuvens de felicidade'}
+  ]},
+  { id:'ep8', ep:8, curto:'Compra Impulsiva', emoji:'📱', itens:[
+    {expr:'impulse buy', pt:'compra por impulso'},
+    {expr:'doom scrolling', pt:'scrollar sem parar em redes sociais'},
+    {expr:'in the market for', pt:'precisando comprar / pensando em comprar'},
+    {expr:'a steal', pt:'uma pechincha, um negócio excelente pelo preço'},
+    {expr:'not checking the reviews', pt:'sem checar as avaliações'},
+    {expr:'dead on arrival (DOA)', pt:'chegou quebrado / morto na chegada'},
+    {expr:'no return policy', pt:'sem política de devolução'},
+    {expr:'go with your gut', pt:'ir com o instinto / sem pensar muito'}
+  ]},
+  { id:'ep9', ep:9, curto:'Onde Estão os Óculos?', emoji:'👓', itens:[
+    {expr:"can't seem to", pt:'não consegue / está tentando mas não está conseguindo'},
+    {expr:'just in case', pt:'só por via das dúvidas, por precaução'},
+    {expr:'retrace your steps', pt:'refazer o caminho / voltar pelos lugares onde você esteve'},
+    {expr:'paradox', pt:'paradoxo — você precisa dos óculos para encontrar os óculos'},
+    {expr:'growing more frustrated', pt:'ficando cada vez mais frustrado'},
+    {expr:'from top to bottom', pt:'de cima a baixo / revirou tudo'},
+    {expr:'turn the place upside down', pt:'virar o lugar de cabeça para baixo (procurar em tudo)'}
+  ]},
+  { id:'ep10', ep:10, curto:'Sem Redes Sociais', emoji:'📵', itens:[
+    {expr:'give up', pt:'desistir de / largar (algo)'},
+    {expr:'take a breather', pt:'fazer uma pausa, se afastar por um tempo'},
+    {expr:'doom scrolling', pt:'scrollar sem parar sentindo que não consegue parar'},
+    {expr:'gaps in her day', pt:'buracos / espaços vazios no dia dela'},
+    {expr:'it dawned on her', pt:'ela teve uma realização, caiu a ficha'},
+    {expr:"books she hasn't touched in years", pt:'livros que ela não tocava há anos'},
+    {expr:'surprisingly relaxing', pt:'surpreendentemente relaxante'},
+    {expr:'stress levels drop', pt:'os níveis de estresse caem'},
+    {expr:'constant notifications', pt:'notificações constantes'},
+    {expr:'sleeping better', pt:'dormindo melhor'}
+  ]},
+  { id:'ep11', ep:11, curto:'O Vídeo do Chefe', emoji:'😂', itens:[
+    {expr:'hilarious', pt:'extremamente engraçado'},
+    {expr:'hold back laughter', pt:'segurar / conter o riso'},
+    {expr:'burst out laughing', pt:'dar uma risada explosiva, não conseguir segurar mais'},
+    {expr:'chuckle', pt:'uma risadinha contida / um riso leve'},
+    {expr:'a chuckle escapes', pt:'uma risada escapou (sem querer)'},
+    {expr:'crowd around', pt:'aglomerar ao redor, todos se aproximam para ver'},
+    {expr:'create a scene', pt:'criar uma cena / confusão / alvoroço'},
+    {expr:'fight the urge to laugh', pt:'lutar contra a vontade de rir'}
+  ]},
+  { id:'ep12', ep:12, curto:'Quem É Você Mesmo?', emoji:'🙈', itens:[
+    {expr:'not good with names', pt:'não ser bom com nomes'},
+    {expr:'avoid saying it', pt:'evitar dizer / desviar da situação'},
+    {expr:'steer clear of', pt:'evitar, ficar longe de (mais informal)'},
+    {expr:'buddy / pal / friend', pt:'truques para evitar chamar pelo nome'},
+    {expr:'awkward', pt:'constrangedor, embaraçoso'},
+    {expr:'stammer', pt:'gaguejar (de nervosismo ou embaraço)'},
+    {expr:'blurt out', pt:'soltar sem pensar, falar por impulso'},
+    {expr:'close, but no cigar', pt:'quase, mas não'},
+    {expr:'sheepishly', pt:'envergonhadamente, de forma tímida'},
+    {expr:'laugh it off', pt:'rir para superar / gargalhar para deixar passar'}
+  ]},
+  { id:'ep13', ep:13, curto:'Melhorando o Inglês', emoji:'📈', itens:[
+    {expr:'improve her English', pt:'melhorar o inglês dela'},
+    {expr:'step up her English learning game', pt:'elevar o nível do aprendizado dela'},
+    {expr:'every day', pt:'todos os dias (consistência é o ponto-chave)'},
+    {expr:'reading short articles', pt:'lendo artigos curtos'},
+    {expr:'repeating aloud', pt:'repetindo em voz alta'},
+    {expr:'shadowing', pt:'técnica de repetir o que você ouve em voz alta'},
+    {expr:'tricky', pt:'difícil / complicado'},
+    {expr:'incorporate into real conversations', pt:'incorporar em conversas reais'},
+    {expr:'make it your own', pt:'fazer seu, tornar seu (personalizando o que você aprende)'},
+    {expr:'two birds one stone', pt:'duas tarefas em um'}
+  ]}
+];
+
+// ── DATA: 5 TEMAS ──────────────────────────────────────────────────────────────
+const TEMAS = [
+  { id:'coragem', nome:'🤝 Coragem Social', cor:'#0EA5E9', itens:[
+    {expr:'work up the nerve', pt:'juntar coragem para fazer algo difícil socialmente', ep:'ep7'},
+    {expr:'drum up the courage', pt:'sinônimo de work up the nerve', ep:'ep7'},
+    {expr:'psych yourself up', pt:'se preparar mentalmente, se animar para algo', ep:'ep7'},
+    {expr:'heart racing', pt:'coração acelerado (ansiedade/empolgação)', ep:'ep7'},
+    {expr:'break the ice', pt:'quebrar o gelo em uma conversa', ep:'ep7'},
+    {expr:'awkward', pt:'constrangedor, desconfortável socialmente', ep:'ep12'}
+  ]},
+  { id:'compras', nome:'🛒 Compras e Decisões Impulsivas', cor:'#F97316', itens:[
+    {expr:'on a whim', pt:'por impulso, sem pensar muito', ep:'ep4'},
+    {expr:'impulse buy', pt:'compra por impulso', ep:'ep8'},
+    {expr:'in the market for', pt:'precisando comprar / pensando em comprar', ep:'ep8'},
+    {expr:'a steal', pt:'uma pechincha, preço excelente', ep:'ep8'},
+    {expr:'doom scrolling', pt:'scrollar infinitamente em redes sociais', ep:'ep8'},
+    {expr:'dead on arrival (DOA)', pt:'chegou quebrado / morto na chegada', ep:'ep8'},
+    {expr:'no return policy', pt:'sem política de devolução', ep:'ep8'},
+    {expr:'go with your gut', pt:'ir com o instinto, sem pensar muito', ep:'ep8'}
+  ]},
+  { id:'emocoes', nome:'😂 Emoções e Reações', cor:'#EC4899', itens:[
+    {expr:'hilarious', pt:'extremamente engraçado', ep:'ep11'},
+    {expr:'hold back laughter', pt:'segurar o riso', ep:'ep11'},
+    {expr:'burst out laughing', pt:'dar uma risada explosiva', ep:'ep11'},
+    {expr:'chuckle', pt:'risadinha leve e contida', ep:'ep11'},
+    {expr:'sheepishly', pt:'envergonhadamente', ep:'ep12'},
+    {expr:'blurt out', pt:'falar por impulso sem pensar', ep:'ep12'},
+    {expr:'laugh it off', pt:'rir para superar uma situação', ep:'ep12'}
+  ]},
+  { id:'determinacao', nome:'💪 Esforço e Determinação', cor:'#84CC16', itens:[
+    {expr:'determined', pt:'determinado, não vai desistir', ep:'ep6'},
+    {expr:'barely made any progress', pt:'quase não avançou', ep:'ep6'},
+    {expr:'call it a day', pt:'parar por hoje', ep:'ep6'},
+    {expr:'retrace your steps', pt:'refazer o caminho para encontrar algo', ep:'ep9'},
+    {expr:'from head to toe', pt:'da cabeça aos pés', ep:'ep6'},
+    {expr:'halfway through', pt:'na metade do caminho', ep:'ep6'},
+    {expr:'should have hired help', pt:'deveria ter contratado ajuda (arrependimento)', ep:'ep6'}
+  ]},
+  { id:'tecnologia', nome:'📱 Tecnologia e Estilo de Vida Digital', cor:'#7C3AED', itens:[
+    {expr:'give up social media', pt:'largar as redes sociais', ep:'ep10'},
+    {expr:'take a breather', pt:'fazer uma pausa', ep:'ep10'},
+    {expr:'it dawned on her', pt:'caiu a ficha, teve uma realização', ep:'ep10'},
+    {expr:'stress levels drop', pt:'os níveis de estresse diminuem', ep:'ep10'},
+    {expr:'constant notifications', pt:'notificações constantes', ep:'ep10'}
+  ]}
+];
+
+// ── DATA: EXPRESSÕES ESPECÍFICAS DO CONNOR ────────────────────────────────────
+const CONNOR_ESPECIAIS = [
+  {expr:'smiling from ear to ear', contexto:'EP3 — ela comemorava o noivado'},
+  {expr:'steal the spotlight', contexto:'EP3 — a irmã roubou a cena com a promoção'},
+  {expr:'hit the jackpot', contexto:'EP4 — ele ganhou a loteria'},
+  {expr:'nothing but', contexto:'EP6 — "nothing but a paintbrush" = apenas um pincel'},
+  {expr:"can't seem to", contexto:'EP9 — tentando mas sem conseguir ("can\'t seem to find them")'},
+  {expr:'just in case', contexto:'EP9 — por via das dúvidas'},
+  {expr:'crowd around', contexto:'EP11 — colegas se aglomeraram ao redor'},
+  {expr:'close, but no cigar', contexto:'EP12 — quase acertou o nome mas errou'},
+  {expr:'making it your own', contexto:'EP13 — incorporar o inglês aprendido na sua vida real'}
+];
+
+// ── FLATTEN: TODAS AS EXPRESSÕES ÚNICAS PARA O FLASHCARD ─────────────────────
+const ALL_CARDS = [];
+const seen = new Set();
+PER_HISTORIA.forEach(h => {
+  h.itens.forEach(item => {
+    const key = item.expr.toLowerCase().trim();
+    if (seen.has(key)) return;
+    seen.add(key);
+    ALL_CARDS.push({ expr:item.expr, pt:item.pt, epId:h.id, ep:h.ep, curto:h.curto, ex:getExemplo(h.id, item.expr) });
+  });
+});
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's25_vocabulario_progresso';
+let state = {
+  modo: 'tema',
+  expandidas: [],
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0,
+  accordionOpen: []
+};
+
+function loadState() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) Object.assign(state, JSON.parse(raw)); } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelTema').classList.toggle('hidden', modo !== 'tema');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', modo !== 'flashcard');
+  document.getElementById('panelHistoria').classList.toggle('hidden', modo !== 'historia');
+  if (modo === 'tema') renderTema();
+  if (modo === 'flashcard') renderFlash();
+  if (modo === 'historia') renderHistoria();
+}
+
+// ── ABA 1 — POR TEMA ──────────────────────────────────────────────────────────
+function rowKey(temaId, idx) { return temaId + '-' + idx; }
+
+function toggleRow(temaId, idx) {
+  const key = rowKey(temaId, idx);
+  const i = state.expandidas.indexOf(key);
+  if (i === -1) state.expandidas.push(key); else state.expandidas.splice(i, 1);
+  saveState();
+  renderTema();
+}
+
+function renderTema() {
+  let html = TEMAS.map(tema => `
+    <div class="tema-section">
+      <div class="tema-header" style="background:${tema.cor}22;color:${tema.cor};">
+        ${tema.nome}<span class="tema-count">${tema.itens.length} expressões</span>
+      </div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Definição</th></tr></thead>
+          <tbody>
+            ${tema.itens.map((item, idx) => {
+              const key = rowKey(tema.id, idx);
+              const open = state.expandidas.includes(key);
+              return `
+                <tr class="expand-row ${open?'open':''}" onclick="toggleRow('${tema.id}', ${idx})">
+                  <td class="word-cell" style="color:${tema.cor}">${item.expr}<span class="expand-arrow">▾</span></td>
+                  <td class="def-cell">${item.pt}</td>
+                </tr>
+                <tr class="detail-row ${open?'':'hidden'}"><td colspan="2">"${getExemplo(item.ep, item.expr)}"</td></tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+
+  html += `
+    <div class="connor-title">⭐ Expressões Específicas do Connor</div>
+    <div class="table-wrap">
+      <table class="v-table">
+        <thead><tr><th>Expressão</th><th>Contexto / História</th></tr></thead>
+        <tbody>
+          ${CONNOR_ESPECIAIS.map(c => `
+            <tr>
+              <td class="word-cell" style="color:var(--s25)">${c.expr}</td>
+              <td class="ctx-cell">${c.contexto}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById('temaArea').innerHTML = html;
+}
+
+// ── ABA 2 — FLASHCARD ─────────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== ALL_CARDS.length) {
+    state.flashOrder = shuffle(ALL_CARDS.map((_, i) => i));
+    state.flashIndex = 0;
+    state.flashAcertos = 0;
+    state.flashErros = 0;
+    saveState();
+  }
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🎯 Você revisou todas as ${ALL_CARDS.length} expressões!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${ALL_CARDS.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const c = ALL_CARDS[state.flashOrder[state.flashIndex]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Expressão</div>
+      <div class="flash-front-word">${c.expr}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-back-ep">EP${c.ep} — ${c.curto}</div>
+        <div class="flash-back-sig">${c.pt}</div>
+        <div class="flash-back-ex">"${c.ex}"</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashOrder = shuffle(ALL_CARDS.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, ALL_CARDS.length) + '/' + ALL_CARDS.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, ALL_CARDS.length) / ALL_CARDS.length * 100) + '%';
+}
+
+// ── ABA 3 — POR HISTÓRIA (ACCORDION) ──────────────────────────────────────────
+function toggleAccordion(id) {
+  const i = state.accordionOpen.indexOf(id);
+  if (i === -1) state.accordionOpen.push(id); else state.accordionOpen.splice(i, 1);
+  saveState();
+  renderHistoria();
+}
+
+function renderHistoria() {
+  document.getElementById('accordionArea').innerHTML = PER_HISTORIA.map(h => {
+    const open = state.accordionOpen.includes(h.id);
+    return `
+      <div class="acc-item ${open?'open':''}">
+        <div class="acc-head" onclick="toggleAccordion('${h.id}')">
+          <span class="acc-ep">EP${h.ep}</span>
+          <span>${h.emoji} ${h.curto}</span>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body">
+          <ul class="acc-list">
+            ${h.itens.map(item => `<li><b>${item.expr}</b> — ${item.pt}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

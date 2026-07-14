@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulário &amp; Expressões · Sistema 27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s27:#047857;--s27d:#064E3B;--s27l:#D1FAE5;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s27);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s27);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== ABA 1 — POR TEMA ===== */
+.tema-section{margin-bottom:1.8rem;}
+.tema-header{display:flex;align-items:center;gap:.6rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.8rem;padding:.6rem .9rem;border-radius:.6rem;background:rgba(4,120,87,.14);color:var(--s27);}
+.tema-count{font-size:.68rem;font-weight:700;color:var(--td);margin-left:auto;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:440px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr.expand-row{cursor:pointer;transition:background .15s;}
+.v-table tr.expand-row:hover td{background:rgba(255,255,255,.03);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s27);min-width:190px;}
+.def-cell{color:var(--tx);min-width:170px;}
+.expand-arrow{float:right;font-size:.7rem;color:var(--td);transition:transform .18s;}
+.expand-row.open .expand-arrow{transform:rotate(180deg);}
+.detail-row td{background:rgba(0,0,0,.15);color:var(--tm);font-style:italic;font-size:.83rem;}
+.detail-row.hidden{display:none;}
+
+.armadilhas-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;color:var(--rd);letter-spacing:.06em;text-transform:uppercase;margin:1.8rem 0 .9rem;}
+.arm-table{width:100%;min-width:560px;border-collapse:collapse;}
+.arm-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.arm-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.5;}
+.arm-table tr:last-child td{border-bottom:none;}
+.arm-table tr{border-left:3px solid var(--rd);}
+.arm-word{font-family:'Space Grotesk',sans-serif;font-weight:800;color:var(--rd);min-width:130px;}
+.arm-erro{color:var(--tm);min-width:180px;}
+.arm-certo{color:var(--tx);min-width:220px;}
+
+/* ===== ABA 2 — FLASHCARD ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s27),#10B981);border-radius:3px;transition:width .5s ease;}
+
+.flash-toolbar{display:flex;justify-content:center;margin-bottom:1rem;}
+.shuffle-btn{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.5rem 1rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;}
+.shuffle-btn:hover{border-color:var(--bdh);color:var(--tx);}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-word{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:var(--s27);line-height:1.35;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-back-origem{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s27d);background:var(--s27l);padding:.15rem .5rem;border-radius:2rem;margin-bottom:.5rem;}
+.flash-back-sig{font-size:.95rem;color:var(--tx);line-height:1.55;margin-bottom:.6rem;}
+.flash-back-ex{font-size:.83rem;color:var(--tm);line-height:1.55;font-style:italic;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s27);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s27);color:#fff;cursor:pointer;}
+
+@media(max-width:620px){
+  #panelFlashcard .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+
+/* ===== ABA 3 — POR TEXTO (ACCORDION) ===== */
+.acc-item{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;margin-bottom:.7rem;overflow:hidden;}
+.acc-head{display:flex;align-items:center;gap:.7rem;padding:.9rem 1.1rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;transition:background .15s;}
+.acc-head:hover{background:rgba(255,255,255,.03);}
+.acc-n{font-size:.64rem;font-weight:800;color:var(--s27);background:var(--s27l);padding:.2rem .55rem;border-radius:2rem;flex-shrink:0;}
+.acc-arrow{margin-left:auto;font-size:.7rem;color:var(--td);transition:transform .2s;}
+.acc-item.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 1.1rem 1rem 1.1rem;}
+.acc-item.open .acc-body{display:block;}
+.acc-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.acc-list li{font-size:.85rem;color:var(--tm);line-height:1.5;padding-left:1rem;position:relative;}
+.acc-list li::before{content:'—';position:absolute;left:0;color:var(--s27);}
+.acc-list li b{color:var(--tx);font-family:'Space Grotesk',sans-serif;}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1 || a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 27</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📘 Vocabulário</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="tema" onclick="setModo('tema')">Por Tema</button>
+        <button class="tab-btn" data-modo="flashcard" onclick="setModo('flashcard')">Flashcard</button>
+        <button class="tab-btn" data-modo="texto" onclick="setModo('texto')">Por Texto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ABA 1 — POR TEMA -->
+  <div class="panel" id="panelTema">
+    <div id="temaArea"></div>
+  </div>
+
+  <!-- ABA 2 — FLASHCARD -->
+  <div class="panel hidden" id="panelFlashcard">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s27)">1/87</div><div class="flash-stat-l">Expressão</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div class="flash-toolbar"><button class="shuffle-btn" onclick="restartFlash()">↻ Embaralhar novamente</button></div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- ABA 3 — POR TEXTO -->
+  <div class="panel hidden" id="panelTexto">
+    <div id="accordionArea"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: OS 7 TEXTOS (parágrafos usados para extrair exemplos) ──────────────
+const TEXTOS = [
+  { id:1, emoji:'🌅', curto:'Ganhe a Manhã', paragrafos:[
+    "When you're morning, before the world wakes up, I want you to picture something simple and real. The alarm goes off. It's still dark. The room is quiet. No messages, no noise, no demands.",
+    "In that moment, you are not reacting to life. You are deciding how you will live it.",
+    "That first hour of your day carries more power than most people understand. It shapes your attitude. It affects your focus. It even influences how you handle money and how much progress you make.",
+    "If you lose your morning, you spend the rest of the day trying to catch up. If you win your morning, you spend the rest of your day leading.",
+    "Most people wake up and immediately hand their mind over to the world. They grab their phone. They scroll. They read messages. They read bad news. They watch other people's highlights. And within five minutes of waking up, their mind is already full of noise that isn't theirs.",
+    "The person who wins the morning doesn't do that. They protect that first hour. They use it to set their intentions. They choose what gets their attention first. And because of that, they move through the day with direction, not distraction."
+  ], vocab:[
+    {expr:'win the morning', pt:'ganhar a manhã / começar o dia da forma certa', match:'win your morning'},
+    {expr:'before the world wakes up', pt:'antes do mundo acordar / nas primeiras horas'},
+    {expr:'no demands', pt:'sem cobranças / sem exigências'},
+    {expr:'reacting to life', pt:'reagindo à vida (posição passiva)'},
+    {expr:'deciding how you will live it', pt:'decidindo como vai viver (posição ativa)'},
+    {expr:'carries more power than most people understand', pt:'tem mais poder do que a maioria das pessoas percebe'},
+    {expr:'shapes your attitude', pt:'molda sua atitude'},
+    {expr:'affects your focus', pt:'afeta seu foco'},
+    {expr:'trying to catch up', pt:'tentando se recuperar / se igualar'},
+    {expr:'hand your mind over to the world', pt:'entregar sua mente para o mundo (phrasal verb: hand over = ceder controle)', match:'hand their mind over to the world'},
+    {expr:'highlights', pt:'os melhores momentos da vida de outras pessoas (redes sociais)'},
+    {expr:"full of noise that isn't theirs", pt:'cheio de ruídos que não são seus'},
+    {expr:'set their intentions', pt:'definir suas intenções para o dia'},
+    {expr:'move through the day with direction', pt:'passar o dia com direção, com propósito'}
+  ]},
+  { id:2, emoji:'🎯', curto:'O Maior Risco', paragrafos:[
+    "Have you ever thought that the biggest risk in life might actually be not taking any risks at all?",
+    "We're exploring risk-taking: why it matters, how it helps us grow, and why stepping outside our comfort zones can change our lives. We'll also talk about how being willing to fail is often the key to real success.",
+    "Imagine a simple puzzle called the nine-dot IQ test. You see nine dots arranged in a square. The challenge is to connect all the dots using just four straight lines without lifting your pen from the paper.",
+    "Most people struggle at first. Why? Because they automatically assume they have to stay inside the square shape created by the dots. They place an invisible border around the puzzle. But here's the secret: the solution only appears when you draw lines that go outside that imagined box.",
+    "Life works the same way. The limits that hold us back are often not real. They are self-imposed. We create the walls. We stay inside them. And we call it being realistic.",
+    "The person who takes a risk doesn't ignore reality. They question the assumptions. They test the borders. They're willing to look foolish for a moment in order to find the solution that others couldn't see."
+  ], vocab:[
+    {expr:'risk-taking', pt:'assumir riscos / correr riscos'},
+    {expr:'stepping outside our comfort zones', pt:'sair da zona de conforto'},
+    {expr:'being willing to fail', pt:'estar disposto a falhar'},
+    {expr:'automatically assume', pt:'assumir automaticamente sem questionar'},
+    {expr:'invisible border', pt:'fronteira invisível (que a mente cria)'},
+    {expr:'self-imposed', pt:'auto-imposto / criado por si mesmo'},
+    {expr:'think outside the box', pt:'pensar fora da caixa', match:null, manualEx:'When you think outside the box, you find solutions others miss.'},
+    {expr:'question the assumptions', pt:'questionar os pressupostos / não aceitar o óbvio'},
+    {expr:'test the borders', pt:'testar os limites'},
+    {expr:'look foolish', pt:'parecer tolo / passar vergonha'},
+    {expr:'limits that hold us back', pt:'limitações que nos seguram'},
+    {expr:'being realistic', pt:'"ser realista" como desculpa para não arriscar (irônico no contexto)'}
+  ]},
+  { id:3, emoji:'🧭', curto:'Propósito e Estabilidade', paragrafos:[
+    "To find meaning and stability in our lives — that is, to feel that life has purpose and is not constantly changing in a scary way — there's a deep psychological truth we need to face.",
+    "We have to believe that something is more important than just ourselves. We need to feel connected to a purpose or cause that is bigger than our own individual wants and needs.",
+    "This always requires a leap of faith — making a choice to trust or believe in something even when we don't have complete proof or certainty. Whether it's religion, family, close relationships, or a career: each of us eventually reaches a moment where we have to make a real commitment.",
+    "A commitment is a serious promise to ourselves or to others that we will stay with something. Not just when it's easy, but especially when it's hard. That's when commitment reveals its true value.",
+    "The people who find stability are not the ones who found a perfect life. They are the ones who found something worth committing to — and stayed."
+  ], vocab:[
+    {expr:'meaning and stability', pt:'significado e estabilidade'},
+    {expr:'face', pt:'enfrentar / confrontar (sinônimo: confront, deal with)'},
+    {expr:'a deep psychological truth', pt:'uma verdade psicológica profunda'},
+    {expr:'connected to a purpose', pt:'conectado a um propósito'},
+    {expr:'bigger than our own wants and needs', pt:'maior que nossos próprios desejos e necessidades', match:'bigger than our own individual wants and needs'},
+    {expr:'leap of faith', pt:'salto de fé / decidir confiar sem prova completa'},
+    {expr:'proof or certainty', pt:'prova ou certeza'},
+    {expr:'commitment', pt:'compromisso, promessa séria'},
+    {expr:'stay with something', pt:'permanecer com algo, não desistir'},
+    {expr:'reveals its true value', pt:'revela seu verdadeiro valor'},
+    {expr:'worth committing to', pt:'que vale a pena se comprometer com'}
+  ]},
+  { id:4, emoji:'🧠', curto:'Estudar Uma Vez, Lembrar Sempre', paragrafos:[
+    "There is a level of learning where you read something once, truly grasp it, and later recall it with calm confidence. No tension in your chest, no blank mind, no heavy sigh as you try to force the answer out. That level is not magic. It is built with intention and mental discipline.",
+    "Most people read passively. Their eyes move across the page, but their minds drift. They reach the end of a chapter and realize they cannot clearly explain what they just read. The real problem was never repetition. The problem was a lack of depth in the first contact.",
+    "If you want to study once and recall without struggle, you must treat the first exposure as serious work. Give it full presence. Sit with an alert posture. Remove background noise. Make the moment focused and deliberate.",
+    "As you move through the material, do not aim to cover large amounts quickly. Aim to understand small sections completely. After each paragraph or key point, pause and mentally summarize. Ask yourself what the core message is. If you cannot say it in simple language, you have not yet understood it."
+  ], vocab:[
+    {expr:'grasp', pt:'compreender profundamente (mais do que apenas "entender")'},
+    {expr:'recall', pt:'recordar / recuperar da memória (trazer de volta)'},
+    {expr:'calm confidence', pt:'confiança tranquila, sem ansiedade'},
+    {expr:'blank mind', pt:'mente em branco'},
+    {expr:'heavy sigh', pt:'um suspiro pesado (de frustração ou cansaço)'},
+    {expr:'read passively', pt:'ler passivamente (sem engajamento real)'},
+    {expr:'minds drift', pt:'a mente vagueia / se dispersa'},
+    {expr:'lack of depth', pt:'falta de profundidade'},
+    {expr:'first contact', pt:'primeiro contato (com o material)'},
+    {expr:'full presence', pt:'presença total / atenção plena'},
+    {expr:'alert posture', pt:'postura alerta / ereta e atenta'},
+    {expr:'focused and deliberate', pt:'focado e deliberado / intencional'},
+    {expr:'mentally summarize', pt:'resumir mentalmente'},
+    {expr:'core message', pt:'mensagem central / essencial'},
+    {expr:'construction of memory', pt:'construção de memória (memória é construída, não apenas absorvida)', match:null, manualEx:'Recall is the construction of memory, not just playback of a recording.'}
+  ]},
+  { id:5, emoji:'🚨', curto:'Uma Manhã Caótica', paragrafos:[
+    "Yesterday morning, I woke up late because I had accidentally turned off my alarm instead of just hitting snooze like I usually do.",
+    "I shot out of bed, threw on some clothes, and rushed out of the house without even grabbing breakfast. I was already annoyed with myself, but I kept telling myself I could still make it on time — if everything else went smoothly.",
+    "But of course, nothing went smoothly. I got stuck in traffic. I missed my bus. I spilled coffee on my shirt. By the time I finally arrived, I was 20 minutes late, out of breath, and looked like I had been through a storm.",
+    "The worst part? When I walked in, nobody even seemed to notice. All that panic, all that rushing, all that stress — and it didn't change a thing. Sometimes the lesson is not about being on time. It's about learning that the world keeps turning either way."
+  ], vocab:[
+    {expr:'hit snooze', pt:'apertar o botão de soneca (para mais 5-10 min de sono)', match:'hitting snooze'},
+    {expr:'turn off the alarm', pt:'desligar o alarme (sem soneca)', match:'turned off my alarm'},
+    {expr:'shot out of bed', pt:'saltou da cama rapidamente (como se tivesse sido lançado)'},
+    {expr:'threw on some clothes', pt:'vestiu uma roupa rapidamente, sem cuidado'},
+    {expr:'rushed out of the house', pt:'saiu de casa correndo'},
+    {expr:'without even grabbing breakfast', pt:'sem nem pegar o café da manhã'},
+    {expr:'keep telling yourself', pt:'continuar se dizendo / se convencendo', match:'kept telling myself'},
+    {expr:'make it on time', pt:'chegar na hora / não se atrasar'},
+    {expr:'go smoothly', pt:'correr bem / sem problemas', match:'went smoothly'},
+    {expr:'get stuck in traffic', pt:'ficar preso no trânsito', match:'got stuck in traffic'},
+    {expr:'spill', pt:'derramar (acidentalmente)', match:'spilled'},
+    {expr:'out of breath', pt:'sem fôlego / ofegante'},
+    {expr:'been through a storm', pt:'passou por uma tempestade (aparência bagunçada)'},
+    {expr:'the world keeps turning', pt:'o mundo continua girando / a vida segue'}
+  ]},
+  { id:6, emoji:'🚲', curto:'Treine sua Boca', paragrafos:[
+    "Do you know why so many people study English for years but still struggle to speak with confidence? It's not because they're lazy. It's not because they're weak. It's because they spend all their time training their mind but not their mouth.",
+    "Think about it. You memorize grammar rules. You read books. You get good scores on exams. But when it's time to actually speak, your tongue feels heavy. Your mind goes blank and your confidence quietly disappears.",
+    "Here's the simple truth: to speak English naturally and confidently, you have to train your mouth, not just your mind.",
+    "You didn't learn to ride a bicycle by reading an instruction manual. You learned by getting on the bike, losing your balance, falling, trying again, and slowly moving forward. Speaking English works the same way.",
+    "It's not about how much English you know. It's about how much English your mouth has practiced saying. Speaking is a physical skill as much as a mental one. When you train your mouth, you build muscle memory — just like a singer who warms up before a performance, or an athlete who practices movements before a game."
+  ], vocab:[
+    {expr:'struggle to', pt:'ter dificuldade em / lutar para'},
+    {expr:'training your mind but not your mouth', pt:'a crítica central: foco só no conhecimento, não na prática oral', match:'training their mind but not their mouth'},
+    {expr:'your tongue feels heavy', pt:'sua língua parece pesada (dificuldade de falar)'},
+    {expr:'your mind goes blank', pt:'sua mente fica em branco'},
+    {expr:'quietly disappears', pt:'some silenciosamente'},
+    {expr:'instruction manual', pt:'manual de instruções'},
+    {expr:'losing your balance', pt:'perdendo o equilíbrio'},
+    {expr:'slowly moving forward', pt:'avançando devagar'},
+    {expr:'muscle memory', pt:'memória muscular (corpo aprende pelo treino)'},
+    {expr:'warm up', pt:'se aquecer / fazer aquecimento (antes de performance)', match:'warms up'}
+  ]},
+  { id:7, emoji:'👻', curto:'Uma Noite Estranha', paragrafos:[
+    "Last winter, something strange happened to me late one night. I was home alone because my partner was away for work, and I'd decided to stay in for the evening.",
+    "It was a cold, quiet night and the house felt unusually still. It was already pretty late when I decided to go to bed — around 11, or maybe closer to midnight. I'd turned off most of the lights and was walking upstairs, thinking about my day.",
+    "Outside, the street was silent. No people, no cars passing by.",
+    "As I reached the top of the stairs, I heard a sound. At first, it was very soft and unclear — like a light tapping or a whisper. I stopped and listened carefully, trying to figure out where it was coming from.",
+    "The sound seemed to be moving, which immediately made me feel uneasy. A few seconds later, I heard it again. This time, it was louder and slower — almost like footsteps. It seemed to be coming from right outside, near the front door.",
+    "My heart started pounding and I suddenly became very aware that I was completely alone in the house. I stood there for a moment, trying to stay calm. Then I heard it one more time — and I realized it was just the wind moving a tree branch against the window."
+  ], vocab:[
+    {expr:'stay in for the evening', pt:'ficar em casa à noite / não sair'},
+    {expr:'unusually still', pt:'inusitadamente quieto / parado de forma estranha'},
+    {expr:'closer to midnight', pt:'mais perto da meia-noite'},
+    {expr:'figure out where it was coming from', pt:'descobrir de onde estava vindo'},
+    {expr:'uneasy', pt:'desconfortável e preocupado / com um mau pressentimento'},
+    {expr:'footsteps', pt:'passos (o som de alguém andando)'},
+    {expr:'my heart started pounding', pt:'meu coração começou a disparar'},
+    {expr:'suddenly became very aware', pt:'de repente ficou muito consciente / percebeu intensamente'},
+    {expr:'completely alone', pt:'completamente sozinho'},
+    {expr:'trying to stay calm', pt:'tentando manter a calma'},
+    {expr:'tree branch against the window', pt:'galho de árvore batendo na janela'}
+  ]}
+];
+
+const TEXTO_NOMES = {};
+TEXTOS.forEach(t => TEXTO_NOMES[t.id] = { emoji:t.emoji, curto:t.curto });
+
+// ── DATA: 4 TEMAS ──────────────────────────────────────────────────────────────
+const TEMAS = [
+  { id:'manha', nome:'☀️ Manhã e Rotina', itens:[
+    {expr:'win the morning', pt:'ganhar a manhã', textoId:1, match:'win your morning'},
+    {expr:'before the world wakes up', pt:'antes do mundo acordar', textoId:1},
+    {expr:'hand your mind over to', pt:'ceder o controle de sua mente para', textoId:1, match:'hand their mind over to'},
+    {expr:'set your intentions', pt:'definir suas intenções para o dia', textoId:1, match:'set their intentions'},
+    {expr:'move through the day with direction', pt:'passar o dia com propósito', textoId:1},
+    {expr:'hit snooze', pt:'apertar soneca', textoId:5, match:'hitting snooze'},
+    {expr:'shot out of bed', pt:'saltou da cama de repente', textoId:5},
+    {expr:'threw on some clothes', pt:'vestiu roupas às pressas', textoId:5},
+    {expr:'make it on time', pt:'chegar na hora', textoId:5},
+    {expr:'go smoothly', pt:'correr bem / sem problemas', textoId:5, match:'went smoothly'}
+  ]},
+  { id:'mentalidade', nome:'💪 Mentalidade e Crescimento', itens:[
+    {expr:'step outside your comfort zone', pt:'sair da zona de conforto', textoId:2, match:'stepping outside our comfort zones'},
+    {expr:'self-imposed limits', pt:'limitações auto-impostas', textoId:2, match:'self-imposed'},
+    {expr:'invisible border', pt:'fronteira invisível', textoId:2},
+    {expr:'question the assumptions', pt:'questionar o óbvio', textoId:2},
+    {expr:'think outside the box', pt:'pensar fora da caixa', textoId:2, match:null},
+    {expr:'being willing to fail', pt:'estar disposto a falhar', textoId:2},
+    {expr:'leap of faith', pt:'salto de fé / confiar sem certeza', textoId:3},
+    {expr:'commitment', pt:'compromisso sério', textoId:3},
+    {expr:'worth committing to', pt:'que vale a pena se comprometer', textoId:3},
+    {expr:'the world keeps turning', pt:'o mundo continua / a vida segue', textoId:5}
+  ]},
+  { id:'aprendizado', nome:'📚 Aprendizado e Foco', itens:[
+    {expr:'grasp', pt:'compreender profundamente', textoId:4},
+    {expr:'recall', pt:'recuperar da memória', textoId:4},
+    {expr:'blank mind', pt:'mente em branco', textoId:4},
+    {expr:'read passively', pt:'ler sem engajamento real', textoId:4},
+    {expr:'minds drift', pt:'a mente se dispersa', textoId:4},
+    {expr:'full presence', pt:'atenção plena', textoId:4},
+    {expr:'mentally summarize', pt:'resumir mentalmente', textoId:4},
+    {expr:'muscle memory', pt:'memória muscular', textoId:6},
+    {expr:'construction of memory', pt:'construção de memória', textoId:4, match:null},
+    {expr:'train your mouth', pt:'treinar a boca (não só a mente)', textoId:6}
+  ]},
+  { id:'emocoes', nome:'💭 Sensações e Emoções', itens:[
+    {expr:'feel uneasy', pt:'sentir-se desconfortável e preocupado', textoId:7},
+    {expr:'my heart started pounding', pt:'meu coração disparou', textoId:7},
+    {expr:'suddenly became very aware', pt:'de repente ficou muito consciente', textoId:7},
+    {expr:'trying to stay calm', pt:'tentando manter a calma', textoId:7},
+    {expr:'out of breath', pt:'sem fôlego', textoId:5},
+    {expr:'annoy yourself', pt:'se irritar consigo mesmo', textoId:5, match:'annoyed with myself'},
+    {expr:'tongue feels heavy', pt:'língua parece pesada (dificuldade de falar)', textoId:6},
+    {expr:'confidence quietly disappears', pt:'a confiança some silenciosamente', textoId:6}
+  ]}
+];
+
+// ── DATA: ARMADILHAS DE VOCABULÁRIO ───────────────────────────────────────────
+const ARMADILHAS = [
+  {palavra:'grasp', erro:'"pegar" (físico)', certo:'Como verbo: compreender profundamente — "I grasped the concept."'},
+  {palavra:'recall', erro:'"telefonar de volta"', certo:'Primariamente: lembrar, recuperar da memória — "I can\'t recall his name."'},
+  {palavra:'uneasy', erro:'"doente" (unwell)', certo:'Desconfortável, com mau pressentimento — "I felt uneasy about the situation."'},
+  {palavra:'shot out of bed', erro:'confundir com tiro', certo:'Phrasal: sair da cama de repente, com urgência'},
+  {palavra:'hand over', erro:'"entregar algo físico"', certo:'Ceder controle — "Don\'t hand your morning over to social media."'},
+  {palavra:'still (adjetivo)', erro:'"ainda" (advérbio)', certo:'Como adjetivo: quieto, sem movimento — "The house felt unusually still."'},
+  {palavra:'commitment', erro:'só para relacionamentos', certo:'Qualquer compromisso sério: com um projeto, uma ideia, uma rotina'},
+  {palavra:'leap of faith', erro:'salto literal', certo:'Decisão de confiar sem ter provas completas'}
+];
+
+// ── HELPERS: exemplo de uso ────────────────────────────────────────────────────
+function splitFrases(paragrafos) {
+  const frases = [];
+  paragrafos.forEach(p => {
+    const parts = p.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [p];
+    parts.forEach(s => { const t = s.trim(); if (t) frases.push(t); });
+  });
+  return frases;
+}
+function getExemplo(textoId, item) {
+  const texto = TEXTOS.find(t => t.id === textoId);
+  if (item.match === null) return item.manualEx || item.expr;
+  const term = (item.match || item.expr).toLowerCase();
+  const frases = splitFrases(texto.paragrafos);
+  for (const f of frases) { if (f.toLowerCase().indexOf(term) !== -1) return f; }
+  return item.manualEx || texto.paragrafos[0];
+}
+
+// ── FLATTEN: TODAS AS EXPRESSÕES ÚNICAS PARA O FLASHCARD ─────────────────────
+const ALL_CARDS = [];
+const seen = new Set();
+TEXTOS.forEach(t => {
+  t.vocab.forEach(item => {
+    const key = item.expr.toLowerCase().trim();
+    if (seen.has(key)) return;
+    seen.add(key);
+    ALL_CARDS.push({ expr:item.expr, pt:item.pt, textoId:t.id, ex:getExemplo(t.id, item) });
+  });
+});
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's27_vocabulario_progresso';
+let state = {
+  modo: 'tema',
+  expandidas: [],
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0,
+  accordionOpen: []
+};
+
+function loadState() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) Object.assign(state, JSON.parse(raw)); } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelTema').classList.toggle('hidden', modo !== 'tema');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', modo !== 'flashcard');
+  document.getElementById('panelTexto').classList.toggle('hidden', modo !== 'texto');
+  if (modo === 'tema') renderTema();
+  if (modo === 'flashcard') renderFlash();
+  if (modo === 'texto') renderTextoAba();
+}
+
+// ── ABA 1 — POR TEMA ──────────────────────────────────────────────────────────
+function rowKey(temaId, idx) { return temaId + '-' + idx; }
+
+function toggleRow(temaId, idx) {
+  const key = rowKey(temaId, idx);
+  const i = state.expandidas.indexOf(key);
+  if (i === -1) state.expandidas.push(key); else state.expandidas.splice(i, 1);
+  saveState();
+  renderTema();
+}
+
+function renderTema() {
+  let html = TEMAS.map(tema => `
+    <div class="tema-section">
+      <div class="tema-header">
+        ${tema.nome}<span class="tema-count">${tema.itens.length} expressões</span>
+      </div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Definição</th></tr></thead>
+          <tbody>
+            ${tema.itens.map((item, idx) => {
+              const key = rowKey(tema.id, idx);
+              const open = state.expandidas.includes(key);
+              return `
+                <tr class="expand-row ${open?'open':''}" onclick="toggleRow('${tema.id}', ${idx})">
+                  <td class="word-cell">${item.expr}<span class="expand-arrow">▾</span></td>
+                  <td class="def-cell">${item.pt}</td>
+                </tr>
+                <tr class="detail-row ${open?'':'hidden'}"><td colspan="2">"${getExemplo(item.textoId, item)}" — ${TEXTO_NOMES[item.textoId].emoji} Texto ${item.textoId}: ${TEXTO_NOMES[item.textoId].curto}</td></tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+
+  html += `
+    <div class="armadilhas-title">⚠️ Armadilhas de Vocabulário</div>
+    <div class="table-wrap">
+      <table class="arm-table">
+        <thead><tr><th>Palavra</th><th>Erro Comum</th><th>Uso Correto</th></tr></thead>
+        <tbody>
+          ${ARMADILHAS.map(a => `
+            <tr>
+              <td class="arm-word">${a.palavra}</td>
+              <td class="arm-erro">${a.erro}</td>
+              <td class="arm-certo">${a.certo}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById('temaArea').innerHTML = html;
+}
+
+// ── ABA 2 — FLASHCARD ─────────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== ALL_CARDS.length) {
+    state.flashOrder = shuffle(ALL_CARDS.map((_, i) => i));
+    state.flashIndex = 0;
+    state.flashAcertos = 0;
+    state.flashErros = 0;
+    saveState();
+  }
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🎤 Você revisou todas as ${ALL_CARDS.length} expressões!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${ALL_CARDS.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const c = ALL_CARDS[state.flashOrder[state.flashIndex]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Expressão</div>
+      <div class="flash-front-word">${c.expr}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-back-origem">${TEXTO_NOMES[c.textoId].emoji} Texto ${c.textoId} — ${TEXTO_NOMES[c.textoId].curto}</div>
+        <div class="flash-back-sig">${c.pt}</div>
+        <div class="flash-back-ex">"${c.ex}"</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashOrder = shuffle(ALL_CARDS.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, ALL_CARDS.length) + '/' + ALL_CARDS.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, ALL_CARDS.length) / ALL_CARDS.length * 100) + '%';
+}
+
+// ── ABA 3 — POR TEXTO (ACCORDION) ─────────────────────────────────────────────
+function toggleAccordion(id) {
+  const i = state.accordionOpen.indexOf(id);
+  if (i === -1) state.accordionOpen.push(id); else state.accordionOpen.splice(i, 1);
+  saveState();
+  renderTextoAba();
+}
+
+function renderTextoAba() {
+  document.getElementById('accordionArea').innerHTML = TEXTOS.map(t => {
+    const open = state.accordionOpen.includes(t.id);
+    return `
+      <div class="acc-item ${open?'open':''}">
+        <div class="acc-head" onclick="toggleAccordion(${t.id})">
+          <span class="acc-n">Texto ${t.id}</span>
+          <span>${t.emoji} ${t.curto}</span>
+          <span class="acc-arrow">▾</span>
+        </div>
+        <div class="acc-body">
+          <ul class="acc-list">
+            ${t.vocab.map(item => `<li><b>${item.expr}</b> — ${item.pt}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

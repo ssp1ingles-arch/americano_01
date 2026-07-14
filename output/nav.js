@@ -30,6 +30,9 @@
     {id: 's22', href: base + 'sistema22/index.html', icon: '🗺️', label: 'Sistema 22 — Inglês para Situações Reais', color: '#0F766E'},
     {id: 's23', href: base + 'sistema23/index.html', icon: '🔤', label: 'Sistema 23 — Inglês do Zero', color: '#7C2D12'},
     {id: 's24', href: base + 'sistema24/index.html', icon: '🧠', label: 'Sistema 24 — Pense em Inglês', color: '#BE123C'},
+    {id: 's25', href: base + 'sistema25/index.html', icon: '🎯', label: 'Sistema 25 — Super Sentences Vol. 2', color: '#1E40AF'},
+    {id: 's26', href: base + 'sistema26/index.html', icon: '💬', label: 'Sistema 26 — Diálogos do Dia a Dia', color: '#6D28D9'},
+    {id: 's27', href: base + 'sistema27/index.html', icon: '🎤', label: 'Sistema 27 — Shadowing com Propósito', color: '#047857'},
   ];
 
   var path = window.location.pathname;

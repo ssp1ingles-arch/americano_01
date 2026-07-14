@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histórias · Super Sentences Vol. 2 · Sistema 25</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s25:#1E40AF;--s25d:#1E3A8A;--s25l:#DBEAFE;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s25);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+.wrap{padding-top:64px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== SELETOR DE HISTÓRIA ===== */
+.picker-title{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin:1.2rem 0 .7rem;}
+.picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.4rem;}
+.picker-btn{position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:.8rem;padding:.8rem .7rem;cursor:pointer;transition:all .18s;text-align:center;font-family:'Space Grotesk',sans-serif;}
+.picker-btn:hover{border-color:var(--bdh);}
+.picker-btn.on{border-color:var(--s25);background:rgba(30,64,175,.14);box-shadow:0 0 14px rgba(30,64,175,.2);}
+.picker-ep{font-size:.62rem;font-weight:800;color:var(--td);letter-spacing:.05em;}
+.picker-btn.on .picker-ep{color:var(--s25);}
+.picker-emoji{font-size:1.4rem;display:block;margin:.3rem 0;}
+.picker-nome{font-size:.72rem;color:var(--tx);font-weight:700;line-height:1.3;}
+.picker-check{position:absolute;top:.4rem;right:.5rem;font-size:.72rem;color:var(--gn);}
+
+@media(max-width:720px){ .picker-grid{grid-template-columns:repeat(3,1fr);} }
+@media(max-width:480px){ .picker-grid{grid-template-columns:repeat(2,1fr);} }
+
+/* ===== TOOLBAR ===== */
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.tool-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.6rem 1.05rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.tool-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.tool-btn.on{border-color:var(--s25);background:rgba(30,64,175,.16);color:var(--s25);}
+
+/* ===== CABEÇALHO DA HISTÓRIA ===== */
+.story-head{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.3rem 1.5rem;margin-bottom:1.3rem;text-align:center;}
+.story-head-ep{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--s25);margin-bottom:.5rem;}
+.story-head-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;line-height:1.35;margin-bottom:.5rem;}
+.story-head-pt{font-size:.88rem;color:var(--tm);}
+
+/* ===== NÍVEIS ===== */
+.nivel-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.3rem 1.5rem;margin-bottom:1rem;}
+.nivel-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--s25d);background:var(--s25l);padding:.25rem .7rem;border-radius:2rem;margin-bottom:.8rem;}
+.nivel-texto{font-family:'Space Grotesk',sans-serif;font-size:clamp(1rem,3vw,1.2rem);font-weight:600;line-height:1.75;color:var(--tx);}
+.nivel-texto .nova{color:var(--s25);font-weight:800;}
+.nivel-texto .blank{display:inline-block;color:var(--td);font-weight:800;border-bottom:2px dashed var(--bdh);padding:0 .15rem;}
+.nivel-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;align-items:center;position:relative;}
+.speak-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.45rem .8rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--bg);color:var(--tm);cursor:pointer;transition:all .18s;}
+.speak-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.reveal-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;padding:.45rem .8rem;border-radius:.5rem;border:1px solid rgba(30,64,175,.4);background:rgba(30,64,175,.12);color:var(--s25);cursor:pointer;transition:all .18s;}
+.reveal-btn:hover{background:rgba(30,64,175,.2);}
+.speak-tip{position:absolute;top:calc(100% + 8px);left:0;z-index:20;background:var(--sf2);border:1px solid var(--bdh);border-radius:.7rem;padding:.9rem 1rem;font-size:.78rem;color:var(--tm);min-width:240px;max-width:340px;box-shadow:0 12px 30px rgba(0,0,0,.4);}
+.speak-tip-line{color:var(--tx);margin-bottom:.35rem;line-height:1.5;}
+.speak-tip-line b{color:var(--s25);}
+.speak-tip-note{margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--bd);color:var(--td);font-size:.72rem;line-height:1.5;}
+
+/* ===== BOTÕES DE NAVEGAÇÃO DE NÍVEL ===== */
+.level-nav{display:flex;justify-content:center;margin-bottom:1.5rem;}
+.next-level-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.8rem 1.6rem;border-radius:.7rem;border:none;background:var(--s25);color:#fff;cursor:pointer;transition:all .18s;}
+.next-level-btn:hover{filter:brightness(1.15);}
+.next-level-btn:disabled{opacity:.4;cursor:default;}
+.done-badge{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--gn);margin-bottom:1.5rem;}
+
+/* ===== VOCAB TABLE ===== */
+.vocab-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--s25);margin:1.6rem 0 .8rem;}
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;margin-bottom:1.5rem;}
+.v-table{width:100%;min-width:560px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr:hover td{background:rgba(255,255,255,.02);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s25);min-width:170px;}
+.def-cell{color:var(--tx);min-width:150px;}
+.ex-cell{color:var(--tm);min-width:220px;font-style:italic;}
+
+/* ===== PRÓXIMA HISTÓRIA ===== */
+.next-story{display:flex;justify-content:center;padding-top:.5rem;}
+.next-story-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.8rem 1.5rem;border-radius:.7rem;border:1px solid var(--bd);background:var(--sf);color:var(--tx);cursor:pointer;transition:all .18s;text-decoration:none;display:inline-block;}
+.next-story-btn:hover{border-color:var(--s25);color:var(--s25);}
+
+@media(max-width:620px){
+  .toolbar{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  .wrap{padding-bottom:6rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1 || a.textContent.indexOf('Início')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 25</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🗂️ Histórias</div>
+</nav>
+
+<div class="wrap">
+
+  <div class="picker-title">Escolha uma história</div>
+  <div class="picker-grid" id="pickerGrid"></div>
+
+  <div class="toolbar">
+    <button class="tool-btn" id="treinoBtn" onclick="toggleTreino()">🎙️ Modo Treino</button>
+    <button class="tool-btn" id="todosBtn" onclick="toggleTodos()">Mostrar todos os 10 níveis</button>
+  </div>
+
+  <div id="storyArea"></div>
+
+</div>
+
+<script>
+// ── DATA: 10 HISTÓRIAS × 10 NÍVEIS (EP5 não existe nesta compilação) ─────────
+const STORIES = [
+  { id:'ep3', ep:3, curto:'Noivado Surpresa', emoji:'📢', traducao:'A mulher compartilha uma novidade animadora',
+    niveis:[
+      "A woman shares exciting news.",
+      "A happy woman shares exciting news.",
+      "A happy woman shares exciting news with her family.",
+      "A happy woman shares exciting news with her family about her recent engagement.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her, until her sister announces she just got a promotion.",
+      "A happy woman shares exciting news with her family about her recent engagement while smiling from ear to ear and showing off her stunning ring as everyone congratulates her, until her sister announces she just got a promotion — stealing the spotlight."
+    ],
+    vocab:[
+      {expr:'shares exciting news', pt:'compartilha uma novidade animadora'},
+      {expr:'engagement', pt:'noivado (decisão de se casar)'},
+      {expr:'smiling from ear to ear', pt:'sorrindo de orelha a orelha (sorriso enorme)'},
+      {expr:'show off', pt:'exibir com orgulho, mostrar algo que você está orgulhoso'},
+      {expr:'stunning', pt:'deslumbrante, impressionante'},
+      {expr:'congratulate', pt:'parabenizar, felicitar'},
+      {expr:'steal the spotlight', pt:'roubar a cena, tirar a atenção de alguém'}
+    ]
+  },
+  { id:'ep4', ep:4, curto:'Bilhete da Loteria', emoji:'🎰', traducao:'O homem compra um bilhete de loteria',
+    niveis:[
+      "A man buys a lottery ticket.",
+      "A hopeful man buys a lottery ticket.",
+      "A hopeful man buys a lottery ticket at his local store.",
+      "A hopeful man buys a lottery ticket at his local store on a whim.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot and that his life is about to change.",
+      "A hopeful man buys a lottery ticket at his local store on a whim, not expecting much but thinking it could be fun to dream about winning, and to his surprise he matches all the numbers, realizing he has hit the jackpot and that his life is about to change forever."
+    ],
+    vocab:[
+      {expr:'hopeful', pt:'esperançoso, cheio de esperança'},
+      {expr:'on a whim', pt:'por impulso, sem pensar muito (decisão de última hora)'},
+      {expr:'not expecting much', pt:'sem esperar muito'},
+      {expr:'dream about winning', pt:'sonhar com ganhar'},
+      {expr:'to his surprise', pt:'para surpresa dele'},
+      {expr:'hit the jackpot', pt:'acertar o jackpot / ganhar a sorte grande'},
+      {expr:'life-changing', pt:'que muda a vida'},
+      {expr:'strike it rich', pt:'enriquecer de repente'},
+      {expr:'slim chances', pt:'chances mínimas / as probabilidades não te favorecem'}
+    ]
+  },
+  { id:'ep6', ep:6, curto:'Pintando a Casa', emoji:'🖌️', traducao:'O homem decide pintar a casa',
+    niveis:[
+      "A man decided to paint his house.",
+      "A tired but determined man decided to paint his house.",
+      "A tired but determined man decided to paint his house by himself over the weekend.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe and had barely made any progress.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help as he was now covered in paint from head to toe, had barely made any progress, and was seriously considering calling it a day.",
+      "A tired but determined man decided to paint his house by himself over the weekend, starting early on Saturday morning with nothing but a paintbrush and some old cans of paint, but realized halfway through he should have hired help — as he was now covered in paint from head to toe, had barely made any progress, and was seriously considering calling it a day."
+    ],
+    vocab:[
+      {expr:'determined', pt:'determinado, focado em um objetivo, não vai desistir'},
+      {expr:'by himself', pt:'sozinho, sem ajuda'},
+      {expr:'nothing but', pt:'apenas, somente (nada mais que)'},
+      {expr:'halfway through', pt:'no meio do caminho, na metade'},
+      {expr:'should have hired help', pt:'deveria ter contratado ajuda (arrependimento)'},
+      {expr:'from head to toe', pt:'da cabeça aos pés, completamente coberto'},
+      {expr:'barely made any progress', pt:'mal tinha avançado / quase não tinha progredido'},
+      {expr:'call it a day', pt:'parar por hoje, encerrar por hoje'},
+      {expr:'a touchup', pt:'um retoque, fazer algo parecer novo novamente'},
+      {expr:'tackle a project', pt:'enfrentar / dar conta de um projeto'}
+    ]
+  },
+  { id:'ep7', ep:7, curto:'O Cara no Sebo', emoji:'📚', traducao:'O cara vê uma garota no sebo',
+    niveis:[
+      "A guy sees a cute girl at the bookstore.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended, and she laughs anyway.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended — and she laughs anyway, which breaks the ice.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather which sounds way more awkward than he intended — and she laughs anyway, which breaks the ice and they end up talking for an hour.",
+      "A guy sees a cute girl at the bookstore and works up the nerve to talk to her, heart racing as he walks over, trying to think of something clever, but he ends up making a lame comment about the weather — she laughs anyway, they break the ice, and they end up talking for an hour, finding out they have a lot in common."
+    ],
+    vocab:[
+      {expr:'work up the nerve', pt:'juntar coragem / criar coragem'},
+      {expr:'heart racing', pt:'coração acelerado / disparado'},
+      {expr:'on the edge of my seat', pt:'na ponta da cadeira, muito ansioso/empolgado'},
+      {expr:'lame', pt:'sem graça, fraco, que não impressiona'},
+      {expr:'end up doing', pt:'acabar fazendo (resultado inesperado)'},
+      {expr:'way more awkward', pt:'muito mais constrangedor do que'},
+      {expr:'break the ice', pt:'quebrar o gelo'},
+      {expr:'hit it off', pt:'se dar muito bem (ter química logo de início)'},
+      {expr:'have a lot in common', pt:'ter muita coisa em comum'},
+      {expr:'over the moon', pt:'nas nuvens de felicidade'}
+    ]
+  },
+  { id:'ep8', ep:8, curto:'Compra Impulsiva', emoji:'📱', traducao:'O homem faz uma compra por impulso online',
+    niveis:[
+      "A man makes an impulse buy online.",
+      "A man makes an impulse buy online while doom scrolling before bed.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal and waits 2 weeks for delivery.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make — but when it arrives, it doesn't even turn on.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal, and waits 2 weeks for delivery imagining all the fancy smoothies he'll make — but when it arrives, it doesn't even turn on and he realizes there's no return policy.",
+      "A man makes an impulse buy online while doom scrolling before bed, adding a blender to his cart without checking the reviews, thinking he found a steal — he waits 2 weeks for delivery imagining all the fancy smoothies he'll make, but when it arrives it's dead on arrival, and there's no return policy."
+    ],
+    vocab:[
+      {expr:'impulse buy', pt:'compra por impulso'},
+      {expr:'doom scrolling', pt:'scrollar sem parar em redes sociais'},
+      {expr:'in the market for', pt:'precisando comprar / pensando em comprar'},
+      {expr:'a steal', pt:'uma pechincha, um negócio excelente pelo preço'},
+      {expr:'not checking the reviews', pt:'sem checar as avaliações'},
+      {expr:'dead on arrival (DOA)', pt:'chegou quebrado / morto na chegada'},
+      {expr:'no return policy', pt:'sem política de devolução'},
+      {expr:'go with your gut', pt:'ir com o instinto / sem pensar muito'}
+    ]
+  },
+  { id:'ep9', ep:9, curto:'Onde Estão os Óculos?', emoji:'👓', traducao:'O homem procura os óculos',
+    niveis:[
+      "A man looks for his glasses.",
+      "A man looks for his glasses in the living room.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps back to the bedroom to see if he left them by the bed.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, and then decides to retrace his steps back to the bedroom to see if he left them by the bed, growing more frustrated as he searches.",
+      "A man looks for his glasses in the living room but can't seem to find them anywhere, so he checks the kitchen just in case, opening every drawer even though he knows they wouldn't be there, then retraces his steps to the bedroom — growing more frustrated — only to find them right where he left them, on top of his head."
+    ],
+    vocab:[
+      {expr:"can't seem to", pt:'não consegue / está tentando mas não está conseguindo'},
+      {expr:'just in case', pt:'só por via das dúvidas, por precaução'},
+      {expr:'retrace your steps', pt:'refazer o caminho / voltar pelos lugares onde você esteve'},
+      {expr:'paradox', pt:'paradoxo — você precisa dos óculos para encontrar os óculos'},
+      {expr:'growing more frustrated', pt:'ficando cada vez mais frustrado'},
+      {expr:'from top to bottom', pt:'de cima a baixo / revirou tudo'},
+      {expr:'turn the place upside down', pt:'virar o lugar de cabeça para baixo (procurar em tudo)'}
+    ]
+  },
+  { id:'ep10', ep:10, curto:'Sem Redes Sociais', emoji:'📵', traducao:'Anna larga as redes sociais por um mês',
+    niveis:[
+      "Anna gives up social media for a month.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years, finding it surprisingly relaxing.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling, and suddenly she has more free time so she starts reading books she hasn't touched in years, finding it surprisingly relaxing and her stress levels start to drop.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, and her stress levels start to drop.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, her stress levels drop, and she notices she's sleeping better.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, finding it surprisingly relaxing, her stress levels drop, and she notices she's sleeping better without the constant notifications.",
+      "Anna gives up social media for a month, which makes her realize how much time she used to spend scrolling — suddenly she has more free time, starts reading books she hasn't touched in years, her stress levels drop, and she notices she's sleeping better without the constant notifications buzzing all night."
+    ],
+    vocab:[
+      {expr:'give up', pt:'desistir de / largar (algo)'},
+      {expr:'take a breather', pt:'fazer uma pausa, se afastar por um tempo'},
+      {expr:'doom scrolling', pt:'scrollar sem parar sentindo que não consegue parar'},
+      {expr:'gaps in her day', pt:'buracos / espaços vazios no dia dela'},
+      {expr:'it dawned on her', pt:'ela teve uma realização, caiu a ficha'},
+      {expr:"books she hasn't touched in years", pt:'livros que ela não tocava há anos'},
+      {expr:'surprisingly relaxing', pt:'surpreendentemente relaxante'},
+      {expr:'stress levels drop', pt:'os níveis de estresse caem'},
+      {expr:'constant notifications', pt:'notificações constantes'},
+      {expr:'sleeping better', pt:'dormindo melhor'}
+    ]
+  },
+  { id:'ep11', ep:11, curto:'O Vídeo do Chefe', emoji:'😂', traducao:'O homem assiste a um vídeo hilário',
+    niveis:[
+      "A man watches a hilarious video.",
+      "A man watches a hilarious video of his boss dancing on TikTok.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues nearby.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues nearby who crowd around to watch the video.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues who crowd around to watch the video, creating a bit of a commotion.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing the attention of his colleagues who crowd around — creating a commotion just as the boss walks in.",
+      "A man watches a hilarious video of his boss dancing on TikTok and tries to hold back his laughter, but a loud chuckle escapes, drawing his colleagues who crowd around the video — creating a scene just as the boss walks in.",
+      "A man watches a hilarious video of his boss dancing on TikTok, tries to hold back his laughter — a chuckle escapes, colleagues crowd around, and a scene is created just as the boss walks in and sees the whole thing."
+    ],
+    vocab:[
+      {expr:'hilarious', pt:'extremamente engraçado'},
+      {expr:'hold back laughter', pt:'segurar / conter o riso'},
+      {expr:'burst out laughing', pt:'dar uma risada explosiva, não conseguir segurar mais'},
+      {expr:'chuckle', pt:'uma risadinha contida / um riso leve'},
+      {expr:'a chuckle escapes', pt:'uma risada escapou (sem querer)'},
+      {expr:'crowd around', pt:'aglomerar ao redor, todos se aproximam para ver'},
+      {expr:'create a scene', pt:'criar uma cena / confusão / alvoroço'},
+      {expr:'fight the urge to laugh', pt:'lutar contra a vontade de rir'}
+    ]
+  },
+  { id:'ep12', ep:12, curto:'Quem É Você Mesmo?', emoji:'🙈', traducao:'Tom esquece o nome de alguém',
+    niveis:[
+      "Tom forgets someone's name.",
+      "Tom forgets someone's name at a party.",
+      "Tom forgets someone's name at a party and tries to avoid saying it.",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy.\"",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward.",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks: \"Do you even remember my name?\"",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks, \"Do you even remember my name?\" — to which Tom stammers, blurting out \"Chris.\"",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy\" even as the conversation gets more awkward, until the other person asks, \"Do you even remember my name?\" — Tom blurts out \"Chris,\" and the other person says \"Close, but no cigar — it's Pat.\"",
+      "Tom forgets someone's name at a party and tries to avoid saying it, so he keeps calling him \"buddy,\" until Pat asks \"Do you even know my name?\" — Tom blurts out \"Chris,\" and Pat laughs saying \"Close, but no cigar — it's Pat,\" before sheepishly adding \"Wait, what's your name again?\"",
+      "Tom forgets someone's name at a party and tries to avoid saying it — he keeps calling him \"buddy,\" gets caught, blurts out the wrong name, and discovers the other person doesn't remember his name either, so they both laugh it off."
+    ],
+    vocab:[
+      {expr:'not good with names', pt:'não ser bom com nomes'},
+      {expr:'avoid saying it', pt:'evitar dizer / desviar da situação'},
+      {expr:'steer clear of', pt:'evitar, ficar longe de (mais informal)'},
+      {expr:'buddy / pal / friend', pt:'truques para evitar chamar pelo nome'},
+      {expr:'awkward', pt:'constrangedor, embaraçoso'},
+      {expr:'stammer', pt:'gaguejar (de nervosismo ou embaraço)'},
+      {expr:'blurt out', pt:'soltar sem pensar, falar por impulso'},
+      {expr:'close, but no cigar', pt:'quase, mas não'},
+      {expr:'sheepishly', pt:'envergonhadamente, de forma tímida'},
+      {expr:'laugh it off', pt:'rir para superar / gargalhar para deixar passar'}
+    ]
+  },
+  { id:'ep13', ep:13, curto:'Melhorando o Inglês', emoji:'📈', traducao:'Anna decide melhorar o inglês',
+    niveis:[
+      "Anna decides to improve her English.",
+      "Anna decides to improve her English and starts practicing every day.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially ones that seem tricky.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially ones that seem tricky, like idioms and phrasal verbs.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, and repeating new phrases aloud — especially tricky ones like idioms and phrasal verbs, which she tries to use in conversations with her friends.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, repeating new phrases aloud, and using tricky idioms and phrasal verbs in real conversations with her friends.",
+      "Anna decides to improve her English and starts practicing every day by reading short articles, watching online videos, repeating new phrases aloud, and incorporating tricky idioms and phrasal verbs into real conversations — making what she learns her own."
+    ],
+    vocab:[
+      {expr:'improve her English', pt:'melhorar o inglês dela'},
+      {expr:'step up her English learning game', pt:'elevar o nível do aprendizado dela'},
+      {expr:'every day', pt:'todos os dias (consistência é o ponto-chave)'},
+      {expr:'reading short articles', pt:'lendo artigos curtos'},
+      {expr:'repeating aloud', pt:'repetindo em voz alta'},
+      {expr:'shadowing', pt:'técnica de repetir o que você ouve em voz alta'},
+      {expr:'tricky', pt:'difícil / complicado'},
+      {expr:'incorporate into real conversations', pt:'incorporar em conversas reais'},
+      {expr:'make it your own', pt:'fazer seu, tornar seu (personalizando o que você aprende)'},
+      {expr:'two birds one stone', pt:'duas tarefas em um'}
+    ]
+  }
+];
+
+// ── DIFF: PALAVRAS NOVAS EM RELAÇÃO AO NÍVEL ANTERIOR ─────────────────────────
+function tokenize(str) { return str.trim().split(/\s+/); }
+
+function diffWords(prevText, curText) {
+  const oldW = prevText ? tokenize(prevText) : [];
+  const newW = tokenize(curText);
+  const m = oldW.length, n = newW.length;
+  const dp = Array.from({length:m+1}, () => new Array(n+1).fill(0));
+  for (let i=1;i<=m;i++) for (let j=1;j<=n;j++) {
+    dp[i][j] = oldW[i-1]===newW[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
+  }
+  const isNew = new Array(n).fill(true);
+  let i=m, j=n;
+  while (i>0 && j>0) {
+    if (oldW[i-1]===newW[j-1]) { isNew[j-1]=false; i--; j--; }
+    else if (dp[i-1][j] >= dp[i][j-1]) i--;
+    else j--;
+  }
+  return newW.map((w,idx) => ({ word:w, isNew:isNew[idx] }));
+}
+
+const STOP_WORDS = new Set(['a','an','the','to','of','in','on','your','her','his','it','out','up','my','and','but','for']);
+function normWord(w) {
+  w = w.toLowerCase().replace(/[^a-z']/g, '');
+  if (w.length > 5 && w.endsWith('ing')) w = w.slice(0, -3);
+  else if (w.length > 4 && w.endsWith('ed')) w = w.slice(0, -2);
+  else if (w.length > 3 && w.endsWith('s') && !w.endsWith('ss')) w = w.slice(0, -1);
+  return w;
+}
+function contentWords(s) {
+  return s.replace(/[(),]/g, '').toLowerCase().split(/\s+/).map(normWord).filter(w => w && !STOP_WORDS.has(w));
+}
+function bestClauseIn(text, expr) {
+  const primary = expr.split('/')[0].split('(')[0].trim().toLowerCase();
+  const clauses = text.split(/(?<=[,.])\s+|\s+—\s+/);
+  for (const c of clauses) { if (c.toLowerCase().indexOf(primary) !== -1) return { clause: c.trim(), literal: true }; }
+  const need = contentWords(primary);
+  if (!need.length) return null;
+  let best = null, bestScore = 0;
+  for (const c of clauses) {
+    const cWords = new Set(c.replace(/[.,]/g, '').toLowerCase().split(/\s+/).map(normWord));
+    const hits = need.filter(w => cWords.has(w)).length;
+    const score = hits / need.length;
+    if (score > bestScore) { bestScore = score; best = c; }
+  }
+  return best && bestScore >= 0.6 ? { clause: best.trim(), literal: false } : null;
+}
+function getExemplo(story, expr) {
+  const niveis = story.niveis;
+  const order = [...niveis.keys()].sort((a, b) => niveis[a].length - niveis[b].length);
+  for (const idx of order) { const r = bestClauseIn(niveis[idx], expr); if (r && r.literal) return r.clause; }
+  for (const idx of order) { const r = bestClauseIn(niveis[idx], expr); if (r) return r.clause; }
+  return niveis[9];
+}
+
+function chunkForSpeech(text) {
+  const parts = text.replace(/—/g, ',').split(',').map(s => s.trim()).filter(Boolean);
+  const out = [];
+  parts.forEach(p => {
+    if (p.split(/\s+/).length > 11) {
+      const pieces = p.split(/\s+(and|but)\s+/);
+      let buf = '';
+      pieces.forEach(piece => {
+        if (piece === 'and' || piece === 'but') { if (buf) out.push(buf.trim()); buf = piece + ' '; }
+        else buf += piece;
+      });
+      if (buf) out.push(buf.trim());
+    } else out.push(p);
+  });
+  return out;
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's25_historias_progresso';
+let state = {
+  historiaAtual: STORIES[0].id,
+  niveis: {},
+  completadas: [],
+  modoTreino: false,
+  mostrarTodos: false,
+  revelados: {}
+};
+
+function loadState() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) Object.assign(state, JSON.parse(raw)); } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function getStory(id) { return STORIES.find(s => s.id === id); }
+function nivelAtual(id) { return state.niveis[id] || 3; }
+
+// ── PICKER ─────────────────────────────────────────────────────────────────────
+function renderPicker() {
+  document.getElementById('pickerGrid').innerHTML = STORIES.map(s => `
+    <div class="picker-btn ${s.id===state.historiaAtual?'on':''}" onclick="selectStory('${s.id}')">
+      ${state.completadas.includes(s.id) ? '<span class="picker-check">✓</span>' : ''}
+      <div class="picker-ep">EP${s.ep}</div>
+      <span class="picker-emoji">${s.emoji}</span>
+      <div class="picker-nome">${s.curto}</div>
+    </div>
+  `).join('');
+}
+
+function selectStory(id) {
+  state.historiaAtual = id;
+  saveState();
+  renderAll();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── TOOLBAR ────────────────────────────────────────────────────────────────────
+function toggleTreino() {
+  state.modoTreino = !state.modoTreino;
+  saveState();
+  renderAll();
+}
+function toggleTodos() {
+  state.mostrarTodos = !state.mostrarTodos;
+  saveState();
+  renderAll();
+}
+
+// ── STORY DISPLAY ──────────────────────────────────────────────────────────────
+let openTip = null;
+
+function toggleSpeakTip(levelIdx) {
+  const el = document.getElementById('tip-' + levelIdx);
+  if (!el) return;
+  const willOpen = el.classList.contains('hidden');
+  document.querySelectorAll('.speak-tip').forEach(t => t.classList.add('hidden'));
+  if (willOpen) el.classList.remove('hidden');
+}
+
+function toggleReveal(id, levelIdx) {
+  if (!state.revelados[id]) state.revelados[id] = {};
+  state.revelados[id][levelIdx] = !state.revelados[id][levelIdx];
+  saveState();
+  renderStory();
+}
+
+function renderLevelText(story, levelIdx, id) {
+  const cur = story.niveis[levelIdx];
+  if (levelIdx === 0) return cur;
+  const prev = story.niveis[levelIdx-1];
+  const tokens = diffWords(prev, cur);
+  const revelado = state.revelados[id] && state.revelados[id][levelIdx];
+  return tokens.map(t => {
+    if (!t.isNew) return t.word;
+    if (state.modoTreino && !revelado) return '<span class="blank">[___]</span>';
+    return `<span class="nova">${t.word}</span>`;
+  }).join(' ');
+}
+
+function renderStory() {
+  const id = state.historiaAtual;
+  const story = getStory(id);
+  const maxNivel = state.mostrarTodos ? 10 : nivelAtual(id);
+
+  document.getElementById('treinoBtn').classList.toggle('on', state.modoTreino);
+  document.getElementById('todosBtn').classList.toggle('on', state.mostrarTodos);
+  document.getElementById('todosBtn').textContent = state.mostrarTodos ? 'Modo progressivo' : 'Mostrar todos os 10 níveis';
+
+  let html = `
+    <div class="story-head">
+      <div class="story-head-ep">Episódio ${story.ep}</div>
+      <div class="story-head-title">${story.niveis[0]}</div>
+      <div class="story-head-pt">${story.traducao}</div>
+    </div>
+  `;
+
+  for (let lvl = 1; lvl <= maxNivel; lvl++) {
+    const idx = lvl - 1;
+    const revelado = state.revelados[id] && state.revelados[id][idx];
+    html += `
+      <div class="nivel-card">
+        <span class="nivel-badge">NÍVEL ${lvl}</span>
+        <div class="nivel-texto">${renderLevelText(story, idx, id)}</div>
+        <div class="nivel-actions">
+          <button class="speak-btn" onclick="toggleSpeakTip(${idx})">🔊 Repetir em voz alta</button>
+          ${(state.modoTreino && lvl > 1 && !revelado) ? `<button class="reveal-btn" onclick="toggleReveal('${id}', ${idx})">👁️ Revelar</button>` : ''}
+          <div class="speak-tip hidden" id="tip-${idx}">
+            ${chunkForSpeech(story.niveis[idx]).map(c => `<div class="speak-tip-line">→ <b>${c}</b></div>`).join('')}
+            <div class="speak-tip-note">Fale cada grupo de uma vez, com uma pequena pausa entre eles — depois junte tudo em um único fôlego.</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  html += `<div class="level-nav">`;
+  if (state.mostrarTodos) {
+    html += `<div class="done-badge">🎉 Frase completa nos 10 níveis!</div>`;
+  } else if (maxNivel < 10) {
+    html += `<button class="next-level-btn" onclick="nextLevel()">Ver próximo nível →</button>`;
+  } else {
+    html += `<div class="done-badge">🎉 Frase completa! Você chegou ao nível 10.</div>`;
+  }
+  html += `</div>`;
+
+  html += `<div class="vocab-title">📘 Vocabulário desta história</div>`;
+  html += `
+    <div class="table-wrap">
+      <table class="v-table">
+        <thead><tr><th>Expressão</th><th>Definição</th><th>Exemplo na história</th></tr></thead>
+        <tbody>
+          ${story.vocab.map(v => `
+            <tr>
+              <td class="word-cell">${v.expr}</td>
+              <td class="def-cell">${v.pt}</td>
+              <td class="ex-cell">"${getExemplo(story, v.expr)}"</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  const curIdxStory = STORIES.findIndex(s => s.id === id);
+  const nextStory = STORIES[(curIdxStory + 1) % STORIES.length];
+  html += `
+    <div class="next-story">
+      <button class="next-story-btn" onclick="selectStory('${nextStory.id}')">Próxima história: ${nextStory.emoji} ${nextStory.curto} →</button>
+    </div>
+  `;
+
+  document.getElementById('storyArea').innerHTML = html;
+
+  // marca como completada quando todos os 10 níveis já foram vistos
+  const efetivo = state.mostrarTodos ? 10 : nivelAtual(id);
+  if (efetivo >= 10 && !state.completadas.includes(id)) {
+    state.completadas.push(id);
+    saveState();
+    renderPicker();
+  }
+}
+
+function nextLevel() {
+  const id = state.historiaAtual;
+  const atual = nivelAtual(id);
+  if (atual < 10) {
+    state.niveis[id] = atual + 1;
+    saveState();
+    renderStory();
+    window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+  }
+}
+
+function renderAll() {
+  renderPicker();
+  renderStory();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+renderAll();
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nivel-actions')) {
+    document.querySelectorAll('.speak-tip').forEach(t => t.classList.add('hidden'));
+  }
+});
+</script>
+</body>
+</html>
