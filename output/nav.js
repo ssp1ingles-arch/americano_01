@@ -22,6 +22,14 @@
     {id: 's14', href: base + 'sistema14/index.html', icon: '💪', label: 'Sistema 14 — Vida Saudável', color: '#34D399'},
     {id: 's15', href: base + 'sistema15/index.html', icon: '💬', label: 'Sistema 15 — Expressões Idiomáticas', color: '#F59E0B'},
     {id: 's16', href: base + 'sistema16/index.html', icon: '🎬', label: 'Sistema 16 — Inglês com Filmes', color: '#7C3AED'},
+    {id: 's17', href: base + 'sistema17/index.html', icon: '📈', label: 'Sistema 17 — Super Sentences', color: '#0EA5E9'},
+    {id: 's18', href: base + 'sistema18/index.html', icon: '💬', label: 'Sistema 18 — How Was Your Day?', color: '#10B981'},
+    {id: 's19', href: base + 'sistema19/index.html', icon: '🎧', label: 'Sistema 19 — Conversação Diária', color: '#EC4899'},
+    {id: 's20', href: base + 'sistema20/index.html', icon: '🗣️', label: 'Sistema 20 — Conversas Reais', color: '#6366F1'},
+    {id: 's21', href: base + 'sistema21/index.html', icon: '📖', label: 'Sistema 21 — The Birthday Party', color: '#B45309'},
+    {id: 's22', href: base + 'sistema22/index.html', icon: '🗺️', label: 'Sistema 22 — Inglês para Situações Reais', color: '#0F766E'},
+    {id: 's23', href: base + 'sistema23/index.html', icon: '🔤', label: 'Sistema 23 — Inglês do Zero', color: '#7C2D12'},
+    {id: 's24', href: base + 'sistema24/index.html', icon: '🧠', label: 'Sistema 24 — Pense em Inglês', color: '#BE123C'},
   ];
 
   var path = window.location.pathname;

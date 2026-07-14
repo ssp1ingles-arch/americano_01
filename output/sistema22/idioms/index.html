@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioms Clássicos · Sistema 22</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s22:#0F766E;--s22d:#134E4A;--s22l:#CCFBF1;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s22);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s22);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO GRID ===== */
+.idiom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.idiom-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.3rem 1.4rem;transition:border-color .18s;}
+.idiom-card:hover{border-color:var(--bdh);}
+.idiom-emoji{font-size:1.7rem;margin-bottom:.6rem;}
+.idiom-word{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--s22);line-height:1.35;margin-bottom:.55rem;}
+.idiom-sig{font-size:.87rem;color:var(--tx);line-height:1.55;margin-bottom:.65rem;}
+.idiom-ex{font-size:.8rem;color:var(--tm);line-height:1.5;font-style:italic;border-left:3px solid rgba(15,118,110,.35);padding-left:.7rem;}
+
+@media(max-width:720px){
+  .idiom-grid{grid-template-columns:1fr;}
+}
+
+/* ===== MODO FLASHCARD ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s22),#14B8A6);border-radius:3px;transition:width .5s ease;}
+
+.flash-toprow{text-align:center;margin-bottom:1rem;}
+.shuffle-btn{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.5rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.shuffle-btn:hover{border-color:var(--bdh);color:var(--tx);}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-emoji{font-size:2.2rem;margin-bottom:.9rem;}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-word{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--s22);line-height:1.35;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-back-sig{font-size:.95rem;color:var(--tx);line-height:1.55;margin-bottom:.6rem;}
+.flash-back-ex{font-size:.83rem;color:var(--tm);line-height:1.55;font-style:italic;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s22);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s22);color:#fff;cursor:pointer;}
+
+@media(max-width:620px){
+  .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 22</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💡 Idioms Clássicos</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="grid" onclick="setModo('grid')">Ver Todos</button>
+        <button class="tab-btn" data-modo="flashcard" onclick="setModo('flashcard')">Flashcard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO GRID -->
+  <div class="panel" id="panelGrid">
+    <div class="idiom-grid" id="idiomGrid"></div>
+  </div>
+
+  <!-- MODO FLASHCARD -->
+  <div class="panel hidden" id="panelFlashcard">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s22)">1/25</div><div class="flash-stat-l">Idiom</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div class="flash-toprow"><button class="shuffle-btn" onclick="shuffleDeck()">🔀 Embaralhar novamente</button></div>
+    <div id="flashArea"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 25 IDIOMS CLÁSSICOS ──────────────────────────────────────────────────
+const IDIOMS = [
+  {idiom:"a piece of cake", sig:"moleza / fácil demais", emoji:"🍰", ex:"Don't worry about the test, it'll be a piece of cake."},
+  {idiom:"cost an arm and a leg", sig:"custar muito caro", emoji:"💸", ex:"That new phone cost an arm and a leg."},
+  {idiom:"break the ice", sig:"quebrar o gelo", emoji:"🧊", ex:"He told a joke to break the ice at the meeting."},
+  {idiom:"hit the nail on the head", sig:"acertar em cheio / dizer exatamente certo", emoji:"🔨", ex:"You hit the nail on the head with that explanation."},
+  {idiom:"out of the blue", sig:"do nada / de repente", emoji:"🌀", ex:"She called me out of the blue after years of silence."},
+  {idiom:"spill the beans", sig:"revelar um segredo", emoji:"🫘", ex:"Come on, spill the beans — what happened?"},
+  {idiom:"under the weather", sig:"não se sentir bem / adoentado", emoji:"🤒", ex:"I'm feeling a bit under the weather today."},
+  {idiom:"beat around the bush", sig:"enrolar / não ir direto ao assunto", emoji:"🌳", ex:"Stop beating around the bush and tell me the truth."},
+  {idiom:"hit the sack", sig:"ir dormir", emoji:"🛏️", ex:"I'm exhausted, I'm going to hit the sack."},
+  {idiom:"let the cat out of the bag", sig:"revelar um segredo sem querer", emoji:"🐈", ex:"He let the cat out of the bag about the surprise party."},
+  {idiom:"bite the bullet", sig:"aguentar firme / engolir seco", emoji:"😬", ex:"I decided to bite the bullet and get the surgery done."},
+  {idiom:"kick the bucket", sig:"bater as botas / morrer (informal)", emoji:"🪣", ex:"The old man finally kicked the bucket at 95."},
+  {idiom:"burning the midnight oil", sig:"trabalhar / estudar até tarde da noite", emoji:"🕯️", ex:"She's been burning the midnight oil to finish her thesis."},
+  {idiom:"barking up the wrong tree", sig:"perseguir a pista errada / culpar a pessoa errada", emoji:"🌲", ex:"If you think I did it, you're barking up the wrong tree."},
+  {idiom:"on the fence", sig:"indeciso / em cima do muro", emoji:"🚧", ex:"I'm still on the fence about which job to take."},
+  {idiom:"through thick and thin", sig:"nas boas e nas ruins", emoji:"🤝", ex:"They've been friends through thick and thin."},
+  {idiom:"cry over spilled milk", sig:"lamentar o que não tem conserto", emoji:"🥛", ex:"It's broken now, no use crying over spilled milk."},
+  {idiom:"cut to the chase", sig:"ir direto ao ponto", emoji:"✂️", ex:"Let's cut to the chase — do we have a deal or not?"},
+  {idiom:"shoot the breeze", sig:"bater papo / conversar à toa", emoji:"💬", ex:"We just sat on the porch, shooting the breeze."},
+  {idiom:"jump the gun", sig:"agir precipitadamente / antes da hora", emoji:"🔫", ex:"Don't jump the gun — wait for the official announcement."},
+  {idiom:"pull someone's leg", sig:"pregar uma peça / brincar com alguém", emoji:"😜", ex:"Relax, I'm just pulling your leg."},
+  {idiom:"break a leg", sig:"boa sorte! (especialmente em apresentações)", emoji:"🍀", ex:"Break a leg on your audition tonight!"},
+  {idiom:"bite off more than you can chew", sig:"pegar mais do que pode carregar", emoji:"🍔", ex:"Taking three jobs at once? You bit off more than you can chew."},
+  {idiom:"a dime a dozen", sig:"muito comum / fácil de encontrar", emoji:"🪙", ex:"Coffee shops like that are a dime a dozen around here."},
+  {idiom:"on cloud nine", sig:"no sétimo céu / muito feliz", emoji:"☁️", ex:"She's been on cloud nine since she got the job offer."}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's22_idioms_progresso';
+let state = {
+  modo: 'grid',
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelGrid').classList.toggle('hidden', modo !== 'grid');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', modo !== 'flashcard');
+  if (modo === 'grid') renderGrid();
+  if (modo === 'flashcard') renderFlash();
+}
+
+// ── MODO GRID ────────────────────────────────────────────────────────────────
+function renderGrid() {
+  document.getElementById('idiomGrid').innerHTML = IDIOMS.map(i => `
+    <div class="idiom-card">
+      <div class="idiom-emoji">${i.emoji}</div>
+      <div class="idiom-word">${i.idiom}</div>
+      <div class="idiom-sig">${i.sig}</div>
+      <div class="idiom-ex">${i.ex}</div>
+    </div>
+  `).join('');
+}
+
+// ── MODO FLASHCARD ───────────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== IDIOMS.length) {
+    state.flashOrder = shuffle(IDIOMS.map((_, i) => i));
+    state.flashIndex = 0;
+    state.flashAcertos = 0;
+    state.flashErros = 0;
+    saveState();
+  }
+}
+
+function shuffleDeck() {
+  state.flashOrder = shuffle(IDIOMS.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">💡 Você revisou todos os 25 idioms!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${IDIOMS.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="shuffleDeck()">↻ Embaralhar e praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const i = IDIOMS[state.flashOrder[state.flashIndex]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-emoji">${i.emoji}</div>
+      <div class="flash-tag">Idiom</div>
+      <div class="flash-front-word">${i.idiom}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-back-sig">${i.sig}</div>
+        <div class="flash-back-ex">${i.ex}</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, IDIOMS.length) + '/' + IDIOMS.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, IDIOMS.length) / IDIOMS.length * 100) + '%';
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

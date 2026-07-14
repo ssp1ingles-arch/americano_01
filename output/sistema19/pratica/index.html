@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática · Conversação Diária · Sistema 19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s19:#EC4899;--s19d:#9D174D;--s19l:#FCE7F3;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s19);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:960px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s19);color:#fff;}
+
+.wrap{padding-top:170px;max-width:960px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — APRENDER ===== */
+.cat-strip{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.6rem;margin-bottom:1rem;}
+.cat-tab{flex-shrink:0;background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.6rem .9rem;cursor:pointer;transition:all .18s;text-align:center;font-family:'Space Grotesk',sans-serif;}
+.cat-tab:hover{border-color:var(--bdh);}
+.cat-tab.on{border-color:var(--s19);background:rgba(236,72,153,.12);box-shadow:0 0 12px rgba(236,72,153,.2);}
+.cat-tab-icon{font-size:1.15rem;display:block;margin-bottom:.2rem;}
+.cat-tab-label{font-size:.62rem;font-weight:700;color:var(--tm);white-space:nowrap;}
+.cat-tab.on .cat-tab-label{color:var(--s19);}
+
+.cat-count{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--s19);margin-bottom:.9rem;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.qa-table{width:100%;min-width:520px;border-collapse:collapse;}
+.qa-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.qa-row{cursor:pointer;transition:background .15s;}
+.qa-row:nth-child(4n+3) td{background:rgba(236,72,153,.03);}
+.qa-row:hover td{background:rgba(236,72,153,.07);}
+.qa-row.active td{background:rgba(236,72,153,.12);}
+.qa-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.88rem;line-height:1.55;}
+.q-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s19);min-width:220px;}
+.a-cell{color:var(--tx);min-width:200px;}
+.tr-row td{padding:0;border-bottom:1px solid var(--bd);}
+.tr-row.hidden td{display:none;padding:0;border:none;}
+.tr-inner{padding:.7rem 1.4rem;background:rgba(236,72,153,.06);font-size:.82rem;color:var(--s19l);display:flex;align-items:center;gap:.5rem;}
+.tr-flag{flex-shrink:0;}
+
+/* ===== MODO 2 — QUIZ RÁPIDO ===== */
+.quiz-controls{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.1rem;align-items:center;justify-content:center;}
+.scope-group{display:flex;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;}
+.scope-btn{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.5rem .9rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.scope-btn.on{background:var(--s19);color:#fff;}
+.scope-select{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.55rem .8rem;border-radius:.5rem;border:1px solid var(--bd);background:var(--sf);color:var(--tx);cursor:pointer;}
+
+.quiz-filter-tag{display:flex;align-items:center;gap:.5rem;justify-content:center;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--s19);}
+.quiz-filter-clear{background:none;border:1px solid rgba(236,72,153,.4);color:var(--s19);border-radius:2rem;padding:.2rem .7rem;font-size:.7rem;font-weight:700;cursor:pointer;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.85rem 1.1rem;margin-bottom:1.2rem;}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}
+.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:800;color:var(--s19);}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s19),#F472B6);border-radius:3px;transition:width .5s ease;}
+
+.quiz-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.quiz-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.quiz-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.quiz-stat-n.ok{color:var(--gn);}
+.quiz-stat-n.bad{color:var(--rd);}
+.quiz-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.quiz-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2rem 1.75rem;text-align:center;}
+.quiz-cat-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s19);background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.3);padding:.25rem .7rem;border-radius:2rem;margin-bottom:1rem;}
+.quiz-question{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--tx);line-height:1.5;margin-bottom:1.3rem;}
+.quiz-answer-cover{background:var(--bg);border:1px dashed var(--bd);border-radius:.8rem;padding:1.2rem;cursor:pointer;transition:all .18s;}
+.quiz-answer-cover:hover{border-color:var(--bdh);}
+.quiz-answer-cover-text{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--td);}
+.quiz-answer-revealed{background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.3);border-radius:.8rem;padding:1.2rem;}
+.quiz-answer-text{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--s19);}
+
+.quiz-actions{display:flex;gap:.6rem;margin-top:1.3rem;}
+.quiz-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.quiz-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.quiz-btn:disabled{opacity:.35;cursor:default;}
+.quiz-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.quiz-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.quiz-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.quiz-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.quiz-done{text-align:center;padding:2.5rem 1.5rem;}
+.quiz-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s19);margin-bottom:.6rem;}
+.quiz-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.quiz-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s19);color:#fff;cursor:pointer;}
+
+@media(max-width:620px){
+  .quiz-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelQuiz{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 3 — PADRÕES GRAMATICAIS ===== */
+.padroes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+.padrao-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.3rem 1.4rem;display:flex;flex-direction:column;}
+.padrao-tag{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--s19d);background:var(--s19l);padding:.4rem .9rem;border-radius:.6rem;margin-bottom:.9rem;align-self:flex-start;}
+.padrao-sec-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.5rem;}
+.padrao-exemplos{list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+.padrao-exemplos li{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.55rem .75rem;}
+.padrao-btn{margin-top:auto;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid rgba(236,72,153,.35);background:rgba(236,72,153,.08);color:var(--s19);cursor:pointer;transition:all .18s;}
+.padrao-btn:hover{background:rgba(236,72,153,.15);}
+
+@media(max-width:720px){
+  .padroes-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 19</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🎧 Prática</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="aprender" onclick="setModo('aprender')">Aprender</button>
+        <button class="tab-btn" data-modo="quiz" onclick="setModo('quiz')">Quiz Rápido</button>
+        <button class="tab-btn" data-modo="padroes" onclick="setModo('padroes')">Padrões Gramaticais</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — APRENDER -->
+  <div class="panel" id="panelAprender">
+    <div class="cat-strip" id="catStrip"></div>
+    <div class="cat-count" id="catCount"></div>
+    <div class="table-wrap">
+      <table class="qa-table">
+        <thead><tr><th>Pergunta</th><th>Resposta Modelo</th></tr></thead>
+        <tbody id="qaTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODO 2 — QUIZ RÁPIDO -->
+  <div class="panel hidden" id="panelQuiz">
+    <div class="quiz-controls">
+      <div class="scope-group">
+        <button class="scope-btn" id="scopeTodasBtn" onclick="setQuizEscopo('todas')">🔀 Misturar todas</button>
+        <button class="scope-btn" id="scopeCatBtn" onclick="setQuizEscopo('categoria')">📁 Só uma categoria</button>
+      </div>
+      <select class="scope-select hidden" id="quizCatSelect" onchange="setQuizCategoria(this.value)"></select>
+    </div>
+    <div class="quiz-filter-tag hidden" id="quizFilterTag">
+      <span id="quizFilterLabel"></span>
+      <button class="quiz-filter-clear" onclick="clearQuizPadrao()">✕ limpar filtro</button>
+    </div>
+    <div class="quiz-stats">
+      <div class="quiz-stat"><div class="quiz-stat-n ok" id="quizOkN">0</div><div class="quiz-stat-l">Já sabia</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n bad" id="quizBadN">0</div><div class="quiz-stat-l">Ainda não</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n" id="quizPosN" style="color:var(--s19)">1/1</div><div class="quiz-stat-l">Questão</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="quizProgFill" style="width:0%"></div></div></div>
+    <div id="quizArea"></div>
+  </div>
+
+  <!-- MODO 3 — PADRÕES GRAMATICAIS -->
+  <div class="panel hidden" id="panelPadroes">
+    <div class="padroes-grid" id="padroesGrid"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 10 CATEGORIAS × 103 PARES ───────────────────────────────────────────
+const CATEGORIAS = [
+  {nome:'Sobre Você', icon:'🙋', pares:[
+    {pergunta:"What is your name?", resposta:"My name is Sarah.", traducao:"Qual é o seu nome?"},
+    {pergunta:"Were you born here?", resposta:"Yes, I was born here.", traducao:"Você nasceu aqui?"},
+    {pergunta:"Is he married or single?", resposta:"He is married.", traducao:"Ele é casado ou solteiro?"},
+    {pergunta:"What is your goal?", resposta:"My goal is to learn English.", traducao:"Qual é o seu objetivo?"},
+    {pergunta:"What is your favorite color?", resposta:"My favorite color is blue.", traducao:"Qual é a sua cor favorita?"},
+    {pergunta:"How long have you studied English?", resposta:"I have studied English for two years.", traducao:"Há quanto tempo você estuda inglês?"},
+    {pergunta:"Where do you work?", resposta:"I work in an office.", traducao:"Onde você trabalha?"},
+    {pergunta:"What kind of movies do you watch?", resposta:"I watch action movies mostly.", traducao:"Que tipo de filme você assiste?"},
+    {pergunta:"Which season do you like?", resposta:"I like the spring season.", traducao:"De qual estação você gosta?"},
+    {pergunta:"What do you plan to do?", resposta:"I plan to relax this weekend.", traducao:"O que você planeja fazer?"},
+    {pergunta:"What brings you here today?", resposta:"My work brings me here.", traducao:"O que te traz aqui hoje?"},
+    {pergunta:"Can you count to 10?", resposta:"Yes, I can count to 10.", traducao:"Você sabe contar até 10?"}
+  ]},
+  {nome:'Rotina Diária', icon:'⏰', pares:[
+    {pergunta:"When do you wake up?", resposta:"I wake up at 7.", traducao:"Quando você acorda?"},
+    {pergunta:"When did you wake up?", resposta:"I woke up at 7.", traducao:"Quando você acordou?"},
+    {pergunta:"What time is breakfast?", resposta:"Breakfast is at 7.", traducao:"Que horas é o café da manhã?"},
+    {pergunta:"When is lunch?", resposta:"Lunch is at noon.", traducao:"Quando é o almoço?"},
+    {pergunta:"How often do you brush teeth?", resposta:"I brush teeth twice daily.", traducao:"Com que frequência você escova os dentes?"},
+    {pergunta:"How often do you change sheets?", resposta:"I change sheets weekly.", traducao:"Com que frequência você troca os lençóis?"},
+    {pergunta:"Are you going to the store?", resposta:"Yes, I am going now.", traducao:"Você está indo à loja?"},
+    {pergunta:"When will you be back?", resposta:"I will be back by 6.", traducao:"Quando você vai voltar?"},
+    {pergunta:"Am I late for class?", resposta:"No, you are on time.", traducao:"Estou atrasado para a aula?"},
+    {pergunta:"Am I supposed to wait here?", resposta:"Yes.", traducao:"Eu devo esperar aqui?"},
+    {pergunta:"What are you doing?", resposta:"I am cooking dinner.", traducao:"O que você está fazendo?"},
+    {pergunta:"Do you enjoy sleeping?", resposta:"Yes, I enjoy sleeping.", traducao:"Você gosta de dormir?"},
+    {pergunta:"When does summer end?", resposta:"Summer ends in September.", traducao:"Quando o verão termina?"},
+    {pergunta:"How often is the bus scheduled?", resposta:"The bus comes every hour.", traducao:"Com que frequência o ônibus passa?"}
+  ]},
+  {nome:'Família', icon:'👨‍👩‍👧', pares:[
+    {pergunta:"Who is your hero?", resposta:"My father is my hero.", traducao:"Quem é o seu herói?"},
+    {pergunta:"Who wants some coffee?", resposta:"My sister wants some coffee.", traducao:"Quem quer café?"},
+    {pergunta:"Who made this cake?", resposta:"My grandmother made it.", traducao:"Quem fez esse bolo?"},
+    {pergunta:"Who gave you this present?", resposta:"My friend gave me this present.", traducao:"Quem te deu esse presente?"},
+    {pergunta:"Who wrote this book?", resposta:"A famous author wrote it.", traducao:"Quem escreveu esse livro?"},
+    {pergunta:"Whose idea was this?", resposta:"This was my brother's idea.", traducao:"De quem foi essa ideia?"},
+    {pergunta:"Whose jacket is hanging there?", resposta:"It is my sister's jacket.", traducao:"De quem é a jaqueta pendurada ali?"},
+    {pergunta:"Whose bag is on the floor?", resposta:"It is her bag on the floor.", traducao:"De quem é a bolsa no chão?"},
+    {pergunta:"Whom did she marry?", resposta:"She married a doctor.", traducao:"Com quem ela se casou?"},
+    {pergunta:"Who speaks English?", resposta:"My brother speaks English.", traducao:"Quem fala inglês?"}
+  ]},
+  {nome:'Saúde', icon:'🏥', pares:[
+    {pergunta:"How do you feel today?", resposta:"I feel very happy today.", traducao:"Como você está se sentindo hoje?"},
+    {pergunta:"Have you lost weight?", resposta:"Yes, I have lost weight.", traducao:"Você emagreceu?"},
+    {pergunta:"What hurts you now?", resposta:"My head hurts very much.", traducao:"O que está doendo agora?"},
+    {pergunta:"Should I call the doctor?", resposta:"Yes, you should call now.", traducao:"Eu devo chamar o médico?"},
+    {pergunta:"What did the doctor say?", resposta:"The doctor said I am fine.", traducao:"O que o médico disse?"},
+    {pergunta:"How long can you hold your breath?", resposta:"I can hold it one minute.", traducao:"Quanto tempo você consegue prender a respiração?"},
+    {pergunta:"Are your feet warm?", resposta:"Yes, my feet are warm.", traducao:"Seus pés estão quentes?"},
+    {pergunta:"Should I use eye cream?", resposta:"Yes, you should use eye cream.", traducao:"Eu devo usar creme para os olhos?"}
+  ]},
+  {nome:'Comida', icon:'🍽️', pares:[
+    {pergunta:"Have you tried sushi before?", resposta:"No, I have never tried it.", traducao:"Você já experimentou sushi antes?"},
+    {pergunta:"What do you usually eat for lunch?", resposta:"I usually eat a salad for lunch.", traducao:"O que você costuma comer no almoço?"},
+    {pergunta:"What would you like to drink?", resposta:"I would like some juice.", traducao:"O que você gostaria de beber?"},
+    {pergunta:"Would you prefer coffee?", resposta:"No, I would prefer juice.", traducao:"Você prefere café?"},
+    {pergunta:"What does she drink in the morning?", resposta:"She drinks coffee in the morning.", traducao:"O que ela bebe de manhã?"},
+    {pergunta:"Is your soup cold?", resposta:"No, my soup isn't cold.", traducao:"Sua sopa está fria?"},
+    {pergunta:"Is your soup thick?", resposta:"Yes, my soup is thick.", traducao:"Sua sopa está grossa?"},
+    {pergunta:"How much sugar is in this?", resposta:"There is a lot of sugar.", traducao:"Quanto açúcar tem nisso?"},
+    {pergunta:"What do you peel for salads?", resposta:"I peel cucumbers for salads.", traducao:"O que você descasca para saladas?"},
+    {pergunta:"What do you chop for sauce?", resposta:"I chop garlic for sauce.", traducao:"O que você pica para o molho?"},
+    {pergunta:"What do you chop for curry?", resposta:"I chop potatoes for curry.", traducao:"O que você pica para o curry?"},
+    {pergunta:"How long do you bake potatoes?", resposta:"I bake potatoes for 1 hour.", traducao:"Por quanto tempo você assa batatas?"},
+    {pergunta:"How long do you bake biscuits?", resposta:"I bake biscuits for 10 minutes.", traducao:"Por quanto tempo você assa biscoitos?"},
+    {pergunta:"Shall we order some pizza?", resposta:"Yes, we shall order now.", traducao:"Vamos pedir pizza?"},
+    {pergunta:"Do you have a pet?", resposta:"Yes, I have a cat.", traducao:"Você tem um animal de estimação?"}
+  ]},
+  {nome:'Clima', icon:'☀️', pares:[
+    {pergunta:"Will it be sunny tomorrow?", resposta:"Yes, it will be sunny.", traducao:"Vai fazer sol amanhã?"},
+    {pergunta:"Should we take an umbrella?", resposta:"Yes, we should take one.", traducao:"Devemos levar um guarda-chuva?"},
+    {pergunta:"Why are there so many people?", resposta:"There is a festival today.", traducao:"Por que tem tanta gente?"},
+    {pergunta:"What is the capital of France?", resposta:"The capital is Paris.", traducao:"Qual é a capital da França?"},
+    {pergunta:"When do farmers plant corn?", resposta:"Farmers plant corn in springtime.", traducao:"Quando os agricultores plantam milho?"},
+    {pergunta:"Where do you find rain?", resposta:"I find rain in clouds.", traducao:"Onde se encontra chuva?"}
+  ]},
+  {nome:'Trabalho', icon:'💼', pares:[
+    {pergunta:"What is your goal?", resposta:"My goal is to learn English.", traducao:"Qual é o seu objetivo?"},
+    {pergunta:"How much money do you have?", resposta:"I have $50.", traducao:"Quanto dinheiro você tem?"},
+    {pergunta:"How much money remains?", resposta:"Little money remains.", traducao:"Quanto dinheiro sobrou?"},
+    {pergunta:"Why did you sell your bike?", resposta:"I sold it because I needed money.", traducao:"Por que você vendeu sua bicicleta?"},
+    {pergunta:"Do you accept cards?", resposta:"Yes, we accept all cards.", traducao:"Vocês aceitam cartão?"},
+    {pergunta:"Could you send the email?", resposta:"Yes, I could send it.", traducao:"Você poderia enviar o e-mail?"},
+    {pergunta:"Could we have the bill?", resposta:"Yes, you could have it now.", traducao:"Poderíamos ter a conta, por favor?"},
+    {pergunta:"Could I borrow your pen?", resposta:"Yes, you could borrow it.", traducao:"Eu poderia pegar sua caneta emprestada?"}
+  ]},
+  {nome:'Lugares', icon:'📍', pares:[
+    {pergunta:"Where is the nearest hospital?", resposta:"The hospital is three blocks away.", traducao:"Onde fica o hospital mais próximo?"},
+    {pergunta:"Where can I find a bank?", resposta:"You can find one on Main Street.", traducao:"Onde posso encontrar um banco?"},
+    {pergunta:"Where can I buy a map?", resposta:"You can buy one at the gas station.", traducao:"Onde posso comprar um mapa?"},
+    {pergunta:"Where can I find a good restaurant?", resposta:"You can find one near the square.", traducao:"Onde posso encontrar um bom restaurante?"},
+    {pergunta:"Does this bus go to the museum?", resposta:"No, it goes to the park.", traducao:"Esse ônibus vai para o museu?"},
+    {pergunta:"Does this train stop there?", resposta:"No, this train goes farther.", traducao:"Esse trem para ali?"},
+    {pergunta:"How long does the flight take?", resposta:"The flight takes 3 hours.", traducao:"Quanto tempo dura o voo?"},
+    {pergunta:"Where have you been?", resposta:"I have been at work.", traducao:"Onde você esteve?"},
+    {pergunta:"Where did you learn to dance?", resposta:"I learned to dance at school.", traducao:"Onde você aprendeu a dançar?"},
+    {pergunta:"Where are you sitting?", resposta:"I am sitting by the window.", traducao:"Onde você está sentado?"}
+  ]},
+  {nome:'Emoções', icon:'😊', pares:[
+    {pergunta:"Are you happy today?", resposta:"Yes, I am happy today.", traducao:"Você está feliz hoje?"},
+    {pergunta:"Why is she crying?", resposta:"She is crying because she is sad.", traducao:"Por que ela está chorando?"},
+    {pergunta:"What makes you smile?", resposta:"Music makes me smile.", traducao:"O que te faz sorrir?"},
+    {pergunta:"What makes you laugh?", resposta:"Funny jokes make me laugh.", traducao:"O que te faz rir?"},
+    {pergunta:"Why are you angry?", resposta:"I am angry because you lied.", traducao:"Por que você está bravo?"},
+    {pergunta:"Why are you smiling?", resposta:"I am smiling because I am happy.", traducao:"Por que você está sorrindo?"},
+    {pergunta:"When do you feel confident?", resposta:"I feel confident at work.", traducao:"Quando você se sente confiante?"},
+    {pergunta:"When do you feel tired?", resposta:"I feel tired at night.", traducao:"Quando você se sente cansado?"},
+    {pergunta:"Was she happy with results?", resposta:"No, she was disappointed.", traducao:"Ela ficou feliz com os resultados?"},
+    {pergunta:"Did you enjoy the party?", resposta:"Yes, I enjoyed it a lot.", traducao:"Você gostou da festa?"}
+  ]},
+  {nome:'Casa', icon:'🏠', pares:[
+    {pergunta:"Are the windows clean?", resposta:"Yes, the windows are clean.", traducao:"As janelas estão limpas?"},
+    {pergunta:"What is inside the box?", resposta:"A gift is inside the box.", traducao:"O que tem dentro da caixa?"},
+    {pergunta:"Where is my phone charger?", resposta:"Your charger is on the desk.", traducao:"Onde está meu carregador de celular?"},
+    {pergunta:"Where should I put this?", resposta:"You should put it on the shelf.", traducao:"Onde eu devo colocar isso?"},
+    {pergunta:"Have you seen my keys?", resposta:"No, I haven't seen them.", traducao:"Você viu minhas chaves?"},
+    {pergunta:"Where were the keys found?", resposta:"They were found under the sofa.", traducao:"Onde as chaves foram encontradas?"},
+    {pergunta:"Have you lost your keys?", resposta:"Yes, I have lost them.", traducao:"Você perdeu suas chaves?"},
+    {pergunta:"Where does the cat sleep?", resposta:"The cat sleeps on the sofa.", traducao:"Onde o gato dorme?"},
+    {pergunta:"Is the water safe to drink?", resposta:"Yes, the water is safe to drink.", traducao:"A água é segura para beber?"},
+    {pergunta:"Does this path lead home?", resposta:"Yes, this path leads home.", traducao:"Esse caminho leva para casa?"}
+  ]}
+];
+
+// ── DATA: PADRÕES GRAMATICAIS ─────────────────────────────────────────────────
+const PADROES = [
+  {key:'yesno', nome:'Yes/No questions', exemplos:["Is he married?", "Are you happy?", "Does this bus go to...?"]},
+  {key:'wh', nome:'Wh- questions', exemplos:["Who is your hero?", "What is your name?", "Where can I find...?"]},
+  {key:'howlong', nome:'How long...?', exemplos:["How long does the flight take?", "How long have you studied?"]},
+  {key:'howoften', nome:'How often...?', exemplos:["How often do you brush teeth?", "How often do you change sheets?"]},
+  {key:'haveyou', nome:'Have you ever...?', exemplos:["Have you tried sushi?", "Have you lost your keys?", "Have you seen my keys?"]},
+  {key:'couldyou', nome:'Could you...?', exemplos:["Could you send the email?", "Could we have the bill?"]},
+  {key:'shouldi', nome:'Should I...?', exemplos:["Should I call the doctor?", "Should we take an umbrella?"]},
+  {key:'will', nome:'Will...?', exemplos:["Will it be sunny?", "Will he join us later?", "When will you be back?"]},
+  {key:'why', nome:'Why...?', exemplos:["Why are you angry?", "Why did you sell your bike?", "Why is she crying?"]},
+  {key:'whose', nome:'Whose...?', exemplos:["Whose idea was this?", "Whose jacket is hanging there?"]}
+];
+
+function classifyPattern(pergunta) {
+  const s = pergunta.toLowerCase();
+  if (/^how long\b/.test(s)) return 'howlong';
+  if (/^how often\b/.test(s)) return 'howoften';
+  if (/^have you\b/.test(s)) return 'haveyou';
+  if (/^could (i|you|we)\b/.test(s)) return 'couldyou';
+  if (/^should (i|we)\b/.test(s)) return 'shouldi';
+  if (/\bwill\b/.test(s)) return 'will';
+  if (/^why\b/.test(s)) return 'why';
+  if (/^whose\b/.test(s)) return 'whose';
+  if (/^(what|who|whom|where|when|which|how)\b/.test(s)) return 'wh';
+  return 'yesno';
+}
+
+// ── ALL PAIRS FLATTENED (for quiz) ──────────────────────────────────────────
+const ALL_PARES = [];
+CATEGORIAS.forEach((cat, ci) => {
+  cat.pares.forEach(p => ALL_PARES.push({ ...p, categoriaIdx: ci, categoriaNome: cat.nome, categoriaIcon: cat.icon, padrao: classifyPattern(p.pergunta) }));
+});
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's19_progresso';
+let state = {
+  modo: 'aprender',
+  categoriaAtual: 0,
+  quizEscopo: 'todas',
+  quizCategoria: 0,
+  quizPadrao: null,
+  quizOrder: null,
+  quizPoolSize: null,
+  quizIndex: 0,
+  quizAcertos: 0,
+  quizErros: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelAprender').classList.toggle('hidden', modo !== 'aprender');
+  document.getElementById('panelQuiz').classList.toggle('hidden', modo !== 'quiz');
+  document.getElementById('panelPadroes').classList.toggle('hidden', modo !== 'padroes');
+  if (modo === 'aprender') renderAprender();
+  if (modo === 'quiz') renderQuizControls();
+  if (modo === 'padroes') renderPadroes();
+}
+
+// ── MODO 1 — APRENDER ────────────────────────────────────────────────────────
+function renderCatStrip() {
+  document.getElementById('catStrip').innerHTML = CATEGORIAS.map((cat, i) => `
+    <div class="cat-tab ${i === state.categoriaAtual ? 'on' : ''}" onclick="selectCat(${i})">
+      <span class="cat-tab-icon">${cat.icon}</span>
+      <div class="cat-tab-label">${cat.nome}</div>
+    </div>
+  `).join('');
+}
+
+function selectCat(i) {
+  state.categoriaAtual = i;
+  saveState();
+  renderAprender();
+}
+
+function renderAprender() {
+  renderCatStrip();
+  const cat = CATEGORIAS[state.categoriaAtual];
+  document.getElementById('catCount').textContent = `${cat.pares.length} pares nesta categoria`;
+
+  document.getElementById('qaTableBody').innerHTML = cat.pares.map((p, idx) => `
+    <tr class="qa-row" id="row-${idx}" onclick="toggleTranslation(${idx})">
+      <td class="q-cell">${p.pergunta}</td>
+      <td class="a-cell">${p.resposta}</td>
+    </tr>
+    <tr class="tr-row hidden" id="tr-${idx}">
+      <td colspan="2">
+        <div class="tr-inner"><span class="tr-flag">🇧🇷</span><span>${p.traducao}</span></div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function toggleTranslation(idx) {
+  const row = document.getElementById(`row-${idx}`);
+  const tr = document.getElementById(`tr-${idx}`);
+  const willShow = tr.classList.contains('hidden');
+  document.querySelectorAll('.qa-row.active').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.tr-row').forEach(r => r.classList.add('hidden'));
+  if (willShow) {
+    row.classList.add('active');
+    tr.classList.remove('hidden');
+  }
+}
+
+// ── MODO 2 — QUIZ RÁPIDO ─────────────────────────────────────────────────────
+function getQuizPool() {
+  let pool = ALL_PARES;
+  if (state.quizPadrao) {
+    pool = pool.filter(p => p.padrao === state.quizPadrao);
+  } else if (state.quizEscopo === 'categoria') {
+    pool = pool.filter(p => p.categoriaIdx === state.quizCategoria);
+  }
+  return pool;
+}
+
+function ensureQuizOrder() {
+  const pool = getQuizPool();
+  if (!Array.isArray(state.quizOrder) || state.quizPoolSize !== pool.length) {
+    state.quizOrder = shuffle(pool.map((_, i) => i));
+    state.quizPoolSize = pool.length;
+    state.quizIndex = 0;
+    state.quizAcertos = 0;
+    state.quizErros = 0;
+    saveState();
+  }
+}
+
+function renderQuizControls() {
+  document.getElementById('scopeTodasBtn').classList.toggle('on', state.quizEscopo === 'todas' && !state.quizPadrao);
+  document.getElementById('scopeCatBtn').classList.toggle('on', state.quizEscopo === 'categoria' && !state.quizPadrao);
+
+  const select = document.getElementById('quizCatSelect');
+  select.innerHTML = CATEGORIAS.map((c, i) => `<option value="${i}" ${i === state.quizCategoria ? 'selected' : ''}>${c.icon} ${c.nome}</option>`).join('');
+  select.classList.toggle('hidden', state.quizEscopo !== 'categoria' || !!state.quizPadrao);
+
+  const filterTag = document.getElementById('quizFilterTag');
+  if (state.quizPadrao) {
+    const p = PADROES.find(x => x.key === state.quizPadrao);
+    document.getElementById('quizFilterLabel').textContent = `📐 Filtrando pelo padrão: ${p.nome}`;
+    filterTag.classList.remove('hidden');
+  } else {
+    filterTag.classList.add('hidden');
+  }
+
+  renderQuiz();
+}
+
+function setQuizEscopo(escopo) {
+  state.quizEscopo = escopo;
+  state.quizPadrao = null;
+  state.quizOrder = null;
+  saveState();
+  renderQuizControls();
+}
+
+function setQuizCategoria(i) {
+  state.quizCategoria = parseInt(i, 10);
+  state.quizOrder = null;
+  saveState();
+  renderQuizControls();
+}
+
+function clearQuizPadrao() {
+  state.quizPadrao = null;
+  state.quizOrder = null;
+  saveState();
+  renderQuizControls();
+}
+
+function practicarPadrao(key) {
+  state.quizPadrao = key;
+  state.quizOrder = null;
+  saveState();
+  setModo('quiz');
+}
+
+let quizRevealed = false;
+
+function renderQuiz() {
+  ensureQuizOrder();
+  quizRevealed = false;
+  updateQuizStats();
+
+  const pool = getQuizPool();
+
+  if (pool.length === 0) {
+    document.getElementById('quizArea').innerHTML = `<div class="quiz-done"><div class="quiz-done-title">Nenhuma pergunta encontrada</div></div>`;
+    return;
+  }
+
+  if (state.quizIndex >= state.quizOrder.length) {
+    document.getElementById('quizArea').innerHTML = `
+      <div class="quiz-done">
+        <div class="quiz-done-title">🎧 Você revisou todas as perguntas!</div>
+        <div class="quiz-done-sub">${state.quizAcertos} de ${state.quizOrder.length} você já sabia de cara.</div>
+        <button class="quiz-restart" onclick="restartQuiz()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const p = pool[state.quizOrder[state.quizIndex]];
+  document.getElementById('quizArea').innerHTML = `
+    <div class="quiz-card">
+      <span class="quiz-cat-badge">${p.categoriaIcon} ${p.categoriaNome}</span>
+      <div class="quiz-question">${p.pergunta}</div>
+      <div id="quizAnswerBox">
+        <div class="quiz-answer-cover" onclick="revealAnswer()">
+          <span class="quiz-answer-cover-text">👁 Mostrar Resposta</span>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-actions">
+      <button class="quiz-btn bad" id="quizBadBtn" onclick="markQuiz(false)" disabled>✗ Ainda não</button>
+      <button class="quiz-btn ok" id="quizOkBtn" onclick="markQuiz(true)" disabled>✓ Já sabia</button>
+    </div>
+  `;
+}
+
+function revealAnswer() {
+  quizRevealed = true;
+  const pool = getQuizPool();
+  const p = pool[state.quizOrder[state.quizIndex]];
+  document.getElementById('quizAnswerBox').innerHTML = `
+    <div class="quiz-answer-revealed">
+      <div class="quiz-answer-text">${p.resposta}</div>
+    </div>
+  `;
+  document.getElementById('quizBadBtn').disabled = false;
+  document.getElementById('quizOkBtn').disabled = false;
+}
+
+function markQuiz(soube) {
+  if (!quizRevealed) return;
+  if (soube) state.quizAcertos++; else state.quizErros++;
+  state.quizIndex++;
+  saveState();
+  renderQuiz();
+}
+
+function restartQuiz() {
+  const pool = getQuizPool();
+  state.quizOrder = shuffle(pool.map((_, i) => i));
+  state.quizPoolSize = pool.length;
+  state.quizIndex = 0;
+  state.quizAcertos = 0;
+  state.quizErros = 0;
+  saveState();
+  renderQuiz();
+}
+
+function updateQuizStats() {
+  const total = Array.isArray(state.quizOrder) ? state.quizOrder.length : 0;
+  document.getElementById('quizOkN').textContent = state.quizAcertos;
+  document.getElementById('quizBadN').textContent = state.quizErros;
+  document.getElementById('quizPosN').textContent = Math.min(state.quizIndex + 1, total) + '/' + total;
+  document.getElementById('quizProgFill').style.width = total ? (Math.min(state.quizIndex, total) / total * 100) + '%' : '0%';
+}
+
+// ── MODO 3 — PADRÕES GRAMATICAIS ─────────────────────────────────────────────
+function renderPadroes() {
+  document.getElementById('padroesGrid').innerHTML = PADROES.map(p => `
+    <div class="padrao-card">
+      <span class="padrao-tag">${p.nome}</span>
+      <div class="padrao-sec-label">Exemplos</div>
+      <ul class="padrao-exemplos">
+        ${p.exemplos.map(ex => `<li>${ex}</li>`).join('')}
+      </ul>
+      <button class="padrao-btn" onclick="practicarPadrao('${p.key}')">🎯 Praticar este padrão</button>
+    </div>
+  `).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

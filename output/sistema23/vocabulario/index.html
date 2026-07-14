@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulário Essencial · Sistema 23</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--vl:#A78BFA;--cy:#64DFDF;--am:#F5C518;--s23:#7C2D12;--s23d:#431407;--s23l:#FFF7ED;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s23);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s23);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+.section-block{margin-bottom:1.8rem;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s23);margin-bottom:.9rem;}
+
+/* ===== SEÇÃO 1 — PREPOSIÇÕES ===== */
+.prep-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem;}
+.prep-card{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;padding:1.1rem .9rem;text-align:center;transition:border-color .18s;}
+.prep-card:hover{border-color:var(--bdh);}
+.prep-icon{font-size:1.4rem;margin-bottom:.5rem;}
+.prep-word{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s23);margin-bottom:.4rem;}
+.prep-sig{font-size:.76rem;color:var(--tx);line-height:1.4;margin-bottom:.5rem;}
+.prep-ex{font-size:.7rem;color:var(--tm);line-height:1.45;font-style:italic;}
+
+@media(max-width:900px){
+  .prep-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  .prep-grid{grid-template-columns:1fr;}
+}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:520px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.5;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr:hover td{background:rgba(255,255,255,.02);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s23);min-width:130px;}
+.def-cell{color:var(--tx);min-width:150px;}
+.ex-cell{color:var(--tm);min-width:200px;}
+
+/* ===== SEÇÃO 2 — TRANSPORTES ===== */
+.transp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.8rem;}
+.transp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.2rem 1.3rem;}
+.transp-nome{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--tx);margin-bottom:.55rem;}
+.transp-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.25rem .7rem;border-radius:2rem;margin-bottom:.7rem;}
+.badge-drive{color:var(--s23);background:rgba(124,45,18,.14);border:1px solid rgba(124,45,18,.4);}
+.badge-ride{color:var(--gn);background:rgba(95,216,122,.1);border:1px solid rgba(95,216,122,.3);}
+.badge-take{color:var(--vl);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);}
+.badge-fly{color:var(--cy);background:rgba(100,223,223,.1);border:1px solid rgba(100,223,223,.3);}
+.badge-sail{color:var(--am);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);}
+.transp-frase{font-size:.85rem;color:var(--tm);line-height:1.5;}
+
+@media(max-width:640px){
+  .transp-grid{grid-template-columns:1fr;}
+}
+
+.infografico-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;padding:1.4rem 1.5rem;}
+.infografico-title{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--s23);margin-bottom:1.1rem;text-align:center;}
+.infografico-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.infografico-grupo{background:var(--bg);border:1px solid var(--bd);border-radius:.8rem;padding:1rem 1.1rem;}
+.infografico-grupo-nome{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.05em;margin-bottom:.6rem;}
+.infografico-list{font-size:.82rem;color:var(--tm);line-height:1.7;}
+
+@media(max-width:560px){
+  .infografico-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 23</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🧭 Vocabulário Essencial</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-secao="preposicoes" onclick="setSecao('preposicoes')">Preposições</button>
+        <button class="tab-btn" data-secao="transportes" onclick="setSecao('transportes')">Transportes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SEÇÃO 1 — PREPOSIÇÕES -->
+  <div class="panel" id="panelPreposicoes">
+    <div class="section-block">
+      <div class="section-title">10 Preposições no Contexto</div>
+      <div class="prep-grid" id="prepGrid"></div>
+    </div>
+    <div class="section-block">
+      <div class="section-title">Phrasal Verbs A1</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Phrasal Verb</th><th>Significado</th><th>Exemplo</th></tr></thead>
+          <tbody id="phrasalTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2 — TRANSPORTES -->
+  <div class="panel hidden" id="panelTransportes">
+    <div class="section-block">
+      <div class="section-title">Meios de Transporte</div>
+      <div class="transp-grid" id="transpGrid"></div>
+    </div>
+    <div class="infografico-card">
+      <div class="infografico-title">🗺️ Verbo Correto por Veículo</div>
+      <div class="infografico-grid" id="infograficoGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: MÓDULO 4 — PREPOSIÇÕES ──────────────────────────────────────────────
+const PREPOSICOES = [
+  {prep:'at', icon:'📍', sig:'em (local específico / hora)', ex:'She is at school. / The meeting is at 9 a.m.'},
+  {prep:'in', icon:'📦', sig:'dentro de / em', ex:'My phone is in my bag. / I live in São Paulo.'},
+  {prep:'on', icon:'🔝', sig:'sobre / em cima de', ex:'The book is on the table. / I was born on Monday.'},
+  {prep:'under', icon:'⬇️', sig:'embaixo de', ex:'The cat is under the chair.'},
+  {prep:'behind', icon:'🙈', sig:'atrás de', ex:'The boy is behind the door.'},
+  {prep:'between', icon:'↔️', sig:'entre (duas coisas)', ex:'The shop is between the bank and the café.'},
+  {prep:'next to', icon:'👫', sig:'ao lado de', ex:'The school is next to the park.'},
+  {prep:'in front of', icon:'👀', sig:'na frente de', ex:'She is in front of the building.'},
+  {prep:'near', icon:'📌', sig:'perto de', ex:'There is a hospital near my house.'},
+  {prep:'above', icon:'⬆️', sig:'acima de', ex:'The lamp is above the table.'}
+];
+
+// ── DATA: PHRASAL VERBS A1 ─────────────────────────────────────────────────────
+const PHRASAL_A1 = [
+  {pv:'wake up', sig:'acordar', ex:'I wake up at 7 every day.'},
+  {pv:'get up', sig:'levantar-se', ex:'I get up and have breakfast.'},
+  {pv:'sit down', sig:'sentar', ex:'Please sit down.'},
+  {pv:'stand up', sig:'levantar-se (de uma cadeira)', ex:'Stand up and come here.'},
+  {pv:'go out', sig:'sair', ex:'We go out on Fridays.'},
+  {pv:'come in', sig:'entrar', ex:'Please come in!'},
+  {pv:'turn on', sig:'ligar', ex:'Turn on the light.'},
+  {pv:'turn off', sig:'desligar', ex:'Turn off the TV.'},
+  {pv:'put on', sig:'colocar / vestir', ex:'Put on your jacket.'},
+  {pv:'take off', sig:'tirar / decolar', ex:'Take off your shoes.'}
+];
+
+// ── DATA: MÓDULO 5 — TRANSPORTES ──────────────────────────────────────────────
+const TRANSPORTES = [
+  {veiculo:'car', verbo:'drive', frase:'I go to work by car. / I drive to work.'},
+  {veiculo:'bus', verbo:'take', frase:'We wait for the bus every morning. / Take the bus.'},
+  {veiculo:'taxi', verbo:'take', frase:'She takes a taxi to the hospital.'},
+  {veiculo:'train', verbo:'take', frase:'They travel to the city by train.'},
+  {veiculo:'motorbike', verbo:'ride', frase:'He rides his motorbike to school.'},
+  {veiculo:'bicycle / bike', verbo:'ride', frase:'I ride my bicycle in the park.'},
+  {veiculo:'truck', verbo:'drive', frase:'The truck carries food to the shop.'},
+  {veiculo:'plane', verbo:'fly', frase:'I fly to Paris. / We take a plane.'},
+  {veiculo:'boat', verbo:'sail', frase:'We sail across the lake.'},
+  {veiculo:'subway / metro', verbo:'take', frase:'She takes the subway to work.'},
+  {veiculo:'helicopter', verbo:'fly', frase:'He flies a helicopter.'},
+  {veiculo:'tram', verbo:'take', frase:'We take the tram downtown.'},
+  {veiculo:'ferry', verbo:'take', frase:'They take a ferry to the island.'},
+  {veiculo:'scooter', verbo:'ride', frase:'They ride scooters to school.'},
+  {veiculo:'horse', verbo:'ride', frase:'We ride horses on the farm.'}
+];
+
+const INFOGRAFICO = [
+  {nome:'DRIVE', cor:'var(--s23)', lista:['car (carro)', 'truck (caminhão)', 'bus (ônibus, quando motorista)']},
+  {nome:'RIDE', cor:'var(--gn)', lista:['bicycle / bike (bicicleta)', 'motorbike (moto)', 'scooter (patinete/scooter)', 'horse (cavalo)']},
+  {nome:'TAKE', cor:'var(--vl)', lista:['bus, train, taxi (ônibus, trem, táxi)', 'subway / metro, tram', 'boat, ferry (barco, balsa)', 'plane (avião, como passageiro)']},
+  {nome:'FLY', cor:'var(--cy)', lista:['plane (avião, como piloto)', 'helicopter (helicóptero, como piloto)']}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's23_vocabulario_progresso';
+let state = { secao: 'preposicoes' };
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── SEÇÃO SWITCHING ──────────────────────────────────────────────────────────
+function setSecao(secao) {
+  state.secao = secao;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.secao === secao));
+  document.getElementById('panelPreposicoes').classList.toggle('hidden', secao !== 'preposicoes');
+  document.getElementById('panelTransportes').classList.toggle('hidden', secao !== 'transportes');
+  if (secao === 'preposicoes') renderPreposicoes();
+  if (secao === 'transportes') renderTransportes();
+}
+
+// ── SEÇÃO 1 — PREPOSIÇÕES ────────────────────────────────────────────────────
+function renderPreposicoes() {
+  document.getElementById('prepGrid').innerHTML = PREPOSICOES.map(p => `
+    <div class="prep-card">
+      <div class="prep-icon">${p.icon}</div>
+      <div class="prep-word">${p.prep}</div>
+      <div class="prep-sig">${p.sig}</div>
+      <div class="prep-ex">${p.ex}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('phrasalTableBody').innerHTML = PHRASAL_A1.map(p => `
+    <tr>
+      <td class="word-cell">${p.pv}</td>
+      <td class="def-cell">${p.sig}</td>
+      <td class="ex-cell">${p.ex}</td>
+    </tr>
+  `).join('');
+}
+
+// ── SEÇÃO 2 — TRANSPORTES ────────────────────────────────────────────────────
+function renderTransportes() {
+  document.getElementById('transpGrid').innerHTML = TRANSPORTES.map(t => `
+    <div class="transp-card">
+      <div class="transp-nome">${t.veiculo}</div>
+      <span class="transp-badge badge-${t.verbo}">${t.verbo}</span>
+      <div class="transp-frase">${t.frase}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('infograficoGrid').innerHTML = INFOGRAFICO.map(g => `
+    <div class="infografico-grupo">
+      <div class="infografico-grupo-nome" style="color:${g.cor}">${g.nome}</div>
+      <div class="infografico-list">${g.lista.join('<br>')}</div>
+    </div>
+  `).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setSecao(state.secao);
+</script>
+</body>
+</html>

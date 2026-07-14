@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulário &amp; Armadilhas · Sistema 24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s24:#BE123C;--s24d:#881337;--s24l:#FFE4E6;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s24);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s24);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — VOCABULÁRIO ===== */
+.grupo-strip{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.2rem;}
+.grupo-btn{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.6rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.grupo-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.grupo-btn.on{border-color:var(--s24);background:rgba(190,18,60,.14);color:var(--s24);}
+
+.section-block{margin-bottom:1.8rem;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s24);margin-bottom:.9rem;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:520px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr:hover td{background:rgba(255,255,255,.02);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s24);min-width:170px;}
+.def-cell{color:var(--tx);min-width:170px;}
+.ex-cell{color:var(--tm);min-width:220px;}
+
+.special-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1.6rem;}
+.special-card{background:var(--sf);border:1px solid rgba(190,18,60,.3);border-radius:1rem;padding:1.2rem 1.3rem;}
+.special-word{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--s24);margin-bottom:.6rem;}
+.special-text{font-size:.82rem;color:var(--tm);line-height:1.6;}
+
+@media(max-width:820px){
+  .special-grid{grid-template-columns:1fr;}
+}
+
+/* ===== MODO 2 — FLASHCARD ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s24),#E11D48);border-radius:3px;transition:width .5s ease;}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-word{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--s24);line-height:1.35;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-back-grupo{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s24d);background:var(--s24l);padding:.15rem .5rem;border-radius:2rem;margin-bottom:.5rem;}
+.flash-back-sig{font-size:.95rem;color:var(--tx);line-height:1.55;margin-bottom:.6rem;}
+.flash-back-ex{font-size:.83rem;color:var(--tm);line-height:1.55;font-style:italic;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s24);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s24);color:#fff;cursor:pointer;}
+
+@media(max-width:620px){
+  #panelFlashcard .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 3 — ARMADILHAS ===== */
+.arm-list{display:flex;flex-direction:column;gap:.9rem;margin-bottom:1.8rem;}
+.arm-card{background:rgba(190,18,60,.05);border:1px solid rgba(190,18,60,.22);border-left:4px solid var(--s24);border-radius:.8rem;padding:1.2rem 1.3rem;}
+.arm-titulo{font-family:'Space Grotesk',sans-serif;font-size:.98rem;font-weight:800;color:var(--tx);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.arm-cols{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.arm-col{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .85rem;}
+.arm-col-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.35rem;}
+.arm-col.acontece .arm-col-label{color:var(--rd);}
+.arm-col.resolve .arm-col-label{color:var(--gn);}
+.arm-col-text{font-size:.82rem;color:var(--tx);line-height:1.5;}
+
+@media(max-width:560px){
+  .arm-cols{grid-template-columns:1fr;}
+}
+
+.diag-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;padding:1.4rem 1.5rem;}
+.diag-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s24);margin-bottom:.4rem;text-align:center;}
+.diag-sub{font-size:.82rem;color:var(--tm);text-align:center;margin-bottom:1.1rem;}
+.diag-list{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.2rem;}
+.diag-item{display:flex;align-items:center;gap:.7rem;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.65rem .9rem;cursor:pointer;}
+.diag-item input{width:18px;height:18px;accent-color:var(--s24);flex-shrink:0;cursor:pointer;}
+.diag-item-text{font-size:.83rem;color:var(--tx);line-height:1.4;}
+.diag-result{text-align:center;font-family:'Space Grotesk',sans-serif;}
+.diag-count{font-size:1.2rem;font-weight:800;color:var(--s24);margin-bottom:.5rem;}
+.diag-msg{font-size:.85rem;color:var(--tm);line-height:1.55;font-weight:600;}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 24</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💬 Vocabulário &amp; Armadilhas</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="vocabulario" onclick="setModo('vocabulario')">Vocabulário</button>
+        <button class="tab-btn" data-modo="flashcard" onclick="setModo('flashcard')">Flashcard</button>
+        <button class="tab-btn" data-modo="armadilhas" onclick="setModo('armadilhas')">Armadilhas</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — VOCABULÁRIO -->
+  <div class="panel" id="panelVocabulario">
+    <div class="grupo-strip" id="grupoStrip"></div>
+    <div id="grupoTableArea"></div>
+  </div>
+
+  <!-- MODO 2 — FLASHCARD -->
+  <div class="panel hidden" id="panelFlashcard">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s24)">1/39</div><div class="flash-stat-l">Palavra</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- MODO 3 — ARMADILHAS -->
+  <div class="panel hidden" id="panelArmadilhas">
+    <div class="arm-list" id="armList"></div>
+    <div class="diag-card">
+      <div class="diag-title">🔍 Meu Diagnóstico</div>
+      <div class="diag-sub">Marque as armadilhas que você reconhece em si mesmo</div>
+      <div class="diag-list" id="diagList"></div>
+      <div class="diag-result">
+        <div class="diag-count" id="diagCount">Você identificou 0 de 8 armadilhas.</div>
+        <div class="diag-msg" id="diagMsg"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: VOCABULÁRIO EM 5 GRUPOS (39 PALAVRAS) ───────────────────────────────
+const GRUPOS = [
+  {id:'A', nome:'Sobre o processo de aprender', itens:[
+    {expr:'think in English', sig:'pensar em inglês (sem traduzir)', ex:'"You need to think in that language instead of first thinking in your first language and then translating."'},
+    {expr:'narrate your activities', sig:'narrar suas atividades', ex:'"Narrate your activities in English while you\'re doing them."'},
+    {expr:'vocabulary gap', sig:'lacuna de vocabulário', ex:'"You\'ll start to recognize vocabulary gaps when you can\'t describe what you\'re doing."'},
+    {expr:'vocabulary notebook', sig:'caderno de vocabulário', ex:'"Add to your vocabulary notebook so you can describe what you\'re doing."'},
+    {expr:'give yourself grace', sig:'ser gentil consigo mesmo / não se cobrar demais', ex:'"Give yourself some grace — this takes time and consistent practice."'},
+    {expr:'loosen up', sig:'relaxar / descontrair / soltar', ex:'"You\'re going to loosen up, I think." — menos tensão ao falar'},
+    {expr:'spontaneously', sig:'espontaneamente / sem preparação', ex:'"Speaking spontaneously is really tricky."'},
+    {expr:'cheesy', sig:'cafona / enjoado / que parece artificial', ex:'"This might feel cheesy the first time you try it."'},
+    {expr:'keep the conversation alive', sig:'manter a conversa viva', ex:'"Joking, keeping the conversation alive, and building connection."'}
+  ]},
+  {id:'B', nome:'Sobre o cérebro e os idiomas', itens:[
+    {expr:'mental model', sig:'modelo mental / estrutura mental do idioma', ex:'"My mental models were set up similarly for Spanish and French."'},
+    {expr:'working memory', sig:'memória de trabalho', ex:'"Learning multiple languages actually strengthens your working memory."'},
+    {expr:'subconsciously', sig:'subconscientemente', ex:'"Our brain captures things subconsciously without us realizing."'},
+    {expr:'register', sig:'captar / receber / entender', ex:'"Can she register what I\'m saying?" / "Register how they speak at the back of your mind."'},
+    {expr:'anticipate', sig:'antecipar', ex:'"Anticipating is part of language — what word do you think should come next?"'},
+    {expr:'packaging (at the back of your mind)', sig:'armazenar (no fundo da mente)', ex:'"You\'ve been packaging it at the back of your mind."'}
+  ]},
+  {id:'C', nome:'Estratégias e técnicas', itens:[
+    {expr:'shadowing', sig:'imitação / sombra — copiar o jeito de falar de alguém', ex:'"Shadowing is very important. Everything you\'re saying, I\'m mimicking back to back."'},
+    {expr:'mimic', sig:'imitar / mimetizar', ex:'"You\'re constantly copying — her flow, his rhythm, his intonation."'},
+    {expr:'intonation', sig:'entonação', ex:'o jeito que a voz sobe e desce na fala natural'},
+    {expr:'cadence', sig:'cadência / ritmo da fala', ex:'"Learn how to use your voice in different cadences."'},
+    {expr:'flow', sig:'fluidez / flow', ex:'"Register how they speak — her flow, his flow."'},
+    {expr:'enunciate', sig:'enunciar / pronunciar claramente', ex:'"They know how to enunciate and pronounce."'},
+    {expr:'articulate yourself', sig:'se expressar claramente', ex:'"You will be in a position where you know how to articulate yourself very well."'},
+    {expr:'focal point', sig:'ponto focal / foco principal', ex:'"That shouldn\'t be the focal point. Communication is the focal point."'}
+  ]},
+  {id:'D', nome:'Os três pilares (Valentina)', itens:[
+    {expr:'exposure', sig:'exposição', ex:'"Exposure is number one — you need to tell your brain this language is important."'},
+    {expr:'consistency', sig:'consistência', ex:'"Every day, at least one thing — even if small."'},
+    {expr:'minimum viable exposure (MVE)', sig:'exposição mínima eficaz', ex:'"Every day do one thing that you are a little uncomfortable with."'},
+    {expr:'a little bit of discomfort', sig:'um pouco de desconforto', ex:'"You need a little bit of discomfort. Step out of your comfort zone."'},
+    {expr:'consuming (content)', sig:'consumir (conteúdo)', ex:'"I started consuming a lot of that naturally and enjoying it."'},
+    {expr:'dubbed', sig:'dublado', ex:'"Re-watching something dubbed to Spanish."'},
+    {expr:'integration', sig:'integração', ex:'"I can really integrate into the community."'},
+    {expr:'to each their own', sig:'cada um no seu (gosto pessoal)', ex:'"But hey, to each their own."'},
+    {expr:'adulting', sig:'ser adulto / cumprir responsabilidades de adulto (gíria)', ex:'"There are so many skills we need to integrate in order to be successful at adulting."'}
+  ]},
+  {id:'E', nome:'Expressões de autoavaliação', itens:[
+    {expr:'attest to', sig:'atestar / confirmar pessoalmente', ex:'"I can really attest to this — I hadn\'t lost anything when I went back to French."'},
+    {expr:'let something go by the wayside', sig:'deixar algo de lado / negligenciar', ex:'"I have really let my French go by the wayside a little bit."'},
+    {expr:'keep something at the forefront', sig:'manter algo em primeiro plano', ex:'"I continually keep French at the forefront as well."'},
+    {expr:'mix up', sig:'confundir / misturar', ex:'"Do you ever mix up Spanish and French?"'},
+    {expr:'struggle to (do)', sig:'ter dificuldade para (fazer)', ex:'"Why do so many people understand English but struggle to speak it?"'},
+    {expr:'be in your head', sig:'ficar preso nos próprios pensamentos', ex:'"They\'re too much in their heads. Stop spending time up here [in your head]."'},
+    {expr:'too much in your head', sig:'muito preso na cabeça / pensando demais', ex:'"A lot of people spend too much time up here."'}
+  ]}
+];
+
+const PALAVRAS_ESPECIAIS = [
+  {palavra:'shadowing', texto:'Técnica de imitar simultaneamente o áudio de um falante nativo: ritmo, entonação e cadência — não apenas as palavras. Pratique ouvindo uma frase curta e repetindo por cima, tentando copiar a "música" da fala, não só o vocabulário.'},
+  {palavra:'cheesy', texto:'Registro coloquial para algo que soa "forçado" ou "brega" — como um elogio exagerado ou uma piada batida. Use para admitir, com humor, que algo pode soar artificial: "This might sound cheesy, but..."'},
+  {palavra:'adulting', texto:'Gíria moderna (e coloquial) para as responsabilidades da vida adulta — pagar contas, cozinhar, se organizar. Muito comum em redes sociais e conversas informais entre jovens adultos americanos.'}
+];
+
+// ── FLATTEN ALL WORDS FOR FLASHCARD ───────────────────────────────────────────
+const ALL_PALAVRAS = [];
+GRUPOS.forEach(g => g.itens.forEach(item => ALL_PALAVRAS.push({...item, grupoId: g.id, grupoNome: g.nome})));
+
+// ── DATA: 8 ARMADILHAS ─────────────────────────────────────────────────────────
+const ARMADILHAS = [
+  {armadilha:'Ficar esperando o momento perfeito para falar', acontece:'Nunca fala', resolve:'Fale agora, mesmo imperfeito'},
+  {armadilha:'Focar só na gramática', acontece:'A fala trava', resolve:'Foque primeiro na pronúncia clara'},
+  {armadilha:'Traduzir antes de falar', acontece:'Fica mais lento e erra mais', resolve:'Narrar ativamente em inglês quebra o hábito'},
+  {armadilha:'Estudar 1-2h por semana e achar que é suficiente', acontece:'Cérebro não prioriza o idioma', resolve:'Exposição diária, mesmo que pequena'},
+  {armadilha:'Ficar na zona de conforto', acontece:'Progresso estagna', resolve:'Todo dia: uma coisa desconfortável em inglês'},
+  {armadilha:'Só repetir o que já sabe', acontece:'Não há crescimento', resolve:'Vocabulary notebook: registrar os gaps ativamente'},
+  {armadilha:'Achar que aprender outro idioma atrapalha o inglês', acontece:'Medo desnecessário', resolve:'Pesquisa mostra que fortalece a memória de trabalho'},
+  {armadilha:'Ignorar a postura ao falar', acontece:'Voz sem confiança', resolve:'Postura ereta → voz com flow → mais confiança'}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's24_vocabulario_progresso';
+let state = {
+  modo: 'vocabulario',
+  grupoAtual: 'A',
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0,
+  armadilhasMarcadas: []
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelVocabulario').classList.toggle('hidden', modo !== 'vocabulario');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', modo !== 'flashcard');
+  document.getElementById('panelArmadilhas').classList.toggle('hidden', modo !== 'armadilhas');
+  if (modo === 'vocabulario') renderVocabulario();
+  if (modo === 'flashcard') renderFlash();
+  if (modo === 'armadilhas') renderArmadilhas();
+}
+
+// ── MODO 1 — VOCABULÁRIO ─────────────────────────────────────────────────────
+function renderGrupoStrip() {
+  document.getElementById('grupoStrip').innerHTML = GRUPOS.map(g => `
+    <button class="grupo-btn ${g.id === state.grupoAtual ? 'on' : ''}" onclick="selectGrupo('${g.id}')">${g.id}: ${g.nome}</button>
+  `).join('');
+}
+
+function selectGrupo(id) {
+  state.grupoAtual = id;
+  saveState();
+  renderVocabulario();
+}
+
+function renderVocabulario() {
+  renderGrupoStrip();
+  const g = GRUPOS.find(x => x.id === state.grupoAtual);
+
+  let html = `
+    <div class="section-block">
+      <div class="section-title">Grupo ${g.id}: ${g.nome}</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Significado</th><th>Exemplo real do conteúdo</th></tr></thead>
+          <tbody>
+            ${g.itens.map(item => `
+              <tr>
+                <td class="word-cell">${item.expr}</td>
+                <td class="def-cell">${item.sig}</td>
+                <td class="ex-cell">${item.ex}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  if (state.grupoAtual === 'C' || state.grupoAtual === 'D') {
+    html += `
+      <div class="section-block">
+        <div class="section-title">⭐ Palavras Especiais</div>
+        <div class="special-grid">
+          ${PALAVRAS_ESPECIAIS.map(p => `
+            <div class="special-card">
+              <div class="special-word">${p.palavra}</div>
+              <div class="special-text">${p.texto}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('grupoTableArea').innerHTML = html;
+}
+
+// ── MODO 2 — FLASHCARD ───────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== ALL_PALAVRAS.length) {
+    state.flashOrder = shuffle(ALL_PALAVRAS.map((_, i) => i));
+    state.flashIndex = 0;
+    state.flashAcertos = 0;
+    state.flashErros = 0;
+    saveState();
+  }
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🧠 Você revisou todas as ${ALL_PALAVRAS.length} palavras!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${ALL_PALAVRAS.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const p = ALL_PALAVRAS[state.flashOrder[state.flashIndex]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Expressão</div>
+      <div class="flash-front-word">${p.expr}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-back-grupo">Grupo ${p.grupoId} — ${p.grupoNome}</div>
+        <div class="flash-back-sig">${p.sig}</div>
+        <div class="flash-back-ex">${p.ex}</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashOrder = shuffle(ALL_PALAVRAS.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, ALL_PALAVRAS.length) + '/' + ALL_PALAVRAS.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, ALL_PALAVRAS.length) / ALL_PALAVRAS.length * 100) + '%';
+}
+
+// ── MODO 3 — ARMADILHAS ──────────────────────────────────────────────────────
+function renderArmadilhas() {
+  document.getElementById('armList').innerHTML = ARMADILHAS.map(a => `
+    <div class="arm-card">
+      <div class="arm-titulo">🚫 ${a.armadilha}</div>
+      <div class="arm-cols">
+        <div class="arm-col acontece">
+          <div class="arm-col-label">😬 O que acontece</div>
+          <div class="arm-col-text">${a.acontece}</div>
+        </div>
+        <div class="arm-col resolve">
+          <div class="arm-col-label">✅ Como resolver</div>
+          <div class="arm-col-text">${a.resolve}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('diagList').innerHTML = ARMADILHAS.map((a, idx) => `
+    <label class="diag-item">
+      <input type="checkbox" ${state.armadilhasMarcadas.includes(idx) ? 'checked' : ''} onchange="toggleArmadilha(${idx})">
+      <span class="diag-item-text">${a.armadilha}</span>
+    </label>
+  `).join('');
+
+  updateDiagnostico();
+}
+
+function toggleArmadilha(idx) {
+  const i = state.armadilhasMarcadas.indexOf(idx);
+  if (i === -1) state.armadilhasMarcadas.push(idx);
+  else state.armadilhasMarcadas.splice(i, 1);
+  saveState();
+  updateDiagnostico();
+}
+
+function updateDiagnostico() {
+  const n = state.armadilhasMarcadas.length;
+  document.getElementById('diagCount').textContent = `Você identificou ${n} de ${ARMADILHAS.length} armadilhas.`;
+
+  let msg;
+  if (n === 0) msg = 'Marque as armadilhas que reconhece para receber seu diagnóstico.';
+  else if (n <= 2) msg = 'Você já está bem consciente dos seus hábitos! Continue de olho nesses pontos.';
+  else if (n <= 5) msg = 'Reconhecer é o primeiro passo — agora é hora de agir, uma armadilha de cada vez.';
+  else msg = 'Você identificou várias armadilhas — isso não é motivo pra desânimo, é um mapa. Escolha uma para atacar esta semana.';
+
+  document.getElementById('diagMsg').textContent = msg;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

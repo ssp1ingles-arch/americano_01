@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Birthday Party · Sistema 21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--am:#F5C518;--s21:#B45309;--s21d:#78350F;--s21l:#FEF3C7;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s21);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s21);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — LER A HISTÓRIA ===== */
+.story-card{background:#FEFCE8;border:1px solid rgba(180,83,9,.25);border-radius:1.2rem;padding:2.2rem 2rem;box-shadow:0 16px 48px rgba(0,0,0,.35);}
+.story-title{font-family:'Lora',serif;font-style:italic;font-size:1.5rem;font-weight:600;color:#3b2a12;text-align:center;margin-bottom:.3rem;}
+.story-byline{text-align:center;font-family:'Inter',sans-serif;font-size:.8rem;color:#78350F;margin-bottom:1.6rem;}
+.story-p{font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.85;color:#2b2210;margin-bottom:1.3rem;}
+.story-p:last-child{margin-bottom:0;}
+.voc-tag{color:var(--s21d);border-bottom:2px solid var(--s21);cursor:pointer;font-weight:600;transition:background .15s;padding:0 .05rem;border-radius:.15rem;}
+.voc-tag:hover{background:rgba(180,83,9,.12);}
+
+.about-box{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;padding:1.2rem 1.4rem;margin-top:1.4rem;}
+.about-title{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.6rem;}
+.about-text{font-size:.88rem;color:var(--tm);line-height:1.6;}
+.about-text b{color:var(--s21);}
+
+/* POPUP MODAL */
+.voc-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.25rem;}
+.voc-overlay.show{display:flex;}
+.voc-popup{background:var(--sf);border:1px solid var(--bdh);border-radius:1rem;padding:1.6rem 1.6rem 1.4rem;max-width:420px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.5);}
+.voc-popup-word{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s21);margin-bottom:.6rem;}
+.voc-popup-def{font-size:.92rem;color:var(--tx);line-height:1.6;margin-bottom:.7rem;}
+.voc-popup-nota{font-size:.82rem;color:var(--tm);line-height:1.6;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .9rem;margin-bottom:1.1rem;}
+.voc-popup-actions{display:flex;gap:.6rem;}
+.voc-popup-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid rgba(180,83,9,.4);background:rgba(180,83,9,.1);color:var(--s21);cursor:pointer;transition:all .18s;}
+.voc-popup-btn:hover{background:rgba(180,83,9,.18);}
+.voc-popup-btn.added{border-color:rgba(95,216,122,.4);background:rgba(95,216,122,.1);color:var(--gn);}
+.voc-popup-close{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.65rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:none;color:var(--tm);cursor:pointer;}
+.voc-popup-close:hover{color:var(--tx);}
+
+/* ===== MODO 2 — VOCABULÁRIO ===== */
+.grupo-strip{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.2rem;}
+.grupo-btn{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.6rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.grupo-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.grupo-btn.on{border-color:var(--s21);background:rgba(180,83,9,.12);color:var(--s21);}
+
+.section-block{margin-bottom:1.8rem;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s21);margin-bottom:.9rem;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:560px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr:hover td{background:rgba(255,255,255,.02);}
+.word-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s21);min-width:150px;}
+.def-cell{color:var(--tx);min-width:170px;}
+.ctx-cell{color:var(--tm);min-width:220px;}
+.ctx-cell.highlight{background:rgba(245,197,24,.08);}
+
+/* ===== MODO 3 — FLASHCARD ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s21),#D97706);border-radius:3px;transition:width .5s ease;}
+
+.flash-toprow{text-align:center;margin-bottom:1rem;}
+.shuffle-btn{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.5rem 1rem;border-radius:.55rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.shuffle-btn:hover{border-color:var(--bdh);color:var(--tx);}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.flash-star{position:absolute;top:1rem;right:1.1rem;font-size:1.1rem;}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-word{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:800;color:var(--s21);line-height:1.35;}
+.flash-flip-btn{margin-top:1.4rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.65rem 1.3rem;border-radius:.6rem;border:none;background:var(--s21);color:#fff;cursor:pointer;}
+.flash-flip-btn:hover{filter:brightness(1.1);}
+
+.flash-back{display:none;width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-front-only{display:none;}
+.flash-back-word{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--s21);margin-bottom:.7rem;text-align:center;}
+.flash-back-sec{margin-bottom:.7rem;}
+.flash-back-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;}
+.flash-back-text{font-size:.88rem;color:var(--tx);line-height:1.5;}
+.flash-back-ex{font-size:.85rem;color:var(--tm);line-height:1.5;font-style:italic;}
+.flash-back-syn{display:flex;flex-wrap:wrap;gap:.4rem;}
+.syn-chip{font-size:.75rem;font-weight:700;color:var(--s21);background:rgba(180,83,9,.1);border:1px solid rgba(180,83,9,.3);border-radius:2rem;padding:.2rem .65rem;}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2rem 1rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s21);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s21);color:#fff;cursor:pointer;}
+
+.armadilhas-section{margin-top:2rem;}
+.armadilhas-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--rd);margin-bottom:.9rem;text-align:center;}
+.v-table tr.armadilha td{border-left:4px solid var(--rd);background:rgba(248,113,113,.05);}
+.v-table tr.armadilha .word-cell{color:var(--rd);}
+
+@media(max-width:620px){
+  .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+  .story-card{padding:1.5rem 1.25rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 21</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📖 The Birthday Party</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="ler" onclick="setModo('ler')">Ler a História</button>
+        <button class="tab-btn" data-modo="vocabulario" onclick="setModo('vocabulario')">Vocabulário</button>
+        <button class="tab-btn" data-modo="flashcard" onclick="setModo('flashcard')">Flashcard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — LER A HISTÓRIA -->
+  <div class="panel" id="panelLer">
+    <div class="story-card" id="storyCard"></div>
+    <div class="about-box">
+      <div class="about-title">Sobre a história</div>
+      <div class="about-text">
+        <b>"The Birthday Party"</b> — conto de <b>Catherine Brush</b>, 1946.<br>
+        Narrado e comentado por <b>Luke's English Podcast</b> — episódio 872.
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO 2 — VOCABULÁRIO -->
+  <div class="panel hidden" id="panelVocabulario">
+    <div class="grupo-strip" id="grupoStrip"></div>
+    <div id="grupoTableArea"></div>
+
+    <div class="section-block">
+      <div class="section-title">Como Falar de Idade em Inglês</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Significado</th><th>Exemplo</th></tr></thead>
+          <tbody id="idadeTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Expressões para Narrar (meanwhile, though, at once...)</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Uso</th><th>Exemplo do conto</th></tr></thead>
+          <tbody id="narrarTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODO 3 — FLASHCARD -->
+  <div class="panel hidden" id="panelFlashcard">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s21)">1/22</div><div class="flash-stat-l">Carta</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div class="flash-toprow"><button class="shuffle-btn" onclick="shuffleDeck()">🔀 Embaralhar novamente</button></div>
+    <div id="flashArea"></div>
+    <div id="armadilhasArea"></div>
+  </div>
+
+</div>
+
+<!-- POPUP MODAL -->
+<div class="voc-overlay" id="vocOverlay" onclick="if(event.target===this)closePopup()">
+  <div class="voc-popup" id="vocPopup"></div>
+</div>
+
+<script>
+// ── DATA: 22 PALAVRAS DO VOCABULÁRIO PRINCIPAL ────────────────────────────────
+const VOCABULARIO = [
+  {key:'unmistakably', grupo:1, palavra:'unmistakably', definicao:'inegavelmente / sem dúvida nenhuma', contexto:'"unmistakably his wife" — havia algo nela que identificava imediatamente a relação', exemplo:"unmistakably his wife"},
+  {key:'self-satisfied', grupo:1, palavra:'self-satisfied', definicao:'satisfeito consigo mesmo / convencido', contexto:'o marido era self-satisfied — achava que era muito importante', exemplo:"The man: self-satisfied, conspicuous in a dinner jacket.", sinonimos:['smug','arrogant']},
+  {key:'smug', grupo:1, palavra:'smug', definicao:'presunçoso / cheio de si (sinônimo de self-satisfied)', contexto:'Luke explica: "smug and arrogant — he thinks he\'s a very important person"', exemplo:"smug and arrogant — he thinks he's a very important person", sinonimos:['self-satisfied','arrogant']},
+  {key:'arrogant', grupo:1, palavra:'arrogant', definicao:'arrogante', contexto:'terceiro sinônimo: self-satisfied, smug, arrogant — útil conhecer os três', exemplo:"self-satisfied, smug, arrogant", sinonimos:['self-satisfied','smug']},
+  {key:'fadingly-pretty', grupo:1, palavra:'fadingly pretty', definicao:'que foi bonita mas cuja beleza está passando', contexto:'"fadingly pretty" — adjetivo poético para descrever beleza que está diminuindo com o tempo', exemplo:"fadingly pretty in a new hat"},
+  {key:'conspicuous', grupo:1, palavra:'conspicuous', definicao:'que se destaca / que chama atenção', contexto:'ele estava conspicuous no paletó de jantar — visível, notável num ambiente público', exemplo:"conspicuous in a dinner jacket"},
+
+  {key:'occasion', grupo:2, palavra:'occasion', definicao:'ocasião especial', contexto:'ela queria que o aniversário fosse uma occasion — um momento especial e memorável', exemplo:"She wanted the birthday to be a real occasion."},
+  {key:'glossy', grupo:2, palavra:'glossy', definicao:'brilhante / lustroso', contexto:'o programa do restaurante era glossy — impresso em papel brilhante', exemplo:"The restaurant's program was glossy."},
+  {key:'banquette', grupo:2, palavra:'banquette', definicao:'banco estofado fixo na parede do restaurante', contexto:'"they were sitting on a banquette" — mobiliário típico de restaurantes elegantes', exemplo:"They were sitting on a banquette."},
+  {key:'brim', grupo:2, palavra:'brim', definicao:'aba do chapéu', contexto:'"the gay big brim of her best hat" — a aba larga do chapéu que ela escolheu para a ocasião', exemplo:"the gay big brim of her best hat"},
+
+  {key:'beam', grupo:3, palavra:'beam', definicao:'irradiar / brilhar (de orgulho ou felicidade)', contexto:'"she beamed with shy pride" — o rosto dela irradiava orgulho tímido. "Beam" = como a luz de uma lanterna', exemplo:"She beamed with shy pride."},
+  {key:'pattering', grupo:3, palavra:'pattering of applause', definicao:'um tantinho de aplauso — poucas palmas discretas', contexto:'"a pattering of applause" — não era um aplauso forte. Era leve, de poucas pessoas. "Patter" = barulho leve e rápido', exemplo:"a pattering of applause"},
+  {key:'indignant', grupo:3, palavra:'indignant', definicao:'indignado / ofendido / irritado injustamente', contexto:'o marido ficou indignant — não apenas envergonhado, mas com raiva por ter sido colocado naquela situação', exemplo:"He was hotly embarrassed and indignant."},
+  {key:'under-breath', grupo:3, palavra:'under his breath', definicao:'em voz baixíssima / sussurrando para não ser ouvido', contexto:'"he said something under his breath" — falou em segredo, quase sem voz', exemplo:"He said something to her under his breath."},
+  {key:'curt', grupo:3, palavra:'curt', definicao:'seco / breve de forma rude', contexto:'"quick and curt and unkind" — o que ele disse foi curto, seco e cruel. "Curt" = brevidade com aspereza', exemplo:"Quick and curt and unkind."},
+  {key:'deposited', grupo:3, palavra:'deposited', definicao:'colocado / depositado (linguagem fria e impessoal)', contexto:'"the cake had been deposited on the table" — Luke nota: é linguagem impessoal, como depositar dinheiro num banco', exemplo:"The cake had been deposited on the table."},
+
+  {key:'couldnt-bear', grupo:4, palavra:"couldn't bear to", definicao:'não conseguia suportar / era insuportável', contexto:'"I couldn\'t bear to look at the woman" — era emocionalmente doloroso demais olhar para ela', exemplo:"I couldn't bear to look at the woman.", sinonimos:["can't bring myself to"]},
+  {key:'cant-bring-myself', grupo:4, palavra:"can't bring myself to", definicao:'não consigo me forçar a fazer algo', contexto:'sinônimo de "couldn\'t bear to" — "I couldn\'t bring myself to look"', exemplo:"I couldn't bring myself to look.", sinonimos:["couldn't bear to"]},
+  {key:'heartbrokenly', grupo:4, palavra:'heartbrokenly', definicao:'com o coração partido / de forma devastada', contexto:'"crying heartbrokenly" — chorar de coração partido. Advérbio literário raro mas expressivo', exemplo:"Crying quietly and heartbrokenly."},
+  {key:'hopelessly', grupo:4, palavra:'hopelessly', definicao:'sem esperança / desesperançadamente', contexto:'"crying hopelessly" — o choro era de quem perdeu a esperança naquele momento', exemplo:"Crying hopelessly."},
+  {key:'all-to-herself', grupo:4, palavra:'all to herself', definicao:'sozinha consigo mesma / sem audiência', contexto:'"crying all to herself" — não estava chorando para ninguém. Era ela mesma a única testemunha', exemplo:"Crying all to herself."},
+  {key:'glance', grupo:4, palavra:'glance', definicao:'dar uma olhada rápida', contexto:'"when I finally glanced over there again" — um olhar rápido, não um olhar demorado', exemplo:"When I finally glanced over there again."}
+];
+
+const GRUPOS = [
+  {id:1, nome:'Descrição de Pessoas'},
+  {id:2, nome:'Objetos e Ambiente'},
+  {id:3, nome:'Ações e Reações'},
+  {id:4, nome:'Emoções e Estados Internos'}
+];
+
+// ── DATA: COMO FALAR DE IDADE ─────────────────────────────────────────────────
+const IDADE = [
+  {expr:'in their early thirties', sig:'no início dos 30 (30-33)', ex:'"She was in her early thirties."'},
+  {expr:'in their mid-thirties', sig:'no meio dos 30 (33-37)', ex:'"He was in his mid-thirties."'},
+  {expr:'in their late thirties', sig:'no fim dos 30 (37-39)', ex:'"They were in their late thirties."'},
+  {expr:'in her early forties', sig:'no início dos 40', ex:'"She looks like she\'s in her early forties."'},
+  {expr:'in his mid-fifties', sig:'por volta dos 55', ex:'"My boss is in his mid-fifties."'}
+];
+
+// ── DATA: EXPRESSÕES PARA NARRAR ──────────────────────────────────────────────
+const NARRAR = [
+  {expr:'meanwhile', uso:'enquanto isso / ao mesmo tempo', ex:'"Meanwhile, the orchestra played Happy Birthday."'},
+  {expr:'though (no final)', uso:'mas / porém (informal, no fim da frase)', ex:'"I waited for quite a long time. Not long enough, though."'},
+  {expr:'at once', uso:'imediatamente / de uma vez', ex:'"It became clear at once that help was needed."'},
+  {expr:'such few people as there were', uso:'o pequeno número de pessoas que havia', ex:'construção literária — equivale a "even though there weren\'t many people"'}
+];
+
+// ── DATA: ARMADILHAS PARA BRASILEIROS ─────────────────────────────────────────
+const ARMADILHAS = [
+  {expr:'beam', erro:'"feixe" (substantivo técnico)', correto:'Como verbo: irradiar / brilhar de alegria. "She beamed" = ela irradiou/brilhou'},
+  {expr:'occasion', erro:'"ocasião" (correto, mas usado demais)', correto:'Em inglês é mais elegante e reservado para momentos especiais — não use para qualquer momento'},
+  {expr:'conspicuous', erro:'desconhecida', correto:'"Conspícuo" existe em português formal! Significa visível, que chama atenção'},
+  {expr:'indignant', erro:'"indignante"', correto:'"Indignant" descreve a PESSOA que sente indignação, não a situação. "He was indignant" = ele estava indignado'},
+  {expr:'curt', erro:'desconhecida', correto:'Breve de forma rude. Uma resposta "curt" é curta demais para ser educada'},
+  {expr:'glance', erro:'"olhar" genérico', correto:'Especificamente um olhar rápido — distinto de "look" (olhar normal) e "stare" (encarar)'},
+  {expr:'under your breath', erro:'"embaixo do seu fôlego"', correto:'Sussurrar / falar sem que os outros ouçam. "He muttered under his breath"'},
+  {expr:'bear to do sth', erro:'"suportar algo"', correto:'"Can\'t bear to do" = não consegue fazer algo por ser emocionalmente difícil'}
+];
+
+// ── STORY TEXT WITH INLINE TAGS ───────────────────────────────────────────────
+const STORY_PARAGRAPHS = [
+  'A couple at a restaurant. The man: <span class="voc-tag" onclick="openPopup(\'self-satisfied\')">self-satisfied</span>, <span class="voc-tag" onclick="openPopup(\'conspicuous\')">conspicuous</span> in a dinner jacket. The woman: <span class="voc-tag" onclick="openPopup(\'unmistakably\')">unmistakably</span> his wife — <span class="voc-tag" onclick="openPopup(\'fadingly-pretty\')">fadingly pretty</span> in a new hat with a gay big <span class="voc-tag" onclick="openPopup(\'brim\')">brim</span>.',
+  'She had arranged a birthday surprise: a small cake with a single pink candle, the head waiter carrying it in, the violin and piano playing Happy Birthday.',
+  'She <span class="voc-tag" onclick="openPopup(\'beam\')">beamed</span> with shy pride over her little surprise.',
+  'Such few people as there were in the restaurant tried to help out with a <span class="voc-tag" onclick="openPopup(\'pattering\')">pattering of applause</span>.',
+  'It became clear at once that help was needed. The husband was not pleased. He was hotly embarrassed and <span class="voc-tag" onclick="openPopup(\'indignant\')">indignant</span>.',
+  'When the orchestra finished and the attention of the room had shifted away from them, I saw him say something to her <span class="voc-tag" onclick="openPopup(\'under-breath\')">under his breath</span> — some punishing thing, quick and <span class="voc-tag" onclick="openPopup(\'curt\')">curt</span> and unkind.',
+  'I <span class="voc-tag" onclick="openPopup(\'couldnt-bear\')">couldn\'t bear to</span> look at the woman then. I stared at my plate and waited for quite a long time. Not long enough though.',
+  'Because she was still crying when I finally <span class="voc-tag" onclick="openPopup(\'glance\')">glanced</span> over there again — crying quietly and <span class="voc-tag" onclick="openPopup(\'heartbrokenly\')">heartbrokenly</span> and <span class="voc-tag" onclick="openPopup(\'hopelessly\')">hopelessly</span>, <span class="voc-tag" onclick="openPopup(\'all-to-herself\')">all to herself</span>, under the gay big <span class="voc-tag" onclick="openPopup(\'brim\')">brim</span> of her best hat.'
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's21_progresso';
+let state = {
+  modo: 'ler',
+  grupoAtual: 1,
+  palavrasMarcadas: [],
+  flashOrder: null,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelLer').classList.toggle('hidden', modo !== 'ler');
+  document.getElementById('panelVocabulario').classList.toggle('hidden', modo !== 'vocabulario');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', modo !== 'flashcard');
+  if (modo === 'ler') renderStory();
+  if (modo === 'vocabulario') renderVocabulario();
+  if (modo === 'flashcard') renderFlash();
+}
+
+// ── MODO 1 — LER A HISTÓRIA ──────────────────────────────────────────────────
+function renderStory() {
+  document.getElementById('storyCard').innerHTML = `
+    <div class="story-title">The Birthday Party</div>
+    <div class="story-byline">by Catherine Brush, 1946</div>
+    ${STORY_PARAGRAPHS.map(p => `<p class="story-p">${p}</p>`).join('')}
+  `;
+}
+
+function openPopup(key) {
+  const v = VOCABULARIO.find(x => x.key === key);
+  if (!v) return;
+  const isAdded = state.palavrasMarcadas.includes(key);
+  document.getElementById('vocPopup').innerHTML = `
+    <div class="voc-popup-word">${v.palavra}</div>
+    <div class="voc-popup-def">${v.definicao}</div>
+    <div class="voc-popup-nota">${v.contexto}${v.sinonimos ? '<br><br><b style="color:var(--s21)">Sinônimos:</b> ' + v.sinonimos.join(', ') : ''}</div>
+    <div class="voc-popup-actions">
+      <button class="voc-popup-btn ${isAdded ? 'added' : ''}" id="addBtn" onclick="toggleMarcada('${key}')">${isAdded ? '★ Adicionado' : '☆ Adicionar ao flashcard'}</button>
+      <button class="voc-popup-close" onclick="closePopup()">Fechar</button>
+    </div>
+  `;
+  document.getElementById('vocOverlay').classList.add('show');
+}
+
+function closePopup() {
+  document.getElementById('vocOverlay').classList.remove('show');
+}
+
+function toggleMarcada(key) {
+  const idx = state.palavrasMarcadas.indexOf(key);
+  if (idx === -1) state.palavrasMarcadas.push(key);
+  else state.palavrasMarcadas.splice(idx, 1);
+  saveState();
+  const btn = document.getElementById('addBtn');
+  const added = state.palavrasMarcadas.includes(key);
+  btn.classList.toggle('added', added);
+  btn.textContent = added ? '★ Adicionado' : '☆ Adicionar ao flashcard';
+}
+
+// ── MODO 2 — VOCABULÁRIO ─────────────────────────────────────────────────────
+function renderGrupoStrip() {
+  document.getElementById('grupoStrip').innerHTML = GRUPOS.map(g => `
+    <button class="grupo-btn ${g.id === state.grupoAtual ? 'on' : ''}" onclick="selectGrupo(${g.id})">${g.id}. ${g.nome}</button>
+  `).join('');
+}
+
+function selectGrupo(id) {
+  state.grupoAtual = id;
+  saveState();
+  renderVocabulario();
+}
+
+function renderVocabulario() {
+  renderGrupoStrip();
+  const lista = VOCABULARIO.filter(v => v.grupo === state.grupoAtual);
+  const grupoNome = GRUPOS.find(g => g.id === state.grupoAtual).nome;
+
+  document.getElementById('grupoTableArea').innerHTML = `
+    <div class="section-block">
+      <div class="section-title">${state.grupoAtual}. ${grupoNome}</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Palavra</th><th>Definição</th><th>Contexto no conto</th></tr></thead>
+          <tbody>
+            ${lista.map(v => `
+              <tr>
+                <td class="word-cell">${v.palavra}</td>
+                <td class="def-cell">${v.definicao}</td>
+                <td class="ctx-cell">${v.contexto}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('idadeTableBody').innerHTML = IDADE.map(i => `
+    <tr>
+      <td class="word-cell">${i.expr}</td>
+      <td class="def-cell">${i.sig}</td>
+      <td class="ctx-cell highlight">${i.ex}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('narrarTableBody').innerHTML = NARRAR.map(n => `
+    <tr>
+      <td class="word-cell">${n.expr}</td>
+      <td class="def-cell">${n.uso}</td>
+      <td class="ctx-cell">${n.ex}</td>
+    </tr>
+  `).join('');
+}
+
+// ── MODO 3 — FLASHCARD ───────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function ensureFlashOrder() {
+  if (!Array.isArray(state.flashOrder) || state.flashOrder.length !== VOCABULARIO.length) {
+    state.flashOrder = shuffle(VOCABULARIO.map((_, i) => i));
+    state.flashIndex = 0;
+    state.flashAcertos = 0;
+    state.flashErros = 0;
+    saveState();
+  }
+}
+
+function shuffleDeck() {
+  state.flashOrder = shuffle(VOCABULARIO.map((_, i) => i));
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function renderFlash() {
+  ensureFlashOrder();
+  flashFlipped = false;
+  updateFlashStats();
+  document.getElementById('armadilhasArea').innerHTML = '';
+
+  if (state.flashIndex >= state.flashOrder.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">📖 Baralho completo!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${VOCABULARIO.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="shuffleDeck()">↻ Embaralhar e praticar novamente</button>
+      </div>
+    `;
+    renderArmadilhas();
+    return;
+  }
+
+  const v = VOCABULARIO[state.flashOrder[state.flashIndex]];
+  const isMarcada = state.palavrasMarcadas.includes(v.key);
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl">
+      ${isMarcada ? '<span class="flash-star" title="Palavra marcada">⭐</span>' : ''}
+      <div class="flash-front-only">
+        <div class="flash-tag">Palavra</div>
+        <div class="flash-front-word">${v.palavra}</div>
+        <button class="flash-flip-btn" onclick="flipFlash()">Virar</button>
+      </div>
+      <div class="flash-back">
+        <div class="flash-back-word">${v.palavra}</div>
+        <div class="flash-back-sec">
+          <div class="flash-back-label">Definição</div>
+          <div class="flash-back-text">${v.definicao}</div>
+        </div>
+        <div class="flash-back-sec">
+          <div class="flash-back-label">Exemplo de uso</div>
+          <div class="flash-back-ex">${v.exemplo}</div>
+        </div>
+        ${v.sinonimos ? `
+        <div class="flash-back-sec">
+          <div class="flash-back-label">Sinônimos</div>
+          <div class="flash-back-syn">${v.sinonimos.map(s => `<span class="syn-chip">${s}</span>`).join('')}</div>
+        </div>` : ''}
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, VOCABULARIO.length) + '/' + VOCABULARIO.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, VOCABULARIO.length) / VOCABULARIO.length * 100) + '%';
+}
+
+function renderArmadilhas() {
+  document.getElementById('armadilhasArea').innerHTML = `
+    <div class="armadilhas-section">
+      <div class="armadilhas-title">⚠️ Armadilhas para Brasileiros</div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>Expressão</th><th>Erro BR</th><th>Correto</th></tr></thead>
+          <tbody>
+            ${ARMADILHAS.map(a => `
+              <tr class="armadilha">
+                <td class="word-cell">${a.expr}</td>
+                <td class="def-cell">${a.erro}</td>
+                <td class="ctx-cell">${a.correto}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

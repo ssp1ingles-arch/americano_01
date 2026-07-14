@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratégias · Sistema 24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s24:#BE123C;--s24d:#881337;--s24l:#FFE4E6;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s24);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+.wrap{padding-top:64px;max-width:820px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:3rem;}
+
+/* CARDS DE ESTRATÉGIA */
+.estrategias-list{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem;}
+.est-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;transition:border-color .18s;}
+.est-card:hover{border-color:var(--bdh);}
+.est-head{padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;cursor:pointer;}
+.est-num{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s24);opacity:.5;flex-shrink:0;min-width:2.6rem;}
+.est-head-text{flex:1;}
+.est-title{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:800;color:var(--tx);margin-bottom:.25rem;}
+.est-fonte{font-size:.72rem;color:var(--td);}
+.est-arrow{font-size:.9rem;color:var(--td);transition:transform .2s;flex-shrink:0;}
+.est-card.open .est-arrow{transform:rotate(180deg);}
+
+.est-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.est-card.open .est-body{max-height:900px;}
+.est-body-inner{padding:0 1.4rem 1.4rem;}
+.est-desc{font-size:.9rem;color:var(--tx);line-height:1.65;margin-bottom:1rem;}
+
+.est-exemplos-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.6rem;}
+.est-exemplo-item{font-size:.85rem;color:var(--tm);line-height:1.55;font-style:italic;background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.65rem .85rem;margin-bottom:.5rem;}
+.est-exemplo-item:last-child{margin-bottom:0;}
+
+.est-porque{background:var(--s24l);border-radius:.7rem;padding:.9rem 1.1rem;margin-top:1rem;}
+.est-porque-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s24d);margin-bottom:.4rem;}
+.est-porque-text{font-size:.85rem;color:#4c0519;line-height:1.6;}
+
+/* CARD ESPECIAL — ESTRATÉGIA 5 */
+.est-card.especial{border-color:rgba(190,18,60,.4);background:linear-gradient(160deg,rgba(190,18,60,.08),var(--sf) 60%);}
+.pilares-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.1rem;}
+.pilar-box{background:var(--bg);border:1px solid var(--bd);border-radius:.8rem;padding:1rem .9rem;text-align:center;}
+.pilar-icon{font-size:1.5rem;margin-bottom:.5rem;}
+.pilar-nome{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;color:var(--s24);margin-bottom:.5rem;}
+.pilar-texto{font-size:.76rem;color:var(--tm);line-height:1.5;}
+
+.mve-box{border:1.5px solid var(--s24);border-radius:.8rem;padding:1rem 1.1rem;background:rgba(190,18,60,.06);}
+.mve-label{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;color:var(--s24);margin-bottom:.5rem;}
+.mve-text{font-size:.85rem;color:var(--tx);line-height:1.6;}
+
+@media(max-width:600px){
+  .pilares-grid{grid-template-columns:1fr;}
+}
+
+/* CTA FINAL */
+.cta-card{background:var(--sf);border:1px solid rgba(190,18,60,.35);border-radius:1.1rem;padding:1.8rem 1.6rem;text-align:center;}
+.cta-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--tx);margin-bottom:1.2rem;line-height:1.5;}
+.cta-btns{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.1rem;}
+.cta-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.8rem 1.3rem;border-radius:.65rem;border:1px solid rgba(190,18,60,.4);background:rgba(190,18,60,.08);color:var(--s24);cursor:pointer;transition:all .18s;}
+.cta-btn:hover{background:rgba(190,18,60,.18);}
+.cta-btn.selected{background:var(--s24);color:#fff;border-color:var(--s24);}
+.cta-result{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;color:var(--gn);display:none;}
+.cta-result.show{display:block;}
+
+@media(max-width:640px){
+  .wrap{padding-top:64px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 24</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🧠 Estratégias</div>
+</nav>
+
+<div class="wrap">
+  <div class="estrategias-list" id="estrategiasList"></div>
+
+  <div class="cta-card">
+    <div class="cta-title">Escolha 1 estratégia para começar esta semana.<br>Qual será?</div>
+    <div class="cta-btns" id="ctaBtns">
+      <button class="cta-btn" onclick="escolherEstrategia('Narrar atividades')">Narrar atividades</button>
+      <button class="cta-btn" onclick="escolherEstrategia('Shadowing')">Shadowing</button>
+      <button class="cta-btn" onclick="escolherEstrategia('Exposição diária')">Exposição diária</button>
+    </div>
+    <div class="cta-result" id="ctaResult"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA: 10 ESTRATÉGIAS ───────────────────────────────────────────────────────
+const ESTRATEGIAS = [
+  {titulo:"Narre suas atividades em inglês", fonte:"All Ears English ep. 2649",
+   descricao:"Enquanto faz coisas do dia a dia, descreva o que está fazendo em inglês — em voz alta quando estiver sozinho, ou na cabeça quando estiver em público.",
+   exemplos:["I'm running late.", "Where did my hairbrush go?", "Wow, this food smells good.", "I'm going to brush my teeth. I'm opening the tube of toothpaste. I'm squeezing it and putting some on my toothbrush."],
+   porque:"Treina o cérebro a produzir inglês diretamente, sem passar pelo português primeiro. Doses: 30 minutos por dia é suficiente — não precisa ser o dia todo."},
+
+  {titulo:"Identifique seus vocabulary gaps", fonte:"All Ears English ep. 2649",
+   descricao:'Quando você tenta narrar algo e não sabe uma palavra, esse é o momento de ouro. Anote no seu vocabulary notebook e pesquise. Exemplo: você quer dizer "estou usando uma espátula para virar o ovo" mas não sabe "spatula" — procure, adicione ao caderno, use na próxima vez.',
+   exemplos:[],
+   porque:"Você aprende vocabulário que realmente precisa, no contexto real da sua vida."},
+
+  {titulo:"Shadowing: copie o fluxo de quem você admira", fonte:"English With Collins",
+   descricao:"Escolha alguém que fale inglês do jeito que você quer falar. Ouça e imite exatamente: o ritmo, a entonação, o cadence (velocidade e pausa), o som da voz. Não imite as palavras — imite a música da fala.",
+   exemplos:[],
+   porque:"Inglês é música. A voz é o instrumento. Shadowing treina o instrumento antes de você precisar improvisar."},
+
+  {titulo:"Saia da cabeça, entre na conversa", fonte:"English With Collins",
+   descricao:"O maior obstáculo não é falta de vocabulário — é ficar preso tentando falar perfeito. A meta não é soar inteligente: é ser entendido.",
+   exemplos:["The goal is not how articulate or how smart I'm trying to sound. The goal is: can she understand me? Can she hear me? Am I clear enough?"],
+   porque:"Quando você para de se julgar, o inglês que você já tem começa a sair."},
+
+  {especial:true, titulo:"Os três pilares: Exposição, Consistência e Diversão", fonte:"The Whole Human Experience (Valentina Mazeikaite)",
+   descricao:"Valentina (argentina, professora de espanhol) aprendeu inglês sem aula formal — lendo livros em inglês por impaciência, ouvindo música, assistindo séries. Ela descobriu os três pilares:",
+   pilares:[
+     {icon:'🎯', nome:'Exposição', texto:'Fazer o cérebro entender que o idioma é importante. 1-2 horas de aula por semana não são suficientes — você precisa de exposição diária.'},
+     {icon:'🔄', nome:'Consistência', texto:'Todo dia, uma coisa — mesmo que pequena.'},
+     {icon:'🎉', nome:'Diversão', texto:'Se não for prazeroso, o cérebro não retém.'}
+   ],
+   mve:"Todo dia, faça pelo menos UMA coisa que te deixe levemente desconfortável em inglês. Não conta repetir o mesmo pedido de sempre no mesmo café."},
+
+  {titulo:"Postura cria confiança", fonte:"English With Collins",
+   descricao:"A postura física afeta como você fala. Quando você se encurva e fala baixo, o inglês soa sem confiança. Quando você se ergue e usa a voz com flow, tudo muda.",
+   exemplos:['❌ Curvado: "Hey, Mary. How you doing? My name is Collins."', '✅ Ereto: "How you doing, sweetheart? What\'s your name? It\'s nice to meet you."'],
+   porque:"Antes de falar inglês, ajuste o corpo."},
+
+  {titulo:"Aprender outro idioma NÃO prejudica o inglês", fonte:"All Ears English (Will Learning Another Language Ruin Your English?)",
+   descricao:"Pesquisa publicada no International Journal of Bilingual Education and Bilingualism (2020): aprender mais de um idioma não prejudica seu inglês — na verdade, fortalece a memória de trabalho (working memory) e melhora a aprendizagem de todos os idiomas.",
+   exemplos:[],
+   porque:'A chave é manter o inglês "at the forefront" — não deixar que ele "go by the wayside".'},
+
+  {titulo:"Pronúncia > Gramática para a comunicação", fonte:"English With Collins",
+   descricao:"Celebridades e pessoas bem-sucedidas frequentemente têm gramática imperfeita — mas sabem enunciar. Se alguém não consegue entender o que você diz, a conversa para. Se a gramática não é perfeita mas a pronúncia está clara, a conversa continua.",
+   exemplos:[],
+   porque:"Ordem de prioridade: pronúncia clara → comunicação efetiva → gramática correta."},
+
+  {titulo:"Empacote subconscientemente", fonte:"English With Collins",
+   descricao:'O cérebro "empacota" as coisas que você aprende ao longo do tempo, mesmo que você não perceba conscientemente. Quando o momento certo vem, o vocabulário vem junto.',
+   exemplos:["You'll start to notice you're bringing them out like — where is all this stuff coming from? It's because you've been packaging it at the back of your mind."],
+   porque:"O aprendizado acontece mesmo quando você não está prestando atenção conscientemente — confie no processo."},
+
+  {titulo:"Dê um sinal ao seu cérebro", fonte:"The Whole Human Experience (Valentina)",
+   descricao:'O cérebro de adulto pergunta: "Por que preciso disso?" Se você vive sua vida inteira em português e só estuda inglês 1 hora por semana, o cérebro não vê o idioma como prioridade.',
+   exemplos:[],
+   porque:"Viva uma fatia da sua vida em inglês — podcast, música, série, jornada — até o cérebro entender que o idioma importa."}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's24_estrategias_progresso';
+let state = { abertas: [], estrategiaEscolhida: null };
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── RENDER ESTRATÉGIAS ─────────────────────────────────────────────────────────
+function renderEstrategias() {
+  document.getElementById('estrategiasList').innerHTML = ESTRATEGIAS.map((e, idx) => {
+    const num = String(idx + 1).padStart(2, '0');
+    const isOpen = state.abertas.includes(idx);
+
+    if (e.especial) {
+      return `
+        <div class="est-card especial ${isOpen ? 'open' : ''}" id="card-${idx}">
+          <div class="est-head" onclick="toggleCard(${idx})">
+            <div class="est-num">${num}</div>
+            <div class="est-head-text">
+              <div class="est-title">${e.titulo}</div>
+              <div class="est-fonte">Fonte: ${e.fonte}</div>
+            </div>
+            <div class="est-arrow">▾</div>
+          </div>
+          <div class="est-body">
+            <div class="est-body-inner">
+              <div class="est-desc">${e.descricao}</div>
+              <div class="pilares-grid">
+                ${e.pilares.map(p => `
+                  <div class="pilar-box">
+                    <div class="pilar-icon">${p.icon}</div>
+                    <div class="pilar-nome">${p.nome}</div>
+                    <div class="pilar-texto">${p.texto}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="mve-box">
+                <div class="mve-label">💡 MVE — Minimum Viable Exposure</div>
+                <div class="mve-text">${e.mve}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="est-card ${isOpen ? 'open' : ''}" id="card-${idx}">
+        <div class="est-head" onclick="toggleCard(${idx})">
+          <div class="est-num">${num}</div>
+          <div class="est-head-text">
+            <div class="est-title">${e.titulo}</div>
+            <div class="est-fonte">Fonte: ${e.fonte}</div>
+          </div>
+          <div class="est-arrow">▾</div>
+        </div>
+        <div class="est-body">
+          <div class="est-body-inner">
+            <div class="est-desc">${e.descricao}</div>
+            ${e.exemplos.length ? `
+              <div class="est-exemplos-label">Exemplos reais</div>
+              ${e.exemplos.map(ex => `<div class="est-exemplo-item">${ex}</div>`).join('')}
+            ` : ''}
+            <div class="est-porque">
+              <div class="est-porque-label">Por que funciona</div>
+              <div class="est-porque-text">${e.porque}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCard(idx) {
+  const i = state.abertas.indexOf(idx);
+  if (i === -1) state.abertas.push(idx);
+  else state.abertas.splice(i, 1);
+  saveState();
+  document.getElementById(`card-${idx}`).classList.toggle('open');
+}
+
+// ── CTA FINAL ──────────────────────────────────────────────────────────────────
+function renderCta() {
+  document.querySelectorAll('.cta-btn').forEach(b => {
+    b.classList.toggle('selected', b.textContent === state.estrategiaEscolhida);
+  });
+  const result = document.getElementById('ctaResult');
+  if (state.estrategiaEscolhida) {
+    result.textContent = `Você escolheu: ${state.estrategiaEscolhida}. Boa sorte!`;
+    result.classList.add('show');
+  } else {
+    result.classList.remove('show');
+  }
+}
+
+function escolherEstrategia(nome) {
+  state.estrategiaEscolhida = nome;
+  saveState();
+  renderCta();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+renderEstrategias();
+renderCta();
+</script>
+</body>
+</html>

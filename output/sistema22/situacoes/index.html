@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Situações do Mundo Real · Sistema 22</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s22:#0F766E;--s22d:#134E4A;--s22l:#CCFBF1;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;border-bottom:1px solid var(--bd);}
+.nav-back{color:var(--s22);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+.wrap{padding-top:64px;max-width:1080px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;display:flex;gap:1.5rem;align-items:flex-start;}
+.hidden{display:none!important;}
+
+/* SIDEBAR (desktop) */
+.sidebar{width:230px;flex-shrink:0;position:sticky;top:64px;display:flex;flex-direction:column;gap:.4rem;padding-top:1.2rem;}
+.sit-btn{display:flex;align-items:center;gap:.6rem;background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.75rem .9rem;cursor:pointer;transition:all .18s;text-align:left;}
+.sit-btn:hover{border-color:var(--bdh);}
+.sit-btn.on{border-color:var(--s22);background:rgba(15,118,110,.14);box-shadow:0 0 12px rgba(15,118,110,.2);}
+.sit-icon{font-size:1.1rem;flex-shrink:0;}
+.sit-label{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--tm);line-height:1.3;}
+.sit-btn.on .sit-label{color:var(--s22);}
+.sit-n{font-size:.62rem;color:var(--td);margin-top:.15rem;}
+
+/* MOBILE DROPDOWN */
+.sit-select{display:none;width:100%;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem .9rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tx);margin-top:1.2rem;margin-bottom:0;}
+
+.main-col{flex:1;min-width:0;padding-top:1.2rem;}
+
+/* LISTA MODE */
+.sit-header{margin-bottom:1.2rem;}
+.sit-title{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--s22);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.sit-badge{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s22);background:rgba(15,118,110,.12);border:1px solid rgba(15,118,110,.3);padding:.25rem .7rem;border-radius:2rem;}
+.sit-desc{font-size:.85rem;color:var(--tm);margin-top:.4rem;}
+
+.practicar-row{margin-bottom:1.1rem;}
+.practicar-btn{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;padding:.7rem 1.2rem;border-radius:.6rem;border:none;background:var(--s22);color:#fff;cursor:pointer;}
+.practicar-btn:hover{filter:brightness(1.15);}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.f-table{width:100%;min-width:520px;border-collapse:collapse;}
+.f-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.f-row{cursor:pointer;transition:background .15s;}
+.f-row:hover td{background:rgba(15,118,110,.06);}
+.f-row.active td{background:rgba(15,118,110,.12);}
+.f-table td{padding:.85rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.86rem;line-height:1.5;}
+.en-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--s22);min-width:220px;}
+.pt-cell{color:var(--tm);min-width:200px;}
+
+.exp-row td{padding:0;border-bottom:1px solid var(--bd);}
+.exp-row.hidden td{display:none;padding:0;border:none;}
+.exp-inner{padding:.9rem 1.4rem;background:rgba(15,118,110,.07);}
+.exp-label{font-family:'Space Grotesk',sans-serif;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.3rem;}
+.exp-text{font-size:.85rem;color:var(--tx);line-height:1.55;margin-bottom:.5rem;}
+.exp-ctx{font-size:.8rem;color:var(--s22l);line-height:1.55;}
+
+/* FLASHCARD MODE */
+.flash-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem;flex-wrap:wrap;}
+.voltar-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--s22);background:none;border:1px solid rgba(15,118,110,.35);border-radius:.5rem;padding:.5rem .9rem;cursor:pointer;}
+.voltar-btn:hover{background:rgba(15,118,110,.1);}
+
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s22),#14B8A6);border-radius:3px;transition:width .5s ease;}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front-text{font-size:1.1rem;line-height:1.6;color:var(--tx);font-weight:600;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-back-text{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--s22);}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover:not(:disabled){background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover:not(:disabled){background:rgba(95,216,122,.1);}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s22);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s22);color:#fff;cursor:pointer;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .sit-select{display:block;}
+  .wrap{flex-direction:column;}
+}
+@media(max-width:620px){
+  .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelFlashcard{padding-bottom:5.5rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 22</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🗺️ Situações do Mundo Real</div>
+</nav>
+
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar"></div>
+
+  <div class="main-col">
+    <select class="sit-select" id="sitSelect" onchange="selectSituacao(parseInt(this.value,10))"></select>
+
+    <!-- MODO LISTA -->
+    <div id="panelLista">
+      <div class="sit-header" id="sitHeader"></div>
+      <div class="practicar-row"><button class="practicar-btn" onclick="iniciarFlashcard()">🎯 Praticar esta situação</button></div>
+      <div class="table-wrap">
+        <table class="f-table">
+          <thead><tr><th>Frase em Inglês</th><th>Tradução / Uso</th></tr></thead>
+          <tbody id="fraseTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MODO FLASHCARD -->
+    <div class="panel hidden" id="panelFlashcard">
+      <div class="flash-header">
+        <button class="voltar-btn" onclick="voltarLista()">← Voltar à lista</button>
+      </div>
+      <div class="flash-stats">
+        <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+        <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+        <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s22)">1/1</div><div class="flash-stat-l">Frase</div></div>
+      </div>
+      <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+      <div id="flashArea"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 7 SITUAÇÕES × 141 FRASES ────────────────────────────────────────────
+const SITUACOES = [
+  {icon:'🙋', nome:'Apresentações & Cotidiano', desc:'Cumprimentos, rotina, preferências', frases:[
+    {en:"What do you do for a living?", pt:"O que você faz da vida? (trabalho)"},
+    {en:"I work in IT.", pt:"Trabalho com tecnologia da informação."},
+    {en:"Where did you grow up?", pt:"Onde você cresceu?"},
+    {en:"I grew up in Vancouver.", pt:"Cresci em Vancouver."},
+    {en:"How have you been?", pt:"Como você tem estado?"},
+    {en:"I've been doing well.", pt:"Tenho estado bem."},
+    {en:"What do you think?", pt:"O que você acha?"},
+    {en:"I think it's great.", pt:"Acho que é ótimo."},
+    {en:"Can you repeat that, please?", pt:"Pode repetir, por favor?"},
+    {en:"Of course, I'll say it again.", pt:"Claro, vou repetir."},
+    {en:"Could you speak slower, please?", pt:"Pode falar mais devagar?"},
+    {en:"Absolutely, I'll speak more slowly.", pt:"Com certeza, vou falar mais devagar."},
+    {en:"Do you have any recommendations?", pt:"Tem alguma recomendação?"},
+    {en:"I recommend the Italian restaurant.", pt:"Recomendo o restaurante italiano."},
+    {en:"What's your view on this?", pt:"Qual é sua opinião sobre isso?"},
+    {en:"I think it's a complex issue.", pt:"Acho que é um assunto complexo."},
+    {en:"Can I pay by card?", pt:"Posso pagar com cartão?"},
+    {en:"Yes, you can pay by card.", pt:"Sim, pode pagar com cartão."},
+    {en:"How much does it cost?", pt:"Quanto custa?"},
+    {en:"It costs $20.", pt:"Custa $20."},
+    {en:"What size do you wear?", pt:"Qual é o seu tamanho?"},
+    {en:"I wear a size M.", pt:"Uso tamanho M."},
+    {en:"Can I try this on?", pt:"Posso experimentar?"},
+    {en:"Sure, go ahead.", pt:"Claro, pode ir."},
+    {en:"What's this called in English?", pt:"Como se chama isso em inglês?"}
+  ]},
+  {icon:'✈️', nome:'Aeroporto', desc:'Check-in, segurança, embarque, bagagem', frases:[
+    {en:"What time should we leave for the airport?", pt:"A que horas devemos sair para o aeroporto?"},
+    {en:"We should leave at least 2 hours before our flight.", pt:"Devemos sair pelo menos 2 horas antes do voo."},
+    {en:"Should we take a taxi or public transportation?", pt:"Devemos pegar táxi ou transporte público?"},
+    {en:"Taking a taxi would be more convenient.", pt:"Pegar um táxi seria mais prático."},
+    {en:"Do we have our passports and tickets?", pt:"Temos nossos passaportes e passagens?"},
+    {en:"Yes, I have them in my bag.", pt:"Sim, estou com eles na minha bolsa."},
+    {en:"Which terminal is our flight departing from?", pt:"De qual terminal nosso voo parte?"},
+    {en:"Our flight is departing from Terminal 7.", pt:"Nosso voo parte do Terminal 7."},
+    {en:"Where can we check in for our flight?", pt:"Onde podemos fazer o check-in?"},
+    {en:"The check-in counters are over there.", pt:"Os balcões de check-in são ali."},
+    {en:"Do we need to go through security before our flight?", pt:"Precisamos passar pela segurança antes do voo?"},
+    {en:"Yes, we need to go through security before we can board.", pt:"Sim, precisamos passar pela segurança antes de embarcar."},
+    {en:"Do we have to take off our shoes and belts during security?", pt:"Precisamos tirar os sapatos e cintos na segurança?"},
+    {en:"Yes, we have to remove our shoes and belts.", pt:"Sim, precisamos remover sapatos e cintos."},
+    {en:"How long does it take to go through security?", pt:"Quanto tempo leva para passar pela segurança?"},
+    {en:"It usually takes about 30 minutes.", pt:"Geralmente leva cerca de 30 minutos."},
+    {en:"What gate is our flight departing from?", pt:"De qual portão nosso voo parte?"},
+    {en:"Our flight is departing from gate 12.", pt:"Nosso voo parte do portão 12."},
+    {en:"What time does boarding start?", pt:"A que horas começa o embarque?"},
+    {en:"Boarding starts in 30 minutes.", pt:"O embarque começa em 30 minutos."},
+    {en:"Excuse me, can you help me find my seat?", pt:"Com licença, pode me ajudar a encontrar meu lugar?"},
+    {en:"Here's your seat. Can I help you with your luggage?", pt:"Aqui está seu lugar. Posso ajudar com sua bagagem?"},
+    {en:"How long is the flight?", pt:"Quanto tempo dura o voo?"},
+    {en:"The flight is 5 hours long.", pt:"O voo dura 5 horas."},
+    {en:"Is there a meal included on the flight?", pt:"Há refeição inclusa no voo?"},
+    {en:"Yes, there will be a meal service during the flight.", pt:"Sim, haverá serviço de refeição durante o voo."},
+    {en:"Can I get a blanket and pillow?", pt:"Posso pegar um cobertor e travesseiro?"},
+    {en:"How much longer until we land?", pt:"Quanto tempo falta para pousar?"},
+    {en:"We have 30 minutes left until we land.", pt:"Faltam 30 minutos para pousar."},
+    {en:"Where can we pick up our luggage?", pt:"Onde podemos pegar nossa bagagem?"},
+    {en:"The luggage carousel is over there.", pt:"O carrossel de bagagem é ali."}
+  ]},
+  {icon:'🏨', nome:'Hotel', desc:'Check-in, serviços, recomendações', frases:[
+    {en:"Hi, we have a reservation for a room.", pt:"Olá, temos uma reserva para um quarto."},
+    {en:"Can I have your name, please?", pt:"Pode me dar seu nome, por favor?"},
+    {en:"Yes, I see your reservation. Can you fill out this form?", pt:"Sim, vejo sua reserva. Pode preencher este formulário?"},
+    {en:"What time is check-in?", pt:"A que horas é o check-in?"},
+    {en:"Check-in is at 3 p.m.", pt:"O check-in é às 15h."},
+    {en:"Is there a place to store our luggage if our room isn't ready?", pt:"Há um lugar para guardar a bagagem se o quarto não estiver pronto?"},
+    {en:"Yes, there is a luggage storage area available.", pt:"Sim, há uma área de armazenamento de bagagem disponível."},
+    {en:"Is breakfast included with the room?", pt:"O café da manhã está incluso?"},
+    {en:"Yes, breakfast is included.", pt:"Sim, o café da manhã está incluso."},
+    {en:"What are the checkout procedures?", pt:"Quais são os procedimentos de check-out?"},
+    {en:"Checkout is at 11 a.m. You can leave your key at the front desk.", pt:"O check-out é às 11h. Você pode deixar a chave na recepção."},
+    {en:"Can you recommend any restaurants in the area?", pt:"Pode recomendar restaurantes na área?"},
+    {en:"Sure, there are a lot of great restaurants nearby.", pt:"Claro, há muitos restaurantes ótimos por perto."},
+    {en:"How do we get to the museum from the hotel?", pt:"Como chegamos ao museu a partir do hotel?"},
+    {en:"You can take a taxi or public transportation.", pt:"Você pode pegar um táxi ou transporte público."},
+    {en:"Is it safe to walk around the area at night?", pt:"É seguro caminhar pela área à noite?"},
+    {en:"Yes, the area is generally safe but it's always a good idea to be cautious.", pt:"Sim, a área é geralmente segura, mas é sempre bom ser cauteloso."},
+    {en:"Can we get a late checkout?", pt:"Podemos fazer um check-out tardio?"},
+    {en:"Late checkouts are subject to availability.", pt:"Check-outs tardios estão sujeitos à disponibilidade."},
+    {en:"How do we access the hotel gym?", pt:"Como acessamos a academia do hotel?"},
+    {en:"The gym is located on the top floor. You can access it with your room key.", pt:"A academia fica no último andar. Você pode acessá-la com a chave do quarto."},
+    {en:"Is there a laundry service in the hotel?", pt:"Há serviço de lavanderia no hotel?"},
+    {en:"Yes, we offer laundry services for our guests.", pt:"Sim, oferecemos serviço de lavanderia para nossos hóspedes."},
+    {en:"Can we book tours or activities through the hotel?", pt:"Podemos reservar passeios ou atividades pelo hotel?"},
+    {en:"Yes, we can help you book tours and activities.", pt:"Sim, podemos ajudá-lo a reservar passeios e atividades."}
+  ]},
+  {icon:'🏥', nome:'Médico', desc:'Sintomas, diagnóstico, tratamento', frases:[
+    {en:"I've been feeling constant chest pain lately.", pt:"Tenho sentido dor constante no peito ultimamente."},
+    {en:"I feel fatigued all the time, no matter how much I rest.", pt:"Me sinto fatigado o tempo todo, não importa quanto eu descanse."},
+    {en:"I've noticed a significant decrease in my appetite.", pt:"Percebi uma diminuição significativa no meu apetite."},
+    {en:"I'm experiencing more frequent and severe headaches.", pt:"Estou tendo dores de cabeça mais frequentes e severas."},
+    {en:"I have trouble sleeping even when I'm very tired.", pt:"Tenho dificuldade para dormir mesmo quando estou muito cansado."},
+    {en:"I feel very anxious and stressed.", pt:"Me sinto muito ansioso e estressado."},
+    {en:"I would appreciate an explanation of this diagnosis.", pt:"Gostaria de uma explicação sobre esse diagnóstico."},
+    {en:"Please outline the treatment options for my condition.", pt:"Por favor, descreva as opções de tratamento para minha condição."},
+    {en:"I'm concerned about the side effects of this medication.", pt:"Estou preocupado com os efeitos colaterais desse medicamento."},
+    {en:"Let's schedule a follow-up to monitor my progress.", pt:"Vamos agendar um retorno para monitorar meu progresso."},
+    {en:"I need to know if this condition is hereditary.", pt:"Preciso saber se essa condição é hereditária."},
+    {en:"I'm looking for advice on maintaining my mental health.", pt:"Estou procurando orientação sobre como cuidar da minha saúde mental."},
+    {en:"I'd like more details on the surgery, including benefits and risks.", pt:"Gostaria de mais detalhes sobre a cirurgia, incluindo benefícios e riscos."},
+    {en:"I'm evaluating the risks of delaying treatment.", pt:"Estou avaliando os riscos de adiar o tratamento."},
+    {en:"I want to know how to reach you in case of an emergency.", pt:"Quero saber como entrar em contato com você em caso de emergência."}
+  ]},
+  {icon:'🦷', nome:'Dentista', desc:'Procedimentos, dúvidas, prevenção', frases:[
+    {en:"I feel pain here. What could it be?", pt:"Sinto dor aqui. O que pode ser?"},
+    {en:"Does this treatment hurt? How long will it last?", pt:"Esse tratamento dói? Quanto tempo vai durar?"},
+    {en:"Do I have cavities?", pt:"Tenho cáries?"},
+    {en:"Do I need braces?", pt:"Preciso de aparelho?"},
+    {en:"How do I brush correctly?", pt:"Como devo escovar corretamente?"},
+    {en:"Which toothpaste do you recommend?", pt:"Qual pasta de dente você recomenda?"},
+    {en:"Is this infection serious?", pt:"Essa infecção é séria?"},
+    {en:"When should I come back?", pt:"Quando devo voltar?"},
+    {en:"I've noticed sensitivity in my teeth. What can I do?", pt:"Percebi sensibilidade nos meus dentes. O que posso fazer?"},
+    {en:"What are the options for whitening my teeth?", pt:"Quais são as opções para clarear os dentes?"},
+    {en:"Can you explain the steps of the cleaning procedure?", pt:"Pode explicar os passos da limpeza?"},
+    {en:"I'm considering dental implants. What is the process?", pt:"Estou considerando implantes dentários. Qual é o processo?"},
+    {en:"Could you explain the procedure before we start?", pt:"Pode explicar o procedimento antes de começarmos?"},
+    {en:"What are my options for orthodontic treatment?", pt:"Quais são minhas opções de tratamento ortodôntico?"},
+    {en:"Let's talk about preventing future problems with my teeth.", pt:"Vamos falar sobre como prevenir problemas futuros com meus dentes."}
+  ]},
+  {icon:'🚨', nome:'Emergências', desc:'Pedir ajuda, acidentes, urgência', frases:[
+    {en:"Help! I need assistance immediately.", pt:"Socorro! Preciso de ajuda imediatamente."},
+    {en:"Call an ambulance, please. There's been an accident.", pt:"Chame uma ambulância. Houve um acidente."},
+    {en:"Can you help me? I'm lost.", pt:"Pode me ajudar? Estou perdido."},
+    {en:"Is there a doctor here?", pt:"Há algum médico aqui?"},
+    {en:"I need a police officer.", pt:"Preciso de um policial."},
+    {en:"Fire! Get out quickly!", pt:"Fogo! Saiam rápido!"},
+    {en:"I'm having a medical emergency.", pt:"Estou tendo uma emergência médica."},
+    {en:"Please evacuate the area.", pt:"Por favor, evacue a área."},
+    {en:"I'm trapped. Please get me out.", pt:"Estou preso. Por favor, me tire daqui."},
+    {en:"Stay calm and don't panic.", pt:"Fique calmo e não entre em pânico."},
+    {en:"I need first aid.", pt:"Preciso de primeiros socorros."},
+    {en:"I can't find my child.", pt:"Não consigo encontrar meu filho."},
+    {en:"Turn off the power immediately. There is a gas leak.", pt:"Desligue a energia imediatamente. Há um vazamento de gás."},
+    {en:"Keep pressure on the wound.", pt:"Mantenha pressão sobre o ferimento."},
+    {en:"Can you give me directions to the nearest hospital?", pt:"Pode me dar indicações para o hospital mais próximo?"}
+  ]},
+  {icon:'💬', nome:'Conversas Difíceis', desc:'Conflitos, discordâncias, desculpas', frases:[
+    {en:"I'm sorry for any misunderstanding. Can we discuss this further?", pt:"Me desculpe por qualquer mal-entendido. Podemos discutir mais?"},
+    {en:"I appreciate your perspective, but I see things differently.", pt:"Aprecio sua perspectiva, mas vejo as coisas de forma diferente."},
+    {en:"Could you please clarify what you mean by that?", pt:"Você poderia esclarecer o que quis dizer com isso?"},
+    {en:"I'm not comfortable discussing this right now. Can we talk about it later?", pt:"Não me sinto confortável em discutir isso agora. Podemos falar depois?"},
+    {en:"I didn't mean to offend you. My apologies if I did.", pt:"Não quis ofender você. Me desculpe se ofendi."},
+    {en:"I understand this is a sensitive topic. Let's approach it with care.", pt:"Entendo que este é um assunto sensível. Vamos abordá-lo com cuidado."},
+    {en:"I need a moment to process this. Can we pause for a second?", pt:"Preciso de um momento para processar isso. Podemos pausar?"},
+    {en:"I'm not sure I agree, but I'm willing to listen to your point of view.", pt:"Não tenho certeza se concordo, mas estou disposto a ouvir seu ponto de vista."},
+    {en:"That's an interesting point. I hadn't considered it that way before.", pt:"É um ponto interessante. Não tinha considerado dessa forma antes."},
+    {en:"I'm sorry, but I have to disagree with you on that.", pt:"Me desculpe, mas preciso discordar de você nisso."},
+    {en:"Could we find a compromise that works for both of us?", pt:"Poderíamos encontrar um acordo que funcione para nós dois?"},
+    {en:"It seems there's been a misunderstanding. Let's try to clear it up.", pt:"Parece que houve um mal-entendido. Vamos tentar esclarecê-lo."},
+    {en:"I feel a bit out of my depth here. Can you explain further?", pt:"Me sinto um pouco perdido aqui. Pode explicar mais?"},
+    {en:"Let's agree to disagree on this one.", pt:"Vamos concordar em discordar neste ponto."},
+    {en:"I think we're getting off track. Let's refocus on the main issue.", pt:"Acho que estamos saindo do assunto. Vamos focar na questão principal."}
+  ]}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's22_situacoes_progresso';
+let state = {
+  situacaoAtual: 0,
+  view: 'lista',
+  flashPorSituacao: {}
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getFlashState(idx) {
+  if (!state.flashPorSituacao[idx]) {
+    state.flashPorSituacao[idx] = { order: null, index: 0, acertos: 0, erros: 0 };
+  }
+  return state.flashPorSituacao[idx];
+}
+
+// ── SIDEBAR / SELECT ──────────────────────────────────────────────────────────
+function renderSidebar() {
+  document.getElementById('sidebar').innerHTML = SITUACOES.map((s, i) => `
+    <div class="sit-btn ${i === state.situacaoAtual ? 'on' : ''}" onclick="selectSituacao(${i})">
+      <span class="sit-icon">${s.icon}</span>
+      <div>
+        <div class="sit-label">${s.nome}</div>
+        <div class="sit-n">${s.frases.length} frases</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('sitSelect').innerHTML = SITUACOES.map((s, i) => `
+    <option value="${i}" ${i === state.situacaoAtual ? 'selected' : ''}>${s.icon} ${s.nome} (${s.frases.length})</option>
+  `).join('');
+}
+
+function selectSituacao(i) {
+  state.situacaoAtual = i;
+  state.view = 'lista';
+  saveState();
+  render();
+}
+
+// ── MODO LISTA ────────────────────────────────────────────────────────────────
+function renderLista() {
+  const s = SITUACOES[state.situacaoAtual];
+  document.getElementById('sitHeader').innerHTML = `
+    <div class="sit-title">${s.icon} ${s.nome} <span class="sit-badge">${s.frases.length} frases</span></div>
+    <div class="sit-desc">${s.desc}</div>
+  `;
+
+  document.getElementById('fraseTableBody').innerHTML = s.frases.map((f, idx) => `
+    <tr class="f-row" id="row-${idx}" onclick="toggleExpand(${idx})">
+      <td class="en-cell">${f.en}</td>
+      <td class="pt-cell">${f.pt}</td>
+    </tr>
+    <tr class="exp-row hidden" id="exp-${idx}">
+      <td colspan="2">
+        <div class="exp-inner">
+          <div class="exp-label">Tradução detalhada</div>
+          <div class="exp-text">${f.pt}</div>
+          <div class="exp-label">Contexto de uso</div>
+          <div class="exp-ctx">Situação: ${s.nome} — ${s.desc}</div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function toggleExpand(idx) {
+  const row = document.getElementById(`row-${idx}`);
+  const exp = document.getElementById(`exp-${idx}`);
+  const willShow = exp.classList.contains('hidden');
+  document.querySelectorAll('.f-row.active').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.exp-row').forEach(r => r.classList.add('hidden'));
+  if (willShow) {
+    row.classList.add('active');
+    exp.classList.remove('hidden');
+  }
+}
+
+// ── MODO FLASHCARD ────────────────────────────────────────────────────────────
+let flashFlipped = false;
+
+function iniciarFlashcard() {
+  state.view = 'flashcard';
+  saveState();
+  render();
+}
+
+function voltarLista() {
+  state.view = 'lista';
+  saveState();
+  render();
+}
+
+function ensureFlashOrder(idx) {
+  const s = SITUACOES[idx];
+  const fs = getFlashState(idx);
+  if (!Array.isArray(fs.order) || fs.order.length !== s.frases.length) {
+    fs.order = shuffle(s.frases.map((_, i) => i));
+    fs.index = 0;
+    fs.acertos = 0;
+    fs.erros = 0;
+    saveState();
+  }
+}
+
+function renderFlash() {
+  const idx = state.situacaoAtual;
+  const s = SITUACOES[idx];
+  ensureFlashOrder(idx);
+  const fs = getFlashState(idx);
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (fs.index >= fs.order.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">🗺️ Você revisou "${s.nome}"!</div>
+        <div class="flash-done-sub">${fs.acertos} de ${s.frases.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const f = s.frases[fs.order[fs.index]];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Como se diz em inglês?</div>
+      <div class="flash-front-text">${f.pt}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        <div class="flash-back-text">${f.en}</div>
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  const fs = getFlashState(state.situacaoAtual);
+  if (soube) fs.acertos++; else fs.erros++;
+  fs.index++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  const idx = state.situacaoAtual;
+  const s = SITUACOES[idx];
+  const fs = getFlashState(idx);
+  fs.order = shuffle(s.frases.map((_, i) => i));
+  fs.index = 0;
+  fs.acertos = 0;
+  fs.erros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  const idx = state.situacaoAtual;
+  const s = SITUACOES[idx];
+  const fs = getFlashState(idx);
+  document.getElementById('flashOkN').textContent = fs.acertos;
+  document.getElementById('flashBadN').textContent = fs.erros;
+  document.getElementById('flashPosN').textContent = Math.min(fs.index + 1, s.frases.length) + '/' + s.frases.length;
+  document.getElementById('progFill').style.width = (Math.min(fs.index, s.frases.length) / s.frases.length * 100) + '%';
+}
+
+// ── RENDER MASTER ─────────────────────────────────────────────────────────────
+function render() {
+  renderSidebar();
+  document.getElementById('panelLista').classList.toggle('hidden', state.view !== 'lista');
+  document.getElementById('panelFlashcard').classList.toggle('hidden', state.view !== 'flashcard');
+  if (state.view === 'lista') renderLista();
+  if (state.view === 'flashcard') renderFlash();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+render();
+</script>
+</body>
+</html>

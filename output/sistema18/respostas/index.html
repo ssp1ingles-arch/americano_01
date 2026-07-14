@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Respostas · How Was Your Day? · Sistema 18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s18:#10B981;--s18d:#065F46;--s18l:#D1FAE5;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s18);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:960px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s18);color:#04140d;}
+
+.wrap{padding-top:170px;max-width:960px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — APRENDER ===== */
+.filter-strip{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.2rem;}
+.filter-btn{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.55rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.filter-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.filter-btn.on{border-color:var(--s18);background:rgba(16,185,129,.12);color:var(--s18);}
+
+.resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.resp-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;overflow:hidden;transition:border-color .18s;}
+.resp-card:hover{border-color:var(--bdh);}
+.resp-card-body{padding:1.2rem 1.3rem 1rem;}
+.resp-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.25rem .65rem;border-radius:2rem;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.1);color:var(--s18);margin-bottom:.75rem;}
+.resp-frase{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--s18);line-height:1.4;margin-bottom:.6rem;}
+.resp-significado{font-size:.88rem;color:var(--tx);line-height:1.55;margin-bottom:.5rem;}
+.resp-nuance{font-size:.78rem;color:var(--td);line-height:1.55;}
+
+.resp-toggle{width:100%;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;padding:.65rem 1.3rem;border:none;border-top:1px solid var(--bd);background:none;color:var(--s18);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.resp-toggle:hover{background:rgba(16,185,129,.05);}
+.resp-toggle-arrow{transition:transform .2s;}
+.resp-toggle.open .resp-toggle-arrow{transform:rotate(180deg);}
+.resp-exemplos{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.resp-exemplos.open{max-height:500px;}
+.resp-exemplos-inner{padding:0 1.3rem 1.1rem;}
+.exemplo-item{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .85rem;margin-bottom:.5rem;}
+.exemplo-item:last-child{margin-bottom:0;}
+.exemplo-en{font-size:.82rem;line-height:1.55;color:var(--tx);margin-bottom:.3rem;}
+.exemplo-pt{font-size:.78rem;line-height:1.55;color:var(--td);}
+
+@media(max-width:720px){
+  .resp-grid{grid-template-columns:1fr;}
+}
+
+/* ===== MODO 2 — PRATICAR (FLASHCARD) ===== */
+.flash-stats{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.1rem;}
+.flash-stat{background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.5rem 1rem;text-align:center;min-width:80px;}
+.flash-stat-n{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;}
+.flash-stat-n.ok{color:var(--gn);}
+.flash-stat-n.bad{color:var(--rd);}
+.flash-stat-l{font-size:.6rem;color:var(--td);text-transform:uppercase;letter-spacing:.05em;margin-top:.15rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1.1rem;}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s18),#34D399);border-radius:3px;transition:width .5s ease;}
+
+.flash-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;padding:2.5rem 1.75rem;text-align:center;cursor:pointer;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .18s;}
+.flash-card:hover{border-color:var(--bdh);}
+.flash-tag{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;}
+.flash-front{font-size:1.1rem;line-height:1.6;color:var(--tx);font-weight:600;}
+.flash-hint{font-size:.72rem;color:var(--td);margin-top:1.3rem;}
+.flash-back{display:none;margin-top:1.2rem;padding-top:1.2rem;border-top:1px dashed var(--bd);width:100%;text-align:left;}
+.flash-card.flip .flash-back{display:block;}
+.flash-card.flip .flash-hint{display:none;}
+.flash-resp-item{background:var(--bg);border:1px solid var(--bd);border-radius:.6rem;padding:.7rem .85rem;margin-bottom:.55rem;}
+.flash-resp-item:last-child{margin-bottom:0;}
+.flash-resp-frase{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;color:var(--s18);margin-bottom:.3rem;}
+.flash-resp-cat{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s18d);background:var(--s18l);padding:.15rem .5rem;border-radius:2rem;margin-bottom:.3rem;}
+.flash-resp-sig{font-size:.8rem;color:var(--tm);}
+
+.flash-actions{display:flex;gap:.6rem;margin-top:1.2rem;}
+.flash-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.flash-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.flash-btn.bad{border-color:rgba(248,113,113,.4);color:var(--rd);}
+.flash-btn.bad:hover{background:rgba(248,113,113,.1);}
+.flash-btn.ok{border-color:rgba(95,216,122,.4);color:var(--gn);}
+.flash-btn.ok:hover{background:rgba(95,216,122,.1);}
+.flash-btn:disabled{opacity:.35;cursor:default;}
+
+.flash-done{text-align:center;padding:2.5rem 1.5rem;}
+.flash-done-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:var(--s18);margin-bottom:.6rem;}
+.flash-done-sub{font-size:.88rem;color:var(--tm);margin-bottom:1.4rem;}
+.flash-restart{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.5rem;border-radius:.6rem;border:none;background:var(--s18);color:#04140d;cursor:pointer;}
+
+@media(max-width:620px){
+  .flash-actions{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  #panelPraticar{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 3 — VOCABULÁRIO ===== */
+.vocab-tabs{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.vocab-tab{flex:1;min-width:180px;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.7rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.vocab-tab:hover{border-color:var(--bdh);color:var(--tx);}
+.vocab-tab.on{border-color:var(--s18);background:rgba(16,185,129,.1);color:var(--s18);}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.v-table{width:100%;min-width:560px;border-collapse:collapse;}
+.v-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.v-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.v-table tr:last-child td{border-bottom:none;}
+.v-table tr:hover td{background:rgba(255,255,255,.02);}
+.en-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);min-width:170px;}
+.pt-cell{color:var(--tm);min-width:150px;}
+.nota-cell{color:var(--td);min-width:180px;}
+.v-table tr.armadilha td{border-left:4px solid var(--rd);background:rgba(248,113,113,.05);}
+.v-table tr.armadilha .en-cell{color:var(--rd);}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 18</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">💬 Respostas</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="aprender" onclick="setModo('aprender')">Aprender</button>
+        <button class="tab-btn" data-modo="praticar" onclick="setModo('praticar')">Praticar</button>
+        <button class="tab-btn" data-modo="vocabulario" onclick="setModo('vocabulario')">Vocabulário</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — APRENDER -->
+  <div class="panel" id="panelAprender">
+    <div class="filter-strip" id="filterStrip"></div>
+    <div class="resp-grid" id="respGrid"></div>
+  </div>
+
+  <!-- MODO 2 — PRATICAR -->
+  <div class="panel hidden" id="panelPraticar">
+    <div class="flash-stats">
+      <div class="flash-stat"><div class="flash-stat-n ok" id="flashOkN">0</div><div class="flash-stat-l">Sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n bad" id="flashBadN">0</div><div class="flash-stat-l">Não sabia</div></div>
+      <div class="flash-stat"><div class="flash-stat-n" id="flashPosN" style="color:var(--s18)">1/18</div><div class="flash-stat-l">Situação</div></div>
+    </div>
+    <div class="prog-card"><div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div></div>
+    <div id="flashArea"></div>
+  </div>
+
+  <!-- MODO 3 — VOCABULÁRIO -->
+  <div class="panel hidden" id="panelVocabulario">
+    <div class="vocab-tabs">
+      <button class="vocab-tab on" id="subTab0" onclick="setSubTab(0)">📘 Vocabulário</button>
+      <button class="vocab-tab" id="subTab1" onclick="setSubTab(1)">⚠️ Armadilhas BR</button>
+    </div>
+    <div class="table-wrap" id="vocabTableWrap"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 30 RESPOSTAS EM 5 CATEGORIAS ────────────────────────────────────────
+const CATEGORIAS = [
+  {key:'positivo', icon:'😊', label:'Positivo'},
+  {key:'neutro', icon:'😐', label:'Neutro'},
+  {key:'ocupado', icon:'😓', label:'Ocupado'},
+  {key:'melhorar', icon:'📉', label:'Poderia Melhorar'},
+  {key:'humor', icon:'😅', label:'Humorístico'}
+];
+
+const RESPOSTAS = [
+  {frase:"I got a lot done today.", categoria:'positivo', significado:"Fui muito produtivo", nuance:"Muito otimista e positivo — implica satisfação com o dia.", exemplos:[
+    {en:'"How was your day?" — "I got a lot done today, actually."', pt:'"Como foi seu dia?" — "Consegui fazer muita coisa hoje, na verdade."'},
+    {en:"I got a lot done today — I finished the whole project.", pt:"Consegui fazer muita coisa hoje — terminei o projeto inteiro."}
+  ]},
+  {frase:"I felt really on top of it today.", categoria:'positivo', significado:"Me senti organizado e no controle", nuance:'"On top of it" = estar por cima, tudo sob controle, sem erros.', exemplos:[
+    {en:"I felt really on top of it today, nothing caught me off guard.", pt:"Hoje me senti totalmente no controle, nada me pegou de surpresa."},
+    {en:"After the gym, I just feel on top of it all day.", pt:"Depois da academia, eu me sinto no controle o dia todo."}
+  ]},
+  {frase:"I was in a really good mood all day.", categoria:'positivo', significado:"Fiquei de bom humor o dia todo", nuance:"Pode não ter motivo específico — basta estar feliz.", exemplos:[
+    {en:"I don't know why, but I was in a really good mood all day.", pt:"Não sei por quê, mas fiquei de bom humor o dia todo."},
+    {en:"Great music in the morning put me in a really good mood all day.", pt:"Uma música boa de manhã me deixou de bom humor o dia todo."}
+  ]},
+  {frase:"It went by really fast.", categoria:'positivo', significado:"O dia passou rápido", nuance:"Implica que estava ocupada mas de forma boa — o tempo voa quando você está engajado.", exemplos:[
+    {en:"Busy day at work — it went by really fast.", pt:"Dia corrido no trabalho — passou rápido."},
+    {en:"I was having so much fun, it went by really fast.", pt:"Eu estava me divertindo tanto que passou rápido."}
+  ]},
+  {frase:"Long day but a good one.", categoria:'positivo', significado:"Dia longo mas bom", nuance:"Reconhece o esforço mas termina no positivo — tom equilibrado e maduro.", exemplos:[
+    {en:"Twelve hours at the office — long day but a good one.", pt:"Doze horas no escritório — dia longo, mas bom."},
+    {en:"Long day but a good one, we closed the deal.", pt:"Dia longo mas bom, fechamos o negócio."}
+  ]},
+  {frase:"It was challenging but worth it.", categoria:'positivo', significado:"Foi desafiador mas valeu", nuance:"Ideal quando o dia foi difícil mas você se sente orgulhoso.", exemplos:[
+    {en:"The exam was hard — it was challenging but worth it.", pt:"A prova foi difícil — foi desafiador mas valeu."},
+    {en:"Training for the race is exhausting, but it's challenging and worth it.", pt:"Treinar para a corrida é cansativo, mas é desafiador e vale a pena."}
+  ]},
+  {frase:"It flew by before I knew it.", categoria:'positivo', significado:"Passou voando — não vi a hora passar", nuance:'Variante mais poética de "it went by fast".', exemplos:[
+    {en:"We started talking and it flew by before I knew it.", pt:"Começamos a conversar e passou voando sem perceber."},
+    {en:"The weekend flew by before I knew it.", pt:"O fim de semana passou voando sem eu perceber."}
+  ]},
+  {frase:"I finally checked a few things off my list.", categoria:'positivo', significado:"Finalmente fiz o que precisava fazer", nuance:"Implica que essas coisas estavam pendentes há um tempo — sensação de alívio.", exemplos:[
+    {en:"I finally checked a few things off my list — feels great.", pt:"Finalmente riscei algumas coisas da minha lista — que alívio."},
+    {en:"After weeks of putting it off, I checked a few things off my list today.", pt:"Depois de semanas adiando, riscei algumas coisas da lista hoje."}
+  ]},
+  {frase:"It was pretty uneventful.", categoria:'neutro', significado:"Foi um dia normal/sem novidades", nuance:'"Pretty" = intensificador suave — "uneventful" = sem eventos notáveis. Não é ruim!', exemplos:[
+    {en:"Nothing much happened — it was pretty uneventful.", pt:"Não aconteceu muita coisa — foi um dia bem sem novidades."},
+    {en:"It was pretty uneventful, just the usual routine.", pt:"Foi bem tranquilo, só a rotina de sempre."}
+  ]},
+  {frase:"Not too bad, actually.", categoria:'neutro', significado:"Não foi ruim, na verdade foi até bom", nuance:'O "actually" é chave — significa que foi melhor do que parece. Levemente positivo.', exemplos:[
+    {en:"I thought Monday would be rough, but not too bad, actually.", pt:"Achei que segunda seria dura, mas não foi tão ruim, na verdade."},
+    {en:"Not too bad, actually — I even had time for lunch.", pt:"Não foi tão ruim, na verdade — até tive tempo pro almoço."}
+  ]},
+  {frase:"Same old, same old.", categoria:'neutro', significado:"Tudo igual, mesma rotina de sempre", nuance:"Neutro sem reclamação — reconhece a repetição sem estar irritado por isso.", exemplos:[
+    {en:"Same old, same old — work, gym, dinner.", pt:"Tudo igual — trabalho, academia, jantar."},
+    {en:"Nothing new here, same old, same old.", pt:"Nada de novo por aqui, tudo na mesma."}
+  ]},
+  {frase:"I can't complain.", categoria:'neutro', significado:"Não tenho do que reclamar", nuance:"Educado, positivo, humilde. Tudo estava bem o suficiente.", exemplos:[
+    {en:"Busy but productive — I can't complain.", pt:"Corrido mas produtivo — não posso reclamar."},
+    {en:"I can't complain, everything went smoothly.", pt:"Não posso reclamar, tudo correu bem."}
+  ]},
+  {frase:"It started out rough but it got better.", categoria:'neutro', significado:"Começou ruim mas melhorou", nuance:'Coloca um spin positivo no final — "rough" = difícil/desconfortável.', exemplos:[
+    {en:"I missed the bus, but it started out rough and got better.", pt:"Perdi o ônibus, mas começou ruim e melhorou."},
+    {en:"It started out rough but it got better once I had coffee.", pt:"Começou ruim mas melhorou depois do café."}
+  ]},
+  {frase:"I was putting out fires all day.", categoria:'ocupado', significado:"Fiquei resolvendo problemas o dia todo", nuance:'"Put out fires" = apagar incêndios (metáfora) — muito usado no ambiente de trabalho americano.', exemplos:[
+    {en:"The server crashed twice — I was putting out fires all day.", pt:"O servidor caiu duas vezes — fiquei apagando incêndio o dia todo."},
+    {en:"Every time I fixed one problem, another popped up — putting out fires all day.", pt:"Toda vez que resolvia um problema, surgia outro — apagando incêndio o dia todo."}
+  ]},
+  {frase:"I was juggling a bunch of different things.", categoria:'ocupado', significado:"Fiquei malabarando várias coisas ao mesmo tempo", nuance:'"Juggling" = malabarismo — metáfora visual de manter muitas coisas no ar.', exemplos:[
+    {en:"Meetings, emails, deadlines — I was juggling a bunch of different things.", pt:"Reuniões, e-mails, prazos — malabarando um monte de coisas."},
+    {en:"Kids, work, and the house — I'm juggling a bunch of different things lately.", pt:"Filhos, trabalho e casa — ando malabarando várias coisas ultimamente."}
+  ]},
+  {frase:"It felt like one thing after another.", categoria:'ocupado', significado:"Foi um problema atrás do outro", nuance:"Tom mais negativo — sensação de que nunca acabava.", exemplos:[
+    {en:"First the car, then the internet — it felt like one thing after another.", pt:"Primeiro o carro, depois a internet — foi uma coisa atrás da outra."},
+    {en:"It felt like one thing after another, I never caught a break.", pt:"Foi um problema atrás do outro, não tive uma folga sequer."}
+  ]},
+  {frase:"I barely had time to breathe.", categoria:'ocupado', significado:"Mal tive tempo de respirar", nuance:"Muito dramático e expressivo — dia absolutamente sem pausa.", exemplos:[
+    {en:"Back-to-back meetings — I barely had time to breathe.", pt:"Reunião atrás de reunião — mal tive tempo de respirar."},
+    {en:"I barely had time to breathe between calls today.", pt:"Mal tive tempo de respirar entre as ligações hoje."}
+  ]},
+  {frase:"I spent most of my day running errands.", categoria:'ocupado', significado:"Passei a maior parte do dia fazendo tarefas externas", nuance:'"Errands" = tarefas fora de casa: mercado, banco, correio, consultas.', exemplos:[
+    {en:"Bank, pharmacy, groceries — I spent most of my day running errands.", pt:"Banco, farmácia, mercado — passei a maior parte do dia fazendo tarefas."},
+    {en:"I spent most of my day running errands before the trip.", pt:"Passei a maior parte do dia resolvendo coisas antes da viagem."}
+  ]},
+  {frase:"I was chasing my kids around all day.", categoria:'ocupado', significado:"Fiquei correndo atrás das crianças o dia todo", nuance:"Humorístico — dito por pais com filhos pequenos e ativos.", exemplos:[
+    {en:"They wouldn't stop running — I was chasing my kids around all day.", pt:"Eles não paravam de correr — fiquei correndo atrás das crianças o dia todo."},
+    {en:"No nap today, so I was chasing my kids around all day.", pt:"Sem soneca hoje, então fiquei correndo atrás das crianças o dia todo."}
+  ]},
+  {frase:"It was one of those non-stop days.", categoria:'ocupado', significado:"Foi um daqueles dias sem pausa", nuance:'"Non-stop" = sem parar. Às vezes dito apenas: "It was non-stop."', exemplos:[
+    {en:"From the moment I woke up — it was one of those non-stop days.", pt:"Desde que acordei — foi um daqueles dias sem parar."},
+    {en:"It was non-stop, I didn't even sit down for lunch.", pt:"Foi sem parar, nem sentei pra almoçar."}
+  ]},
+  {frase:"It drained my energy.", categoria:'ocupado', significado:"Me drenou a energia", nuance:'Pode ser "it drained me" — dia estressante ou emocionalmente pesado.', exemplos:[
+    {en:"That meeting drained my energy completely.", pt:"Aquela reunião me drenou completamente."},
+    {en:"The heat and the traffic — it drained my energy today.", pt:"O calor e o trânsito — isso me drenou hoje."}
+  ]},
+  {frase:"Honestly, it was kind of exhausting.", categoria:'ocupado', significado:"Pra ser honesto, foi meio cansativo", nuance:'O "kind of" suaviza — não está reclamando excessivamente, só sendo honesto.', exemplos:[
+    {en:"Honestly, it was kind of exhausting, I need to rest.", pt:"Sinceramente, foi meio cansativo, preciso descansar."},
+    {en:"Honestly, it was kind of exhausting but rewarding.", pt:"Sinceramente, foi meio cansativo mas gratificante."}
+  ]},
+  {frase:"It was busier than I expected.", categoria:'ocupado', significado:"Foi mais corrido do que eu esperava", nuance:"Neutro — simplesmente não esperava essa quantidade de coisas.", exemplos:[
+    {en:"I thought Friday would be calm, but it was busier than I expected.", pt:"Achei que sexta seria calma, mas foi mais corrido do que eu esperava."},
+    {en:"It was busier than I expected — three unexpected calls.", pt:"Foi mais corrido do que eu esperava — três ligações inesperadas."}
+  ]},
+  {frase:"I didn't get as much done as I hoped.", categoria:'melhorar', significado:"Não consegui fazer tudo que queria", nuance:"Admite improdutividade sem drama — honesto e maduro.", exemplos:[
+    {en:"Too many interruptions — I didn't get as much done as I hoped.", pt:"Muitas interrupções — não consegui fazer tudo que queria."},
+    {en:"I didn't get as much done as I hoped, but tomorrow's another day.", pt:"Não consegui fazer tudo que queria, mas amanhã é outro dia."}
+  ]},
+  {frase:"I was just trying to stay on top of everything.", categoria:'melhorar', significado:"Estava só tentando manter tudo organizado", nuance:"Implica que estava difícil de controlar, mas você estava tentando.", exemplos:[
+    {en:"With so many deadlines, I was just trying to stay on top of everything.", pt:"Com tantos prazos, eu só estava tentando manter tudo sob controle."},
+    {en:"I was just trying to stay on top of everything, and I barely managed.", pt:"Eu só estava tentando dar conta de tudo, e mal consegui."}
+  ]},
+  {frase:"I needed a break by the end of it.", categoria:'melhorar', significado:"Precisava de uma pausa no final do dia", nuance:"Descreve como você se sentiu no final — válido para dias longos mas não necessariamente ruins.", exemplos:[
+    {en:"Long shift — I needed a break by the end of it.", pt:"Turno longo — precisei de uma pausa no final."},
+    {en:"It was a good day, but I needed a break by the end of it.", pt:"Foi um bom dia, mas precisei de uma pausa no final."}
+  ]},
+  {frase:"I had a few detours.", categoria:'melhorar', significado:"Tive alguns desvios / aconteceram coisas inesperadas", nuance:'"Detour" = desvio de rota. Pode ser positivo (algo divertido e inesperado) ou neutro.', exemplos:[
+    {en:"The plan changed a bit — I had a few detours.", pt:"O plano mudou um pouco — tive alguns desvios."},
+    {en:"I had a few detours, but it worked out fine in the end.", pt:"Tive alguns imprevistos, mas no final deu tudo certo."}
+  ]},
+  {frase:"I survived.", categoria:'humor', significado:"Sobrevivi.", nuance:"Humor — usado quando o dia foi muito difícil. Tom de alívio cômico.", exemplos:[
+    {en:"Three exams in one day? I survived.", pt:"Três provas em um dia? Sobrevivi."},
+    {en:"It was chaos, but I survived.", pt:"Foi um caos, mas eu sobrevivi."}
+  ]},
+  {frase:"I'm just glad it's over.", categoria:'humor', significado:"Fico feliz que acabou.", nuance:"Humor + drama — indica que o dia foi difícil, mas você pode sorrir agora que terminou.", exemplos:[
+    {en:"That was rough — I'm just glad it's over.", pt:"Foi difícil — só fico feliz que acabou."},
+    {en:"I'm just glad it's over, tomorrow has to be better.", pt:"Só fico feliz que acabou, amanhã tem que ser melhor."}
+  ]},
+  {frase:"It was a bit stressful.", categoria:'humor', significado:"Foi um pouco estressante", nuance:'Menos humorístico, mas honesto. O "a bit" suaviza a reclamação.', exemplos:[
+    {en:"The deadline was tight — it was a bit stressful.", pt:"O prazo era apertado — foi um pouco estressante."},
+    {en:"It was a bit stressful, but I got through it.", pt:"Foi um pouco estressante, mas eu superei."}
+  ]}
+];
+
+// ── DATA: 18 SITUAÇÕES PARA FLASHCARD ─────────────────────────────────────────
+const SITUACOES = [
+  {situacao:"Você teve um dia cheio de reuniões e problemas, mas resolveu tudo. O que você diz?", respostas:["I was putting out fires all day.", "I got a lot done today.", "I felt really on top of it today."]},
+  {situacao:"Foi um dia completamente normal, sem nada de especial acontecendo.", respostas:["It was pretty uneventful.", "Same old, same old.", "Not too bad, actually."]},
+  {situacao:"Você ficou super ocupado cuidando dos seus filhos pequenos o dia inteiro.", respostas:["I was chasing my kids around all day.", "I barely had time to breathe."]},
+  {situacao:"O dia começou péssimo, mas foi melhorando aos poucos.", respostas:["It started out rough but it got better."]},
+  {situacao:"Você passou o dia inteiro fazendo tarefas fora de casa — banco, mercado, farmácia.", respostas:["I spent most of my day running errands."]},
+  {situacao:"O dia foi tão bom e divertido que você nem percebeu o tempo passar.", respostas:["It went by really fast.", "It flew by before I knew it."]},
+  {situacao:"Foi um dia difícil e exigente, mas no final você se sentiu orgulhoso do resultado.", respostas:["It was challenging but worth it.", "Long day but a good one."]},
+  {situacao:"Você teve que lidar com muitas coisas diferentes ao mesmo tempo, quase sem parar.", respostas:["I was juggling a bunch of different things.", "It was one of those non-stop days."]},
+  {situacao:"Cada problema que você resolvia, surgia outro logo em seguida — parecia não ter fim.", respostas:["It felt like one thing after another."]},
+  {situacao:"Você finalmente conseguiu terminar tarefas que estavam pendentes há um tempo.", respostas:["I finally checked a few things off my list."]},
+  {situacao:"O dia foi mais corrido do que você imaginava que seria.", respostas:["It was busier than I expected."]},
+  {situacao:"Você está admitindo, de forma honesta, que não fez tudo o que planejava.", respostas:["I didn't get as much done as I hoped.", "I was just trying to stay on top of everything."]},
+  {situacao:"No fim de um dia longo, tudo que você queria era uma pausa.", respostas:["I needed a break by the end of it.", "It drained my energy."]},
+  {situacao:"Algumas coisas inesperadas aconteceram no meio do seu dia, mudando os planos.", respostas:["I had a few detours."]},
+  {situacao:"O dia foi tão puxado que você só quer fazer piada sobre ter conseguido chegar até o fim.", respostas:["I survived.", "I'm just glad it's over."]},
+  {situacao:"Foi um dia com bastante pressão e prazo apertado, de forma honesta mas sem drama.", respostas:["It was a bit stressful.", "Honestly, it was kind of exhausting."]},
+  {situacao:"Você não sabe bem por quê, mas acordou e ficou feliz o dia inteiro sem motivo especial.", respostas:["I was in a really good mood all day."]},
+  {situacao:"Alguém pergunta como foi seu dia e você responde de forma educada e humilde que tudo esteve bem o suficiente.", respostas:["I can't complain."]}
+];
+
+// ── DATA: VOCABULÁRIO E ARMADILHAS ────────────────────────────────────────────
+const VOCABULARIO = [
+  {en:'uneventful', pt:'sem eventos / sem novidades', nota:'"an uneventful day" = dia normal, sem nada de especial'},
+  {en:'pretty (intensifier)', pt:'bastante / meio', nota:'uso coloquial: "pretty good" = bem bom; não é sobre beleza aqui'},
+  {en:'actually', pt:'na verdade', nota:'usado para corrigir uma expectativa ou surpreender — não é "atualmente"!'},
+  {en:'put out fires', pt:'apagar incêndios / resolver crises', nota:'metáfora do ambiente de trabalho americano'},
+  {en:'juggle', pt:'malabarismo / fazer várias coisas ao mesmo tempo', nota:'"juggling tasks" = tentando dar conta de tudo'},
+  {en:'errands', pt:'recados / tarefas do dia a dia fora de casa', nota:'mercado, banco, correio, farmácia — tudo é "errand"'},
+  {en:'non-stop', pt:'sem parar / incessante', nota:'"It was non-stop" = não parei um segundo'},
+  {en:'drain', pt:'drenar / esgotar energia', nota:'"it drained me" = me deixou sem energia'},
+  {en:'check off (a list)', pt:'riscar / marcar como feito', nota:'"check things off my list" = marcar na lista de afazeres'},
+  {en:'rough', pt:'difícil / turbulento', nota:'"a rough start" = começo difícil; "rough day" = dia ruim'},
+  {en:'on top of it / on top of everything', pt:'por cima / no controle', nota:'"I felt on top of it" = senti que controlava tudo'},
+  {en:'detour', pt:'desvio / surpresa no percurso', nota:'literal: desvio de rota. Figurativo: coisa inesperada no dia'},
+  {en:'stay on top of', pt:'manter o controle de', nota:'"trying to stay on top of everything" = tentando não perder controle'},
+  {en:'worth it', pt:'valeu a pena', nota:'"it was worth it" = valeu o esforço'},
+  {en:'flew by', pt:'passou voando', nota:'"it flew by" = o tempo passou rápido'}
+];
+
+const ARMADILHAS = [
+  {en:'"Actually"', pt:'Erro comum: "Atualmente"', nota:'Correto: "Na verdade" — "actually" NUNCA significa "currently/nowadays"'},
+  {en:'"Pretty"', pt:'Erro comum: "Bonito"', nota:'Correto: Intensificador coloquial: "pretty good" = bem bom'},
+  {en:'"Rough"', pt:'Erro comum: Palavra desconhecida', nota:'Correto: Difícil / turbulento: "rough day", "rough start"'},
+  {en:'"Errands"', pt:'Erro comum: Sem equivalente direto', nota:'Correto: Tarefas cotidianas fora de casa (mercado, banco, etc.)'},
+  {en:'"Kind of"', pt:'Erro comum: "Tipo de"', nota:'Correto: Suavizador: "kind of exhausting" = meio cansativo'},
+  {en:'"Drain"', pt:'Erro comum: Ralo do banheiro', nota:'Correto: Drenar energia: "it drained me" = me esgotou'}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's18_progresso';
+let state = {
+  modo: 'aprender',
+  filtro: 'todos',
+  subTab: 0,
+  flashIndex: 0,
+  flashAcertos: 0,
+  flashErros: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelAprender').classList.toggle('hidden', modo !== 'aprender');
+  document.getElementById('panelPraticar').classList.toggle('hidden', modo !== 'praticar');
+  document.getElementById('panelVocabulario').classList.toggle('hidden', modo !== 'vocabulario');
+  if (modo === 'aprender') renderAprender();
+  if (modo === 'praticar') renderFlash();
+  if (modo === 'vocabulario') renderVocabulario();
+}
+
+// ── MODO 1 — APRENDER ────────────────────────────────────────────────────────
+function renderFilterStrip() {
+  const allBtn = `<button class="filter-btn ${state.filtro === 'todos' ? 'on' : ''}" onclick="setFiltro('todos')">Todos</button>`;
+  const catBtns = CATEGORIAS.map(c => `<button class="filter-btn ${state.filtro === c.key ? 'on' : ''}" onclick="setFiltro('${c.key}')">${c.icon} ${c.label}</button>`).join('');
+  document.getElementById('filterStrip').innerHTML = allBtn + catBtns;
+}
+
+function setFiltro(key) {
+  state.filtro = key;
+  saveState();
+  renderAprender();
+}
+
+function renderAprender() {
+  renderFilterStrip();
+  const lista = state.filtro === 'todos' ? RESPOSTAS : RESPOSTAS.filter(r => r.categoria === state.filtro);
+
+  document.getElementById('respGrid').innerHTML = lista.map((r, idx) => {
+    const cat = CATEGORIAS.find(c => c.key === r.categoria);
+    const cardId = `card-${idx}-${r.categoria}`;
+    return `
+      <div class="resp-card">
+        <div class="resp-card-body">
+          <span class="resp-badge">${cat.icon} ${cat.label}</span>
+          <div class="resp-frase">${r.frase}</div>
+          <div class="resp-significado">${r.significado}</div>
+          <div class="resp-nuance">${r.nuance}</div>
+        </div>
+        <button class="resp-toggle" onclick="toggleResp('${cardId}', this)">
+          <span>Ver mais</span><span class="resp-toggle-arrow">▾</span>
+        </button>
+        <div class="resp-exemplos" id="${cardId}">
+          <div class="resp-exemplos-inner">
+            ${r.exemplos.map(ex => `
+              <div class="exemplo-item">
+                <div class="exemplo-en">${ex.en}</div>
+                <div class="exemplo-pt">${ex.pt}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleResp(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('span').textContent = open ? 'Ver menos' : 'Ver mais';
+}
+
+// ── MODO 2 — PRATICAR (FLASHCARD) ───────────────────────────────────────────
+let flashFlipped = false;
+
+function renderFlash() {
+  flashFlipped = false;
+  updateFlashStats();
+
+  if (state.flashIndex >= SITUACOES.length) {
+    document.getElementById('flashArea').innerHTML = `
+      <div class="flash-done">
+        <div class="flash-done-title">💬 Você revisou todas as 18 situações!</div>
+        <div class="flash-done-sub">${state.flashAcertos} de ${SITUACOES.length} você já sabia de cara.</div>
+        <button class="flash-restart" onclick="restartFlash()">↻ Praticar novamente</button>
+      </div>
+    `;
+    return;
+  }
+
+  const s = SITUACOES[state.flashIndex];
+  document.getElementById('flashArea').innerHTML = `
+    <div class="flash-card" id="flashCardEl" onclick="flipFlash()">
+      <div class="flash-tag">Situação</div>
+      <div class="flash-front">${s.situacao}</div>
+      <div class="flash-hint">👆 Toque para virar</div>
+      <div class="flash-back">
+        ${s.respostas.map(fraseTexto => {
+          const r = RESPOSTAS.find(x => x.frase === fraseTexto);
+          const cat = CATEGORIAS.find(c => c.key === r.categoria);
+          return `
+            <div class="flash-resp-item">
+              <div class="flash-resp-cat">${cat.icon} ${cat.label}</div>
+              <div class="flash-resp-frase">${r.frase}</div>
+              <div class="flash-resp-sig">${r.significado}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+    <div class="flash-actions">
+      <button class="flash-btn bad" id="flashBadBtn" onclick="markFlash(false)" disabled>✗ Não sabia</button>
+      <button class="flash-btn ok" id="flashOkBtn" onclick="markFlash(true)" disabled>✓ Sabia!</button>
+    </div>
+  `;
+}
+
+function flipFlash() {
+  flashFlipped = true;
+  document.getElementById('flashCardEl').classList.add('flip');
+  document.getElementById('flashBadBtn').disabled = false;
+  document.getElementById('flashOkBtn').disabled = false;
+}
+
+function markFlash(soube) {
+  if (!flashFlipped) return;
+  if (soube) state.flashAcertos++; else state.flashErros++;
+  state.flashIndex++;
+  saveState();
+  renderFlash();
+}
+
+function restartFlash() {
+  state.flashIndex = 0;
+  state.flashAcertos = 0;
+  state.flashErros = 0;
+  saveState();
+  renderFlash();
+}
+
+function updateFlashStats() {
+  document.getElementById('flashOkN').textContent = state.flashAcertos;
+  document.getElementById('flashBadN').textContent = state.flashErros;
+  document.getElementById('flashPosN').textContent = Math.min(state.flashIndex + 1, SITUACOES.length) + '/' + SITUACOES.length;
+  document.getElementById('progFill').style.width = (Math.min(state.flashIndex, SITUACOES.length) / SITUACOES.length * 100) + '%';
+}
+
+// ── MODO 3 — VOCABULÁRIO ─────────────────────────────────────────────────────
+function setSubTab(i) {
+  state.subTab = i;
+  saveState();
+  renderVocabulario();
+}
+
+function renderVocabulario() {
+  document.getElementById('subTab0').classList.toggle('on', state.subTab === 0);
+  document.getElementById('subTab1').classList.toggle('on', state.subTab === 1);
+
+  if (state.subTab === 0) {
+    document.getElementById('vocabTableWrap').innerHTML = `
+      <table class="v-table">
+        <thead><tr><th>Inglês</th><th>Português</th><th>Nota importante</th></tr></thead>
+        <tbody>
+          ${VOCABULARIO.map(v => `
+            <tr>
+              <td class="en-cell">${v.en}</td>
+              <td class="pt-cell">${v.pt}</td>
+              <td class="nota-cell">${v.nota}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } else {
+    document.getElementById('vocabTableWrap').innerHTML = `
+      <table class="v-table">
+        <thead><tr><th>Armadilha</th><th>Erro BR</th><th>Correto</th></tr></thead>
+        <tbody>
+          ${ARMADILHAS.map(a => `
+            <tr class="armadilha">
+              <td class="en-cell">${a.en}</td>
+              <td class="pt-cell">${a.pt}</td>
+              <td class="nota-cell">${a.nota}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

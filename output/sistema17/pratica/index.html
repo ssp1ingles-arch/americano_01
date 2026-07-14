@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prática · Super Sentences · Sistema 17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s17:#0EA5E9;--s17d:#0369A1;--s17l:#E0F2FE;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s17);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s17);color:#fff;}
+
+.wrap{padding-top:170px;max-width:920px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+/* ===== MODO 1 — EXPANDIR ===== */
+.story-picker{display:flex;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.story-btn{flex:1;min-width:220px;background:var(--sf);border:1px solid var(--bd);border-radius:.8rem;padding:.85rem 1.1rem;cursor:pointer;transition:all .18s;text-align:left;font-family:'Space Grotesk',sans-serif;}
+.story-btn:hover{border-color:var(--bdh);}
+.story-btn.on{border-color:var(--s17);background:rgba(14,165,233,.1);box-shadow:0 0 14px rgba(14,165,233,.18);}
+.story-btn-title{font-size:.85rem;font-weight:800;color:var(--tx);}
+.story-btn.on .story-btn-title{color:var(--s17);}
+.story-btn-theme{font-size:.7rem;color:var(--td);margin-top:.2rem;}
+
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.75rem;padding:.85rem 1.1rem;margin-bottom:1.2rem;}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}
+.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+.prog-num{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:800;color:var(--s17);}
+.prog-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--s17),#38bdf8);border-radius:3px;transition:width .5s ease;}
+
+.sentence-card{background:var(--sf);border:1px solid var(--bd);border-radius:1.2rem;overflow:hidden;}
+.sentence-head{padding:2rem 1.75rem 1.5rem;text-align:center;border-bottom:1px solid var(--bd);}
+.sentence-text{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.05rem,3.2vw,1.4rem);font-weight:700;line-height:1.75;color:var(--tx);}
+.sentence-text .nova{background:var(--s17l);color:var(--s17d);padding:.1rem .35rem;border-radius:.3rem;font-weight:800;}
+
+.sentence-body{padding:1.4rem 1.75rem 1.6rem;}
+.expl-card{background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.22);border-radius:.8rem;padding:1rem 1.15rem;}
+.expl-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--s17);margin-bottom:.5rem;}
+.expl-text{font-size:.88rem;line-height:1.6;color:var(--tx);margin-bottom:.65rem;}
+.expl-padrao{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--s17d);background:var(--s17l);padding:.3rem .75rem;border-radius:2rem;}
+
+.celebra-card{text-align:center;padding:1rem 0 .5rem;}
+.celebra-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;color:var(--s17);margin-bottom:.5rem;}
+.celebra-sub{font-size:.85rem;color:var(--tm);margin-bottom:1.1rem;}
+.celebra-btn{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1.4rem;border-radius:.6rem;border:none;background:var(--s17);color:#fff;cursor:pointer;}
+.celebra-btn:hover{filter:brightness(1.1);}
+
+.learn-nav{display:flex;gap:.6rem;margin-top:1.2rem;}
+.nav-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.nav-btn:hover:not(:disabled){border-color:var(--bdh);color:var(--tx);}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+.nav-btn.primary{background:var(--s17);color:#fff;border:none;}
+.nav-btn.primary:hover{filter:brightness(1.1);}
+
+@media(max-width:620px){
+  .learn-nav{position:fixed;bottom:0;left:0;right:0;z-index:150;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom));margin-top:0;}
+  .wrap{padding-bottom:5.5rem;}
+}
+
+/* ===== MODO 2 — VOCABULÁRIO ===== */
+.vocab-tabs{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.vocab-tab{flex:1;min-width:200px;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.7rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;}
+.vocab-tab:hover{border-color:var(--bdh);color:var(--tx);}
+.vocab-tab.on{border-color:var(--s17);background:rgba(14,165,233,.1);color:var(--s17);}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.vocab-table{width:100%;min-width:560px;border-collapse:collapse;}
+.vocab-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.vocab-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.vocab-table tr:last-child td{border-bottom:none;}
+.vocab-table tr:hover td{background:rgba(255,255,255,.02);}
+.vocab-table tr.coloquial td{background:rgba(14,165,233,.05);}
+.vocab-table tr.coloquial .en-cell{color:var(--s17);}
+.en-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);min-width:190px;}
+.coloquial-badge{display:inline-block;font-size:.56rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--s17d);background:var(--s17l);padding:.15rem .5rem;border-radius:2rem;margin-left:.4rem;vertical-align:middle;}
+.pt-cell{color:var(--tm);min-width:150px;}
+.nota-cell{color:var(--td);min-width:180px;}
+
+/* ===== MODO 3 — PADRÕES GRAMATICAIS ===== */
+.padroes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+.padrao-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.3rem 1.4rem;}
+.padrao-tag{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;color:var(--s17d);background:var(--s17l);padding:.4rem .9rem;border-radius:.6rem;margin-bottom:.9rem;}
+.padrao-sec{margin-bottom:.8rem;}
+.padrao-sec-label{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.35rem;}
+.padrao-exemplo{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:.5rem;padding:.6rem .8rem;}
+.padrao-funcao{font-size:.85rem;color:var(--tm);}
+.padrao-mini{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.padrao-mini li{font-size:.8rem;color:var(--tm);padding-left:1.1rem;position:relative;line-height:1.5;}
+.padrao-mini li::before{content:'→';position:absolute;left:0;color:var(--s17);}
+
+@media(max-width:720px){
+  .padroes-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 17</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">📈 Prática</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-modo="expandir" onclick="setModo('expandir')">Expandir</button>
+        <button class="tab-btn" data-modo="vocabulario" onclick="setModo('vocabulario')">Vocabulário</button>
+        <button class="tab-btn" data-modo="padroes" onclick="setModo('padroes')">Padrões Gramaticais</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODO 1 — EXPANDIR -->
+  <div class="panel" id="panelExpandir">
+    <div class="story-picker" id="storyPicker"></div>
+    <div class="prog-card">
+      <div class="prog-header">
+        <span class="prog-title">Progresso</span>
+        <span class="prog-num" id="progNum">Nível 1 de 10</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:10%"></div></div>
+    </div>
+    <div class="sentence-card" id="sentenceCard"></div>
+    <div class="learn-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevLevel()">← Nível Anterior</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="nextLevel()">Próximo Nível →</button>
+    </div>
+  </div>
+
+  <!-- MODO 2 — VOCABULÁRIO -->
+  <div class="panel hidden" id="panelVocabulario">
+    <div class="vocab-tabs">
+      <button class="vocab-tab on" id="vocabTab0" onclick="setVocabTab(0)">💰 Finanças & Vocabulário</button>
+      <button class="vocab-tab" id="vocabTab1" onclick="setVocabTab(1)">💼 Carreira & Emoções</button>
+    </div>
+    <div class="table-wrap">
+      <table class="vocab-table">
+        <thead><tr><th>Inglês</th><th>Português</th><th>Nota importante</th></tr></thead>
+        <tbody id="vocabTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODO 3 — PADRÕES GRAMATICAIS -->
+  <div class="panel hidden" id="panelPadroes">
+    <div class="padroes-grid" id="padroesGrid"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: 2 HISTÓRIAS × 10 NÍVEIS ─────────────────────────────────────────────
+const STORIES = [
+  {
+    icon: '📊', titulo: 'História 1 — O Homem e o Banco', tema: 'Finanças pessoais',
+    partes: [
+      {sep:'', texto:'A man opens a bank account', explicacao:'Base da frase: sujeito + verbo + objeto.', padrao:'Sujeito + Verbo + Objeto'},
+      {sep:' ', texto:'to save money', explicacao:'Propósito — por que ele abre a conta.', padrao:'to + infinitivo'},
+      {sep:' ', texto:'for his future', explicacao:'Para quem / para quê — o motivo específico por trás da economia.', padrao:'for + noun'},
+      {sep:' ', texto:'and plans to invest', explicacao:'Segunda ação paralela — o que mais ele planeja fazer.', padrao:'and + verb'},
+      {sep:' ', texto:'in the stock market', explicacao:'Onde ele vai investir.', padrao:'in + noun (lugar)'},
+      {sep:' ', texto:'to grow his wealth', explicacao:'Segundo propósito — o motivo do investimento.', padrao:'to + infinitivo'},
+      {sep:' ', texto:'and achieve financial stability', explicacao:'Segundo objetivo financeiro, em paralelo ao primeiro.', padrao:'and + verb'},
+      {sep:' ', texto:'while also setting aside funds for emergencies', explicacao:'Ação simultânea — o que ele faz ao mesmo tempo.', padrao:'while + -ing'},
+      {sep:', ', texto:'recognizing that a solid financial foundation is key to long-term success', explicacao:'Reconhecimento/consciência sobre a importância do que está fazendo.', padrao:'recognizing that...'},
+      {sep:' ', texto:'and peace of mind', explicacao:'Benefício emocional final — o resultado humano de tudo isso.', padrao:'and + noun'}
+    ]
+  },
+  {
+    icon: '💼', titulo: 'História 2 — A Entrevista', tema: 'Carreira e emoções',
+    partes: [
+      {sep:'', texto:'A woman heads to a big job interview', explicacao:'Base da frase: sujeito + verbo + objeto.', padrao:'Sujeito + Verbo + Objeto'},
+      {sep:' ', texto:'in the middle of downtown Denver', explicacao:'Localização — onde fica a entrevista.', padrao:'in the middle of + lugar'},
+      {sep:' ', texto:'feeling a bit nervous', explicacao:'Emoção — como ela se sente.', padrao:'feeling + adj'},
+      {sep:' ', texto:'but excited at the same time', explicacao:'Emoção contrastante — outro sentimento ao mesmo tempo.', padrao:'but + adj'},
+      {sep:', ', texto:'wearing her best outfit', explicacao:'Detalhe visual — o que ela está vestindo.', padrao:'wearing + noun'},
+      {sep:' and ', texto:'hoping to land the position she has been working toward for years', explicacao:'Esperança/objetivo — o que ela espera conseguir.', padrao:'hoping to + infinitivo'},
+      {sep:', ', texto:'after spending weeks carefully preparing her resume and practicing her answers', explicacao:'Contexto temporal anterior — o que ela fez antes.', padrao:'after + -ing'},
+      {sep:', ', texto:'knowing that this opportunity could change the course of her career', explicacao:'Consciência do momento — o que está em jogo.', padrao:'knowing that...'},
+      {sep:' and ', texto:'potentially allow her to achieve the financial independence she has always dreamed of', explicacao:'Consequência potencial — o que isso pode significar no futuro.', padrao:'and potentially allow...'},
+      {sep:', ', texto:'making every step toward that office feel like a step toward her future', explicacao:'Encerramento poético — a imagem final da cena.', padrao:'making every... feel like...'}
+    ]
+  }
+];
+
+// ── DATA: VOCABULÁRIO (2 TABS) ────────────────────────────────────────────────
+const VOCAB_TABS = [
+  { nome: 'Finanças & Vocabulário', itens: [
+    {en:'open a bank account', pt:'abrir uma conta bancária', nota:'"open" não é "criar" — é "abrir" uma conta'},
+    {en:'save money', pt:'economizar dinheiro', nota:'"save" = economizar E salvar (contexto define)'},
+    {en:'save up', pt:'juntar dinheiro / guardar', nota:'mais coloquial que "save money"'},
+    {en:'invest', pt:'investir', nota:'"plans to invest" = planeja investir'},
+    {en:'in the stock market', pt:'na bolsa de valores', nota:'stock market = bolsa; stocks = ações'},
+    {en:'grow his wealth', pt:'aumentar seu patrimônio', nota:'"grow" aqui = aumentar, não "crescer"'},
+    {en:'achieve', pt:'alcançar / conquistar', nota:'achieve = ter sucesso em algo concreto'},
+    {en:'financial stability', pt:'estabilidade financeira', nota:'stability = estabilidade (cognata!)'},
+    {en:'financial instability', pt:'instabilidade financeira', nota:'prefixo "in-" = negação'},
+    {en:'precarious', pt:'precário / incerto / arriscado', nota:'"a precarious situation" = situação instável/perigosa'},
+    {en:'set aside funds', pt:'separar / reservar dinheiro', nota:'set aside = guardar de lado para uso futuro'},
+    {en:'emergency fund', pt:'reserva de emergência', nota:'fundo de emergência — muito comum em finanças pessoais'},
+    {en:'a mouthful', pt:'algo difícil de falar', nota:'"that\'s quite a mouthful" = difícil de pronunciar/dizer', coloquial:true},
+    {en:'give yourself a pat on the back', pt:'se parabenizar', nota:'"pat on the back" = tapinha nas costas = reconhecimento', coloquial:true},
+    {en:'long-term', pt:'de longo prazo', nota:'opp. de "short-term"'},
+    {en:'peace of mind', pt:'paz de espírito', nota:'tranquilidade emocional — muito usado'}
+  ]},
+  { nome: 'Carreira & Emoções', itens: [
+    {en:'head to', pt:'ir para / se dirigir a', nota:'mais dinâmico que "go to" — implica movimento com propósito', coloquial:true},
+    {en:'a big job interview', pt:'uma entrevista importante', nota:'"big" = importante aqui, não tamanho'},
+    {en:'in the heart of the city', pt:'no coração da cidade', nota:'= in the center / downtown'},
+    {en:'bustling', pt:'movimentado / agitado', nota:'bustling city = cidade agitada, cheia de vida'},
+    {en:'feel a bit nervous', pt:'ficar um pouco nervoso', nota:'"a bit" = um pouco (informal)'},
+    {en:'anxious', pt:'ansioso / apreensivo', nota:'mais forte que "nervous" — quase com medo'},
+    {en:'a tad / a touch', pt:'um tantinho / um pouco', nota:'sinônimos de "a bit" — muito coloquiais'},
+    {en:'a mixed bag of emotions', pt:'uma mistura de emoções', nota:'"mixed bag" = mistura de coisas boas e ruins', coloquial:true},
+    {en:'conflicting emotions', pt:'emoções conflitantes', nota:'sentimentos que se contradizem'},
+    {en:'level up', pt:'subir de nível', nota:'muito usado fora dos games — avançar na carreira'},
+    {en:'land the position', pt:'conseguir a vaga / o emprego', nota:'"land" = conseguir (trabalho, contrato)', coloquial:true},
+    {en:'work toward', pt:'trabalhar em direção a / construir', nota:'work toward a goal = trabalhar por um objetivo'},
+    {en:'financial independence', pt:'independência financeira', nota:'não precisar de ninguém para se sustentar'},
+    {en:'the course of her career', pt:'os rumos da sua carreira', nota:'"course" = trajetória, direção'},
+    {en:'intimidating', pt:'intimidador / assustador', nota:'algo que te faz sentir pequeno'}
+  ]}
+];
+
+// ── DATA: PADRÕES GRAMATICAIS ─────────────────────────────────────────────────
+const PADROES = [
+  {padrao:'to + infinitivo', exemplo:'to save money / to invest', funcao:'Propósito / finalidade — indica o objetivo de uma ação.', minis:['I called to ask about the price.','She left early to catch the bus.','We\'re saving to buy a house.']},
+  {padrao:'for + noun', exemplo:'for his future / for emergencies', funcao:'Para quem ou para quê — indica destinatário ou finalidade.', minis:['This gift is for my mother.','He worked hard for a better future.','I saved money for emergencies.']},
+  {padrao:'and + verb', exemplo:'and plans to invest', funcao:'Ação paralela — adiciona uma segunda ação ao mesmo sujeito.', minis:['He wakes up and goes for a run.','She studies and works part-time.','They talked and laughed all night.']},
+  {padrao:'while + -ing', exemplo:'while also setting aside', funcao:'Ação simultânea — algo que acontece ao mesmo tempo.', minis:['I listen to podcasts while cooking.','She called me while driving.','He fell asleep while watching TV.']},
+  {padrao:'feeling + adj', exemplo:'feeling a bit nervous', funcao:'Estado emocional durante a ação.', minis:['I woke up feeling tired.','He walked in feeling confident.','She left the exam feeling relieved.']},
+  {padrao:'but + adj', exemplo:'but excited at the same time', funcao:'Contraste de emoções — dois sentimentos ao mesmo tempo.', minis:['The trip was long but rewarding.','He\'s strict but fair.','It\'s small but comfortable.']},
+  {padrao:'after + -ing', exemplo:'after spending weeks preparing', funcao:'Contexto temporal anterior — o que aconteceu antes.', minis:['After finishing the report, she went home.','He felt better after resting.','We celebrated after winning the game.']},
+  {padrao:'knowing that...', exemplo:'knowing that this could change...', funcao:'Consciência/percepção durante a ação.', minis:['I stayed calm, knowing that everything would be fine.','She smiled, knowing that she had done her best.','He left early, knowing that traffic would be heavy.']},
+  {padrao:'hoping to + inf', exemplo:'hoping to land the position', funcao:'Esperança/objetivo — o que a pessoa deseja alcançar.', minis:['I applied for the job, hoping to get an interview.','She trained every day, hoping to make the team.','They saved money, hoping to travel next year.']}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's17_progresso';
+let state = {
+  modo: 'expandir',
+  historiaAtual: 0,
+  nivelAtual: 1,
+  vocabTab: 0
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── MODE SWITCHING ────────────────────────────────────────────────────────────
+function setModo(modo) {
+  state.modo = modo;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.modo === modo));
+  document.getElementById('panelExpandir').classList.toggle('hidden', modo !== 'expandir');
+  document.getElementById('panelVocabulario').classList.toggle('hidden', modo !== 'vocabulario');
+  document.getElementById('panelPadroes').classList.toggle('hidden', modo !== 'padroes');
+  if (modo === 'expandir') renderExpandir();
+  if (modo === 'vocabulario') renderVocabulario();
+  if (modo === 'padroes') renderPadroes();
+}
+
+// ── MODO 1 — EXPANDIR ────────────────────────────────────────────────────────
+function renderStoryPicker() {
+  document.getElementById('storyPicker').innerHTML = STORIES.map((s, i) => `
+    <div class="story-btn ${i === state.historiaAtual ? 'on' : ''}" onclick="selectStory(${i})">
+      <div class="story-btn-title">${s.icon} ${s.titulo}</div>
+      <div class="story-btn-theme">${s.tema}</div>
+    </div>
+  `).join('');
+}
+
+function selectStory(i) {
+  state.historiaAtual = i;
+  state.nivelAtual = 1;
+  saveState();
+  renderExpandir();
+}
+
+function buildSentence(story, nivel) {
+  let html = '';
+  for (let i = 0; i < nivel; i++) {
+    const p = story.partes[i];
+    if (i === nivel - 1) {
+      html += p.sep + `<span class="nova">${p.texto}</span>`;
+    } else {
+      html += p.sep + p.texto;
+    }
+  }
+  return html + '.';
+}
+
+function renderExpandir() {
+  renderStoryPicker();
+  const story = STORIES[state.historiaAtual];
+  const nivel = state.nivelAtual;
+
+  document.getElementById('progNum').textContent = `Nível ${nivel} de 10`;
+  document.getElementById('progFill').style.width = (nivel / 10 * 100) + '%';
+
+  const parte = story.partes[nivel - 1];
+
+  if (nivel === 10) {
+    document.getElementById('sentenceCard').innerHTML = `
+      <div class="sentence-head">
+        <div class="sentence-text">${buildSentence(story, nivel)}</div>
+      </div>
+      <div class="sentence-body">
+        <div class="expl-card">
+          <div class="expl-label">O que foi acrescentado</div>
+          <div class="expl-text">${parte.explicacao}</div>
+          <span class="expl-padrao">📐 ${parte.padrao}</span>
+        </div>
+        <div class="celebra-card">
+          <div class="celebra-title">🎉 Frase completa!</div>
+          <div class="celebra-sub">Você expandiu do A2 ao C1 nos 10 níveis desta história.</div>
+          <button class="celebra-btn" onclick="setModo('vocabulario')">Ver Vocabulário →</button>
+        </div>
+      </div>
+    `;
+  } else {
+    document.getElementById('sentenceCard').innerHTML = `
+      <div class="sentence-head">
+        <div class="sentence-text">${buildSentence(story, nivel)}</div>
+      </div>
+      <div class="sentence-body">
+        <div class="expl-card">
+          <div class="expl-label">O que foi acrescentado</div>
+          <div class="expl-text">${parte.explicacao}</div>
+          <span class="expl-padrao">📐 ${parte.padrao}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('prevBtn').disabled = nivel === 1;
+  document.getElementById('nextBtn').disabled = nivel === 10;
+  document.getElementById('nextBtn').textContent = nivel === 10 ? 'Nível máximo ✓' : 'Próximo Nível →';
+}
+
+function prevLevel() {
+  if (state.nivelAtual > 1) { state.nivelAtual--; saveState(); renderExpandir(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function nextLevel() {
+  if (state.nivelAtual < 10) { state.nivelAtual++; saveState(); renderExpandir(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ── MODO 2 — VOCABULÁRIO ─────────────────────────────────────────────────────
+function setVocabTab(i) {
+  state.vocabTab = i;
+  saveState();
+  renderVocabulario();
+}
+
+function renderVocabulario() {
+  document.getElementById('vocabTab0').classList.toggle('on', state.vocabTab === 0);
+  document.getElementById('vocabTab1').classList.toggle('on', state.vocabTab === 1);
+
+  const tab = VOCAB_TABS[state.vocabTab];
+  document.getElementById('vocabTableBody').innerHTML = tab.itens.map(item => `
+    <tr class="${item.coloquial ? 'coloquial' : ''}">
+      <td class="en-cell">${item.en}${item.coloquial ? '<span class="coloquial-badge">coloquial</span>' : ''}</td>
+      <td class="pt-cell">${item.pt}</td>
+      <td class="nota-cell">${item.nota}</td>
+    </tr>
+  `).join('');
+}
+
+// ── MODO 3 — PADRÕES GRAMATICAIS ─────────────────────────────────────────────
+function renderPadroes() {
+  document.getElementById('padroesGrid').innerHTML = PADROES.map(p => `
+    <div class="padrao-card">
+      <span class="padrao-tag">${p.padrao}</span>
+      <div class="padrao-sec">
+        <div class="padrao-sec-label">Exemplo da história</div>
+        <div class="padrao-exemplo">${p.exemplo}</div>
+      </div>
+      <div class="padrao-sec">
+        <div class="padrao-sec-label">Função</div>
+        <div class="padrao-funcao">${p.funcao}</div>
+      </div>
+      <div class="padrao-sec">
+        <div class="padrao-sec-label">Mini-exemplos</div>
+        <ul class="padrao-mini">
+          ${p.minis.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setModo(state.modo);
+</script>
+</body>
+</html>

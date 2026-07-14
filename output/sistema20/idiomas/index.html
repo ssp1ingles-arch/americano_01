@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprender Idiomas &amp; Vida no Exterior · Sistema 20</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--rd:#f87171;--gn:#5FD87A;--s20:#6366F1;--s20d:#3730A3;--s20l:#EEF2FF;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;font-size:16px;}
+
+/* LOCAL NAV / BREADCRUMB */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.55rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.nav-back{color:var(--s20);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-sep{color:var(--td);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+
+/* TOPBAR — TABS */
+.topbar{position:fixed;top:96px;left:0;right:0;z-index:90;background:rgba(8,12,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.1rem;}
+.topbar-inner{max-width:920px;margin:0 auto;}
+.tabs-row{display:flex;justify-content:center;}
+.tab-group{display:flex;align-items:center;gap:.2rem;background:var(--sf);border:1px solid var(--bd);border-radius:.6rem;padding:.25rem;flex-wrap:wrap;}
+.tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;padding:.5rem 1.1rem;border-radius:.45rem;border:none;background:none;color:var(--td);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{color:var(--tx);}
+.tab-btn.on{background:var(--s20);color:#fff;}
+
+.wrap{padding-top:170px;max-width:960px;margin:0 auto;padding-left:1.1rem;padding-right:1.1rem;padding-bottom:5rem;}
+.hidden{display:none!important;}
+
+.section-block{margin-bottom:1.8rem;}
+.section-label{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.7rem;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--s20);margin-bottom:.9rem;}
+
+.table-wrap{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:1rem;}
+.i-table{width:100%;min-width:560px;border-collapse:collapse;}
+.i-table th{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--td);text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,.15);}
+.i-table td{padding:.9rem 1rem;border-bottom:1px solid var(--bd);vertical-align:top;font-size:.85rem;line-height:1.55;}
+.i-table tr:last-child td{border-bottom:none;}
+.i-table tr:hover td{background:rgba(255,255,255,.02);}
+.i-table tr.destaque td{background:rgba(99,102,241,.08);border-left:3px solid var(--s20);}
+.i-table tr.destaque .expr-cell{color:var(--s20);}
+.expr-cell{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);min-width:180px;}
+.sig-cell{color:var(--tm);min-width:150px;}
+.ctx-cell{color:var(--td);min-width:220px;}
+
+.i-table tr.armadilha td{border-left:4px solid var(--rd);background:rgba(248,113,113,.05);}
+.i-table tr.armadilha .expr-cell{color:var(--rd);}
+
+@media(max-width:640px){
+  .wrap{padding-top:150px;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('origem')==='jornada'){
+    document.querySelectorAll('a').forEach(function(a){
+      if(a.textContent.indexOf('Menu Principal')!==-1){
+        a.setAttribute('href','../../jornada/index.html');
+        a.textContent='← Jornada';
+      }
+    });
+  }
+});
+</script>
+
+<!-- LOCAL NAV / BREADCRUMB -->
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Início</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 20</a>
+  <span class="nav-sep">/</span>
+  <div class="nav-title">🌍 Aprender Idiomas &amp; Vida no Exterior</div>
+</nav>
+
+<!-- TOPBAR — TABS -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tabs-row">
+      <div class="tab-group" id="tabGroup">
+        <button class="tab-btn on" data-secao="idiomas" onclick="setSecao('idiomas')">Aprendendo Idiomas</button>
+        <button class="tab-btn" data-secao="cultura" onclick="setSecao('cultura')">Vida &amp; Diferenças Culturais</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SEÇÃO 1 — APRENDENDO IDIOMAS -->
+  <div class="panel" id="panelIdiomas">
+    <div class="section-block">
+      <div class="section-title">Vocabulário Real — Aprendendo Idiomas</div>
+      <div class="table-wrap">
+        <table class="i-table">
+          <thead><tr><th>Expressão</th><th>Significado</th><th>Contexto real</th></tr></thead>
+          <tbody id="idiomasTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2 — VIDA & DIFERENÇAS CULTURAIS -->
+  <div class="panel hidden" id="panelCultura">
+    <div class="section-block">
+      <div class="section-title">Vida e Diferenças Culturais (EUA vs. Espanha)</div>
+      <div class="table-wrap">
+        <table class="i-table">
+          <thead><tr><th>Expressão</th><th>Significado</th><th>Exemplo</th></tr></thead>
+          <tbody id="culturaTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">⚠️ Armadilhas para Brasileiros</div>
+      <div class="table-wrap">
+        <table class="i-table">
+          <thead><tr><th>Expressão</th><th>O BR pensa</th><th>A verdade</th></tr></thead>
+          <tbody id="armadilhasTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA: BLOCO 3 — APRENDENDO IDIOMAS ────────────────────────────────────────
+const IDIOMAS = [
+  {expr:"obstacle", sig:"obstáculo — algo difícil de superar", ctx:'"The biggest obstacle when learning a language is the fear of speaking."'},
+  {expr:"prevent", sig:"impedir — bloquear algo de acontecer", ctx:'"It was my own fear that prevented [me from speaking]."'},
+  {expr:"mess up", sig:"errar / estragar / se atrapalhar", ctx:'"I was scared of messing up." / "When I forget I\'m speaking the language, that\'s when I speak the best."'},
+  {expr:"challenge yourself", sig:"se desafiar", ctx:'"Challenge yourself without judgment."', destaque:true},
+  {expr:"without judgment", sig:"sem julgamento", ctx:'"Challenge yourself without judgment." — conselho do marido de Kieran'},
+  {expr:"from scratch", sig:"do zero / sem preparação anterior", ctx:'"You have to cook everything from scratch." (contexto: comida)'},
+  {expr:"one thing led to another", sig:"uma coisa levou a outra", ctx:'"I started taking classes and one thing led to another."'},
+  {expr:"rewarding", sig:"gratificante / recompensador", ctx:'"That\'s also got to be really rewarding." (sobre fazer algo com as mãos)'},
+  {expr:"language exchange", sig:"troca de idiomas", ctx:'"I found someone who wanted to learn English and I wanted to learn Spanish — we would meet and help each other."'},
+  {expr:"mannerisms", sig:"maneirismos / gestos / jeito de falar", ctx:'"He speaks with the Spanish mannerisms — ways of saying things you only learn from watching a native speaker."'},
+  {expr:"absorb", sig:"absorver / assimilar", ctx:'"When your brain is having fun, it learns better. It\'s much easier for it to absorb information."'},
+  {expr:"roller coaster", sig:"montanha-russa", ctx:'"Learning a language — there are good days and bad days and you\'re embarrassed and happy. It\'s a roller coaster."', destaque:true},
+  {expr:"tutor", sig:"professor particular", ctx:'"I got a tutor and was learning Spanish."'},
+  {expr:"fluent", sig:"fluente", ctx:'"Kieran is fluent in Spanish."'}
+];
+
+// ── DATA: BLOCO 4 — VIDA E DIFERENÇAS CULTURAIS ───────────────────────────────
+const CULTURA = [
+  {expr:"off the top of my head", sig:"de primeira / sem pensar muito", ex:'"Off the top of my head, one thing that surprised me was..."'},
+  {expr:"convenient", sig:"conveniente / prático / fácil de acessar", ex:'"Life in Spain is not as convenient as the US."'},
+  {expr:"pre-made", sig:"pronto / pré-preparado", ex:'"It\'s hard to find good pre-made items."'},
+  {expr:"slow down", sig:"desacelerar / ir mais devagar", ex:'"Living here forces you to slow down a lot more."'},
+  {expr:"thoughtful", sig:"atencioso / cuidadoso com os outros", ex:'"Maria is always so thoughtful and cares about everyone around her."'},
+  {expr:"grateful", sig:"grato / agradecido", ex:'"I\'m really, really grateful to have her here."'},
+  {expr:"inexpensive", sig:"barato / econômico (mais educado que \"cheap\")", ex:'"Trader Joe\'s has really inexpensive, good products."'},
+  {expr:"community", sig:"comunidade", ex:'"Maybe there\'s someone in your community you could reach out to."'},
+  {expr:"reach out", sig:"entrar em contato / buscar alguém", ex:'"Reach out to talk to someone in English."'},
+  {expr:"don't get hard on yourself", sig:"não se culpe / não seja duro consigo mesmo", ex:'"Be kind to yourself and keep going."'}
+];
+
+// ── DATA: ARMADILHAS PARA BRASILEIROS ─────────────────────────────────────────
+const ARMADILHAS = [
+  {expr:"used to", pensa:'"usado para"', verdade:'Hábito do passado: "costumava fazer"'},
+  {expr:"get used to", pensa:'mesma coisa que "used to"', verdade:'São diferentes! "get used to" = se acostumar com algo'},
+  {expr:"convenient", pensa:'"conveniente" (aprovado, adequado)', verdade:'Prático / fácil de usar / de acessar — não exatamente "aprovado"'},
+  {expr:"grateful", pensa:'"grato"', verdade:'Correto! Mas "thankful" e "grateful" são sinônimos naturais'},
+  {expr:"obstacle", pensa:'"obstáculo"', verdade:'Correto! Mas em inglês falado soa mais natural que no português'},
+  {expr:"prevent", pensa:'"prevenir"', verdade:'Impedir — não apenas "prevenir" (que pode ser "prevent" ou "avoid")'},
+  {expr:"reward / rewarding", pensa:'"recompensa"', verdade:'Correto — mas "rewarding" (adj.) = gratificante, que compensa'}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 's20_idiomas_progresso';
+let state = { secao: 'idiomas' };
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) Object.assign(state, JSON.parse(raw));
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── SEÇÃO SWITCHING ──────────────────────────────────────────────────────────
+function setSecao(secao) {
+  state.secao = secao;
+  saveState();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('on', b.dataset.secao === secao));
+  document.getElementById('panelIdiomas').classList.toggle('hidden', secao !== 'idiomas');
+  document.getElementById('panelCultura').classList.toggle('hidden', secao !== 'cultura');
+  if (secao === 'idiomas') renderIdiomas();
+  if (secao === 'cultura') renderCultura();
+}
+
+// ── SEÇÃO 1 — APRENDENDO IDIOMAS ─────────────────────────────────────────────
+function renderIdiomas() {
+  document.getElementById('idiomasTableBody').innerHTML = IDIOMAS.map(i => `
+    <tr class="${i.destaque ? 'destaque' : ''}">
+      <td class="expr-cell">${i.expr}</td>
+      <td class="sig-cell">${i.sig}</td>
+      <td class="ctx-cell">${i.ctx}</td>
+    </tr>
+  `).join('');
+}
+
+// ── SEÇÃO 2 — VIDA & DIFERENÇAS CULTURAIS ────────────────────────────────────
+function renderCultura() {
+  document.getElementById('culturaTableBody').innerHTML = CULTURA.map(c => `
+    <tr>
+      <td class="expr-cell">${c.expr}</td>
+      <td class="sig-cell">${c.sig}</td>
+      <td class="ctx-cell">${c.ex}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('armadilhasTableBody').innerHTML = ARMADILHAS.map(a => `
+    <tr class="armadilha">
+      <td class="expr-cell">${a.expr}</td>
+      <td class="sig-cell">${a.pensa}</td>
+      <td class="ctx-cell">${a.verdade}</td>
+    </tr>
+  `).join('');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+setSecao(state.secao);
+</script>
+</body>
+</html>
