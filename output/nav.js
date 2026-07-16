@@ -43,6 +43,15 @@
   }
   var isJornada = path.indexOf('/jornada/') !== -1;
 
+  // ── PROGRESSO: registrar visita ───────────────────────────────────────────
+  // Painel principal (index.html) lê estas chaves para marcar sistemas visitados.
+  try {
+    if (activeSystem) localStorage.setItem(activeSystem + '_visited', 'true');
+    if (isJornada) localStorage.setItem('jornada_visited', 'true');
+  } catch (e) {}
+
+  var activeNum = activeSystem ? parseInt(activeSystem.slice(1), 10) : 0;
+
   // ── CSS ───────────────────────────────────────────────────────────────────
   var css = ''
     + '.site-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:.6rem;}'
@@ -61,7 +70,20 @@
     + '.site-nav-item.active{background:rgba(255,255,255,.05);}'
     + '.site-nav-jornada{font-family:"Space Grotesk",sans-serif;font-size:.74rem;font-weight:700;text-decoration:none;padding:.32rem .85rem;border-radius:.4rem;border:1px solid rgba(255,255,255,.18);color:#fff;background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));transition:all .18s;flex-shrink:0;white-space:nowrap;}'
     + '.site-nav-jornada:hover,.site-nav-jornada.active{border-color:rgba(255,255,255,.32);background:linear-gradient(135deg,rgba(100,223,223,.18),rgba(245,197,24,.13),rgba(167,139,250,.18));}'
-    + '@media(max-width:520px){.site-nav-logo{font-size:.76rem;}.site-nav-menu{left:auto;right:0;min-width:240px;}}';
+    + '@media(max-width:520px){.site-nav-logo{font-size:.76rem;}.site-nav-menu{left:auto;right:0;min-width:240px;}}'
+    // Próximo Passo (prev/next)
+    + '.nav-nextstep{max-width:900px;margin:2.75rem auto 3rem;padding:0 1.25rem;position:relative;z-index:1;}'
+    + '.nav-nextstep-h{font-family:"Space Grotesk",sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6a7390;text-align:center;margin-bottom:1rem;}'
+    + '.nav-nextstep-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}'
+    + '.nav-ns-card{display:flex;flex-direction:column;gap:.25rem;padding:1rem 1.2rem;border-radius:.9rem;border:1px solid rgba(255,255,255,.08);background:#0f1621;text-decoration:none;transition:border-color .2s,transform .2s;min-height:64px;justify-content:center;}'
+    + '.nav-ns-card:hover{border-color:rgba(255,255,255,.24);transform:translateY(-2px);}'
+    + '.nav-ns-card.next{text-align:right;align-items:flex-end;}'
+    + '.nav-ns-dir{font-family:"Space Grotesk",sans-serif;font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6a7390;}'
+    + '.nav-ns-name{font-family:"Space Grotesk",sans-serif;font-size:.9rem;font-weight:700;color:#e4ddd4;line-height:1.25;}'
+    + '@media(max-width:560px){.nav-nextstep-grid{grid-template-columns:1fr;}.nav-ns-card.next{text-align:left;align-items:flex-start;}}'
+    // FAB mobile (jornada)
+    + '.nav-fab{display:none;}'
+    + '@media(max-width:760px){.nav-fab{display:inline-flex;position:fixed;left:14px;bottom:14px;z-index:1050;align-items:center;gap:.4rem;padding:.7rem 1.05rem;border-radius:2rem;background:rgba(15,22,33,.96);border:1px solid rgba(255,255,255,.16);color:#e4ddd4;text-decoration:none;font-family:"Space Grotesk",sans-serif;font-size:.82rem;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.45);min-height:44px;}}';
 
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
@@ -95,6 +117,28 @@
     // Pages that already reserve space for it (padding-top >= 48px) are left untouched.
     var currentPad = parseFloat(window.getComputedStyle(document.body).paddingTop) || 0;
     if (currentPad < 48) document.body.style.paddingTop = '48px';
+
+    // ── PRÓXIMO PASSO (prev/next) — apenas em páginas de sistema ──────────────
+    if (activeNum && !document.querySelector('.nav-nextstep')) {
+      var prevHref, prevName, nextHref, nextName;
+      if (activeNum > 1) { prevHref = SYSTEMS[activeNum - 2].href; prevName = SYSTEMS[activeNum - 2].label; }
+      else { prevHref = base + 'index.html'; prevName = 'Painel Principal'; }
+      if (activeNum < 27) { nextHref = SYSTEMS[activeNum].href; nextName = SYSTEMS[activeNum].label; }
+      else { nextHref = base + 'jornada/index.html'; nextName = 'Jornada Completa'; }
+
+      var nsHTML = '<div class="nav-nextstep">'
+        + '<div class="nav-nextstep-h">Concluiu este sistema? Continue:</div>'
+        + '<div class="nav-nextstep-grid">'
+        + '<a class="nav-ns-card prev" href="' + prevHref + '"><span class="nav-ns-dir">← Anterior</span><span class="nav-ns-name">' + prevName + '</span></a>'
+        + '<a class="nav-ns-card next" href="' + nextHref + '"><span class="nav-ns-dir">Próximo →</span><span class="nav-ns-name">' + nextName + '</span></a>'
+        + '</div></div>';
+      document.body.insertAdjacentHTML('beforeend', nsHTML);
+    }
+
+    // ── FAB "← Painel" (mobile) — na Jornada ──────────────────────────────────
+    if (isJornada && !document.querySelector('.nav-fab')) {
+      document.body.insertAdjacentHTML('beforeend', '<a class="nav-fab" href="' + base + 'index.html">← Painel</a>');
+    }
 
     var trigger = document.getElementById('siteNavTrigger');
     var menu = document.getElementById('siteNavMenu');

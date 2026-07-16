@@ -3,14 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inglês para Brasileiros — Escolha seu Sistema</title>
+<title>Inglês para Brasileiros — Comece por aqui</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--s17:#0EA5E9;--s18:#10B981;--s19:#EC4899;--s20:#6366F1;--s21:#B45309;--s22:#0F766E;--s23:#7C2D12;--s24:#BE123C;--s25:#1E40AF;--s26:#6D28D9;--s27:#047857;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--s17:#0EA5E9;--s18:#10B981;--s19:#EC4899;--s20:#6366F1;--s21:#B45309;--s22:#0F766E;--s23:#7C2D12;--s24:#BE123C;--s25:#1E40AF;--s26:#6D28D9;--s27:#047857;
+  --gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+  /* níveis */
+  --level-init:#10B981;   /* verde — iniciante */
+  --level-inter:#0EA5E9;  /* azul — intermediário */
+  --level-conv:#F5C518;   /* âmbar — conversação */
+  --level-adv:#A78BFA;    /* violeta — avançado */
+}
 *{margin:0;padding:0;box-sizing:border-box;}
-html{height:100%;}
-body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+html{height:100%;scroll-behavior:smooth;scroll-padding-top:72px;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;font-size:16px;padding-top:52px;}
+a{color:inherit;}
 
 /* BG */
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
@@ -20,213 +30,169 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 .p{position:absolute;border-radius:50%;animation:fp linear infinite;}
 @keyframes fp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:.25}100%{transform:translateY(-10vh) scale(1.1);opacity:0}}
 
-/* HEADER */
-.header{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:2.5rem 1.5rem 0;}
-.logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:.45rem;text-decoration:none;}
-.logo-mark{font-size:1.1rem;color:var(--cy);}
+/* ── NAVBAR FIXA ─────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:52px;background:rgba(8,12,20,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;flex-shrink:0;}
+.nav-links{display:flex;align-items:center;gap:.35rem;margin:0 auto;}
+.nav-link{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;color:var(--tm);text-decoration:none;padding:.4rem .8rem;border-radius:.45rem;transition:all .2s;min-height:36px;display:flex;align-items:center;}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06);}
+.nav-badge{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;color:var(--cy);background:rgba(100,223,223,.1);border:1px solid rgba(100,223,223,.28);padding:.32rem .7rem;border-radius:2rem;white-space:nowrap;}
+.nav-burger{display:none;background:none;border:1px solid var(--bd);border-radius:.45rem;color:var(--tx);width:40px;height:40px;font-size:1.1rem;cursor:pointer;align-items:center;justify-content:center;}
+/* drawer */
+.drawer-back{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1099;opacity:0;visibility:hidden;transition:opacity .25s;}
+.drawer-back.open{opacity:1;visibility:visible;}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(78vw,300px);background:#0f1621;border-left:1px solid var(--bd);z-index:1100;transform:translateX(100%);transition:transform .25s ease;padding:4.5rem 1rem 1rem;display:flex;flex-direction:column;gap:.35rem;}
+.drawer.open{transform:translateX(0);}
+.drawer a{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:var(--tx);text-decoration:none;padding:.85rem 1rem;border-radius:.6rem;transition:background .2s;}
+.drawer a:hover{background:rgba(255,255,255,.06);}
+.drawer-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--tm);font-size:1.6rem;cursor:pointer;line-height:1;}
 
-/* HERO */
-.hero{position:relative;z-index:1;text-align:center;padding:3rem 1.5rem 2rem;flex:0 0 auto;}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);background:rgba(255,255,255,.04);border:1px solid var(--bd);padding:.3rem .9rem;border-radius:2rem;margin-bottom:1.1rem;}
-.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:800;line-height:1.1;margin-bottom:.85rem;letter-spacing:-.02em;}
-.hero-title .hl-cy{color:var(--cy);}
-.hero-title .hl-am{color:var(--am);}
-.hero-title .hl-vl{color:var(--vl);}
-.hero-sub{font-size:1.05rem;color:var(--tm);line-height:1.65;max-width:540px;margin:0 auto;}
+/* ── HERO ─────────────────────────────────────────── */
+.hero{position:relative;z-index:1;text-align:center;padding:3.5rem 1.5rem 1.5rem;flex:0 0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--td);background:rgba(255,255,255,.04);border:1px solid var(--bd);padding:.3rem .9rem;border-radius:2rem;margin-bottom:1.2rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.1rem,5.5vw,3.7rem);font-weight:800;line-height:1.1;margin-bottom:.9rem;letter-spacing:-.02em;color:#fff;}
+.hero-sub{font-size:1.08rem;color:var(--tm);line-height:1.65;max-width:560px;margin:0 auto;}
 
-/* CHOOSE LABEL */
-.choose-label{position:relative;z-index:1;text-align:center;padding:.5rem 1.5rem 1.25rem;}
-.choose-line{display:flex;align-items:center;gap:.75rem;max-width:900px;margin:0 auto;}
-.choose-line::before,.choose-line::after{content:'';flex:1;height:1px;background:var(--bd);}
-.choose-text{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);white-space:nowrap;}
+/* STAT CARDS */
+.stat-cards{position:relative;z-index:1;display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;max-width:820px;margin:2.25rem auto 0;padding:0 1.25rem;}
+.stat-card{background:var(--sf);border:1px solid var(--bd);border-radius:.9rem;padding:1.3rem 1.75rem;text-align:center;min-width:150px;flex:1 1 150px;max-width:230px;}
+.stat-card .sc-n{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--cy),var(--vl));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-card .sc-l{font-size:.82rem;color:var(--tm);margin-top:.5rem;font-weight:500;}
 
-/* SECTIONS */
-.section-block{position:relative;z-index:1;max-width:820px;margin:0 auto 2.25rem;padding:0 1.25rem;}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);margin-bottom:.85rem;padding-left:.1rem;}
+/* ── SECTION SHELL ─────────────────────────────────────────── */
+.section{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:3.5rem 1.25rem 0;}
+.section-head{text-align:center;margin-bottom:2rem;}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;color:#fff;letter-spacing:-.01em;}
+.section-sub{font-size:.98rem;color:var(--tm);margin-top:.55rem;}
 
-/* CARDS GRID */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;}
+/* ── LEVEL CARDS (POR ONDE COMEÇAR) ─────────────────────── */
+.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.lvl{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;padding:1.6rem 1.5rem 1.5rem;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,box-shadow .25s;border-top:3px solid var(--lc);}
+.lvl:hover{transform:translateY(-4px);border-color:var(--lc);box-shadow:0 14px 44px rgba(0,0,0,.35);}
+.lvl-badge{align-self:flex-start;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--lc);background:var(--lcbg);border:1px solid var(--lcbd);padding:.28rem .7rem;border-radius:2rem;margin-bottom:1rem;}
+.lvl-icon{font-size:2.3rem;line-height:1;margin-bottom:.7rem;}
+.lvl-title{font-family:'Space Grotesk',sans-serif;font-size:1.22rem;font-weight:800;color:#fff;line-height:1.25;margin-bottom:.55rem;}
+.lvl-text{font-size:.92rem;color:var(--tm);line-height:1.6;margin-bottom:1.1rem;}
+.lvl-list{list-style:none;display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.4rem;}
+.lvl-list li{font-size:.86rem;color:var(--tx);display:flex;gap:.5rem;align-items:flex-start;}
+.lvl-list li::before{content:'›';color:var(--lc);font-weight:800;}
+.lvl-btn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;text-decoration:none;color:#08121a;background:var(--lc);padding:.75rem 1rem;border-radius:.6rem;min-height:44px;transition:filter .2s,transform .2s;}
+.lvl-btn:hover{filter:brightness(1.1);transform:translateX(2px);}
+.lvl-init{--lc:var(--level-init);--lcbg:rgba(16,185,129,.12);--lcbd:rgba(16,185,129,.35);}
+.lvl-inter{--lc:var(--level-inter);--lcbg:rgba(14,165,233,.12);--lcbd:rgba(14,165,233,.35);}
+.lvl-conv{--lc:var(--level-conv);--lcbg:rgba(245,197,24,.12);--lcbd:rgba(245,197,24,.35);}
 
-/* CARD */
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .25s;position:relative;cursor:pointer;}
+.trilha-hint{text-align:center;margin-top:2.25rem;padding-top:2rem;border-top:1px solid var(--bd);}
+.trilha-hint p{color:var(--tm);font-size:.95rem;margin-bottom:1rem;}
+.btn-outline{display:inline-flex;align-items:center;gap:.45rem;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;text-decoration:none;color:var(--tx);border:1px solid var(--bdh);padding:.7rem 1.4rem;border-radius:.6rem;min-height:44px;transition:all .2s;}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.05);transform:translateX(2px);}
+
+/* ── JORNADA BANNER ─────────────────────────────────────────── */
+.jornada-banner{position:relative;z-index:1;max-width:960px;margin:3.5rem auto 0;padding:0 1.25rem;}
+.jb-inner{position:relative;border-radius:1.3rem;padding:2.5rem 2rem;text-align:center;overflow:hidden;background:linear-gradient(135deg,rgba(100,223,223,.09),rgba(245,197,24,.06),rgba(167,139,250,.1));border:1px solid rgba(255,255,255,.14);}
+.jb-inner::before{content:'';position:absolute;inset:0;border-radius:1.3rem;padding:1px;background:linear-gradient(120deg,#64DFDF,#F5C518,#A78BFA);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none;}
+.jb-icon{font-size:2.6rem;line-height:1;margin-bottom:.8rem;}
+.jb-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:800;color:#fff;margin-bottom:.7rem;}
+.jb-text{font-size:1rem;color:var(--tm);line-height:1.6;max-width:560px;margin:0 auto 1.5rem;}
+.jb-stats{display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.7rem;}
+.jb-stat{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:.45rem;}
+.jb-stat b{background:linear-gradient(135deg,#64DFDF,#A78BFA);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:1.05rem;}
+.jb-cta{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;text-decoration:none;color:#08121a;background:linear-gradient(135deg,#64DFDF,#A78BFA);padding:.85rem 1.9rem;border-radius:.7rem;min-height:44px;transition:transform .2s,filter .2s;}
+.jb-cta:hover{filter:brightness(1.08);transform:translateX(3px);}
+
+/* ── FILTROS ─────────────────────────────────────────── */
+.filters{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin-bottom:2.25rem;}
+.chip{font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;color:var(--tm);background:rgba(255,255,255,.03);border:1px solid var(--bd);padding:.5rem .95rem;border-radius:2rem;cursor:pointer;transition:all .2s;min-height:40px;}
+.chip:hover{color:#fff;border-color:var(--bdh);}
+.chip.active{color:#fff;border-color:var(--chc,rgba(255,255,255,.4));background:var(--chbg,rgba(255,255,255,.08));box-shadow:0 0 0 1px var(--chc,transparent);}
+
+/* ── GRUPOS & CARDS ─────────────────────────────────────────── */
+.sys-group{margin-bottom:2.5rem;}
+.group-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);margin-bottom:1rem;padding-left:.15rem;}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .25s,border-color .25s,box-shadow .25s,opacity .25s;cursor:pointer;}
+.card.hidden{display:none;}
 .card:hover{transform:translateY(-4px);}
 .card-bar{height:3px;}
-.card-body{padding:1.5rem 1.5rem 1.25rem;flex:1;}
-.card-sys{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;}
-.card-icon{font-size:2.2rem;display:block;margin-bottom:.75rem;line-height:1;}
-.card-title{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;line-height:1.2;margin-bottom:.5rem;}
-.card-desc{font-size:.82rem;color:var(--tm);line-height:1.6;margin-bottom:1.1rem;}
+.card-body{padding:1.4rem 1.5rem 1.2rem;flex:1;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+.card-sys{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;}
+.card-lvl{font-size:.6rem;font-weight:700;padding:.16rem .5rem;border-radius:2rem;border:1px solid;text-transform:uppercase;letter-spacing:.04em;}
+.card-icon{font-size:2rem;display:block;margin-bottom:.6rem;line-height:1;}
+.card-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;line-height:1.2;margin-bottom:.5rem;}
+.card-desc{font-size:.88rem;color:var(--tm);line-height:1.55;margin-bottom:1rem;}
 .card-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
-.ctag{font-size:.6rem;font-weight:600;padding:.18rem .55rem;border-radius:2rem;border:1px solid;opacity:.75;}
-.card-footer{padding:.9rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
-.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;}
+.ctag{font-size:.64rem;font-weight:600;padding:.18rem .55rem;border-radius:2rem;border:1px solid var(--bd);color:var(--td);}
+.card-footer{padding:.85rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;}
 .card-arrow{font-size:.95rem;transition:transform .2s;}
 .card:hover .card-arrow{transform:translateX(4px);}
+.visited-flag{font-size:.62rem;font-weight:700;color:var(--gn);display:none;align-items:center;gap:.25rem;}
+.card.visited .visited-flag{display:inline-flex;}
 
-/* CARD — SISTEMA 1 (CYAN) */
-.c-s1:hover{border-color:rgba(100,223,223,.35);box-shadow:0 12px 40px rgba(100,223,223,.1);}
-.c-s1 .card-bar{background:linear-gradient(90deg,var(--cy),transparent);}
-.c-s1 .card-sys,.c-s1 .card-title,.c-s1 .card-cta{color:var(--cy);}
+/* per-system colors */
+.c-s1:hover{border-color:rgba(100,223,223,.35);box-shadow:0 12px 40px rgba(100,223,223,.1);} .c-s1 .card-bar{background:linear-gradient(90deg,var(--cy),transparent);} .c-s1 .card-sys,.c-s1 .card-title,.c-s1 .card-cta{color:var(--cy);}
+.c-s2:hover{border-color:rgba(245,197,24,.3);box-shadow:0 12px 40px rgba(245,197,24,.09);} .c-s2 .card-bar{background:linear-gradient(90deg,var(--am),transparent);} .c-s2 .card-sys,.c-s2 .card-title,.c-s2 .card-cta{color:var(--am);}
+.c-s3:hover{border-color:rgba(167,139,250,.35);box-shadow:0 12px 40px rgba(167,139,250,.1);} .c-s3 .card-bar{background:linear-gradient(90deg,var(--vl),transparent);} .c-s3 .card-sys,.c-s3 .card-title,.c-s3 .card-cta{color:var(--vl);}
+.c-s4:hover{border-color:rgba(255,107,107,.35);box-shadow:0 12px 40px rgba(255,107,107,.1);} .c-s4 .card-bar{background:linear-gradient(90deg,var(--co),transparent);} .c-s4 .card-sys,.c-s4 .card-title,.c-s4 .card-cta{color:var(--co);}
+.c-s5:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.12);} .c-s5 .card-bar{background:linear-gradient(90deg,var(--em),transparent);} .c-s5 .card-sys,.c-s5 .card-title,.c-s5 .card-cta{color:var(--em);}
+.c-s6:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.12);} .c-s6 .card-bar{background:linear-gradient(90deg,var(--s6),transparent);} .c-s6 .card-sys,.c-s6 .card-title,.c-s6 .card-cta{color:var(--s6);}
+.c-s7:hover{border-color:rgba(217,70,239,.4);box-shadow:0 12px 40px rgba(217,70,239,.12);} .c-s7 .card-bar{background:linear-gradient(90deg,var(--s7),transparent);} .c-s7 .card-sys,.c-s7 .card-title,.c-s7 .card-cta{color:var(--s7);}
+.c-s8:hover{border-color:rgba(249,115,22,.4);box-shadow:0 12px 40px rgba(249,115,22,.12);} .c-s8 .card-bar{background:linear-gradient(90deg,var(--s8),transparent);} .c-s8 .card-sys,.c-s8 .card-title,.c-s8 .card-cta{color:var(--s8);}
+.c-s9:hover{border-color:rgba(6,182,212,.4);box-shadow:0 12px 40px rgba(6,182,212,.12);} .c-s9 .card-bar{background:linear-gradient(90deg,var(--s9),transparent);} .c-s9 .card-sys,.c-s9 .card-title,.c-s9 .card-cta{color:var(--s9);}
+.c-s10:hover{border-color:rgba(132,204,22,.4);box-shadow:0 12px 40px rgba(132,204,22,.12);} .c-s10 .card-bar{background:linear-gradient(90deg,var(--s10),transparent);} .c-s10 .card-sys,.c-s10 .card-title,.c-s10 .card-cta{color:var(--s10);}
+.c-s11:hover{border-color:rgba(251,146,60,.4);box-shadow:0 12px 40px rgba(251,146,60,.12);} .c-s11 .card-bar{background:linear-gradient(90deg,var(--s11),transparent);} .c-s11 .card-sys,.c-s11 .card-title,.c-s11 .card-cta{color:var(--s11);}
+.c-s12:hover{border-color:rgba(129,140,248,.4);box-shadow:0 12px 40px rgba(129,140,248,.12);} .c-s12 .card-bar{background:linear-gradient(90deg,var(--s12),transparent);} .c-s12 .card-sys,.c-s12 .card-title,.c-s12 .card-cta{color:var(--s12);}
+.c-s13:hover{border-color:rgba(45,212,191,.4);box-shadow:0 12px 40px rgba(45,212,191,.12);} .c-s13 .card-bar{background:linear-gradient(90deg,var(--s13),transparent);} .c-s13 .card-sys,.c-s13 .card-title,.c-s13 .card-cta{color:var(--s13);}
+.c-s14:hover{border-color:rgba(52,211,153,.4);box-shadow:0 12px 40px rgba(52,211,153,.12);} .c-s14 .card-bar{background:linear-gradient(90deg,var(--s14),transparent);} .c-s14 .card-sys,.c-s14 .card-title,.c-s14 .card-cta{color:var(--s14);}
+.c-s15:hover{border-color:rgba(245,158,11,.4);box-shadow:0 12px 40px rgba(245,158,11,.12);} .c-s15 .card-bar{background:linear-gradient(90deg,var(--s15),transparent);} .c-s15 .card-sys,.c-s15 .card-title,.c-s15 .card-cta{color:var(--s15);}
+.c-s16:hover{border-color:rgba(124,58,237,.4);box-shadow:0 12px 40px rgba(124,58,237,.14);} .c-s16 .card-bar{background:linear-gradient(90deg,var(--s16),transparent);} .c-s16 .card-sys,.c-s16 .card-title,.c-s16 .card-cta{color:var(--s16);}
+.c-s17:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.14);} .c-s17 .card-bar{background:linear-gradient(90deg,var(--s17),transparent);} .c-s17 .card-sys,.c-s17 .card-title,.c-s17 .card-cta{color:var(--s17);}
+.c-s18:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.14);} .c-s18 .card-bar{background:linear-gradient(90deg,var(--s18),transparent);} .c-s18 .card-sys,.c-s18 .card-title,.c-s18 .card-cta{color:var(--s18);}
+.c-s19:hover{border-color:rgba(236,72,153,.4);box-shadow:0 12px 40px rgba(236,72,153,.14);} .c-s19 .card-bar{background:linear-gradient(90deg,var(--s19),transparent);} .c-s19 .card-sys,.c-s19 .card-title,.c-s19 .card-cta{color:var(--s19);}
+.c-s20:hover{border-color:rgba(99,102,241,.4);box-shadow:0 12px 40px rgba(99,102,241,.14);} .c-s20 .card-bar{background:linear-gradient(90deg,var(--s20),transparent);} .c-s20 .card-sys,.c-s20 .card-title,.c-s20 .card-cta{color:var(--s20);}
+.c-s21:hover{border-color:rgba(180,83,9,.4);box-shadow:0 12px 40px rgba(180,83,9,.14);} .c-s21 .card-bar{background:linear-gradient(90deg,var(--s21),transparent);} .c-s21 .card-sys,.c-s21 .card-title,.c-s21 .card-cta{color:var(--s21);}
+.c-s22:hover{border-color:rgba(15,118,110,.4);box-shadow:0 12px 40px rgba(15,118,110,.14);} .c-s22 .card-bar{background:linear-gradient(90deg,var(--s22),transparent);} .c-s22 .card-sys,.c-s22 .card-title,.c-s22 .card-cta{color:var(--s22);}
+.c-s23:hover{border-color:rgba(124,45,18,.45);box-shadow:0 12px 40px rgba(124,45,18,.16);} .c-s23 .card-bar{background:linear-gradient(90deg,var(--s23),transparent);} .c-s23 .card-sys,.c-s23 .card-title,.c-s23 .card-cta{color:#b45c3a;}
+.c-s24:hover{border-color:rgba(190,18,60,.45);box-shadow:0 12px 40px rgba(190,18,60,.18);} .c-s24 .card-bar{background:linear-gradient(90deg,var(--s24),transparent);} .c-s24 .card-sys,.c-s24 .card-title,.c-s24 .card-cta{color:#f43f5e;}
+.c-s25:hover{border-color:rgba(30,64,175,.45);box-shadow:0 12px 40px rgba(30,64,175,.18);} .c-s25 .card-bar{background:linear-gradient(90deg,var(--s25),transparent);} .c-s25 .card-sys,.c-s25 .card-title,.c-s25 .card-cta{color:#5b7cf0;}
+.c-s26:hover{border-color:rgba(109,40,217,.45);box-shadow:0 12px 40px rgba(109,40,217,.18);} .c-s26 .card-bar{background:linear-gradient(90deg,var(--s26),transparent);} .c-s26 .card-sys,.c-s26 .card-title,.c-s26 .card-cta{color:#9067e0;}
+.c-s27:hover{border-color:rgba(4,120,87,.45);box-shadow:0 12px 40px rgba(4,120,87,.18);} .c-s27 .card-bar{background:linear-gradient(90deg,var(--s27),transparent);} .c-s27 .card-sys,.c-s27 .card-title,.c-s27 .card-cta{color:#12b981;}
 
-/* CARD — SISTEMA 2 (AMBER) */
-.c-s2:hover{border-color:rgba(245,197,24,.3);box-shadow:0 12px 40px rgba(245,197,24,.09);}
-.c-s2 .card-bar{background:linear-gradient(90deg,var(--am),transparent);}
-.c-s2 .card-sys,.c-s2 .card-title,.c-s2 .card-cta{color:var(--am);}
-
-/* CARD — SISTEMA 3 (VIOLET) */
-.c-s3:hover{border-color:rgba(167,139,250,.35);box-shadow:0 12px 40px rgba(167,139,250,.1);}
-.c-s3 .card-bar{background:linear-gradient(90deg,var(--vl),transparent);}
-.c-s3 .card-sys,.c-s3 .card-title,.c-s3 .card-cta{color:var(--vl);}
-
-/* CARD — SISTEMA 4 (CORAL) */
-.c-s4:hover{border-color:rgba(255,107,107,.35);box-shadow:0 12px 40px rgba(255,107,107,.1);}
-.c-s4 .card-bar{background:linear-gradient(90deg,var(--co),transparent);}
-.c-s4 .card-sys,.c-s4 .card-title,.c-s4 .card-cta{color:var(--co);}
-
-/* CARD — SISTEMA 5 (EMERALD) */
-.c-s5:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.12);}
-.c-s5 .card-bar{background:linear-gradient(90deg,var(--em),transparent);}
-.c-s5 .card-sys,.c-s5 .card-title,.c-s5 .card-cta{color:var(--em);}
-
-/* CARD — SISTEMA 6 (SKY BLUE) */
-.c-s6:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.12);}
-.c-s6 .card-bar{background:linear-gradient(90deg,var(--s6),transparent);}
-.c-s6 .card-sys,.c-s6 .card-title,.c-s6 .card-cta{color:var(--s6);}
-
-/* CARD — SISTEMA 7 (MAGENTA) */
-.c-s7:hover{border-color:rgba(217,70,239,.4);box-shadow:0 12px 40px rgba(217,70,239,.12);}
-.c-s7 .card-bar{background:linear-gradient(90deg,var(--s7),transparent);}
-.c-s7 .card-sys,.c-s7 .card-title,.c-s7 .card-cta{color:var(--s7);}
-
-/* CARD — SISTEMA 8 (ORANGE) */
-.c-s8:hover{border-color:rgba(249,115,22,.4);box-shadow:0 12px 40px rgba(249,115,22,.12);}
-.c-s8 .card-bar{background:linear-gradient(90deg,var(--s8),transparent);}
-.c-s8 .card-sys,.c-s8 .card-title,.c-s8 .card-cta{color:var(--s8);}
-
-/* CARD — SISTEMA 9 (DARK CYAN) */
-.c-s9{grid-column:1 / -1;}
-.c-s9:hover{border-color:rgba(6,182,212,.4);box-shadow:0 12px 40px rgba(6,182,212,.12);}
-.c-s9 .card-bar{background:linear-gradient(90deg,var(--s9),transparent);}
-.c-s9 .card-sys,.c-s9 .card-title,.c-s9 .card-cta{color:var(--s9);}
-
-/* CARD — SISTEMA 14 (EMERALD LIGHT) */
-.c-s14:hover{border-color:rgba(52,211,153,.4);box-shadow:0 12px 40px rgba(52,211,153,.12);}
-.c-s14 .card-bar{background:linear-gradient(90deg,var(--s14),transparent);}
-.c-s14 .card-sys,.c-s14 .card-title,.c-s14 .card-cta{color:var(--s14);}
-
-/* CARD — SISTEMA 24 (CRIMSON) */
-.c-s24:hover{border-color:rgba(190,18,60,.45);box-shadow:0 12px 40px rgba(190,18,60,.18);}
-.c-s24 .card-bar{background:linear-gradient(90deg,var(--s24),transparent);}
-.c-s24 .card-sys,.c-s24 .card-title,.c-s24 .card-cta{color:var(--s24);}
-
-/* CARD — SISTEMA 25 (ROYAL BLUE) */
-.c-s25:hover{border-color:rgba(30,64,175,.45);box-shadow:0 12px 40px rgba(30,64,175,.18);}
-.c-s25 .card-bar{background:linear-gradient(90deg,var(--s25),transparent);}
-.c-s25 .card-sys,.c-s25 .card-title,.c-s25 .card-cta{color:var(--s25);}
-
-/* CARD — SISTEMA 26 (INTENSE PURPLE) */
-.c-s26:hover{border-color:rgba(109,40,217,.45);box-shadow:0 12px 40px rgba(109,40,217,.18);}
-.c-s26 .card-bar{background:linear-gradient(90deg,var(--s26),transparent);}
-.c-s26 .card-sys,.c-s26 .card-title,.c-s26 .card-cta{color:var(--s26);}
-
-/* CARD — SISTEMA 27 (EMERALD) */
-.c-s27:hover{border-color:rgba(4,120,87,.45);box-shadow:0 12px 40px rgba(4,120,87,.18);}
-.c-s27 .card-bar{background:linear-gradient(90deg,var(--s27),transparent);}
-.c-s27 .card-sys,.c-s27 .card-title,.c-s27 .card-cta{color:var(--s27);}
-
-/* CARD — SISTEMA 23 (BRICK ORANGE) */
-.c-s23:hover{border-color:rgba(124,45,18,.45);box-shadow:0 12px 40px rgba(124,45,18,.16);}
-.c-s23 .card-bar{background:linear-gradient(90deg,var(--s23),transparent);}
-.c-s23 .card-sys,.c-s23 .card-title,.c-s23 .card-cta{color:var(--s23);}
-
-/* CARD — SISTEMA 22 (TEAL) */
-.c-s22:hover{border-color:rgba(15,118,110,.4);box-shadow:0 12px 40px rgba(15,118,110,.14);}
-.c-s22 .card-bar{background:linear-gradient(90deg,var(--s22),transparent);}
-.c-s22 .card-sys,.c-s22 .card-title,.c-s22 .card-cta{color:var(--s22);}
-
-/* CARD — SISTEMA 21 (DARK AMBER) */
-.c-s21:hover{border-color:rgba(180,83,9,.4);box-shadow:0 12px 40px rgba(180,83,9,.14);}
-.c-s21 .card-bar{background:linear-gradient(90deg,var(--s21),transparent);}
-.c-s21 .card-sys,.c-s21 .card-title,.c-s21 .card-cta{color:var(--s21);}
-
-/* CARD — SISTEMA 20 (INDIGO) */
-.c-s20:hover{border-color:rgba(99,102,241,.4);box-shadow:0 12px 40px rgba(99,102,241,.14);}
-.c-s20 .card-bar{background:linear-gradient(90deg,var(--s20),transparent);}
-.c-s20 .card-sys,.c-s20 .card-title,.c-s20 .card-cta{color:var(--s20);}
-
-/* CARD — SISTEMA 19 (PINK) */
-.c-s19:hover{border-color:rgba(236,72,153,.4);box-shadow:0 12px 40px rgba(236,72,153,.14);}
-.c-s19 .card-bar{background:linear-gradient(90deg,var(--s19),transparent);}
-.c-s19 .card-sys,.c-s19 .card-title,.c-s19 .card-cta{color:var(--s19);}
-
-/* CARD — SISTEMA 18 (EMERALD) */
-.c-s18:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.14);}
-.c-s18 .card-bar{background:linear-gradient(90deg,var(--s18),transparent);}
-.c-s18 .card-sys,.c-s18 .card-title,.c-s18 .card-cta{color:var(--s18);}
-
-/* CARD — SISTEMA 17 (SKY BLUE) */
-.c-s17:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.14);}
-.c-s17 .card-bar{background:linear-gradient(90deg,var(--s17),transparent);}
-.c-s17 .card-sys,.c-s17 .card-title,.c-s17 .card-cta{color:var(--s17);}
-
-/* CARD — SISTEMA 16 (VIOLET) */
-.c-s16:hover{border-color:rgba(124,58,237,.4);box-shadow:0 12px 40px rgba(124,58,237,.14);}
-.c-s16 .card-bar{background:linear-gradient(90deg,var(--s16),transparent);}
-.c-s16 .card-sys,.c-s16 .card-title,.c-s16 .card-cta{color:var(--s16);}
-
-/* CARD — SISTEMA 15 (AMBER) */
-.c-s15:hover{border-color:rgba(245,158,11,.4);box-shadow:0 12px 40px rgba(245,158,11,.12);}
-.c-s15 .card-bar{background:linear-gradient(90deg,var(--s15),transparent);}
-.c-s15 .card-sys,.c-s15 .card-title,.c-s15 .card-cta{color:var(--s15);}
-
-/* CARD — SISTEMA 13 (TEAL) */
-.c-s13:hover{border-color:rgba(45,212,191,.4);box-shadow:0 12px 40px rgba(45,212,191,.12);}
-.c-s13 .card-bar{background:linear-gradient(90deg,var(--s13),transparent);}
-.c-s13 .card-sys,.c-s13 .card-title,.c-s13 .card-cta{color:var(--s13);}
-
-/* CARD — SISTEMA 12 (INDIGO) */
-.c-s12:hover{border-color:rgba(129,140,248,.4);box-shadow:0 12px 40px rgba(129,140,248,.12);}
-.c-s12 .card-bar{background:linear-gradient(90deg,var(--s12),transparent);}
-.c-s12 .card-sys,.c-s12 .card-title,.c-s12 .card-cta{color:var(--s12);}
-
-/* CARD — SISTEMA 11 (ORANGE LIGHT) */
-.c-s11{grid-column:1 / -1;}
-.c-s11:hover{border-color:rgba(251,146,60,.4);box-shadow:0 12px 40px rgba(251,146,60,.12);}
-.c-s11 .card-bar{background:linear-gradient(90deg,var(--s11),transparent);}
-.c-s11 .card-sys,.c-s11 .card-title,.c-s11 .card-cta{color:var(--s11);}
-
-/* CARD — SISTEMA 10 (LIME) */
-.c-s10{grid-column:1 / -1;}
-.c-s10:hover{border-color:rgba(132,204,22,.4);box-shadow:0 12px 40px rgba(132,204,22,.12);}
-.c-s10 .card-bar{background:linear-gradient(90deg,var(--s10),transparent);}
-.c-s10 .card-sys,.c-s10 .card-title,.c-s10 .card-cta{color:var(--s10);}
-
-/* CARD — JORNADA (GRADIENT) */
-.c-jornada{border-color:rgba(255,255,255,.14);}
-.c-jornada:hover{border-color:rgba(255,255,255,.32);box-shadow:0 12px 40px rgba(167,139,250,.12);}
-.c-jornada .card-bar{background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);}
-.c-jornada .card-sys,.c-jornada .card-title,.c-jornada .card-cta{background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-
-/* PROGRESS SECTION */
-.progress-section{position:relative;z-index:1;max-width:980px;margin:1.75rem auto 0;padding:0 1.25rem 3rem;}
-.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1.1rem 1.35rem;}
-.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;}
-.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+/* ── PROGRESSO ─────────────────────────────────────────── */
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.6rem 1.6rem 1.75rem;}
+.prog-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.85rem;flex-wrap:wrap;}
+.prog-count{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;color:var(--tx);}
+.prog-count b{color:var(--cy);}
 .prog-pct{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;color:var(--vl);}
-.prog-bars{display:flex;flex-direction:column;gap:.55rem;}
-.prog-row{display:flex;align-items:center;gap:.75rem;}
-.prog-row-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;width:100px;flex-shrink:0;}
-.prog-track{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;border-radius:3px;transition:width .6s ease;}
-.prog-n{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;color:var(--td);width:50px;text-align:right;flex-shrink:0;}
+.prog-track{height:8px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;margin-bottom:1.6rem;}
+.prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#10B981,#0EA5E9,#A78BFA);width:0;transition:width .8s ease;}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:.5rem;}
+.badge{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;padding:.55rem .2rem;border-radius:.6rem;border:1px solid var(--bd);background:rgba(255,255,255,.02);text-decoration:none;transition:all .2s;min-height:52px;}
+.badge:hover{border-color:var(--bdh);transform:translateY(-2px);}
+.badge .b-n{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:800;color:var(--td);}
+.badge .b-mark{font-size:.7rem;color:var(--td);}
+.badge.done{border-color:rgba(95,216,122,.4);background:rgba(95,216,122,.08);}
+.badge.done .b-n{color:var(--gn);}
+.badge.done .b-mark{color:var(--gn);}
+.badge .b-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1c2636;color:var(--tx);font-size:.72rem;font-weight:500;padding:.35rem .6rem;border-radius:.4rem;white-space:nowrap;opacity:0;visibility:hidden;transition:opacity .18s;pointer-events:none;z-index:5;border:1px solid var(--bd);}
+.badge:hover .b-tip{opacity:1;visibility:visible;}
+.prog-note{font-size:.8rem;color:var(--td);margin-top:1.2rem;text-align:center;}
 
-/* FOOTER */
-.footer{position:relative;z-index:1;text-align:center;padding:.5rem 1.5rem 1.5rem;font-size:.7rem;color:var(--td);}
+/* ── FOOTER ─────────────────────────────────────────── */
+.footer{position:relative;z-index:1;text-align:center;padding:3.5rem 1.5rem 2.5rem;margin-top:1rem;}
+.footer-main{font-size:.9rem;color:var(--tm);margin-bottom:.6rem;}
+.footer-links{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;}
+.footer-links a{font-size:.82rem;color:var(--td);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--tx);}
 
-/* RESPONSIVE */
-@media(max-width:720px){
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:760px){
+  .nav-links{display:none;}
+  .nav-burger{display:flex;}
+  .nav-badge{display:none;}
+  .level-grid{grid-template-columns:1fr;}
   .cards{grid-template-columns:1fr;}
-  .hero-title{font-size:2rem;}
 }
 </style>
 </head>
@@ -235,1099 +201,314 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 <div class="bg-glow"></div>
 <div class="particles" id="particles"></div>
 
-<!-- HEADER -->
-<div class="header">
-  <a href="./index.html" class="logo">
-    <span class="logo-mark">◈</span>
-    Inglês para Brasileiros
-  </a>
+<!-- ── NAVBAR ─────────────────────────────────────────── -->
+<nav class="nav">
+  <a href="./index.html" class="nav-logo">🇺🇸 <span>Inglês para Brasileiros</span></a>
+  <div class="nav-links">
+    <a href="#comecar" class="nav-link">Onde Começar</a>
+    <a href="#sistemas" class="nav-link">Todos os Sistemas</a>
+    <a href="#jornada" class="nav-link">Jornada</a>
+    <a href="#progresso" class="nav-link">Progresso</a>
+  </div>
+  <span class="nav-badge">27 Sistemas</span>
+  <button class="nav-burger" id="burger" aria-label="Abrir menu" aria-expanded="false">☰</button>
+</nav>
+<div class="drawer-back" id="drawerBack"></div>
+<aside class="drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose" aria-label="Fechar menu">×</button>
+  <a href="#comecar" class="dl">Onde Começar</a>
+  <a href="#sistemas" class="dl">Todos os Sistemas</a>
+  <a href="#jornada" class="dl">Jornada</a>
+  <a href="#progresso" class="dl">Progresso</a>
+</aside>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-badge">Inglês para Brasileiros</div>
+  <h1 class="hero-title">Aprenda inglês do jeito certo.</h1>
+  <p class="hero-sub">27 sistemas de estudo organizados por nível e objetivo. Escolha seu ponto de entrada e comece agora.</p>
+</header>
+
+<div class="stat-cards">
+  <div class="stat-card"><div class="sc-n">27</div><div class="sc-l">Sistemas de Estudo</div></div>
+  <div class="stat-card"><div class="sc-n">500+</div><div class="sc-l">Expressões &amp; Vocabulário</div></div>
+  <div class="stat-card"><div class="sc-n">12</div><div class="sc-l">Tópicos do Dia a Dia</div></div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-badge">Plataforma completa de aprendizado</div>
-  <h1 class="hero-title">
-    <span class="hl-cy">Base.</span>
-    <span class="hl-am"> Fluência.</span>
-    <span class="hl-vl"> Gramática.</span>
-  </h1>
-  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 27 sistemas, uma jornada completa.</p>
-</div>
+<!-- ── POR ONDE COMEÇAR ─────────────────────────────────────────── -->
+<section class="section" id="comecar">
+  <div class="section-head">
+    <h2 class="section-title">Por onde começar?</h2>
+    <p class="section-sub">Escolha seu nível atual:</p>
+  </div>
+  <div class="level-grid">
 
-<!-- CHOOSE -->
-<div class="choose-label">
-  <div class="choose-line"><span class="choose-text">Escolha por onde começar</span></div>
-</div>
+    <div class="lvl lvl-init">
+      <span class="lvl-badge">🟢 Iniciante</span>
+      <div class="lvl-icon">🌱</div>
+      <div class="lvl-title">Estou começando do zero</div>
+      <p class="lvl-text">Comece pela base: pronúncia, gramática essencial e vocabulário do dia a dia.</p>
+      <ul class="lvl-list">
+        <li>Sistema 11 — Como Aprender Inglês</li>
+        <li>Sistema 1 — Base Completa</li>
+        <li>Sistema 23 — Inglês do Zero</li>
+      </ul>
+      <a class="lvl-btn" href="./sistema11/index.html">Começar pelo S11 →</a>
+    </div>
 
-<!-- SEÇÃO: MÉTODO -->
-<div class="section-block">
-  <div class="section-title">Método</div>
-  <div class="cards">
+    <div class="lvl lvl-inter">
+      <span class="lvl-badge">🔵 Intermediário</span>
+      <div class="lvl-icon">📈</div>
+      <div class="lvl-title">Já sei o básico, quero evoluir</div>
+      <p class="lvl-text">Expanda seu vocabulário, aprenda expressões reais e comece a construir frases longas.</p>
+      <ul class="lvl-list">
+        <li>Sistema 15 — Expressões Idiomáticas</li>
+        <li>Sistema 17 — Super Sentences</li>
+        <li>Sistema 22 — Situações Reais</li>
+      </ul>
+      <a class="lvl-btn" href="./sistema15/index.html">Começar pelo S15 →</a>
+    </div>
 
-    <a class="card c-s11" href="./sistema11/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 11</div>
-        <span class="card-icon">🧭</span>
-        <div class="card-title">Como Aprender Inglês</div>
-        <div class="card-desc">Estratégias práticas para ouvir, falar, ler e escrever. Um guia de referência com 25 anos de experiência condensados — comece por aqui antes de tudo o mais.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s11);border-color:rgba(251,146,60,.3)">8 seções</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 habilidades</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">guia de referência</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 11</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
+    <div class="lvl lvl-conv">
+      <span class="lvl-badge">🟡 Quero Conversar</span>
+      <div class="lvl-icon">💬</div>
+      <div class="lvl-title">Quero falar com confiança</div>
+      <p class="lvl-text">Diálogos reais, shadowing e prática de fala para ganhar fluência rapidamente.</p>
+      <ul class="lvl-list">
+        <li>Sistema 26 — Diálogos do Dia a Dia</li>
+        <li>Sistema 18 — How Was Your Day?</li>
+        <li>Sistema 27 — Shadowing com Propósito</li>
+      </ul>
+      <a class="lvl-btn" href="./sistema26/index.html">Começar pelo S26 →</a>
+    </div>
 
   </div>
-</div>
 
-<!-- SEÇÃO: FUNDAÇÃO -->
-<div class="section-block">
-  <div class="section-title">Fundação</div>
-  <div class="cards">
-
-    <a class="card c-s1" href="./sistema1/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 1</div>
-        <span class="card-icon">🏗</span>
-        <div class="card-title">Base Completa</div>
-        <div class="card-desc">Pronomes, verbos, artigos e estrutura. O alicerce de tudo — 89 lições em sequência lógica.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--cy);border-color:rgba(100,223,223,.3)">89 lições</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">11 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">Do zero</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 1</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s3" href="./sistema3/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 3</div>
-        <span class="card-icon">⚡</span>
-        <div class="card-title">Gramática Viva</div>
-        <div class="card-desc">Os 12 tempos verbais, 20 verbos irregulares e as situações onde o inglês de escola falha.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--vl);border-color:rgba(167,139,250,.3)">4 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">12 tempos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">20 verbos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 3</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s9" href="./sistema9/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 9</div>
-        <span class="card-icon">⏱️</span>
-        <div class="card-title">Went ou Gone?</div>
-        <div class="card-desc">Passado simples vs present perfect de GO. Chega de confusão — saiba exatamente quando usar went, have gone e have been.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s9);border-color:rgba(6,182,212,.3)">5 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">40+ exemplos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 9</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s17" href="./sistema17/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 17</div>
-        <span class="card-icon">📈</span>
-        <div class="card-title">Super Sentences</div>
-        <div class="card-desc">Do básico ao avançado — expanda suas frases e treine seu inglês falado. Parta de uma frase simples e construa até sentenças fluentes e complexas.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s17);border-color:rgba(14,165,233,.3)">2 histórias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 17</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s25" href="./sistema25/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 25</div>
-        <span class="card-icon">🎯</span>
-        <div class="card-title">Super Sentences Vol. 2</div>
-        <div class="card-desc">10 histórias progressivas — do simples ao complexo em 10 níveis. Continuação do S17, com episódios 3–13 do canal English is EZ with Connor.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s25);border-color:rgba(30,64,175,.3)">10 histórias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">S25 · continuação do S17</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 25</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s23" href="./sistema23/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 23</div>
-        <span class="card-icon">🔤</span>
-        <div class="card-title">Inglês do Zero</div>
-        <div class="card-desc">Verbos, tempos e frases reais — do A1 ao A2 com exemplos progressivos. 40 verbos × 3 tempos, pronomes e frases expansíveis.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s23);border-color:rgba(124,45,18,.3)">40 verbos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">50 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 módulos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 23</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+  <div class="trilha-hint">
+    <p>Prefere seguir uma trilha estruturada?</p>
+    <a class="btn-outline" href="./jornada/index.html">Ver a Jornada Completa →</a>
   </div>
-</div>
+</section>
 
-<!-- SEÇÃO: VOCABULÁRIO & FRASES -->
-<div class="section-block">
-  <div class="section-title">Vocabulário &amp; Frases</div>
-  <div class="cards">
-
-    <a class="card c-s2" href="./sistema2/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 2</div>
-        <span class="card-icon">🗣</span>
-        <div class="card-title">Inglês Real do Dia a Dia</div>
-        <div class="card-desc">1.000 frases, 150 textos e padrões do inglês falado. Do básico ao avançado com contexto real.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--am);border-color:rgba(245,197,24,.3)">4 pilares</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">1.270 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">150 textos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 2</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s5" href="./sistema5/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 5</div>
-        <span class="card-icon">⚡</span>
-        <div class="card-title">Frases Relâmpago</div>
-        <div class="card-desc">Shadowing: 150 frases curtas para ouvir, repetir em voz alta e gravar na memória. Modo automático, lista e quiz.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--em);border-color:rgba(16,185,129,.3)">150 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 padrões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">Shadowing</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 5</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s7" href="./sistema7/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 7</div>
-        <span class="card-icon">🔗</span>
-        <div class="card-title">Colocações Naturais</div>
-        <div class="card-desc">100 combinações com MAKE, DO, HAVE, GET e TAKE. Gramática diz se você está correto — colocações dizem se você soa natural.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s7);border-color:rgba(217,70,239,.3)">100 colocações</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 verbos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 7</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s8" href="./sistema8/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 8</div>
-        <span class="card-icon">🧱</span>
-        <div class="card-title">Estruturas Fixas</div>
-        <div class="card-desc">Fórmulas que geram frases infinitas. Aprenda uma estrutura uma vez e crie dezenas de frases trocando o verbo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s8);border-color:rgba(249,115,22,.3)">8 estruturas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">60+ exemplos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 8</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s13" href="./sistema13/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 13</div>
-        <span class="card-icon">📝</span>
-        <div class="card-title">Vocabulário A1</div>
-        <div class="card-desc">200+ palavras essenciais em frases simples. Aprenda cada palavra dentro de uma frase real — não apenas listas!</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s13);border-color:rgba(45,212,191,.3)">204 palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">6 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 13</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s16" href="./sistema16/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 16</div>
-        <span class="card-icon">🎬</span>
-        <div class="card-title">Inglês com Filmes</div>
-        <div class="card-desc">Frases nativas extraídas de filmes e séries, organizadas por função comunicativa — urgência, recusa, surpresa, plano e mais.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s16);border-color:rgba(124,58,237,.3)">35 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 16</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s21" href="./sistema21/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 21</div>
-        <span class="card-icon">📖</span>
-        <div class="card-title">The Birthday Party</div>
-        <div class="card-desc">Um conto americano de 1946 — vocabulário rico extraído de uma história real, com anotações inline e flashcards.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s21);border-color:rgba(180,83,9,.3)">1 conto</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">20+ palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 21</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- ── JORNADA BANNER ─────────────────────────────────────────── -->
+<section class="jornada-banner" id="jornada">
+  <div class="jb-inner">
+    <div class="jb-icon">🗺️</div>
+    <h2 class="jb-title">Jornada Completa — Do Zero ao Avançado</h2>
+    <p class="jb-text">120 etapas organizadas em sequência lógica. Siga a trilha e nunca fique sem saber o que estudar a seguir.</p>
+    <div class="jb-stats">
+      <span class="jb-stat"><b>120</b> etapas</span>
+      <span class="jb-stat"><b>✓</b> Progresso salvo automaticamente</span>
+    </div>
+    <a class="jb-cta" href="./jornada/index.html">Acessar a Jornada →</a>
   </div>
-</div>
+</section>
 
-<!-- SEÇÃO: EXPRESSÕES -->
-<div class="section-block">
-  <div class="section-title">Expressões</div>
-  <div class="cards">
-
-    <a class="card c-s15" href="./sistema15/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 15</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Expressões Idiomáticas</div>
-        <div class="card-desc">Não leve ao pé da letra — o que os americanos realmente querem dizer. 7 expressões com contexto real, exemplos nativos e roleplays autênticos.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s15);border-color:rgba(245,158,11,.3)">7 expressões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">2 grupos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 15</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- ── TODOS OS SISTEMAS ─────────────────────────────────────────── -->
+<section class="section" id="sistemas">
+  <div class="section-head">
+    <h2 class="section-title">Todos os Sistemas</h2>
+    <p class="section-sub">Clique em qualquer card para acessar o sistema. Use os filtros para encontrar o que procura.</p>
   </div>
-</div>
 
-<!-- SEÇÃO: CONVERSAÇÃO -->
-<div class="section-block">
-  <div class="section-title">Conversação</div>
-  <div class="cards">
-
-    <a class="card c-s4" href="./sistema4/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 4</div>
-        <span class="card-icon">🎬</span>
-        <div class="card-title">Inglês em Cena</div>
-        <div class="card-desc">20 cenas com diálogo, músicas, entrevistas com nativos e role-plays. O inglês do jeito que se fala de verdade, com humor e contexto.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--co);border-color:rgba(255,107,107,.3)">20 cenas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 músicas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">50 frases</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 4</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s6" href="./sistema6/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 6</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Conversas do Dia a Dia</div>
-        <div class="card-desc">14 conversas reais · 98 pares Q&A · 5 modos. Pratique os dois lados da conversa — perguntando e respondendo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s6);border-color:rgba(14,165,233,.3)">14 conversas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">98 pares Q&A</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 6</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s26" href="./sistema26/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 26</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Diálogos do Dia a Dia</div>
-        <div class="card-desc">Conversas reais em 12 situações — ouça, leia e pratique em dupla. Diálogos completos com dois participantes, não frases soltas.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s26);border-color:rgba(109,40,217,.3)">12 situações</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">28 diálogos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">100+ expressões</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 26</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s12" href="./sistema12/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 12</div>
-        <span class="card-icon">🌙</span>
-        <div class="card-title">Rotina da Noite</div>
-        <div class="card-desc">Pratique inglês com perguntas e respostas do dia a dia. Frases curtas, reais e repetitivas — o jeito mais rápido de ganhar confiança.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s12);border-color:rgba(129,140,248,.3)">146 perguntas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 temas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 12</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s14" href="./sistema14/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 14</div>
-        <span class="card-icon">💪</span>
-        <div class="card-title">Vida Saudável</div>
-        <div class="card-desc">Pratique inglês falando sobre saúde e hábitos. 150 perguntas e respostas reais sobre alimentação, exercício, sono e bem-estar.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s14);border-color:rgba(52,211,153,.3)">150 perguntas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 temas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 14</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s18" href="./sistema18/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 18</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">How Was Your Day?</div>
-        <div class="card-desc">Pare de dizer "it was good" — 30 respostas reais que nativos usam para a pergunta mais comum do inglês.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s18);border-color:rgba(16,185,129,.3)">30 respostas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 tons</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 18</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s19" href="./sistema19/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 19</div>
-        <span class="card-icon">🎧</span>
-        <div class="card-title">Conversação Diária</div>
-        <div class="card-desc">Ouça, repita e responda — treine conversação com 200+ perguntas reais organizadas por tema.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s19);border-color:rgba(236,72,153,.3)">100+ pares</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 19</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s20" href="./sistema20/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 20</div>
-        <span class="card-icon">🗣️</span>
-        <div class="card-title">Conversas Reais</div>
-        <div class="card-desc">Infância, amizade e vida no exterior — inglês nativo em conversas cotidianas reais, com gramática "used to".</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s20);border-color:rgba(99,102,241,.3)">2 conversas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 blocos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">30+ expressões</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 20</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s22" href="./sistema22/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 22</div>
-        <span class="card-icon">🗺️</span>
-        <div class="card-title">Situações Reais</div>
-        <div class="card-desc">300+ frases organizadas por situação — do aeroporto ao médico, da emergência ao hotel, mais phrasal verbs e idioms.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s22);border-color:rgba(15,118,110,.3)">300+ frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 blocos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 páginas</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 22</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+  <div class="filters" id="filters">
+    <button class="chip active" data-ftype="all" data-fval="all">Todos</button>
+    <button class="chip" data-ftype="level" data-fval="iniciante" style="--chc:rgba(16,185,129,.55);--chbg:rgba(16,185,129,.12)">🌱 Iniciante</button>
+    <button class="chip" data-ftype="level" data-fval="intermediario" style="--chc:rgba(14,165,233,.55);--chbg:rgba(14,165,233,.12)">📈 Intermediário</button>
+    <button class="chip" data-ftype="level" data-fval="conversacao" style="--chc:rgba(245,197,24,.55);--chbg:rgba(245,197,24,.12)">💬 Conversação</button>
+    <button class="chip" data-ftype="level" data-fval="avancado" style="--chc:rgba(167,139,250,.55);--chbg:rgba(167,139,250,.12)">🔥 Fluência</button>
+    <button class="chip" data-ftype="group" data-fval="gramatica" style="--chc:rgba(249,115,22,.55);--chbg:rgba(249,115,22,.12)">📚 Gramática</button>
   </div>
-</div>
 
-<!-- SEÇÃO: FLUÊNCIA -->
-<div class="section-block">
-  <div class="section-title">Fluência</div>
-  <div class="cards">
+  <div id="sysGrid"><!-- grupos + cards gerados via JS --></div>
+</section>
 
-    <a class="card c-s24" href="./sistema24/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 24</div>
-        <span class="card-icon">🧠</span>
-        <div class="card-title">Pense em Inglês</div>
-        <div class="card-desc">O que separa quem entende de quem fala — estratégias reais de nativos para acelerar a fluência.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s24);border-color:rgba(190,18,60,.3)">10 estratégias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">35+ palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 24</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s27" href="./sistema27/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 27</div>
-        <span class="card-icon">🎤</span>
-        <div class="card-title">Shadowing com Propósito</div>
-        <div class="card-desc">7 textos motivacionais para treinar voz, ritmo e vocabulário avançado. Repita em voz alta junto com o falante nativo, ao mesmo tempo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s27);border-color:rgba(4,120,87,.3)">7 textos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">70+ expressões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">shadowing</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 27</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- ── PROGRESSO ─────────────────────────────────────────── -->
+<section class="section" id="progresso">
+  <div class="section-head">
+    <h2 class="section-title">Meu Progresso</h2>
+    <p class="section-sub">Baseado nos sistemas que você visitou neste navegador.</p>
   </div>
-</div>
-
-<!-- SEÇÃO: DIAGNÓSTICO -->
-<div class="section-block">
-  <div class="section-title">Diagnóstico</div>
-  <div class="cards">
-
-    <a class="card c-s10" href="./sistema10/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 10</div>
-        <span class="card-icon">📊</span>
-        <div class="card-title">Teste seu Nível</div>
-        <div class="card-desc">Descubra seu nível: A1 até C2 em 30 questões. Teste progressivo com explicação pedagógica de cada resposta e resultado imediato.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s10);border-color:rgba(132,204,22,.3)">30 questões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">6 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">A1 → C2</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 10</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-  </div>
-</div>
-
-<!-- JORNADA COMPLETA (oculto — não deletado) -->
-<div class="section-block" style="display:none">
-  <div class="cards">
-
-    <a class="card c-jornada" href="./jornada/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Jornada Completa</div>
-        <span class="card-icon">🗺</span>
-        <div class="card-title">Do Zero ao Avançado</div>
-        <div class="card-desc">A trilha que conecta os sistemas em uma sequência pedagógica única, do zero à fluência.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:#fff;border-color:rgba(255,255,255,.22)">120 etapas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 fases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">~20h</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Iniciar Jornada</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-  </div>
-</div>
-
-<!-- PROGRESS -->
-<div class="progress-section">
   <div class="prog-card">
-    <div class="prog-header">
-      <span class="prog-title">Progresso Geral</span>
-      <span class="prog-pct" id="totalPct">—</span>
+    <div class="prog-top">
+      <span class="prog-count"><b id="progVisited">0</b> de 27 sistemas visitados</span>
+      <span class="prog-pct" id="progPct">0%</span>
     </div>
-    <div class="prog-bars">
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--cy)">Sistema 1</span>
-        <div class="prog-track"><div class="prog-fill" id="p1fill" style="background:var(--cy);width:0%"></div></div>
-        <span class="prog-n" id="p1n">0 / 89</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--am)">Sistema 2</span>
-        <div class="prog-track"><div class="prog-fill" id="p2fill" style="background:var(--am);width:0%"></div></div>
-        <span class="prog-n" id="p2n">0 / 150</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--vl)">Sistema 3</span>
-        <div class="prog-track"><div class="prog-fill" id="p3fill" style="background:var(--vl);width:0%"></div></div>
-        <span class="prog-n" id="p3n">— / —</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--co)">Sistema 4</span>
-        <div class="prog-track"><div class="prog-fill" id="p5fill" style="background:var(--co);width:0%"></div></div>
-        <span class="prog-n" id="p5n">0 / 20</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--em)">Sistema 5</span>
-        <div class="prog-track"><div class="prog-fill" id="p6fill" style="background:var(--em);width:0%"></div></div>
-        <span class="prog-n" id="p6n">0 / 150</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s6)">Sistema 6</span>
-        <div class="prog-track"><div class="prog-fill" id="p7fill" style="background:var(--s6);width:0%"></div></div>
-        <span class="prog-n" id="p7n">0 / 98</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s7)">Sistema 7</span>
-        <div class="prog-track"><div class="prog-fill" id="p8fill" style="background:var(--s7);width:0%"></div></div>
-        <span class="prog-n" id="p8n">0 / 100</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s8)">Sistema 8</span>
-        <div class="prog-track"><div class="prog-fill" id="p9fill" style="background:var(--s8);width:0%"></div></div>
-        <span class="prog-n" id="p9n">0 / 8</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s9)">Sistema 9</span>
-        <div class="prog-track"><div class="prog-fill" id="p10fill" style="background:var(--s9);width:0%"></div></div>
-        <span class="prog-n" id="p10n">0 / 4</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s10)">Sistema 10</span>
-        <div class="prog-track"><div class="prog-fill" id="p11fill" style="background:var(--s10);width:0%"></div></div>
-        <span class="prog-n" id="p11n">— / 30</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s11)">Sistema 11</span>
-        <div class="prog-track"><div class="prog-fill" id="p12fill" style="background:var(--s11);width:0%"></div></div>
-        <span class="prog-n" id="p12n">0 / 8</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s12)">Sistema 12</span>
-        <div class="prog-track"><div class="prog-fill" id="p13fill" style="background:var(--s12);width:0%"></div></div>
-        <span class="prog-n" id="p13n">0 / 10</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s13)">Sistema 13</span>
-        <div class="prog-track"><div class="prog-fill" id="p14fill" style="background:var(--s13);width:0%"></div></div>
-        <span class="prog-n" id="p14n">0 / 6</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s14)">Sistema 14</span>
-        <div class="prog-track"><div class="prog-fill" id="p15fill" style="background:var(--s14);width:0%"></div></div>
-        <span class="prog-n" id="p15n">0 / 8</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s15)">Sistema 15</span>
-        <div class="prog-track"><div class="prog-fill" id="p16fill" style="background:var(--s15);width:0%"></div></div>
-        <span class="prog-n" id="p16n">0 / 7</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s16)">Sistema 16</span>
-        <div class="prog-track"><div class="prog-fill" id="p17fill" style="background:var(--s16);width:0%"></div></div>
-        <span class="prog-n" id="p17n">0 / 35</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s17)">Sistema 17</span>
-        <div class="prog-track"><div class="prog-fill" id="p18fill" style="background:var(--s17);width:0%"></div></div>
-        <span class="prog-n" id="p18n">0 / 10</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s18)">Sistema 18</span>
-        <div class="prog-track"><div class="prog-fill" id="p19fill" style="background:var(--s18);width:0%"></div></div>
-        <span class="prog-n" id="p19n">0 / 18</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s19)">Sistema 19</span>
-        <div class="prog-track"><div class="prog-fill" id="p20fill" style="background:var(--s19);width:0%"></div></div>
-        <span class="prog-n" id="p20n">0 / 103</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s20)">Sistema 20</span>
-        <div class="prog-track"><div class="prog-fill" id="p21fill" style="background:var(--s20);width:0%"></div></div>
-        <span class="prog-n" id="p21n">0 / 5</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s21)">Sistema 21</span>
-        <div class="prog-track"><div class="prog-fill" id="p22fill" style="background:var(--s21);width:0%"></div></div>
-        <span class="prog-n" id="p22n">0 / 22</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s22)">Sistema 22</span>
-        <div class="prog-track"><div class="prog-fill" id="p23fill" style="background:var(--s22);width:0%"></div></div>
-        <span class="prog-n" id="p23n">0 / 25</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s23)">Sistema 23</span>
-        <div class="prog-track"><div class="prog-fill" id="p24fill" style="background:var(--s23);width:0%"></div></div>
-        <span class="prog-n" id="p24n">0 / 50</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s24)">Sistema 24</span>
-        <div class="prog-track"><div class="prog-fill" id="p25fill" style="background:var(--s24);width:0%"></div></div>
-        <span class="prog-n" id="p25n">0 / 39</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s25)">Sistema 25</span>
-        <div class="prog-track"><div class="prog-fill" id="p26fill" style="background:var(--s25);width:0%"></div></div>
-        <span class="prog-n" id="p26n">0 / 10</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s26)">Sistema 26</span>
-        <div class="prog-track"><div class="prog-fill" id="p27fill" style="background:var(--s26);width:0%"></div></div>
-        <span class="prog-n" id="p27n">0 / 12</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="color:var(--s27)">Sistema 27</span>
-        <div class="prog-track"><div class="prog-fill" id="p28fill" style="background:var(--s27);width:0%"></div></div>
-        <span class="prog-n" id="p28n">0 / 7</span>
-      </div>
-      <div class="prog-row">
-        <span class="prog-row-label" style="background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Jornada</span>
-        <div class="prog-track"><div class="prog-fill" id="p4fill" style="background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);width:0%"></div></div>
-        <span class="prog-n" id="p4n">0 / 120</span>
-      </div>
-    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+    <div class="badges" id="badges"><!-- badges gerados via JS --></div>
+    <p class="prog-note">Seu progresso fica salvo apenas neste navegador. Cada sistema também guarda seu progresso detalhado internamente.</p>
   </div>
-</div>
+</section>
 
-<!-- FOOTER -->
-<div class="footer">27 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 + 146 + 204 + 150 + 7 + 35 + 10 + 18 + 103 + 5 + 22 + 216 + 90 + 39 + 10 + 12 + 7 unidades · 120 etapas · inglês do real ao fluente</div>
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-main">Inglês para Brasileiros · Estude com consistência · 🇺🇸</div>
+  <div class="footer-links">
+    <a href="./index.html">Painel Principal</a>
+    <a href="./jornada/index.html">Jornada Completa</a>
+  </div>
+</footer>
 
 <script>
-// ── PARTICLES ─────────────────────────────────────────────────────────────────
+// ── DADOS DOS SISTEMAS ────────────────────────────────────────────────
+var SYS = [
+  // Grupo A — Para Começar
+  {g:'comecar',n:11,lvl:'iniciante',icon:'📚',title:'Como Aprender Inglês',desc:'O método que vai guiar todo o seu aprendizado.',tags:['Método','Essencial']},
+  {g:'comecar',n:1, lvl:'iniciante',icon:'🏗️',title:'Base Completa',desc:'Pronúncia, verbo to be e estrutura básica em inglês.',tags:['Gramática','Fundação']},
+  {g:'comecar',n:13,lvl:'iniciante',icon:'📖',title:'Vocabulário A1',desc:'As palavras mais usadas no inglês do dia a dia.',tags:['Vocabulário','A1']},
+  {g:'comecar',n:23,lvl:'iniciante',icon:'🔤',title:'Inglês do Zero',desc:'40 verbos essenciais, pronomes e tempo verbal A1-A2.',tags:['Gramática','A1-A2']},
+  // Grupo B — Gramática & Estrutura
+  {g:'gramatica',n:3,lvl:'intermediario',icon:'⚡',title:'Gramática Viva',desc:'Tempos verbais e estruturas que nativos realmente usam.',tags:['Gramática','Intermediário']},
+  {g:'gramatica',n:9,lvl:'intermediario',icon:'🔄',title:'Went ou Gone?',desc:'Past Simple vs Present Perfect — a diferença que muda tudo.',tags:['Gramática','Intermediário']},
+  {g:'gramatica',n:2,lvl:'intermediario',icon:'🗓️',title:'Inglês Real do Dia a Dia',desc:'Frases práticas para situações cotidianas.',tags:['Frases','Intermediário']},
+  {g:'gramatica',n:5,lvl:'intermediario',icon:'⚡',title:'Frases Relâmpago',desc:'Blocos prontos para usar imediatamente.',tags:['Frases','Chunks']},
+  {g:'gramatica',n:7,lvl:'intermediario',icon:'🎯',title:'Colocações Naturais',desc:'Combinações de palavras que soam nativas.',tags:['Vocabulário','Intermediário']},
+  {g:'gramatica',n:8,lvl:'intermediario',icon:'🔒',title:'Estruturas Fixas',desc:'Padrões gramaticais que se repetem.',tags:['Gramática','Padrões']},
+  // Grupo C — Vocabulário & Expressões
+  {g:'vocabulario',n:15,lvl:'intermediario',icon:'🎭',title:'Expressões Idiomáticas',desc:'Take it easy, piece of cake — expressões que nativos adoram.',tags:['Expressões','Idioms']},
+  {g:'vocabulario',n:16,lvl:'intermediario',icon:'🎬',title:'Inglês com Filmes',desc:'Frases reais extraídas de filmes americanos.',tags:['Filmes','Frases']},
+  {g:'vocabulario',n:21,lvl:'avancado',icon:'📖',title:'The Birthday Party',desc:'Vocabulário literário de um conto americano de 1946.',tags:['Literatura','Avançado']},
+  {g:'vocabulario',n:17,lvl:'intermediario',icon:'🎯',title:'Super Sentences',desc:'Construa frases longas e complexas nível por nível.',tags:['Fala','Progressivo']},
+  {g:'vocabulario',n:25,lvl:'intermediario',icon:'🎯',title:'Super Sentences Vol. 2',desc:'11 novas histórias progressivas — do simples ao avançado.',tags:['Fala','Progressivo']},
+  // Grupo D — Conversação & Situações
+  {g:'conversacao',n:26,lvl:'conversacao',icon:'💬',title:'Diálogos do Dia a Dia',desc:'30+ diálogos reais em 12 situações — prática em dupla.',tags:['Diálogos','Situações']},
+  {g:'conversacao',n:22,lvl:'conversacao',icon:'🗺️',title:'Situações Reais',desc:'1200 frases em 27 situações: aeroporto, hotel, médico...',tags:['Frases','Situações']},
+  {g:'conversacao',n:18,lvl:'conversacao',icon:'☀️',title:'How Was Your Day?',desc:'Conversas reais para descrever o seu dia.',tags:['Conversação','Diário']},
+  {g:'conversacao',n:19,lvl:'conversacao',icon:'🗣️',title:'Conversação Diária',desc:'500 perguntas e respostas para treinar fluência.',tags:['Q&A','Fluência']},
+  {g:'conversacao',n:20,lvl:'conversacao',icon:'🌿',title:'Conversas Reais',desc:'Inglês de podcast: memórias, viagens e vida cotidiana.',tags:['Podcast','Natural']},
+  {g:'conversacao',n:4,lvl:'conversacao',icon:'🎭',title:'Inglês em Cena',desc:'Diálogos dramatizados para treinar fala.',tags:['Diálogos','Drama']},
+  {g:'conversacao',n:6,lvl:'conversacao',icon:'☕',title:'Conversas do Dia a Dia',desc:'Inglês casual e natural em contextos reais.',tags:['Conversação','Casual']},
+  {g:'conversacao',n:12,lvl:'conversacao',icon:'🌙',title:'Rotina da Noite',desc:'Vocabulário e frases para o fim do dia.',tags:['Rotina','Vocabulário']},
+  {g:'conversacao',n:14,lvl:'conversacao',icon:'🍎',title:'Vida Saudável',desc:'Inglês para falar de saúde, exercício e bem-estar.',tags:['Saúde','Vocabulário']},
+  // Grupo E — Fluência & Avançado
+  {g:'fluencia',n:24,lvl:'avancado',icon:'🧠',title:'Pense em Inglês',desc:'10 estratégias reais para parar de traduzir mentalmente.',tags:['Fluência','Mentalidade']},
+  {g:'fluencia',n:27,lvl:'avancado',icon:'🎤',title:'Shadowing com Propósito',desc:'7 textos motivacionais para treinar voz, ritmo e vocabulário.',tags:['Shadowing','Avançado']},
+  {g:'fluencia',n:10,lvl:'avancado',icon:'🏆',title:'Teste seu Nível',desc:'Diagnóstico completo para saber onde você está.',tags:['Teste','Diagnóstico']}
+];
+
+var GROUPS = [
+  {id:'comecar',    label:'🌱 Para Começar'},
+  {id:'gramatica',  label:'📚 Gramática & Estrutura'},
+  {id:'vocabulario',label:'💬 Vocabulário & Expressões'},
+  {id:'conversacao',label:'🗣️ Conversação & Situações'},
+  {id:'fluencia',   label:'🔥 Fluência & Avançado'}
+];
+
+var LEVEL_META = {
+  iniciante:{txt:'Iniciante',c:'var(--level-init)',bd:'rgba(16,185,129,.4)'},
+  intermediario:{txt:'Intermediário',c:'var(--level-inter)',bd:'rgba(14,165,233,.4)'},
+  conversacao:{txt:'Conversação',c:'var(--level-conv)',bd:'rgba(245,197,24,.4)'},
+  avancado:{txt:'Avançado',c:'var(--level-adv)',bd:'rgba(167,139,250,.4)'}
+};
+
+var SYS_NAMES = {1:'Base Completa',2:'Inglês Real do Dia a Dia',3:'Gramática Viva',4:'Inglês em Cena',5:'Frases Relâmpago',6:'Conversas do Dia a Dia',7:'Colocações Naturais',8:'Estruturas Fixas',9:'Went ou Gone?',10:'Teste seu Nível',11:'Como Aprender Inglês',12:'Rotina da Noite',13:'Vocabulário A1',14:'Vida Saudável',15:'Expressões Idiomáticas',16:'Inglês com Filmes',17:'Super Sentences',18:'How Was Your Day?',19:'Conversação Diária',20:'Conversas Reais',21:'The Birthday Party',22:'Situações Reais',23:'Inglês do Zero',24:'Pense em Inglês',25:'Super Sentences Vol. 2',26:'Diálogos do Dia a Dia',27:'Shadowing com Propósito'};
+
+function isVisited(n){ try{ return localStorage.getItem('s'+n+'_visited')==='true'; }catch(e){ return false; } }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── RENDER GRID ────────────────────────────────────────────────────────
 (function(){
-  const w = document.getElementById('particles');
-  const cols = ['#64DFDF','#A78BFA','#F5C518','#5FD87A','#c084fc'];
-  for(let i = 0; i < 28; i++){
-    const d = document.createElement('div');
-    d.className = 'p';
-    const sz = 2 + Math.random() * 4;
-    d.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};opacity:${.1+Math.random()*.2};animation-duration:${14+Math.random()*18}s;animation-delay:${-Math.random()*25}s;`;
-    w.appendChild(d);
-  }
+  var grid = document.getElementById('sysGrid');
+  var html = '';
+  GROUPS.forEach(function(grp){
+    var items = SYS.filter(function(s){ return s.g===grp.id; });
+    var cards = items.map(function(s){
+      var lm = LEVEL_META[s.lvl];
+      var tags = s.tags.map(function(t){ return '<span class="ctag">'+esc(t)+'</span>'; }).join('');
+      var vis = isVisited(s.n) ? ' visited' : '';
+      return '<a class="card c-s'+s.n+vis+'" href="./sistema'+s.n+'/index.html" data-level="'+s.lvl+'" data-group="'+s.g+'">'
+        + '<div class="card-bar"></div>'
+        + '<div class="card-body">'
+        +   '<div class="card-top"><span class="card-sys">Sistema '+s.n+'</span>'
+        +     '<span class="card-lvl" style="color:'+lm.c+';border-color:'+lm.bd+'">'+lm.txt+'</span></div>'
+        +   '<span class="card-icon">'+s.icon+'</span>'
+        +   '<div class="card-title">'+esc(s.title)+'</div>'
+        +   '<div class="card-desc">'+esc(s.desc)+'</div>'
+        +   '<div class="card-tags">'+tags+'</div>'
+        + '</div>'
+        + '<div class="card-footer">'
+        +   '<span class="card-cta">Acessar S'+s.n+'</span>'
+        +   '<span class="visited-flag">✓ visitado</span>'
+        +   '<span class="card-arrow">→</span>'
+        + '</div>'
+        + '</a>';
+    }).join('');
+    html += '<div class="sys-group" data-group="'+grp.id+'">'
+      + '<div class="group-title">'+grp.label+'</div>'
+      + '<div class="cards">'+cards+'</div></div>';
+  });
+  grid.innerHTML = html;
 })();
 
-// ── PROGRESS ─────────────────────────────────────────────────────────────────
+// ── FILTROS ────────────────────────────────────────────────────────────
 (function(){
-  try {
-    // Sistema 2 Pilar 4 — textos lidos (localStorage key: p4_read)
-    let s2Read = 0;
-    const p4 = localStorage.getItem('p4_read');
-    if(p4){ try{ s2Read = JSON.parse(p4).length || 0; }catch(e){} }
+  var chips = document.querySelectorAll('#filters .chip');
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      var type = chip.getAttribute('data-ftype');
+      var val = chip.getAttribute('data-fval');
+      document.querySelectorAll('.sys-group').forEach(function(grp){
+        var visible = 0;
+        grp.querySelectorAll('.card').forEach(function(card){
+          var show = (type==='all')
+            || (type==='level' && card.getAttribute('data-level')===val)
+            || (type==='group' && card.getAttribute('data-group')===val);
+          card.classList.toggle('hidden', !show);
+          if(show) visible++;
+        });
+        grp.style.display = visible ? '' : 'none';
+      });
+    });
+  });
+})();
 
-    const p2pct = Math.min(100, Math.round(s2Read / 150 * 100));
-    document.getElementById('p2fill').style.width = p2pct + '%';
-    document.getElementById('p2n').textContent = s2Read + ' / 150';
+// ── PROGRESSO (badges + barra) ─────────────────────────────────────────
+(function(){
+  var wrap = document.getElementById('badges');
+  var html = '';
+  var done = 0;
+  for(var n=1;n<=27;n++){
+    var v = isVisited(n);
+    if(v) done++;
+    html += '<a class="badge'+(v?' done':'')+'" href="./sistema'+n+'/index.html">'
+      + '<span class="b-tip">S'+n+' — '+esc(SYS_NAMES[n])+'</span>'
+      + '<span class="b-n">'+n+'</span>'
+      + '<span class="b-mark">'+(v?'✓':'○')+'</span>'
+      + '</a>';
+  }
+  wrap.innerHTML = html;
+  var pct = Math.round(done/27*100);
+  document.getElementById('progVisited').textContent = done;
+  document.getElementById('progPct').textContent = pct+'%';
+  document.getElementById('progFill').style.width = pct+'%';
+})();
 
-    // Sistema 1 — count any lesson localStorage keys (lesson pages save progress)
-    // Keys tend to follow pattern like lesson_read_01, etc. — approximate via key scan
-    let s1count = 0;
-    for(let i = 0; i < localStorage.length; i++){
-      const k = localStorage.key(i);
-      if(k && (k.startsWith('lesson_') || k.includes('_done') || k.includes('_read'))) s1count++;
-    }
-    s1count = Math.min(89, s1count);
-    const p1pct = Math.round(s1count / 89 * 100);
-    document.getElementById('p1fill').style.width = p1pct + '%';
-    document.getElementById('p1n').textContent = s1count + ' / 89';
+// ── NAVBAR: drawer mobile + scroll suave ───────────────────────────────
+(function(){
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  var back = document.getElementById('drawerBack');
+  var close = document.getElementById('drawerClose');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); burger.setAttribute('aria-expanded','true'); }
+  function shut(){ drawer.classList.remove('open'); back.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+  burger.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  back.addEventListener('click', shut);
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
+})();
 
-    // Sistema 4 — cenas estudadas (localStorage key: s4_cenas_estudadas)
-    let s4Done = 0;
-    const s4 = localStorage.getItem('s4_cenas_estudadas');
-    if(s4){ try{ s4Done = JSON.parse(s4).length || 0; }catch(e){} }
-    const p5pct = Math.round(s4Done / 20 * 100);
-    document.getElementById('p5fill').style.width = p5pct + '%';
-    document.getElementById('p5n').textContent = s4Done + ' / 20';
-
-    // Sistema 5 — frases estudadas (localStorage key: sistema5_progresso.studied, array of 150 booleans)
-    let s5Done = 0;
-    const s5 = localStorage.getItem('sistema5_progresso');
-    if(s5){ try{ const s5p = JSON.parse(s5); if(Array.isArray(s5p.studied)) s5Done = s5p.studied.filter(Boolean).length; }catch(e){} }
-    const p6pct = Math.round(s5Done / 150 * 100);
-    document.getElementById('p6fill').style.width = p6pct + '%';
-    document.getElementById('p6n').textContent = s5Done + ' / 150';
-
-    // Sistema 6 — pares dominados (localStorage key: sistema6_progresso.pairs, array of 98 booleans)
-    let s6Done = 0;
-    const s6 = localStorage.getItem('sistema6_progresso');
-    if(s6){ try{ const s6p = JSON.parse(s6); if(Array.isArray(s6p.pairs)) s6Done = s6p.pairs.filter(Boolean).length; }catch(e){} }
-    const p7pct = Math.round(s6Done / 98 * 100);
-    document.getElementById('p7fill').style.width = p7pct + '%';
-    document.getElementById('p7n').textContent = s6Done + ' / 98';
-
-    // Sistema 7 — colocações aprendidas (localStorage key: sistema7_progresso.learned, array of 100 booleans)
-    let s7Done = 0;
-    const s7 = localStorage.getItem('sistema7_progresso');
-    if(s7){ try{ const s7p = JSON.parse(s7); if(Array.isArray(s7p.learned)) s7Done = s7p.learned.filter(Boolean).length; }catch(e){} }
-    const p8pct = Math.round(s7Done / 100 * 100);
-    document.getElementById('p8fill').style.width = p8pct + '%';
-    document.getElementById('p8n').textContent = s7Done + ' / 100';
-
-    // Sistema 8 — estruturas aprendidas (localStorage key: s8_progress.learned, array of 8 booleans)
-    let s8Done = 0;
-    const s8 = localStorage.getItem('s8_progress');
-    if(s8){ try{ const s8p = JSON.parse(s8); if(Array.isArray(s8p.learned)) s8Done = s8p.learned.filter(Boolean).length; }catch(e){} }
-    const p9pct = Math.round(s8Done / 8 * 100);
-    document.getElementById('p9fill').style.width = p9pct + '%';
-    document.getElementById('p9n').textContent = s8Done + ' / 8';
-
-    // Sistema 9 — módulos aprendidos (localStorage key: s9_progress.learned, array of 4 booleans)
-    let s9Done = 0;
-    const s9 = localStorage.getItem('s9_progress');
-    if(s9){ try{ const s9p = JSON.parse(s9); if(Array.isArray(s9p.learned)) s9Done = s9p.learned.filter(Boolean).length; }catch(e){} }
-    const p10pct = Math.round(s9Done / 4 * 100);
-    document.getElementById('p10fill').style.width = p10pct + '%';
-    document.getElementById('p10n').textContent = s9Done + ' / 4';
-
-    // Sistema 10 — último resultado do teste (localStorage key: s10_ultimo_resultado.score / .total)
-    const s10 = localStorage.getItem('s10_ultimo_resultado');
-    if (s10) {
-      try {
-        const s10r = JSON.parse(s10);
-        if (typeof s10r.score === 'number' && typeof s10r.total === 'number') {
-          const p11pct = Math.round(s10r.score / s10r.total * 100);
-          document.getElementById('p11fill').style.width = p11pct + '%';
-          document.getElementById('p11n').textContent = s10r.score + ' / ' + s10r.total;
-        }
-      } catch(e) {}
-    }
-
-    // Sistema 11 — seções visitadas do guia (localStorage key: s11_secao_atual.visitadas, array of section ids)
-    const s11 = localStorage.getItem('s11_secao_atual');
-    if (s11) {
-      try {
-        const s11p = JSON.parse(s11);
-        const s11Done = Array.isArray(s11p.visitadas) ? s11p.visitadas.length : 0;
-        const p12pct = Math.round(s11Done / 8 * 100);
-        document.getElementById('p12fill').style.width = p12pct + '%';
-        document.getElementById('p12n').textContent = s11Done + ' / 8';
-      } catch(e) {}
-    }
-
-    // Sistema 12 — temas estudados (localStorage key: s12_progresso.temasEstudados, array of theme ids)
-    const s12 = localStorage.getItem('s12_progresso');
-    if (s12) {
-      try {
-        const s12p = JSON.parse(s12);
-        const s12Done = Array.isArray(s12p.temasEstudados) ? s12p.temasEstudados.length : 0;
-        const p13pct = Math.round(s12Done / 10 * 100);
-        document.getElementById('p13fill').style.width = p13pct + '%';
-        document.getElementById('p13n').textContent = s12Done + ' / 10';
-      } catch(e) {}
-    }
-
-    // Sistema 13 — categorias estudadas (localStorage key: s13_progresso.categoriasEstudadas, array of category ids)
-    const s13 = localStorage.getItem('s13_progresso');
-    if (s13) {
-      try {
-        const s13p = JSON.parse(s13);
-        const s13Done = Array.isArray(s13p.categoriasEstudadas) ? s13p.categoriasEstudadas.length : 0;
-        const p14pct = Math.round(s13Done / 6 * 100);
-        document.getElementById('p14fill').style.width = p14pct + '%';
-        document.getElementById('p14n').textContent = s13Done + ' / 6';
-      } catch(e) {}
-    }
-
-    // Sistema 14 — temas estudados (localStorage key: s14_progresso.temasEstudados, array of theme ids)
-    const s14 = localStorage.getItem('s14_progresso');
-    if (s14) {
-      try {
-        const s14p = JSON.parse(s14);
-        const s14Done = Array.isArray(s14p.temasEstudados) ? s14p.temasEstudados.length : 0;
-        const p15pct = Math.round(s14Done / 8 * 100);
-        document.getElementById('p15fill').style.width = p15pct + '%';
-        document.getElementById('p15n').textContent = s14Done + ' / 8';
-      } catch(e) {}
-    }
-
-    // Sistema 15 — expressões vistas (localStorage key: s15_progresso.expressoesVistas, array of indices)
-    const s15 = localStorage.getItem('s15_progresso');
-    if (s15) {
-      try {
-        const s15p = JSON.parse(s15);
-        const s15Done = Array.isArray(s15p.expressoesVistas) ? s15p.expressoesVistas.length : 0;
-        const p16pct = Math.round(s15Done / 7 * 100);
-        document.getElementById('p16fill').style.width = p16pct + '%';
-        document.getElementById('p16n').textContent = s15Done + ' / 7';
-      } catch(e) {}
-    }
-
-    // Sistema 16 — frases revisadas no flashcard (localStorage key: s16_progresso.flashIndex, out of 35)
-    const s16 = localStorage.getItem('s16_progresso');
-    if (s16) {
-      try {
-        const s16p = JSON.parse(s16);
-        const s16Done = Math.min(35, typeof s16p.flashIndex === 'number' ? s16p.flashIndex : 0);
-        const p17pct = Math.round(s16Done / 35 * 100);
-        document.getElementById('p17fill').style.width = p17pct + '%';
-        document.getElementById('p17n').textContent = s16Done + ' / 35';
-      } catch(e) {}
-    }
-
-    // Sistema 17 — nível atual alcançado (localStorage key: s17_progresso.nivelAtual, out of 10)
-    const s17 = localStorage.getItem('s17_progresso');
-    if (s17) {
-      try {
-        const s17p = JSON.parse(s17);
-        const s17Done = Math.min(10, typeof s17p.nivelAtual === 'number' ? s17p.nivelAtual : 0);
-        const p18pct = Math.round(s17Done / 10 * 100);
-        document.getElementById('p18fill').style.width = p18pct + '%';
-        document.getElementById('p18n').textContent = s17Done + ' / 10';
-      } catch(e) {}
-    }
-
-    // Sistema 18 — situações revisadas no flashcard (localStorage key: s18_progresso.flashIndex, out of 18)
-    const s18 = localStorage.getItem('s18_progresso');
-    if (s18) {
-      try {
-        const s18p = JSON.parse(s18);
-        const s18Done = Math.min(18, typeof s18p.flashIndex === 'number' ? s18p.flashIndex : 0);
-        const p19pct = Math.round(s18Done / 18 * 100);
-        document.getElementById('p19fill').style.width = p19pct + '%';
-        document.getElementById('p19n').textContent = s18Done + ' / 18';
-      } catch(e) {}
-    }
-
-    // Sistema 19 — perguntas revisadas no quiz (localStorage key: s19_progresso.quizIndex, out of 103)
-    const s19 = localStorage.getItem('s19_progresso');
-    if (s19) {
-      try {
-        const s19p = JSON.parse(s19);
-        const s19Done = Math.min(103, typeof s19p.quizIndex === 'number' ? s19p.quizIndex : 0);
-        const p20pct = Math.round(s19Done / 103 * 100);
-        document.getElementById('p20fill').style.width = p20pct + '%';
-        document.getElementById('p20n').textContent = s19Done + ' / 103';
-      } catch(e) {}
-    }
-
-    // Sistema 20 — exercícios de "used to" respondidos (localStorage key: s20_infancia_progresso.exercicioRespostas, out of 5)
-    const s20 = localStorage.getItem('s20_infancia_progresso');
-    if (s20) {
-      try {
-        const s20p = JSON.parse(s20);
-        const s20Done = s20p.exercicioRespostas ? Object.keys(s20p.exercicioRespostas).length : 0;
-        const p21pct = Math.round(Math.min(5, s20Done) / 5 * 100);
-        document.getElementById('p21fill').style.width = p21pct + '%';
-        document.getElementById('p21n').textContent = Math.min(5, s20Done) + ' / 5';
-      } catch(e) {}
-    }
-
-    // Sistema 21 — palavras revisadas no flashcard (localStorage key: s21_progresso.flashIndex, out of 22)
-    const s21 = localStorage.getItem('s21_progresso');
-    if (s21) {
-      try {
-        const s21p = JSON.parse(s21);
-        const s21Done = Math.min(22, typeof s21p.flashIndex === 'number' ? s21p.flashIndex : 0);
-        const p22pct = Math.round(s21Done / 22 * 100);
-        document.getElementById('p22fill').style.width = p22pct + '%';
-        document.getElementById('p22n').textContent = s21Done + ' / 22';
-      } catch(e) {}
-    }
-
-    // Sistema 22 — idioms revisados no flashcard (localStorage key: s22_idioms_progresso.flashIndex, out of 25)
-    const s22 = localStorage.getItem('s22_idioms_progresso');
-    if (s22) {
-      try {
-        const s22p = JSON.parse(s22);
-        const s22Done = Math.min(25, typeof s22p.flashIndex === 'number' ? s22p.flashIndex : 0);
-        const p23pct = Math.round(s22Done / 25 * 100);
-        document.getElementById('p23fill').style.width = p23pct + '%';
-        document.getElementById('p23n').textContent = s22Done + ' / 25';
-      } catch(e) {}
-    }
-
-    // Sistema 23 — pares revisados no flashcard (localStorage key: s23_frases_progresso.flashIndex, out of 50)
-    const s23 = localStorage.getItem('s23_frases_progresso');
-    if (s23) {
-      try {
-        const s23p = JSON.parse(s23);
-        const s23Done = Math.min(50, typeof s23p.flashIndex === 'number' ? s23p.flashIndex : 0);
-        const p24pct = Math.round(s23Done / 50 * 100);
-        document.getElementById('p24fill').style.width = p24pct + '%';
-        document.getElementById('p24n').textContent = s23Done + ' / 50';
-      } catch(e) {}
-    }
-
-    // Sistema 24 — palavras revisadas no flashcard (localStorage key: s24_vocabulario_progresso.flashIndex, out of 39)
-    const s24 = localStorage.getItem('s24_vocabulario_progresso');
-    if (s24) {
-      try {
-        const s24p = JSON.parse(s24);
-        const s24Done = Math.min(39, typeof s24p.flashIndex === 'number' ? s24p.flashIndex : 0);
-        const p25pct = Math.round(s24Done / 39 * 100);
-        document.getElementById('p25fill').style.width = p25pct + '%';
-        document.getElementById('p25n').textContent = s24Done + ' / 39';
-      } catch(e) {}
-    }
-
-    // Sistema 25 — histórias completadas (localStorage key: s25_historias_progresso.completadas, array of episode ids)
-    const s25 = localStorage.getItem('s25_historias_progresso');
-    if (s25) {
-      try {
-        const s25p = JSON.parse(s25);
-        const s25Done = Array.isArray(s25p.completadas) ? s25p.completadas.length : 0;
-        const p26pct = Math.round(s25Done / 10 * 100);
-        document.getElementById('p26fill').style.width = p26pct + '%';
-        document.getElementById('p26n').textContent = s25Done + ' / 10';
-      } catch(e) {}
-    }
-
-    // Sistema 26 — situações praticadas (localStorage key: s26_dialogos_progresso.concluidas, array of situation ids)
-    const s26 = localStorage.getItem('s26_dialogos_progresso');
-    if (s26) {
-      try {
-        const s26p = JSON.parse(s26);
-        const s26Done = Array.isArray(s26p.concluidas) ? s26p.concluidas.length : 0;
-        const p27pct = Math.round(s26Done / 12 * 100);
-        document.getElementById('p27fill').style.width = p27pct + '%';
-        document.getElementById('p27n').textContent = s26Done + ' / 12';
-      } catch(e) {}
-    }
-
-    // Sistema 27 — textos praticados (localStorage key: s27_textos_progresso.concluidos, array of text ids)
-    const s27 = localStorage.getItem('s27_textos_progresso');
-    if (s27) {
-      try {
-        const s27p = JSON.parse(s27);
-        const s27Done = Array.isArray(s27p.concluidos) ? s27p.concluidos.length : 0;
-        const p28pct = Math.round(s27Done / 7 * 100);
-        document.getElementById('p28fill').style.width = p28pct + '%';
-        document.getElementById('p28n').textContent = s27Done + ' / 7';
-      } catch(e) {}
-    }
-
-    // Jornada Completa — localStorage key: jornada_progresso (array of 120 booleans)
-    let jDone = 0;
-    const jp = localStorage.getItem('jornada_progresso');
-    if(jp){ try{ jDone = JSON.parse(jp).filter(Boolean).length || 0; }catch(e){} }
-    const p4pct = Math.round(jDone / 120 * 100);
-    document.getElementById('p4fill').style.width = p4pct + '%';
-    document.getElementById('p4n').textContent = jDone + ' / 120';
-
-    // Total (weight: S1=89, S2=150, S3 not tracked yet)
-    const total = s1count + s2Read;
-    const totalMax = 89 + 150;
-    const totalPct = Math.round(total / totalMax * 100);
-    document.getElementById('totalPct').textContent = totalPct + '% concluído';
-    document.getElementById('p3n').textContent = '— / —';
-  } catch(e) {
-    document.getElementById('totalPct').textContent = '—';
+// ── PARTICLES ──────────────────────────────────────────────────────────
+(function(){
+  var w = document.getElementById('particles');
+  var cols = ['#64DFDF','#A78BFA','#F5C518','#5FD87A','#c084fc'];
+  for(var i=0;i<26;i++){
+    var d = document.createElement('div');
+    d.className='p';
+    var sz = 2 + Math.random()*4;
+    d.style.cssText = 'width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;background:'+cols[i%cols.length]+';opacity:'+(.1+Math.random()*.2)+';animation-duration:'+(14+Math.random()*18)+'s;animation-delay:'+(-Math.random()*25)+'s;';
+    w.appendChild(d);
   }
 })();
 </script>
