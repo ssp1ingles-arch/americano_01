@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--s17:#0EA5E9;--s18:#10B981;--s19:#EC4899;--s20:#6366F1;--s21:#B45309;--s22:#0F766E;--s23:#7C2D12;--s24:#BE123C;--s25:#1E40AF;--s26:#6D28D9;--s27:#047857;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--s17:#0EA5E9;--s18:#10B981;--s19:#EC4899;--s20:#6366F1;--s21:#B45309;--s22:#0F766E;--s23:#b45c3a;--s24:#f43f5e;--s25:#5b7cf0;--s26:#9067e0;--s27:#12b981;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{height:100%;}
 body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
@@ -40,175 +40,35 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 .choose-line::before,.choose-line::after{content:'';flex:1;height:1px;background:var(--bd);}
 .choose-text{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);white-space:nowrap;}
 
-/* SECTIONS */
-.section-block{position:relative;z-index:1;max-width:820px;margin:0 auto 2.25rem;padding:0 1.25rem;}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);margin-bottom:.85rem;padding-left:.1rem;}
+/* PHASES */
+.phase{position:relative;z-index:1;width:100%;max-width:960px;margin:0 auto 1.6rem;padding:0 1.25rem;}
+.phase-head{background:var(--sf);border-left:3px solid var(--c);border-radius:.5rem;padding:.7rem 1rem;margin-bottom:.85rem;}
+.phase-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c);}
+.phase-sub{font-size:.78rem;color:var(--tm);line-height:1.5;margin-top:.22rem;}
+.phase-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;}
+.phase-row + .phase-row{margin-top:.5rem;}
+.arrow{color:var(--td);font-size:.9rem;flex-shrink:0;user-select:none;}
 
-/* CARDS GRID */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;}
+/* SYSTEM CARD */
+.scard{width:175px;height:72px;flex-shrink:0;background:var(--sf);border:1px solid var(--c);border-radius:.6rem;padding:.5rem .65rem;display:flex;flex-direction:column;justify-content:center;gap:.1rem;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;overflow:hidden;}
+.scard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.45);}
+.scard-n{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;color:var(--c);}
+.scard-t{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:#fff;line-height:1.15;}
+.scard-s{font-size:.61rem;color:var(--tm);line-height:1.25;}
 
-/* CARD */
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:1.1rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .25s;position:relative;cursor:pointer;}
-.card:hover{transform:translateY(-4px);}
-.card-bar{height:3px;}
-.card-body{padding:1.5rem 1.5rem 1.25rem;flex:1;}
-.card-sys{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;}
-.card-icon{font-size:2.2rem;display:block;margin-bottom:.75rem;line-height:1;}
-.card-title{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:800;line-height:1.2;margin-bottom:.5rem;}
-.card-desc{font-size:.82rem;color:var(--tm);line-height:1.6;margin-bottom:1.1rem;}
-.card-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
-.ctag{font-size:.6rem;font-weight:600;padding:.18rem .55rem;border-radius:2rem;border:1px solid;opacity:.75;}
-.card-footer{padding:.9rem 1.5rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
-.card-cta{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;}
-.card-arrow{font-size:.95rem;transition:transform .2s;}
-.card:hover .card-arrow{transform:translateX(4px);}
-
-/* CARD — SISTEMA 1 (CYAN) */
-.c-s1:hover{border-color:rgba(100,223,223,.35);box-shadow:0 12px 40px rgba(100,223,223,.1);}
-.c-s1 .card-bar{background:linear-gradient(90deg,var(--cy),transparent);}
-.c-s1 .card-sys,.c-s1 .card-title,.c-s1 .card-cta{color:var(--cy);}
-
-/* CARD — SISTEMA 2 (AMBER) */
-.c-s2:hover{border-color:rgba(245,197,24,.3);box-shadow:0 12px 40px rgba(245,197,24,.09);}
-.c-s2 .card-bar{background:linear-gradient(90deg,var(--am),transparent);}
-.c-s2 .card-sys,.c-s2 .card-title,.c-s2 .card-cta{color:var(--am);}
-
-/* CARD — SISTEMA 3 (VIOLET) */
-.c-s3:hover{border-color:rgba(167,139,250,.35);box-shadow:0 12px 40px rgba(167,139,250,.1);}
-.c-s3 .card-bar{background:linear-gradient(90deg,var(--vl),transparent);}
-.c-s3 .card-sys,.c-s3 .card-title,.c-s3 .card-cta{color:var(--vl);}
-
-/* CARD — SISTEMA 4 (CORAL) */
-.c-s4:hover{border-color:rgba(255,107,107,.35);box-shadow:0 12px 40px rgba(255,107,107,.1);}
-.c-s4 .card-bar{background:linear-gradient(90deg,var(--co),transparent);}
-.c-s4 .card-sys,.c-s4 .card-title,.c-s4 .card-cta{color:var(--co);}
-
-/* CARD — SISTEMA 5 (EMERALD) */
-.c-s5:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.12);}
-.c-s5 .card-bar{background:linear-gradient(90deg,var(--em),transparent);}
-.c-s5 .card-sys,.c-s5 .card-title,.c-s5 .card-cta{color:var(--em);}
-
-/* CARD — SISTEMA 6 (SKY BLUE) */
-.c-s6:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.12);}
-.c-s6 .card-bar{background:linear-gradient(90deg,var(--s6),transparent);}
-.c-s6 .card-sys,.c-s6 .card-title,.c-s6 .card-cta{color:var(--s6);}
-
-/* CARD — SISTEMA 7 (MAGENTA) */
-.c-s7:hover{border-color:rgba(217,70,239,.4);box-shadow:0 12px 40px rgba(217,70,239,.12);}
-.c-s7 .card-bar{background:linear-gradient(90deg,var(--s7),transparent);}
-.c-s7 .card-sys,.c-s7 .card-title,.c-s7 .card-cta{color:var(--s7);}
-
-/* CARD — SISTEMA 8 (ORANGE) */
-.c-s8:hover{border-color:rgba(249,115,22,.4);box-shadow:0 12px 40px rgba(249,115,22,.12);}
-.c-s8 .card-bar{background:linear-gradient(90deg,var(--s8),transparent);}
-.c-s8 .card-sys,.c-s8 .card-title,.c-s8 .card-cta{color:var(--s8);}
-
-/* CARD — SISTEMA 9 (DARK CYAN) */
-.c-s9{grid-column:1 / -1;}
-.c-s9:hover{border-color:rgba(6,182,212,.4);box-shadow:0 12px 40px rgba(6,182,212,.12);}
-.c-s9 .card-bar{background:linear-gradient(90deg,var(--s9),transparent);}
-.c-s9 .card-sys,.c-s9 .card-title,.c-s9 .card-cta{color:var(--s9);}
-
-/* CARD — SISTEMA 14 (EMERALD LIGHT) */
-.c-s14:hover{border-color:rgba(52,211,153,.4);box-shadow:0 12px 40px rgba(52,211,153,.12);}
-.c-s14 .card-bar{background:linear-gradient(90deg,var(--s14),transparent);}
-.c-s14 .card-sys,.c-s14 .card-title,.c-s14 .card-cta{color:var(--s14);}
-
-/* CARD — SISTEMA 24 (CRIMSON) */
-.c-s24:hover{border-color:rgba(190,18,60,.45);box-shadow:0 12px 40px rgba(190,18,60,.18);}
-.c-s24 .card-bar{background:linear-gradient(90deg,var(--s24),transparent);}
-.c-s24 .card-sys,.c-s24 .card-title,.c-s24 .card-cta{color:var(--s24);}
-
-/* CARD — SISTEMA 25 (ROYAL BLUE) */
-.c-s25:hover{border-color:rgba(30,64,175,.45);box-shadow:0 12px 40px rgba(30,64,175,.18);}
-.c-s25 .card-bar{background:linear-gradient(90deg,var(--s25),transparent);}
-.c-s25 .card-sys,.c-s25 .card-title,.c-s25 .card-cta{color:var(--s25);}
-
-/* CARD — SISTEMA 26 (INTENSE PURPLE) */
-.c-s26:hover{border-color:rgba(109,40,217,.45);box-shadow:0 12px 40px rgba(109,40,217,.18);}
-.c-s26 .card-bar{background:linear-gradient(90deg,var(--s26),transparent);}
-.c-s26 .card-sys,.c-s26 .card-title,.c-s26 .card-cta{color:var(--s26);}
-
-/* CARD — SISTEMA 27 (EMERALD) */
-.c-s27:hover{border-color:rgba(4,120,87,.45);box-shadow:0 12px 40px rgba(4,120,87,.18);}
-.c-s27 .card-bar{background:linear-gradient(90deg,var(--s27),transparent);}
-.c-s27 .card-sys,.c-s27 .card-title,.c-s27 .card-cta{color:var(--s27);}
-
-/* CARD — SISTEMA 23 (BRICK ORANGE) */
-.c-s23:hover{border-color:rgba(124,45,18,.45);box-shadow:0 12px 40px rgba(124,45,18,.16);}
-.c-s23 .card-bar{background:linear-gradient(90deg,var(--s23),transparent);}
-.c-s23 .card-sys,.c-s23 .card-title,.c-s23 .card-cta{color:var(--s23);}
-
-/* CARD — SISTEMA 22 (TEAL) */
-.c-s22:hover{border-color:rgba(15,118,110,.4);box-shadow:0 12px 40px rgba(15,118,110,.14);}
-.c-s22 .card-bar{background:linear-gradient(90deg,var(--s22),transparent);}
-.c-s22 .card-sys,.c-s22 .card-title,.c-s22 .card-cta{color:var(--s22);}
-
-/* CARD — SISTEMA 21 (DARK AMBER) */
-.c-s21:hover{border-color:rgba(180,83,9,.4);box-shadow:0 12px 40px rgba(180,83,9,.14);}
-.c-s21 .card-bar{background:linear-gradient(90deg,var(--s21),transparent);}
-.c-s21 .card-sys,.c-s21 .card-title,.c-s21 .card-cta{color:var(--s21);}
-
-/* CARD — SISTEMA 20 (INDIGO) */
-.c-s20:hover{border-color:rgba(99,102,241,.4);box-shadow:0 12px 40px rgba(99,102,241,.14);}
-.c-s20 .card-bar{background:linear-gradient(90deg,var(--s20),transparent);}
-.c-s20 .card-sys,.c-s20 .card-title,.c-s20 .card-cta{color:var(--s20);}
-
-/* CARD — SISTEMA 19 (PINK) */
-.c-s19:hover{border-color:rgba(236,72,153,.4);box-shadow:0 12px 40px rgba(236,72,153,.14);}
-.c-s19 .card-bar{background:linear-gradient(90deg,var(--s19),transparent);}
-.c-s19 .card-sys,.c-s19 .card-title,.c-s19 .card-cta{color:var(--s19);}
-
-/* CARD — SISTEMA 18 (EMERALD) */
-.c-s18:hover{border-color:rgba(16,185,129,.4);box-shadow:0 12px 40px rgba(16,185,129,.14);}
-.c-s18 .card-bar{background:linear-gradient(90deg,var(--s18),transparent);}
-.c-s18 .card-sys,.c-s18 .card-title,.c-s18 .card-cta{color:var(--s18);}
-
-/* CARD — SISTEMA 17 (SKY BLUE) */
-.c-s17:hover{border-color:rgba(14,165,233,.4);box-shadow:0 12px 40px rgba(14,165,233,.14);}
-.c-s17 .card-bar{background:linear-gradient(90deg,var(--s17),transparent);}
-.c-s17 .card-sys,.c-s17 .card-title,.c-s17 .card-cta{color:var(--s17);}
-
-/* CARD — SISTEMA 16 (VIOLET) */
-.c-s16:hover{border-color:rgba(124,58,237,.4);box-shadow:0 12px 40px rgba(124,58,237,.14);}
-.c-s16 .card-bar{background:linear-gradient(90deg,var(--s16),transparent);}
-.c-s16 .card-sys,.c-s16 .card-title,.c-s16 .card-cta{color:var(--s16);}
-
-/* CARD — SISTEMA 15 (AMBER) */
-.c-s15:hover{border-color:rgba(245,158,11,.4);box-shadow:0 12px 40px rgba(245,158,11,.12);}
-.c-s15 .card-bar{background:linear-gradient(90deg,var(--s15),transparent);}
-.c-s15 .card-sys,.c-s15 .card-title,.c-s15 .card-cta{color:var(--s15);}
-
-/* CARD — SISTEMA 13 (TEAL) */
-.c-s13:hover{border-color:rgba(45,212,191,.4);box-shadow:0 12px 40px rgba(45,212,191,.12);}
-.c-s13 .card-bar{background:linear-gradient(90deg,var(--s13),transparent);}
-.c-s13 .card-sys,.c-s13 .card-title,.c-s13 .card-cta{color:var(--s13);}
-
-/* CARD — SISTEMA 12 (INDIGO) */
-.c-s12:hover{border-color:rgba(129,140,248,.4);box-shadow:0 12px 40px rgba(129,140,248,.12);}
-.c-s12 .card-bar{background:linear-gradient(90deg,var(--s12),transparent);}
-.c-s12 .card-sys,.c-s12 .card-title,.c-s12 .card-cta{color:var(--s12);}
-
-/* CARD — SISTEMA 11 (ORANGE LIGHT) */
-.c-s11{grid-column:1 / -1;}
-.c-s11:hover{border-color:rgba(251,146,60,.4);box-shadow:0 12px 40px rgba(251,146,60,.12);}
-.c-s11 .card-bar{background:linear-gradient(90deg,var(--s11),transparent);}
-.c-s11 .card-sys,.c-s11 .card-title,.c-s11 .card-cta{color:var(--s11);}
-
-/* CARD — SISTEMA 10 (LIME) */
-.c-s10{grid-column:1 / -1;}
-.c-s10:hover{border-color:rgba(132,204,22,.4);box-shadow:0 12px 40px rgba(132,204,22,.12);}
-.c-s10 .card-bar{background:linear-gradient(90deg,var(--s10),transparent);}
-.c-s10 .card-sys,.c-s10 .card-title,.c-s10 .card-cta{color:var(--s10);}
-
-/* CARD — JORNADA (GRADIENT) */
-.c-jornada{border-color:rgba(255,255,255,.14);}
-.c-jornada:hover{border-color:rgba(255,255,255,.32);box-shadow:0 12px 40px rgba(167,139,250,.12);}
-.c-jornada .card-bar{background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);}
-.c-jornada .card-sys,.c-jornada .card-title,.c-jornada .card-cta{background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+/* JORNADA CARD */
+.jornada-wrap{position:relative;z-index:1;width:100%;max-width:960px;margin:0 auto;padding:0 1.25rem 2.5rem;}
+.jornada-card{display:flex;align-items:center;gap:1rem;background:var(--sf);border:1px solid rgba(255,255,255,.14);border-radius:.85rem;padding:1.1rem 1.35rem;text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;}
+.jornada-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#64DFDF,#A78BFA);}
+.jornada-card:hover{transform:translateY(-3px);border-color:rgba(167,139,250,.4);box-shadow:0 12px 34px rgba(167,139,250,.14);}
+.jornada-icon{font-size:1.9rem;line-height:1;flex-shrink:0;}
+.jornada-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;background:linear-gradient(135deg,#64DFDF,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.jornada-desc{font-size:.78rem;color:var(--tm);margin-top:.15rem;}
+.jornada-arrow{margin-left:auto;color:var(--vl);font-size:1.1rem;flex-shrink:0;transition:transform .2s;}
+.jornada-card:hover .jornada-arrow{transform:translateX(4px);}
 
 /* PROGRESS SECTION */
-.progress-section{position:relative;z-index:1;max-width:980px;margin:1.75rem auto 0;padding:0 1.25rem 3rem;}
+.progress-section{position:relative;z-index:1;width:100%;max-width:960px;margin:1.75rem auto 0;padding:0 1.25rem 3rem;}
 .prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1.1rem 1.35rem;}
 .prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;}
 .prog-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
@@ -225,7 +85,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
 
 /* RESPONSIVE */
 @media(max-width:720px){
-  .cards{grid-template-columns:1fr;}
+  .scard{width:100%;}
+  .arrow{display:none;}
   .hero-title{font-size:2rem;}
 }
 </style>
@@ -259,601 +120,123 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
   <div class="choose-line"><span class="choose-text">Escolha por onde começar</span></div>
 </div>
 
-<!-- SEÇÃO: MÉTODO -->
-<div class="section-block">
-  <div class="section-title">Método</div>
-  <div class="cards">
-
-    <a class="card c-s11" href="./sistema11/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 11</div>
-        <span class="card-icon">🧭</span>
-        <div class="card-title">Como Aprender Inglês</div>
-        <div class="card-desc">Estratégias práticas para ouvir, falar, ler e escrever. Um guia de referência com 25 anos de experiência condensados — comece por aqui antes de tudo o mais.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s11);border-color:rgba(251,146,60,.3)">8 seções</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 habilidades</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">guia de referência</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 11</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 1 — ORIENTAÇÃO -->
+<div class="phase" style="--c:#64DFDF">
+  <div class="phase-head">
+    <div class="phase-title">FASE 1 — ORIENTAÇÃO</div>
+    <div class="phase-sub">Antes de tudo: descubra seu nível e conheça o método</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s10)" href="./sistema10/index.html"><span class="scard-n">S10</span><span class="scard-t">Teste seu Nível</span><span class="scard-s">A1→C2 · Diagnóstico</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s11)" href="./sistema11/index.html"><span class="scard-n">S11</span><span class="scard-t">Como Aprender Inglês</span><span class="scard-s">Método · Antes de tudo</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: FUNDAÇÃO -->
-<div class="section-block">
-  <div class="section-title">Fundação</div>
-  <div class="cards">
-
-    <a class="card c-s1" href="./sistema1/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 1</div>
-        <span class="card-icon">🏗</span>
-        <div class="card-title">Base Completa</div>
-        <div class="card-desc">Pronomes, verbos, artigos e estrutura. O alicerce de tudo — 89 lições em sequência lógica.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--cy);border-color:rgba(100,223,223,.3)">89 lições</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">11 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">Do zero</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 1</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s3" href="./sistema3/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 3</div>
-        <span class="card-icon">⚡</span>
-        <div class="card-title">Gramática Viva</div>
-        <div class="card-desc">Os 12 tempos verbais, 20 verbos irregulares e as situações onde o inglês de escola falha.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--vl);border-color:rgba(167,139,250,.3)">4 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">12 tempos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">20 verbos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 3</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s9" href="./sistema9/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 9</div>
-        <span class="card-icon">⏱️</span>
-        <div class="card-title">Went ou Gone?</div>
-        <div class="card-desc">Passado simples vs present perfect de GO. Chega de confusão — saiba exatamente quando usar went, have gone e have been.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s9);border-color:rgba(6,182,212,.3)">5 módulos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">40+ exemplos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 9</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s17" href="./sistema17/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 17</div>
-        <span class="card-icon">📈</span>
-        <div class="card-title">Super Sentences</div>
-        <div class="card-desc">Do básico ao avançado — expanda suas frases e treine seu inglês falado. Parta de uma frase simples e construa até sentenças fluentes e complexas.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s17);border-color:rgba(14,165,233,.3)">2 histórias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 17</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s25" href="./sistema25/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 25</div>
-        <span class="card-icon">🎯</span>
-        <div class="card-title">Super Sentences Vol. 2</div>
-        <div class="card-desc">10 histórias progressivas — do simples ao complexo em 10 níveis. Continuação do S17, com episódios 3–13 do canal English is EZ with Connor.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s25);border-color:rgba(30,64,175,.3)">10 histórias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">S25 · continuação do S17</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 25</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s23" href="./sistema23/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 23</div>
-        <span class="card-icon">🔤</span>
-        <div class="card-title">Inglês do Zero</div>
-        <div class="card-desc">Verbos, tempos e frases reais — do A1 ao A2 com exemplos progressivos. 40 verbos × 3 tempos, pronomes e frases expansíveis.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s23);border-color:rgba(124,45,18,.3)">40 verbos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">50 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 módulos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 23</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 2 — FUNDAÇÃO A1 -->
+<div class="phase" style="--c:#10B981">
+  <div class="phase-head">
+    <div class="phase-title">FASE 2 — FUNDAÇÃO A1</div>
+    <div class="phase-sub">Absoluto iniciante: base sólida antes de qualquer coisa</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s23)" href="./sistema23/index.html"><span class="scard-n">S23</span><span class="scard-t">Inglês do Zero</span><span class="scard-s">A1 · 40 verbos, pronomes</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--cy)" href="./sistema1/index.html"><span class="scard-n">S1</span><span class="scard-t">Base Completa</span><span class="scard-s">A1 · Pronúncia, to be</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s13)" href="./sistema13/index.html"><span class="scard-n">S13</span><span class="scard-t">Vocabulário A1</span><span class="scard-s">A1 · 200+ palavras essenciais</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: VOCABULÁRIO & FRASES -->
-<div class="section-block">
-  <div class="section-title">Vocabulário &amp; Frases</div>
-  <div class="cards">
-
-    <a class="card c-s2" href="./sistema2/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 2</div>
-        <span class="card-icon">🗣</span>
-        <div class="card-title">Inglês Real do Dia a Dia</div>
-        <div class="card-desc">1.000 frases, 150 textos e padrões do inglês falado. Do básico ao avançado com contexto real.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--am);border-color:rgba(245,197,24,.3)">4 pilares</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">1.270 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">150 textos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 2</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s5" href="./sistema5/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 5</div>
-        <span class="card-icon">⚡</span>
-        <div class="card-title">Frases Relâmpago</div>
-        <div class="card-desc">Shadowing: 150 frases curtas para ouvir, repetir em voz alta e gravar na memória. Modo automático, lista e quiz.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--em);border-color:rgba(16,185,129,.3)">150 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 padrões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">Shadowing</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 5</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s7" href="./sistema7/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 7</div>
-        <span class="card-icon">🔗</span>
-        <div class="card-title">Colocações Naturais</div>
-        <div class="card-desc">100 combinações com MAKE, DO, HAVE, GET e TAKE. Gramática diz se você está correto — colocações dizem se você soa natural.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s7);border-color:rgba(217,70,239,.3)">100 colocações</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 verbos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 7</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s8" href="./sistema8/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 8</div>
-        <span class="card-icon">🧱</span>
-        <div class="card-title">Estruturas Fixas</div>
-        <div class="card-desc">Fórmulas que geram frases infinitas. Aprenda uma estrutura uma vez e crie dezenas de frases trocando o verbo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s8);border-color:rgba(249,115,22,.3)">8 estruturas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">60+ exemplos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 8</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s13" href="./sistema13/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 13</div>
-        <span class="card-icon">📝</span>
-        <div class="card-title">Vocabulário A1</div>
-        <div class="card-desc">200+ palavras essenciais em frases simples. Aprenda cada palavra dentro de uma frase real — não apenas listas!</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s13);border-color:rgba(45,212,191,.3)">204 palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">6 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 13</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s16" href="./sistema16/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 16</div>
-        <span class="card-icon">🎬</span>
-        <div class="card-title">Inglês com Filmes</div>
-        <div class="card-desc">Frases nativas extraídas de filmes e séries, organizadas por função comunicativa — urgência, recusa, surpresa, plano e mais.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s16);border-color:rgba(124,58,237,.3)">35 frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 16</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s21" href="./sistema21/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 21</div>
-        <span class="card-icon">📖</span>
-        <div class="card-title">The Birthday Party</div>
-        <div class="card-desc">Um conto americano de 1946 — vocabulário rico extraído de uma história real, com anotações inline e flashcards.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s21);border-color:rgba(180,83,9,.3)">1 conto</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">20+ palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 21</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 3 — CONSTRUÇÃO A2 -->
+<div class="phase" style="--c:#F5C518">
+  <div class="phase-head">
+    <div class="phase-title">FASE 3 — CONSTRUÇÃO A2</div>
+    <div class="phase-sub">Iniciante avançando: frases reais, rotina e gramática essencial</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--am)" href="./sistema2/index.html"><span class="scard-n">S2</span><span class="scard-t">Inglês Real do Dia a Dia</span><span class="scard-s">A2 · Frases cotidianas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s12)" href="./sistema12/index.html"><span class="scard-n">S12</span><span class="scard-t">Rotina da Noite</span><span class="scard-s">A2 · Perguntas e respostas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s14)" href="./sistema14/index.html"><span class="scard-n">S14</span><span class="scard-t">Vida Saudável</span><span class="scard-s">A2 · Saúde e hábitos</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s9)" href="./sistema9/index.html"><span class="scard-n">S9</span><span class="scard-t">Went ou Gone?</span><span class="scard-s">A2-B1 · Past vs. Present Perf.</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: EXPRESSÕES -->
-<div class="section-block">
-  <div class="section-title">Expressões</div>
-  <div class="cards">
-
-    <a class="card c-s15" href="./sistema15/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 15</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Expressões Idiomáticas</div>
-        <div class="card-desc">Não leve ao pé da letra — o que os americanos realmente querem dizer. 7 expressões com contexto real, exemplos nativos e roleplays autênticos.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s15);border-color:rgba(245,158,11,.3)">7 expressões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">2 grupos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 15</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 4 — ESTRUTURA B1 -->
+<div class="phase" style="--c:#0EA5E9">
+  <div class="phase-head">
+    <div class="phase-title">FASE 4 — ESTRUTURA B1</div>
+    <div class="phase-sub">Intermediário: gramática real, padrões e vocabulário natural</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--vl)" href="./sistema3/index.html"><span class="scard-n">S3</span><span class="scard-t">Gramática Viva</span><span class="scard-s">B1 · Tempos verbais reais</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s8)" href="./sistema8/index.html"><span class="scard-n">S8</span><span class="scard-t">Estruturas Fixas</span><span class="scard-s">B1 · Padrões que se repetem</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s7)" href="./sistema7/index.html"><span class="scard-n">S7</span><span class="scard-t">Colocações Naturais</span><span class="scard-s">B1 · Palavras que andam juntas</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: CONVERSAÇÃO -->
-<div class="section-block">
-  <div class="section-title">Conversação</div>
-  <div class="cards">
-
-    <a class="card c-s4" href="./sistema4/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 4</div>
-        <span class="card-icon">🎬</span>
-        <div class="card-title">Inglês em Cena</div>
-        <div class="card-desc">20 cenas com diálogo, músicas, entrevistas com nativos e role-plays. O inglês do jeito que se fala de verdade, com humor e contexto.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--co);border-color:rgba(255,107,107,.3)">20 cenas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 músicas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">50 frases</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 4</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s6" href="./sistema6/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 6</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Conversas do Dia a Dia</div>
-        <div class="card-desc">14 conversas reais · 98 pares Q&A · 5 modos. Pratique os dois lados da conversa — perguntando e respondendo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s6);border-color:rgba(14,165,233,.3)">14 conversas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">98 pares Q&A</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 6</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s26" href="./sistema26/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 26</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">Diálogos do Dia a Dia</div>
-        <div class="card-desc">Conversas reais em 12 situações — ouça, leia e pratique em dupla. Diálogos completos com dois participantes, não frases soltas.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s26);border-color:rgba(109,40,217,.3)">12 situações</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">28 diálogos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">100+ expressões</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 26</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s12" href="./sistema12/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 12</div>
-        <span class="card-icon">🌙</span>
-        <div class="card-title">Rotina da Noite</div>
-        <div class="card-desc">Pratique inglês com perguntas e respostas do dia a dia. Frases curtas, reais e repetitivas — o jeito mais rápido de ganhar confiança.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s12);border-color:rgba(129,140,248,.3)">146 perguntas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 temas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 12</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s14" href="./sistema14/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 14</div>
-        <span class="card-icon">💪</span>
-        <div class="card-title">Vida Saudável</div>
-        <div class="card-desc">Pratique inglês falando sobre saúde e hábitos. 150 perguntas e respostas reais sobre alimentação, exercício, sono e bem-estar.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s14);border-color:rgba(52,211,153,.3)">150 perguntas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 temas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 14</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s18" href="./sistema18/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 18</div>
-        <span class="card-icon">💬</span>
-        <div class="card-title">How Was Your Day?</div>
-        <div class="card-desc">Pare de dizer "it was good" — 30 respostas reais que nativos usam para a pergunta mais comum do inglês.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s18);border-color:rgba(16,185,129,.3)">30 respostas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 tons</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 18</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s19" href="./sistema19/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 19</div>
-        <span class="card-icon">🎧</span>
-        <div class="card-title">Conversação Diária</div>
-        <div class="card-desc">Ouça, repita e responda — treine conversação com 200+ perguntas reais organizadas por tema.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s19);border-color:rgba(236,72,153,.3)">100+ pares</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">10 categorias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 19</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s20" href="./sistema20/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 20</div>
-        <span class="card-icon">🗣️</span>
-        <div class="card-title">Conversas Reais</div>
-        <div class="card-desc">Infância, amizade e vida no exterior — inglês nativo em conversas cotidianas reais, com gramática "used to".</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s20);border-color:rgba(99,102,241,.3)">2 conversas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">4 blocos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">30+ expressões</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 20</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s22" href="./sistema22/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 22</div>
-        <span class="card-icon">🗺️</span>
-        <div class="card-title">Situações Reais</div>
-        <div class="card-desc">300+ frases organizadas por situação — do aeroporto ao médico, da emergência ao hotel, mais phrasal verbs e idioms.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s22);border-color:rgba(15,118,110,.3)">300+ frases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">8 blocos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 páginas</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 22</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 5 — EXPRESSÃO B1-B2 -->
+<div class="phase" style="--c:#EC4899">
+  <div class="phase-head">
+    <div class="phase-title">FASE 5 — EXPRESSÃO B1-B2</div>
+    <div class="phase-sub">Conversação: diálogos, situações reais e expressões idiomáticas</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--co)" href="./sistema4/index.html"><span class="scard-n">S4</span><span class="scard-t">Inglês em Cena</span><span class="scard-s">B1 · Diálogos e humor</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s6)" href="./sistema6/index.html"><span class="scard-n">S6</span><span class="scard-t">Conversas do Dia a Dia</span><span class="scard-s">B1 · Q&amp;A dos dois lados</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s15)" href="./sistema15/index.html"><span class="scard-n">S15</span><span class="scard-t">Expressões Idiomáticas</span><span class="scard-s">B1-B2 · Idioms nativos</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s22)" href="./sistema22/index.html"><span class="scard-n">S22</span><span class="scard-t">Situações Reais</span><span class="scard-s">B1 · 1200 frases, 27 situações</span></a>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s16)" href="./sistema16/index.html"><span class="scard-n">S16</span><span class="scard-t">Inglês com Filmes</span><span class="scard-s">B1-B2 · Frases de filmes</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s26)" href="./sistema26/index.html"><span class="scard-n">S26</span><span class="scard-t">Diálogos do Dia a Dia</span><span class="scard-s">B1 · 30+ diálogos situacionais</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s18)" href="./sistema18/index.html"><span class="scard-n">S18</span><span class="scard-t">How Was Your Day?</span><span class="scard-s">B1 · Ouça e repita com Kayla</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: FLUÊNCIA -->
-<div class="section-block">
-  <div class="section-title">Fluência</div>
-  <div class="cards">
-
-    <a class="card c-s24" href="./sistema24/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 24</div>
-        <span class="card-icon">🧠</span>
-        <div class="card-title">Pense em Inglês</div>
-        <div class="card-desc">O que separa quem entende de quem fala — estratégias reais de nativos para acelerar a fluência.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s24);border-color:rgba(190,18,60,.3)">10 estratégias</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">35+ palavras</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">3 modos</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 24</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-    <a class="card c-s27" href="./sistema27/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 27</div>
-        <span class="card-icon">🎤</span>
-        <div class="card-title">Shadowing com Propósito</div>
-        <div class="card-desc">7 textos motivacionais para treinar voz, ritmo e vocabulário avançado. Repita em voz alta junto com o falante nativo, ao mesmo tempo.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s27);border-color:rgba(4,120,87,.3)">7 textos</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">70+ expressões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">shadowing</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 27</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 6 — PRODUÇÃO B1-B2 -->
+<div class="phase" style="--c:#5b7cf0">
+  <div class="phase-head">
+    <div class="phase-title">FASE 6 — PRODUÇÃO B1-B2</div>
+    <div class="phase-sub">Construção ativa: frases complexas, conversação espontânea e shadowing</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--em)" href="./sistema5/index.html"><span class="scard-n">S5</span><span class="scard-t">Frases Relâmpago</span><span class="scard-s">B1 · Shadowing e chunks</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s17)" href="./sistema17/index.html"><span class="scard-n">S17</span><span class="scard-t">Super Sentences</span><span class="scard-s">B1-B2 · Construção progressiva</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s25)" href="./sistema25/index.html"><span class="scard-n">S25</span><span class="scard-t">Super Sentences Vol. 2</span><span class="scard-s">B2 · 11 histórias progressivas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s19)" href="./sistema19/index.html"><span class="scard-n">S19</span><span class="scard-t">Conversação Diária</span><span class="scard-s">B1-B2 · 500 Q&amp;A reais</span></a>
   </div>
 </div>
 
-<!-- SEÇÃO: DIAGNÓSTICO -->
-<div class="section-block">
-  <div class="section-title">Diagnóstico</div>
-  <div class="cards">
-
-    <a class="card c-s10" href="./sistema10/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Sistema 10</div>
-        <span class="card-icon">📊</span>
-        <div class="card-title">Teste seu Nível</div>
-        <div class="card-desc">Descubra seu nível: A1 até C2 em 30 questões. Teste progressivo com explicação pedagógica de cada resposta e resultado imediato.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:var(--s10);border-color:rgba(132,204,22,.3)">30 questões</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">6 níveis</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">A1 → C2</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Acessar Sistema 10</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
+<!-- FASE 7 — FLUÊNCIA B2-C1 -->
+<div class="phase" style="--c:#A78BFA">
+  <div class="phase-head">
+    <div class="phase-title">FASE 7 — FLUÊNCIA B2-C1</div>
+    <div class="phase-sub">Avançado: imersão com nativos, pensar em inglês e literatura</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s20)" href="./sistema20/index.html"><span class="scard-n">S20</span><span class="scard-t">Conversas Reais</span><span class="scard-s">B2 · Nativos em ritmo real</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s27)" href="./sistema27/index.html"><span class="scard-n">S27</span><span class="scard-t">Shadowing com Propósito</span><span class="scard-s">B2 · 7 textos + shadowing real</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s24)" href="./sistema24/index.html"><span class="scard-n">S24</span><span class="scard-t">Pense em Inglês</span><span class="scard-s">B2-C1 · Pensar sem traduzir</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s21)" href="./sistema21/index.html"><span class="scard-n">S21</span><span class="scard-t">The Birthday Party</span><span class="scard-s">C1 · Literatura americana real</span></a>
   </div>
 </div>
-
-<!-- JORNADA COMPLETA (oculto — não deletado) -->
-<div class="section-block" style="display:none">
-  <div class="cards">
-
-    <a class="card c-jornada" href="./jornada/index.html">
-      <div class="card-bar"></div>
-      <div class="card-body">
-        <div class="card-sys">Jornada Completa</div>
-        <span class="card-icon">🗺</span>
-        <div class="card-title">Do Zero ao Avançado</div>
-        <div class="card-desc">A trilha que conecta os sistemas em uma sequência pedagógica única, do zero à fluência.</div>
-        <div class="card-tags">
-          <span class="ctag" style="color:#fff;border-color:rgba(255,255,255,.22)">120 etapas</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">5 fases</span>
-          <span class="ctag" style="color:var(--td);border-color:var(--bd)">~20h</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="card-cta">Iniciar Jornada</span>
-        <span class="card-arrow">→</span>
-      </div>
-    </a>
-
-  </div>
-</div>
-
 <!-- PROGRESS -->
 <div class="progress-section">
   <div class="prog-card">
@@ -1004,6 +387,18 @@ body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-hei
       </div>
     </div>
   </div>
+</div>
+
+<!-- JORNADA -->
+<div class="jornada-wrap">
+  <a class="jornada-card" href="./jornada/index.html">
+    <span class="jornada-icon">🗺️</span>
+    <div class="jornada-txt">
+      <div class="jornada-title">Do Zero ao Avançado</div>
+      <div class="jornada-desc">120 passos organizados para levar você do zero à fluência</div>
+    </div>
+    <span class="jornada-arrow">→</span>
+  </a>
 </div>
 
 <!-- FOOTER -->
