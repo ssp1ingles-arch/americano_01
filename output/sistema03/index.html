@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 03 — Motor de Verbos por Sentido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a12;--sf:#12121e;--sf2:#1b1b2b;
+  --tx:#e6e4f0;--tm:#a2a0b8;--td:#6a6890;
+  --ac:#6366F1;--ac2:#818CF8;--ac-glow:rgba(99,102,241,.15);
+  --gn:#4ade80;--rd:#f87171;--bl:#60a5fa;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* SECONDARY NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(10,10,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac2);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.9;transition:opacity .15s;}
+.nav-back:hover{opacity:1;}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--tx);}
+
+/* GLOW */
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.glow::before{content:'';position:absolute;top:-10%;left:5%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(99,102,241,.06) 0%,transparent 70%);}
+.glow::after{content:'';position:absolute;bottom:-10%;right:4%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(129,140,248,.05) 0%,transparent 70%);}
+
+/* HERO */
+.hero{padding:6.5rem 1.5rem 3rem;text-align:center;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--ac-glow);border:1px solid rgba(99,102,241,.3);color:var(--ac2);font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem 1rem;border-radius:2rem;margin-bottom:1.2rem;}
+.hero-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:dot 2s ease-in-out infinite;}
+@keyframes dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.3rem);font-weight:800;line-height:1.12;margin-bottom:.9rem;}
+.hero h1 .ac{background:linear-gradient(120deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1.05rem;color:var(--tm);max-width:600px;margin:0 auto 2.2rem;line-height:1.65;}
+.hero-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;}
+.hstat-n{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--ac2);}
+.hstat-l{font-size:.72rem;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem;}
+
+.divider{height:1px;background:var(--bd);margin:0 1.5rem;}
+
+/* HOW */
+.how{background:var(--sf);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:2.6rem 1.5rem;position:relative;z-index:1;}
+.how-inner{max-width:960px;margin:0 auto;}
+.how-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.4rem;}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+.step{background:var(--sf2);border:1px solid var(--bd);border-radius:.75rem;padding:1.1rem;}
+.step-n{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ac);opacity:.5;line-height:1;}
+.step-t{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin:.4rem 0 .35rem;}
+.step-d{font-size:.75rem;color:var(--tm);line-height:1.5;}
+
+/* GRID */
+.groups{padding:2.8rem 1.2rem 4rem;max-width:1120px;margin:0 auto;position:relative;z-index:1;}
+.groups-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.4rem;padding-left:.3rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;}
+.gcard{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.5rem;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:all .22s;}
+.gcard::before{content:'';position:absolute;inset:0;background:var(--ac-glow);opacity:0;transition:opacity .22s;pointer-events:none;}
+.gcard:hover{border-color:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.45);}
+.gcard:hover::before{opacity:.5;}
+.gc-top{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;}
+.gc-icon{width:48px;height:48px;border-radius:.7rem;background:var(--ac-glow);border:1px solid rgba(99,102,241,.3);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.gc-num{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac2);margin-bottom:.25rem;}
+.gc-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;line-height:1.2;}
+.gc-desc{font-size:.83rem;color:var(--tm);line-height:1.6;margin-bottom:1rem;}
+.gc-verbs{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.2rem;}
+.vchip{background:var(--sf2);border:1px solid var(--bd);border-radius:.4rem;padding:.18rem .5rem;font-size:.66rem;font-weight:700;color:var(--tm);font-family:'Space Grotesk',sans-serif;}
+.vchip.more{color:var(--ac2);border-color:rgba(99,102,241,.3);}
+.gc-foot{display:flex;align-items:center;justify-content:space-between;}
+.gc-stat{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--ac2);}
+.gc-stat span{color:var(--td);font-weight:400;}
+.gc-arrow{font-size:1rem;color:var(--ac2);opacity:.6;transition:all .18s;}
+.gcard:hover .gc-arrow{opacity:1;transform:translateX(3px);}
+.gc-prog{height:4px;border-radius:2px;background:var(--sf2);margin-top:1rem;overflow:hidden;}
+.gc-prog-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));width:0;transition:width .4s;}
+
+/* FOOTER */
+.foot{padding:2rem 1.5rem;text-align:center;position:relative;z-index:1;}
+.foot a{color:var(--ac2);text-decoration:none;font-size:.78rem;opacity:.85;}
+.foot a:hover{opacity:1;}
+@media(max-width:560px){.hero{padding:5.5rem 1.2rem 2.4rem;}.hero-stats{gap:1.4rem;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-back">← Painel Principal</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sistema 03 — Motor de Verbos</span>
+</nav>
+
+<div class="glow"></div>
+
+<section class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div> Sistema 03 · A2–B1</div>
+  <h1>Motor de Verbos<br><span class="ac">por Sentido</span></h1>
+  <p class="hero-sub">100 verbos. Cada sentido. Cada tempo.<br>
+  Afirmativo, negativo e pergunta — do jeito que o brasileiro precisa ver.</p>
+  <div class="hero-stats">
+    <div><div class="hstat-n">100</div><div class="hstat-l">Verbos</div></div>
+    <div><div class="hstat-n">142</div><div class="hstat-l">Sentidos</div></div>
+    <div><div class="hstat-n">4</div><div class="hstat-l">Tempos</div></div>
+    <div><div class="hstat-n">3</div><div class="hstat-l">Formas</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="how">
+  <div class="how-inner">
+    <div class="how-title">Como funciona</div>
+    <div class="how-steps">
+      <div class="step"><div class="step-n">01</div><div class="step-t">Escolha o verbo</div><div class="step-d">Na coluna da esquerda, selecione um dos verbos do grupo.</div></div>
+      <div class="step"><div class="step-n">02</div><div class="step-t">Escolha o sentido</div><div class="step-d">Um verbo tem vários sentidos. HAVE = ter, tomar, comer… Cada um separado.</div></div>
+      <div class="step"><div class="step-n">03</div><div class="step-t">Veja a conjugação</div><div class="step-d">7 pronomes × presente, passado e futuro. Afirmativo, negativo e pergunta.</div></div>
+      <div class="step"><div class="step-n">04</div><div class="step-t">Fixe o erro</div><div class="step-d">Cada sentido traz o erro típico do brasileiro — o que evitar.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="groups">
+  <div class="groups-title">Cinco grupos de verbos</div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer class="foot">
+  <a href="../index.html">← Voltar ao Painel Principal</a> &nbsp;·&nbsp; Sistema 03 — Inglês para Brasileiros
+</footer>
+
+<script>
+const GROUPS = [
+  {id:1, icon:"🏛️", title:"Ter, Fazer, Ir", desc:"Os verbos que sustentam 80% das frases.", nv:4, ns:29, verbs:["HAVE","DO","GO","GET"]},
+  {id:2, icon:"🧠", title:"Dizer, Pensar, Saber", desc:"Comunicar e processar o que se pensa.", nv:8, ns:12, verbs:["SAY","TELL","THINK","KNOW","MEAN","UNDERSTAND","REMEMBER","FORGET"]},
+  {id:3, icon:"❤️", title:"Sentir, Querer, Precisar", desc:"Vontade, emoção e necessidade.", nv:7, ns:8, verbs:["FEEL","WANT","NEED","LIKE","LOVE","ENJOY","MISS"]},
+  {id:4, icon:"⚙️", title:"Agir, Mover, Criar", desc:"Ação concreta sobre o mundo.", nv:10, ns:17, verbs:["TAKE","MAKE","COME","GIVE","FIND","LEAVE","RUN","BUILD","LEAD","MOVE"]},
+  {id:5, icon:"🌇", title:"Rotina e Vida", desc:"O dia a dia — do acordar ao dormir. Todos os demais verbos.", nv:71, ns:76, verbs:["WAKE","SLEEP","COOK","WATCH","PLAY","DRIVE","LEARN","START","STOP"]},
+];
+function prog(gid){try{const p=JSON.parse(localStorage.getItem('s03_progress')||'{}');return Object.keys(p).filter(k=>k.startsWith('g'+gid+'|')&&p[k]).length;}catch(e){return 0;}}
+const grid=document.getElementById('grid');
+GROUPS.forEach(g=>{
+  const done=prog(g.id); const pct=g.ns?Math.round(done/g.ns*100):0;
+  const chips=g.verbs.map(v=>`<span class="vchip">${v}</span>`).join('')+
+    (g.nv>g.verbs.length?`<span class="vchip more">+${g.nv-g.verbs.length}</span>`:'');
+  const a=document.createElement('a');
+  a.className='gcard'; a.href=`grupo${g.id}/index.html`;
+  a.innerHTML=`
+    <div class="gc-top"><div class="gc-icon">${g.icon}</div>
+      <div><div class="gc-num">Grupo ${g.id}</div><div class="gc-title">${g.title}</div></div></div>
+    <p class="gc-desc">${g.desc}</p>
+    <div class="gc-verbs">${chips}</div>
+    <div class="gc-foot"><div class="gc-stat">${g.nv} <span>verbos</span> · ${g.ns} <span>sentidos</span></div>
+      <div class="gc-arrow">→</div></div>
+    <div class="gc-prog"><div class="gc-prog-fill" style="width:${pct}%"></div></div>`;
+  grid.appendChild(a);
+});
+</script>
+</body>
+</html>

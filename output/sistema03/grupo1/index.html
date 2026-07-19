@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 03 · Grupo 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../verbs.css">
+</head>
+<body>
+<script src="../../nav.js"></script>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Painel</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-back">Sistema 03</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title" id="nav-title">Grupo 1</span>
+  <div class="nav-prog">
+    <span id="nav-prog-txt">0/0</span>
+    <div class="nav-prog-bar"><div class="nav-prog-fill" id="nav-prog-fill"></div></div>
+  </div>
+</nav>
+
+<header class="ghead">
+  <div class="ghead-icon" id="ghead-icon">⚡</div>
+  <h1 id="ghead-title">Grupo 1</h1>
+  <p id="ghead-sub"></p>
+</header>
+
+<main class="wrap">
+  <div class="col col-sticky">
+    <div class="col-hd">Verbos</div>
+    <div class="search"><input id="search" type="text" placeholder="Buscar verbo…" autocomplete="off"></div>
+    <div class="col-list" id="verb-list"></div>
+  </div>
+  <div class="col col-sticky" id="col-senses">
+    <div class="col-hd">Sentidos</div>
+    <div class="col-list" id="sense-list"></div>
+  </div>
+  <div class="panel" id="panel"></div>
+</main>
+
+<footer class="foot"><a href="../index.html">← Voltar ao Sistema 03</a></footer>
+
+<script src="./data.js"></script>
+<script src="../verbs.js"></script>
+</body>
+</html>
