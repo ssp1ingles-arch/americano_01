@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base Completa — 27 Sistemas · Inglês para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--sf:#0f1621;--sf2:#162030;--tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;--cy:#64DFDF;--am:#F5C518;--vl:#A78BFA;--co:#FF6B6B;--em:#10B981;--s6:#0EA5E9;--s7:#D946EF;--s8:#F97316;--s9:#06B6D4;--s10:#84CC16;--s11:#FB923C;--s12:#818CF8;--s13:#2DD4BF;--s14:#34D399;--s15:#F59E0B;--s16:#7C3AED;--s17:#0EA5E9;--s18:#10B981;--s19:#EC4899;--s20:#6366F1;--s21:#B45309;--s22:#0F766E;--s23:#b45c3a;--s24:#f43f5e;--s25:#5b7cf0;--s26:#9067e0;--s27:#12b981;--s28:#F59E0B;--gn:#5FD87A;--bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+
+/* BG */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.bg-glow::before{content:'';position:absolute;top:-20%;left:15%;width:55%;height:60%;background:radial-gradient(ellipse,rgba(100,223,223,.055) 0%,transparent 70%);border-radius:50%;}
+.bg-glow::after{content:'';position:absolute;top:10%;right:5%;width:40%;height:50%;background:radial-gradient(ellipse,rgba(167,139,250,.05) 0%,transparent 70%);border-radius:50%;}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.p{position:absolute;border-radius:50%;animation:fp linear infinite;}
+@keyframes fp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:.25}100%{transform:translateY(-10vh) scale(1.1);opacity:0}}
+
+/* HEADER */
+.header{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:2.5rem 1.5rem 0;}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:.45rem;text-decoration:none;}
+.logo-mark{font-size:1.1rem;color:var(--cy);}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:3rem 1.5rem 2rem;flex:0 0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);background:rgba(255,255,255,.04);border:1px solid var(--bd);padding:.3rem .9rem;border-radius:2rem;margin-bottom:1.1rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:800;line-height:1.1;margin-bottom:.85rem;letter-spacing:-.02em;}
+.hero-title .hl-cy{color:var(--cy);}
+.hero-title .hl-am{color:var(--am);}
+.hero-title .hl-vl{color:var(--vl);}
+.hero-sub{font-size:1.05rem;color:var(--tm);line-height:1.65;max-width:540px;margin:0 auto;}
+
+/* CHOOSE LABEL */
+.choose-label{position:relative;z-index:1;text-align:center;padding:.5rem 1.5rem 1.25rem;}
+.choose-line{display:flex;align-items:center;gap:.75rem;max-width:900px;margin:0 auto;}
+.choose-line::before,.choose-line::after{content:'';flex:1;height:1px;background:var(--bd);}
+.choose-text{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--td);white-space:nowrap;}
+
+/* PHASES */
+.phase{position:relative;z-index:1;width:100%;max-width:960px;margin:0 auto 1.6rem;padding:0 1.25rem;}
+.phase-head{background:var(--sf);border-left:3px solid var(--c);border-radius:.5rem;padding:.7rem 1rem;margin-bottom:.85rem;}
+.phase-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c);}
+.phase-sub{font-size:.78rem;color:var(--tm);line-height:1.5;margin-top:.22rem;}
+.phase-row{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;}
+.phase-row + .phase-row{margin-top:.5rem;}
+.arrow{color:var(--td);font-size:.9rem;flex-shrink:0;user-select:none;}
+
+/* SYSTEM CARD */
+.scard{width:175px;height:72px;flex-shrink:0;background:var(--sf);border:1px solid var(--c);border-radius:.6rem;padding:.5rem .65rem;display:flex;flex-direction:column;justify-content:center;gap:.1rem;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;overflow:hidden;}
+.scard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.45);}
+.scard-n{font-family:'Space Grotesk',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.1em;color:var(--c);}
+.scard-t{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:#fff;line-height:1.15;}
+.scard-s{font-size:.61rem;color:var(--tm);line-height:1.25;}
+
+/* JORNADA CARD */
+.jornada-wrap{position:relative;z-index:1;width:100%;max-width:960px;margin:0 auto;padding:0 1.25rem 2.5rem;}
+.jornada-card{display:flex;align-items:center;gap:1rem;background:var(--sf);border:1px solid rgba(255,255,255,.14);border-radius:.85rem;padding:1.1rem 1.35rem;text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;}
+.jornada-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#64DFDF,#A78BFA);}
+.jornada-card:hover{transform:translateY(-3px);border-color:rgba(167,139,250,.4);box-shadow:0 12px 34px rgba(167,139,250,.14);}
+.jornada-icon{font-size:1.9rem;line-height:1;flex-shrink:0;}
+.jornada-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;background:linear-gradient(135deg,#64DFDF,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.jornada-desc{font-size:.78rem;color:var(--tm);margin-top:.15rem;}
+.jornada-arrow{margin-left:auto;color:var(--vl);font-size:1.1rem;flex-shrink:0;transition:transform .2s;}
+.jornada-card:hover .jornada-arrow{transform:translateX(4px);}
+
+/* PROGRESS SECTION */
+.progress-section{position:relative;z-index:1;width:100%;max-width:960px;margin:1.75rem auto 0;padding:0 1.25rem 3rem;}
+.prog-card{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1.1rem 1.35rem;}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;}
+.prog-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--td);}
+.prog-pct{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:800;color:var(--vl);}
+.prog-bars{display:flex;flex-direction:column;gap:.55rem;}
+.prog-row{display:flex;align-items:center;gap:.75rem;}
+.prog-row-label{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;width:100px;flex-shrink:0;}
+.prog-track{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.prog-n{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;color:var(--td);width:50px;text-align:right;flex-shrink:0;}
+
+/* FOOTER */
+.footer{position:relative;z-index:1;text-align:center;padding:.5rem 1.5rem 1.5rem;font-size:.7rem;color:var(--td);}
+
+/* RESPONSIVE */
+@media(max-width:720px){
+  .scard{width:100%;}
+  .arrow{display:none;}
+  .hero-title{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="particles" id="particles"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <a href="../index.html" class="logo">
+    <span class="logo-mark">◈</span>
+    Inglês para Brasileiros
+  </a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Plataforma completa de aprendizado</div>
+  <h1 class="hero-title">
+    <span class="hl-cy">Base.</span>
+    <span class="hl-am"> Fluência.</span>
+    <span class="hl-vl"> Gramática.</span>
+  </h1>
+  <p class="hero-sub">Do inglês de escola ao inglês que nativos falam — 27 sistemas, uma jornada completa.</p>
+</div>
+
+<!-- CHOOSE -->
+<div class="choose-label">
+  <div class="choose-line"><span class="choose-text">Escolha por onde começar</span></div>
+</div>
+
+<!-- FASE 1 — ORIENTAÇÃO -->
+<div class="phase" style="--c:#64DFDF">
+  <div class="phase-head">
+    <div class="phase-title">FASE 1 — ORIENTAÇÃO</div>
+    <div class="phase-sub">Antes de tudo: descubra seu nível e conheça o método</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s10)" href="../sistema10/index.html"><span class="scard-n">S10</span><span class="scard-t">Teste seu Nível</span><span class="scard-s">A1→C2 · Diagnóstico</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s11)" href="../sistema11/index.html"><span class="scard-n">S11</span><span class="scard-t">Como Aprender Inglês</span><span class="scard-s">Método · Antes de tudo</span></a>
+  </div>
+</div>
+
+<!-- FASE 2 — FUNDAÇÃO A1 -->
+<div class="phase" style="--c:#10B981">
+  <div class="phase-head">
+    <div class="phase-title">FASE 2 — FUNDAÇÃO A1</div>
+    <div class="phase-sub">Absoluto iniciante: base sólida antes de qualquer coisa</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s23)" href="../sistema23/index.html"><span class="scard-n">S23</span><span class="scard-t">Inglês do Zero</span><span class="scard-s">A1 · 40 verbos, pronomes</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--cy)" href="../sistema1/index.html"><span class="scard-n">S1</span><span class="scard-t">Base Completa</span><span class="scard-s">A1 · Pronúncia, to be</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s13)" href="../sistema13/index.html"><span class="scard-n">S13</span><span class="scard-t">Vocabulário A1</span><span class="scard-s">A1 · 200+ palavras essenciais</span></a>
+  </div>
+</div>
+
+<!-- FASE 3 — CONSTRUÇÃO A2 -->
+<div class="phase" style="--c:#F5C518">
+  <div class="phase-head">
+    <div class="phase-title">FASE 3 — CONSTRUÇÃO A2</div>
+    <div class="phase-sub">Iniciante avançando: frases reais, rotina e gramática essencial</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--am)" href="../sistema2/index.html"><span class="scard-n">S2</span><span class="scard-t">Inglês Real do Dia a Dia</span><span class="scard-s">A2 · Frases cotidianas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s12)" href="../sistema12/index.html"><span class="scard-n">S12</span><span class="scard-t">Rotina da Noite</span><span class="scard-s">A2 · Perguntas e respostas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s14)" href="../sistema14/index.html"><span class="scard-n">S14</span><span class="scard-t">Vida Saudável</span><span class="scard-s">A2 · Saúde e hábitos</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s9)" href="../sistema9/index.html"><span class="scard-n">S9</span><span class="scard-t">Went ou Gone?</span><span class="scard-s">A2-B1 · Past vs. Present Perf.</span></a>
+  </div>
+</div>
+
+<!-- FASE 4 — ESTRUTURA B1 -->
+<div class="phase" style="--c:#0EA5E9">
+  <div class="phase-head">
+    <div class="phase-title">FASE 4 — ESTRUTURA B1</div>
+    <div class="phase-sub">Intermediário: gramática real, padrões e vocabulário natural</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--vl)" href="../sistema3/index.html"><span class="scard-n">S3</span><span class="scard-t">Gramática Viva</span><span class="scard-s">B1 · Tempos verbais reais</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s8)" href="../sistema8/index.html"><span class="scard-n">S8</span><span class="scard-t">Estruturas Fixas</span><span class="scard-s">B1 · Padrões que se repetem</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s7)" href="../sistema7/index.html"><span class="scard-n">S7</span><span class="scard-t">Colocações Naturais</span><span class="scard-s">B1 · Palavras que andam juntas</span></a>
+  </div>
+</div>
+
+<!-- FASE 5 — EXPRESSÃO B1-B2 -->
+<div class="phase" style="--c:#EC4899">
+  <div class="phase-head">
+    <div class="phase-title">FASE 5 — EXPRESSÃO B1-B2</div>
+    <div class="phase-sub">Conversação: diálogos, situações reais e expressões idiomáticas</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--co)" href="../sistema4/index.html"><span class="scard-n">S4</span><span class="scard-t">Inglês em Cena</span><span class="scard-s">B1 · Diálogos e humor</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s6)" href="../sistema6/index.html"><span class="scard-n">S6</span><span class="scard-t">Conversas do Dia a Dia</span><span class="scard-s">B1 · Q&amp;A dos dois lados</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s15)" href="../sistema15/index.html"><span class="scard-n">S15</span><span class="scard-t">Expressões Idiomáticas</span><span class="scard-s">B1-B2 · Idioms nativos</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s22)" href="../sistema22/index.html"><span class="scard-n">S22</span><span class="scard-t">Situações Reais</span><span class="scard-s">B1 · 1200 frases, 27 situações</span></a>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s16)" href="../sistema16/index.html"><span class="scard-n">S16</span><span class="scard-t">Inglês com Filmes</span><span class="scard-s">B1-B2 · Frases de filmes</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s26)" href="../sistema26/index.html"><span class="scard-n">S26</span><span class="scard-t">Diálogos do Dia a Dia</span><span class="scard-s">B1 · 30+ diálogos situacionais</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s18)" href="../sistema18/index.html"><span class="scard-n">S18</span><span class="scard-t">How Was Your Day?</span><span class="scard-s">B1 · Ouça e repita com Kayla</span></a>
+  </div>
+</div>
+
+<!-- FASE 6 — PRODUÇÃO B1-B2 -->
+<div class="phase" style="--c:#5b7cf0">
+  <div class="phase-head">
+    <div class="phase-title">FASE 6 — PRODUÇÃO B1-B2</div>
+    <div class="phase-sub">Construção ativa: frases complexas, conversação espontânea e shadowing</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--em)" href="../sistema5/index.html"><span class="scard-n">S5</span><span class="scard-t">Frases Relâmpago</span><span class="scard-s">B1 · Shadowing e chunks</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s17)" href="../sistema17/index.html"><span class="scard-n">S17</span><span class="scard-t">Super Sentences</span><span class="scard-s">B1-B2 · Construção progressiva</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s25)" href="../sistema25/index.html"><span class="scard-n">S25</span><span class="scard-t">Super Sentences Vol. 2</span><span class="scard-s">B2 · 11 histórias progressivas</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s19)" href="../sistema19/index.html"><span class="scard-n">S19</span><span class="scard-t">Conversação Diária</span><span class="scard-s">B1-B2 · 500 Q&amp;A reais</span></a>
+  </div>
+</div>
+
+<!-- FASE 7 — FLUÊNCIA B2-C1 -->
+<div class="phase" style="--c:#A78BFA">
+  <div class="phase-head">
+    <div class="phase-title">FASE 7 — FLUÊNCIA B2-C1</div>
+    <div class="phase-sub">Avançado: imersão com nativos, pensar em inglês e literatura</div>
+  </div>
+  <div class="phase-row">
+    <a class="scard" style="--c:var(--s20)" href="../sistema20/index.html"><span class="scard-n">S20</span><span class="scard-t">Conversas Reais</span><span class="scard-s">B2 · Nativos em ritmo real</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s27)" href="../sistema27/index.html"><span class="scard-n">S27</span><span class="scard-t">Shadowing com Propósito</span><span class="scard-s">B2 · 7 textos + shadowing real</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s24)" href="../sistema24/index.html"><span class="scard-n">S24</span><span class="scard-t">Pense em Inglês</span><span class="scard-s">B2-C1 · Pensar sem traduzir</span></a>
+    <span class="arrow">→</span>
+    <a class="scard" style="--c:var(--s21)" href="../sistema21/index.html"><span class="scard-n">S21</span><span class="scard-t">The Birthday Party</span><span class="scard-s">C1 · Literatura americana real</span></a>
+  </div>
+</div>
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="prog-card">
+    <div class="prog-header">
+      <span class="prog-title">Progresso Geral</span>
+      <span class="prog-pct" id="totalPct">—</span>
+    </div>
+    <div class="prog-bars">
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--cy)">Sistema 1</span>
+        <div class="prog-track"><div class="prog-fill" id="p1fill" style="background:var(--cy);width:0%"></div></div>
+        <span class="prog-n" id="p1n">0 / 89</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--am)">Sistema 2</span>
+        <div class="prog-track"><div class="prog-fill" id="p2fill" style="background:var(--am);width:0%"></div></div>
+        <span class="prog-n" id="p2n">0 / 150</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--vl)">Sistema 3</span>
+        <div class="prog-track"><div class="prog-fill" id="p3fill" style="background:var(--vl);width:0%"></div></div>
+        <span class="prog-n" id="p3n">— / —</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--co)">Sistema 4</span>
+        <div class="prog-track"><div class="prog-fill" id="p5fill" style="background:var(--co);width:0%"></div></div>
+        <span class="prog-n" id="p5n">0 / 20</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--em)">Sistema 5</span>
+        <div class="prog-track"><div class="prog-fill" id="p6fill" style="background:var(--em);width:0%"></div></div>
+        <span class="prog-n" id="p6n">0 / 150</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s6)">Sistema 6</span>
+        <div class="prog-track"><div class="prog-fill" id="p7fill" style="background:var(--s6);width:0%"></div></div>
+        <span class="prog-n" id="p7n">0 / 98</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s7)">Sistema 7</span>
+        <div class="prog-track"><div class="prog-fill" id="p8fill" style="background:var(--s7);width:0%"></div></div>
+        <span class="prog-n" id="p8n">0 / 100</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s8)">Sistema 8</span>
+        <div class="prog-track"><div class="prog-fill" id="p9fill" style="background:var(--s8);width:0%"></div></div>
+        <span class="prog-n" id="p9n">0 / 8</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s9)">Sistema 9</span>
+        <div class="prog-track"><div class="prog-fill" id="p10fill" style="background:var(--s9);width:0%"></div></div>
+        <span class="prog-n" id="p10n">0 / 4</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s10)">Sistema 10</span>
+        <div class="prog-track"><div class="prog-fill" id="p11fill" style="background:var(--s10);width:0%"></div></div>
+        <span class="prog-n" id="p11n">— / 30</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s11)">Sistema 11</span>
+        <div class="prog-track"><div class="prog-fill" id="p12fill" style="background:var(--s11);width:0%"></div></div>
+        <span class="prog-n" id="p12n">0 / 8</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s12)">Sistema 12</span>
+        <div class="prog-track"><div class="prog-fill" id="p13fill" style="background:var(--s12);width:0%"></div></div>
+        <span class="prog-n" id="p13n">0 / 10</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s13)">Sistema 13</span>
+        <div class="prog-track"><div class="prog-fill" id="p14fill" style="background:var(--s13);width:0%"></div></div>
+        <span class="prog-n" id="p14n">0 / 6</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s14)">Sistema 14</span>
+        <div class="prog-track"><div class="prog-fill" id="p15fill" style="background:var(--s14);width:0%"></div></div>
+        <span class="prog-n" id="p15n">0 / 8</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s15)">Sistema 15</span>
+        <div class="prog-track"><div class="prog-fill" id="p16fill" style="background:var(--s15);width:0%"></div></div>
+        <span class="prog-n" id="p16n">0 / 7</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s16)">Sistema 16</span>
+        <div class="prog-track"><div class="prog-fill" id="p17fill" style="background:var(--s16);width:0%"></div></div>
+        <span class="prog-n" id="p17n">0 / 35</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s17)">Sistema 17</span>
+        <div class="prog-track"><div class="prog-fill" id="p18fill" style="background:var(--s17);width:0%"></div></div>
+        <span class="prog-n" id="p18n">0 / 10</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s18)">Sistema 18</span>
+        <div class="prog-track"><div class="prog-fill" id="p19fill" style="background:var(--s18);width:0%"></div></div>
+        <span class="prog-n" id="p19n">0 / 18</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s19)">Sistema 19</span>
+        <div class="prog-track"><div class="prog-fill" id="p20fill" style="background:var(--s19);width:0%"></div></div>
+        <span class="prog-n" id="p20n">0 / 103</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s20)">Sistema 20</span>
+        <div class="prog-track"><div class="prog-fill" id="p21fill" style="background:var(--s20);width:0%"></div></div>
+        <span class="prog-n" id="p21n">0 / 5</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s21)">Sistema 21</span>
+        <div class="prog-track"><div class="prog-fill" id="p22fill" style="background:var(--s21);width:0%"></div></div>
+        <span class="prog-n" id="p22n">0 / 22</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s22)">Sistema 22</span>
+        <div class="prog-track"><div class="prog-fill" id="p23fill" style="background:var(--s22);width:0%"></div></div>
+        <span class="prog-n" id="p23n">0 / 25</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s23)">Sistema 23</span>
+        <div class="prog-track"><div class="prog-fill" id="p24fill" style="background:var(--s23);width:0%"></div></div>
+        <span class="prog-n" id="p24n">0 / 50</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s24)">Sistema 24</span>
+        <div class="prog-track"><div class="prog-fill" id="p25fill" style="background:var(--s24);width:0%"></div></div>
+        <span class="prog-n" id="p25n">0 / 39</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s25)">Sistema 25</span>
+        <div class="prog-track"><div class="prog-fill" id="p26fill" style="background:var(--s25);width:0%"></div></div>
+        <span class="prog-n" id="p26n">0 / 10</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s26)">Sistema 26</span>
+        <div class="prog-track"><div class="prog-fill" id="p27fill" style="background:var(--s26);width:0%"></div></div>
+        <span class="prog-n" id="p27n">0 / 12</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="color:var(--s27)">Sistema 27</span>
+        <div class="prog-track"><div class="prog-fill" id="p28fill" style="background:var(--s27);width:0%"></div></div>
+        <span class="prog-n" id="p28n">0 / 7</span>
+      </div>
+      <div class="prog-row">
+        <span class="prog-row-label" style="background:linear-gradient(135deg,#64DFDF,#F5C518,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Jornada</span>
+        <div class="prog-track"><div class="prog-fill" id="p4fill" style="background:linear-gradient(90deg,#64DFDF,#F5C518,#A78BFA);width:0%"></div></div>
+        <span class="prog-n" id="p4n">0 / 120</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JORNADA -->
+<div class="jornada-wrap">
+  <a class="jornada-card" href="../jornada/index.html">
+    <span class="jornada-icon">🗺️</span>
+    <div class="jornada-txt">
+      <div class="jornada-title">Do Zero ao Avançado</div>
+      <div class="jornada-desc">120 passos organizados para levar você do zero à fluência</div>
+    </div>
+    <span class="jornada-arrow">→</span>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">27 sistemas + 1 jornada guiada · 89 + 4 + 4 + 5 + 150 + 98 + 100 + 8 + 4 + 30 + 8 + 146 + 204 + 150 + 7 + 35 + 10 + 18 + 103 + 5 + 22 + 216 + 90 + 39 + 10 + 12 + 7 unidades · 120 etapas · inglês do real ao fluente</div>
+
+<script>
+// ── PARTICLES ─────────────────────────────────────────────────────────────────
+(function(){
+  const w = document.getElementById('particles');
+  const cols = ['#64DFDF','#A78BFA','#F5C518','#5FD87A','#c084fc'];
+  for(let i = 0; i < 28; i++){
+    const d = document.createElement('div');
+    d.className = 'p';
+    const sz = 2 + Math.random() * 4;
+    d.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};opacity:${.1+Math.random()*.2};animation-duration:${14+Math.random()*18}s;animation-delay:${-Math.random()*25}s;`;
+    w.appendChild(d);
+  }
+})();
+
+// ── PROGRESS ─────────────────────────────────────────────────────────────────
+(function(){
+  try {
+    // Sistema 2 Pilar 4 — textos lidos (localStorage key: p4_read)
+    let s2Read = 0;
+    const p4 = localStorage.getItem('p4_read');
+    if(p4){ try{ s2Read = JSON.parse(p4).length || 0; }catch(e){} }
+
+    const p2pct = Math.min(100, Math.round(s2Read / 150 * 100));
+    document.getElementById('p2fill').style.width = p2pct + '%';
+    document.getElementById('p2n').textContent = s2Read + ' / 150';
+
+    // Sistema 1 — count any lesson localStorage keys (lesson pages save progress)
+    // Keys tend to follow pattern like lesson_read_01, etc. — approximate via key scan
+    let s1count = 0;
+    for(let i = 0; i < localStorage.length; i++){
+      const k = localStorage.key(i);
+      if(k && (k.startsWith('lesson_') || k.includes('_done') || k.includes('_read'))) s1count++;
+    }
+    s1count = Math.min(89, s1count);
+    const p1pct = Math.round(s1count / 89 * 100);
+    document.getElementById('p1fill').style.width = p1pct + '%';
+    document.getElementById('p1n').textContent = s1count + ' / 89';
+
+    // Sistema 4 — cenas estudadas (localStorage key: s4_cenas_estudadas)
+    let s4Done = 0;
+    const s4 = localStorage.getItem('s4_cenas_estudadas');
+    if(s4){ try{ s4Done = JSON.parse(s4).length || 0; }catch(e){} }
+    const p5pct = Math.round(s4Done / 20 * 100);
+    document.getElementById('p5fill').style.width = p5pct + '%';
+    document.getElementById('p5n').textContent = s4Done + ' / 20';
+
+    // Sistema 5 — frases estudadas (localStorage key: sistema5_progresso.studied, array of 150 booleans)
+    let s5Done = 0;
+    const s5 = localStorage.getItem('sistema5_progresso');
+    if(s5){ try{ const s5p = JSON.parse(s5); if(Array.isArray(s5p.studied)) s5Done = s5p.studied.filter(Boolean).length; }catch(e){} }
+    const p6pct = Math.round(s5Done / 150 * 100);
+    document.getElementById('p6fill').style.width = p6pct + '%';
+    document.getElementById('p6n').textContent = s5Done + ' / 150';
+
+    // Sistema 6 — pares dominados (localStorage key: sistema6_progresso.pairs, array of 98 booleans)
+    let s6Done = 0;
+    const s6 = localStorage.getItem('sistema6_progresso');
+    if(s6){ try{ const s6p = JSON.parse(s6); if(Array.isArray(s6p.pairs)) s6Done = s6p.pairs.filter(Boolean).length; }catch(e){} }
+    const p7pct = Math.round(s6Done / 98 * 100);
+    document.getElementById('p7fill').style.width = p7pct + '%';
+    document.getElementById('p7n').textContent = s6Done + ' / 98';
+
+    // Sistema 7 — colocações aprendidas (localStorage key: sistema7_progresso.learned, array of 100 booleans)
+    let s7Done = 0;
+    const s7 = localStorage.getItem('sistema7_progresso');
+    if(s7){ try{ const s7p = JSON.parse(s7); if(Array.isArray(s7p.learned)) s7Done = s7p.learned.filter(Boolean).length; }catch(e){} }
+    const p8pct = Math.round(s7Done / 100 * 100);
+    document.getElementById('p8fill').style.width = p8pct + '%';
+    document.getElementById('p8n').textContent = s7Done + ' / 100';
+
+    // Sistema 8 — estruturas aprendidas (localStorage key: s8_progress.learned, array of 8 booleans)
+    let s8Done = 0;
+    const s8 = localStorage.getItem('s8_progress');
+    if(s8){ try{ const s8p = JSON.parse(s8); if(Array.isArray(s8p.learned)) s8Done = s8p.learned.filter(Boolean).length; }catch(e){} }
+    const p9pct = Math.round(s8Done / 8 * 100);
+    document.getElementById('p9fill').style.width = p9pct + '%';
+    document.getElementById('p9n').textContent = s8Done + ' / 8';
+
+    // Sistema 9 — módulos aprendidos (localStorage key: s9_progress.learned, array of 4 booleans)
+    let s9Done = 0;
+    const s9 = localStorage.getItem('s9_progress');
+    if(s9){ try{ const s9p = JSON.parse(s9); if(Array.isArray(s9p.learned)) s9Done = s9p.learned.filter(Boolean).length; }catch(e){} }
+    const p10pct = Math.round(s9Done / 4 * 100);
+    document.getElementById('p10fill').style.width = p10pct + '%';
+    document.getElementById('p10n').textContent = s9Done + ' / 4';
+
+    // Sistema 10 — último resultado do teste (localStorage key: s10_ultimo_resultado.score / .total)
+    const s10 = localStorage.getItem('s10_ultimo_resultado');
+    if (s10) {
+      try {
+        const s10r = JSON.parse(s10);
+        if (typeof s10r.score === 'number' && typeof s10r.total === 'number') {
+          const p11pct = Math.round(s10r.score / s10r.total * 100);
+          document.getElementById('p11fill').style.width = p11pct + '%';
+          document.getElementById('p11n').textContent = s10r.score + ' / ' + s10r.total;
+        }
+      } catch(e) {}
+    }
+
+    // Sistema 11 — seções visitadas do guia (localStorage key: s11_secao_atual.visitadas, array of section ids)
+    const s11 = localStorage.getItem('s11_secao_atual');
+    if (s11) {
+      try {
+        const s11p = JSON.parse(s11);
+        const s11Done = Array.isArray(s11p.visitadas) ? s11p.visitadas.length : 0;
+        const p12pct = Math.round(s11Done / 8 * 100);
+        document.getElementById('p12fill').style.width = p12pct + '%';
+        document.getElementById('p12n').textContent = s11Done + ' / 8';
+      } catch(e) {}
+    }
+
+    // Sistema 12 — temas estudados (localStorage key: s12_progresso.temasEstudados, array of theme ids)
+    const s12 = localStorage.getItem('s12_progresso');
+    if (s12) {
+      try {
+        const s12p = JSON.parse(s12);
+        const s12Done = Array.isArray(s12p.temasEstudados) ? s12p.temasEstudados.length : 0;
+        const p13pct = Math.round(s12Done / 10 * 100);
+        document.getElementById('p13fill').style.width = p13pct + '%';
+        document.getElementById('p13n').textContent = s12Done + ' / 10';
+      } catch(e) {}
+    }
+
+    // Sistema 13 — categorias estudadas (localStorage key: s13_progresso.categoriasEstudadas, array of category ids)
+    const s13 = localStorage.getItem('s13_progresso');
+    if (s13) {
+      try {
+        const s13p = JSON.parse(s13);
+        const s13Done = Array.isArray(s13p.categoriasEstudadas) ? s13p.categoriasEstudadas.length : 0;
+        const p14pct = Math.round(s13Done / 6 * 100);
+        document.getElementById('p14fill').style.width = p14pct + '%';
+        document.getElementById('p14n').textContent = s13Done + ' / 6';
+      } catch(e) {}
+    }
+
+    // Sistema 14 — temas estudados (localStorage key: s14_progresso.temasEstudados, array of theme ids)
+    const s14 = localStorage.getItem('s14_progresso');
+    if (s14) {
+      try {
+        const s14p = JSON.parse(s14);
+        const s14Done = Array.isArray(s14p.temasEstudados) ? s14p.temasEstudados.length : 0;
+        const p15pct = Math.round(s14Done / 8 * 100);
+        document.getElementById('p15fill').style.width = p15pct + '%';
+        document.getElementById('p15n').textContent = s14Done + ' / 8';
+      } catch(e) {}
+    }
+
+    // Sistema 15 — expressões vistas (localStorage key: s15_progresso.expressoesVistas, array of indices)
+    const s15 = localStorage.getItem('s15_progresso');
+    if (s15) {
+      try {
+        const s15p = JSON.parse(s15);
+        const s15Done = Array.isArray(s15p.expressoesVistas) ? s15p.expressoesVistas.length : 0;
+        const p16pct = Math.round(s15Done / 7 * 100);
+        document.getElementById('p16fill').style.width = p16pct + '%';
+        document.getElementById('p16n').textContent = s15Done + ' / 7';
+      } catch(e) {}
+    }
+
+    // Sistema 16 — frases revisadas no flashcard (localStorage key: s16_progresso.flashIndex, out of 35)
+    const s16 = localStorage.getItem('s16_progresso');
+    if (s16) {
+      try {
+        const s16p = JSON.parse(s16);
+        const s16Done = Math.min(35, typeof s16p.flashIndex === 'number' ? s16p.flashIndex : 0);
+        const p17pct = Math.round(s16Done / 35 * 100);
+        document.getElementById('p17fill').style.width = p17pct + '%';
+        document.getElementById('p17n').textContent = s16Done + ' / 35';
+      } catch(e) {}
+    }
+
+    // Sistema 17 — nível atual alcançado (localStorage key: s17_progresso.nivelAtual, out of 10)
+    const s17 = localStorage.getItem('s17_progresso');
+    if (s17) {
+      try {
+        const s17p = JSON.parse(s17);
+        const s17Done = Math.min(10, typeof s17p.nivelAtual === 'number' ? s17p.nivelAtual : 0);
+        const p18pct = Math.round(s17Done / 10 * 100);
+        document.getElementById('p18fill').style.width = p18pct + '%';
+        document.getElementById('p18n').textContent = s17Done + ' / 10';
+      } catch(e) {}
+    }
+
+    // Sistema 18 — situações revisadas no flashcard (localStorage key: s18_progresso.flashIndex, out of 18)
+    const s18 = localStorage.getItem('s18_progresso');
+    if (s18) {
+      try {
+        const s18p = JSON.parse(s18);
+        const s18Done = Math.min(18, typeof s18p.flashIndex === 'number' ? s18p.flashIndex : 0);
+        const p19pct = Math.round(s18Done / 18 * 100);
+        document.getElementById('p19fill').style.width = p19pct + '%';
+        document.getElementById('p19n').textContent = s18Done + ' / 18';
+      } catch(e) {}
+    }
+
+    // Sistema 19 — perguntas revisadas no quiz (localStorage key: s19_progresso.quizIndex, out of 103)
+    const s19 = localStorage.getItem('s19_progresso');
+    if (s19) {
+      try {
+        const s19p = JSON.parse(s19);
+        const s19Done = Math.min(103, typeof s19p.quizIndex === 'number' ? s19p.quizIndex : 0);
+        const p20pct = Math.round(s19Done / 103 * 100);
+        document.getElementById('p20fill').style.width = p20pct + '%';
+        document.getElementById('p20n').textContent = s19Done + ' / 103';
+      } catch(e) {}
+    }
+
+    // Sistema 20 — exercícios de "used to" respondidos (localStorage key: s20_infancia_progresso.exercicioRespostas, out of 5)
+    const s20 = localStorage.getItem('s20_infancia_progresso');
+    if (s20) {
+      try {
+        const s20p = JSON.parse(s20);
+        const s20Done = s20p.exercicioRespostas ? Object.keys(s20p.exercicioRespostas).length : 0;
+        const p21pct = Math.round(Math.min(5, s20Done) / 5 * 100);
+        document.getElementById('p21fill').style.width = p21pct + '%';
+        document.getElementById('p21n').textContent = Math.min(5, s20Done) + ' / 5';
+      } catch(e) {}
+    }
+
+    // Sistema 21 — palavras revisadas no flashcard (localStorage key: s21_progresso.flashIndex, out of 22)
+    const s21 = localStorage.getItem('s21_progresso');
+    if (s21) {
+      try {
+        const s21p = JSON.parse(s21);
+        const s21Done = Math.min(22, typeof s21p.flashIndex === 'number' ? s21p.flashIndex : 0);
+        const p22pct = Math.round(s21Done / 22 * 100);
+        document.getElementById('p22fill').style.width = p22pct + '%';
+        document.getElementById('p22n').textContent = s21Done + ' / 22';
+      } catch(e) {}
+    }
+
+    // Sistema 22 — idioms revisados no flashcard (localStorage key: s22_idioms_progresso.flashIndex, out of 25)
+    const s22 = localStorage.getItem('s22_idioms_progresso');
+    if (s22) {
+      try {
+        const s22p = JSON.parse(s22);
+        const s22Done = Math.min(25, typeof s22p.flashIndex === 'number' ? s22p.flashIndex : 0);
+        const p23pct = Math.round(s22Done / 25 * 100);
+        document.getElementById('p23fill').style.width = p23pct + '%';
+        document.getElementById('p23n').textContent = s22Done + ' / 25';
+      } catch(e) {}
+    }
+
+    // Sistema 23 — pares revisados no flashcard (localStorage key: s23_frases_progresso.flashIndex, out of 50)
+    const s23 = localStorage.getItem('s23_frases_progresso');
+    if (s23) {
+      try {
+        const s23p = JSON.parse(s23);
+        const s23Done = Math.min(50, typeof s23p.flashIndex === 'number' ? s23p.flashIndex : 0);
+        const p24pct = Math.round(s23Done / 50 * 100);
+        document.getElementById('p24fill').style.width = p24pct + '%';
+        document.getElementById('p24n').textContent = s23Done + ' / 50';
+      } catch(e) {}
+    }
+
+    // Sistema 24 — palavras revisadas no flashcard (localStorage key: s24_vocabulario_progresso.flashIndex, out of 39)
+    const s24 = localStorage.getItem('s24_vocabulario_progresso');
+    if (s24) {
+      try {
+        const s24p = JSON.parse(s24);
+        const s24Done = Math.min(39, typeof s24p.flashIndex === 'number' ? s24p.flashIndex : 0);
+        const p25pct = Math.round(s24Done / 39 * 100);
+        document.getElementById('p25fill').style.width = p25pct + '%';
+        document.getElementById('p25n').textContent = s24Done + ' / 39';
+      } catch(e) {}
+    }
+
+    // Sistema 25 — histórias completadas (localStorage key: s25_historias_progresso.completadas, array of episode ids)
+    const s25 = localStorage.getItem('s25_historias_progresso');
+    if (s25) {
+      try {
+        const s25p = JSON.parse(s25);
+        const s25Done = Array.isArray(s25p.completadas) ? s25p.completadas.length : 0;
+        const p26pct = Math.round(s25Done / 10 * 100);
+        document.getElementById('p26fill').style.width = p26pct + '%';
+        document.getElementById('p26n').textContent = s25Done + ' / 10';
+      } catch(e) {}
+    }
+
+    // Sistema 26 — situações praticadas (localStorage key: s26_dialogos_progresso.concluidas, array of situation ids)
+    const s26 = localStorage.getItem('s26_dialogos_progresso');
+    if (s26) {
+      try {
+        const s26p = JSON.parse(s26);
+        const s26Done = Array.isArray(s26p.concluidas) ? s26p.concluidas.length : 0;
+        const p27pct = Math.round(s26Done / 12 * 100);
+        document.getElementById('p27fill').style.width = p27pct + '%';
+        document.getElementById('p27n').textContent = s26Done + ' / 12';
+      } catch(e) {}
+    }
+
+    // Sistema 27 — textos praticados (localStorage key: s27_textos_progresso.concluidos, array of text ids)
+    const s27 = localStorage.getItem('s27_textos_progresso');
+    if (s27) {
+      try {
+        const s27p = JSON.parse(s27);
+        const s27Done = Array.isArray(s27p.concluidos) ? s27p.concluidos.length : 0;
+        const p28pct = Math.round(s27Done / 7 * 100);
+        document.getElementById('p28fill').style.width = p28pct + '%';
+        document.getElementById('p28n').textContent = s27Done + ' / 7';
+      } catch(e) {}
+    }
+
+    // Jornada Completa — localStorage key: jornada_progresso (array of 120 booleans)
+    let jDone = 0;
+    const jp = localStorage.getItem('jornada_progresso');
+    if(jp){ try{ jDone = JSON.parse(jp).filter(Boolean).length || 0; }catch(e){} }
+    const p4pct = Math.round(jDone / 120 * 100);
+    document.getElementById('p4fill').style.width = p4pct + '%';
+    document.getElementById('p4n').textContent = jDone + ' / 120';
+
+    // Total (weight: S1=89, S2=150, S3 not tracked yet)
+    const total = s1count + s2Read;
+    const totalMax = 89 + 150;
+    const totalPct = Math.round(total / totalMax * 100);
+    document.getElementById('totalPct').textContent = totalPct + '% concluído';
+    document.getElementById('p3n').textContent = '— / —';
+  } catch(e) {
+    document.getElementById('totalPct').textContent = '—';
+  }
+})();
+</script>
+</body>
+</html>
