@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 28 — Reduções do Inglês Real</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --ac:#F59E0B;--ac-dim:#92400E;--ac-glow:rgba(245,158,11,0.15);
+  --gn:#5FD87A;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+/* GLOBAL NAV (substituído pelo nav.js) */
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;transition:all .18s;white-space:nowrap;}
+.gnav-s28{color:var(--ac);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.08);}
+.gnav-s28.active{color:var(--ac);border-color:var(--ac);background:rgba(245,158,11,.12);box-shadow:0 0 10px rgba(245,158,11,.2);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+
+/* PARTICLES */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.p{position:absolute;border-radius:50%;opacity:0;}
+@keyframes fp{0%,100%{opacity:0;transform:translateY(0)}20%{opacity:.1}80%{opacity:.05}50%{transform:translateY(-30px)}}
+
+/* NAV */
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.85;transition:opacity .15s;}
+.nav-back:hover{opacity:1;}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;color:var(--tx);}
+
+/* HERO */
+.hero{padding:7rem 1.5rem 3.5rem;text-align:center;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--ac);font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem 1rem;border-radius:2rem;margin-bottom:1.2rem;}
+.hero-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);flex-shrink:0;animation:s28dot 2s ease-in-out infinite;}
+@keyframes s28dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:.9rem;}
+.hero-title span.accent{color:var(--ac);}
+.hero-sub{font-size:1.05rem;color:var(--tm);max-width:580px;margin:0 auto 2rem;line-height:1.65;}
+.hero-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;}
+.hstat{text-align:center;}
+.hstat-n{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--ac);}
+.hstat-l{font-size:.72rem;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem;}
+
+.divider{height:1px;background:var(--bd);margin:0 1.5rem;}
+
+/* HOW IT WORKS */
+.how{background:var(--sf);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:3rem 1.5rem;position:relative;z-index:1;}
+.how-inner{max-width:900px;margin:0 auto;}
+.how-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.5rem;}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+.step{background:var(--sf2);border:1px solid var(--bd);border-radius:.75rem;padding:1.1rem;}
+.step-n{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ac);opacity:.4;line-height:1;}
+.step-t{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin:.4rem 0 .35rem;}
+.step-d{font-size:.75rem;color:var(--tm);line-height:1.5;}
+
+/* PILLARS */
+.pillars{padding:3rem 1.2rem 4rem;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.pillars-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.5rem;padding-left:.3rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}
+.pcard{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.5rem;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:all .22s;}
+.pcard::before{content:'';position:absolute;inset:0;background:var(--ac-glow);opacity:0;transition:opacity .22s;pointer-events:none;}
+.pcard:hover{border-color:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.pcard:hover::before{opacity:.5;}
+.pc-top{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.1rem;}
+.pc-icon{width:46px;height:46px;border-radius:.7rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0;}
+.pc-meta{flex:1;}
+.pc-num{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:.25rem;}
+.pc-title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:800;line-height:1.2;}
+.pc-desc{font-size:.83rem;color:var(--tm);line-height:1.6;margin-bottom:1.2rem;}
+.pc-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.3rem;}
+.tag{background:var(--sf2);border:1px solid var(--bd);border-radius:2rem;padding:.2rem .6rem;font-size:.65rem;font-weight:600;color:var(--td);font-family:'Space Grotesk',sans-serif;}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;}
+.pc-stat{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--ac);}
+.pc-arrow{font-size:1rem;color:var(--ac);opacity:.6;transition:all .18s;}
+.pcard:hover .pc-arrow{opacity:1;transform:translateX(3px);}
+
+/* FOOTER */
+.foot{padding:2rem 1.5rem;text-align:center;position:relative;z-index:1;}
+.foot-txt{font-size:.75rem;color:var(--td);}
+.foot-txt a{color:var(--ac);text-decoration:none;opacity:.85;}
+.foot-txt a:hover{opacity:1;}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+
+<!-- GLOBAL NAV -->
+<nav class="gnav">
+  <a href="../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="./index.html" class="gnav-btn gnav-s28 active">🎙️ S28</a>
+  <a href="../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<!-- PARTICLES -->
+<div class="particles" id="pts"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-back">← Painel Principal</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sistema 28 — Reduções do Inglês Real</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div> Sistema 28 · B1–B2</div>
+  <h1 class="hero-title">Reduções do<br><span class="accent">Inglês Real</span></h1>
+  <p class="hero-sub">O inglês que nativos falam, não o que ensinam.<br>
+  Decodifique músicas, filmes e conversas reais.</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Pilares</div></div>
+    <div class="hstat"><div class="hstat-n">50</div><div class="hstat-l">Reduções</div></div>
+    <div class="hstat"><div class="hstat-n">120</div><div class="hstat-l">Exemplos Reais</div></div>
+    <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Fenômenos</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="how-inner">
+    <div class="how-title">Como usar o Sistema 28</div>
+    <div class="how-steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-t">50 Reduções</div>
+        <div class="step-d">Aprenda as 50 reduções mais usadas — wanna, gonna, gotta, dunno e mais.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-t">No contexto real</div>
+        <div class="step-d">Veja essas reduções em músicas, filmes e séries que você já conhece.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-t">Por que "gruda"</div>
+        <div class="step-d">Entenda os fenômenos que encadeiam e comprimem o inglês falado.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-t">Treine o ouvido</div>
+        <div class="step-d">Ouça, transcreva e compare. Da frase simples ao nativo em ritmo real.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="pillars-title">Os quatro pilares</div>
+  <div class="grid">
+
+    <a class="pcard" href="pilar1_reducoes/index.html">
+      <div class="pc-top">
+        <div class="pc-icon">✂️</div>
+        <div class="pc-meta">
+          <div class="pc-num">Pilar 1</div>
+          <div class="pc-title">50 Reduções Essenciais</div>
+        </div>
+      </div>
+      <p class="pc-desc">As formas comprimidas que nativos usam sem perceber. Wanna, gonna, gotta, dunno, coulda, woulda e mais 44.</p>
+      <div class="pc-tags">
+        <span class="tag">5 categorias</span>
+        <span class="tag">50 reduções</span>
+        <span class="tag">Exemplos reais</span>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-stat">50 <span style="color:var(--td);font-weight:400">reduções</span></div>
+        <div class="pc-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="pcard" href="pilar2_contexto/index.html">
+      <div class="pc-top">
+        <div class="pc-icon">🎬</div>
+        <div class="pc-meta">
+          <div class="pc-num">Pilar 2</div>
+          <div class="pc-title">Músicas, Filmes e Séries</div>
+        </div>
+      </div>
+      <p class="pc-desc">As mesmas reduções do Pilar 1, agora no contexto real: letras de músicas, falas de personagens e cenas do cotidiano.</p>
+      <div class="pc-tags">
+        <span class="tag">3 fontes</span>
+        <span class="tag">60 exemplos</span>
+        <span class="tag">Inglês autêntico</span>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-stat">60 <span style="color:var(--td);font-weight:400">exemplos</span></div>
+        <div class="pc-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="pcard" href="pilar3_connected_speech/index.html">
+      <div class="pc-top">
+        <div class="pc-icon">🔗</div>
+        <div class="pc-meta">
+          <div class="pc-num">Pilar 3</div>
+          <div class="pc-title">Connected Speech</div>
+        </div>
+      </div>
+      <p class="pc-desc">Por que "did you" vira "didja" e "want to" vira "wanna"? Aprenda os 4 fenômenos que encadeiam o inglês falado.</p>
+      <div class="pc-tags">
+        <span class="tag">4 fenômenos</span>
+        <span class="tag">Exemplos</span>
+        <span class="tag">Com regras</span>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-stat">4 <span style="color:var(--td);font-weight:400">fenômenos</span></div>
+        <div class="pc-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="pcard" href="pilar4_treino/index.html">
+      <div class="pc-top">
+        <div class="pc-icon">👂</div>
+        <div class="pc-meta">
+          <div class="pc-num">Pilar 4</div>
+          <div class="pc-title">Treino de Ouvido</div>
+        </div>
+      </div>
+      <p class="pc-desc">Você lê uma frase em velocidade nativa e tenta transcrever. Depois vê a resposta com explicação de cada redução presente.</p>
+      <div class="pc-tags">
+        <span class="tag">20 exercícios</span>
+        <span class="tag">4 níveis</span>
+        <span class="tag">Autocorreção</span>
+      </div>
+      <div class="pc-foot">
+        <div class="pc-stat">20 <span style="color:var(--td);font-weight:400">exercícios</span></div>
+        <div class="pc-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <p class="foot-txt"><a href="../index.html">← Voltar ao Painel Principal</a> &nbsp;·&nbsp; Sistema 28 — Inglês para Brasileiros</p>
+</footer>
+
+<script>
+(function(){
+  const c=document.getElementById('pts');
+  const colors=['#F59E0B','#F5C518','#92400E','#e4ddd4'];
+  for(let i=0;i<26;i++){
+    const d=document.createElement('div');
+    d.className='p';
+    const sz=Math.random()*3+1.5;
+    d.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[i%colors.length]};animation:fp ${5+Math.random()*8}s ${Math.random()*6}s infinite;`;
+    c.appendChild(d);
+  }
+})();
+</script>
+</body>
+</html>

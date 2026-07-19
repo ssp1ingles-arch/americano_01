@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 1 — 50 Reduções Essenciais · Sistema 28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;--sf3:#1c2a3e;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --ac:#F59E0B;--ac-dim:#92400E;--ac-glow:rgba(245,158,11,0.15);
+  --gn:#5FD87A;--rd:#f87171;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;}
+.gnav-s28{color:var(--ac);border-color:var(--ac);background:rgba(245,158,11,.12);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.85;}
+.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);}
+.nav-sub{font-size:.75rem;color:var(--td);}
+.nav-progress{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+.nav-prog-bar{width:120px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.nav-prog-fill{height:100%;background:var(--ac);border-radius:3px;transition:width .5s ease;}
+.nav-prog-label{font-size:.72rem;color:var(--td);white-space:nowrap;}
+
+.layout{display:flex;min-height:100vh;padding-top:108px;position:relative;z-index:1;}
+
+/* SIDEBAR */
+.sidebar{width:280px;flex-shrink:0;background:var(--sf);border-right:1px solid var(--bd);padding:1.25rem .9rem;overflow-y:auto;height:calc(100vh - 108px);position:sticky;top:108px;}
+.sidebar-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.85rem;padding:0 .3rem;}
+.cat-group{margin-bottom:1rem;}
+.cat-label{font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ac);padding:.2rem .5rem;margin-bottom:.3rem;opacity:.85;}
+.red-btn{width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:.5rem;padding:.45rem .7rem;cursor:pointer;transition:all .16s;display:flex;align-items:center;gap:.55rem;}
+.red-btn:hover{background:var(--sf2);border-color:var(--bd);}
+.red-btn.active{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.3);}
+.red-num{font-size:.62rem;color:var(--td);font-weight:600;width:20px;flex-shrink:0;text-align:right;}
+.red-word{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;color:var(--tx);}
+.red-btn.active .red-word{color:var(--ac);}
+.red-check{flex-shrink:0;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--td);display:flex;align-items:center;justify-content:center;font-size:.55rem;}
+.red-btn.done .red-check{background:var(--gn);border-color:var(--gn);color:#000;}
+.red-btn.done .red-word{opacity:.7;}
+
+/* MAIN */
+.main{flex:1;padding:2.5rem 2rem;max-width:720px;}
+.cat-badge{display:inline-block;padding:.25rem .75rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:2rem;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);margin-bottom:1rem;}
+
+.red-hero{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.75rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.red-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac-glow),transparent);pointer-events:none;}
+.red-word-big{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:var(--ac);line-height:1.1;position:relative;}
+.red-equals{font-size:1.05rem;color:var(--tm);margin-top:.35rem;position:relative;}
+.red-equals strong{color:var(--tx);font-weight:600;}
+.pron-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.9rem;background:var(--sf2);border:1px solid var(--bd);border-radius:.5rem;padding:.4rem .8rem;font-size:.85rem;position:relative;}
+.pron-badge .lab{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--td);font-weight:700;}
+.pron-badge .val{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);}
+
+.sec-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.7rem;}
+.ex-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem;}
+.ex-item{background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;padding:.9rem 1.1rem;}
+.ex-frase{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:600;color:var(--tx);}
+.ex-frase .rword{color:var(--ac);}
+.ex-trad{font-size:.82rem;color:var(--tm);margin-top:.25rem;}
+.ex-fonte{font-size:.68rem;color:var(--td);margin-top:.4rem;font-style:italic;}
+
+.tip-box{border-radius:.7rem;padding:.9rem 1.1rem;margin-bottom:1rem;font-size:.85rem;line-height:1.6;}
+.tip-dica{background:rgba(95,216,122,.07);border:1px solid rgba(95,216,122,.2);}
+.tip-dica .tl{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gn);margin-bottom:.3rem;}
+.tip-dica .tl b{font-style:normal;}
+.tip-arm{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);}
+.tip-arm .tl{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--rd);margin-bottom:.3rem;}
+.tip-txt{color:var(--tm);}
+
+.controls{display:flex;gap:.75rem;margin:1.5rem 0 .5rem;flex-wrap:wrap;align-items:center;}
+.btn-learn{background:var(--ac);color:#1a1206;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;border:none;padding:.7rem 1.4rem;border-radius:.6rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+.btn-learn:hover{opacity:.9;transform:translateY(-1px);}
+.btn-learn.done{background:var(--gn);color:#04210f;}
+.btn-nav{background:none;border:1px solid var(--bd);color:var(--tm);font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;padding:.7rem 1.1rem;border-radius:.6rem;cursor:pointer;transition:all .2s;}
+.btn-nav:hover{border-color:var(--bdh);color:var(--tx);}
+.btn-nav:disabled{opacity:.35;cursor:default;}
+
+@media(max-width:760px){
+  .layout{flex-direction:column;padding-top:100px;}
+  .sidebar{width:100%;height:auto;position:static;padding:.75rem;overflow-x:auto;white-space:nowrap;border-right:none;border-bottom:1px solid var(--bd);display:flex;gap:.5rem;}
+  .sidebar-title{display:none;}
+  .cat-group{display:inline-block;margin-bottom:0;margin-right:.5rem;vertical-align:top;}
+  .cat-label{white-space:nowrap;}
+  .red-btn{display:inline-flex;width:auto;}
+  .red-num{display:none;}
+  .main{padding:1.5rem 1rem;}
+  .red-word-big{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../index.html" class="gnav-btn gnav-s28">🎙️ S28</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 28</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Pilar 1 — 50 Reduções Essenciais</div>
+    <div class="nav-sub">Sistema 28 · Reduções do Inglês Real</div>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-prog-bar"><div class="nav-prog-fill" id="navFill" style="width:0%"></div></div>
+    <span class="nav-prog-label" id="navLabel">0 / 50</span>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">50 Reduções · 5 categorias</div>
+    <div id="redList"></div>
+  </aside>
+
+  <main class="main" id="mainArea">
+    <span class="cat-badge" id="catBadge">—</span>
+    <div class="red-hero">
+      <div class="red-word-big" id="redWord">wanna</div>
+      <div class="red-equals" id="redEquals"></div>
+      <div class="pron-badge"><span class="lab">Pronúncia</span> <span class="val" id="redPron"></span></div>
+    </div>
+
+    <div class="sec-label">Exemplos reais</div>
+    <div class="ex-list" id="exList"></div>
+
+    <div class="tip-box tip-dica" id="dicaBox">
+      <div class="tl">💡 Dica</div>
+      <div class="tip-txt" id="dicaTxt"></div>
+    </div>
+    <div class="tip-box tip-arm" id="armBox" style="display:none">
+      <div class="tl">⚠️ Armadilha</div>
+      <div class="tip-txt" id="armTxt"></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-learn" id="btnLearn">✓ Marcar como aprendida</button>
+      <button class="btn-nav" id="btnPrev">← Anterior</button>
+      <button class="btn-nav" id="btnNext">Próxima →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+// ── DADOS: 50 REDUÇÕES ──────────────────────────────────────────────────────
+const CATS = {
+  1:'Want / Go / Have + TO',
+  2:'Should / Would / Could + HAVE',
+  3:'Let / Give / Get + Me / You',
+  4:'Do / Did / What + You',
+  5:'Expressões do dia a dia'
+};
+const REDS = [
+  {id:1,cat:1,r:"wanna",o:"want to",pr:"UÂna",ex:[{f:"I wanna go home.",t:"Eu quero ir pra casa.",s:"Conversa cotidiana"},{f:"I just wanna have fun.",t:"Eu só quero me divertir.",s:"Cyndi Lauper — Girls Just Wanna Have Fun"}],dica:"WANNA só substitui 'want to' quando vem seguido de um verbo no infinitivo.",arm:"'I want you' NÃO vira 'I wanna you'. Só funciona com verbo depois."},
+  {id:2,cat:1,r:"gonna",o:"going to",pr:"GÔna",ex:[{f:"She's gonna call you.",t:"Ela vai te ligar.",s:"Conversa cotidiana"},{f:"Everything's gonna be alright.",t:"Vai ficar tudo bem.",s:"Bob Marley"}],dica:"'going to' + verbo indica futuro. Na fala, quase nunca se diz 'going to' por inteiro."},
+  {id:3,cat:1,r:"gotta",o:"got to / have got to",pr:"GÓta",ex:[{f:"I gotta go now.",t:"Tenho que ir agora.",s:"Conversa cotidiana"},{f:"You've gotta be kidding me.",t:"Você só pode estar brincando.",s:"Expressão comum"}],dica:"GOTTA indica obrigação ('have got to' = have to). Cuidado: às vezes é 'have got a'.",arm:"'I gotta feeling' = 'I've got a feeling'. O contexto muda o significado!"},
+  {id:4,cat:1,r:"hafta",o:"have to",pr:"HÁFta",ex:[{f:"You hafta see this.",t:"Você tem que ver isso.",s:"Conversa cotidiana"}],dica:"'have to' vira 'hafta'; 'has to' vira 'hasta'. O V vira som de F."},
+  {id:5,cat:1,r:"supposta",o:"supposed to",pr:"saPÓSta",ex:[{f:"I was supposta call him.",t:"Eu era pra ter ligado pra ele.",s:"Conversa cotidiana"}],dica:"'supposed to' = 'era pra'. O -D final se junta ao 'to' e some."},
+  {id:6,cat:1,r:"usedta",o:"used to",pr:"IÚSta",ex:[{f:"He usedta live here.",t:"Ele morava aqui (antes).",s:"Conversa cotidiana"}],dica:"'used to' = costumava fazer (hábito no passado). O -D some antes do 'to'."},
+  {id:7,cat:1,r:"oughta",o:"ought to",pr:"ÔTa",ex:[{f:"You oughta try this.",t:"Você deveria experimentar isso.",s:"Conversa cotidiana"}],dica:"'ought to' = deveria (conselho). Soa formal, mas comprime igual a 'gotta'."},
+  {id:8,cat:1,r:"needta",o:"need to",pr:"NÍta",ex:[{f:"We needta talk.",t:"A gente precisa conversar.",s:"Conversa cotidiana"}],dica:"'need to' vira 'needta' — o -D cola no T do 'to'."},
+  {id:9,cat:1,r:"tryda",o:"trying to",pr:"TRÁIda",ex:[{f:"I'm tryda sleep!",t:"Tô tentando dormir!",s:"Conversa cotidiana"}],dica:"'trying to' perde o -NG e vira 'tryda'. Muito comum na fala rápida."},
+  {id:10,cat:1,r:"aimta",o:"am going to",pr:"ÂIMta",ex:[{f:"I'm aimta fix this.",t:"Vou consertar isso.",s:"Conversa cotidiana"}],dica:"Redução extrema de 'I am going to'. Aparece na fala bem corrida e informal."},
+
+  {id:11,cat:2,r:"shoulda",o:"should have",pr:"SHÚda",ex:[{f:"I shoulda known better.",t:"Eu deveria ter percebido.",s:"Conversa cotidiana"}],dica:"'should have' = arrependimento. Na escrita formal, nunca escreva 'should of'."},
+  {id:12,cat:2,r:"woulda",o:"would have",pr:"WÚda",ex:[{f:"I woulda called you.",t:"Eu teria te ligado.",s:"Conversa cotidiana"}],dica:"'would have' = condicional no passado (o que teria acontecido)."},
+  {id:13,cat:2,r:"coulda",o:"could have",pr:"KÚda",ex:[{f:"You coulda asked me.",t:"Você poderia ter me perguntado.",s:"Conversa cotidiana"}],dica:"'could have' = possibilidade que não se concretizou."},
+  {id:14,cat:2,r:"mighta",o:"might have",pr:"MÂIta",ex:[{f:"She mighta left already.",t:"Ela talvez já tenha saído.",s:"Conversa cotidiana"}],dica:"'might have' = talvez tenha acontecido (dúvida sobre o passado)."},
+  {id:15,cat:2,r:"musta",o:"must have",pr:"MÚSta",ex:[{f:"It musta been cold.",t:"Devia estar frio.",s:"Conversa cotidiana"}],dica:"'must have' = dedução lógica sobre o passado (deve ter sido)."},
+  {id:16,cat:2,r:"woulda been",o:"would have been",pr:"WÚda bin",ex:[{f:"That woulda been nice.",t:"Teria sido legal.",s:"Conversa cotidiana"}],dica:"'have been' vira 'a bin' — o 'been' vira o som curto 'bin'."},
+  {id:17,cat:2,r:"shoulda been",o:"should have been",pr:"SHÚda bin",ex:[{f:"It shoulda been you.",t:"Deveria ter sido você.",s:"Conversa cotidiana"}],dica:"Combine 'shoulda' + 'bin'. Arrependimento sobre algo que não aconteceu."},
+  {id:18,cat:2,r:"coulda been",o:"could have been",pr:"KÚda bin",ex:[{f:"We coulda been great.",t:"A gente poderia ter sido ótimo.",s:"Conversa cotidiana"}],dica:"'could have been' = potencial não realizado."},
+  {id:19,cat:2,r:"musta been",o:"must have been",pr:"MÚSta bin",ex:[{f:"That musta been hard.",t:"Deve ter sido difícil.",s:"Conversa cotidiana"}],dica:"'must have been' = conclusão lógica sobre uma situação passada."},
+  {id:20,cat:2,r:"needn'ta",o:"needn't have",pr:"NÍdinta",ex:[{f:"You needn'ta worry.",t:"Você não precisava se preocupar.",s:"Conversa cotidiana"}],dica:"'needn't have' = não precisava ter feito (mas fez). Mais comum no inglês britânico."},
+
+  {id:21,cat:3,r:"lemme",o:"let me",pr:"LÉmi",ex:[{f:"Lemme think about it.",t:"Deixa eu pensar sobre isso.",s:"Conversa cotidiana"}],dica:"'let me' → 'lemme'. Pedido de permissão ou 'deixa eu...'."},
+  {id:22,cat:3,r:"gimme",o:"give me",pr:"GÍmi",ex:[{f:"Gimme a second.",t:"Me dá um segundo.",s:"Conversa cotidiana"}],dica:"'give me' → 'gimme'. Pedido informal e direto."},
+  {id:23,cat:3,r:"getcha",o:"get you",pr:"GÉtcha",ex:[{f:"I'll getcha back for that.",t:"Vou te retribuir por isso.",s:"Conversa cotidiana"}],dica:"T + YOU = 'tcha'. 'get you' vira 'getcha'."},
+  {id:24,cat:3,r:"gotcha",o:"got you",pr:"GÓtcha",ex:[{f:"Gotcha. I understand.",t:"Entendi. / Peguei.",s:"Conversa cotidiana"}],dica:"'got you' → 'gotcha' = entendi ou 'te peguei'. Uma das reduções mais usadas."},
+  {id:25,cat:3,r:"letcha",o:"let you",pr:"LÉtcha",ex:[{f:"I won't letcha down.",t:"Não vou te decepcionar.",s:"Conversa cotidiana"}],dica:"'let you' → 'letcha'. Mesma regra do T + YOU = 'tcha'."},
+  {id:26,cat:3,r:"tellya",o:"tell you",pr:"TÉLya",ex:[{f:"I tellya, it was crazy.",t:"Te falo, foi loucura.",s:"Conversa cotidiana"}],dica:"'tell you' → 'tellya'. O 'you' vira só 'ya'."},
+  {id:27,cat:3,r:"ya",o:"you",pr:"ya",ex:[{f:"What are ya doing?",t:"O que você tá fazendo?",s:"Conversa cotidiana"}],dica:"'you' átono vira 'ya'. Aparece no meio de quase toda pergunta rápida."},
+  {id:28,cat:3,r:"yer",o:"your",pr:"yer",ex:[{f:"Is that yer car?",t:"É esse o seu carro?",s:"Conversa cotidiana"}],dica:"'your' átono vira 'yer'. Não confunda com 'ya' (= you)."},
+  {id:29,cat:3,r:"'em",o:"them",pr:"'em",ex:[{f:"Tell 'em I'm coming.",t:"Diz pra eles que eu tô indo.",s:"Conversa cotidiana"}],dica:"O 'th' de 'them' desaparece: sobra só o som 'em'."},
+  {id:30,cat:3,r:"'im",o:"him",pr:"'im",ex:[{f:"Did you see 'im?",t:"Você viu ele?",s:"Conversa cotidiana"}],dica:"O 'h' de 'him' some em palavras átonas: vira só 'im'."},
+
+  {id:31,cat:4,r:"dunno",o:"don't know",pr:"daNÔ",ex:[{f:"I dunno what to do.",t:"Não sei o que fazer.",s:"Conversa cotidiana"}],dica:"'don't know' → 'dunno'. Uma das reduções mais frequentes do inglês falado."},
+  {id:32,cat:4,r:"whaddya",o:"what do you",pr:"UÓdya",ex:[{f:"Whaddya think?",t:"O que você acha?",s:"Conversa cotidiana"}],dica:"'what do you' se funde em 'whaddya'. O 't' vira som de 'd'."},
+  {id:33,cat:4,r:"whatcha",o:"what are you",pr:"UÓtcha",ex:[{f:"Whatcha doing?",t:"O que você tá fazendo?",s:"Conversa cotidiana"}],dica:"'what are you' → 'whatcha'. Também aparece como 'what you'.",arm:"'Whatcha' quase nunca vem seguido de 'are'. O 'are' já está embutido no som."},
+  {id:34,cat:4,r:"didja",o:"did you",pr:"DÍdja",ex:[{f:"Didja see that?",t:"Você viu aquilo?",s:"Conversa cotidiana"}],dica:"D + YOU = 'dja'. 'did you' vira 'didja'."},
+  {id:35,cat:4,r:"wouldja",o:"would you",pr:"WÚdja",ex:[{f:"Wouldja do that for me?",t:"Você faria isso por mim?",s:"Conversa cotidiana"}],dica:"'would you' → 'wouldja'. Mesma regra do D + YOU = 'dja'."},
+  {id:36,cat:4,r:"couldja",o:"could you",pr:"KÚdja",ex:[{f:"Couldja help me?",t:"Você poderia me ajudar?",s:"Conversa cotidiana"}],dica:"'could you' → 'couldja'. Pedido educado no dia a dia."},
+  {id:37,cat:4,r:"doncha",o:"don't you",pr:"DÔNcha",ex:[{f:"Doncha worry about it.",t:"Não se preocupe com isso.",s:"Conversa cotidiana"}],dica:"T + YOU = 'cha'. 'don't you' vira 'doncha'."},
+  {id:38,cat:4,r:"wontcha",o:"won't you",pr:"UÔNcha",ex:[{f:"Wontcha come with me?",t:"Você não vem comigo?",s:"Conversa cotidiana"}],dica:"'won't you' → 'wontcha'. Convite ou pedido gentil."},
+  {id:39,cat:4,r:"dontcha",o:"don't you",pr:"DÔNcha",ex:[{f:"Dontcha know?",t:"Você não sabe?",s:"Conversa cotidiana"}],dica:"Variação de escrita de 'doncha'. Muito usada em música pop."},
+  {id:40,cat:4,r:"d'you",o:"do you",pr:"dya",ex:[{f:"D'you want some?",t:"Você quer um pouco?",s:"Conversa cotidiana"}],dica:"'do you' comprime para 'd'you', som curtíssimo 'dya'."},
+
+  {id:41,cat:5,r:"kinda",o:"kind of",pr:"KÂINda",ex:[{f:"It's kinda weird.",t:"É meio estranho.",s:"Conversa cotidiana"}],dica:"'kind of' → 'kinda' = 'meio', 'mais ou menos'. Suaviza afirmações."},
+  {id:42,cat:5,r:"sorta",o:"sort of",pr:"SÔRta",ex:[{f:"I sorta knew it.",t:"Eu meio que sabia.",s:"Conversa cotidiana"}],dica:"'sort of' → 'sorta'. Sinônimo de 'kinda'."},
+  {id:43,cat:5,r:"lotta",o:"a lot of",pr:"LÓta",ex:[{f:"There's a lotta work.",t:"Tem um monte de trabalho.",s:"Conversa cotidiana"}],dica:"'a lot of' → 'a lotta'. O 'of' vira só o som 'a'."},
+  {id:44,cat:5,r:"outta",o:"out of",pr:"ÔUta",ex:[{f:"I'm outta here.",t:"Tô saindo / caindo fora.",s:"Conversa cotidiana"}],dica:"'out of' → 'outta'. 'I'm outta here' = 'tô indo embora'."},
+  {id:45,cat:5,r:"c'mon",o:"come on",pr:"kaMÓN",ex:[{f:"C'mon, let's go!",t:"Vamos logo!",s:"Conversa cotidiana"}],dica:"'come on' → 'c'mon'. Encorajamento, impaciência ou incentivo."},
+  {id:46,cat:5,r:"dunno",o:"do not know",pr:"daNÔ",ex:[{f:"Dunno, you tell me.",t:"Sei não, me diz você.",s:"Conversa cotidiana"}],dica:"Pode aparecer sozinho no início da frase, sem o 'I'."},
+  {id:47,cat:5,r:"ain't",o:"am/is/are not",pr:"ÂINT",ex:[{f:"I ain't done yet.",t:"Ainda não terminei.",s:"Conversa cotidiana"}],dica:"'ain't' substitui várias negativas do 'be' e do 'have'. Muito informal.",arm:"Evite 'ain't' em contextos formais ou escritos — soa muito coloquial."},
+  {id:48,cat:5,r:"I'mma",o:"I am going to",pr:"ÂIma",ex:[{f:"I'mma call you later.",t:"Vou te ligar depois.",s:"Conversa cotidiana"}],dica:"'I'm going to' comprime até 'I'mma'. Tom urbano e bem coloquial."},
+  {id:49,cat:5,r:"y'all",o:"you all",pr:"yôl",ex:[{f:"Y'all ready for this?",t:"Vocês estão prontos pra isso?",s:"Conversa cotidiana"}],dica:"'you all' → 'y'all' = 'vocês'. Típico do sul dos EUA."},
+  {id:50,cat:5,r:"'cause",o:"because",pr:"kaz",ex:[{f:"I left 'cause it was late.",t:"Fui embora porque tava tarde.",s:"Conversa cotidiana"}],dica:"'because' encurta para ''cause' (ou 'cuz'). Perde a primeira sílaba."}
+];
+
+// ── ESTADO ──────────────────────────────────────────────────────────────────
+function loadProg(){try{return JSON.parse(localStorage.getItem('s28_progress'))||{}}catch(e){return {}}}
+function saveProg(p){try{localStorage.setItem('s28_progress',JSON.stringify(p))}catch(e){}}
+let prog = loadProg();
+let done = new Set(Array.isArray(prog.p1)?prog.p1:[]);
+let current = REDS[0];
+
+function persist(){
+  const p = loadProg();
+  p.p1 = [...done];
+  saveProg(p);
+}
+
+// ── SIDEBAR ─────────────────────────────────────────────────────────────────
+(function(){
+  const list = document.getElementById('redList');
+  const groups = {};
+  REDS.forEach(r=>{ (groups[r.cat]=groups[r.cat]||[]).push(r); });
+  Object.keys(groups).forEach(cat=>{
+    const g = document.createElement('div');
+    g.className='cat-group';
+    const lbl=document.createElement('div');
+    lbl.className='cat-label';
+    lbl.textContent = 'Cat ' + cat + ' · ' + CATS[cat];
+    g.appendChild(lbl);
+    groups[cat].forEach(r=>{
+      const b=document.createElement('button');
+      b.className='red-btn'+(done.has(r.id)?' done':'');
+      b.id='rbtn-'+r.id;
+      b.onclick=()=>loadRed(r.id);
+      b.innerHTML=`<span class="red-num">${r.id}</span><span class="red-word">${r.r}</span><span class="red-check">${done.has(r.id)?'✓':''}</span>`;
+      g.appendChild(b);
+    });
+    list.appendChild(g);
+  });
+})();
+
+// ── CARREGAR REDUÇÃO ────────────────────────────────────────────────────────
+function loadRed(id){
+  const old=document.getElementById('rbtn-'+current.id);
+  if(old) old.classList.remove('active');
+  current = REDS.find(r=>r.id===id);
+  const btn=document.getElementById('rbtn-'+id);
+  if(btn) btn.classList.add('active');
+
+  document.getElementById('catBadge').textContent = 'Categoria '+current.cat+' · '+CATS[current.cat];
+  document.getElementById('redWord').textContent = current.r;
+  document.getElementById('redEquals').innerHTML = '= <strong>'+current.o+'</strong>';
+  document.getElementById('redPron').textContent = '"'+current.pr+'"';
+
+  const exList=document.getElementById('exList');
+  exList.innerHTML='';
+  current.ex.forEach(e=>{
+    const esc=current.r.replace(/[.*+?^${}()|[\]\\']/g,'\\$&');
+    let frase=e.f;
+    try{ frase = e.f.replace(new RegExp('('+esc+')','i'),'<span class="rword">$1</span>'); }catch(err){}
+    const item=document.createElement('div');
+    item.className='ex-item';
+    item.innerHTML=`<div class="ex-frase">${frase}</div><div class="ex-trad">${e.t}</div>${e.s?`<div class="ex-fonte">${e.s}</div>`:''}`;
+    exList.appendChild(item);
+  });
+
+  document.getElementById('dicaTxt').textContent = current.dica;
+  const armBox=document.getElementById('armBox');
+  if(current.arm){ document.getElementById('armTxt').textContent=current.arm; armBox.style.display='block'; }
+  else { armBox.style.display='none'; }
+
+  const btnLearn=document.getElementById('btnLearn');
+  if(done.has(current.id)){ btnLearn.classList.add('done'); btnLearn.textContent='✓ Aprendida'; }
+  else { btnLearn.classList.remove('done'); btnLearn.textContent='✓ Marcar como aprendida'; }
+
+  const idx=REDS.findIndex(r=>r.id===id);
+  document.getElementById('btnPrev').disabled = idx===0;
+  document.getElementById('btnNext').disabled = idx===REDS.length-1;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── BOTÕES ──────────────────────────────────────────────────────────────────
+document.getElementById('btnLearn').onclick=function(){
+  if(done.has(current.id)){
+    done.delete(current.id);
+  } else {
+    done.add(current.id);
+  }
+  persist();
+  const btn=document.getElementById('rbtn-'+current.id);
+  if(btn){ btn.classList.toggle('done',done.has(current.id)); btn.querySelector('.red-check').textContent=done.has(current.id)?'✓':''; }
+  const bl=document.getElementById('btnLearn');
+  bl.classList.toggle('done',done.has(current.id));
+  bl.textContent = done.has(current.id)?'✓ Aprendida':'✓ Marcar como aprendida';
+  updateProgress();
+  // avança automaticamente ao marcar
+  if(done.has(current.id)){
+    const idx=REDS.findIndex(r=>r.id===current.id);
+    if(idx<REDS.length-1) setTimeout(()=>loadRed(REDS[idx+1].id),450);
+  }
+};
+document.getElementById('btnPrev').onclick=function(){
+  const idx=REDS.findIndex(r=>r.id===current.id);
+  if(idx>0) loadRed(REDS[idx-1].id);
+};
+document.getElementById('btnNext').onclick=function(){
+  const idx=REDS.findIndex(r=>r.id===current.id);
+  if(idx<REDS.length-1) loadRed(REDS[idx+1].id);
+};
+
+// ── PROGRESSO ───────────────────────────────────────────────────────────────
+function updateProgress(){
+  const pct=Math.round(done.size/REDS.length*100);
+  document.getElementById('navFill').style.width=pct+'%';
+  document.getElementById('navLabel').textContent=done.size+' / '+REDS.length;
+}
+
+updateProgress();
+loadRed(1);
+</script>
+</body>
+</html>

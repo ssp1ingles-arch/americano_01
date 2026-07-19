@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 2 — Músicas, Filmes e Séries · Sistema 28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --ac:#F59E0B;--ac-dim:#92400E;--ac-glow:rgba(245,158,11,0.15);
+  --gn:#5FD87A;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;}
+.gnav-s28{color:var(--ac);border-color:var(--ac);background:rgba(245,158,11,.12);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.85;}
+.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);}
+.nav-sub{font-size:.75rem;color:var(--td);}
+.nav-progress{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+.nav-prog-bar{width:120px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.nav-prog-fill{height:100%;background:var(--ac);border-radius:3px;transition:width .5s ease;}
+.nav-prog-label{font-size:.72rem;color:var(--td);white-space:nowrap;}
+
+.wrap{max-width:820px;margin:0 auto;padding:130px 1.25rem 4rem;position:relative;z-index:1;}
+.intro{text-align:center;margin-bottom:2rem;}
+.intro h1{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:.5rem;}
+.intro h1 span{color:var(--ac);}
+.intro p{color:var(--tm);font-size:.92rem;max-width:560px;margin:0 auto;}
+
+/* TABS */
+.tabs{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+.tab{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;padding:.6rem 1.2rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.45rem;}
+.tab:hover{border-color:var(--bdh);color:var(--tx);}
+.tab.active{background:rgba(245,158,11,.12);border-color:var(--ac);color:var(--ac);}
+.tab .cnt{font-size:.68rem;opacity:.7;font-weight:600;}
+
+/* CARDS */
+.cards{display:flex;flex-direction:column;gap:1rem;}
+.xcard{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.4rem;position:relative;transition:border-color .2s;}
+.xcard.seen{border-color:rgba(95,216,122,.28);}
+.xc-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem;}
+.xc-icon{width:38px;height:38px;border-radius:.55rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.xc-titles{flex:1;min-width:0;}
+.xc-t1{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:800;line-height:1.25;}
+.xc-t2{font-size:.78rem;color:var(--td);margin-top:.1rem;}
+.xc-seenbtn{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--td);background:none;color:var(--td);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:all .18s;}
+.xc-seenbtn:hover{border-color:var(--gn);color:var(--gn);}
+.xcard.seen .xc-seenbtn{background:var(--gn);border-color:var(--gn);color:#04210f;}
+
+.line{padding:.7rem .9rem;border-radius:.55rem;margin-bottom:.55rem;}
+.line-formal{background:var(--sf2);border:1px solid var(--bd);}
+.line-real{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);}
+.line-lab{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--td);margin-bottom:.2rem;}
+.line-real .line-lab{color:var(--ac);}
+.line-txt{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:600;color:var(--tx);}
+.line-real .line-txt em{color:var(--ac);font-style:normal;font-weight:700;}
+
+.xc-reds{display:flex;flex-wrap:wrap;gap:.35rem;margin:.75rem 0;}
+.rchip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.28);color:var(--ac);border-radius:2rem;padding:.18rem .6rem;font-size:.66rem;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+.xc-analise{font-size:.83rem;color:var(--tm);line-height:1.6;border-left:2px solid var(--ac-dim);padding-left:.75rem;}
+.xc-analise b{color:var(--tx);font-weight:600;}
+
+.panel{display:none;}
+.panel.active{display:block;}
+
+@media(max-width:600px){
+  .wrap{padding-top:120px;}
+  .intro h1{font-size:1.4rem;}
+  .line-txt{font-size:.95rem;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../index.html" class="gnav-btn gnav-s28">🎙️ S28</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 28</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Pilar 2 — Músicas, Filmes e Séries</div>
+    <div class="nav-sub">Sistema 28 · Reduções do Inglês Real</div>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-prog-bar"><div class="nav-prog-fill" id="navFill" style="width:0%"></div></div>
+    <span class="nav-prog-label" id="navLabel">0 / 60</span>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>As reduções <span>no contexto real</span></h1>
+    <p>As mesmas reduções do Pilar 1, agora onde você realmente as ouve: letras de músicas, falas de personagens e conversas do cotidiano. Marque cada exemplo depois de entender.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="musicas">🎵 Músicas <span class="cnt">20</span></button>
+    <button class="tab" data-tab="filmes">🎬 Filmes e Séries <span class="cnt">20</span></button>
+    <button class="tab" data-tab="conversas">💬 Conversas Reais <span class="cnt">20</span></button>
+  </div>
+
+  <div class="panel active" id="panel-musicas"><div class="cards" id="cards-musicas"></div></div>
+  <div class="panel" id="panel-filmes"><div class="cards" id="cards-filmes"></div></div>
+  <div class="panel" id="panel-conversas"><div class="cards" id="cards-conversas"></div></div>
+</div>
+
+<script>
+// ── DADOS ───────────────────────────────────────────────────────────────────
+const DATA = {
+  musicas:[
+    {id:'m1',ic:'🎤',t1:'Girls Just Wanna Have Fun',t2:'Cyndi Lauper',formal:'Girls just want to have fun',real:'Girls just <em>wanna</em> have fun',reds:['wanna'],analise:'<b>WANNA</b> substitui <b>want to</b>. A música ficou famosa justamente por soar natural e coloquial.'},
+    {id:'m2',ic:'🎤',t1:'Whatcha Say',t2:'Jason Derulo',formal:'What did you say?',real:'<em>Whatcha</em> say?',reds:['whatcha'],analise:'<b>Whatcha</b> comprime <b>what did you</b>. O próprio título da música usa a redução.'},
+    {id:'m3',ic:'🎤',t1:'I Gotta Feeling',t2:'Black Eyed Peas',formal:"I've got a feeling",real:'I <em>gotta</em> feeling',reds:['gotta'],analise:'Aqui <b>GOTTA</b> não é "have to" — é <b>have got a</b>. O contexto muda o significado!'},
+    {id:'m4',ic:'🎤',t1:'Gonna Fly Now',t2:'Rocky (trilha sonora)',formal:'Going to fly now',real:'<em>Gonna</em> fly now',reds:['gonna'],analise:'<b>GONNA</b> é a redução mais usada na música americana. "Going to" praticamente não existe em letras.'},
+    {id:'m5',ic:'🎤',t1:'Single Ladies',t2:'Beyoncé',formal:'You should have put a ring on it',real:'You <em>shoulda</em> put a ring on it',reds:['shoulda'],analise:'<b>SHOULDA</b> é <b>should have</b>. Usado para arrependimento — algo que não foi feito no passado.'},
+    {id:'m6',ic:'🎤',t1:'I Wanna Dance with Somebody',t2:'Whitney Houston',formal:'I want to dance with somebody',real:'I <em>wanna</em> dance with somebody',reds:['wanna'],analise:'Mais uma vez <b>wanna</b> = <b>want to</b> + verbo (dance). Padrão idêntico ao da Cyndi Lauper.'},
+    {id:'m7',ic:'🎤',t1:'Wannabe',t2:'Spice Girls',formal:'If you want to be my lover',real:'If you <em>wanna</em> be my lover',reds:['wanna'],analise:'O próprio título "Wannabe" vem de <b>want to be</b>. A redução virou uma palavra por conta própria.'},
+    {id:'m8',ic:'🎤',t1:"Don't Cha",t2:'The Pussycat Dolls',formal:"Don't you wish your girlfriend...",real:"<em>Dontcha</em> wish your girlfriend...",reds:['dontcha'],analise:'<b>DONTCHA</b> = <b>don\'t you</b>. O T + YOU vira o som "cha".'},
+    {id:'m9',ic:'🎤',t1:'Gimme! Gimme! Gimme!',t2:'ABBA',formal:'Give me a man after midnight',real:'<em>Gimme</em> a man after midnight',reds:['gimme'],analise:'<b>GIMME</b> = <b>give me</b>. Repetido três vezes no título — impossível não gravar.'},
+    {id:'m10',ic:'🎤',t1:'Gimme Shelter',t2:'The Rolling Stones',formal:'Give me shelter',real:'<em>Gimme</em> shelter',reds:['gimme'],analise:'Mesma redução do ABBA. <b>Give me</b> quase sempre vira <b>gimme</b> na fala e no rock.'},
+    {id:'m11',ic:'🎤',t1:'I Wanna Hold Your Hand',t2:'The Beatles',formal:'I want to hold your hand',real:'I <em>wanna</em> hold your hand',reds:['wanna'],analise:'Já em 1963 os Beatles usavam <b>wanna</b> no título. A redução é antiga e universal.'},
+    {id:'m12',ic:'🎤',t1:"Ain't No Sunshine",t2:'Bill Withers',formal:'There is no sunshine when she\'s gone',real:"<em>Ain't</em> no sunshine when she's gone",reds:["ain't"],analise:'<b>AIN\'T</b> substitui "is not / there isn\'t". A dupla negativa ("ain\'t no") é comum em blues e soul.'},
+    {id:'m13',ic:'🎤',t1:"Ain't No Mountain High Enough",t2:'Marvin Gaye & Tammi Terrell',formal:'There is no mountain high enough',real:"<em>Ain't</em> no mountain high enough",reds:["ain't"],analise:'De novo <b>ain\'t</b> + dupla negativa. Muito frequente na música negra americana.'},
+    {id:'m14',ic:'🎤',t1:'I Wanna Be Yours',t2:'Arctic Monkeys',formal:'I want to be yours',real:'I <em>wanna</em> be yours',reds:['wanna'],analise:'<b>Wanna be</b> = <b>want to be</b>. A redução aparece em bandas indie e clássicas igualmente.'},
+    {id:'m15',ic:'🎤',t1:'C\'mon Everybody',t2:'Eddie Cochran',formal:'Come on, everybody',real:"<em>C'mon</em>, everybody",reds:["c'mon"],analise:'<b>C\'MON</b> = <b>come on</b>. Chamado de energia — comum em rock\'n\'roll clássico.'},
+    {id:'m16',ic:'🎤',t1:'Get Outta My Dreams',t2:'Billy Ocean',formal:'Get out of my dreams',real:'Get <em>outta</em> my dreams',reds:['outta'],analise:'<b>OUTTA</b> = <b>out of</b>. O "of" reduz até virar só o som "a".'},
+    {id:'m17',ic:'🎤',t1:'(Sittin\' On) The Dock of the Bay',t2:'Otis Redding',formal:"I'm just going to sit on the dock",real:"I'm just <em>gonna</em> sit on the dock",reds:['gonna'],analise:'<b>Gonna</b> outra vez — e note também "sittin\'", com o G final engolido.'},
+    {id:'m18',ic:'🎤',t1:'Shoulda Woulda Coulda',t2:'Beverley Knight',formal:'Should have, would have, could have',real:'<em>Shoulda woulda coulda</em>',reds:['shoulda','woulda','coulda'],analise:'Três reduções de arrependimento no título. <b>Should/would/could + have</b> viram "-a".'},
+    {id:'m19',ic:'🎤',t1:'I\'m Gonna Be (500 Miles)',t2:'The Proclaimers',formal:'I am going to be the man',real:"I'm <em>gonna</em> be the man",reds:['gonna'],analise:'<b>I\'m gonna</b> = <b>I am going to</b>. O refrão inteiro é construído sobre essa redução.'},
+    {id:'m20',ic:'🎤',t1:'It\'s Kinda Funny',t2:'Estilo indie/pop',formal:"It's kind of funny how it goes",real:"It's <em>kinda</em> funny how it goes",reds:['kinda'],analise:'<b>KINDA</b> = <b>kind of</b>. Suaviza a frase — muito comum em letras confessionais.'}
+  ],
+  filmes:[
+    {id:'f1',ic:'🎬',t1:'The Office',t2:'Michael Scott',formal:"I don't know what to say",real:'I <em>dunno</em> what to say',reds:['dunno'],analise:'Michael num momento típico de constrangimento. <b>Dunno</b> = <b>don\'t know</b>.'},
+    {id:'f2',ic:'🎬',t1:'Friends',t2:'Chandler / Joey',formal:'Could you be any more obvious?',real:'<em>Couldja</em> be any more obvious?',reds:['couldja'],analise:'A icônica estrutura de pergunta da série. <b>Couldja</b> = <b>could you</b>.'},
+    {id:'f3',ic:'🎬',t1:'Breaking Bad',t2:'Jesse Pinkman',formal:'I am going to handle it',real:"<em>I'mma</em> handle it",reds:["I'mma"],analise:'Jesse assumindo responsabilidade — tom urbano marcante. <b>I\'mma</b> = <b>I am going to</b>.'},
+    {id:'f4',ic:'🎬',t1:'Star Wars',t2:'Han Solo',formal:"I have got a bad feeling about this",real:'I <em>gotta</em> bad feeling about this',reds:['gotta'],analise:'Aqui <b>gotta</b> = <b>got a</b> (have got a), não "have to". O contexto define.'},
+    {id:'f5',ic:'🎬',t1:'The Dark Knight',t2:'Joker',formal:'You want to know how I got these scars?',real:'You <em>wanna</em> know how I got these scars?',reds:['wanna'],analise:'Fala perturbadora do Coringa. <b>Wanna</b> = <b>want to</b> + verbo (know).'},
+    {id:'f6',ic:'🎬',t1:'Frozen',t2:'Anna',formal:'Do you want to build a snowman?',real:"<em>D'you wanna</em> build a snowman?",reds:["d'you",'wanna'],analise:'Duas reduções: <b>d\'you</b> (do you) + <b>wanna</b> (want to). Música infantil, inglês real.'},
+    {id:'f7',ic:'🎬',t1:'The Godfather',t2:'Vito Corleone',formal:"I am going to make him an offer he can't refuse",real:"I'm <em>gonna</em> make him an offer he can't refuse",reds:['gonna'],analise:'Uma das falas mais famosas do cinema — e usa <b>gonna</b> naturalmente.'},
+    {id:'f8',ic:'🎬',t1:'Forrest Gump',t2:'Forrest Gump',formal:'I have got to go now',real:'I <em>gotta</em> go now',reds:['gotta'],analise:'<b>Gotta</b> = <b>have got to</b> = obrigação. Forrest fala de forma simples e direta.'},
+    {id:'f9',ic:'🎬',t1:'Terminator 2',t2:'The T-800',formal:'Give me your clothes',real:'<em>Gimme</em> your clothes',reds:['gimme'],analise:'Ordem seca do Exterminador. <b>Gimme</b> = <b>give me</b>.'},
+    {id:'f10',ic:'🎬',t1:'Toy Story',t2:'Woody',formal:'We have to save Buzz',real:'We <em>hafta</em> save Buzz',reds:['hafta'],analise:'<b>Hafta</b> = <b>have to</b>. O V vira som de F na fala rápida.'},
+    {id:'f11',ic:'🎬',t1:'Shrek',t2:'Shrek',formal:'Get out of my swamp!',real:'Get <em>outta</em> my swamp!',reds:['outta'],analise:'A famosa fala do ogro. <b>Outta</b> = <b>out of</b>.'},
+    {id:'f12',ic:'🎬',t1:'The Lion King',t2:'Simba',formal:'I am going to be a mighty king',real:"I'm <em>gonna</em> be a mighty king",reds:['gonna'],analise:'Da música "I Just Can\'t Wait to Be King". <b>Gonna</b> domina letras infantis também.'},
+    {id:'f13',ic:'🎬',t1:'Pulp Fiction',t2:'Jules',formal:'I am going to get medieval on you',real:"I'm <em>gonna</em> get medieval on <em>ya</em>",reds:['gonna','ya'],analise:'Duas reduções: <b>gonna</b> + <b>ya</b> (you). Diálogo cru e coloquial de Tarantino.'},
+    {id:'f14',ic:'🎬',t1:'Mean Girls',t2:'Cady Heron',formal:"It's kind of cold in here",real:"It's <em>kinda</em> cold in here",reds:['kinda'],analise:'<b>Kinda</b> = <b>kind of</b>. Fala adolescente natural, cheia de suavizadores.'},
+    {id:'f15',ic:'🎬',t1:'Rocky',t2:'Rocky Balboa',formal:'I am going to go the distance',real:"I'm <em>gonna</em> go the distance",reds:['gonna'],analise:'A determinação do Rocky num <b>gonna</b>. Discurso motivacional puro.'},
+    {id:'f16',ic:'🎬',t1:'The Simpsons',t2:'Bart Simpson',formal:'Let me tell you something',real:'<em>Lemme</em> tell <em>ya</em> something',reds:['lemme','ya'],analise:'<b>Lemme</b> (let me) + <b>ya</b> (you). Bart fala rápido e informal.'},
+    {id:'f17',ic:'🎬',t1:'Spider-Man',t2:'Peter Parker',formal:'I got you!',real:'<em>Gotcha!</em>',reds:['gotcha'],analise:'Ao salvar alguém: <b>Gotcha!</b> = <b>got you</b>. Também significa "entendi".'},
+    {id:'f18',ic:'🎬',t1:'Grease',t2:'Danny Zuko',formal:'Tell them about it',real:"Tell <em>'em</em> about it",reds:["'em"],analise:"<b>'em</b> = <b>them</b>. O TH inicial desaparece completamente."},
+    {id:'f19',ic:'🎬',t1:'Titanic',t2:'Jack Dawson',formal:'I am going to make it count',real:"I'm <em>gonna</em> make it count",reds:['gonna'],analise:'Jack vivendo o presente. <b>Gonna</b> aparece em quase todo diálogo casual americano.'},
+    {id:'f20',ic:'🎬',t1:'Stranger Things',t2:'Dustin',formal:"I don't know, let me check",real:'I <em>dunno</em>, <em>lemme</em> check',reds:['dunno','lemme'],analise:'Fala natural de adolescente: <b>dunno</b> (don\'t know) + <b>lemme</b> (let me).'}
+  ],
+  conversas:[
+    {id:'c1',ic:'💬',t1:'Pedindo ajuda',t2:'Situação cotidiana',formal:'Could you give me a minute?',real:'<em>Couldja gimme</em> a minute?',reds:['couldja','gimme'],analise:'Duas reduções numa frase só. Acontece o tempo todo em conversas reais.'},
+    {id:'c2',ic:'💬',t1:'No trabalho',t2:'Reunião',formal:'What do you think about the plan?',real:'<em>Whaddya</em> think about the plan?',reds:['whaddya'],analise:'<b>Whaddya</b> = <b>what do you</b>. A pergunta mais comum em qualquer reunião.'},
+    {id:'c3',ic:'💬',t1:'Convidando alguém',t2:'Amigos',formal:'Do you want to grab a coffee?',real:"<em>D'you wanna</em> grab a coffee?",reds:["d'you",'wanna'],analise:'Convite casual com <b>d\'you</b> + <b>wanna</b>. Soa muito mais natural que a forma completa.'},
+    {id:'c4',ic:'💬',t1:'Avisando que está atrasado',t2:'Mensagem rápida',formal:'I am going to be there in five',real:"<em>I'mma</em> be there in five",reds:["I'mma"],analise:'<b>I\'mma</b> = <b>I am going to</b>. Típico de mensagem de texto e fala informal.'},
+    {id:'c5',ic:'💬',t1:'Sem certeza',t2:'Resposta hesitante',formal:"I don't know, let me check",real:'I <em>dunno</em>, <em>lemme</em> check',reds:['dunno','lemme'],analise:'<b>Dunno</b> + <b>lemme</b> — a combinação clássica de quem ganha tempo pra pensar.'},
+    {id:'c6',ic:'💬',t1:'Reagendando',t2:'Telefonema',formal:'I am going to have to call you back',real:"I'm <em>gonna hafta</em> call you back",reds:['gonna','hafta'],analise:'<b>Gonna</b> + <b>hafta</b> juntos. Cadeia de reduções em fala corrida.'},
+    {id:'c7',ic:'💬',t1:'Concordando',t2:'Confirmação',formal:"Got it, I'll tell them",real:"<em>Gotcha</em>, I'll tell <em>'em</em>",reds:['gotcha',"'em"],analise:'<b>Gotcha</b> (entendi) + <b>\'em</b> (them). Resposta rápida e confiante.'},
+    {id:'c8',ic:'💬',t1:'Reclamando do trânsito',t2:'A caminho',formal:"There's a lot of traffic today",real:"There's a <em>lotta</em> traffic today",reds:['lotta'],analise:'<b>Lotta</b> = <b>a lot of</b>. O "of" some quase completamente.'},
+    {id:'c9',ic:'💬',t1:'Indo embora',t2:'Despedida',formal:"I'm out of here, see you",real:"I'm <em>outta</em> here, see <em>ya</em>",reds:['outta','ya'],analise:'<b>Outta</b> + <b>ya</b>. "I\'m outta here" = "tô indo embora".'},
+    {id:'c10',ic:'💬',t1:'Cobrando uma tarefa',t2:'Trabalho',formal:'Did you finish the report?',real:'<em>Didja</em> finish the report?',reds:['didja'],analise:'<b>Didja</b> = <b>did you</b>. O D + YOU vira o som "dja".'},
+    {id:'c11',ic:'💬',t1:'Oferecendo algo',t2:'Anfitrião',formal:"Won't you stay for dinner?",real:'<em>Wontcha</em> stay for dinner?',reds:['wontcha'],analise:'<b>Wontcha</b> = <b>won\'t you</b>. Convite gentil, T + YOU = "cha".'},
+    {id:'c12',ic:'💬',t1:'Se desculpando',t2:'Arrependimento',formal:'I should have told you sooner',real:'I <em>shoulda</em> told <em>ya</em> sooner',reds:['shoulda','ya'],analise:'<b>Shoulda</b> (should have) + <b>ya</b> (you). Frase típica de arrependimento.'},
+    {id:'c13',ic:'💬',t1:'Combinando saída',t2:'Planos',formal:'We are going to want to leave early',real:"We're <em>gonna wanna</em> leave early",reds:['gonna','wanna'],analise:'<b>Gonna</b> + <b>wanna</b> em sequência — soa como uma palavra só na fala.'},
+    {id:'c14',ic:'💬',t1:'Pedido educado',t2:'Formalidade leve',formal:'Would you mind closing the door?',real:'<em>Wouldja</em> mind closing the door?',reds:['wouldja'],analise:'<b>Wouldja</b> = <b>would you</b>. Educado, mas ainda reduzido na fala.'},
+    {id:'c15',ic:'💬',t1:'Encerrando a conversa',t2:'Fim de papo',formal:"It's kind of late, I have got to go",real:"It's <em>kinda</em> late, I <em>gotta</em> go",reds:['kinda','gotta'],analise:'<b>Kinda</b> + <b>gotta</b>. A despedida mais natural do inglês falado.'},
+    {id:'c16',ic:'💬',t1:'Incentivando alguém',t2:'Apoio',formal:'Come on, you could have done better',real:"<em>C'mon</em>, you <em>coulda</em> done better",reds:["c'mon",'coulda'],analise:'<b>C\'mon</b> (come on) + <b>coulda</b> (could have). Tom de incentivo amigável.'},
+    {id:'c17',ic:'💬',t1:'Contando o passado',t2:'Memória',formal:'I used to work there',real:'I <em>usedta</em> work there',reds:['usedta'],analise:'<b>Usedta</b> = <b>used to</b> = hábito no passado. O D some antes do "to".'},
+    {id:'c18',ic:'💬',t1:'Puxando papo',t2:'Casual',formal:'What are you up to this weekend?',real:'<em>Whatcha</em> up to this weekend?',reds:['whatcha'],analise:'<b>Whatcha</b> = <b>what are you</b>. Abertura de conversa super comum.'},
+    {id:'c19',ic:'💬',t1:'Recusando firmemente',t2:'Negativa',formal:'I am not going to do that',real:"I <em>ain't gonna</em> do that",reds:["ain't",'gonna'],analise:'<b>Ain\'t</b> + <b>gonna</b>. Bem informal — evite em contextos formais.'},
+    {id:'c20',ic:'💬',t1:'Se colocando à disposição',t2:'Despedida gentil',formal:'Let me know if you need anything',real:'<em>Lemme</em> know if <em>ya</em> need anything',reds:['lemme','ya'],analise:'<b>Lemme</b> + <b>ya</b>. Frase de gentileza que fecha quase toda conversa.'}
+  ]
+};
+
+// ── ESTADO ──────────────────────────────────────────────────────────────────
+function loadProg(){try{return JSON.parse(localStorage.getItem('s28_progress'))||{}}catch(e){return {}}}
+function saveProg(p){try{localStorage.setItem('s28_progress',JSON.stringify(p))}catch(e){}}
+let seen = new Set((loadProg().p2)||[]);
+const TOTAL = 60;
+
+function persist(){
+  const p = loadProg();
+  p.p2 = [...seen];
+  saveProg(p);
+}
+
+// ── RENDER ──────────────────────────────────────────────────────────────────
+function buildCards(key){
+  const container = document.getElementById('cards-'+key);
+  DATA[key].forEach(x=>{
+    const card = document.createElement('div');
+    card.className = 'xcard'+(seen.has(x.id)?' seen':'');
+    card.id = 'card-'+x.id;
+    const reds = x.reds.map(r=>`<span class="rchip">${r}</span>`).join('');
+    card.innerHTML = `
+      <div class="xc-head">
+        <div class="xc-icon">${x.ic}</div>
+        <div class="xc-titles">
+          <div class="xc-t1">${x.t1}</div>
+          <div class="xc-t2">${x.t2}</div>
+        </div>
+        <button class="xc-seenbtn" title="Marcar como entendido" onclick="toggleSeen('${x.id}')">✓</button>
+      </div>
+      <div class="line line-formal"><div class="line-lab">Forma formal</div><div class="line-txt">${x.formal}</div></div>
+      <div class="line line-real"><div class="line-lab">Como se fala de verdade</div><div class="line-txt">${x.real}</div></div>
+      <div class="xc-reds">${reds}</div>
+      <div class="xc-analise">${x.analise}</div>`;
+    container.appendChild(card);
+  });
+}
+['musicas','filmes','conversas'].forEach(buildCards);
+
+function toggleSeen(id){
+  if(seen.has(id)) seen.delete(id); else seen.add(id);
+  persist();
+  const card = document.getElementById('card-'+id);
+  if(card) card.classList.toggle('seen',seen.has(id));
+  updateProgress();
+}
+
+// ── TABS ────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.onclick=function(){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+// ── PROGRESSO ───────────────────────────────────────────────────────────────
+function updateProgress(){
+  const pct=Math.round(seen.size/TOTAL*100);
+  document.getElementById('navFill').style.width=pct+'%';
+  document.getElementById('navLabel').textContent=seen.size+' / '+TOTAL;
+}
+updateProgress();
+</script>
+</body>
+</html>

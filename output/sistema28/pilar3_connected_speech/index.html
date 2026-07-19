@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilar 3 — Connected Speech · Sistema 28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--sf:#0f1621;--sf2:#162030;
+  --tx:#e4ddd4;--tm:#a0a8b8;--td:#6a7390;
+  --ac:#F59E0B;--ac-dim:#92400E;--ac-glow:rgba(245,158,11,0.15);
+  --gn:#5FD87A;--rd:#f87171;
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+
+.gnav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:#080c14;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;}
+.gnav-logo{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.45rem;margin-right:auto;}
+.gnav-logo span{opacity:.55;font-size:1rem;}
+.gnav-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;padding:.3rem .85rem;border-radius:.4rem;border:1px solid transparent;}
+.gnav-s28{color:var(--ac);border-color:var(--ac);background:rgba(245,158,11,.12);}
+.gnav-jornada{background:linear-gradient(135deg,rgba(100,223,223,.12),rgba(245,197,24,.08),rgba(167,139,250,.12));border-color:rgba(255,255,255,.18);color:#fff;}
+
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(8,12,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.85;}
+.nav-sep{color:var(--td);font-size:.75rem;opacity:.6;margin:0 .1rem;}
+.nav-link{color:var(--tm);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;opacity:.7;}
+.nav-link:hover{opacity:1;color:var(--tx);}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--tx);}
+.nav-sub{font-size:.75rem;color:var(--td);}
+.nav-progress{margin-left:auto;display:flex;align-items:center;gap:.65rem;}
+.nav-prog-bar{width:120px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.nav-prog-fill{height:100%;background:var(--ac);border-radius:3px;transition:width .5s ease;}
+.nav-prog-label{font-size:.72rem;color:var(--td);white-space:nowrap;}
+
+.wrap{max-width:800px;margin:0 auto;padding:130px 1.25rem 4rem;position:relative;z-index:1;}
+.intro{text-align:center;margin-bottom:2rem;}
+.intro h1{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:.5rem;}
+.intro h1 span{color:var(--ac);}
+.intro p{color:var(--tm);font-size:.92rem;max-width:580px;margin:0 auto;}
+
+/* SECTION NAV */
+.snav{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+.snav-btn{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;padding:.55rem 1rem;border-radius:.6rem;border:1px solid var(--bd);background:var(--sf);color:var(--tm);cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.4rem;}
+.snav-btn:hover{border-color:var(--bdh);color:var(--tx);}
+.snav-btn.active{background:rgba(245,158,11,.12);border-color:var(--ac);color:var(--ac);}
+.snav-btn .dot{width:7px;height:7px;border-radius:50%;background:var(--td);}
+.snav-btn.completed .dot{background:var(--gn);}
+
+.section{display:none;}
+.section.active{display:block;}
+
+.phen-head{display:flex;align-items:center;gap:.85rem;margin-bottom:.4rem;}
+.phen-ic{width:48px;height:48px;border-radius:.7rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.phen-tag{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);}
+.phen-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;line-height:1.15;}
+.phen-oque{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:.6rem;padding:.9rem 1.1rem;margin:1.1rem 0 1.5rem;font-size:.9rem;color:var(--tm);}
+.phen-oque b{color:var(--tx);font-weight:600;}
+
+.tbl-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--td);margin-bottom:.6rem;}
+.ptable{width:100%;border-collapse:collapse;background:var(--sf);border:1px solid var(--bd);border-radius:.7rem;overflow:hidden;margin-bottom:1.5rem;}
+.ptable th{background:var(--sf2);text-align:left;font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--td);padding:.6rem .8rem;}
+.ptable td{padding:.6rem .8rem;font-size:.86rem;border-top:1px solid var(--bd);vertical-align:top;}
+.ptable td.c-esc{font-family:'Space Grotesk',sans-serif;color:var(--tm);}
+.ptable td.c-fal{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--ac);}
+.ptable td.c-exp{color:var(--tm);font-size:.8rem;}
+
+.regra{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.22);border-radius:.7rem;padding:1rem 1.2rem;margin-bottom:1.5rem;}
+.regra .rl{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ac);margin-bottom:.35rem;}
+.regra .rt{font-size:.88rem;color:var(--tm);line-height:1.6;}
+.regra .rt b{color:var(--tx);font-weight:600;}
+
+/* QUIZ */
+.quiz{background:var(--sf);border:1px solid var(--bd);border-radius:.85rem;padding:1.3rem;margin-bottom:1.5rem;}
+.quiz-h{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;margin-bottom:.2rem;}
+.quiz-sub{font-size:.78rem;color:var(--td);margin-bottom:1rem;}
+.q{margin-bottom:1.1rem;}
+.q:last-child{margin-bottom:0;}
+.q-txt{font-size:.88rem;margin-bottom:.5rem;}
+.q-txt code{background:var(--sf2);border:1px solid var(--bd);border-radius:.35rem;padding:.1rem .45rem;font-family:'Space Grotesk',sans-serif;color:var(--tx);font-weight:600;}
+.opts{display:flex;flex-wrap:wrap;gap:.5rem;}
+.opt{background:var(--sf2);border:1px solid var(--bd);border-radius:.5rem;padding:.5rem .85rem;font-size:.82rem;font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--tm);cursor:pointer;transition:all .16s;}
+.opt:hover{border-color:var(--bdh);color:var(--tx);}
+.opt.correct{background:rgba(95,216,122,.15);border-color:var(--gn);color:var(--gn);}
+.opt.wrong{background:rgba(248,113,113,.12);border-color:var(--rd);color:var(--rd);}
+
+.mark-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.5rem;}
+.btn-complete{background:var(--ac);color:#1a1206;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:700;border:none;padding:.7rem 1.4rem;border-radius:.6rem;cursor:pointer;transition:all .2s;}
+.btn-complete:hover{opacity:.9;transform:translateY(-1px);}
+.btn-complete.done{background:var(--gn);color:#04210f;}
+
+@media(max-width:600px){
+  .wrap{padding-top:120px;}
+  .ptable td.c-exp{display:none;}
+  .ptable th:last-child{display:none;}
+}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+
+<nav class="gnav">
+  <a href="../../index.html" class="gnav-logo"><span>◈</span> Inglês para Brasileiros</a>
+  <a href="../index.html" class="gnav-btn gnav-s28">🎙️ S28</a>
+  <a href="../../jornada/index.html" class="gnav-btn gnav-jornada">🗺 Jornada</a>
+</nav>
+
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Menu Principal</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-link">Sistema 28</a>
+  <span class="nav-sep">/</span>
+  <div>
+    <div class="nav-title">Pilar 3 — Connected Speech</div>
+    <div class="nav-sub">Sistema 28 · Reduções do Inglês Real</div>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-prog-bar"><div class="nav-prog-fill" id="navFill" style="width:0%"></div></div>
+    <span class="nav-prog-label" id="navLabel">0 / 4</span>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>Por que o inglês <span>"gruda" as palavras</span></h1>
+    <p>"Did you" vira "didja", "want to" vira "wanna". Não é preguiça — são 4 fenômenos com regras claras. Entenda cada um e o inglês falado deixa de ser um borrão sonoro.</p>
+  </div>
+
+  <div class="snav" id="snav"></div>
+
+  <!-- FENÔMENO 1: LINKING -->
+  <section class="section active" id="sec-1">
+    <div class="phen-head">
+      <div class="phen-ic">🔗</div>
+      <div>
+        <div class="phen-tag">Fenômeno 1</div>
+        <div class="phen-title">Linking — Ligação de Sons</div>
+      </div>
+    </div>
+    <div class="phen-oque"><b>O que é:</b> quando uma palavra termina em consoante e a próxima começa em vogal, os dois sons se juntam e as palavras soam como uma só.</div>
+
+    <div class="tbl-label">Exemplos</div>
+    <table class="ptable">
+      <thead><tr><th>Escrito</th><th>Falado</th><th>Explicação</th></tr></thead>
+      <tbody>
+        <tr><td class="c-esc">turn it off</td><td class="c-fal">tur-ni-toff</td><td class="c-exp">turn + it + off soam como uma palavra só</td></tr>
+        <tr><td class="c-esc">pick it up</td><td class="c-fal">pi-ki-tup</td><td class="c-exp">pick + it + up se encadeiam</td></tr>
+        <tr><td class="c-esc">get out</td><td class="c-fal">ge-TAUT</td><td class="c-exp">o T de "get" cola no AU de "out"</td></tr>
+        <tr><td class="c-esc">come on</td><td class="c-fal">ka-MON</td><td class="c-exp">come + on = "c'mon"</td></tr>
+        <tr><td class="c-esc">hold on</td><td class="c-fal">hol-DON</td><td class="c-exp">o D de "hold" vai pro "on"</td></tr>
+      </tbody>
+    </table>
+
+    <div class="regra">
+      <div class="rl">💡 Dica para o brasileiro</div>
+      <div class="rt">Em português a gente faz igual! <b>"Faz assim"</b> vira <b>"fa-ZA-sim"</b>. Em inglês é o mesmo princípio, só que mais rápido.</div>
+    </div>
+
+    <div class="quiz" data-quiz="1">
+      <div class="quiz-h">Reconheça o linking</div>
+      <div class="quiz-sub">Como as palavras se encadeiam?</div>
+      <div class="q"><div class="q-txt">Como soa <code>turn it off</code>?</div>
+        <div class="opts"><span class="opt" data-ok="1">tur-ni-toff</span><span class="opt">turn · it · off (separado)</span><span class="opt">tur-nof</span></div></div>
+      <div class="q"><div class="q-txt">Como soa <code>get out</code>?</div>
+        <div class="opts"><span class="opt">get · out (separado)</span><span class="opt" data-ok="1">ge-taut</span><span class="opt">gout</span></div></div>
+    </div>
+
+    <div class="mark-row"><span style="font-size:.78rem;color:var(--td)">Fenômeno 1 de 4</span><button class="btn-complete" data-mark="1">✓ Entendi este fenômeno</button></div>
+  </section>
+
+  <!-- FENÔMENO 2: ELISION -->
+  <section class="section" id="sec-2">
+    <div class="phen-head">
+      <div class="phen-ic">🫥</div>
+      <div>
+        <div class="phen-tag">Fenômeno 2</div>
+        <div class="phen-title">Elision — Sons que Desaparecem</div>
+      </div>
+    </div>
+    <div class="phen-oque"><b>O que é:</b> alguns sons simplesmente são engolidos na fala rápida. Você espera ouvi-los, mas eles somem.</div>
+
+    <div class="tbl-label">Exemplos</div>
+    <table class="ptable">
+      <thead><tr><th>Escrito</th><th>Falado</th><th>O que sumiu</th></tr></thead>
+      <tbody>
+        <tr><td class="c-esc">next day</td><td class="c-fal">nex day</td><td class="c-exp">o T de "next" desaparece</td></tr>
+        <tr><td class="c-esc">last night</td><td class="c-fal">las night</td><td class="c-exp">o T de "last" desaparece</td></tr>
+        <tr><td class="c-esc">must be</td><td class="c-fal">muss be</td><td class="c-exp">o T de "must" desaparece</td></tr>
+        <tr><td class="c-esc">and</td><td class="c-fal">'n'</td><td class="c-exp">vira só o N entre palavras</td></tr>
+        <tr><td class="c-esc">him</td><td class="c-fal">'im</td><td class="c-exp">o H inicial some</td></tr>
+        <tr><td class="c-esc">her</td><td class="c-fal">'er</td><td class="c-exp">o H inicial some</td></tr>
+        <tr><td class="c-esc">them</td><td class="c-fal">'em</td><td class="c-exp">o TH inicial some</td></tr>
+      </tbody>
+    </table>
+
+    <div class="regra">
+      <div class="rl">📏 Regra</div>
+      <div class="rt">Os sons que mais desaparecem: <b>T antes de consoante</b> (next day, last night), <b>H em palavras átonas</b> (him, her, his) e <b>TH em "them"</b>.</div>
+    </div>
+
+    <div class="quiz" data-quiz="2">
+      <div class="quiz-h">Reconheça a elisão</div>
+      <div class="quiz-sub">Qual som desaparece?</div>
+      <div class="q"><div class="q-txt">Em <code>last night</code>, o que some?</div>
+        <div class="opts"><span class="opt" data-ok="1">o T de "last"</span><span class="opt">o N de "night"</span><span class="opt">nada some</span></div></div>
+      <div class="q"><div class="q-txt">Como se fala <code>tell them</code> rápido?</div>
+        <div class="opts"><span class="opt">tell dem</span><span class="opt" data-ok="1">tell 'em</span><span class="opt">tell zem</span></div></div>
+    </div>
+
+    <div class="mark-row"><span style="font-size:.78rem;color:var(--td)">Fenômeno 2 de 4</span><button class="btn-complete" data-mark="2">✓ Entendi este fenômeno</button></div>
+  </section>
+
+  <!-- FENÔMENO 3: ASSIMILATION -->
+  <section class="section" id="sec-3">
+    <div class="phen-head">
+      <div class="phen-ic">🔀</div>
+      <div>
+        <div class="phen-tag">Fenômeno 3</div>
+        <div class="phen-title">Assimilation — Sons que se Transformam</div>
+      </div>
+    </div>
+    <div class="phen-oque"><b>O que é:</b> um som muda de forma para facilitar a articulação com o som vizinho. É isso que explica a maioria das reduções mais confusas.</div>
+
+    <div class="tbl-label">Exemplos</div>
+    <table class="ptable">
+      <thead><tr><th>Escrito</th><th>Falado</th><th>O que aconteceu</th></tr></thead>
+      <tbody>
+        <tr><td class="c-esc">did you</td><td class="c-fal">didja</td><td class="c-exp">D + Y = J (como em "dj")</td></tr>
+        <tr><td class="c-esc">would you</td><td class="c-fal">wouldja</td><td class="c-exp">D + Y = J</td></tr>
+        <tr><td class="c-esc">could you</td><td class="c-fal">couldja</td><td class="c-exp">D + Y = J</td></tr>
+        <tr><td class="c-esc">what you</td><td class="c-fal">whatcha</td><td class="c-exp">T + Y = CH (como "tch")</td></tr>
+        <tr><td class="c-esc">got you</td><td class="c-fal">gotcha</td><td class="c-exp">T + Y = CH</td></tr>
+        <tr><td class="c-esc">meet you</td><td class="c-fal">meetcha</td><td class="c-exp">T + Y = CH</td></tr>
+        <tr><td class="c-esc">don't you</td><td class="c-fal">doncha</td><td class="c-exp">T + Y = CH</td></tr>
+        <tr><td class="c-esc">can't you</td><td class="c-fal">cancha</td><td class="c-exp">T + Y = CH</td></tr>
+      </tbody>
+    </table>
+
+    <div class="regra">
+      <div class="rl">⭐ Regra de ouro</div>
+      <div class="rt"><b>D + Y = "dj"</b> (como em "jeans"). <b>T + Y = "tch"</b> (como em "tchau"). Isso sozinho explica metade das reduções mais confusas!</div>
+    </div>
+
+    <div class="quiz" data-quiz="3">
+      <div class="quiz-h">Reconheça a assimilação</div>
+      <div class="quiz-sub">Que som se forma?</div>
+      <div class="q"><div class="q-txt"><code>did you</code> vira...</div>
+        <div class="opts"><span class="opt" data-ok="1">didja (som de "dj")</span><span class="opt">dicha (som de "tch")</span><span class="opt">did-you (igual)</span></div></div>
+      <div class="q"><div class="q-txt"><code>got you</code> vira...</div>
+        <div class="opts"><span class="opt">gotja (som de "dj")</span><span class="opt" data-ok="1">gotcha (som de "tch")</span><span class="opt">got-you (igual)</span></div></div>
+    </div>
+
+    <div class="mark-row"><span style="font-size:.78rem;color:var(--td)">Fenômeno 3 de 4</span><button class="btn-complete" data-mark="3">✓ Entendi este fenômeno</button></div>
+  </section>
+
+  <!-- FENÔMENO 4: WEAK FORMS -->
+  <section class="section" id="sec-4">
+    <div class="phen-head">
+      <div class="phen-ic">🪶</div>
+      <div>
+        <div class="phen-tag">Fenômeno 4</div>
+        <div class="phen-title">Weak Forms — Palavras que Encolhem</div>
+      </div>
+    </div>
+    <div class="phen-oque"><b>O que é:</b> palavras pequenas (preposições, artigos, auxiliares) têm uma forma fraca quando não são enfatizadas. É a forma fraca que você ouve 90% do tempo.</div>
+
+    <div class="tbl-label">Exemplos</div>
+    <table class="ptable">
+      <thead><tr><th>Palavra</th><th>Forte → Fraca</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td class="c-esc">and</td><td class="c-fal">/ænd/ → /ən/, /n/</td><td class="c-exp">"fish 'n' chips"</td></tr>
+        <tr><td class="c-esc">to</td><td class="c-fal">/tuː/ → /tə/</td><td class="c-exp">"going to" → "gonna"</td></tr>
+        <tr><td class="c-esc">for</td><td class="c-fal">/fɔːr/ → /fər/</td><td class="c-exp">"I did it fer you"</td></tr>
+        <tr><td class="c-esc">of</td><td class="c-fal">/ɒv/ → /əv/, /ə/</td><td class="c-exp">"lotta" = lot of</td></tr>
+        <tr><td class="c-esc">have</td><td class="c-fal">/hæv/ → /həv/, /əv/</td><td class="c-exp">"shoulda" = should have</td></tr>
+        <tr><td class="c-esc">the</td><td class="c-fal">/ðiː/ → /ðə/</td><td class="c-exp">"gimme the ball"</td></tr>
+        <tr><td class="c-esc">a</td><td class="c-fal">/eɪ/ → /ə/</td><td class="c-exp">"give me a sec"</td></tr>
+        <tr><td class="c-esc">them</td><td class="c-fal">/ðem/ → /əm/</td><td class="c-exp">"tell 'em"</td></tr>
+        <tr><td class="c-esc">him</td><td class="c-fal">/hɪm/ → /ɪm/</td><td class="c-exp">"ask 'im"</td></tr>
+        <tr><td class="c-esc">her</td><td class="c-fal">/hɜːr/ → /ər/</td><td class="c-exp">"call 'er"</td></tr>
+      </tbody>
+    </table>
+
+    <div class="regra">
+      <div class="rl">🎯 Por que isso importa</div>
+      <div class="rt">Em inglês falado rápido, <b>90% das palavras funcionais usam a forma fraca</b>. Se você espera ouvir "and" como /ænd/, vai perder metade das frases.</div>
+    </div>
+
+    <div class="quiz" data-quiz="4">
+      <div class="quiz-h">Reconheça a forma fraca</div>
+      <div class="quiz-sub">Qual é a forma fraca?</div>
+      <div class="q"><div class="q-txt">A forma fraca de <code>and</code> em "fish and chips" é...</div>
+        <div class="opts"><span class="opt" data-ok="1">'n' (som de N)</span><span class="opt">ãnd (bem forte)</span><span class="opt">end</span></div></div>
+      <div class="q"><div class="q-txt">"should have" reduz para...</div>
+        <div class="opts"><span class="opt">should-hav (forte)</span><span class="opt" data-ok="1">shoulda (have vira "a")</span><span class="opt">should-of</span></div></div>
+    </div>
+
+    <div class="mark-row"><span style="font-size:.78rem;color:var(--td)">Fenômeno 4 de 4</span><button class="btn-complete" data-mark="4">✓ Entendi este fenômeno</button></div>
+  </section>
+</div>
+
+<script>
+// ── ESTADO ──────────────────────────────────────────────────────────────────
+function loadProg(){try{return JSON.parse(localStorage.getItem('s28_progress'))||{}}catch(e){return {}}}
+function saveProg(p){try{localStorage.setItem('s28_progress',JSON.stringify(p))}catch(e){}}
+let completed = new Set((loadProg().p3)||[]);
+const PHENS = [
+  {n:1,ic:'🔗',label:'Linking'},
+  {n:2,ic:'🫥',label:'Elision'},
+  {n:3,ic:'🔀',label:'Assimilation'},
+  {n:4,ic:'🪶',label:'Weak Forms'}
+];
+function persist(){ const p=loadProg(); p.p3=[...completed]; saveProg(p); }
+
+// ── SECTION NAV ─────────────────────────────────────────────────────────────
+const snav=document.getElementById('snav');
+PHENS.forEach(ph=>{
+  const b=document.createElement('button');
+  b.className='snav-btn'+(ph.n===1?' active':'')+(completed.has(ph.n)?' completed':'');
+  b.id='snb-'+ph.n;
+  b.innerHTML=`<span class="dot"></span>${ph.ic} ${ph.label}`;
+  b.onclick=()=>showSection(ph.n);
+  snav.appendChild(b);
+});
+function showSection(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+n).classList.add('active');
+  document.getElementById('snb-'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── QUIZ ────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.quiz .q').forEach(q=>{
+  const opts=q.querySelectorAll('.opt');
+  opts.forEach(opt=>{
+    opt.onclick=function(){
+      if(q.dataset.answered) return;
+      q.dataset.answered='1';
+      if(opt.dataset.ok){ opt.classList.add('correct'); }
+      else {
+        opt.classList.add('wrong');
+        opts.forEach(o=>{ if(o.dataset.ok) o.classList.add('correct'); });
+      }
+    };
+  });
+});
+
+// ── MARCAR ──────────────────────────────────────────────────────────────────
+function refreshMarkBtn(n){
+  const btn=document.querySelector('.btn-complete[data-mark="'+n+'"]');
+  if(!btn) return;
+  if(completed.has(n)){ btn.classList.add('done'); btn.textContent='✓ Fenômeno estudado'; }
+  else { btn.classList.remove('done'); btn.textContent='✓ Entendi este fenômeno'; }
+  const snb=document.getElementById('snb-'+n);
+  if(snb) snb.classList.toggle('completed',completed.has(n));
+}
+document.querySelectorAll('.btn-complete').forEach(btn=>{
+  const n=parseInt(btn.dataset.mark,10);
+  btn.onclick=function(){
+    if(completed.has(n)) completed.delete(n); else completed.add(n);
+    persist();
+    refreshMarkBtn(n);
+    updateProgress();
+    if(completed.has(n) && n<4) setTimeout(()=>showSection(n+1),500);
+  };
+});
+
+// ── PROGRESSO ───────────────────────────────────────────────────────────────
+function updateProgress(){
+  const pct=Math.round(completed.size/4*100);
+  document.getElementById('navFill').style.width=pct+'%';
+  document.getElementById('navLabel').textContent=completed.size+' / 4';
+}
+PHENS.forEach(ph=>refreshMarkBtn(ph.n));
+updateProgress();
+</script>
+</body>
+</html>
