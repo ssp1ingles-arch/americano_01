@@ -19,7 +19,9 @@
 
   --s01-accent:#64DFDF;   /* ciano — Base Completa */
   --s02-accent:#F59E0B;   /* âmbar — Reduções */
-  --s03-accent:#6366F1;   /* índigo — em breve */
+  --s03-accent:#6366F1;   /* índigo — Motor de Verbos */
+  --s04-accent:#10B981;   /* esmeralda — Conectar Frases */
+  --s05-accent:#EC4899;   /* rosa — Situar a Frase */
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -48,6 +50,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .portal-card[data-sistema="01"]{--accent:var(--s01-accent);}
 .portal-card[data-sistema="02"]{--accent:var(--s02-accent);}
 .portal-card[data-sistema="03"]{--accent:var(--s03-accent);}
+.portal-card[data-sistema="04"]{--accent:var(--s04-accent);}
+.portal-card[data-sistema="05"]{--accent:var(--s05-accent);}
 
 .portal-top{display:flex;align-items:center;justify-content:space-between;}
 .portal-num{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;}
@@ -83,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <header class="painel-header">
   <div class="marca"><span>◈</span> Inglês para Brasileiros</div>
   <h1>Escolha seu<br><em>caminho</em></h1>
-  <p class="sub">Três sistemas independentes. Cada um com propósito, ritmo e formato próprios.</p>
+  <p class="sub">Cinco sistemas independentes. Cada um com propósito, ritmo e formato próprios.</p>
 </header>
 
 <main class="portais-grid">
@@ -120,19 +124,53 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     <div class="portal-cta">Entrar →</div>
   </a>
 
-  <!-- PORTAL 03 (em breve) -->
-  <div class="portal-card soon" data-sistema="03" aria-disabled="true">
+  <!-- PORTAL 03 -->
+  <a href="sistema03/index.html" class="portal-card" data-sistema="03">
     <div class="portal-top">
       <div class="portal-num">03</div>
-      <div class="portal-icon">🧩</div>
+      <div class="portal-icon">⚡</div>
     </div>
-    <h2 class="portal-title">Novos Sistemas</h2>
-    <p class="portal-desc">Um novo caminho está sendo preparado a partir do acervo de conteúdo. Formatos inéditos, do mais fácil ao avançado.</p>
+    <h2 class="portal-title">Motor de Verbos por Sentido</h2>
+    <p class="portal-desc">100 verbos, 142 sentidos. Cada verbo no tempo certo — afirmativo, negativo e pergunta, do jeito que o brasileiro precisa ver.</p>
     <div class="portal-meta">
-      <span class="soon-badge">Em breve</span>
+      <span>5 grupos</span>
+      <span>A2–B1</span>
+      <span>142 sentidos</span>
     </div>
-    <div class="portal-cta" style="color:var(--dim)">Em construção</div>
-  </div>
+    <div class="portal-cta">Entrar →</div>
+  </a>
+
+  <!-- PORTAL 04 -->
+  <a href="sistema04/index.html" class="portal-card" data-sistema="04">
+    <div class="portal-top">
+      <div class="portal-num">04</div>
+      <div class="portal-icon">🔗</div>
+    </div>
+    <h2 class="portal-title">Conectar Frases</h2>
+    <p class="portal-desc">Question words, conectivos e discourse markers — o que liga ideias e faz o inglês soar natural. Com construtor de frases.</p>
+    <div class="portal-meta">
+      <span>3 módulos</span>
+      <span>A2–B1</span>
+      <span>41 conectores</span>
+    </div>
+    <div class="portal-cta">Entrar →</div>
+  </a>
+
+  <!-- PORTAL 05 -->
+  <a href="sistema05/index.html" class="portal-card" data-sistema="05">
+    <div class="portal-top">
+      <div class="portal-num">05</div>
+      <div class="portal-icon">📍</div>
+    </div>
+    <h2 class="portal-title">Situar a Frase</h2>
+    <p class="portal-desc">Preposições, quantificadores e estruturas fixas — onde, quando, quanto e como. Com modo autoteste.</p>
+    <div class="portal-meta">
+      <span>3 módulos</span>
+      <span>A2–B1</span>
+      <span>23 estruturas</span>
+    </div>
+    <div class="portal-cta">Entrar →</div>
+  </a>
 
 </main>
 
