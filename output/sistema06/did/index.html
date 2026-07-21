@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 06 · DID</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#140b06;--sf:#1e120a;--sf2:#291a0f;
+  --tx:#f5ebe2;--tm:#c9ab93;--td:#8a6a4f;
+  --ac:#F97316;--ac2:#FB923C;--amber:#FBBF24;--ac-glow:rgba(249,115,22,.14);
+  --ok:#34D399;--ok-glow:rgba(52,211,153,.1);
+  --bad:#F87171;--bad-glow:rgba(248,113,113,.1);
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(20,11,6,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac2);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.glow::before{content:'';position:absolute;top:-10%;left:5%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(249,115,22,.06) 0%,transparent 70%);}
+.wrap{max-width:820px;margin:0 auto;padding:0 1.25rem 4rem;position:relative;z-index:1;}
+.mhead{text-align:center;padding:4.5rem 1.25rem 2.5rem;position:relative;z-index:1;}
+.mhead-tags{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.1rem;}
+.tag{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .8rem;border-radius:.4rem;}
+.tag-cat{color:var(--ac2);background:var(--ac-glow);border:1px solid rgba(249,115,22,.3);}
+.tag-lvl{color:var(--tm);background:var(--sf2);border:1px solid var(--bd);}
+.mhead h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,9vw,4.5rem);font-weight:800;line-height:1;letter-spacing:.02em;background:linear-gradient(120deg,var(--ac),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.mhead p{color:var(--tm);font-size:1rem;margin-top:.8rem;}
+.sec{margin-top:2.6rem;}
+.sec-h{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
+.sec-h::before{content:'';width:1.6rem;height:2px;background:var(--ac);border-radius:2px;}
+.prose{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.5rem 1.6rem;font-size:1rem;line-height:1.75;color:var(--tx);}
+.prose b{color:var(--amber);font-weight:600;}
+.prose .en{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--ac2);}
+/* function cards */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;}
+.fcard{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:.85rem;padding:1.3rem 1.4rem;position:relative;overflow:hidden;}
+.fcard::before{content:'';position:absolute;inset:0;background:var(--ac-glow);opacity:.35;pointer-events:none;}
+.fcard>*{position:relative;}
+.fc-let{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;color:var(--ac2);text-transform:uppercase;}
+.fc-t{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;margin:.3rem 0 .5rem;}
+.fc-form{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--amber);background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);border-radius:.4rem;padding:.35rem .7rem;display:inline-block;margin-bottom:.7rem;}
+.fc-ex{font-size:.92rem;line-height:1.6;}
+.fc-ex .en{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);}
+.fc-ex .pt{color:var(--tm);}
+/* golden rule */
+.rule{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(248,113,113,.08));border:1px solid rgba(249,115,22,.4);border-left:4px solid var(--ac);border-radius:1rem;padding:1.6rem 1.7rem;position:relative;}
+.rule-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ac2);margin-bottom:.8rem;}
+.rule p{font-size:1.12rem;line-height:1.6;font-weight:500;}
+.rule b{color:var(--amber);font-weight:700;}
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:1rem;background:var(--sf);}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:520px;}
+th{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--bd);}
+td{padding:.9rem 1.1rem;border-bottom:1px solid var(--bd);line-height:1.5;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.en{font-family:'Space Grotesk',sans-serif;font-weight:700;}
+.pt{color:var(--tm);}
+.col-bad{color:var(--bad);}.col-bad .en{color:var(--bad);}
+.col-ok{color:var(--ok);}.col-ok .en{color:var(--ok);}
+th.col-bad,th.col-ok{color:inherit;}
+.errhead-bad{background:var(--bad-glow);color:var(--bad)!important;}
+.errhead-ok{background:var(--ok-glow);color:var(--ok)!important;}
+.foot{padding:1rem 1.25rem 2rem;text-align:center;position:relative;z-index:1;}
+.foot a{color:var(--ac2);text-decoration:none;font-size:.82rem;font-family:'Space Grotesk',sans-serif;font-weight:600;}
+.backbtn{display:inline-flex;align-items:center;gap:.4rem;margin-top:2.6rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--ac2);text-decoration:none;border:1px solid var(--bd);background:var(--sf);padding:.7rem 1.2rem;border-radius:.6rem;transition:all .18s;}
+.backbtn:hover{border-color:var(--ac);background:var(--sf2);}
+@media(max-width:560px){.mhead{padding:3.5rem 1rem 2rem;}}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Painel</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-back">Sistema 06</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">DID</span>
+</nav>
+<div class="glow"></div>
+
+<header class="mhead">
+  <div class="mhead-tags"><span class="tag tag-cat">Auxiliar</span><span class="tag tag-lvl">Nível A1</span></div>
+  <h1>DID</h1>
+  <p>O passado de DO — e a razão nº1 pela qual o verbo depois dele volta ao normal.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. O QUE É -->
+  <section class="sec">
+    <div class="sec-h">O que é o DID?</div>
+    <div class="prose">
+      <span class="en">DID</span> é o passado do verbo <span class="en">DO</span> (fazer). Ele tem duas vidas: pode ser o <b>verbo principal</b> da frase (<span class="en">I did my homework</span> — <i>fiz minha lição</i>) ou o <b>auxiliar do passado</b>, aquela palavrinha que aparece só para montar perguntas e negações. Como auxiliar, <span class="en">DID</span> serve para <b>todas as pessoas</b> — I, you, he, she, we, they — sem mudar de forma. E é aí que mora a dúvida mais comum do brasileiro.
+    </div>
+  </section>
+
+  <!-- 2. AS 4 FUNÇÕES -->
+  <section class="sec">
+    <div class="sec-h">As 4 funções do DID</div>
+    <div class="fgrid">
+      <div class="fcard">
+        <div class="fc-let">A · Auxiliar</div>
+        <div class="fc-t">Perguntas</div>
+        <div class="fc-form">DID + sujeito + verbo base</div>
+        <div class="fc-ex"><span class="en">Did you call her?</span><br><span class="pt">Você ligou para ela?</span></div>
+      </div>
+      <div class="fcard">
+        <div class="fc-let">B · Auxiliar</div>
+        <div class="fc-t">Negações</div>
+        <div class="fc-form">DIDN'T + verbo base</div>
+        <div class="fc-ex"><span class="en">I didn't see it.</span><br><span class="pt">Eu não vi isso.</span></div>
+      </div>
+      <div class="fcard">
+        <div class="fc-let">C · Principal</div>
+        <div class="fc-t">Verbo principal</div>
+        <div class="fc-form">did = fez / fizeram</div>
+        <div class="fc-ex"><span class="en">She did a great job.</span><br><span class="pt">Ela fez um ótimo trabalho.</span></div>
+      </div>
+      <div class="fcard">
+        <div class="fc-let">D · Ênfase</div>
+        <div class="fc-t">Ênfase</div>
+        <div class="fc-form">did + verbo base (reforço)</div>
+        <div class="fc-ex"><span class="en">I did clean the room!</span><br><span class="pt">Eu limpei o quarto, sim!</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. REGRA DE OURO -->
+  <section class="sec">
+    <div class="sec-h">A Regra de Ouro</div>
+    <div class="rule">
+      <div class="rule-badge">⭐ Regra de Ouro</div>
+      <p>Quando <b>DID</b> aparece como auxiliar, o verbo principal <b>NÃO</b> vai ao passado — ele volta para a forma base. O <b>DID</b> já carrega o passado sozinho; o outro verbo fica "limpo".</p>
+    </div>
+  </section>
+
+  <!-- 4. ERROS COMUNS -->
+  <section class="sec">
+    <div class="sec-h">Erros comuns do brasileiro</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="errhead-bad">Errado ❌</th>
+            <th class="errhead-ok">Certo ✅</th>
+            <th>Por quê</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-bad"><span class="en">Did you went?</span></td>
+            <td class="col-ok"><span class="en">Did you go?</span></td>
+            <td class="pt">DID já marca o passado — o verbo volta a <span class="en">go</span>.</td>
+          </tr>
+          <tr>
+            <td class="col-bad"><span class="en">I didn't saw.</span></td>
+            <td class="col-ok"><span class="en">I didn't see.</span></td>
+            <td class="pt">DIDN'T já marca o passado — o verbo volta a <span class="en">see</span>.</td>
+          </tr>
+          <tr>
+            <td class="col-bad"><span class="en">Did she liked?</span></td>
+            <td class="col-ok"><span class="en">Did she like?</span></td>
+            <td class="pt">DID já marca o passado — sem o <span class="en">-ed</span> em <span class="en">like</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. RESUMO RÁPIDO -->
+  <section class="sec">
+    <div class="sec-h">Resumo rápido</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Tipo</th><th>Exemplo</th><th>Tradução</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="en">Afirmativa</td><td class="en">She cleaned the house.</td><td class="pt">Ela limpou a casa.</td></tr>
+          <tr><td class="en">Interrogativa</td><td class="en">Did she clean the house?</td><td class="pt">Ela limpou a casa?</td></tr>
+          <tr><td class="en">Negativa</td><td class="en">She didn't clean the house.</td><td class="pt">Ela não limpou a casa.</td></tr>
+          <tr><td class="en">Ênfase</td><td class="en">She did clean the house!</td><td class="pt">Ela limpou a casa, sim!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <a href="../index.html" class="backbtn">← Voltar ao Sistema 06</a>
+</div>
+
+<footer class="foot"><a href="../index.html">← Voltar ao Sistema 06</a></footer>
+
+<script>
+try{
+  const p=JSON.parse(localStorage.getItem('s06_progress')||'{}');
+  p.did=true;
+  localStorage.setItem('s06_progress',JSON.stringify(p));
+}catch(e){}
+</script>
+</body>
+</html>

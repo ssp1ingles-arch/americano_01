@@ -22,6 +22,7 @@
   --s03-accent:#6366F1;   /* índigo — Motor de Verbos */
   --s04-accent:#10B981;   /* esmeralda — Conectar Frases */
   --s05-accent:#EC4899;   /* rosa — Situar a Frase */
+  --s06-accent:#F97316;   /* laranja — Dúvidas Pontuais */
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -52,6 +53,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .portal-card[data-sistema="03"]{--accent:var(--s03-accent);}
 .portal-card[data-sistema="04"]{--accent:var(--s04-accent);}
 .portal-card[data-sistema="05"]{--accent:var(--s05-accent);}
+.portal-card[data-sistema="06"]{--accent:var(--s06-accent);}
 
 .portal-top{display:flex;align-items:center;justify-content:space-between;}
 .portal-num{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.15em;color:var(--accent);text-transform:uppercase;}
@@ -87,7 +89,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <header class="painel-header">
   <div class="marca"><span>◈</span> Inglês para Brasileiros</div>
   <h1>Escolha seu<br><em>caminho</em></h1>
-  <p class="sub">Cinco sistemas independentes. Cada um com propósito, ritmo e formato próprios.</p>
+  <p class="sub">Seis sistemas independentes. Cada um com propósito, ritmo e formato próprios.</p>
 </header>
 
 <main class="portais-grid">
@@ -168,6 +170,22 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
       <span>3 módulos</span>
       <span>A2–B1</span>
       <span>23 estruturas</span>
+    </div>
+    <div class="portal-cta">Entrar →</div>
+  </a>
+
+  <!-- PORTAL 06 -->
+  <a href="sistema06/index.html" class="portal-card" data-sistema="06">
+    <div class="portal-top">
+      <div class="portal-num">06</div>
+      <div class="portal-icon">🎯</div>
+    </div>
+    <h2 class="portal-title">Dúvidas Pontuais</h2>
+    <p class="portal-desc">Gramática sob medida — os pontos específicos que você quis dominar. DID, WENT e mais, cada um num card de referência rápida.</p>
+    <div class="portal-meta">
+      <span>DID, WENT e mais</span>
+      <span>A1</span>
+      <span>Referência</span>
     </div>
     <div class="portal-cta">Entrar →</div>
   </a>

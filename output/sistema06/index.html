@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 06 — Dúvidas Pontuais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#140b06;--sf:#1e120a;--sf2:#291a0f;
+  --tx:#f5ebe2;--tm:#c9ab93;--td:#8a6a4f;
+  --ac:#F97316;--ac2:#FB923C;--ac-glow:rgba(249,115,22,.14);
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(20,11,6,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac2);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.glow::before{content:'';position:absolute;top:-10%;left:5%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(249,115,22,.06) 0%,transparent 70%);}
+.glow::after{content:'';position:absolute;bottom:-10%;right:4%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(251,146,60,.05) 0%,transparent 70%);}
+.hero{padding:6.5rem 1.5rem 3rem;text-align:center;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--ac-glow);border:1px solid rgba(249,115,22,.3);color:var(--ac2);font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:.35rem 1rem;border-radius:2rem;margin-bottom:1.2rem;}
+.hero-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:dot 2s ease-in-out infinite;}
+@keyframes dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-icon{font-size:2.6rem;line-height:1;margin-bottom:.6rem;}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3.3rem);font-weight:800;line-height:1.12;margin-bottom:.9rem;}
+.hero h1 .ac{background:linear-gradient(120deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1.05rem;color:var(--tm);max-width:600px;margin:0 auto 2.2rem;line-height:1.65;}
+.hero-stats{display:flex;justify-content:center;gap:2.4rem;flex-wrap:wrap;}
+.hstat-n{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--ac2);}
+.hstat-l{font-size:.72rem;color:var(--td);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem;}
+.divider{height:1px;background:var(--bd);margin:0 1.5rem;}
+.how{background:var(--sf);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:2.6rem 1.5rem;position:relative;z-index:1;}
+.how-inner{max-width:960px;margin:0 auto;}
+.how-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.4rem;}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+.step{background:var(--sf2);border:1px solid var(--bd);border-radius:.75rem;padding:1.1rem;}
+.step-n{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--ac);opacity:.5;line-height:1;}
+.step-t{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin:.4rem 0 .35rem;}
+.step-d{font-size:.75rem;color:var(--tm);line-height:1.5;}
+.mods{padding:2.8rem 1.2rem 4rem;max-width:1080px;margin:0 auto;position:relative;z-index:1;}
+.mods-title{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--td);margin-bottom:1.4rem;padding-left:.3rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+.mcard{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.6rem;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:all .22s;}
+.mcard::before{content:'';position:absolute;inset:0;background:var(--ac-glow);opacity:0;transition:opacity .22s;pointer-events:none;}
+.mcard:hover{border-color:var(--ac);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.45);}
+.mcard:hover::before{opacity:.5;}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+.mc-word{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;line-height:1;letter-spacing:.02em;}
+.mc-seen{font-family:'Space Grotesk',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#34D399;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.1);padding:.25rem .6rem;border-radius:2rem;white-space:nowrap;display:none;}
+.mc-seen.on{display:inline-block;}
+.mc-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.tag{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.28rem .7rem;border-radius:.4rem;}
+.tag-cat{color:var(--ac2);background:var(--ac-glow);border:1px solid rgba(249,115,22,.3);}
+.tag-lvl{color:var(--tm);background:var(--sf2);border:1px solid var(--bd);}
+.mc-desc{font-size:.86rem;color:var(--tm);line-height:1.6;margin-bottom:1.2rem;}
+.mc-foot{display:flex;align-items:center;justify-content:space-between;}
+.mc-cta{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ac2);}
+.mc-arrow{font-size:1.05rem;color:var(--ac2);opacity:.6;transition:all .18s;}
+.mcard:hover .mc-arrow{opacity:1;transform:translateX(3px);}
+.foot{padding:2rem 1.5rem;text-align:center;position:relative;z-index:1;}
+.foot a{color:var(--ac2);text-decoration:none;font-size:.78rem;opacity:.85;}
+@media(max-width:560px){.hero{padding:5.5rem 1.2rem 2.4rem;}.hero-stats{gap:1.4rem;}}
+</style>
+</head>
+<body>
+<script src="../nav.js"></script>
+<nav class="nav">
+  <a href="../index.html" class="nav-back">← Painel Principal</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sistema 06 — Dúvidas Pontuais</span>
+</nav>
+<div class="glow"></div>
+<section class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div> Sistema 06 · Referência rápida</div>
+  <div class="hero-icon">🎯</div>
+  <h1>Dúvidas<br><span class="ac">Pontuais</span></h1>
+  <p class="hero-sub">Gramática sob medida — os pontos que você quis dominar.<br>
+  Cada card resolve uma dúvida específica, direto ao ponto.</p>
+  <div class="hero-stats">
+    <div><div class="hstat-n" id="stat-total">2</div><div class="hstat-l">Itens</div></div>
+    <div><div class="hstat-n" id="stat-seen">0</div><div class="hstat-l">Vistos</div></div>
+    <div><div class="hstat-n">A1</div><div class="hstat-l">Nível</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+<section class="how">
+  <div class="how-inner">
+    <div class="how-title">Como funciona</div>
+    <div class="how-steps">
+      <div class="step"><div class="step-n">01</div><div class="step-t">Escolha a dúvida</div><div class="step-d">Cada card é um ponto gramatical isolado — abra só o que você precisa.</div></div>
+      <div class="step"><div class="step-n">02</div><div class="step-t">Leia a explicação</div><div class="step-d">Explicação curta, funções, exemplos reais e a Regra de Ouro do item.</div></div>
+      <div class="step"><div class="step-n">03</div><div class="step-t">Evite o erro típico</div><div class="step-d">Cada página traz a tabela Errado × Certo com o porquê de cada troca.</div></div>
+      <div class="step"><div class="step-n">04</div><div class="step-t">Consulte sempre</div><div class="step-d">É referência, não curso. Volte quando a dúvida bater de novo.</div></div>
+    </div>
+  </div>
+</section>
+<section class="mods">
+  <div class="mods-title">Itens gramaticais</div>
+  <div class="grid" id="grid"></div>
+</section>
+<footer class="foot"><a href="../index.html">← Voltar ao Painel Principal</a> &nbsp;·&nbsp; Sistema 06 — Inglês para Brasileiros</footer>
+<script>
+const ITEMS=[
+  {slug:"did",word:"DID",cat:"Auxiliar",lvl:"A1",desc:"O passado de DO — auxiliar, verbo principal e ênfase. Por que o verbo depois dele volta à forma base."},
+  {slug:"went",word:"WENT",cat:"Irregular",lvl:"A1",desc:"O passado irregular de GO. Quando ele aparece sozinho e quando some, dando lugar a DID + GO."},
+];
+function seen(){try{return JSON.parse(localStorage.getItem('s06_progress')||'{}');}catch(e){return {};}}
+const p=seen();
+const grid=document.getElementById('grid');
+let seenCount=0;
+ITEMS.forEach(m=>{
+  const isSeen=!!p[m.slug];if(isSeen)seenCount++;
+  const a=document.createElement('a');a.className='mcard';a.href=`${m.slug}/index.html`;
+  a.innerHTML=`<div class="mc-top"><div class="mc-word">${m.word}</div><span class="mc-seen${isSeen?' on':''}">✓ visto</span></div>
+    <div class="mc-tags"><span class="tag tag-cat">${m.cat}</span><span class="tag tag-lvl">Nível ${m.lvl}</span></div>
+    <p class="mc-desc">${m.desc}</p>
+    <div class="mc-foot"><div class="mc-cta">Abrir card</div><div class="mc-arrow">→</div></div>`;
+  grid.appendChild(a);
+});
+document.getElementById('stat-total').textContent=ITEMS.length;
+document.getElementById('stat-seen').textContent=seenCount;
+</script>
+</body>
+</html>

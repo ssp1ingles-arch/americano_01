@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema 06 · WENT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#140b06;--sf:#1e120a;--sf2:#291a0f;
+  --tx:#f5ebe2;--tm:#c9ab93;--td:#8a6a4f;
+  --ac:#F97316;--ac2:#FB923C;--amber:#FBBF24;--ac-glow:rgba(249,115,22,.14);
+  --ok:#34D399;--ok-glow:rgba(52,211,153,.1);
+  --bad:#F87171;--bad-glow:rgba(248,113,113,.1);
+  --bd:rgba(255,255,255,0.07);--bdh:rgba(255,255,255,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-top:48px;}
+.nav{position:fixed;top:48px;left:0;right:0;z-index:100;background:rgba(20,11,6,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--ac2);text-decoration:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;opacity:.9;}
+.nav-back:hover{opacity:1;}
+.nav-sep{color:var(--td);font-size:.8rem;}
+.nav-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;}
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.glow::before{content:'';position:absolute;top:-10%;left:5%;width:45%;height:55%;background:radial-gradient(ellipse,rgba(249,115,22,.06) 0%,transparent 70%);}
+.wrap{max-width:820px;margin:0 auto;padding:0 1.25rem 4rem;position:relative;z-index:1;}
+.mhead{text-align:center;padding:4.5rem 1.25rem 2.5rem;position:relative;z-index:1;}
+.mhead-tags{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.1rem;}
+.tag{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .8rem;border-radius:.4rem;}
+.tag-cat{color:var(--ac2);background:var(--ac-glow);border:1px solid rgba(249,115,22,.3);}
+.tag-lvl{color:var(--tm);background:var(--sf2);border:1px solid var(--bd);}
+.mhead h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,9vw,4.5rem);font-weight:800;line-height:1;letter-spacing:.02em;background:linear-gradient(120deg,var(--ac),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.mhead p{color:var(--tm);font-size:1rem;margin-top:.8rem;}
+.sec{margin-top:2.6rem;}
+.sec-h{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--td);margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
+.sec-h::before{content:'';width:1.6rem;height:2px;background:var(--ac);border-radius:2px;}
+.prose{background:var(--sf);border:1px solid var(--bd);border-radius:1rem;padding:1.5rem 1.6rem;font-size:1rem;line-height:1.75;color:var(--tx);}
+.prose b{color:var(--amber);font-weight:600;}
+.prose .en{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--ac2);}
+/* diff blocks */
+.diff{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;}
+.dcard{border-radius:.85rem;padding:1.3rem 1.4rem;border:1px solid var(--bd);border-left:3px solid var(--ac);background:var(--sf);}
+.dcard.ok{border-left-color:var(--ok);}
+.dcard.bad{border-left-color:var(--bad);}
+.dc-lbl{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin-bottom:.5rem;}
+.dcard.ok .dc-lbl{color:var(--ok);}
+.dcard.bad .dc-lbl{color:var(--bad);}
+.dc-form{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:800;margin-bottom:.7rem;}
+.dc-ex{font-size:.92rem;line-height:1.6;}
+.dc-ex .en{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--tx);}
+.dc-ex .pt{color:var(--tm);}
+.dc-ex .strike{color:var(--bad);text-decoration:line-through;font-family:'Space Grotesk',sans-serif;font-weight:700;}
+/* golden rule */
+.rule{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(248,113,113,.08));border:1px solid rgba(249,115,22,.4);border-left:4px solid var(--ac);border-radius:1rem;padding:1.6rem 1.7rem;position:relative;}
+.rule-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ac2);margin-bottom:.8rem;}
+.rule p{font-size:1.12rem;line-height:1.6;font-weight:500;}
+.rule b{color:var(--amber);font-weight:700;}
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:1rem;background:var(--sf);}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:520px;}
+th{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--td);text-align:left;padding:.9rem 1.1rem;border-bottom:1px solid var(--bd);}
+td{padding:.9rem 1.1rem;border-bottom:1px solid var(--bd);line-height:1.5;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.en{font-family:'Space Grotesk',sans-serif;font-weight:700;}
+.pt{color:var(--tm);}
+.col-bad{color:var(--bad);}.col-bad .en{color:var(--bad);}
+.col-ok{color:var(--ok);}.col-ok .en{color:var(--ok);}
+.errhead-bad{background:var(--bad-glow);color:var(--bad)!important;}
+.errhead-ok{background:var(--ok-glow);color:var(--ok)!important;}
+.foot{padding:1rem 1.25rem 2rem;text-align:center;position:relative;z-index:1;}
+.foot a{color:var(--ac2);text-decoration:none;font-size:.82rem;font-family:'Space Grotesk',sans-serif;font-weight:600;}
+.backbtn{display:inline-flex;align-items:center;gap:.4rem;margin-top:2.6rem;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--ac2);text-decoration:none;border:1px solid var(--bd);background:var(--sf);padding:.7rem 1.2rem;border-radius:.6rem;transition:all .18s;}
+.backbtn:hover{border-color:var(--ac);background:var(--sf2);}
+@media(max-width:560px){.mhead{padding:3.5rem 1rem 2rem;}}
+</style>
+</head>
+<body>
+<script src="../../nav.js"></script>
+<nav class="nav">
+  <a href="../../index.html" class="nav-back">← Painel</a>
+  <span class="nav-sep">/</span>
+  <a href="../index.html" class="nav-back">Sistema 06</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">WENT</span>
+</nav>
+<div class="glow"></div>
+
+<header class="mhead">
+  <div class="mhead-tags"><span class="tag tag-cat">Irregular</span><span class="tag tag-lvl">Nível A1</span></div>
+  <h1>WENT</h1>
+  <p>O passado de GO — e por que ele desaparece nas perguntas e negações.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. O QUE É -->
+  <section class="sec">
+    <div class="sec-h">O que é o WENT?</div>
+    <div class="prose">
+      <span class="en">WENT</span> é o passado <b>irregular</b> do verbo <span class="en">GO</span> (ir). Não ganha <span class="en">-ed</span>: é uma palavra totalmente nova. Diferente do DID, o <span class="en">WENT</span> <b>nunca é auxiliar</b> — ele é sempre um verbo principal, com significado próprio (<i>foi / foram</i>). Por isso ele só cabe em um lugar: a <b>frase afirmativa</b>. Nas perguntas e negações, quem assume o passado é o <span class="en">DID</span>, e o <span class="en">GO</span> volta à forma base.
+    </div>
+  </section>
+
+  <!-- 2. WENT vs DID+GO -->
+  <section class="sec">
+    <div class="sec-h">A diferença crucial: WENT vs DID + GO</div>
+    <div class="diff">
+      <div class="dcard ok">
+        <div class="dc-lbl">✅ Afirmativa</div>
+        <div class="dc-form">... WENT ...</div>
+        <div class="dc-ex"><span class="en">I went to the party.</span><br><span class="pt">Eu fui à festa.</span></div>
+      </div>
+      <div class="dcard bad">
+        <div class="dc-lbl">✅ Negativa</div>
+        <div class="dc-form">DIDN'T + GO</div>
+        <div class="dc-ex"><span class="en">I didn't go to the party.</span><br><span class="pt">Eu não fui à festa.</span><br><span class="strike">didn't went</span></div>
+      </div>
+      <div class="dcard bad">
+        <div class="dc-lbl">✅ Pergunta</div>
+        <div class="dc-form">DID + GO</div>
+        <div class="dc-ex"><span class="en">Did you go to the party?</span><br><span class="pt">Você foi à festa?</span><br><span class="strike">Did you went?</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ERROS COMUNS -->
+  <section class="sec">
+    <div class="sec-h">Erros comuns do brasileiro</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="errhead-bad">Errado ❌</th>
+            <th class="errhead-ok">Certo ✅</th>
+            <th>Por quê</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-bad"><span class="en">I didn't went.</span></td>
+            <td class="col-ok"><span class="en">I didn't go.</span></td>
+            <td class="pt">DIDN'T já é o passado — depois dele vem o verbo base <span class="en">go</span>.</td>
+          </tr>
+          <tr>
+            <td class="col-bad"><span class="en">Did you went?</span></td>
+            <td class="col-ok"><span class="en">Did you go?</span></td>
+            <td class="pt">DID já é o passado — depois dele vem o verbo base <span class="en">go</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. RESUMO RÁPIDO -->
+  <section class="sec">
+    <div class="sec-h">Resumo rápido</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Tipo</th><th>Exemplo</th><th>Tradução</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="en">Afirmativa</td><td class="en">She went home.</td><td class="pt">Ela foi para casa.</td></tr>
+          <tr><td class="en">Negativa</td><td class="en">She didn't go home.</td><td class="pt">Ela não foi para casa.</td></tr>
+          <tr><td class="en">Pergunta</td><td class="en">Did she go home?</td><td class="pt">Ela foi para casa?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. REGRA DE OURO -->
+  <section class="sec">
+    <div class="sec-h">A Regra de Ouro do WENT</div>
+    <div class="rule">
+      <div class="rule-badge">⭐ Regra de Ouro</div>
+      <p><b>WENT</b> só aparece sozinho em frases afirmativas. Nas demais, ele some e o <b>GO</b> volta — o passado passa a ser trabalho do <b>DID</b>.</p>
+    </div>
+  </section>
+
+  <a href="../index.html" class="backbtn">← Voltar ao Sistema 06</a>
+</div>
+
+<footer class="foot"><a href="../index.html">← Voltar ao Sistema 06</a></footer>
+
+<script>
+try{
+  const p=JSON.parse(localStorage.getItem('s06_progress')||'{}');
+  p.went=true;
+  localStorage.setItem('s06_progress',JSON.stringify(p));
+}catch(e){}
+</script>
+</body>
+</html>
